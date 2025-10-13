@@ -6,7 +6,7 @@ import { getErrorMessage } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import MatchModel from "@/models/matches";
 import { NextRequest, NextResponse } from "next/server";
-export const revalidate = 0;
+// export const revalidate = 0;
  
 
 ConnectMongoDb();

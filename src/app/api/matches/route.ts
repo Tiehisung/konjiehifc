@@ -5,8 +5,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 ConnectMongoDb();
 
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+// export const revalidate = 0;
+// export const dynamic = "force-dynamic";
 
 //Post new fixture
 export async function POST(request: NextRequest) {

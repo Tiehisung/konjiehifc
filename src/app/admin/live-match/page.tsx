@@ -7,7 +7,7 @@ import { AddLiveMatchEvent } from "./(components)/AddMatchEvent";
 
 export const getLiveMatch = async () => {
   try {
-    const response = await fetch(apiConfig.matches + "/live", {
+    const response = await fetch(`${apiConfig.matches}/live`, {
       cache: "no-cache",
     });
     const result = await response.json();
