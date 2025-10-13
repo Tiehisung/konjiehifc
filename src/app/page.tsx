@@ -21,7 +21,7 @@ import { getNews } from "./admin/news/page";
 export default async function Home() {
   const players: IPlayer[] = await getPlayers();
   const matches: IMatchProps[] = await getMatches({});
-  const captains: ICaptainProps[] = (await getCaptains())?.data;
+  const captains   = (await getCaptains())?.data as ICaptainProps[];
   const managers: IManager[] = await getManagers();
   const liveMatch: IMatchProps = await getLiveMatch();
   const news: INewsProps[] = await getNews();
