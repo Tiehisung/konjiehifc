@@ -31,7 +31,7 @@ export const authOptions = {
         return {
           ...profile,
           id: profile.sub,
-          // role: non-privileged,
+      
         };
       },
       clientId: process.env.GOOGLE_ID as string,
@@ -101,7 +101,7 @@ export const authOptions = {
       session?: Session;
     }) {
       // If your logic depends on custom IAdminProps fields, check and assign them only if present
-      if (user && 'role' in user && '_id' in user) {
+      if (user && 'role' in user && 'id' in user) {
         token.role = (user as IAdminProps).role;
         token._id = (user as IAdminProps)._id;
       }
