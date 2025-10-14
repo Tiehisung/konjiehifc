@@ -17,7 +17,6 @@ export async function POST(request: NextRequest) {
   try {
     const formdata: IGetMatchesProps = await request.json();
     const sort = formdata.sort || "desc";
-    console.log("formdata", formdata);
 
     const filters = {
       status: formdata.status,
@@ -25,6 +24,7 @@ export async function POST(request: NextRequest) {
     };
 
     const cleaned = deleteEmptyKeys(filters);
+    console.log({ cleaned })
 
     const fixtures = await MatchModel.find(cleaned)
       .populate({ path: "opponent", populate: { path: "logo" } })

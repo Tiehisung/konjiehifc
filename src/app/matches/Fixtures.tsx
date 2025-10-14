@@ -12,6 +12,7 @@ import { IMatchProps } from "./(fixturesAndResults)";
 
 const FixturesSection = ({ fixtures }: { fixtures: IMatchProps[] }) => {
   const filters = ["all", "home", "away", "canceled"];
+  if (!fixtures) return <div className="_label">No fixtures</div>;
   return (
     <section id="fixtures">
       <header className="flex justify-between items-center gap-4">
@@ -20,7 +21,7 @@ const FixturesSection = ({ fixtures }: { fixtures: IMatchProps[] }) => {
       </header>
       <SearchQueryUpdator query="fixture" values={filters} />
       <div className="flex flex-wrap lg:grid-cols-2 xl:grid-cols-3 gap-[3vw] mt-2 ">
-        {fixtures.map((match, index) => {
+        {fixtures?.map((match, index) => {
           if (match.status == "LIVE" || match.status == "HT")
             return (
               <PlayedMatchCard
