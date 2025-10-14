@@ -41,11 +41,11 @@ const CreateNews = () => {
     setDetails(copy);
   };
 
-  const handleChangeText = (text: string, index: number) => {
-    const copy = [...details];
-    copy[index].text = text;
-    setDetails(copy);
-  };
+  // const handleChangeText = (text: string, index: number) => {
+  //   const copy = [...details];
+  //   copy[index].text = text;
+  //   setDetails(copy);
+  // };
   const handleRemoveContent = (index: number) => {
     setDetails((p) => p.filter((c) => c !== p[index]));
   };

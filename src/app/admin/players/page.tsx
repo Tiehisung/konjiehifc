@@ -2,11 +2,11 @@ import Link from "next/link";
 import FilterPlayers from "./FilterPlayers";
 import { IPlayer } from "@/app/players/page";
 import { apiConfig } from "@/lib/configs";
-import CaptaincyAdm, { ICaptainProps } from "./captaincy/Captaincy";
+import CaptaincyAdm from "./captaincy/Captaincy";
 import { getCaptains } from "./captaincy/page";
 import { MdAdd } from "react-icons/md";
 import { PlayerCard } from "./PlayerCard";
-import { buildQueryString } from "@/lib/searchParams";
+// import { buildQueryString } from "@/lib/searchParams";
 
 export const getPlayers = async (playerId?: string) => {
   if (playerId) {
@@ -33,7 +33,7 @@ interface PlayersProps {
 
 export default async function AdminPlayers({ searchParams }: PlayersProps) {
   // const qs = buildQueryString(await searchParams);
-  const qs = new URLSearchParams(await searchParams).toString()
+  const qs = new URLSearchParams(await searchParams).toString();
 
   const players: IPlayer[] = await getPlayers();
 
@@ -41,18 +41,18 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
 
   const filterValue = (await searchParams).p_filter;
 
-  function filteredPlayers() {
-    switch (filterValue) {
-      case "fit":
-        return players.filter((player) => player.isFit);
-      case "yellow":
-        return players.filter((player) => player.card == "yellow");
-      case "red":
-        return players.filter((player) => player.card == "red");
-      default:
-        return players;
-    }
-  }
+  // function filteredPlayers() {
+  //   switch (filterValue) {
+  //     case "fit":
+  //       return players.filter((player) => player.isFit);
+  //     case "yellow":
+  //       return players.filter((player) => player.card == "yellow");
+  //     case "red":
+  //       return players.filter((player) => player.card == "red");
+  //     default:
+  //       return players;
+  //   }
+  // }
   return (
     <div className="py-12 px-6 space-y-8">
       <header className="mb-6 max-w-6xl  mx-auto">

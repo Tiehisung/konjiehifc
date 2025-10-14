@@ -12,6 +12,7 @@ export const getCaptains = async (query?: string) => {
     const results: IQueryResponse<ICaptainProps[]> = await response.json();
     return results;
   } catch (error) {
+    console.log(typeof error)
     return null;
   }
 };

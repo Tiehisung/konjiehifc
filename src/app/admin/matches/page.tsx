@@ -24,6 +24,7 @@ export const getMatches = async ({
     const fixtures = await response.json();
     return fixtures;
   } catch (error) {
+    console.log(typeof error)
     return null;
   }
 };

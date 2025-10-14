@@ -15,7 +15,7 @@ const FeaturedNews = ({ news }: { news: INewsProps[] }) => {
                 backgroundImage: `url(${item.headline.image.secure_url})`,
               }}
               href={`/news/${item._id}`}
-              className="flex w-44 h-32 _label card border _borderColor overflow-hidden hover:border-background bg-cover object-cover"
+              className="flex w-44 h-32 _label _card border _borderColor overflow-hidden hover:border-background bg-contain object-contain"
             >
               <span className=" p-2 bg-gradient-to-b from-[#292929] to-transparent line-clamp-4">
                 {item.headline.text}

@@ -1,7 +1,6 @@
 import React from "react";
 import { IPlayer } from "../players/page";
 // import { getPlayers } from "../admin/players/page";
-import Image from "next/image";
 import Loader from "@/components/Loader";
 import { staticImages } from "@/assets/images";
 import { Button } from "@/components/buttons/Button";

@@ -91,7 +91,7 @@ export const authOptions = {
 
   callbacks: {
     //To be used at server
-    async jwt({ token, user, account, profile, trigger, isNewUser, session }: {
+    async jwt({ token, user,  }: {
       token: JWT;
       user?: IAdminProps | User | AdapterUser;
       account?: Account | null;

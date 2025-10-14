@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export const HotNews = ({ news }: { news: INewsProps[] }) => {
   return (
-    <div className=" _secondaryBg shadow-sm max-md:hidden">
+    <div className="  shadow-sm max-md:hidden">
       <h1 className="_subtitle bg-primaryGreen px-2 py-2">Hot news</h1>
       <ul className="p-2 max-h-[50vh] overflow-y-auto">
         {news.map((item, i) => (

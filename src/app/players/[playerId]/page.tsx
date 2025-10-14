@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import {
   Radar,
   RadarChart,
@@ -25,24 +27,24 @@ export default function PlayerProfile() {
       <div className="flex justify-between w-full max-w-6xl items-center mb-10">
         <h1 className="text-2xl font-semibold">⚽ Real Madrid</h1>
         <nav className="flex gap-6 text-gray-400 text-sm">
-          <a className="hover:text-white" href="#">
+          <Link className="hover:text-white" href="#">
             Overview
-          </a>
-          <a className="hover:text-white" href="#">
+          </Link>
+          <Link className="hover:text-white" href="#">
             Schedule
-          </a>
-          <a className="hover:text-white" href="#">
+          </Link>
+          <Link className="hover:text-white" href="#">
             News
-          </a>
-          <a
+          </Link>
+          <Link
             className="text-purple-400 border-b-2 border-purple-400 pb-1"
             href="#"
           >
             Squad
-          </a>
-          <a className="hover:text-white" href="#">
+          </Link>
+          <Link className="hover:text-white" href="#">
             Shop
-          </a>
+          </Link>
         </nav>
       </div>
 
@@ -60,7 +62,9 @@ export default function PlayerProfile() {
 
           {/* Player video/image */}
           <div className="rounded-xl overflow-hidden mb-6">
-            <img
+            <Image
+              width={300}
+              height={300}
               src="/asensio-left.jpg"
               alt="Marco Asensio"
               className="w-full object-cover"
@@ -81,22 +85,24 @@ export default function PlayerProfile() {
 
           {/* Social Links */}
           <div className="flex gap-4 mt-6 text-gray-400">
-            <a href="#" className="hover:text-white">
+            <Link href="#" className="hover:text-white">
               🐦
-            </a>
-            <a href="#" className="hover:text-white">
+            </Link>
+            <Link href="#" className="hover:text-white">
               📷
-            </a>
-            <a href="#" className="hover:text-white">
+            </Link>
+            <Link href="#" className="hover:text-white">
               👍
-            </a>
+            </Link>
           </div>
         </div>
 
         {/* Right Section */}
         <div className="flex-1 relative">
           <div className="absolute -top-10 right-0">
-            <img
+            <Image
+              width={300}
+              height={300}
               src="/asensio-main.png"
               alt="Asensio"
               className="w-72 drop-shadow-2xl"
@@ -156,7 +162,13 @@ export default function PlayerProfile() {
           {/* Product / Shirt */}
           <div className="mt-8 flex justify-end">
             <div className="bg-gradient-to-r from-purple-600 to-indigo-500 rounded-xl p-4 flex items-center gap-4 shadow-lg">
-              <img src="/shirt.png" alt="Real Madrid Shirt" className="w-20" />
+              <Image
+                width={300}
+                height={300}
+                src="/shirt.png"
+                alt="Real Madrid Shirt"
+                className="w-20"
+              />
               <div>
                 <p className="text-sm font-semibold">Buy Shirt</p>
                 <p className="text-xs text-gray-200">$89.50</p>

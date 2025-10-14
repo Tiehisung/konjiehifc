@@ -4,12 +4,13 @@ import { INewsProps } from "../page";
 import NewsItemClient from "./Item";
 
 interface Props {
-  params: { newsId: string };
+  params:Promise< { newsId: string }>;
 }
 
 const NewsItemPage = async ({ params }: Props) => {
-  console.log({ params });
-  const newsItem: INewsProps = await getNews(params.newsId);
+  
+  const newsItem: INewsProps = await getNews((await params).newsId);
+  
   if (!newsItem) return null;
 
   return (

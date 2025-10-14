@@ -1,6 +1,5 @@
 "use client";
 
-import { PopperToLeft } from "@/components/Poppers";
 import React from "react";
 import { DeleteTeam } from "./(actions)/DeleteTeam";
 import Image from "next/image";
