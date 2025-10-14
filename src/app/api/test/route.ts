@@ -8,8 +8,8 @@ export async function GET() {
       message: 'Test complete!',
 
     })
-  } catch (error: any) {
+  } catch (error) {
 
-    return NextResponse.json({ ok: false, error: error.message }, { status: 500 })
+    return NextResponse.json({ ok: false, error }, { status: 500 })
   }
 }
