@@ -2,6 +2,7 @@ import React from "react";
 import CreateNews from "./CreateNews";
 import { apiConfig } from "@/lib/configs";
 import AdminNews from "./News";
+
 export const getNews = async (id?: string) => {
   try {
     if (id) {

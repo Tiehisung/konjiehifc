@@ -5,7 +5,7 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import NewsModel from "@/models/news";
 import { IFileProps, IResultProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
-export const revalidate = 0;
+// export const revalidate = 0;
 
 ConnectMongoDb();
 export async function GET() {
