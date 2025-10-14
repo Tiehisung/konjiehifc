@@ -9,18 +9,18 @@ export const dynamic = "force-dynamic";
 ConnectMongoDb();
 export async function GET(
   _: NextRequest,
-  { params }: { params: { newsId: string } }
+  { params }: { params: Promise<{ newsId: string }> }
 ) {
-  const news = await NewsModel.findById(params.newsId);
+  const news = await NewsModel.findById((await params).newsId);
   return NextResponse.json(news);
 }
 
 export async function DELETE(
   _: NextRequest,
-  { params }: { params: { newsId: string } }
+  { params }: { params: Promise<{ newsId: string }> }
 ) {
   try {
-    const newsId = params.newsId;
+    const newsId = (await params).newsId;
     //First retrieve item
     const foundNewsItem = await NewsModel.findById(newsId);
     //Then archive
@@ -44,10 +44,10 @@ export async function DELETE(
 }
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { newsId: string } }
+  { params }: { params: Promise<{ newsId: string }> }
 ) {
   try {
-    const newsId = params.newsId;
+    const newsId = (await params).newsId;
     const { fieldName, fieldValue } = await request.json();
 
     //update field

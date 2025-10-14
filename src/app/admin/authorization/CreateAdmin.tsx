@@ -39,7 +39,7 @@ const CreateAdmin = ({ existingUser }: { existingUser?: IAdminProps }) => {
     if (!selectedFile) return;
     if (selectedFile.size > 3524000) {
       toast.error(
-        selectedFile.size + " is too large. Picture should not exceed 3.5mb"
+        `${selectedFile.size} is too large. Picture should not exceed 3.5mb`
       );
       return;
     }

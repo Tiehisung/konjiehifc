@@ -8,15 +8,15 @@ import PlayerModel from "@/models/player";
 import { IResultProps, IFileProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+// export const revalidate = 0;
+// export const dynamic = "force-dynamic";
 
 ConnectMongoDb();
 export async function GET(
   _: NextRequest,
-  { params }: { params: { playerId: string } }
+  { params }: { params: Promise<{ playerId: string }> }
 ) {
-  const player = await PlayerModel.findById(params.playerId)
+  const player = await PlayerModel.findById((await params).playerId)
 
     .populate("avatar")
     .populate("galleries");
@@ -26,13 +26,13 @@ export async function GET(
 //patch
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { playerId: string } }
+  { params }: { params: Promise<{ playerId: string }> }
 ) {
   const { fieldKey, fieldValue } = await request.json();
 
   try {
     const saved = await PlayerModel.updateOne(
-      { _id: params.playerId },
+      { _id: (await params).playerId },
       { $set: { [fieldKey]: fieldValue } }
     );
     if (saved) return NextResponse.json({ message: "Updated", success: true });
@@ -47,9 +47,9 @@ export async function PATCH(
 //put Only relevant fields at a time
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { playerId: string } }
+  { params }: { params: Promise<{ playerId: string }> }
 ) {
-  const playerId = params.playerId;
+  const playerId = (await params).playerId;
   const formData = await request.json();
   const { avatar } = formData;
   const updates = { ...formData };
@@ -103,17 +103,18 @@ export async function PUT(
 //delete
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { playerId: string } }
+  { params }: { params: Promise<{ playerId: string }> }
 ) {
+  const playerId = (await params).playerId
   const { reason, detail } = await request.json();
   try {
     //Update issues
     const updatedWithIssue = await PlayerModel.findOneAndUpdate(
-      { _id: params.playerId },
+      { _id: playerId },
       { $push: { issues: { reason, date: new Date(), detail } } },
       { returnDocument: "after" }
     );
-    // const player = await PlayerModel.findById(params.playerId);
+    // const player = await PlayerModel.findById(playerId);
 
     await ArchivesModel.updateOne(
       { category: "deleted_players" },
@@ -121,7 +122,7 @@ export async function DELETE(
     );
 
     //Now remove player
-    const deleted = await PlayerModel.deleteOne({ _id: params.playerId });
+    const deleted = await PlayerModel.deleteOne({ _id: playerId });
     if (deleted.acknowledged)
       return NextResponse.json({
         message: "Deleted successful",

@@ -2,8 +2,8 @@ import { getErrorMessage } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import ManagerModel from "@/models/manager";
 import { NextRequest, NextResponse } from "next/server";
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+// export const revalidate = 0;
+// export const dynamic = "force-dynamic";
 
 ConnectMongoDb();
 export async function GET() {

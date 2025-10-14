@@ -21,6 +21,8 @@ export const getLiveMatch = async () => {
 export default async function LiveMatchPage() {
   const match: IMatchProps = await getLiveMatch();
 
+  console.log({liveMatches:match})
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4 text-primaryRed">Live Football Match Update</h1>

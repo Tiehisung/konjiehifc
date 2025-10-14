@@ -3,13 +3,13 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import PlayerModel from "@/models/player";
 import { IFileProps, IResultProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+// export const revalidate = 0;
+// export const dynamic = "force-dynamic";
 
 ConnectMongoDb();
 export async function POST(request: NextRequest) {
   const formData = await request.json();
-  console.log("formData", formData);
+ 
   const { avatar,  } = formData;
   if (typeof avatar === "string") {
     //Upload image to cloudinary

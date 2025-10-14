@@ -4,8 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 import "@/models/file";
 import "@/models/donation";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// export const dynamic = "force-dynamic";
+// export const revalidate = 0;
 
 ConnectMongoDb();
 export async function POST(request: NextRequest) {

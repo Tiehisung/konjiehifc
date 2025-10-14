@@ -5,8 +5,8 @@ import TeamModel from "@/models/teams";
 import { IFileProps, IResultProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+// export const revalidate = 0;
+// export const dynamic = "force-dynamic";
 
 ConnectMongoDb();
 
@@ -62,10 +62,10 @@ export async function PUT(request: NextRequest) {
 //Get teams
 export async function GET(
   req: NextRequest,
-  { params }: { params: { teamId: string } }
+  { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
-    const team = await TeamModel.findById(params.teamId);
+    const team = await TeamModel.findById((await params).teamId);
     return NextResponse.json({
       message: "File retrieved successfully",
       success: true,

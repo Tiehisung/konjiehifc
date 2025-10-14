@@ -2,15 +2,15 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import DonationModel from "@/models/donation";
 import SponsorModel from "@/models/sponsor";
 import { NextRequest, NextResponse } from "next/server";
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+// export const revalidate = 0;
+// export const dynamic = "force-dynamic";
 
 ConnectMongoDb();
 export async function POST(
   request: NextRequest,
-  { params }: { params: { sponsorId: string } }
+  { params }: { params:Promise< { sponsorId: string }> }
 ) {
-  const sponsorId = params.sponsorId;
+  const sponsorId = (await params).sponsorId;
   const { item, description, files, date } = await request.json();
 
   const donated = await DonationModel.create({

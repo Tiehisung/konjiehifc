@@ -10,8 +10,8 @@ import { IFileProps, IResultProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+// export const revalidate = 0;
+// export const dynamic = "force-dynamic";
 
 ConnectMongoDb();
 //Post new team

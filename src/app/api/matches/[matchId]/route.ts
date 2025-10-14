@@ -5,15 +5,15 @@ import "@/models/teams";
 
 ConnectMongoDb();
 
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+// export const revalidate = 0;
+// export const dynamic = "force-dynamic";
 
 //Post new fixture
 export async function GET(
   _: NextRequest,
-  { params }: { params: { matchId: string } }
+  { params }: { params: Promise<{ matchId: string } >}
 ) {
-  const matchId = params.matchId;
+  const matchId = (await params).matchId;
 
   const fixtures = await MatchModel.findById(matchId)
     .populate({ path: "opponent", populate: { path: "logo" } })
