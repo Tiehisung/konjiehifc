@@ -6,11 +6,11 @@ import Loader from "@/components/Loader";
 import { Title } from "@/components/Elements";
 
 const LandingFixtures = ({ matches }: { matches: IMatchProps[] }) => {
-  const fixtures = matches.filter(
+  const fixtures = matches?.filter(
     (match) =>
       match.status !== "FT" && match.status !== "HT" && match.status !== "LIVE"
   );
-  const played = matches.filter((match) => match.status == "FT"); //Full Time
+  const played = matches?.filter((match) => match.status == "FT"); //Full Time
   
   if (!matches) return <Loader message="Loading fixtures..." />;
   return (
@@ -59,7 +59,7 @@ const LandingFixtures = ({ matches }: { matches: IMatchProps[] }) => {
           />
         </header>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {played.map((match, index) => (
+          {played?.map((match, index) => (
             <PlayedMatchCard
               key={index}
               match={match as IMatchProps}
@@ -68,7 +68,7 @@ const LandingFixtures = ({ matches }: { matches: IMatchProps[] }) => {
             />
           ))}
         </div>
-        {played.length == 0 && (
+        {played?.length == 0 && (
           <p className="_label ml-3">No matches played yet</p>
         )}
       </section>

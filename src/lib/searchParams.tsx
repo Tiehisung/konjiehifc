@@ -73,10 +73,10 @@ export const setMultiSearchParams = (
   else router.push(newPathname);
 };
 
-
 export function buildQueryString(
-  searchParams: Record<string, string | string[] | undefined>
+  searchParams?: Record<string, string | string[] | undefined>
 ) {
+  if (!searchParams) return "";
   const query = new URLSearchParams(
     Object.entries(searchParams).filter(([_, v]) => v !== undefined) as [
       string,
@@ -85,4 +85,3 @@ export function buildQueryString(
   ).toString();
   return query ? `?${query}` : "";
 }
-

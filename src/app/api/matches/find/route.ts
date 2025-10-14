@@ -13,14 +13,17 @@ ConnectMongoDb();
 // export const dynamic = "force-dynamic";
 
 //Post new fixture
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
-    const formdata: IGetMatchesProps = await request.json();
-    const sort = formdata.sort || "desc";
+    const { searchParams } = new URL(request.url)
+
+    const sort =  searchParams.get('sort') == 'asc' ? 'asc': "desc";
+    const status = searchParams.get('status') || "";
+    const isHome = searchParams.get('isHome') || "";
 
     const filters = {
-      status: formdata.status,
-      isHome: formdata.isHome,
+      status,
+      isHome
     };
 
     const cleaned = deleteEmptyKeys(filters);

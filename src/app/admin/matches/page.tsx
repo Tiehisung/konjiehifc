@@ -3,28 +3,24 @@ import { DisplayFixtures } from "./DisplayFixtures";
 import CreateMatch from "./CreateFixture";
 import { getTeams } from "../features/teams/page";
 import { MatchStatus } from "@/app/matches/(fixturesAndResults)";
+import { buildQueryString } from "@/lib/searchParams";
+import { IRecord } from "@/types";
 
 export interface IGetMatchesProps {
   status?: MatchStatus;
   isHome?: boolean;
   sort?: "desc" | "asc";
 }
-export const getMatches = async ({
-  status,
-  isHome,
-  sort,
-}: IGetMatchesProps) => {
+export const getMatches = async (filters?: IGetMatchesProps) => {
   try {
-    const response = await fetch(`${apiConfig.matches}/find`, {
+    const qs = buildQueryString(filters as IRecord);
+    const response = await fetch(`${apiConfig.matches}/find${qs}`, {
       cache: "no-store",
-      body: JSON.stringify({ status, isHome, sort }),
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
     });
     const fixtures = await response.json();
     return fixtures;
   } catch (error) {
-    console.log(typeof error)
+    console.log(typeof error);
     return null;
   }
 };
