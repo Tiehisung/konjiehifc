@@ -1,9 +1,15 @@
-import { ConnectMongoDb } from "@/lib/dbconfig";
- import { NextResponse } from "next/server";
 
-ConnectMongoDb();
+import { NextResponse } from "next/server";
+
 export async function GET() {
- 
+  try {
+    return NextResponse.json({
+      ok: true,
+      message: 'Test complete!',
 
-  return NextResponse.json({ message: "test" });
+    })
+  } catch (error) {
+
+    return NextResponse.json({ ok: false, error }, { status: 500 })
+  }
 }

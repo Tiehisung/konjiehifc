@@ -30,7 +30,7 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
               <th>Date</th>
               <th>Action</th>
             </tr>
-            {fixtures.map((fixture, index) => (
+            {fixtures?.map((fixture, index) => (
               <tr
                 key={fixture._id}
                 className={`border _borderColor _p _card ${
@@ -62,7 +62,7 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
                 </td>
               </tr>
             ))}
-            {fixtures.length === 0 && (
+            {fixtures?.length === 0 && (
               <tr>
                 <td colSpan={6} className="text-center _label">
                   No fixtures available.
