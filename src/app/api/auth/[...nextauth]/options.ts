@@ -31,7 +31,7 @@ export const authOptions = {
         return {
           ...profile,
           id: profile.sub,
-      
+
         };
       },
       clientId: process.env.GOOGLE_ID as string,
@@ -91,7 +91,7 @@ export const authOptions = {
 
   callbacks: {
     //To be used at server
-    async jwt({ token, user,  }: {
+    async jwt({ token, user, }: {
       token: JWT;
       user?: IAdminProps | User | AdapterUser;
       account?: Account | null;
@@ -101,9 +101,9 @@ export const authOptions = {
       session?: Session;
     }) {
       // If your logic depends on custom IAdminProps fields, check and assign them only if present
-      if (user && 'role' in user && 'id' in user) {
+      if (user && 'role' in user) {
         token.role = (user as IAdminProps).role;
-        token._id = (user as IAdminProps)._id;
+        token.id = (user as IAdminProps & { id: string }).id;
       }
       return token;
     },
