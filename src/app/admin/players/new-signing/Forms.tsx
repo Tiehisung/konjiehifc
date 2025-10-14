@@ -121,7 +121,7 @@ export default function PlayerProfileForm({
   ];
 
   return (
-    <section className="">
+    <section className="bg-card">
       <SubTitle className="mt-5 mb-2 text-teal-600 text-center ">
         {player ? "Edit Player Profile" : "New Player Signup"}
       </SubTitle>
@@ -129,10 +129,10 @@ export default function PlayerProfileForm({
         onSubmit={handleSignUp}
         className=" py-6 sm:px-6 grid justify-center gap-y-6 border _borderColor rounded-md font-light container w-fit"
       >
-        <TimelineFlowbite icons={icons}>
+        <TimelineFlowbite icons={icons} className="flex flex-wrap gap-12 mx-auto">
           {/* Avatar */}
           <DiveUpwards>
-            <div className=" form-control gap-1 items-center w-full _secondaryBg sm:min-w-72">
+            <div className=" form-control gap-1 items-center w-full sm:min-w-72">
               <h2 className="_label">Avatar</h2>
               <Image
                 src={
@@ -164,7 +164,7 @@ export default function PlayerProfileForm({
 
           {/* Personal information */}
           <DiveUpwards>
-            <div className="_secondaryBg p-3 grid gap-7 w-fit">
+            <div className=" p-3 grid gap-10 w-fit ">
               <h2 className="_label ">Player personal information form</h2>
               <IconInputWithLabel
                 required
@@ -254,7 +254,7 @@ export default function PlayerProfileForm({
 
           {/* Manager */}
           <DiveUpwards>
-            <div className="grid gap-6 h-fit w-fit _secondaryBg p-3">
+            <div className="grid gap-10 h-fit w-fit  p-3 ">
               <h2 className="_label ">Manager registration form</h2>
 
               <IconInputWithLabel
@@ -307,7 +307,7 @@ export default function PlayerProfileForm({
                 waitingText={"Please wait..."}
                 disabled={waiting}
                 primaryText={"Submit"}
-                className="_primaryBtn px-12 h-10 py-1 w-full flex-wrap-reverse"
+                className="_primaryBtn justify-center px-12 h-10 py-1 w-full flex-wrap-reverse"
               />
             </div>
           </DiveUpwards>

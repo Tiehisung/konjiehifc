@@ -6,10 +6,12 @@ import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export default function CardAndFit({ player }: { player: IPlayer }) {
   const router = useRouter();
+
+ 
 
   const [waiting, setWaiting] = useState("");
 
@@ -29,7 +31,11 @@ export default function CardAndFit({ player }: { player: IPlayer }) {
       });
       const result = await response.json();
 
-      toast(result.message, { type: result.success ? "success" : "error" });
+      if (result.success) {
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
+      }
       setWaiting("");
       router.refresh();
     } catch (error) {
@@ -51,8 +57,12 @@ export default function CardAndFit({ player }: { player: IPlayer }) {
       });
       const result = await response.json();
 
-      toast(result.message, { type: result.success ? "success" : "error" });
-      setWaiting("");
+      if (result.success) {
+        setWaiting("");
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
+      }
       router.refresh();
     } catch (error) {
       toast.error(getErrorMessage(error));
@@ -75,7 +85,11 @@ export default function CardAndFit({ player }: { player: IPlayer }) {
       });
       const result = await response.json();
 
-      toast(result.message, { type: result.success ? "success" : "error" });
+      if (result.success) {
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
+      }
       setWaiting("");
       router.refresh();
     } catch (error) {
@@ -85,7 +99,7 @@ export default function CardAndFit({ player }: { player: IPlayer }) {
   return (
     <div className="grid grid-cols-3 items-center font-bold">
       <span>
-        <h3 className="text-gray-800">💪Fit</h3>
+        <h3 className="text-primaryGreen">💪Fit</h3>
         <Button
           primaryText={""}
           waiting={waiting == "isFit"}

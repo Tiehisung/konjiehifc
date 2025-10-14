@@ -44,7 +44,7 @@ export function GeneralSelector({
       name={name}
       onChange={handleOnChange}
       required={required}
-      className={`p-2 bg-base-100 capitalize ${className}`}
+      className={`p-2 bg-accent capitalize ${className}`}
       id={id || name}
       disabled={disabled}
       value={selectedValue}

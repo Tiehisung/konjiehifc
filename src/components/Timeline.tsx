@@ -1,34 +1,5 @@
 import React, { ReactNode } from "react";
-import { BiSolidCheckCircle } from "react-icons/bi";
 import { FaBriefcase } from "react-icons/fa6";
-
-/**
- * A vertical timeline component that displays a list of items.
- *
- * @param {Object} props - The component props.
- * @param {Array<ReactNode>} props.children - An array of React nodes to be displayed as timeline items.
- *
- * @returns {JSX.Element} The rendered vertical timeline component.
- */
-const TimelineVertical = ({ children }: { children: Array<ReactNode> }) => {
-  return (
-    <ul className="timeline timeline-vertical ">
-      {children.map((lineItem, i) => (
-        <li key={i}>
-          <div className="timeline-middle">
-            <BiSolidCheckCircle />
-          </div>
-          <div className="timeline-end timeline-box bg-transparent">
-            {lineItem}
-          </div>
-          <hr />
-        </li>
-      ))}
-    </ul>
-  );
-};
-
-export default TimelineVertical;
 
 /**
  * Timeline flowbite
@@ -39,15 +10,17 @@ export default TimelineVertical;
 export const TimelineFlowbite = ({
   children,
   icons,
+  className,
 }: {
   children: Array<ReactNode>;
   icons?: Array<ReactNode>;
+  className?: string;
 }) => {
   return (
-    <ol className="relative border-s border-gray-200 ">
+    <ol className={`relative ${className}`}>
       {children.map((lineItem, i) => (
-        <li className="mb-10 ms-6" key={i}>
-          <span className="absolute flex items-center justify-center w-6 h-6 rounded-full -start-3 ring-8 ring-lightGrey dark:ring-secondary   ">
+        <li className="mb-10 ms-6 flex gap-2 items-start" key={i}>
+          <span className=" flex items-center justify-center w-6 h-6 rounded-full -start-3 ring-8 ring-secondary bg-popover text-secondary-foreground ">
             {icons?.[i] ?? <FaBriefcase />}
           </span>
           {lineItem}

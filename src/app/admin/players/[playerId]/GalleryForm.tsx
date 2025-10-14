@@ -1,7 +1,7 @@
 "use client";
 
 import { IPlayer } from "@/app/players/page";
-import { SubTitle } from "@/components/Elements";
+import { Title } from "@/components/Elements";
 import FilesPicker from "@/components/FilesPicker";
 import { ProgressBarCp } from "@/components/ProgresssBar";
 import { Button } from "@/components/buttons/Button";
@@ -16,9 +16,11 @@ import {
   IResultProps,
   TConvertedFile,
 } from "@/types";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { FcGallery } from "react-icons/fc";
+import { toast } from "sonner";
 
 export default function UpdatePlayerGallery({
   player,
@@ -96,12 +98,13 @@ export default function UpdatePlayerGallery({
       });
       const result = await response.json();
 
-      toast(result.message, { type: result.success ? "success" : "error" });
       if (result.success) {
+        toast.success(result.message);
         setFilesDescription("");
         setProgressValue(0);
+      } else {
+        toast.error(result.message);
       }
-      router.refresh();
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
@@ -111,9 +114,9 @@ export default function UpdatePlayerGallery({
   };
   return (
     <div id="gallery">
-      <SubTitle className=" ">Electric moments and scenes</SubTitle>
+      <Title icon={<FcGallery size={36} />}>Electric moments and scenes</Title>
 
-      <div className="_secondaryBg rounded-xl space-y-6 w-full">
+      <div className="bg-card/30 backdrop-blur-xs rounded-xl space-y-6 w-full">
         <form onSubmit={handleSubmit} className="grid gap-3 ">
           <div className={`border p-2 justify-center items-center`}>
             <FilesPicker
@@ -181,7 +184,7 @@ export function PlayerGalleriesAdm({ player }: { player: IPlayer }) {
           <h6 className="text-sm flex items-baseline justify-between">
             <span className="w-40 truncate "> {galleryObj.description}</span>
 
-            <cite className="text-xs text-gray-500">
+            <cite className="text-xs ">
               {galleryObj?.date?.substring(0, 10) || new Date().toDateString()}
             </cite>
           </h6>
@@ -190,7 +193,7 @@ export function PlayerGalleriesAdm({ player }: { player: IPlayer }) {
               <FileRenderer
                 file={gfile}
                 key={fgIndex}
-                className="max-h-72 w-auto overflow-hidden rounded hover:ring hover:scale-105 slowTrans"
+                className="max-h-72 w-auto overflow-hidden rounded hover:ring hover:scale-105 _slowTrans"
               />
             ))}
           </div>

@@ -56,8 +56,8 @@ export function TextArea({
         htmlFor={name}
         className={`absolute transition-all duration-200 ease-linear delay-0 select-none ${
           isFocus
-            ? "-top-10 left-0 text-sm"
-            : " top-3 left-4 text-gray-600 font-semibold"
+            ? "-top-5 left-0 text-sm"
+            : " top-3 left-4 text-muted-foreground font-semibold"
         } ${labelStyles}`}
       >
         {label}
@@ -74,7 +74,7 @@ export function TextArea({
         onChange={(e) => {
           onChange(e);
         }}
-        className={`outline-none border _borderColor focus:border-teal-400 shadow-teal-100/50 rounded px-2 w-full min-h-20 bg-base-200 ${className}`}
+        className={`outline-none border _borderColor focus:border-border shadow-teal-100/50 rounded px-2 w-full min-h-20 bg-accent ${className}`}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(value ? true : false)}
         {...others}
@@ -217,7 +217,7 @@ export function IconInputWithLabel({
   }, [value]);
   return (
     <div
-      className={`flex items-center relative pl-[2px] border  focus-within:border-teal-400 shadow-teal-100/50 w-full rounded ${wrapperStyles} `}
+      className={`flex items-center relative pl-[2px] border bg-accent focus-within:border-teal-400 shadow-teal-100/50 w-full rounded ${wrapperStyles} `}
       data-tip={dataTip}
     >
       <label

@@ -4,7 +4,7 @@ import { Button } from "@/components/buttons/Button";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export default function Performance({ playerId }: { playerId: string }) {
   const router = useRouter();
@@ -30,9 +30,16 @@ export default function Performance({ playerId }: { playerId: string }) {
         }),
       }
     );
+
     const result = await response.json();
-    toast(result.message, { type: result.success ? "success" : "error" });
-    if (result.success) setFormData(formModel);
+    
+    if (result.success) {
+      setFormData(formModel);
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
+    }
+
     setWaiting(false);
     router.refresh();
   }
