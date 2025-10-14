@@ -24,9 +24,9 @@ export async function POST(request: NextRequest) {
       isHome: formdata.isHome,
     };
 
-    deleteEmptyKeys(filters);
+    const cleaned = deleteEmptyKeys(filters);
 
-    const fixtures = await MatchModel.find(filters)
+    const fixtures = await MatchModel.find(cleaned)
       .populate({ path: "opponent", populate: { path: "logo" } })
       .populate({ path: "goals", populate: { path: "players" } })
       .sort({
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(fixtures);
   } catch (error) {
     console.log(getErrorMessage(error).length);
-    console.log({error})
+    console.log({ error })
     return NextResponse.json(null);
   }
 }

@@ -9,8 +9,8 @@ const MatchesPage = async () => {
   const allMatches: IMatchProps[] = await getMatches({}); // Get all matches
 
   console.log({ allMatches });
-  const playedMatches = allMatches.filter((match) => match.status == "FT");
-  const fixtures = allMatches.filter((match) => match.status !== "FT");
+  const playedMatches = allMatches?.filter((match) => match.status == "FT");
+  const fixtures = allMatches?.filter((match) => match.status !== "FT");
   return (
     <div className="space-y-8">
       <FixturesSection fixtures={fixtures} />
