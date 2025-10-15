@@ -18,10 +18,12 @@ import { SubTitle } from "@/components/Elements";
 export default async function PlayerProfilePage({
   params,
 }: {
-  params: { playerId: string };
+  params: Promise<{ playerId: string }>;
 }) {
-  const playerId = params.playerId;
+  const playerId = (await params).playerId;
   const player = await getPlayers(playerId);
+
+  console.log(player?.image?.secure_url);
 
   if (!player) return <Loader message="Loading player..." />;
 
@@ -31,8 +33,8 @@ export default async function PlayerProfilePage({
 
       <div
         className="h-full w-full rounded-t-md z-[-1] fixed inset-0 bottom-0 bg-no-repeat bg-cover"
-        style={{ backgroundImage: `url(${player?.image?.secure_url})` }}
-      ></div>
+        style={{ backgroundImage: `url(${player?.avatar?.secure_url})` }}
+      />
 
       {/*Nav Scroll controllers */}
       <div className="bg-[#000000ac] text-white w-full px-1 flex gap-2 overflow-x-auto sticky z-10 top-0 hidden__scrollbar">

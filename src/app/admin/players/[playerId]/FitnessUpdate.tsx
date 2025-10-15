@@ -2,11 +2,14 @@
 
 import { IPlayer } from "@/app/players/page";
 import { Button } from "@/components/buttons/Button";
+import { Title } from "@/components/Elements";
+import { TextArea } from "@/components/input/Inputs";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-import { toast } from "react-toastify";
+import { TbRibbonHealth } from "react-icons/tb";
+import { toast } from "sonner";
 
 export default function UpdatePlayerFitness({ player }: { player: IPlayer }) {
   const router = useRouter();
@@ -21,8 +24,12 @@ export default function UpdatePlayerFitness({ player }: { player: IPlayer }) {
         `${`${apiConfig.players}/${player?._id}`}/fitness?fitness=${fitnessState}`
       );
       const result = await response.json();
-      toast(result.message, { type: result.success ? "success" : "error" });
-      if (result.success) setFitnessState("");
+      if (result.success) {
+        setFitnessState("");
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
+      }
       router.refresh();
     } catch (error) {
       toast.error(getErrorMessage(error));
@@ -31,35 +38,35 @@ export default function UpdatePlayerFitness({ player }: { player: IPlayer }) {
     }
   };
   return (
-    <form
-      id="fitness-update"
-      onSubmit={handleSubmit}
-      className="grid gap-3 p-2 border rounded-md shadow-md bg-arsh text-white"
-    >
-      <h1 className="_title mt-3 text-[#f7bd53] __gradient1">
-        Fitness updates
-      </h1>
-      <p className="font-light ">
-        <small>[{player?.firstName + " " + player?.lastName}]</small>
-        {player?.medicals?.pop()?.fitness}
-      </p>
+    <div id="fitness-update">
+      <Title icon={<TbRibbonHealth size={36} />}>Fitness updates</Title>
+      <form
+        onSubmit={handleSubmit}
+        className="grid gap-3 p-2 border rounded-md shadow-md bg-card "
+      >
+        <p className=" my-4 ">
+          <strong>[{player?.firstName + " " + player?.lastName}]</strong>
+          {player?.medicals?.pop()?.fitness}
+        </p>
 
-      <div>
-        <p>Update fitness</p>
-        <textarea
-          onChange={(e) => setFitnessState(e.target.value)}
-          value={fitnessState}
-          className="classic__input max-h-32 min-h-20 w-full bg-[#9595956b]"
+        <div>
+          <TextArea
+            name={"fitness"}
+            label="Update fitness"
+            onChange={(e) => setFitnessState(e.target.value)}
+            value={fitnessState}
+            className=" max-h-32 min-h-20 w-full "
+          />
+        </div>
+        <Button
+          type="submit"
+          primaryText={"Update"}
+          waiting={waiting}
+          waitingText={"Updating, wait..."}
+          disabled={waiting || !fitnessState}
+          className="_primaryBtn w-fit px-5 rounded shadow"
         />
-      </div>
-      <Button
-        type="submit"
-        primaryText={"Update"}
-        waiting={waiting}
-        waitingText={"Updating, wait..."}
-        disabled={waiting || !fitnessState}
-        className="_primaryBtn w-fit px-5 rounded shadow"
-      />
-    </form>
+      </form>
+    </div>
   );
 }

@@ -1,14 +1,32 @@
 import React, { FC, ReactNode } from "react";
 interface ElementProps {
   content?: ReactNode;
-  children?:ReactNode
+  children?: ReactNode;
   className?: string;
+  icon?: ReactNode;
 }
 
-export const Title: FC<ElementProps> = ({ content,children, className }) => {
-  return <div className={` font-bold mb-4 text-lg md:text-xl px-1 ${className}`}>{content??children}</div>;
+export const Title: FC<ElementProps> = ({
+  content,
+  children,
+  className = "bg-popover/35 ",
+  icon,
+}) => {
+  return (
+    <div
+      className={` font-bold mb-4 text-xl md:text-3xl p-2.5 flex gap-4 ${className}`}
+    >
+      {icon} {content ?? children}
+    </div>
+  );
 };
 
-export const SubTitle: FC<ElementProps> = ({ content, children, className }) => (
-  <div className={`text-lg md:text-xl font-semibold mb-3 ${className}`}>{content ?? children}</div>
+export const SubTitle: FC<ElementProps> = ({
+  content,
+  children,
+  className,
+}) => (
+  <div className={`text-lg md:text-xl font-semibold mb-3 ${className}`}>
+    {content ?? children}
+  </div>
 );

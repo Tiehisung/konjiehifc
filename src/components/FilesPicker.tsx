@@ -60,7 +60,7 @@ export default function FilesPicker({
             className={`relative group `}
           >
             <Button
-              className="_secondaryBtn hidden group-hover:flex absolute right-1 top-1 bg-arshTrans font-semibold opacity-90 hover:opacity-100  p-1 shadow cursor-pointer z-10"
+              className="_secondaryBtn hidden group-hover:flex absolute right-1 top-1 bg-conic font-semibold opacity-90 hover:opacity-100  p-1 shadow cursor-pointer z-10"
               title="Remove"
               onClick={() =>
                 setConvertedFiles(convertedFiles.filter((cf) => cf !== file))
@@ -82,7 +82,7 @@ export default function FilesPicker({
             {(file.type.includes("video") || file.type.includes("audio")) && (
               <video src={file.path} controls className={` ${fileStyles}`} />
             )}
-            <h2 className="w-20 truncate text-xs font-light absolute bottom-0 pl-1 text-gray-950 bg-arshTrans">
+            <h2 className="w-20 truncate text-xs font-light absolute bottom-0 pl-1 ">
               {file.name}
             </h2>
             <Loader
@@ -99,7 +99,7 @@ export default function FilesPicker({
       <header className="flex flex-wrap items-center gap-3">
         <label
           htmlFor={inputId}
-          className="flex gap-2 items-center shadow w-fit p-1 rounded cursor-pointer bg-arshTrans"
+          className="flex gap-2 items-center shadow w-fit p-1 rounded cursor-pointer _secondaryBtn"
           title="Choose file"
         >
           <input
@@ -114,7 +114,7 @@ export default function FilesPicker({
 
         <Button
           primaryText={"Clear files"}
-          className="text-red-700 text-sm _deleteBtn"
+          className=" text-sm _deleteBtn"
           onClick={() => setConvertedFiles([])}
         />
       </header>
