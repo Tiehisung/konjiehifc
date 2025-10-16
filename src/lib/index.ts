@@ -38,7 +38,6 @@ export const deleteEmptyKeys = (obj: AnyObject): AnyObject => {
   return obj;
 };
 
-
 //
 export type AnyObject = { [key: string]: unknown };
 export function removeEmptyKeys(obj: AnyObject): AnyObject {
@@ -49,7 +48,6 @@ export function removeEmptyKeys(obj: AnyObject): AnyObject {
     return acc;
   }, {});
 }
-
 
 export const checkTeams = (match: IMatchProps) => ({
   home: match?.isHome ? teamKFC : match?.opponent,
@@ -72,6 +70,7 @@ export const getInitials = (text: string | string[], length = 2) => {
   if (!text) return "";
   return initials.join("").substring(0, length);
 };
+
 export const getAge = (dob: string | Date) => {
   const birthDate = new Date(dob);
   const ageDifMs = Date.now() - birthDate.getTime();
