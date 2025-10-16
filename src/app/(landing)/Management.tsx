@@ -2,17 +2,14 @@ import React from "react";
 import Image from "next/image";
 import { ICaptainProps } from "../admin/players/captaincy/Captaincy";
 import _players from "@/data/players";
-import { IManager } from "../admin/managers/page";
+import { getManagers, IManager } from "../admin/managers/page";
 import Loader from "@/components/Loader";
 import SimpleCarousel from "@/components/carousel/SimpleCarousel";
 import { SubTitle, Title } from "@/components/Elements";
+import { getCaptains } from "../admin/players/captaincy/page";
 
-export const TechnicalManagement = async ({
-  managers,
-}: {
-  managers: IManager[];
-}) => {
-  if (!managers) return <Loader message="Loading managers..." />;
+export const TechnicalManagement = async () => {
+  const managers: IManager[] = await getManagers();
   return (
     <div
       id="technical-management"
@@ -44,12 +41,8 @@ export const TechnicalManagement = async ({
   );
 };
 
-export const CaptaincySlides = async ({
-  captains,
-}: {
-  captains: ICaptainProps[];
-}) => {
-  if (!captains) return <Loader message="Loading captains..." />;
+export const CaptaincySlides = async () => {
+  const captains = (await getCaptains())?.data as ICaptainProps[];
   return (
     <div id="captaincy">
       <Title>Captaincy</Title>
