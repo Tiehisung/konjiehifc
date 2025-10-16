@@ -39,7 +39,7 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
 
   const captains = await getCaptains(qs);
 
-  const filterValue = (await searchParams).p_filter;
+  // const filterValue = (await searchParams).p_filter;
 
   // function filteredPlayers() {
   //   switch (filterValue) {

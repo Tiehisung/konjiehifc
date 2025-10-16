@@ -36,6 +36,8 @@ export interface IPlayerStats {
   trophies: number;
 }
 export interface IPlayer {
+  about?: string;
+  description?: string;
   training: { team: string };
   medicals: { fitness: string }[];
   galleries: TPlayerGallery[];
@@ -74,7 +76,7 @@ const PlayersPage = async () => {
       <Title>Players</Title>
 
       <div className="bg-popover">
-        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <div className="mx-auto max-w-2xl lg:max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
           <h2 className="sr-only">Players</h2>
 
           <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">

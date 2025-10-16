@@ -1,0 +1,197 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import {
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  ResponsiveContainer,
+} from "recharts";
+import { IPlayer } from "../page";
+import { teamKFC } from "@/data/teams";
+
+const statsData = [
+  { stat: "PAS", value: 82 },
+  { stat: "SHT", value: 90 },
+  { stat: "PHY", value: 83 },
+  { stat: "DEF", value: 54 },
+  { stat: "SPD", value: 88 },
+  { stat: "DRI", value: 87 },
+];
+
+interface PageProps {
+  player: IPlayer;
+}
+
+export default function PlayerProfile({ player }: PageProps) {
+  console.log({ player });
+  return (
+    <main className="min-h-screen bg-popover flex flex-col items-center p-10">
+      {/* Header */}
+      <div className="flex justify-between w-full max-w-6xl items-center mb-10">
+        <h1 className="text-2xl font-semibold">⚽ Real Madrid</h1>
+        <nav className="flex gap-6 text-muted-foreground text-sm">
+          <Link className="hover:text-popover-foreground" href="#">
+            Overview
+          </Link>
+          <Link className="hover:text-popover-foreground" href="#">
+            Schedule
+          </Link>
+          <Link className="hover:text-popover-foreground" href="#">
+            News
+          </Link>
+          <Link
+            className="text-purple-400 border-b-2 border-purple-400 pb-1"
+            href="#"
+          >
+            Squad
+          </Link>
+          <Link className="hover:text-popover-foreground" href="#">
+            Shop
+          </Link>
+        </nav>
+      </div>
+
+      <section className="flex flex-col lg:flex-row gap-10 w-full max-w-6xl">
+        {/* Left Section */}
+        <div className="flex-1">
+          <div className="text-left mb-4">
+            <p className="bg-muted px-3 py-1 rounded-md text-xs w-fit">
+              {player?.position}
+            </p>
+            <h2 className="text-5xl font-bold mt-2">
+              {player?.lastName}{" "}
+              <span className="text-muted-foreground">{player?.firstName}</span>
+            </h2>
+          </div>
+
+          {/* Player video/image */}
+          <div className="rounded-xl overflow-hidden mb-6">
+            <Image
+              width={300}
+              height={300}
+              src={player?.avatar?.secure_url}
+              alt={player?.lastName}
+              className="w-full object-cover"
+            />
+          </div>
+
+          {/* Description */}
+          <p className="text-secondary-foreground text-sm leading-relaxed mb-4">
+            {player?.description ??
+              `Marco Asensio Willemsen is a Spanish professional footballer who
+            plays as a winger and attacking midfielder for Real Madrid and the
+            Spain national team.`}
+          </p>
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            {player?.about ??
+              ` After starting out at Mallorca, he signed with Real Madrid in
+            November 2014, being consecutively loaned to his former club as well
+            as Espanyol.`}
+          </p>
+
+          {/* Social Links */}
+          <div className="flex gap-4 mt-6 text-muted-foreground">
+            <Link href="#" className="hover:text-popover-foreground">
+              🐦
+            </Link>
+            <Link href="#" className="hover:text-popover-foreground">
+              📷
+            </Link>
+            <Link href="#" className="hover:text-popover-foreground">
+              👍
+            </Link>
+          </div>
+        </div>
+
+        {/* Right Section */}
+        <div className="flex-1 relative">
+          <div className="absolute -top-10 right-0">
+            <Image
+              width={300}
+              height={300}
+              src={player?.avatar?.secure_url}
+              alt={player?.firstName}
+              className="w-72 drop-shadow-2xl"
+            />
+          </div>
+
+          {/* Trophies */}
+          <div className="flex gap-6 justify-end mb-10">
+            {["🏆", "🥈", "🥇", "🏅", "🏆"].map((t, i) => (
+              <div key={i} className="flex flex-col items-center">
+                <span className="text-2xl">{t}</span>
+                <span className="text-xs mt-1 text-muted-foreground">
+                  {i + 1}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-4 gap-6 text-center mb-8">
+            <div>
+              <p className="text-xl font-semibold">8.2</p>
+              <p className="text-xs text-muted-foreground">Avg Rating</p>
+            </div>
+            <div>
+              <p className="text-xl font-semibold">7</p>
+              <p className="text-xs text-muted-foreground">Assists</p>
+            </div>
+            <div>
+              <p className="text-xl font-semibold">2</p>
+              <p className="text-xs text-muted-foreground">Goals</p>
+            </div>
+            <div>
+              <p className="text-xl font-semibold">26</p>
+              <p className="text-xs text-muted-foreground">Matches</p>
+            </div>
+          </div>
+
+          {/* Radar Chart */}
+          <div className="h-64 w-full flex justify-center">
+            <ResponsiveContainer width="100%" height="100%">
+              <RadarChart data={statsData}>
+                <PolarGrid stroke="#333" />
+                <PolarAngleAxis
+                  dataKey="stat"
+                  tick={{   fontSize: 12 }}
+                />
+                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} />
+                <Radar
+                  dataKey="value"
+                  stroke="#9b5cff"
+                  fill="#9b5cff"
+                  fillOpacity={0.4}
+                
+                />
+              </RadarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Product / Shirt */}
+          <div className="mt-8 flex justify-end">
+            <div className="bg-gradient-to-r from-purple-600 to-indigo-500 rounded-xl p-4 flex items-center gap-4 shadow-lg">
+              <Image
+                width={300}
+                height={300}
+                src={teamKFC.logo.secure_url}
+                alt={player?.training.team}
+                className="w-20"
+              />
+              <div>
+                <p className="text-sm font-semibold">
+                  Sponsor <strong>Me</strong>
+                </p>
+                <p className="text-xs text-gray-200">GHS50</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}

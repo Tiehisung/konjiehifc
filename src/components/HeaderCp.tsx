@@ -113,7 +113,7 @@ export const DesktopNav = () => {
         <li
           key={index}
           style={{ background: bgcolors[index] }}
-          className={`border border-border flex flex-col font-semibold capitalize text-whtie`}
+          className={`border border-border flex flex-col font-semibold capitalize text-white`}
         >
           <Link
             href={lk.href}
