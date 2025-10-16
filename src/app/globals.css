@@ -161,6 +161,9 @@
 ._small {
   @apply text-[10px] font-light;
 }
+._page {
+  @apply mx-auto max-w-2xl lg:max-w-7xl
+}
 
 ._shadow {
   @apply shadow-xl shadow-border/40;

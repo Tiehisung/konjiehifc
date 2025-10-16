@@ -34,6 +34,9 @@ const playerSchema = new Schema(
     captaincy: { type: String },
     jersey: { type: String, required: true, unique: true },
     dob: { type: String, required: true },
+    about: { type: String, },
+    description: { type: String, },
+    history: { type: String, },
     dateSigned: { type: String, required: true },
     avatar: { type: Schema.Types.ObjectId, ref: "files" }, //Ref to file model
     manager: {
