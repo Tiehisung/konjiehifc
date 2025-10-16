@@ -1,18 +1,18 @@
 import React from "react";
-// import { getPlayers } from "../admin/players/page";
 import Image from "next/image";
 import PrimLink from "@/components/Link";
 import DiveUpwards from "@/components/Animate/DiveUp";
 import { IPlayer } from "../players/page";
-import Loader from "@/components/Loader";
 import SimpleCarousel from "@/components/carousel/SimpleCarousel";
+import { getPlayers } from "../admin/players/page";
 
-const LandingPlayers = ({ players }: { players: IPlayer[] }) => {
-  if (!players) return <Loader message="Loading players..." />;
+const LandingPlayers =async () => {
+  const players: IPlayer[] = await getPlayers();
+  
   return (
     <div>
       <h1 className="_title">Players</h1>
-      <SimpleCarousel className="" scrollButtonStyles="top-1/3">
+      <SimpleCarousel className="_hideScrollbar" scrollButtonStyles="top-1/3">
         {players?.map((player, index: number) => (
           <DiveUpwards key={index}>
             <Image

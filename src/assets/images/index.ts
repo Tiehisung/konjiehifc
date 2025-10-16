@@ -13,5 +13,6 @@ export const staticPeople = {
 export const staticImages = {
   avatar,
   sponsor,
-  manager, ronaldo: ronaldo.src
+  manager, 
+  ronaldo: ronaldo.src
 };

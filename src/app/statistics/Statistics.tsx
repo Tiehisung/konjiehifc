@@ -8,8 +8,8 @@ import React, { FC } from "react";
 const PlayerStatistics = () => {
   return (
     <div>
-      <Title  >Statistics</Title>
-      <div className=" flex items-center justify-start gap-6 overflow-x-auto  ">
+      <Title>Statistics</Title>
+      <div className=" flex items-center flex-wrap justify-center gap-6  ">
         {_playerStats.map((pstat, i) => (
           <PlayerStatsCard key={i} {...pstat} />
         ))}

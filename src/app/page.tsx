@@ -21,7 +21,7 @@ import { getNews } from "./admin/news/page";
 export default async function Home() {
   const players: IPlayer[] = await getPlayers();
   const matches: IMatchProps[] = await getMatches({});
-  const captains   = (await getCaptains())?.data as ICaptainProps[];
+  const captains = (await getCaptains())?.data as ICaptainProps[];
   const managers: IManager[] = await getManagers();
   const liveMatch: IMatchProps = await getLiveMatch();
   const news: INewsProps[] = await getNews();
@@ -31,8 +31,9 @@ export default async function Home() {
       <Suspense fallback={<Loader message="Loading players.." />}>
         <Hero players={players} />
       </Suspense>
+
       <Suspense fallback={<Loader message="Loading players.." />}>
-        <LandingPlayers players={players} />
+        <LandingPlayers />
       </Suspense>
 
       <Suspense fallback={<Loader message="Checking for LIVE match.." />}>
