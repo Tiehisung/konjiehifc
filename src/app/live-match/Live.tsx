@@ -1,15 +1,20 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import React, {  } from "react";
 import { IMatchProps } from "../matches/(fixturesAndResults)";
 import { checkTeams } from "@/lib";
 import Image from "next/image";
 import { LuDot } from "react-icons/lu";
 import { teamLogos } from "@/assets/teams/logos/team-logos";
-import DiveUpwards from "@/components/Animate/DiveUp";
-import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { getLiveMatch } from "../admin/live-match/page";
+import { MatchUpdator } from "./Updator";
 
-export const LiveMatchCard = ({ match }: { match: IMatchProps }) => {
+export const LiveMatchCard = async () => {
+  const match: IMatchProps = await getLiveMatch();
   return (
     <Card className=" ">
       <CardHeader className="flex items-center gap-1.5 mb-2 ">
@@ -52,41 +57,8 @@ export const LiveMatchCard = ({ match }: { match: IMatchProps }) => {
         </div>
       </CardContent>
       <CardFooter className="   px-4 h-10">
-        <LiveUpdates data={updates} random />
+        <MatchUpdator random />
       </CardFooter>
     </Card>
-  );
-};
-
-const updates = [
-  "Goal by KFC",
-  "Yellow card to Opponent",
-  "Red card to KFC",
-  "Substitution KFC",
-];
-
-interface ILiveUpdates {
-  data: string[];
-  random?: boolean;
-  every?: number;
-}
-export const LiveUpdates = ({ data, random, every = 5000 }: ILiveUpdates) => {
-  const [update, setUpdate] = useState(updates[0]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const valueIndex = random ? Math.floor(Math.random() * data.length) : 0;
-      setUpdate(updates[valueIndex]);
-    }, every);
-    return () => clearInterval(interval);
-  }, [data]);
-  return (
-    <div>
-      <DiveUpwards dependency={update} yLimit={5}>
-        <p className="_p text-blueBlack dark:text-white line-clamp-1 max-w-40">
-          {update}
-        </p>
-      </DiveUpwards>
-    </div>
   );
 };

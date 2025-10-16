@@ -4,15 +4,17 @@ import { IMatchProps } from ".";
 import PrimLink from "@/components/Link";
 import Loader from "@/components/Loader";
 import { Title } from "@/components/Elements";
+import { getMatches } from "@/app/admin/matches/page";
 
-const LandingFixtures = ({ matches }: { matches: IMatchProps[] }) => {
+const LandingFixtures =async ( ) => {
+    const matches: IMatchProps[] = await getMatches({});
   const fixtures = matches?.filter(
     (match) =>
       match.status !== "FT" && match.status !== "HT" && match.status !== "LIVE"
   );
   const played = matches?.filter((match) => match.status == "FT"); //Full Time
   
-  if (!matches) return <Loader message="Loading fixtures..." />;
+ 
   return (
     <div className=" space-y-10 ">
       <section>

@@ -1,5 +1,3 @@
-"use client";
-
 import { broadcasters } from "@/assets/broadcaster/broadcaster";
 import { Reveal } from "@/components/Animate/Reveal";
 import SimpleCarousel from "@/components/carousel/SimpleCarousel";
@@ -9,12 +7,15 @@ import React from "react";
 import { INewsProps } from "./page";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
+import { getNews } from "../admin/news/page";
 
 const casters = Object.values(broadcasters);
-const LandingNewsHeadlines = ({ news }: { news: Array<INewsProps> }) => {
+const LandingNewsHeadlines = async( ) => {
+  const news: INewsProps[] = await getNews();
   return (
     <div>
       <Title>News</Title>
+      
       <SimpleCarousel className="_hideScrollbar" scrollButtonStyles="top-1/3">
         {news?.map((item, index) => (
           <Link href={`/news/${item._id}`} key={index}>

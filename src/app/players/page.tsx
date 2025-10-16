@@ -2,12 +2,10 @@ import { IFileProps } from "@/types";
 import React from "react";
 import { IManager } from "../admin/managers/page";
 import { IGoal, IMatchProps } from "../matches/(fixturesAndResults)";
-
-const PlayersPage = () => {
-  return <div className="">PlayersPage</div>;
-};
-
-export default PlayersPage;
+import { getPlayers } from "../admin/players/page";
+import Link from "next/link";
+import Image from "next/image";
+import { Title } from "@/components/Elements";
 
 export type TPlayerGallery = {
   _id: string;
@@ -16,6 +14,19 @@ export type TPlayerGallery = {
   description: string;
   files: Array<IFileProps>;
 };
+
+export type TPlayerPosition =
+  | "goalkeeper"
+  | "defender"
+  | "midfielder"
+  | "forward"
+  | "striker"
+  | "wingBack"
+  | "centerBack"
+  | "attackingMidfielder"
+  | "defensiveMidfielder"
+  | "winger"
+  | "sweeper";
 
 export interface IPlayerStats {
   goals: IGoal[] | string[];
@@ -56,15 +67,43 @@ export interface IPlayer {
   stats?: IPlayerStats;
 }
 
-export type TPlayerPosition =
-  | "goalkeeper"
-  | "defender"
-  | "midfielder"
-  | "forward"
-  | "striker"
-  | "wingBack"
-  | "centerBack"
-  | "attackingMidfielder"
-  | "defensiveMidfielder"
-  | "winger"
-  | "sweeper";
+const PlayersPage = async () => {
+  const players: IPlayer[] = await getPlayers();
+  return (
+    <div className="">
+      <Title>Players</Title>
+
+      <div className="bg-popover">
+        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          <h2 className="sr-only">Players</h2>
+
+          <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+            {players?.map((player) => (
+              <Link
+                key={player?._id}
+                href={`/players/${player?._id}`}
+                className="group"
+              >
+                <Image
+                  alt={player?.lastName}
+                  src={player?.avatar?.secure_url}
+                  width={400}
+                  height={400}
+                  className="aspect-square w-full rounded-lg bg-secondary object-cover group-hover:opacity-75 xl:aspect-7/8"
+                />
+                <h3 className="mt-4 text-sm text-muted-foreground">
+                  {player?.firstName + " " + player?.lastName}
+                </h3>
+                <p className="mt-1 text-lg font-medium text-muted-foreground">
+                  {player?.jersey}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PlayersPage;
