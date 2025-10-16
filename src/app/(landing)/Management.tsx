@@ -19,7 +19,8 @@ export const TechnicalManagement = async ({
       className="md:max-w-xl max-w-full overflow-hidden"
     >
       <Title>Technical Management</Title>
-      <SimpleCarousel wrapperStyles="w-fit " scrollButtonStyles="top-1/3">
+
+      <div className="flex flex-wrap items-center justify-center gap-8">
         {managers?.map((manager: IManager, index: React.Key) => (
           <div
             key={index}
@@ -38,7 +39,7 @@ export const TechnicalManagement = async ({
             <SubTitle>{manager?.fullname}</SubTitle>
           </div>
         ))}
-      </SimpleCarousel>
+      </div>
     </div>
   );
 };
@@ -54,8 +55,9 @@ export const CaptaincySlides = async ({
       <Title>Captaincy</Title>
 
       <SimpleCarousel
-        wrapperStyles="grow w-fit _hideScrollbar"
+        wrapperStyles="grow w-fit "
         scrollButtonStyles="top-1/3"
+        className="_hideScrollbar"
       >
         {captains?.map((captain, index: number) => (
           <div

@@ -22,7 +22,7 @@ export function SideDrawer({
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline" className={triggerStyles}>
+        <Button variant="outline" className={`md:hidden ${triggerStyles} cursor-pointer `}>
           {trigger}
         </Button>
       </SheetTrigger>

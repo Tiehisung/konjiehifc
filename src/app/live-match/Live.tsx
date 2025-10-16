@@ -11,14 +11,14 @@ import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
 
 export const LiveMatchCard = ({ match }: { match: IMatchProps }) => {
   return (
-    <Card className="card ">
+    <Card className=" ">
       <CardHeader className="flex items-center gap-1.5 mb-2 ">
-        <span className="badge bg-primaryRed my-0.5 ">LIVE</span>
+        <span className=" bg-primaryRed my-0.5 ">LIVE</span>
         <span className="_p">Konjieh JHS park</span>
         <span className="text-xl font-thin text-emerald-400">{`56'`}</span>
       </CardHeader>
 
-      <CardContent className=" _secondaryBg">
+      <CardContent className="">
         <div className="flex items-center justify-between gap-5 ">
           <section className="flex flex-col items-center space-y-2">
             <Image

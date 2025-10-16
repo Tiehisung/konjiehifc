@@ -8,11 +8,11 @@ import { TbTableRow } from "react-icons/tb";
 import { RiFundsFill } from "react-icons/ri";
 import { BsStarFill } from "react-icons/bs";
 import UserLogButtons from "./UserLogger";
-import SideDrawerToRight from "./drawer/SideDrawerToRight";
 import { GrDashboard } from "react-icons/gr";
 import { useSession } from "next-auth/react";
 import { FcNews } from "react-icons/fc";
 import { ThemeModeToggle } from "./ThemeToggle";
+import { SideDrawer } from "./ShadSideDrawer";
 
 export default function HeaderCp() {
   const pathname = usePathname();
@@ -49,7 +49,7 @@ export function MobilieNavCp() {
   const { status } = useSession();
   const pathname = usePathname();
   return (
-    <SideDrawerToRight>
+    <SideDrawer className="pt-8">
       <ul className="items-center w-full min-h-full text-base cursor-pointer shadow-md">
         {pathname !== "/" && (
           <li className="flex">
@@ -90,7 +90,7 @@ export function MobilieNavCp() {
           <ThemeModeToggle />
         </li>
       </ul>
-    </SideDrawerToRight>
+    </SideDrawer>
   );
 }
 

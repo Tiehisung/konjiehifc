@@ -52,6 +52,7 @@ export const authOptions = {
           type: "password",
           placeholder: "Enter your password",
         },
+        
       },
       async authorize(credentials) {
         try {
