@@ -9,12 +9,7 @@ import Loader from "@/components/Loader";
 import { LiveMatchCard } from "./live-match/Live";
 
 export default async function Home() {
-  // const players: IPlayer[] = await getPlayers();
-  // const matches: IMatchProps[] = await getMatches({});
-  // const captains = (await getCaptains())?.data as ICaptainProps[];
-  // const managers: IManager[] = await getManagers();
-  // const liveMatch: IMatchProps = await getLiveMatch();
-  // const news: INewsProps[] = await getNews();
+
 
   return (
     <main className=" relative md:block space-y-10">
