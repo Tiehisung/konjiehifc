@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { getErrorMessage } from "@/lib";
 import { useRouter } from "next/navigation";
 import { IResultProps } from "@/types";
-import DiveUpwards from "@/components/Animate/DiveUp";
+import DiveUpwards from "@/components/Animate";
 
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
@@ -68,7 +68,7 @@ export default function MatchForm({ match }: ILiveMatchProps) {
 
           <div className="_label grid grid-cols-2 items-baseline">
             <span>Score </span>
-            <DiveUpwards dependency={match?.score?.kfc}>
+            <DiveUpwards layoutId="home" dependency={match?.score?.kfc}>
               <span className="text-3xl text-green-500">
                 {match?.score?.kfc}
               </span>
@@ -88,7 +88,7 @@ export default function MatchForm({ match }: ILiveMatchProps) {
           <p className="_title line-clamp-1">{match?.opponent?.name}</p>
           <div className="_label grid grid-cols-2 items-baseline">
             Score{" "}
-            <DiveUpwards dependency={match?.score?.opponent}>
+            <DiveUpwards layoutId="opoenet" dependency={match?.score?.opponent}>
               <span className="text-3xl text-blue-500">
                 {match?.score?.opponent}
               </span>

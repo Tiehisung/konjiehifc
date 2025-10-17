@@ -14,11 +14,11 @@ import { TimelineFlowbite } from "@/components/Timeline";
 import { RxAvatar } from "react-icons/rx";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { GrUserManager } from "react-icons/gr";
-import DiveUpwards from "@/components/Animate/DiveUp";
 import { ImageMimeTypes } from "@/types/enumerators";
 import { IManager } from "../../managers/page";
 import { staticImages } from "@/assets/images";
 import { SubTitle } from "@/components/Elements";
+import DiveUpwards from "@/components/Animate";
 
 const dataModel = {
   firstName: "",
@@ -129,9 +129,12 @@ export default function PlayerProfileForm({
         onSubmit={handleSignUp}
         className=" py-6 sm:px-6 grid justify-center gap-y-6 border _borderColor rounded-md font-light container w-fit"
       >
-        <TimelineFlowbite icons={icons} className="flex flex-wrap gap-12 mx-auto">
+        <TimelineFlowbite
+          icons={icons}
+          className="flex flex-wrap gap-12 mx-auto"
+        >
           {/* Avatar */}
-          <DiveUpwards>
+          <DiveUpwards layoutId={""}>
             <div className=" form-control gap-1 items-center w-full sm:min-w-72">
               <h2 className="_label">Avatar</h2>
               <Image
@@ -163,7 +166,7 @@ export default function PlayerProfileForm({
           </DiveUpwards>
 
           {/* Personal information */}
-          <DiveUpwards>
+          <DiveUpwards layoutId={""}>
             <div className=" p-3 grid gap-10 w-fit ">
               <h2 className="_label ">Player personal information form</h2>
               <IconInputWithLabel
@@ -253,7 +256,7 @@ export default function PlayerProfileForm({
           </DiveUpwards>
 
           {/* Manager */}
-          <DiveUpwards>
+          <DiveUpwards layoutId={""}>
             <div className="grid gap-10 h-fit w-fit  p-3 ">
               <h2 className="_label ">Manager registration form</h2>
 

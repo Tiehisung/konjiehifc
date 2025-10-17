@@ -7,15 +7,15 @@ import Link from "next/link";
 import { RxVideo } from "react-icons/rx";
 import { AnimateOnView } from "@/components/Animate/AnimateOnView";
 
-const BestOfUs = async () => {
+const YouMayLike = async () => {
   const news: IQueryResponse<INewsProps[]> = await getNews();
 
   return (
     <div>
-      <h1 className="_heading mb-6">BEST OF US</h1>
+      <h1 className="_heading mb-6 text-center">YOU MAY LIKE</h1>
       <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-5 gap-y-10">
-        {news?.data?.slice(0, 6)?.map((item, index) => (
-          <AnimateOnView key={item._id} index={index}>
+        {news?.data?.slice(0, 6)?.map((item,index) => (
+          <AnimateOnView key={item._id } index={index}>
             <Link href={`/news/${item?._id}`}>
               <div className="w-full overflow-hidden group relative">
                 <Image
@@ -41,4 +41,4 @@ const BestOfUs = async () => {
   );
 };
 
-export default BestOfUs;
+export default YouMayLike;

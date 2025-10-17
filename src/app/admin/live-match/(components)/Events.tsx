@@ -1,7 +1,7 @@
 "use client";
 
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
-import DiveUpwards from "@/components/Animate/DiveUp";
+import DiveUpwards from "@/components/Animate";
 
 export function MatchEvents({
   match,
@@ -26,7 +26,11 @@ export function MatchEvents({
           {match?.events?.map((event, index) => (
             <li key={index} className="_borderColor border-b pb-2 max-w-full">
               {index == 0 ? (
-                <DiveUpwards yLimit={10} dependency={match.events.length}>
+                <DiveUpwards
+                  y={10}
+                  dependency={match.events.length}
+                  layoutId={match.title}
+                >
                   <span className="font-semibold ">{event.time}</span>
                   <span className="ml-2 _p">{event.description}</span>
                 </DiveUpwards>
