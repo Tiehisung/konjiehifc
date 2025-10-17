@@ -12,6 +12,8 @@ import {
 } from "recharts";
 import { IPlayer } from "../page";
 import { teamKFC } from "@/data/teams";
+import { useSearchParams } from "next/navigation";
+import { PrimarySelect } from "@/components/select/Select";
 
 const statsData = [
   { stat: "PAS", value: 82 },
@@ -23,16 +25,32 @@ const statsData = [
 ];
 
 interface PageProps {
-  player: IPlayer;
+  players: IPlayer[];
 }
 
-export default function PlayerProfile({ player }: PageProps) {
-  console.log({ player });
+export default function PlayerProfile({ players }: PageProps) {
+  const sp = useSearchParams();
+
+  const playerId = sp.get("playerId");
+
+  const player = players.find((p) => p._id == playerId);
   return (
     <main className="min-h-screen bg-popover flex flex-col items-center p-10">
       {/* Header */}
-      <div className="flex justify-between w-full max-w-6xl items-center mb-10">
-        <h1 className="text-2xl font-semibold">⚽ Real Madrid</h1>
+      <div className="flex gap-4 justify-between flex-wrap w-full max-w-6xl items-center mb-10">
+        <h1 className="text-2xl font-semibold">
+          ⚽ KFC - Team{" "}
+          <strong className="uppercase">{player?.training.team}</strong>
+        </h1>
+
+        <PrimarySelect
+          options={players?.map((p) => ({
+            value: p._id,
+            label: `${p.lastName} ${p.firstName}`,
+          }))}
+          paramKey="playerId"
+        />
+
         <nav className="flex gap-6 text-muted-foreground text-sm">
           <Link className="hover:text-popover-foreground" href="#">
             Overview
@@ -58,7 +76,7 @@ export default function PlayerProfile({ player }: PageProps) {
       <section className="flex flex-col lg:flex-row gap-10 w-full max-w-6xl">
         {/* Left Section */}
         <div className="flex-1">
-          <div className="text-left mb-4">
+          <div className="text-left mb-4 capitalize">
             <p className="bg-muted px-3 py-1 rounded-md text-xs w-fit">
               {player?.position}
             </p>
@@ -73,8 +91,8 @@ export default function PlayerProfile({ player }: PageProps) {
             <Image
               width={300}
               height={300}
-              src={player?.avatar?.secure_url}
-              alt={player?.lastName}
+              src={player?.avatar?.secure_url as string}
+              alt={player?.lastName as string}
               className="w-full object-cover"
             />
           </div>
@@ -113,8 +131,8 @@ export default function PlayerProfile({ player }: PageProps) {
             <Image
               width={300}
               height={300}
-              src={player?.avatar?.secure_url}
-              alt={player?.firstName}
+              src={player?.avatar?.secure_url as string}
+              alt={player?.firstName as string}
               className="w-72 drop-shadow-2xl"
             />
           </div>
@@ -156,17 +174,13 @@ export default function PlayerProfile({ player }: PageProps) {
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart data={statsData}>
                 <PolarGrid stroke="#333" />
-                <PolarAngleAxis
-                  dataKey="stat"
-                  tick={{   fontSize: 12 }}
-                />
+                <PolarAngleAxis dataKey="stat" tick={{ fontSize: 12 }} />
                 <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} />
                 <Radar
                   dataKey="value"
                   stroke="#9b5cff"
                   fill="#9b5cff"
                   fillOpacity={0.4}
-                
                 />
               </RadarChart>
             </ResponsiveContainer>
@@ -179,7 +193,7 @@ export default function PlayerProfile({ player }: PageProps) {
                 width={300}
                 height={300}
                 src={teamKFC.logo.secure_url}
-                alt={player?.training.team}
+                alt={player?.training.team as string}
                 className="w-20"
               />
               <div>
