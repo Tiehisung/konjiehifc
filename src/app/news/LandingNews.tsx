@@ -8,17 +8,16 @@ import { INewsProps } from "./page";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { getNews } from "../admin/news/page";
-import { IQueryResponse } from "@/types";
 
 const casters = Object.values(broadcasters);
-const LandingNewsHeadlines = async( ) => {
-  const news:IQueryResponse<INewsProps[]>  = (await getNews())?.data;
+const LandingNewsHeadlines = async () => {
+  const news: IQueryResponse<INewsProps[]> = await getNews();
   return (
     <div>
       <Title>News</Title>
-      
+
       <SimpleCarousel className="_hideScrollbar" scrollButtonStyles="top-1/3">
-        {news?.map((item, index) => (
+        {news?.data?.map((item, index) => (
           <Link href={`/news/${item._id}`} key={index}>
             <Card className="w-60 sm:max-w-60 max-sm:grow overflow-hidden rounded-none">
               <CardContent>
