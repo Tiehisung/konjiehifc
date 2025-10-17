@@ -11,6 +11,7 @@ import Link from "next/link";
 import BestOfUs from "./BestOfUs";
 import { LatestNews } from "./Latest";
 import Skeleton from "react-loading-skeleton";
+import YouMayLike from "./YouMayLike";
 export interface INewsProps {
   _id: string;
   stats?: {
@@ -72,17 +73,29 @@ const NewsPage = async () => {
               <Skeleton width={300} height={"200px"} className="" />
             </div>
           }
-          
-        ><BestOfUs /></Suspense>
+        >
+          <BestOfUs />
+        </Suspense>
+        
         <Suspense
           fallback={
             <div>
               <Skeleton width={300} height={"200px"} className="" />
             </div>
           }
-          
-        >  <LatestNews /></Suspense>
-       
+        >
+          <LatestNews />
+        </Suspense>
+
+        <Suspense
+          fallback={
+            <div>
+              <Skeleton width={300} height={"200px"} className="" />
+            </div>
+          }
+        >
+          <YouMayLike />
+        </Suspense>
       </section>
       <section>
         {news?.data?.slice(0, 5)?.map((item, index) => (

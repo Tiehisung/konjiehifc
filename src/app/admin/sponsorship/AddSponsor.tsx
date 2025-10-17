@@ -2,7 +2,7 @@
 
 import { ISponsorProps } from "@/app/sponsorship/page";
 import { staticImages } from "@/assets/images";
-import DiveUpwards from "@/components/Animate/DiveUp";
+import DiveUpwards from "@/components/Animate";
 import { Button } from "@/components/buttons/Button";
 
 import { IconInputWithLabel } from "@/components/input/Inputs";
@@ -194,7 +194,7 @@ export function AddNewSponsor({ sponsors }: { sponsors: ISponsorProps[] }) {
         />
 
         {error && (
-          <DiveUpwards>
+          <DiveUpwards layoutId={error}>
             <p className="text-error text-sm font-light h-6 text-center">
               {error}
             </p>

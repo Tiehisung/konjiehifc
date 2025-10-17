@@ -2,8 +2,8 @@
 
 import { ReactNode, useState } from "react";
 import { TfiAngleRight } from "react-icons/tfi";
-import DiveUpwards from "./Animate/DiveUp";
 import { usePathname, useRouter } from "next/navigation";
+import DiveUpwards from "./Animate";
 
 interface ICollapsibleProps {
   children?: ReactNode;
@@ -49,7 +49,7 @@ const CollapsibleA = ({
 
       {/* Children */}
       <main className="pb-4 bg-liteGrey/10 ">
-        {isOpen && <DiveUpwards>{children && children}</DiveUpwards>}
+        {isOpen && <DiveUpwards layoutId="">{children && children}</DiveUpwards>}
       </main>
     </div>
   );

@@ -1,6 +1,6 @@
 'use client'
 
-import DiveUpwards from "@/components/Animate/DiveUp";
+import DiveUpwards from "@/components/Animate";
 import { useState, useEffect } from "react";
 
 const updates = [
@@ -27,7 +27,7 @@ export const MatchUpdator = ({ data=updates, random, every = 5000 }: ILiveUpdate
   }, [data]);
   return (
     <div>
-      <DiveUpwards dependency={update} yLimit={5}>
+      <DiveUpwards layoutId={update}dependency={update} y={5}>
         <p className="_p text-blueBlack dark:text-white line-clamp-1 max-w-40">
           {update}
         </p>

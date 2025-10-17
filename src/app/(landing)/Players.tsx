@@ -1,20 +1,20 @@
 import React from "react";
 import Image from "next/image";
 import PrimLink from "@/components/Link";
-import DiveUpwards from "@/components/Animate/DiveUp";
 import { IPlayer } from "../players/page";
 import SimpleCarousel from "@/components/carousel/SimpleCarousel";
 import { getPlayers } from "../admin/players/page";
+import DiveUpwards from "@/components/Animate";
 
-const LandingPlayers =async () => {
+const LandingPlayers = async () => {
   const players: IPlayer[] = await getPlayers();
-  
+
   return (
     <div>
       <h1 className="_title">Players</h1>
       <SimpleCarousel className="_hideScrollbar" scrollButtonStyles="top-1/3">
         {players?.map((player, index: number) => (
-          <DiveUpwards key={index}>
+          <DiveUpwards key={index} layoutId={`${index}`}>
             <Image
               src={player?.avatar?.secure_url}
               width={800}
