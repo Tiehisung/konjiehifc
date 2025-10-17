@@ -4,7 +4,7 @@ import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { TfiAngleLeft, TfiAngleRight } from "react-icons/tfi";
 
 interface CarouselProps {
-  children: ReactNode[];
+  children?: ReactNode[];
   scrollGap?: number;
   wrapperStyles?: string;
   className?: string;
@@ -12,7 +12,7 @@ interface CarouselProps {
 }
 
 const SimpleCarousel = ({
-  children,
+  children=[],
   scrollGap = 300,
   wrapperStyles,
   className,
@@ -73,7 +73,7 @@ const SimpleCarousel = ({
     >
       <button
         className={`absolute left-0 top-1/2 transform -translate-y-1/2 bg-modalOverlay text-white p-2 rounded-full z-10 disabled:pointer-events-none disabled:bg-gray-100 disabled:text-gray-700 ${
-          children.length < 2 && "hidden"
+          children?.length < 2 && "hidden"
         } ${scrollButtonStyles}`}
         onClick={scrollLeft}
         disabled={!canScrollLeft}
@@ -85,13 +85,13 @@ const SimpleCarousel = ({
         className={`flex gap-4 overflow-x-auto overflow-y-hidden scroll-smooth max-w-full px-5 ${className}`}
         ref={carouselRef}
       >
-        {children.map((component, index) => (
+        {children?.map((component, index) => (
           <div key={index}>{component}</div>
         ))}
       </div>
       <button
         className={`absolute right-0 top-1/2 transform -translate-y-1/2 bg-modalOverlay text-white p-2 rounded-full disabled:pointer-events-none disabled:bg-gray-100 disabled:text-gray-700 z-10 ${
-          children.length < 2 && "hidden"
+          children?.length < 2 && "hidden"
         } ${scrollButtonStyles}`}
         onClick={scrollRight}
         disabled={!canScrollRight}

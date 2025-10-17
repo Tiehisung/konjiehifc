@@ -17,8 +17,7 @@ const LandingNewsHeadlines = async () => {
     <div>
       <Title>News</Title>
 
-      <SimpleCarousel className="_hideScrollbar" scrollButtonStyles="top-1/3">
-      
+      <SimpleCarousel className="_hideScrollbar " scrollButtonStyles="top-1/3">
         {news?.data?.map((item, index) => (
           <Link href={`/news/${item._id}`} key={index}>
             <Card className="w-60 sm:max-w-60 max-sm:grow overflow-hidden rounded-none">
@@ -44,7 +43,6 @@ const LandingNewsHeadlines = async () => {
             </Card>
           </Link>
         ))}
-        <></>
       </SimpleCarousel>
     </div>
   );
