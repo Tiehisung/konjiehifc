@@ -83,7 +83,7 @@ const PlayersPage = async () => {
             {players?.map((player) => (
               <Link
                 key={player?._id}
-                href={`/players/${player?._id}`}
+                href={`/players/details?playerId=${player?._id}`}
                 className="group"
               >
                 <Image
@@ -94,7 +94,7 @@ const PlayersPage = async () => {
                   className="aspect-square w-full rounded-lg bg-secondary object-cover group-hover:opacity-75 xl:aspect-7/8"
                 />
                 <h3 className="mt-4 text-sm text-muted-foreground">
-                  {player?.firstName + " " + player?.lastName}
+                  {`${player?.firstName} ${player?.lastName}`}
                 </h3>
                 <p className="mt-1 text-lg font-medium text-muted-foreground">
                   {player?.jersey}

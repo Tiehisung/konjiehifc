@@ -1,5 +1,5 @@
-import { IFileProps, IFileUpload } from "@/types";
-import React from "react";
+import { IFileProps, IFileUpload, IQueryResponse } from "@/types";
+import React, { Suspense } from "react";
 
 import { getNews } from "../admin/news/page";
 import { Reveal } from "@/components/Animate/Reveal";
@@ -8,18 +8,87 @@ import { broadcasters } from "@/assets/broadcaster/broadcaster";
 import { getFormattedDate } from "@/lib/timeAndDate";
 import BreakingNews from "./BreakingNews";
 import Link from "next/link";
+import BestOfUs from "./BestOfUs";
+import { LatestNews } from "./Latest";
+import Skeleton from "react-loading-skeleton";
+export interface INewsProps {
+  _id: string;
+  stats?: {
+    isTrending: boolean;
+    isLatest: boolean;
+  };
+  headline: {
+    text: string;
+    image: Partial<IFileProps>;
+    hasVideo?: boolean;
+    sponsor?: Partial<IFileProps>;
+  };
+  details: {
+    isText: boolean;
+    _id?: string;
+    text?: string;
+    media?: Partial<IFileProps>[];
+  }[];
+  reporter?: {
+    name: string;
+    avatar: Partial<IFileProps>;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+export interface IPostNews {
+  stats?: {
+    isTrending: boolean;
+    isLatest: boolean;
+  };
+  headline: {
+    text: string;
+    image: Partial<IFileUpload>;
+    hasVideo?: boolean;
+    sponsor?: Partial<IFileUpload>;
+  };
+  details: {
+    _id?: string;
+    text?: string;
+    isText: boolean;
+    media?: IFileUpload[];
+  }[];
+  reporter?: {
+    name: string;
+    avatar: Partial<IFileProps>;
+  };
+}
+
 const casters = Object.values(broadcasters);
 
 const NewsPage = async () => {
-  const news: INewsProps[] = await getNews();
+  const news: IQueryResponse<INewsProps[]> = await getNews();
   return (
-    <main className="my-5 container grid gap-6 md:flex items-start ">
-      <BreakingNews newsItem={news?.[3]} />
-      <div  >
-        {news?.slice(0, 5)?.map((item, index) => (
+    <main className="my-5 container _page ">
+      <section className="space-y-10">
+        <Suspense
+          fallback={
+            <div>
+              <Skeleton width={300} height={"200px"} className="" />
+            </div>
+          }
+          
+        ><BestOfUs /></Suspense>
+        <Suspense
+          fallback={
+            <div>
+              <Skeleton width={300} height={"200px"} className="" />
+            </div>
+          }
+          
+        > </Suspense>
+        <LatestNews />
+      </section>
+      <section>
+        {news?.data?.slice(0, 5)?.map((item, index) => (
           <NewsItem key={index} item={item} />
         ))}
-      </div>
+      </section>
     </main>
   );
 };
@@ -73,51 +142,3 @@ const NewsItem = ({ item }: { item: INewsProps }) => {
     </Reveal>
   );
 };
-
-export interface INewsProps {
-  _id: string;
-  stats?: {
-    isTrending: boolean;
-    isLatest: boolean;
-  };
-  headline: {
-    text: string;
-    image: Partial<IFileProps>;
-    hasVideo?: boolean;
-    sponsor?: Partial<IFileProps>;
-  };
-  details: {
-    isText: boolean;
-    _id?: string;
-    text?: string;
-    media?: Partial<IFileProps>[];
-  }[];
-  reporter?: {
-    name: string;
-    avatar: Partial<IFileProps>;
-  };
-  createdAt: string;
-  updatedAt: string;
-}
-export interface IPostNews {
-  stats?: {
-    isTrending: boolean;
-    isLatest: boolean;
-  };
-  headline: {
-    text: string;
-    image: Partial<IFileUpload>;
-    hasVideo?: boolean;
-    sponsor?: Partial<IFileUpload>;
-  };
-  details: {
-    _id?: string;
-    text?: string;
-    isText: boolean;
-    media?: IFileUpload[];
-  }[];
-  reporter?: {
-    name: string;
-    avatar: Partial<IFileProps>;
-  };
-}

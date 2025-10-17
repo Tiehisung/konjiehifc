@@ -154,9 +154,12 @@
 ._subtitle {
   @apply text-[14px] font-semibold leading-4 mt-4 mb-2;
 }
+._heading {
+  @apply text-5xl md:text-7xl font-bold mb-6;
+}
 
 ._p {
-  @apply text-sm;
+  @apply text-lg md:text-xl ;
 }
 ._small {
   @apply text-[10px] font-light;
