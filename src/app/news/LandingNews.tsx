@@ -8,10 +8,11 @@ import { INewsProps } from "./page";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { getNews } from "../admin/news/page";
+import { IQueryResponse } from "@/types";
 
 const casters = Object.values(broadcasters);
 const LandingNewsHeadlines = async( ) => {
-  const news: INewsProps[] = await getNews();
+  const news:IQueryResponse<INewsProps[]>  = (await getNews())?.data;
   return (
     <div>
       <Title>News</Title>

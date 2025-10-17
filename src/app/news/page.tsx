@@ -81,8 +81,8 @@ const NewsPage = async () => {
             </div>
           }
           
-        > </Suspense>
-        <LatestNews />
+        >  <LatestNews /></Suspense>
+       
       </section>
       <section>
         {news?.data?.slice(0, 5)?.map((item, index) => (
