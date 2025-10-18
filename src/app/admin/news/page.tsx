@@ -2,6 +2,8 @@ import React from "react";
 import CreateNews from "./CreateNews";
 import { apiConfig } from "@/lib/configs";
 import AdminNews from "./News";
+import { IQueryResponse } from "@/types";
+import { INewsProps } from "@/app/news/page";
 
 export const getNews = async (id?: string) => {
   try {
@@ -23,7 +25,7 @@ export const getNews = async (id?: string) => {
 };
 
 const AdminNewsPage = async () => {
-  const news = await getNews();
+  const news:IQueryResponse<INewsProps[]> = await getNews();
  
   return (
     <div>
