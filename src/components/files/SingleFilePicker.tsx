@@ -58,7 +58,7 @@ export default function SingleFilePicker({
         <label
           data-tip={label}
           htmlFor={pickerId}
-          className="flex gap-2 items-center shadow w-fit p-1 rounded cursor-pointer text-sm dark:bg-base-100 tooltip"
+          className="_secondaryBtn flex gap-2 items-center shadow w-fit p-1 rounded cursor-pointer text-sm "
         >
           <FcMultipleCameras size={30} /> {label}
           <input
@@ -71,14 +71,6 @@ export default function SingleFilePicker({
             className={`max-w-52 text-sm invisible w-0 file:text-transparent `}
           />
         </label>
-        {convertedFile && (
-          <Button
-            type="button"
-            primaryText={"Remove file"}
-            className="text-red-700 text-sm remove__btn"
-            handleClickEvent={() => setConvertedFile(null)}
-          />
-        )}
       </section>
 
       <section
@@ -91,7 +83,7 @@ export default function SingleFilePicker({
             src={convertedFile.path}
             width={400}
             height={400}
-            className={`bg-gray-400 ${fileStyles}`}
+            className={`aspect-square w-full h-auto ${fileStyles}`}
             alt="filetoupload"
           />
         )}
@@ -105,6 +97,14 @@ export default function SingleFilePicker({
         <h2 className="w-20 truncate text-xs font-light absolute bottom-0 pl-1 text-gray-950 bg-arshTrans">
           {convertedFile?.name}
         </h2>
+        {convertedFile && (
+          <Button
+            type="button"
+            primaryText={"Remove file"}
+            className="text-red-700 text-sm _deleteBtn absolute top-1 right-1.5"
+            onClick={() => setConvertedFile(null)}
+          />
+        )}
       </section>
     </div>
   );

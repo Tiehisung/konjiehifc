@@ -15,14 +15,18 @@ const newsSchema = new Schema(
     details: [
       {
         text: String,
-        isText: Boolean,
         media: [{}], //IFileProps
       },
     ],
 
     stats: {
       type: Schema.Types.Mixed,
-      default: () => ({ isTrending: true, isLatest: true }), //many more...
+      default: () => ({ isTrending: true, isLatest: true }),
+    },
+
+    isPublished: {
+      type: Schema.Types.Boolean,
+      default: false
     },
   },
   { timestamps: true }
@@ -31,4 +35,3 @@ const newsSchema = new Schema(
 const NewsModel = mongoose.models.news || mongoose.model("news", newsSchema);
 export default NewsModel;
 
- 

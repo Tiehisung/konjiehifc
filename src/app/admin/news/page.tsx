@@ -25,12 +25,13 @@ export const getNews = async (id?: string) => {
 };
 
 const AdminNewsPage = async () => {
-  const news:IQueryResponse<INewsProps[]> = await getNews();
- 
+  const news: IQueryResponse<INewsProps[]> = await getNews();
+
   return (
     <div>
-      <h1 className="_title px-6 text-primaryRed">News Publisher page</h1>
+      <h1 className="_title px-6 text-primaryRed uppercase">News Publisher </h1>
       <CreateNews />
+      {/* <RichTextEditor /> */}
 
       <AdminNews news={news} />
     </div>

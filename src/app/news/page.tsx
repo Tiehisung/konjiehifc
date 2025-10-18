@@ -6,12 +6,12 @@ import { Reveal } from "@/components/Animate/Reveal";
 import Image from "next/image";
 import { broadcasters } from "@/assets/broadcaster/broadcaster";
 import { getFormattedDate } from "@/lib/timeAndDate";
-import BreakingNews from "./BreakingNews";
 import Link from "next/link";
 import BestOfUs from "./BestOfUs";
 import { LatestNews } from "./Latest";
 import Skeleton from "react-loading-skeleton";
 import YouMayLike from "./YouMayLike";
+
 export interface INewsProps {
   _id: string;
   stats?: {
@@ -25,7 +25,6 @@ export interface INewsProps {
     sponsor?: Partial<IFileProps>;
   };
   details: {
-    isText: boolean;
     _id?: string;
     text?: string;
     media?: Partial<IFileProps>[];
@@ -51,7 +50,6 @@ export interface IPostNews {
   details: {
     _id?: string;
     text?: string;
-    isText: boolean;
     media?: IFileUpload[];
   }[];
   reporter?: {
@@ -76,7 +74,7 @@ const NewsPage = async () => {
         >
           <BestOfUs />
         </Suspense>
-        
+
         <Suspense
           fallback={
             <div>
@@ -130,11 +128,11 @@ const NewsItem = ({ item }: { item: INewsProps }) => {
             {item?.headline?.text?.substring(0, 120) as string}
           </div>
 
+
           <div
             className="mt-5 _pp max-w-full line-clamp-3 max-h-14 overflow-hidden "
             dangerouslySetInnerHTML={{
-              __html:
-                (item?.details?.find((d) => d.isText)?.text as string) ?? "",
+              __html: (item?.details?.[0]?.text as string) ?? "",
             }}
           />
 

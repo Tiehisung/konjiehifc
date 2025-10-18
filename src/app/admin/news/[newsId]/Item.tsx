@@ -1,26 +1,28 @@
 "use client";
 
 import React, { FC, useState } from "react";
-import { INewsProps } from "../page";
 import FileRenderer from "@/components/files/FileRender";
 import Image from "next/image";
 import { IFileProps } from "@/types";
+import { INewsProps } from "@/app/news/page";
+import UnpublishNews from "./Delete";
 
 const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
   const [loadingImage, setLoadingImage] = useState(false);
 
+  console.log({ newsItem });
   return (
-    <div className=" mb-10">
-      <header className="">
-        <div className="text-3xl md:text-4xl overflow-hidden mb-7">
+    <div className=" mb-10 p-4">
+      <header className="flex flex-wrap justify-center items-center">
+        <p className="font-semibold text-3xl md:text-4xl overflow-hidden mb-7">
           {newsItem?.headline?.text}
-        </div>
+        </p>
         <Image
           width={1000}
           height={500}
           alt={newsItem.headline?.text}
           src={newsItem.headline?.image?.secure_url ?? ""}
-          className={`w-full max-md:max-w-md min-w-64 h-auto bg-cover aspect-4/2 object-cover xl:aspect-5/3 ${
+          className={`w-full min-w-64 h-auto bg-cover object-cover aspect-5/3 ${
             loadingImage ? "bg-secondary" : ""
           }`}
           onLoad={() => setLoadingImage(true)}
@@ -32,15 +34,13 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
         <main className="_p space-y-5 grow">
           <section>
             {newsItem?.details?.map((detail, index) => {
-              if (detail.text)
-                return (
+              return (
+                <>
                   <div
                     key={index}
                     dangerouslySetInnerHTML={{ __html: detail?.text as string }}
                   />
-                );
-              if (detail.media)
-                return (
+
                   <div key={index} className="flex flex-wrap gap-4">
                     {detail?.media?.map((file, i) => {
                       if (file.secure_url)
@@ -49,12 +49,20 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
                         );
                     })}
                   </div>
-                );
+                </>
+              );
             })}
           </section>
 
           {/* Comments and reactions */}
-          <section className="_subtitle">Comments</section>
+          <section className="_subtitle">
+            
+            <h1>Actions</h1>
+            <div className="flex items-center gap-5 flex-wrap p-4 _card">
+              <UnpublishNews />
+              <UnpublishNews />
+            </div>
+          </section>
         </main>
       </div>
     </div>

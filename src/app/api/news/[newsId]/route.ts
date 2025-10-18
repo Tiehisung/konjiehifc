@@ -16,7 +16,7 @@ export async function GET(
 }
 
 export async function DELETE(
-  _: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ newsId: string }> }
 ) {
   try {
@@ -42,18 +42,20 @@ export async function DELETE(
     });
   }
 }
+
+// Edit
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ newsId: string }> }
 ) {
   try {
     const newsId = (await params).newsId;
-    const { fieldName, fieldValue } = await request.json();
+    const body = await request.json();
 
     //update field
     const updated = await NewsModel.updateOne(
       { _id: newsId },
-      { $set: { [fieldName]: fieldValue } }
+      { $set: { ...body } }
     );
     if (updated.acknowledged)
       return NextResponse.json({

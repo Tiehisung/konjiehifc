@@ -1,174 +1,157 @@
 "use client";
 
-import { IPostNews } from "@/app/news/page";
-import { RemoveButton } from "@/components/buttons/DelClearRemove";
-import { Button } from "@/components/buttons/Button";
-// import RichTextEditor from "@/components/editor/RichTextEditor";
-import MultiFilePicker from "@/components/files/MultiFilePicker";
-import SingleFilePicker from "@/components/files/SingleFilePicker";
+import React, { useState } from "react";
+import { useForm, Controller, useFieldArray } from "react-hook-form";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
 import { Input } from "@/components/input/Inputs";
+import { Button } from "@/components/buttons/Button";
+import { RemoveButton } from "@/components/buttons/DelClearRemove";
+import SingleFilePicker from "@/components/files/SingleFilePicker";
+import MultiFilePicker from "@/components/files/MultiFilePicker";
+import { RichTextEditor } from "@/components/editor/TipTap";
+
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { IResultProps, TConvertedFile } from "@/types";
-import { useRouter } from "next/navigation";
-import React, { FormEvent, useState } from "react";
-import { toast } from "react-toastify";
+import { Plus } from "lucide-react";
+
+export interface IPostNews {
+  headlineText: string;
+  headlineImage: TConvertedFile | null;
+  details: {
+    text?: string;
+    media?: TConvertedFile[];
+  }[];
+}
 
 const CreateNews = () => {
-  const [waiting, setWaiting] = useState(false);
   const router = useRouter();
-  const [headlineContent, setHeadlineContent] = useState<{
-    text: string;
-    image: TConvertedFile;
-  } | null>(null);
+  const [waiting, setWaiting] = useState(false);
 
-  const [details, setDetails] = useState<IPostNews["details"]>([]);
+  const { control, handleSubmit, reset } = useForm<IPostNews>({
+    defaultValues: {
+      headlineText: "",
+      headlineImage: null,
+      details: [{ text: "<p>Start typing...</p><br/>" }],
+    },
+  });
 
-  const handleAddContent = (isText: boolean) => {
-    setDetails((p) => [...p, { isText }]);
-  };
-  const handleSave = () => {
-    localStorage.setItem(
-      "news",
-      JSON.stringify({ headline: headlineContent, details })
-    );
-    toast("Saved", { position: "bottom-center" });
-  };
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "details",
+  });
 
-  const handleChangeFiles = (files: TConvertedFile[], index: number) => {
-    const copy = [...details];
-    copy[index].media = files;
-    setDetails(copy);
-  };
+  // console.log(formState.errors);
 
-  // const handleChangeText = (text: string, index: number) => {
-  //   const copy = [...details];
-  //   copy[index].text = text;
-  //   setDetails(copy);
-  // };
-  const handleRemoveContent = (index: number) => {
-    setDetails((p) => p.filter((c) => c !== p[index]));
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (data: IPostNews) => {
     try {
-      e.preventDefault();
       setWaiting(true);
-      const response = await fetch(apiConfig.news, {
-        cache: "no-cache",
+      const res = await fetch(apiConfig.news, {
         method: "POST",
-        body: JSON.stringify({ headlineContent, details }),
-        headers: {
-          "content-type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
-      const result: IResultProps = await response.json();
-      console.log({ result });
-      toast(result.message, { type: result.success ? "success" : "error" });
-      localStorage.removeItem("news");
-    } catch (error) {
-      toast.error(getErrorMessage(error, "News post failed"));
-      console.log({ error });
+
+      const result: IResultProps = await res.json();
+      if (result.success) {
+        reset();
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
+      }
+    } catch (err) {
+      toast.error(getErrorMessage(err, "News post failed"));
     } finally {
-      setWaiting(false);
       router.refresh();
+      setWaiting(false);
     }
   };
 
-  // useEffect(() => {
-  //   const savedNews = JSON.parse(localStorage.getItem("news") as string) as {
-  //     headline: { image: TConvertedFile; text: string };
-  //     details: unknown;
-  //   };
-  //   setDetails(savedNews.details as IPostNews["details"]);
-  //   setHeadlineContent(savedNews.headline);
-  // }, []);
-
   return (
-    <form className="p-5 space-y-6" onSubmit={handleSubmit}>
-      {/* Headline */}
-      <header className="border-b-2 grid gap-4 py-4 mb-6">
-        <Input
-          value={headlineContent?.text}
+    <form onSubmit={handleSubmit(onSubmit)} className="p-5 space-y-6">
+      {/* Headline Section */}
+      <header className="border-b-2 grid gap-4 py-4 mb-6 border px-2 border-border">
+        <Controller
           name="headlineText"
-          onChange={(e) =>
-            setHeadlineContent({
-              image: headlineContent?.image as TConvertedFile,
-              text: e.target.value,
-            })
-          }
-          label="Headline text"
-          placeholder="Type headline here..."
+          control={control}
+          rules={{ required: "Headline is required" }}
+          render={({ field }) => (
+            <Input
+              {...field}
+              label="Headline text"
+              placeholder="Type headline here..."
+            />
+          )}
         />
-        <div>
-          <p className="_label">Wall image</p>
-          <SingleFilePicker
-            exportFile={(cf) =>
-              setHeadlineContent({
-                image: cf as TConvertedFile,
-                text: headlineContent?.text as string,
-              })
-            }
-            pickerId="news-headline"
-            required
-          />
-        </div>
+
+        <Controller
+          name="headlineImage"
+          control={control}
+          render={({ field }) => (
+            <div>
+              <p className="_label">Wall image</p>
+              <SingleFilePicker
+                exportFile={(file) => field.onChange(file)}
+                pickerId="news-headline"
+                required
+                className="border-none "
+              />
+            </div>
+          )}
+        />
       </header>
 
+      {/* Details Section */}
       <h1 className="_subtitle">Details</h1>
-      <main className="border border-border space-y-3 p-4">
-        {details.map((detail, detIndex) => (
-          <div key={detIndex} className="bg-base-100 flex items-start gap-2">
-            {!detail.isText ? (
-              <MultiFilePicker
-                uniqueId={`media${detIndex}`}
-                exportFiles={(files) => handleChangeFiles(files, detIndex)}
-                fileWrapperStyles="grow"
-                className=""
-              />
-            ) : (
-              <></>
-              // <RichTextEditor
-              //   label=""
-              //   onChange={(txt) => handleChangeText(txt, detIndex)}
-              //   value=""
-              //   placeholder="Write news here..."
-              //   wrapperStyles="grow"
-              // />
-            )}
-
+      <main className=" space-y-16 p-4 divide-y-2 divide-accent">
+        {fields.map((item, index) => (
+          <div
+            key={item.id}
+            className="flex items-start gap-2 border-l-2 border-blue-200"
+          >
             <RemoveButton
-              handleRemove={async () => handleRemoveContent(detIndex)}
+              handleRemove={async () => remove(index)}
               buttonText=""
-              className="w-fit"
+              className="w-fit text-xl text-red-500 rounded-full _borderColor"
             />
+            <div className="grow space-y-3">
+              <Controller
+                control={control}
+                name={`details.${index}.text`}
+                render={({ field }) => (
+                  <RichTextEditor
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                    className="w-full grow"
+                  />
+                )}
+              />
+
+              <Controller
+                control={control}
+                name={`details.${index}.media`}
+                render={({ field }) => (
+                  <MultiFilePicker
+                    uniqueId={`media-${index}`}
+                    exportFiles={(files) => field.onChange(files)}
+                    className="mb-3"
+                  />
+                )}
+              />
+            </div>
           </div>
         ))}
 
-        <div className="flex items-center gap-2 justify-end p-3">
-          <Button
-            onClick={() => handleAddContent(true)}
-            className={`px-2 py-1 border _borderColor _secondaryBg hover:bg-base-300 `}
-            title="Add text"
+        <div className="flex items-center gap-2 justify-center">
+          <button
+            onClick={() => append({ text: "", media: [] })}
+            className="rounded-full p-3 border _borderColor hover:opacity-90 bg-gray-700 text-white dark:text-gray-950 dark:bg-gray-200 justify-center"
+            title="Add Content"
           >
-            Add Text
-          </Button>
-
-          <Button
-            title="Add files"
-            onClick={() => handleAddContent(false)}
-            className={`px-2 py-1 border _borderColor _secondaryBg hover:bg-base-300 `}
-          >
-            Add Files
-          </Button>
-
-          <Button
-            title="Save"
-            onClick={handleSave}
-            className={`px-2 py-1 border _borderColor _secondaryBg hover:bg-base-300 `}
-          >
-            Save
-          </Button>
+            <Plus />
+          </button>
         </div>
       </main>
 
@@ -178,7 +161,7 @@ const CreateNews = () => {
         waiting={waiting}
         disabled={waiting}
         waitingText="Posting..."
-        className="_primaryBtn p-3 ml-auto"
+        className="_primaryBtn p-3 ml-auto w-full justify-center h-12 uppercase"
       />
     </form>
   );
