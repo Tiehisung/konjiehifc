@@ -12,8 +12,8 @@ const YouMayLike = async () => {
 
   return (
     <div>
-      <h1 className="_heading mb-6 text-center">YOU MAY LIKE</h1>
-      <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-5 gap-y-10">
+      <h1 className="_heading text-center">YOU MAY LIKE</h1>
+      <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-5 gap-y-10 mt-5">
         {news?.data?.slice(0, 6)?.map((item,index) => (
           <AnimateOnView key={item._id } index={index}>
             <Link href={`/news/${item?._id}`}>

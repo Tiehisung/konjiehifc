@@ -8,18 +8,20 @@ import { IFileProps } from "@/types";
 
 const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
   const [loadingImage, setLoadingImage] = useState(false);
- 
+
   return (
-    <div className="container">
+    <div className=" mb-10">
       <header className="">
-        <div className="_title overflow-hidden">{newsItem?.headline?.text}</div>
+        <div className="text-3xl md:text-4xl overflow-hidden mb-7">
+          {newsItem?.headline?.text}
+        </div>
         <Image
           width={1000}
           height={500}
           alt={newsItem.headline?.text}
           src={newsItem.headline?.image?.secure_url ?? ""}
-          className={`w-auto min-w-64 h-auto max-w-md bg-cover ${
-            loadingImage ? "bg-slate-200" : ""
+          className={`w-full max-md:max-w-md min-w-64 h-auto bg-cover aspect-4/2 object-cover xl:aspect-5/3 ${
+            loadingImage ? "bg-secondary" : ""
           }`}
           onLoad={() => setLoadingImage(true)}
           onLoadingComplete={() => setLoadingImage(false)}
@@ -54,8 +56,7 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
           {/* Comments and reactions */}
           <section className="_subtitle">Comments</section>
         </main>
-
-         </div>
+      </div>
     </div>
   );
 };
