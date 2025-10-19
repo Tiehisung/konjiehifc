@@ -50,14 +50,21 @@ export async function GET(request: NextRequest) {
     ];
   }
 
-  const query = {
+  const query = isAdmin ? {
     $or: [
       ...querySwitch
     ],
     "headline.text": regex,
-    "isPublished": !isAdmin
 
-  };
+
+  } : {
+    $or: [
+      ...querySwitch
+    ],
+    "headline.text": regex,
+    "isPublished": true,
+  }
+
   const news = await NewsModel.find(query).sort({ createdAt: "desc" }).skip(skip)
     .limit(limit)
     .lean();
