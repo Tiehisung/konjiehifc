@@ -3,7 +3,6 @@
 import type React from "react";
 
 import type { Editor } from "@tiptap/react";
-import { Button } from "@/components/ui/button";
 import {
   Bold,
   Italic,
@@ -24,6 +23,7 @@ import {
   Redo2,
 } from "lucide-react";
 import { useState } from "react";
+import { Button } from "../buttons/Button";
 
 interface EditorToolbarProps {
   editor: Editor;
@@ -59,12 +59,8 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
   }) => (
     <Button
       onClick={onClick}
-      variant="ghost"
-      size="sm"
       title={title}
-      className={`h-9 w-9 p-0 ${
-        isActive ? "bg-blue-700 text-white" : ""
-      }`}
+      className={`h-9 w-9 p-0 justify-center rounded ${isActive ? "bg-blue-500 text-white" : ""}`}
       type="button"
     >
       <Icon className="h-4 w-4" />
@@ -182,17 +178,15 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
           title="Highlight"
         />
         <div className="relative">
-          <Button
+          <span
             onClick={() => setShowLinkInput(!showLinkInput)}
-            variant="ghost"
-            size="sm"
             title="Add Link"
-            className={`h-9 w-9 p-0 ${
+            className={`h-9 w-9 p-1 flex items-center justify-center ${
               editor.isActive("link") ? "bg-accent text-accent-foreground" : ""
             }`}
           >
             <LinkIcon className="h-4 w-4" />
-          </Button>
+          </span>
           {showLinkInput && (
             <div className="absolute top-full left-0 mt-2 bg-card border border-border rounded-md shadow-lg p-2 z-10 w-48">
               <input
@@ -207,8 +201,7 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
               <div className="flex gap-2">
                 <Button
                   onClick={handleAddLink}
-                  size="sm"
-                  className="flex-1 h-7 text-xs"
+                  className="bg-accent hover:opacity-80 _slowTrans flex-1 h-7 text-xs justify-center"
                 >
                   Add
                 </Button>
@@ -218,9 +211,7 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
                     setShowLinkInput(false);
                     setLinkUrl("");
                   }}
-                  variant="outline"
-                  size="sm"
-                  className="flex-1 h-7 text-xs"
+                  className="bg-accent hover:opacity-80 _slowTrans flex-1 h-7 text-xs justify-center"
                 >
                   Remove
                 </Button>
