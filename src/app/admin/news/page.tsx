@@ -5,27 +5,31 @@ import AdminNews from "./News";
 import { IQueryResponse } from "@/types";
 import { INewsProps } from "@/app/news/page";
 
-export const getNews = async (id?: string) => {
+export const getNews = async (isAdmin?: boolean) => {
   try {
-    if (id) {
-      const response = await fetch(`${apiConfig.news}/${id}`, {
-        cache: "no-store",
-      });
-      const news = await response.json();
-      return news; //One
-    } else {
-      const response = await fetch(apiConfig.news, { cache: "no-cache" });
-      const news = await response.json();
-      return news;
-    }
-  } catch (error) {
-    console.log({ error });
-    return [];
+    const uri = isAdmin ? `${apiConfig.news}?isAdmin=true` : apiConfig.news;
+
+    const response = await fetch(uri, { cache: "no-cache" });
+      return  await response.json();
+  
+  } catch {
+    return null;
+  }
+};
+export const getNewsById = async (id: string) => {
+  try {
+    const response = await fetch(`${apiConfig.news}/${id}`, {
+      cache: "no-store",
+    });
+    const news = await response.json();
+    return news;
+  } catch {
+    return null;
   }
 };
 
 const AdminNewsPage = async () => {
-  const news: IQueryResponse<INewsProps[]> = await getNews();
+  const news: IQueryResponse<INewsProps[]> = await getNews(true);
 
   return (
     <div>

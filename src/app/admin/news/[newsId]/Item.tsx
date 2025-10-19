@@ -5,7 +5,7 @@ import FileRenderer from "@/components/files/FileRender";
 import Image from "next/image";
 import { IFileProps } from "@/types";
 import { INewsProps } from "@/app/news/page";
-import UnpublishNews from "./Delete";
+import ActionButtonNews from "./Action";
 
 const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
   const [loadingImage, setLoadingImage] = useState(false);
@@ -14,7 +14,7 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
   return (
     <div className=" mb-10 p-4">
       <header className="flex flex-wrap justify-center items-center">
-        <p className="font-semibold text-3xl md:text-4xl overflow-hidden mb-7">
+        <p className="_title">
           {newsItem?.headline?.text}
         </p>
         <Image
@@ -31,13 +31,12 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
       </header>
 
       <div className="grid lg:flex items-start mt-6 gap-x-6">
-        <main className="_p space-y-5 grow">
+        <main className="_p space-y-5 grow my-6">
           <section>
             {newsItem?.details?.map((detail, index) => {
               return (
-                <>
+                <div key={index}>
                   <div
-                    key={index}
                     dangerouslySetInnerHTML={{ __html: detail?.text as string }}
                   />
 
@@ -49,18 +48,22 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
                         );
                     })}
                   </div>
-                </>
+                </div>
               );
             })}
           </section>
 
           {/* Comments and reactions */}
           <section className="_subtitle">
-            
-            <h1>Actions</h1>
+            <h1 className="_title">Actions</h1>
             <div className="flex items-center gap-5 flex-wrap p-4 _card">
-              <UnpublishNews />
-              <UnpublishNews />
+              {newsItem?.isPublished ? (
+                <ActionButtonNews type="Unpublish" />
+              ) : (
+                <ActionButtonNews type="Publish" />
+              )}
+
+              <ActionButtonNews type="Delete" />
             </div>
           </section>
         </main>

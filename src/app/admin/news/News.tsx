@@ -8,7 +8,6 @@ import Link from "next/link";
 import React, { FC } from "react";
 
 const AdminNews: FC<{ news: IQueryResponse<INewsProps[]> }> = ({ news }) => {
-  console.log({ news });
   return (
     <div className="my-5">
       <ul className="grid md:grid-cols-2 gap-3 xl:grid-cols-3">

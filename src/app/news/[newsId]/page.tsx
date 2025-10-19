@@ -1,4 +1,4 @@
-import { getNews } from "@/app/admin/news/page";
+import { getNewsById } from "@/app/admin/news/page";
 import React, { Suspense } from "react";
 import { INewsProps } from "../page";
 import NewsItemClient from "./Item";
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const NewsItemPage = async ({ params }: Props) => {
-  const newsItem: INewsProps = await getNews((await params).newsId);
+  const newsItem: INewsProps = await getNewsById((await params).newsId);
 
   if (!newsItem) return null;
 

@@ -6,15 +6,23 @@ import NewsModel from "@/models/news";
 import { IFileProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 import { fileUploader } from "../file/Uploader";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/options";
 // export const revalidate = 0;
 
 ConnectMongoDb();
 export async function GET(request: NextRequest) {
+
+  const session = await getServerSession(authOptions)
+
+  console.log({ session })
+
   const { searchParams } = new URL(request.url);
   const page = Number.parseInt(searchParams.get("page") || "1", 10);
   const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
 
   const search = searchParams.get("search") || "";
+  const isAdmin = searchParams.get("isAdmin") == 'true'
   const trending = searchParams.get("trending") == "1";
   const latest = searchParams.get("latest") == '1' ? true : false;
   const hasVideo = searchParams.get("hasVideo") == '1' ? true : false;
@@ -46,7 +54,8 @@ export async function GET(request: NextRequest) {
     $or: [
       ...querySwitch
     ],
-    "headline.text": regex
+    "headline.text": regex,
+    "isPublished": !isAdmin
 
   };
   const news = await NewsModel.find(query).sort({ createdAt: "desc" }).skip(skip)

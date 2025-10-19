@@ -33,6 +33,7 @@ export interface INewsProps {
     name: string;
     avatar: Partial<IFileProps>;
   };
+  isPublished?:boolean
   createdAt: string;
   updatedAt: string;
 }

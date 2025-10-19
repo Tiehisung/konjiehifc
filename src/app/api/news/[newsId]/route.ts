@@ -2,7 +2,9 @@ import { getErrorMessage } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import ArchivesModel from "@/models/archive";
 import NewsModel from "@/models/news";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { authOptions } from "../../auth/[...nextauth]/options";
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
 
@@ -11,6 +13,11 @@ export async function GET(
   _: NextRequest,
   { params }: { params: Promise<{ newsId: string }> }
 ) {
+  
+  const session = await getServerSession(authOptions)
+
+  console.log({ session })
+
   const news = await NewsModel.findById((await params).newsId);
   return NextResponse.json(news);
 }
