@@ -1,9 +1,8 @@
-import { getNewsById } from "@/app/admin/news/page";
+import {  getNewsById } from "@/app/admin/news/page";
 import React, { Suspense } from "react";
-import { INewsProps } from "../page";
 import NewsItemClient from "./Item";
 import Skeleton from "react-loading-skeleton";
-import YouMayLike from "../YouMayLike";
+import { INewsProps } from "@/app/news/page";
 
 interface Props {
   params: Promise<{ newsId: string }>;
@@ -25,7 +24,7 @@ const NewsItemPage = async ({ params }: Props) => {
           </div>
         }
       >
-        <YouMayLike />
+   
       </Suspense>
     </div>
   );

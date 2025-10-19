@@ -3,7 +3,6 @@ import Link from "next/link";
 import { INewsProps } from "./page";
 import { getNews } from "../admin/news/page";
 import Image from "next/image";
-import { RxVideo } from "react-icons/rx";
 
 export async function LatestNews() {
   const news: IQueryResponse<INewsProps[]> = await getNews();
@@ -15,7 +14,7 @@ export async function LatestNews() {
         {news?.data?.slice(4)?.map((item) => (
           <div key={item._id}>
             <Link href={`/news/${item?._id}`}>
-              <div className="w-full overflow-hidden group">
+              <div className="w-full overflow-hidden group relative">
                 <Image
                   src={item?.headline?.image?.secure_url as string}
                   width={400}
@@ -25,14 +24,14 @@ export async function LatestNews() {
                 />
                 <div className="py-4">
                   <p className="_p line-clamp-3">{item?.headline?.text}</p>
-                </div>{" "}
-                {
-                  <RxVideo className="absolute top-1 right-1.5 text-primaryRed text-2xl" />
-                }
+                </div>
 
-                <span className='bg-card p-3 w-24'>
-                  Watch
-                </span>
+                {
+                  // item?.headline.hasVideo &&
+                  <span className="bg-card px-3 py-1.5 w-24 flex justify-center absolute top-1.5 right-2 shadow-sm">
+                    Watch
+                  </span>
+                }
               </div>
             </Link>
           </div>

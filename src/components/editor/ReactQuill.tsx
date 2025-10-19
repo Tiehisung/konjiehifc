@@ -5,7 +5,6 @@
 // import "react-quill/dist/quill.snow.css";
 // import styles from "./styles.module.css";
 // import PrimaryModal from "../modals/Modals";
-// import { Button } from "../buttons/SubmitAndClick";
 // import { Title } from "../Elements";
 
 // const ReactQuill = dynamic(() => import("react-quill"), {

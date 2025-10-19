@@ -140,7 +140,7 @@ export function Input({
             ? placeholder.substring(0, 27) + "..."
             : placeholder
         }
-        className={`_secondaryBg outline-none border border-gray-300 focus:border-teal-400 shadow-teal-100/50 h-9 rounded px-2 text-primary w-full placeholder:line-clamp-1 slowTrans ${className}`}
+        className={`bg-secondary outline-none border border-border focus:border-teal-400 shadow-teal-100/50 h-9 rounded px-2 text-primary w-full placeholder:line-clamp-1 _slowTrans ${className}`}
         {...others}
         required={required}
       />
@@ -170,7 +170,7 @@ export function DateTimeInput({
   if (!name) return null;
   return (
     <label
-      className={`w-fit input bg-transparent border _borderColor focus-within:border-teal-400 flex items-center gap-2 ${wrapperStyles}`}
+      className={`w-fit input bg-secondary  border _borderColor focus-within:border-teal-400 flex items-center gap-2 ${wrapperStyles}`}
       title={dataTip}
       htmlFor={name}
     >
@@ -188,7 +188,7 @@ export function DateTimeInput({
         onChange={(e) => {
           onChange(e);
         }}
-        className={` bg-transparent ${className}`}
+        className={` bg-secondary  ${className}`}
         {...others}
         required={required}
       />
@@ -291,7 +291,7 @@ export function IconInput({
         onChange={(e) => {
           onChange(e);
         }}
-        className={`grow bg-transparent ${className}`}
+        className={`grow bg-secondary  ${className}`}
         placeholder={placeholder}
         {...others}
         required={required}

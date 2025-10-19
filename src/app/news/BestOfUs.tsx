@@ -26,12 +26,12 @@ const BestOfUs = async () => {
                   className="aspect-4/2 w-full bg-secondary object-cover group-hover:opacity-85 xl:aspect-5/3 group-hover:scale-105 _slowTrans "
                 />
 
+                {item?.headline?.hasVideo && (
+                  <RxVideo className="-mt-12 text-primaryRed text-2xl" />
+                )}
                 <div>
                   <p className="_p line-clamp-3">{item?.headline?.text}</p>
                 </div>
-                {item?.headline?.hasVideo && (
-                  <RxVideo className="absolute bottom-1 right-1.5 text-primaryRed text-2xl" />
-                )}
               </div>
             </Link>
           </AnimateOnView>

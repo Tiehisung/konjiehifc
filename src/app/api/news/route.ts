@@ -1,19 +1,28 @@
-import { INewsProps, IPostNews } from "@/app/news/page";
+import { IPostNews } from "@/app/admin/news/CreateNews";
+import { INewsProps, } from "@/app/news/page";
 import { getErrorMessage } from "@/lib";
-import { apiConfig } from "@/lib/configs";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import NewsModel from "@/models/news";
-import { IFileProps, IResultProps } from "@/types";
+import { IFileProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
+import { fileUploader } from "../file/Uploader";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/options";
 // export const revalidate = 0;
 
 ConnectMongoDb();
 export async function GET(request: NextRequest) {
+
+  const session = await getServerSession(authOptions)
+
+  console.log({ session })
+
   const { searchParams } = new URL(request.url);
   const page = Number.parseInt(searchParams.get("page") || "1", 10);
   const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
 
   const search = searchParams.get("search") || "";
+  const isAdmin = searchParams.get("isAdmin") == 'true'
   const trending = searchParams.get("trending") == "1";
   const latest = searchParams.get("latest") == '1' ? true : false;
   const hasVideo = searchParams.get("hasVideo") == '1' ? true : false;
@@ -45,6 +54,8 @@ export async function GET(request: NextRequest) {
     $or: [
       ...querySwitch
     ],
+    "headline.text": regex,
+    "isPublished": !isAdmin
 
   };
   const news = await NewsModel.find(query).sort({ createdAt: "desc" }).skip(skip)
@@ -65,59 +76,47 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const {
-      headlineContent,
-      details,
-    }: // source,
-      {
-        headlineContent: IPostNews["headline"];
-        details: IPostNews["details"];
-      } = await request.json();
-    //Upload headline file
-    const uploadHeadlineImageResp = await fetch(apiConfig.fileUpload, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(headlineContent.image),
-    });
 
-    const headlineImageUploadResult: IResultProps<IFileProps> =
-      await uploadHeadlineImageResp.json();
+    const { headlineText, headlineImage, details, }: IPostNews = await request.json();
+
+    const headlineImageUploadResult = await fileUploader({
+      name: headlineImage?.name ?? "headline",
+      path: headlineImage?.path ?? "",
+      type: headlineImage?.type ?? "image",
+    });
 
     if (!headlineImageUploadResult.success)
       return NextResponse.json(headlineImageUploadResult);
 
     //Upload all files in details
     const shallowCopy: IPostNews["details"] = [...details];
-    let modifiedDetails: INewsProps["details"] = [];
-    for (let x = 0; x <= details.length; x++) {
-      const detail = details[x];
-      if (detail?.media) {
-        const temp: IFileProps[] = [];
-        for (const file of detail?.media) {
-          const uploadedMedia = await fetch(apiConfig.fileUpload, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(file),
-          });
-          const result: IResultProps<IFileProps> = await uploadedMedia.json();
-          temp.push(result?.data as IFileProps);
-        }
 
-        modifiedDetails = shallowCopy.map((md, i) => {
-          if (i != x) return md;
-          return { ...md, media: temp };
-        });
+    const modifiedDetails: INewsProps["details"] = [];
+
+    for (let x = 0; x < shallowCopy.length; x++) {
+      const detail = shallowCopy[x];
+      if (detail?.media && detail.media.length) {
+        const temp: IFileProps[] = [];
+        for (const file of detail.media) {
+          const uploaded = await fileUploader(file);
+          temp.push(uploaded?.data as IFileProps);
+        }
+        modifiedDetails.push({ ...detail, media: temp });
+      } else {
+        modifiedDetails.push(detail);
       }
     }
+
     const published = await NewsModel.create({
       headline: {
-        text: headlineContent.text,
+        text: headlineText,
         image: headlineImageUploadResult.success
           ? headlineImageUploadResult.data
           : {},
       },
       details: modifiedDetails,
     });
+
     if (published)
       return NextResponse.json({
         message: "News published",
