@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
     //Upload all files in details
     const shallowCopy: IPostNews["details"] = [...details];
 
-    let modifiedDetails: INewsProps["details"] = [];
+    const modifiedDetails: INewsProps["details"] = [];
 
     for (let x = 0; x < shallowCopy.length; x++) {
       const detail = shallowCopy[x];
