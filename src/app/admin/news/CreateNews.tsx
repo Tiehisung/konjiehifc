@@ -149,6 +149,7 @@ const CreateNews = () => {
             onClick={() => append({ text: "", media: [] })}
             className="rounded-full p-3 border _borderColor hover:opacity-90 bg-gray-700 text-white dark:text-gray-950 dark:bg-gray-200 justify-center"
             title="Add Content"
+            type="button"
           >
             <Plus />
           </button>
