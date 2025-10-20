@@ -51,6 +51,7 @@ export async function uploadSingleFile({
 }
 
 export const apiConfig = {
+  base: `${baseUrl}/api`,
   admins: `${baseUrl}/api/admins`,
   signin: `${baseUrl}/api/auth/signin`,
   signout: `${baseUrl}/api/auth/signout`,

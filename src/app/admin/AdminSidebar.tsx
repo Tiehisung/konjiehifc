@@ -3,6 +3,7 @@
 import { Button } from "@/components/buttons/Button";
 import SideDrawerToRight from "@/components/drawer/SideDrawerToRight";
 import { ThemeModeToggle } from "@/components/ThemeToggle";
+import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -38,12 +39,15 @@ export function LeftPaneDesktop() {
     <div
       className={`max-md:hidden bg-accent w-[220px] max-h-screen overflow-y-auto py-6`}
     >
-      <ul className="grid gap-3 h-fit pl-1">
+      <div className="p-6 flex items-center justify-between">
+        <h1 className="text-2xl font-black">⚽ KFC </h1>
+      </div>
+      <ul className="flex flex-col flex-1 gap-3 h-fit pl-1">
         {sidebarLinks.map((slink, index) => (
           <li key={index}>
             <Link
               href={slink.path}
-              className={`px-1 flex items-center gap-2 h-10 text-sm border _borderColor mr-2 _hover ${
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-left ${
                 activeLink(slink.path) ? "bg-teal-500/50  " : ""
               }`}
             >
@@ -53,17 +57,20 @@ export function LeftPaneDesktop() {
           </li>
         ))}
 
-        <li className="mt-10 flex gap-4 justify-center items-center">
-          <Button
-            onClick={() => signOut()}
-            primaryText="Logout"
-            className={`p-2  _deleteBtn `}
-          >
-            <BiLogOut />
-          </Button>
-          <ThemeModeToggle />
-        </li>
+        <li className="mt-10 flex gap-4 justify-center items-center"></li>
       </ul>
+
+      <footer className="p-4 border-t border-secondary-foreground/20">
+        <ThemeModeToggle />
+
+        <Button
+          onClick={() => signOut()}
+          primaryText="Logout"
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary-foreground/10 transition-colors"
+        >
+          <LogOut size={20} />
+        </Button>
+      </footer>
     </div>
   );
 }
@@ -75,14 +82,12 @@ export function LeftPaneMobile() {
   };
 
   return (
-    <SideDrawerToRight >
+    <SideDrawerToRight>
       <ul className="w-full text-teal-500 overflow-y-auto ">
         {sidebarLinks.map((slink, index) => (
           <li
             key={index}
-            className={`_hover ${
-              activeLink(slink.path) ? " bg-card  " : " "
-            }`}
+            className={`_hover ${activeLink(slink.path) ? " bg-card  " : " "}`}
           >
             <Link
               className="px-3 py-2 border-b _borderColor w-full flex gap-2 items-center  "
