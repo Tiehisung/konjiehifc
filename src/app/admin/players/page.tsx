@@ -6,7 +6,7 @@ import CaptaincyAdm from "./captaincy/Captaincy";
 import { getCaptains } from "./captaincy/page";
 import { MdAdd } from "react-icons/md";
 import { PlayerCard } from "./PlayerCard";
-// import { buildQueryString } from "@/lib/searchParams";
+import { IQueryResponse } from "@/types";
 
 export const getPlayers = async (playerId?: string) => {
   if (playerId) {
@@ -35,7 +35,7 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
   // const qs = buildQueryString(await searchParams);
   const qs = new URLSearchParams(await searchParams).toString();
 
-  const players: IPlayer[] = await getPlayers();
+  const players: IQueryResponse<IPlayer[]> = await getPlayers();
 
   const captains = await getCaptains(qs);
 
@@ -74,7 +74,7 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
       </header>
       <section className=" min-h-screen bg-gradient-to-br from-blue-400 via-purple-400 to-green-400 p-6 rounded-2xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {players?.map((player, i) => (
+          {players?.data?.map((player, i) => (
             <Link href={`/admin/players/${player?._id}`} key={i}>
               <PlayerCard key={i} player={player} />
             </Link>
@@ -83,7 +83,10 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
       </section>
 
       <section className="mt-12">
-        <CaptaincyAdm players={players} captains={captains} />
+        <CaptaincyAdm
+          players={players?.data as IPlayer[]}
+          captains={captains}
+        />
       </section>
     </div>
   );

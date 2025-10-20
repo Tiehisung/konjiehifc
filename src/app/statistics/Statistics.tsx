@@ -4,6 +4,7 @@ import { _playerStats } from "@/data/statistics";
 import { IFileProps } from "@/types";
 import Image from "next/image";
 import React, { FC } from "react";
+import { IPlayer } from "../players/page";
 
 const PlayerStatistics = () => {
   return (
@@ -23,20 +24,8 @@ export default PlayerStatistics;
 export interface IPlayerStatsProps {
   title: string;
   alias: string;
-  featuredPlayer: {
-    firstName: string;
-    lastName: string;
-    statsValue: string;
-    avatar: IFileProps;
-    _id: string;
-  };
-  otherPlayers: {
-    firstName: string;
-    lastName: string;
-    statsValue: string;
-    avatar: IFileProps;
-    _id: string;
-  }[];
+  featuredPlayer: Partial<IPlayer> & { statsValue: string };
+  otherPlayers: Partial<IPlayer & { statsValue: string }>[];
 }
 
 export const PlayerStatsCard: FC<IPlayerStatsProps> = ({
@@ -58,7 +47,7 @@ export const PlayerStatsCard: FC<IPlayerStatsProps> = ({
           width={300}
           height={300}
           src={featuredPlayer?.avatar?.secure_url as string}
-          alt={featuredPlayer?.lastName}
+          alt={featuredPlayer?.lastName ?? ""}
           className="w-20 h-20 rounded-full mr-4"
         />
         <div>

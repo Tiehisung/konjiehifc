@@ -7,10 +7,11 @@ import { FaAngleRight } from "react-icons/fa";
 
 import Image from "next/image";
 import { getPlayers } from "../admin/players/page";
+import { IQueryResponse } from "@/types";
 
 const Hero = async () => {
-  const players: IPlayer[] = await getPlayers();
-  const anyPlayer = players?.[players?.length - 1];
+  const players: IQueryResponse<IPlayer[]>  = await getPlayers();
+  const anyPlayer = players?.data?.[players?.data?.length - 1];
 
   return (
     <div className="flex items-center flex-wrap gap-10 _card">

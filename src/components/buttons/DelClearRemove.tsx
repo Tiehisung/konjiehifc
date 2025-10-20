@@ -9,7 +9,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { TbClearAll } from "react-icons/tb";
 
 export default function DeleteButton({
-  className = "remove__btn",
+  className = "_removeBtn",
   handleDelete,
   buttonText = "Delete",
   disabled = false,

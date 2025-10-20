@@ -104,7 +104,7 @@
 .dark {
   --background: #010409;
   --foreground: oklch(0.985 0 0);
-  --card: #010409;
+  --card: #0c121c;
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);

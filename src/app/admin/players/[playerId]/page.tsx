@@ -23,8 +23,6 @@ export default async function PlayerProfilePage({
   const playerId = (await params).playerId;
   const player = await getPlayers(playerId);
 
-  console.log(player?.image?.secure_url);
-
   if (!player) return <Loader message="Loading player..." />;
 
   return (

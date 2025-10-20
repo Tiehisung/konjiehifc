@@ -131,6 +131,11 @@ const sidebarLinks = [
     icon: <CgDatabase />,
   },
   {
+    label: "Squad",
+    path: "/admin/squad",
+    icon: <CgDatabase />,
+  },
+  {
     label: "Players",
     path: "/admin/players",
     icon: <GiBabyfootPlayers />,

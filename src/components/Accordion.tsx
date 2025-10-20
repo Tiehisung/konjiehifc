@@ -1,41 +1,24 @@
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { ReactNode } from "react";
 
-interface AccordionProps {
-  headers: ReactNode[];
-  children: ReactNode[];
-  defaultCheckIndex?: number;
+export interface IAccordionProps {
+  className?: string;
+  data: { trigger: ReactNode; value: string; content: ReactNode }[];
 }
-const Accordion = ({
-  headers,
-  children,
-  defaultCheckIndex,
-}: AccordionProps) => {
-  if (headers.length !== children.length)
-    return (
-      <div className="text-error border">
-        Invalid data. Number of &apos;headers&apos; must be equal to number of
-        &apos;children&apos;
-      </div>
-    );
+export function PrimaryAccordion(props: IAccordionProps) {
   return (
-    <div>
-      {children.map((child, index) => {
-        return (
-          <div className="collapse " key={index}>
-            <input
-              type="radio"
-              name="my-accordion-1"
-              defaultChecked={defaultCheckIndex == index}
-            />
-            <div className="collapse-title text-xl font-medium">
-              {headers[index]}
-            </div>
-            <div className="collapse-content">{child}</div>
-          </div>
-        );
-      })}
-    </div>
+    <Accordion type="single" collapsible className={props.className}>
+      {props.data?.map((d) => (
+        <AccordionItem value={d.value} key={d.value}>
+          <AccordionTrigger>{d.trigger}</AccordionTrigger>
+          <AccordionContent>{d.content}</AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
   );
-};
-
-export default Accordion;
+}

@@ -49,7 +49,7 @@ export const DIALOG: FC<IDialog> = ({
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[425px] ">
+      <DialogContent className={` ${className}`}>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription hidden={!description}>
@@ -57,7 +57,7 @@ export const DIALOG: FC<IDialog> = ({
           </DialogDescription>
         </DialogHeader>
 
-        <main className={` max-h-[80vh] overflow-y-auto ${className}`}>
+        <main className={` max-h-[80vh] overflow-y-auto`}>
           {children}
         </main>
 

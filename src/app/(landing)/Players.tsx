@@ -5,15 +5,16 @@ import { IPlayer } from "../players/page";
 import SimpleCarousel from "@/components/carousel/SimpleCarousel";
 import { getPlayers } from "../admin/players/page";
 import DiveUpwards from "@/components/Animate";
+import { IQueryResponse } from "@/types";
 
 const LandingPlayers = async () => {
-  const players: IPlayer[] = await getPlayers();
+  const players:  IQueryResponse<IPlayer[]> = await getPlayers();
 
   return (
     <div>
       <h1 className="_title">Players</h1>
       <SimpleCarousel className="_hideScrollbar" scrollButtonStyles="top-1/3">
-        {players?.map((player, index: number) => (
+        {players?.data?.map((player, index: number) => (
           <DiveUpwards key={index} layoutId={`${index}`}>
             <Image
               src={player?.avatar?.secure_url}

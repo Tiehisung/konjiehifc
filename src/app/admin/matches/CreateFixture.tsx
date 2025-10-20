@@ -23,14 +23,15 @@ export interface IPostMatch {
   opponentId: string;
 }
 
-const CreateFixture = ({ teams }: { teams: ITeamProps[] }) => {
+const CreateFixture = ({ teams }: { teams?: ITeamProps[] }) => {
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
 
-  const teamOptions: ISelectOptionLV[] = teams?.map((t) => ({
-    label: t.name,
-    value: t._id,
-  }));
+  const teamOptions: ISelectOptionLV[] =
+    teams?.map((t) => ({
+      label: t.name,
+      value: t._id,
+    })) || [];
 
   const [matchType, setMatchType] = useState<string>("");
   const [time, setTime] = useState("");
@@ -142,15 +143,16 @@ export const UpdateFixtureMatch = ({
   teams,
 }: {
   fixture: IMatchProps;
-  teams: ITeamProps[];
+  teams?: ITeamProps[];
 }) => {
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
 
-  const teamOptions: ISelectOptionLV[] = teams?.map((t) => ({
-    label: t.name,
-    value: t._id,
-  }));
+  const teamOptions: ISelectOptionLV[] =
+    teams?.map((t) => ({
+      label: t.name,
+      value: t._id,
+    })) || [];
 
   const [matchType, setMatchType] = useState<string>(
     fx?.isHome ? "home" : "away"

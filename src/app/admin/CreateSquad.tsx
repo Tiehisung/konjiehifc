@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { toast } from "react-toastify";
 import { Button } from "@/components/buttons/Button";
@@ -33,6 +33,22 @@ const roles = ["Player", "Captain", "Vice Captain", "Coach", "Goalkeeper"];
 
 export default function CreateSquad() {
   const [waiting, setWaiting] = useState(false);
+  
+  const [players, setPlayers] = useState<Player[]>([]);
+
+  useEffect(() => {
+    const getPlayers = async () => {
+      try {
+        const res = await fetch("/api/players");
+        const data = await res.json();
+        setPlayers(data.players);
+      } catch (err) {
+        console.error("Failed to fetch players", err);
+      }
+    };
+
+    getPlayers();
+  }, []);
 
   const { control, handleSubmit, reset } = useForm<SquadForm>({
     defaultValues: {
@@ -95,7 +111,7 @@ export default function CreateSquad() {
           >
             <div className="absolute top-2 right-2">
               <RemoveButton
-                handleRemove={ async () => remove(index)}
+                handleRemove={async () => remove(index)}
                 buttonText="Remove"
                 className="text-sm text-red-500"
               />
