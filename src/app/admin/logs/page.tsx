@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/options";
+// import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { IAccordionProps, PrimaryAccordion } from "@/components/Accordion";
 import { Pagination } from "@/components/Pagination";
 import { PrimarySearch } from "@/components/Search";
@@ -7,7 +7,7 @@ import { apiConfig } from "@/lib/configs";
 import { getFormattedDate, getTimeAgo } from "@/lib/timeAndDate";
 import { ILog, IPagination, IQueryResponse,   } from "@/types";
 import { IUser } from "@/types/user";
-import { getServerSession } from "next-auth";
+// import { getServerSession } from "next-auth";
 
 export const getLogs = async (queryString?: string) => {
   try {
@@ -40,13 +40,13 @@ export default async function LogsPage({searchParams}:IPageProps) {
   
   const accordionData = logs?.data?.map((log) => ({
     trigger: (
-      <div className="flex justify-between gap-5 items-start grow ">
-        <p className=" _subtitle cursor-pointer ">{shortText(log.title, 50)}</p>
+      <div className="flex justify-between gap-5 items-center grow ">
+        <p className="font-black ">{shortText(log.title, 50)}</p>
         <span className="font-light">{getTimeAgo(log.createdAt.toString())}</span>
       </div>
     ),
     content: (
-      <div className="space-y-2 border-b pb-6">
+      <div className="space-y-2 border-b pb-6 pl-3">
         <p>
           <span className="_label mr-1.5 text-muted-foreground ">
             Description:
@@ -91,17 +91,17 @@ export default async function LogsPage({searchParams}:IPageProps) {
     ),
     value: log._id,
   }));
-  const session = await getServerSession(authOptions)
+  // const session = await getServerSession(authOptions)
 
-  console.log('session',session)
+  // console.log('session',session)
  
   return (
-    <div>
+    <div className='_page'>
       <header className=" space-y-5 mb-4">
         <div className="text-lg md:text-xl xl:text-3xl font-semibold"> System Logs</div>
-         <PrimarySearch placeholder='Search Logs' inputStyles="h-9"/>
+         <PrimarySearch placeholder='Search Logs' inputStyles="h-9" className="bg-secondary"/>
       </header>
-      <PrimaryAccordion data={accordionData as IAccordionProps["data"]} />
+      <PrimaryAccordion data={accordionData as IAccordionProps["data"]} triggerStyles="_card"/>
 
        <Pagination pagination={logs?.pagination as IPagination} />
     </div>
