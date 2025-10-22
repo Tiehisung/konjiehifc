@@ -10,8 +10,6 @@ import { LiveMatchCard } from "./live-match/Live";
 import LandingSquad from "./(landing)/Squad";
 
 export default async function Home() {
-
-
   return (
     <main className=" relative md:block space-y-10">
       <Suspense fallback={<Loader message="Loading players.." />}>
@@ -23,10 +21,7 @@ export default async function Home() {
       </Suspense>
 
       <Suspense fallback={<Loader message="Checking for LIVE match.." />}>
-    
-      
-          <LandingSquad />
-      
+        <LandingSquad />
       </Suspense>
       <Suspense fallback={<Loader message="Checking for LIVE match.." />}>
         <div>

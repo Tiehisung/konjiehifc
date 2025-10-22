@@ -16,7 +16,10 @@ const LandingSquad = async () => {
       <ResponsiveSwiper
         slides={
           squad?.players?.map((p) => (
-            <div className="w-full rounded-lg overflow-hidden bg-card shadow-md hover:shadow-lg transition-shadow">
+            <div
+              key={p._id}
+              className="w-full rounded-lg overflow-hidden bg-card shadow-md hover:shadow-lg transition-shadow"
+            >
               <Image
                 src={p?.avatar as string}
                 alt={p?.name}
