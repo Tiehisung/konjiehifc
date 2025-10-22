@@ -8,6 +8,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { fileUploader } from "../file/Uploader";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
+import { logAction } from "../logs/helper";
 // export const revalidate = 0;
 
 ConnectMongoDb();
@@ -123,7 +124,16 @@ export async function POST(request: NextRequest) {
       },
       details: modifiedDetails,
     });
+    const session = await getServerSession(authOptions)
+    // log
+    await logAction({
+      title: "News Created",
+      description: headlineText as string,
+      category: "db",
+      severity: "info",
+      userEmail: session?.user?.email as string,
 
+    });
     if (published)
       return NextResponse.json({
         message: "News published",

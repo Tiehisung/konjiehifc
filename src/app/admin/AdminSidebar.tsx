@@ -3,7 +3,7 @@
 import { Button } from "@/components/buttons/Button";
 import SideDrawerToRight from "@/components/drawer/SideDrawerToRight";
 import { ThemeModeToggle } from "@/components/ThemeToggle";
-import { LogOut } from "lucide-react";
+import { LogOut, Logs } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -170,5 +170,10 @@ const sidebarLinks = [
     label: "Massenger",
     path: "/admin/messages",
     icon: <BsChatRightQuote />,
+  },
+  {
+    label: "Logs",
+    path: "/admin/logs",
+    icon: <Logs />,
   },
 ];

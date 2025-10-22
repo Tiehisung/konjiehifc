@@ -3,6 +3,10 @@ import { getErrorMessage } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import SquadModel from "@/models/squad";
 import { NextRequest, NextResponse } from "next/server";
+import { postNews } from "../news/post";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/options";
+import { logAction } from "../logs/helper";
 // export const revalidate = 0;
 // export const dynamic = "force-dynamic";
 
@@ -30,7 +34,7 @@ export async function GET(request: NextRequest) {
     ],
     // isPlayed: true,
   }
- 
+
   const managers = await SquadModel.find(query)
     .limit(limit).skip(skip)
     .lean().sort({ createdAt: "desc" });
@@ -48,9 +52,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions)
     const body = await request.json() as ISquad;
-
-
 
     const saved = await SquadModel.create({
       ...body,
@@ -59,7 +62,20 @@ export async function POST(request: NextRequest) {
     if (!saved) {
       return NextResponse.json({ message: "Failed to create squad.", success: false });
     }
+    await postNews({
+      headline: { text: `New Squad Created: ${body.description}`, image: { secure_url: body.players[0].avatar }, },
+      metaDetails: [{ text: `A new squad has been created for the match against ${body.opponent.name} on ${body.date} at ${body.time}.` }],
+      type: 'squad'
+    });
+    // log
+    await logAction({
+      title: "Squad Created",
+      description: body.description || body.opponent?.name as string,
+      category: "db",
+      severity: "info",
+      userEmail: session?.user?.email as string,
 
+    });
     return NextResponse.json({ message: "Squad created successfully!", success: true, data: saved });
 
   } catch (error) {
