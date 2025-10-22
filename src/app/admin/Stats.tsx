@@ -22,7 +22,6 @@ import {
   Cell,
 } from "recharts";
 import { Users, Trophy, Calendar, TrendingUp } from "lucide-react";
-import CreateSquad from "./CreateSquad";
 
 const matchesData = [
   { date: "Jan 15", wins: 2, draws: 1, losses: 0 },
@@ -244,8 +243,6 @@ export default function AdminDashboard() {
           </Card>
         </div>
       </main>
-
-      <CreateSquad/>
     </div>
   );
 }
