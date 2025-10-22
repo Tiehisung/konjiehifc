@@ -7,6 +7,7 @@ import LandingFixtures from "./matches/(fixturesAndResults)/LandingFixtures";
 import Hero from "./(landing)/Hero";
 import Loader from "@/components/Loader";
 import { LiveMatchCard } from "./live-match/Live";
+import LandingSquad from "./(landing)/Squad";
 
 export default async function Home() {
 
@@ -21,6 +22,12 @@ export default async function Home() {
         <LandingPlayers />
       </Suspense>
 
+      <Suspense fallback={<Loader message="Checking for LIVE match.." />}>
+    
+      
+          <LandingSquad />
+      
+      </Suspense>
       <Suspense fallback={<Loader message="Checking for LIVE match.." />}>
         <div>
           <h1 className="_title">Live Match Update</h1>
