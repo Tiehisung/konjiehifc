@@ -26,11 +26,10 @@ export interface ISquad {
   updatedAt?: string;
 }
 
-export const getSquads = async (squadId?: string) => {
+export const getSquadById = async (squadId: string) => {
   try {
-    const uri = squadId
-      ? `${apiConfig.squad}?squadId=${squadId}`
-      : apiConfig.squad;
+    const uri = `${apiConfig.squad}/${squadId}`;
+
     const response = await fetch(uri, {
       cache: "no-cache",
     });
@@ -39,22 +38,47 @@ export const getSquads = async (squadId?: string) => {
     }
     return await response.json();
   } catch {
-    return [];
+    return null;
   }
 };
-const SquadPage = async () => {
+
+export const getSquads = async (query?: string) => {
+  const formatted = query ? (query?.includes("?") ? query : "?" + query) : "";
+  try {
+    const response = await fetch(apiConfig.squad + formatted, {
+      cache: "no-cache",
+    });
+    const results: IQueryResponse<ISquad[]> = await response.json();
+    return results;
+  } catch {
+    return null;
+  }
+};
+interface PageProps {
+  searchParams: Promise<{
+    search?: string;
+  }>;
+}
+const SquadPage = async ({ searchParams }: PageProps) => {
+  const qs = new URLSearchParams(await searchParams).toString();
+
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
   const managers: IQueryResponse<IManager[]> = await getManagers();
   const teams: IQueryResponse<ITeamProps[]> = await getTeams();
-  const squads: IQueryResponse<ISquad[]> = await getSquads();
+
+  const squads: IQueryResponse<ISquad[]> | null = await getSquads(qs);
 
   console.log({ squads });
 
   const accordion = squads?.data?.map((squad) => ({
-    trigger: `${squad.opponent?.name} ${squad.venue} - ${getFormattedDate(
-      squad.date,
-      "March 2, 2025"
-    )} ${squad.time}`,
+    trigger: (
+      <div className="flex items-center gap-1 justify-between">
+        <span>{squad.opponent?.name}</span> <span>{squad.venue}</span> -{" "}
+        <span>
+          {getFormattedDate(squad.date, "March 2, 2025")}, {squad.time}
+        </span>
+      </div>
+    ),
     content: <SquadCard squad={squad} />,
     value: squad._id ?? "",
   }));

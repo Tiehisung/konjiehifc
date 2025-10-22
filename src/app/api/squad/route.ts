@@ -25,10 +25,12 @@ export async function GET(request: NextRequest) {
       { "description": regex },
       { "date": regex },
       { "time": regex },
+      { "opponent.name": regex },
+      { "opponent.alias": regex },
     ],
     // isPlayed: true,
   }
-
+ 
   const managers = await SquadModel.find(query)
     .limit(limit).skip(skip)
     .lean().sort({ createdAt: "desc" });
