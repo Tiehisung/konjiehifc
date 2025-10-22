@@ -15,7 +15,8 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Users, CalendarDays, MapPin, Clock, UserCog } from "lucide-react";
 import { ISquad } from "./page";
-import { getFormattedDate } from "@/lib/timeAndDate";
+import { getFormattedDate, getTimeAgo } from "@/lib/timeAndDate";
+import SquadActionButtons from "./Action";
 
 interface SquadDisplayProps {
   squad: ISquad;
@@ -23,7 +24,7 @@ interface SquadDisplayProps {
 
 const SquadCard = ({ squad }: SquadDisplayProps) => {
   return (
-    <Card className="shadow-lg border-0 overflow-hidden">
+    <Card className="shadow-lg border-0 overflow-hidden rounded-none ml-2.5 mb-12">
       <CardHeader className="bg-muted/40 py-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between">
           <div>
@@ -143,13 +144,12 @@ const SquadCard = ({ squad }: SquadDisplayProps) => {
         </div>
       </CardContent>
 
-      <CardFooter className="justify-end text-sm text-muted-foreground">
+      <CardFooter className="justify-between text-sm text-muted-foreground">
         <p>
-          Created on{" "}
-          {squad.createdAt
-            ? new Date(squad.createdAt).toLocaleString()
-            : "Unknown"}
+          Created on {getFormattedDate(squad.createdAt)} (
+          {getTimeAgo(squad.createdAt as string)})
         </p>
+        <SquadActionButtons squadId={squad?._id as string }/>
       </CardFooter>
     </Card>
   );
