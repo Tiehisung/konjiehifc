@@ -1,12 +1,13 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { IAccordionProps, PrimaryAccordion } from "@/components/Accordion";
-import { PrimarySearch } from "@/components/input/Search";
 import { Pagination } from "@/components/Pagination";
+import { PrimarySearch } from "@/components/Search";
 import { shortText } from "@/lib";
-import { buildQueryString } from "@/lib/params";
-import { getFormattedDate, timeAgo } from "@/lib/time";
-import { apiConfig } from "@/lib/url-config";
-import { ILog, IPagination, IQueryResponse, IUser } from "@/types";
+import { apiConfig } from "@/lib/configs";
+import { buildQueryString } from "@/lib/searchParams";
+import { getFormattedDate, getTimeAgo } from "@/lib/timeAndDate";
+import { ILog, IPagination, IQueryResponse,   } from "@/types";
+import { IUser } from "@/types/user";
 import { getServerSession } from "next-auth";
 
 export const getLogs = async (queryString?: string) => {
@@ -42,7 +43,7 @@ export default async function LogsPage({searchParams}:IPageProps) {
     trigger: (
       <div className="flex justify-between gap-5 items-start grow ">
         <p className=" _subtitle cursor-pointer ">{shortText(log.title, 50)}</p>
-        <span className="font-light">{timeAgo(log.createdAt.toString())}</span>
+        <span className="font-light">{getTimeAgo(log.createdAt.toString())}</span>
       </div>
     ),
     content: (
@@ -78,7 +79,7 @@ export default async function LogsPage({searchParams}:IPageProps) {
             Created At:
           </span>
           {getFormattedDate(log.createdAt.toString(), "March 2, 2025")},
-          {timeAgo(log.createdAt.toString())}
+          {getTimeAgo(log.createdAt.toString())}
         </p>
 
         <p>
@@ -93,7 +94,7 @@ export default async function LogsPage({searchParams}:IPageProps) {
   }));
   const session = await getServerSession(authOptions)
 
-  // console.log('session',session)
+  console.log('session',session)
  
   return (
     <div>
