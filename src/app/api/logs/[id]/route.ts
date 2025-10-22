@@ -1,15 +1,15 @@
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import dbConnect from "@/lib/db-connect";
 import UserModel from "@/models/user";
-import { IUser } from "@/types";
-import { authOptions } from "../../auth/[...nextauth]/route";
-import { handleApiError } from "@/lib/error";
+import { authOptions } from "../../auth/[...nextauth]/options";
+import { IUser } from "@/types/user";
+import { ConnectMongoDb } from "@/lib/dbconfig";
+import { getErrorMessage } from "@/lib";
 
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
 
-dbConnect();
+ConnectMongoDb();
 
 
 export interface IUserSession {
@@ -53,7 +53,7 @@ export async function PUT(
   } catch (error) {
     return NextResponse.json({
       success: false,
-      message: handleApiError(error),
+      message: getErrorMessage(error),
     });
   }
 }
