@@ -66,7 +66,11 @@ const SquadPage = async () => {
         managers={managers?.data}
       />
 
-      <PrimaryAccordion data={accordion ?? []} />
+      <PrimaryAccordion
+        data={accordion ?? []}
+        className="mt-12"
+        triggerStyles="cursor-pointer" 
+      />
     </div>
   );
 };

@@ -40,6 +40,7 @@ interface IProps {
   players?: IPlayer[];
   teams?: ITeamProps[];
   managers?: IManager[];
+ 
 }
 
 interface SquadFormValues {
@@ -75,7 +76,7 @@ const squadSchema = Joi.object<SquadFormValues>({
   assistant: Joi.string().required().label("Assistant"),
 });
 
-const NewSquad = ({ players = [], teams = [], managers = [] }: IProps) => {
+const NewSquad = ({ players = [], teams = [], managers = [],  }: IProps) => {
   const [waiting, setWaiting] = useState(false);
 
   const router = useRouter();
@@ -93,7 +94,7 @@ const NewSquad = ({ players = [], teams = [], managers = [] }: IProps) => {
     },
   });
 
-  console.log({ errors });
+ 
   const selectedPlayers = watch("selectedPlayers");
   const positions = watch("positions");
 

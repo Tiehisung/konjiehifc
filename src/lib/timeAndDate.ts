@@ -24,9 +24,11 @@ export const getAgeFromDOB = (birthdate: string): number => {
  * @returns Date in 'DD/MM/YYYY' format
  */
 export const getFormattedDate = (
-  dateString: string,
+  dateString?: string,
   format?: "dd/mm/yyyy" | "March 2, 2025" | "Sunday, March 2, 2025"
 ) => {
+  if (!dateString) return "N/A";
+  
   const createdAt = new Date(dateString);
 
   switch (format) {
