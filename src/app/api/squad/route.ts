@@ -21,17 +21,17 @@ export async function GET(request: NextRequest) {
   const regex = new RegExp(search, "i");
 
   const query = {
-    // $or: [
-    //   { "description": regex },
-    //   { "date": regex },
-    //   { "time": regex },
-    // ],
+    $or: [
+      { "description": regex },
+      { "date": regex },
+      { "time": regex },
+    ],
     // isPlayed: true,
   }
 
   const managers = await SquadModel.find(query)
     .limit(limit).skip(skip)
-    .lean();;
+    .lean().sort({ createdAt: "desc" });
 
   const total = await SquadModel.countDocuments(query)
   return NextResponse.json({
@@ -48,12 +48,12 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json() as ISquad;
 
-    console.log({ body });
+
 
     const saved = await SquadModel.create({
       ...body,
     });
-    console.log({ saved });
+
     if (!saved) {
       return NextResponse.json({ message: "Failed to create squad.", success: false });
     }

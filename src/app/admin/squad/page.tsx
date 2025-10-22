@@ -9,6 +9,7 @@ import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { apiConfig } from "@/lib/configs";
 import { getTeams } from "../features/teams/page";
 import SquadCard from "./SquadCard";
+import { getFormattedDate } from "@/lib/timeAndDate";
 
 export interface ISquad {
   _id?: string;
@@ -48,14 +49,13 @@ const SquadPage = async () => {
 
   console.log({ squads });
 
-  const accordion = players?.data?.map((player) => ({
-    trigger: `${player.firstName} ${player.lastName}`,
-    content: (
-      <div>
-        <p>Position: {player.position}</p>
-      </div>
-    ),
-    value: player._id,
+  const accordion = squads?.data?.map((squad) => ({
+    trigger: `${squad.opponent?.name} ${squad.venue} - ${getFormattedDate(
+      squad.date,
+      "March 2, 2025"
+    )} ${squad.time}`,
+    content: <SquadCard squad={squad} />,
+    value: squad._id ?? "",
   }));
 
   return (
@@ -67,14 +67,6 @@ const SquadPage = async () => {
       />
 
       <PrimaryAccordion data={accordion ?? []} />
-
-      <ul>
-        {squads?.data?.map((squad) => (
-          <li key={squad._id} className="mb-4">
-            <SquadCard squad={squad} />
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };

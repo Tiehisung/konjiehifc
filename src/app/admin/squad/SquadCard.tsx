@@ -15,6 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Users, CalendarDays, MapPin, Clock, UserCog } from "lucide-react";
 import { ISquad } from "./page";
+import { getFormattedDate } from "@/lib/timeAndDate";
 
 interface SquadDisplayProps {
   squad: ISquad;
@@ -34,7 +35,8 @@ const SquadCard = ({ squad }: SquadDisplayProps) => {
                 <MapPin size={16} /> {squad?.venue}
               </span>
               <span className="flex items-center gap-1">
-                <CalendarDays size={16} /> {squad?.date}
+                <CalendarDays size={16} />{" "}
+                {getFormattedDate(squad.date, "March 2, 2025")}
               </span>
               <span className="flex items-center gap-1">
                 <Clock size={16} /> {squad?.time}

@@ -8,9 +8,12 @@ import { ReactNode } from "react";
 
 export interface IAccordionProps {
   className?: string;
-  data: { trigger: ReactNode; value: string; content: ReactNode }[];
+  data?: { trigger: ReactNode; value: string; content: ReactNode }[];
 }
 export function PrimaryAccordion(props: IAccordionProps) {
+  if(!props.data || props.data.length === 0) {
+    return <p>No data available.</p>;
+  }
   return (
     <Accordion type="single" collapsible className={props.className}>
       {props.data?.map((d) => (
