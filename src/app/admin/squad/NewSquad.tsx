@@ -40,7 +40,6 @@ interface IProps {
   players?: IPlayer[];
   teams?: ITeamProps[];
   managers?: IManager[];
- 
 }
 
 interface SquadFormValues {
@@ -54,8 +53,6 @@ interface SquadFormValues {
   date: string;
   time: string;
 }
-
-
 
 // 🧩 Joi Validation Schema
 const squadSchema = Joi.object<SquadFormValues>({
@@ -76,7 +73,7 @@ const squadSchema = Joi.object<SquadFormValues>({
   assistant: Joi.string().required().label("Assistant"),
 });
 
-const NewSquad = ({ players = [], teams = [], managers = [],  }: IProps) => {
+const NewSquad = ({ players = [], teams = [], managers = [] }: IProps) => {
   const [waiting, setWaiting] = useState(false);
 
   const router = useRouter();
@@ -85,7 +82,8 @@ const NewSquad = ({ players = [], teams = [], managers = [],  }: IProps) => {
     control,
     setValue,
     watch,
-    formState: { errors },
+    reset,
+    formState: {},
   } = useForm<SquadFormValues>({
     resolver: joiResolver(squadSchema),
     defaultValues: {
@@ -94,7 +92,6 @@ const NewSquad = ({ players = [], teams = [], managers = [],  }: IProps) => {
     },
   });
 
- 
   const selectedPlayers = watch("selectedPlayers");
   const positions = watch("positions");
 
@@ -155,6 +152,17 @@ const NewSquad = ({ players = [], teams = [], managers = [],  }: IProps) => {
       if (!res.ok) throw new Error(result.message);
 
       toast.success("Squad created successfully!");
+      reset({
+        selectedPlayers: {},
+        positions: {},
+        time: "",
+        date: "",
+        description: "",
+        venue: "Home",
+        opponent: "",
+        coach: "",
+        assistant: "",
+      });
       router.refresh();
     } catch (error) {
       toast.error(getErrorMessage(error));

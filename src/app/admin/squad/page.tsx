@@ -11,6 +11,7 @@ import { getTeams } from "../features/teams/page";
 import SquadCard from "./SquadCard";
 import { getFormattedDate } from "@/lib/timeAndDate";
 import { PrimarySearch } from "@/components/Search";
+import Image from "next/image";
 
 export interface ISquad {
   _id?: string;
@@ -68,8 +69,6 @@ const SquadPage = async ({ searchParams }: PageProps) => {
 
   const squads: IQueryResponse<ISquad[]> | null = await getSquads(qs);
 
-  console.log({ squads });
-
   const accordion = squads?.data?.map((squad) => ({
     trigger: (
       <div className="flex items-center gap-1 justify-between">
@@ -84,7 +83,7 @@ const SquadPage = async ({ searchParams }: PageProps) => {
   }));
 
   return (
-    <div className="_page">
+    <div className="_page px-4">
       <NewSquad
         players={players?.data}
         teams={teams?.data}
