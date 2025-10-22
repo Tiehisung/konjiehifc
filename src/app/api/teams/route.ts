@@ -13,7 +13,60 @@ import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 // export const revalidate = 0;
 // export const dynamic = "force-dynamic";
 
-ConnectMongoDb();
+ConnectMongoDb()
+
+//Get teams
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const page = Number.parseInt(searchParams.get("page") || "1", 10);
+
+
+    const limit = Number.parseInt(searchParams.get("limit") || "30", 10);
+    const skip = (page - 1) * limit;
+
+    const search = searchParams.get("search") || "";
+
+    const regex = new RegExp(search, "i");
+
+    const query = {
+      $or: [
+        { "name": regex },
+        { "alias": regex },
+        { community: regex },
+      ],
+    }
+
+    const teams = await TeamModel.find(query).populate({ path: "logo" })
+      .limit(limit)
+      .skip(skip)
+      .lean()
+      .sort({
+        createdAt: "desc",
+      });
+
+    const total = await TeamModel.countDocuments(query)
+    return NextResponse.json({
+      success: true, 
+      data: teams, 
+      pagination: {
+        page,
+        limit,
+        total,
+        pages: Math.ceil(total / limit),
+      },
+    });
+
+
+  } catch {
+
+    return NextResponse.json({
+      message: "Failed to retrieve teams",
+      success: false,
+      data: [],
+    });
+  }
+}
 //Post new team
 export async function POST(request: NextRequest) {
   try {
@@ -111,26 +164,7 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-//Get teams
-export async function GET() {
-  try {
-    const teams = await TeamModel.find({}).populate({ path: "logo" }).sort({
-      createdAt: "descending",
-    });
-    return NextResponse.json({
-      message: "Teams retrieved successfully",
-      success: true,
-      data: teams,
-    });
-  } catch (error) {
-    console.log({ error });
-    return NextResponse.json({
-      message: "Failed to retrieve teams",
-      success: false,
-      data: [],
-    });
-  }
-}
+
 
 //Delete team
 export async function DELETE(req: NextRequest) {

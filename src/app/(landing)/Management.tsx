@@ -3,13 +3,13 @@ import Image from "next/image";
 import { ICaptainProps } from "../admin/players/captaincy/Captaincy";
 import _players from "@/data/players";
 import { getManagers, IManager } from "../admin/managers/page";
-import Loader from "@/components/Loader";
 import SimpleCarousel from "@/components/carousel/SimpleCarousel";
 import { SubTitle, Title } from "@/components/Elements";
 import { getCaptains } from "../admin/players/captaincy/page";
+import { IQueryResponse } from "@/types";
 
 export const TechnicalManagement = async () => {
-  const managers: IManager[] = await getManagers();
+  const managers: IQueryResponse<IManager[]> = await getManagers();
   return (
     <div
       id="technical-management"
@@ -18,7 +18,7 @@ export const TechnicalManagement = async () => {
       <Title>Technical Management</Title>
 
       <div className="flex flex-wrap items-center justify-center gap-8">
-        {managers?.map((manager: IManager, index: React.Key) => (
+        {managers?.data?.map((manager: IManager, index: React.Key) => (
           <div
             key={index}
             className="flex flex-col w-fit justify-center items-center gap-2 mb-6 "

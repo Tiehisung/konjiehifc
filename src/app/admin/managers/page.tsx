@@ -1,6 +1,6 @@
 import AdminManagers from "@/app/admin/managers/(components)/Managers";
 import { apiConfig } from "@/lib/configs";
-import { IFileProps } from "@/types";
+import { IFileProps, IQueryResponse } from "@/types";
 import React from "react";
 
 export const getManagers = async () => {
@@ -8,17 +8,16 @@ export const getManagers = async () => {
     const response = await fetch(apiConfig.managers, { cache: "no-cache" });
     const result = await response.json();
     return result;
-  } catch (error) {
-    console.log(error);
-    return [];
+  } catch {
+    return null;
   }
 };
 const TechnicalManagersPage = async () => {
-  const managers: IManager[] = await getManagers();
+  const managers: IQueryResponse<IManager[]> = await getManagers();
 
   return (
     <div>
-      <AdminManagers managers={managers} />
+      <AdminManagers managers={managers?.data} />
     </div>
   );
 };
@@ -31,8 +30,8 @@ export interface IManager {
   _id: string;
   avatar: IFileProps;
   role:
-    | "Technical manager"
     | "Coach"
+    | "Technical manager"
     | "Assistant coach"
     | "Goalkeeper coach"
     | "Fitness coach"

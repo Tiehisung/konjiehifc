@@ -1,10 +1,18 @@
- 
+import { IQueryResponse } from "@/types";
+import React from "react";
+import { IPlayer } from "../players/page";
+import { getPlayers } from "./players/page";
+import AdminDashboard from "./Stats";
+import NewSquad from "./squad/NewSquad";
 
-export default async function AdminPage() {
-  
+const AdminDashboardPage = async () => {
+  const players: IQueryResponse<IPlayer[]> = await getPlayers();
   return (
-    <main>
-      <h1>Admin page</h1>
-    </main>
+    <div>
+      <AdminDashboard />
+      <NewSquad players={players?.data} />
+    </div>
   );
-}
+};
+
+export default AdminDashboardPage;

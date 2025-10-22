@@ -14,7 +14,7 @@ import { BsPatchCheck } from "react-icons/bs";
 
 interface DisplayFixturesProps {
   fixtures: IMatchProps[];
-  teams: ITeamProps[];
+  teams?: ITeamProps[];
 }
 // Fixture is  match that is not yet played successfully
 

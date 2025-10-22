@@ -51,6 +51,7 @@ export async function uploadSingleFile({
 }
 
 export const apiConfig = {
+  base: `${baseUrl}/api`,
   admins: `${baseUrl}/api/admins`,
   signin: `${baseUrl}/api/auth/signin`,
   signout: `${baseUrl}/api/auth/signout`,
@@ -72,6 +73,7 @@ export const apiConfig = {
 
   messages: `${baseUrl}/api/messages`,
   news: `${baseUrl}/api/news`,
+  squad: `${baseUrl}/api/squad`,
 
   file: `${baseUrl}/api/file`, //Interacts with db
   fileUpload: `${baseUrl}/api/file/cloudinary`, //Interacts with storage(cld)

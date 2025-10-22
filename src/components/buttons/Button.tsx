@@ -40,13 +40,13 @@ export function Button({
       {children}
       {waiting ? (
         <span
-          className={`flex items-center gap-2 w-fit min-w-max justify-between whitespace-nowrap disabled:pointer-events-none disabled:hover:bg-transparent overflow-hidden`}
+          className={`flex items-center gap-2 w-fit min-w-max justify-between whitespace-nowrap disabled:pointer-events-none disabled:hover:bg-transparent overflow-hidden active:scale-95 transition-all`}
         >
           <VscLoading className={` animate-spin `} />
           {waitingText}
         </span>
       ) : (
-        <span>{primaryText}</span>
+        <span hidden={!primaryText}>{primaryText}</span>
       )}
     </button>
   );

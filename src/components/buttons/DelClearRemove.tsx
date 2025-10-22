@@ -4,12 +4,12 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AiOutlineClear } from "react-icons/ai";
 import { CgRemove } from "react-icons/cg";
-import { GrClear,   } from "react-icons/gr";
+import { GrClear } from "react-icons/gr";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { TbClearAll } from "react-icons/tb";
 
 export default function DeleteButton({
-  className = "remove__btn",
+  className = "_removeBtn",
   handleDelete,
   buttonText = "Delete",
   disabled = false,
@@ -62,7 +62,7 @@ interface RemoveButtonProps {
 }
 
 export function RemoveButton({
-  className = "remove__btn",
+  className = "_deleteBtn",
   handleRemove,
   buttonText = "Remove",
   disabled = false,
@@ -97,7 +97,6 @@ export function RemoveButton({
     </button>
   );
 }
-
 
 interface ClearButtonProps {
   className?: string;

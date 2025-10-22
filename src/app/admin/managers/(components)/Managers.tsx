@@ -21,13 +21,13 @@ export enum ManagerRole {
   Analyst = "Analyst",
 }
 
-const AdminManagers = ({ managers }: { managers: IManager[] }) => {
+const AdminManagers = ({ managers }: { managers?: IManager[] }) => {
   const viewStyle = useGetParam("view");
   const router = useRouter();
 
   // Available portfolios
   const availablePortfolios = Object.values(ManagerRole).filter(
-    (port) => !managers.map((mp) => mp.role).includes(port)
+    (port) => !managers?.map((mp) => mp.role).includes(port)
   );
   return (
     <div className="px-[2vw] relative">
@@ -66,10 +66,10 @@ const AdminManagers = ({ managers }: { managers: IManager[] }) => {
                         className="h-20 w-auto min-w-20 object-cover rounded-md "
                       />
                     </td>
-                    <td>{manager.fullname}</td>
-                    <td>{manager.role}</td>
-                    <td>{manager.dateSigned}</td>
-                    <td>{manager.phone}</td>
+                    <td>{manager?.fullname}</td>
+                    <td>{manager?.role}</td>
+                    <td>{manager?.dateSigned}</td>
+                    <td>{manager?.phone}</td>
                     <td>
                       <ManagerActionsPopper
                         manager={manager}
@@ -86,7 +86,7 @@ const AdminManagers = ({ managers }: { managers: IManager[] }) => {
             {managers?.map((manager, index: number) => (
               <li
                 key={index}
-                onClick={() => router.replace("/admin/managers/" + manager._id)}
+                onClick={() => router.replace("/admin/managers/" + manager?._id)}
                 className="relative flex flex-col justify-center items-center gap-2 h-96 max-w-sm rounded-md shadow border _borderColor"
               >
                 <Image
