@@ -10,6 +10,7 @@ import { apiConfig } from "@/lib/configs";
 import { getTeams } from "../features/teams/page";
 import SquadCard from "./SquadCard";
 import { getFormattedDate } from "@/lib/timeAndDate";
+import { PrimarySearch } from "@/components/Search";
 
 export interface ISquad {
   _id?: string;
@@ -66,11 +67,18 @@ const SquadPage = async () => {
         managers={managers?.data}
       />
 
-      <PrimaryAccordion
-        data={accordion ?? []}
-        className="mt-12"
-        triggerStyles="cursor-pointer" 
-      />
+      <div className="mt-12 space-y-6">
+        <PrimarySearch
+          className="bg-popover"
+          inputStyles="h-9"
+          placeholder="Search Squad"
+        />
+        <PrimaryAccordion
+          data={accordion ?? []}
+          className=""
+          triggerStyles="cursor-pointer _card"
+        />
+      </div>
     </div>
   );
 };
