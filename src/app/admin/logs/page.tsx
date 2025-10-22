@@ -4,7 +4,6 @@ import { Pagination } from "@/components/Pagination";
 import { PrimarySearch } from "@/components/Search";
 import { shortText } from "@/lib";
 import { apiConfig } from "@/lib/configs";
-import { buildQueryString } from "@/lib/searchParams";
 import { getFormattedDate, getTimeAgo } from "@/lib/timeAndDate";
 import { ILog, IPagination, IQueryResponse,   } from "@/types";
 import { IUser } from "@/types/user";
@@ -36,7 +35,7 @@ interface IPageProps {
   }>;
 }
 export default async function LogsPage({searchParams}:IPageProps) {
-   const qs = buildQueryString(await searchParams);
+    const qs = new URLSearchParams(await searchParams).toString();
   const logs = (await getLogs(qs)) as IQueryResponse<ILog[]>;
   
   const accordionData = logs?.data?.map((log) => ({
