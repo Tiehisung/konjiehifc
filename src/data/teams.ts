@@ -1,4 +1,4 @@
-import { ITeamProps } from "@/components/fixturesAndResults";
+import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import _players from "./players";
 import { IFileProps } from "@/types";
 
@@ -26,6 +26,7 @@ const teams: ITeamProps[] = [
     createdAt: "2023-11-28T10:30:00Z",
     updatedAt: "2023-11-28T10:30:00Z",
     community: "",
+    currentPlayers: []
   },
   {
     _id: "3",
@@ -35,6 +36,7 @@ const teams: ITeamProps[] = [
     createdAt: "2023-11-28T10:30:00Z",
     updatedAt: "2023-11-28T10:30:00Z",
     community: "",
+    currentPlayers: []
   },
   {
     _id: "4",
@@ -44,6 +46,7 @@ const teams: ITeamProps[] = [
     createdAt: "2023-11-28T10:30:00Z",
     updatedAt: "2023-11-28T10:30:00Z",
     community: "",
+    currentPlayers: []
   },
   {
     _id: "5",
@@ -53,6 +56,7 @@ const teams: ITeamProps[] = [
     createdAt: "2023-11-28T10:30:00Z",
     updatedAt: "2023-11-28T10:30:00Z",
     community: "",
+    currentPlayers: []
   },
   {
     _id: "6",
@@ -62,6 +66,7 @@ const teams: ITeamProps[] = [
     createdAt: "2023-11-28T10:30:00Z",
     updatedAt: "2023-11-28T10:30:00Z",
     community: "",
+    currentPlayers: []
   },
   {
     _id: "7",
@@ -71,6 +76,7 @@ const teams: ITeamProps[] = [
     createdAt: "2023-11-28T10:30:00Z",
     updatedAt: "2023-11-28T10:30:00Z",
     community: "",
+    currentPlayers: []
   },
   {
     _id: "8",
@@ -80,6 +86,7 @@ const teams: ITeamProps[] = [
     createdAt: "2023-11-28T10:30:00Z",
     updatedAt: "2023-11-28T10:30:00Z",
     community: "",
+    currentPlayers: []
   },
   {
     _id: "9",
@@ -89,6 +96,7 @@ const teams: ITeamProps[] = [
     createdAt: "2023-11-28T10:30:00Z",
     updatedAt: "2023-11-28T10:30:00Z",
     community: "",
+    currentPlayers: []
   },
   {
     _id: "10",
@@ -98,6 +106,7 @@ const teams: ITeamProps[] = [
     createdAt: "2023-11-28T10:30:00Z",
     updatedAt: "2023-11-28T10:30:00Z",
     community: "",
+    currentPlayers: []
   },
 ];
 

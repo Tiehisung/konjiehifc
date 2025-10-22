@@ -1,36 +1,49 @@
 "use client";
 
-import { useState } from "react";
+import * as React from "react";
 
-export default function InputEl({
-  showClearBtn,
-  inputStyles,
-  contStyles,
-  type,
-}) {
-  const [inputString, setInputString] = useState("");
-  function handleOnChange(e) {
-    setInputString(e.target.value);
-    console.log(inputString);
-  }
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+interface IInputProps {
+  name: string;
+  placeholder?: string;
+  value?: string | number;
+  setEvent?: boolean;
+  dataTip?: string;
+  others?: object;
+  required?: boolean;
+  className?: string;
+  wrapperStyles?: string;
+  labelStyles?: string;
+  labelStylesFocus?: string;
+  label?: string;
+  type?: React.HTMLInputTypeAttribute;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
+}
+export function INPUT(props: IInputProps) {
   return (
-    <div
-      className={`border-b-2 shadow-sm px-1 rounded-md focus-within:border-blue-500 flex gap-1 items-center bg-[#fefefe] ${contStyles}`}
-    >
-      <input
-        value={inputString}
-        onChange={handleOnChange}
-        type={type || "text"}
-        className={`outline-none pl-2 bg-[#fefefe] ${inputStyles}`}
+    <div className={`flex flex-col gap-3 ${props.wrapperStyles}`}>
+      <Label htmlFor={props.name} className="px-1" hidden={!props.label}>
+        {props.label}
+      </Label>
+      <Input
+        type={props.type ?? "text"}
+        id={props.name}
+        step={props.type == "time" ? "1" : ""}
+        required={props.required ?? false}
+        defaultValue={props.type == "time" ? "10:30:00" : props.value}
+        placeholder={props.placeholder}
+        value={props.value}
+        onChange={(e) => {
+          props.onChange(e);
+        }}
+        className={`bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none ${props.className}`}
       />
-      <button
-        onClick={() => setInputString("")}
-        className={`text-2xl text-slate-400 hover:text-slate-900 hover:bg-[#fbfbfb] w-fit h-fit px-1 rounded-md ${
-          !showClearBtn && "hidden"
-        }`}
-      >
-        &times;
-      </button>
+      {props.error && (
+        <p className={` text-red-500  text-sm mt-1`}>{props.error}</p>
+      )}
     </div>
   );
 }

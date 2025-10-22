@@ -44,7 +44,7 @@ const Header = async () => {
           src={session?.user?.image ?? staticImages.avatar}
           width={120}
           height={120}
-          className="h-10 w-10 min-h-10 rounded-full"
+          className="h-10 w-10 min-h-10 rounded-full object-cover "
         />
       </div>
     </header>

@@ -73,6 +73,7 @@ export const apiConfig = {
 
   messages: `${baseUrl}/api/messages`,
   news: `${baseUrl}/api/news`,
+  squad: `${baseUrl}/api/squad`,
 
   file: `${baseUrl}/api/file`, //Interacts with db
   fileUpload: `${baseUrl}/api/file/cloudinary`, //Interacts with storage(cld)

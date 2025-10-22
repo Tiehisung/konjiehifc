@@ -12,17 +12,17 @@ export const metadata = {
 
 export const getTeams = async (teamId?: string) => {
   try {
-    const response = await fetch(apiConfig.teams + `?teamId=${teamId}`, {
+    const uri = teamId
+      ? `${apiConfig.teams}?teamId=${teamId}`
+      : apiConfig.teams;
+    const response = await fetch(uri, {
       cache: "no-cache",
     });
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    const data = await response.json();
-    return data.data; // Return parsed data if successful
-  } catch (error) {
-    console.error("Error fetching teams:", error);
-    // Return a consistent error object
+    return await response.json();
+  } catch {
     return [];
   }
 };
@@ -36,7 +36,7 @@ const TeamsFeature = async () => {
 
       {/* Display */}
 
-      <Suspense fallback={<Loader/>}>
+      <Suspense fallback={<Loader />}>
         <DisplayTeams teams={teams} />
       </Suspense>
     </div>

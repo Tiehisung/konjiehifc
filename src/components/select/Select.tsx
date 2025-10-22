@@ -26,6 +26,7 @@ interface ISelect {
   required?: boolean;
   name?: string;
   paramKey?: string;
+  error?: string;
 }
 
 // Primary Select (like your PrimaryDropdown)
@@ -36,28 +37,34 @@ export function PrimarySelect(props: ISelect) {
     if (props.onChange) {
       props.onChange(val);
     } else {
-      setParam(props.paramKey as string, val);
+      if (props.paramKey) setParam(props.paramKey as string, val);
     }
   };
   return (
-    <Select
-      value={props.value}
-      onValueChange={handleOnChange}
-      disabled={props.disabled}
-      name={props.name}
-      required={props.required}
-    >
-      <SelectTrigger className={`${props.triggerStyles}`} id={props.id}>
-        <SelectValue placeholder={props.placeholder ?? "Select"} />
-      </SelectTrigger>
-      <SelectContent className={props.className}>
-        {props.options.map((option) => (
-          <SelectItem key={option.value} value={option.value}>
-            {option.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <>
+      <Select
+        value={props.value}
+        onValueChange={handleOnChange}
+        disabled={props.disabled}
+        name={props.name}
+        required={props.required}
+      >
+        <SelectTrigger className={`${props.triggerStyles}`} id={props.id}>
+          <SelectValue placeholder={props.placeholder ?? "Select"} />
+        </SelectTrigger>
+        <SelectContent className={props.className}>
+          {props.options.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      {props.error && (
+        <p className={` text-red-500 text-left text-sm mt-1`}>{props.error}</p>
+      )}
+    </>
   );
 }
 

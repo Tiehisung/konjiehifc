@@ -29,6 +29,7 @@ interface ITextAreaProps extends IInput {
   label?: string;
   wrapperStyles?: string;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  error?: string;
 }
 export function TextArea({
   className = "",
@@ -42,16 +43,14 @@ export function TextArea({
   label = "",
   others,
   wrapperStyles,
+  error,
 }: ITextAreaProps) {
   const [isFocus, setIsFocus] = useState(false);
   useEffect(() => {
     setIsFocus(value ? true : false);
   }, [value]);
   return (
-    <div
-      className={`relative w-full group ${wrapperStyles}`}
-      data-tip={dataTip}
-    >
+    <div className={`relative w-full group ${wrapperStyles}`} title={dataTip}>
       <label
         htmlFor={name}
         className={`absolute transition-all duration-200 ease-linear delay-0 select-none ${
@@ -80,6 +79,8 @@ export function TextArea({
         {...others}
         required={required}
       />
+
+      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </div>
   );
 }
@@ -102,6 +103,7 @@ interface IInputProps extends IInput {
   label?: string;
   type?: HTMLInputTypeAttribute;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
 }
 
 export function Input({
@@ -117,6 +119,7 @@ export function Input({
   wrapperStyles = "",
   others,
   required = false,
+  error,
 }: IInputProps) {
   return (
     <div className={`grid relative ${wrapperStyles} `} data-tip={dataTip}>
@@ -130,8 +133,8 @@ export function Input({
       <input
         name={name}
         id={name}
-        value={value}
         type={type}
+        value={value}
         onChange={(e) => {
           onChange(e);
         }}
@@ -144,6 +147,7 @@ export function Input({
         {...others}
         required={required}
       />
+      {error && <p className={` text-red-500  text-sm mt-1`}>{error}</p>}
     </div>
   );
 }
@@ -174,10 +178,7 @@ export function DateTimeInput({
       title={dataTip}
       htmlFor={name}
     >
-      <span
-        onClick={handleIconClick}
-        className={`text-xl _slowTrans`}
-      >
+      <span onClick={handleIconClick} className={`text-xl _slowTrans`}>
         {inputIcons.find((item) => item.type === "date")?.icon}
       </span>
       <input
