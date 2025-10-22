@@ -11,8 +11,6 @@ import { getTeams } from "../features/teams/page";
 import SquadCard from "./SquadCard";
 import { getFormattedDate } from "@/lib/timeAndDate";
 import { PrimarySearch } from "@/components/Search";
-import SwiperCarousel from "@/components/carousel/Swiper";
-import { ResponsiveSwiper } from "@/components/carousel/ResponsiveSwiper";
 import Image from "next/image";
 
 export interface ISquad {
@@ -86,33 +84,6 @@ const SquadPage = async ({ searchParams }: PageProps) => {
 
   return (
     <div className="_page px-4">
-      <SwiperCarousel />
-
-      <ResponsiveSwiper
-        slides={
-          players?.data?.map((p) => (
-            <div className="w-full rounded-lg overflow-hidden bg-card shadow-md hover:shadow-lg transition-shadow">
-              <Image
-                src={p.avatar.secure_url || "/placeholder.svg"}
-                alt={p.lastName}
-                className="w-full h-48 md:h-56 lg:h-64 object-cover"
-                width={500}
-                height={500}
-              />
-              <div className="p-4">
-                <h3 className="font-semibold text-lg text-foreground">
-                  {p.firstName} {p.lastName}
-                </h3>
-                {p.description && (
-                  <p className="text-sm text-muted-foreground mt-2">
-                    {p.description}
-                  </p>
-                )}
-              </div>
-            </div>
-          )) ?? []
-        }
-      />
       <NewSquad
         players={players?.data}
         teams={teams?.data}

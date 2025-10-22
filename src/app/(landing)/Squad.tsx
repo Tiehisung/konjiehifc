@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import PrimLink from "@/components/Link";
 import { IQueryResponse } from "@/types";
 import { ResponsiveSwiper } from "@/components/carousel/ResponsiveSwiper";
 import { getSquads, ISquad } from "../admin/squad/page";
@@ -11,7 +10,7 @@ const LandingSquad = async () => {
   const squad = squads?.data ? squads.data[0] : null;
 
   return (
-    <div>
+    <div className="py-12 px-6 space-y-8">
       <h1 className="_title">SQUAD VRS {squad?.opponent?.name} </h1>
       <ResponsiveSwiper
         slides={
@@ -41,7 +40,7 @@ const LandingSquad = async () => {
         }
       />
 
-      <PrimLink href={"/players"} text="See more" className="ml-auto" />
+   
     </div>
   );
 };
