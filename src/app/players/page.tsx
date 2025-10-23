@@ -5,7 +5,6 @@ import { IGoal, IMatchProps } from "../matches/(fixturesAndResults)";
 import { getPlayers } from "../admin/players/page";
 import Link from "next/link";
 import Image from "next/image";
-import { Title } from "@/components/Elements";
 
 export type TPlayerGallery = {
   _id: string;

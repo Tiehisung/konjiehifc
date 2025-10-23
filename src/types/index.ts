@@ -97,7 +97,7 @@ export interface ILog {
   category?: 'auth' | 'api' | 'db' | 'system' | 'ui' | 'other';
   severity?: 'info' | 'warning' | 'error' | 'critical';
   meta?: Record<string, string | number | boolean | null>;
-  source?: 'admin' | 'user' | |'system' | 'other';
+  source?: 'admin' | 'user' | 'system' | 'other';
   url?: string
   createdAt: Date;
   updatedAt?: Date;

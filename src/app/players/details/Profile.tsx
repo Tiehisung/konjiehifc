@@ -15,6 +15,7 @@ import { teamKFC } from "@/data/teams";
 import { useSearchParams } from "next/navigation";
 import { PrimarySelect } from "@/components/select/Select";
 import CardCarousel from "@/components/carousel/cards";
+import { usePlayerGalleryUtils } from "@/hooks/usePlayerGallery";
 
 const statsData = [
   { stat: "PAS", value: 82 },
@@ -35,6 +36,21 @@ export default function PlayerProfile({ players }: PageProps) {
   const playerId = sp.get("playerId");
 
   const player = players.find((p) => p._id == playerId);
+
+  const { images } = usePlayerGalleryUtils(player);
+  const slides = images?.slice(0, 10)?.map((file) => (
+    <div key={file?.public_id as string}>
+      <Image
+        width={300}
+        height={300}
+        src={file?.secure_url as string}
+        alt={file?.description as string}
+        className="w-auto max-h-[60vh] object-cover"
+      />
+      <p>{file?.description}</p>
+    </div>
+  ));
+
   return (
     <main className="min-h-screen bg-popover flex flex-col items-center p-10">
       {/* Header */}
@@ -128,7 +144,7 @@ export default function PlayerProfile({ players }: PageProps) {
 
         {/* Right Section */}
         <div className="flex-1 relative">
-          <CardCarousel cards={[1, 2, 3, 4, 5, 6, 7, 8, 9]} />
+          <CardCarousel cards={slides} />
 
           {/* Trophies */}
           <div className="flex gap-6 justify-end mb-10">

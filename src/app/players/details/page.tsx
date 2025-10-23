@@ -13,7 +13,7 @@ export default async function PlayerProfilePage({}: PageProps) {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
 
   return (
-    <main className="">
+    <main className="relative">
       <PlayerProfile players={players?.data as IPlayer[]} />
 
       <PlayerProfile2 />
