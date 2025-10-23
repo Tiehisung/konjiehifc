@@ -15,14 +15,14 @@ interface IDrawer {
 export function SideDrawer({
   side = "right",
   trigger = <Menu />,
-  triggerStyles = "",
+  triggerStyles = "md:hidden",
   children,
-  className,
+  className='',
 }: IDrawer) {
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline" className={`md:hidden ${triggerStyles} cursor-pointer `}>
+      <SheetTrigger asChild  >
+        <Button variant="outline" className={` ${triggerStyles} cursor-pointer `}>
           {trigger}
         </Button>
       </SheetTrigger>

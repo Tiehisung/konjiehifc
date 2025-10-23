@@ -46,9 +46,9 @@ export function NavBar() {
 
 export function MobilieNavCp() {
   const { status } = useSession();
-  const pathname = usePathname();
+ 
   return (
-    <SideDrawer className="pt-8">
+    <SideDrawer className="pt-8 " triggerStyles='lg:hidden'>
       <ul className="items-center w-full min-h-full text-base cursor-pointer shadow-md space-y-2">
         {navLinks.map((nlink, index) => (
           <li key={index} className="flex">
@@ -82,9 +82,9 @@ export function MobilieNavCp() {
 }
 
 export const DesktopNav = () => {
-  const pathname = usePathname();
+ 
   return (
-    <ul className="hidden md:flex items-center font-semibold cursor-auto text-sm overflow-x-auto">
+    <ul className="hidden lg:flex items-center font-semibold cursor-auto text-sm overflow-x-auto">
       {navLinks.map((lk, index) => (
         <li
           key={index}

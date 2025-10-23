@@ -3,6 +3,7 @@ import { IPlayer } from "../page";
 import PlayerProfile from "./Profile";
 import { IQueryResponse } from "@/types";
 import { PlayerProfile2 } from "./Profile2";
+import { PlayerHeadList } from "./PlayerHeadList";
 
 interface PageProps {
   params: Promise<{ playerId: string }>;
@@ -15,7 +16,8 @@ export default async function PlayerProfilePage({}: PageProps) {
     <main className="">
       <PlayerProfile players={players?.data as IPlayer[]} />
 
-      <PlayerProfile2/>
+      <PlayerProfile2 />
+      <PlayerHeadList players={players?.data as IPlayer[]} />
     </main>
   );
 }

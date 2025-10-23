@@ -15,10 +15,12 @@ import { EffectCards } from "swiper/modules";
 
 export interface ICardCarouselProps {
   cards: Array<React.ReactNode>;
+  slideClassName?:string
+  effect?:"cards" | "slide" | "fade" | "cube" | "coverflow" | "flip" | "creative"
 }
 
 export default function CardCarousel({
-  cards = [1, 2, 3, 4, 5, 6, 7],
+  cards = [1, 2, 3, 4, 5, 6, 7],slideClassName,effect='cards'
 }: ICardCarouselProps) {
   return (
     <>
@@ -29,7 +31,7 @@ export default function CardCarousel({
         className="mySwiper"
       >
         {cards.map((card, index) => (
-          <SwiperSlide key={index}>Slide {card}</SwiperSlide>
+          <SwiperSlide className={`${slideClassName}`} key={index}>Slide {card}</SwiperSlide>
         ))}
       </Swiper>
     </>
