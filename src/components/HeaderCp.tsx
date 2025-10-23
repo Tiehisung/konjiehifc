@@ -2,15 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BiHome, BiMailSend, BiTable } from "react-icons/bi";
+import { BiMailSend, BiTable } from "react-icons/bi";
 import { GiSoccerBall } from "react-icons/gi";
-import { TbTableRow } from "react-icons/tb";
-import { RiFundsFill } from "react-icons/ri";
-import { BsStarFill } from "react-icons/bs";
+import { TbPlayFootball, TbTableRow } from "react-icons/tb";
+import { RiFundsFill, RiNewsLine } from "react-icons/ri";
 import UserLogButtons from "./UserLogger";
 import { GrDashboard } from "react-icons/gr";
 import { useSession } from "next-auth/react";
-import { FcNews } from "react-icons/fc";
 import { ThemeModeToggle } from "./ThemeToggle";
 import { SideDrawer } from "./ShadSideDrawer";
 
@@ -20,17 +18,18 @@ export default function HeaderCp() {
   if (pathname.startsWith("/admin")) return;
   return (
     <div
-      className={`sticky top-0 flex justify-between items-center border-hidden w-full px-4 z-40 bg-accent/50 backdrop-blur-sm`}
+      className={`sticky top-0 flex justify-between items-center border-hidden w-full px-4 z-40 bg-gradient-to-tr from-primaryGreen/25 to-primaryRed/25 backdrop-blur-sm`}
     >
-      <div className="_spin">
-        <GiSoccerBall size={55} />
-      </div>
+      <Link href={"/"} className="flex items-center">
+        <div className="animate-pulse ">
+          <GiSoccerBall size={55} />
+        </div>
 
-      <h1 className="flex font-light text-xl md:text-2xl lg:text-3xl ">
-        <span className="">Konjiehi</span>{" "}
-        <span className="text-yellow-700">FC</span>
-      </h1>
-
+        <h1 className="flex text-2xl md:text-3xl lg:text-4xl ">
+          <span className="">Konjiehi</span>{" "}
+          <span className="text-yellow-700">FC</span>
+        </h1>
+      </Link>
       <NavBar />
     </div>
   );
@@ -47,22 +46,10 @@ export function NavBar() {
 
 export function MobilieNavCp() {
   const { status } = useSession();
-  const pathname = usePathname();
+ 
   return (
-    <SideDrawer className="pt-8">
-      <ul className="items-center w-full min-h-full text-base cursor-pointer shadow-md">
-        {pathname !== "/" && (
-          <li className="flex">
-            <Link
-              href={"/"}
-              className="flex gap-1 w-full h-10 items-center hover:text-white hover:bg-blue-400"
-            >
-              <BiHome className="p-2  " />
-              Home
-            </Link>
-          </li>
-        )}
-
+    <SideDrawer className="pt-8 " triggerStyles='lg:hidden'>
+      <ul className="items-center w-full min-h-full text-base cursor-pointer shadow-md space-y-2">
         {navLinks.map((nlink, index) => (
           <li key={index} className="flex">
             <Link
@@ -86,8 +73,8 @@ export function MobilieNavCp() {
           </li>
         )}
         <li className="mt-12 px-3 flex gap-6 items-center flex-wrap">
-          <UserLogButtons logoutStyles="_deleteBtn border rounded flex items-center gap-1 text-sm justify-center w-fit py-1 px-2" />
           <ThemeModeToggle />
+          <UserLogButtons logoutStyles="_deleteBtn border rounded flex items-center gap-1 text-sm justify-center w-fit py-1 px-2" />
         </li>
       </ul>
     </SideDrawer>
@@ -95,20 +82,9 @@ export function MobilieNavCp() {
 }
 
 export const DesktopNav = () => {
-  const pathname = usePathname();
+ 
   return (
-    <ul className="hidden md:flex items-center font-semibold cursor-auto text-sm overflow-x-auto">
-      {pathname !== "/" && (
-        <li className="border border-border bg-[#e1299e] text-white flex flex-col _p ">
-          <Link
-            href={"/"}
-            className="group flex flex-col grow justify-center items-center pt-1 px-2"
-          >
-            <span>Home</span>
-            <hr className=" w-0 group-hover:w-full h-1 bg-green-500 transition-all duration-300 delay-100" />
-          </Link>
-        </li>
-      )}
+    <ul className="hidden lg:flex items-center font-semibold cursor-auto text-sm overflow-x-auto">
       {navLinks.map((lk, index) => (
         <li
           key={index}
@@ -147,9 +123,9 @@ const bgcolors = [
 ];
 const navLinks = [
   { title: "Sponsors", href: "/sponsorship", icon: <RiFundsFill /> },
-  { title: "Players", href: "/players", icon: <BsStarFill /> },
+  { title: "Players", href: "/players", icon: <TbPlayFootball /> },
   { title: "Contact us", href: "/contact-us", icon: <BiMailSend /> },
   { title: "Matches", href: "/matches", icon: <BiTable /> },
   { title: "Live", href: "/live-match", icon: <TbTableRow /> },
-  { title: "News", href: "/news", icon: <FcNews /> },
+  { title: "News", href: "/news", icon: <RiNewsLine /> },
 ];

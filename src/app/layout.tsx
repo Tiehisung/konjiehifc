@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body className="relative">
         <RTKStoreProvider>
           <AuthProvider>
             <ThemeProvider
@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               disableTransitionOnChange
             >
               <HeaderCp />
-              <div className={`min-h-screen ${className}`}>
+              <div className={`min-h-screen overflow-x-hidden ${className}`}>
                 {children}
                 <BackToTopButton />
                 <Toaster position="top-right" richColors />

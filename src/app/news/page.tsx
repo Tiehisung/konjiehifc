@@ -29,11 +29,13 @@ export interface INewsProps {
     text?: string;
     media?: Partial<IFileProps>[];
   }[];
+  metaDetails?: unknown; //ISquad etc
   reporter?: {
     name: string;
     avatar: Partial<IFileProps>;
   };
-  isPublished?:boolean
+  isPublished?: boolean;
+  type?: "squad" | "signing" | "match" | "general";
   createdAt: string;
   updatedAt: string;
 }
@@ -128,7 +130,6 @@ const NewsItem = ({ item }: { item: INewsProps }) => {
           <div className="_subtitle line-clamp-4 max-w-72">
             {item?.headline?.text?.substring(0, 120) as string}
           </div>
-
 
           <div
             className="mt-5 _pp max-w-full line-clamp-3 max-h-14 overflow-hidden "

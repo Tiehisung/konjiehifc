@@ -19,6 +19,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <section className="flex-1 md:h-screen md:overflow-y-auto">
         <Header />
         {children}
+        
         <AdminFooter />
       </section>
     </main>

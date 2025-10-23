@@ -3,7 +3,7 @@
 import { Button } from "@/components/buttons/Button";
 import SideDrawerToRight from "@/components/drawer/SideDrawerToRight";
 import { ThemeModeToggle } from "@/components/ThemeToggle";
-import { LogOut } from "lucide-react";
+import { LogOut, Logs } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -47,7 +47,7 @@ export function LeftPaneDesktop() {
           <li key={index}>
             <Link
               href={slink.path}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-left ${
+              className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-left ${
                 activeLink(slink.path) ? "bg-teal-500/50  " : ""
               }`}
             >
@@ -170,5 +170,10 @@ const sidebarLinks = [
     label: "Massenger",
     path: "/admin/messages",
     icon: <BsChatRightQuote />,
+  },
+  {
+    label: "Logs",
+    path: "/admin/logs",
+    icon: <Logs />,
   },
 ];

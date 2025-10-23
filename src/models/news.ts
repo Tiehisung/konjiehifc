@@ -18,6 +18,12 @@ const newsSchema = new Schema(
         media: [{}], //IFileProps
       },
     ],
+    type: {
+      type: String
+      , enum: ['general', 'squad', 'fixture',],
+      default: 'general'
+    },
+    metaDetails: {}, //ISquad etc
 
     stats: {
       type: Schema.Types.Mixed,

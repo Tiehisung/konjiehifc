@@ -14,6 +14,8 @@ import { IPlayer } from "../page";
 import { teamKFC } from "@/data/teams";
 import { useSearchParams } from "next/navigation";
 import { PrimarySelect } from "@/components/select/Select";
+import CardCarousel from "@/components/carousel/cards";
+import { usePlayerGalleryUtils } from "@/hooks/usePlayerGallery";
 
 const statsData = [
   { stat: "PAS", value: 82 },
@@ -34,6 +36,21 @@ export default function PlayerProfile({ players }: PageProps) {
   const playerId = sp.get("playerId");
 
   const player = players.find((p) => p._id == playerId);
+
+  const { images } = usePlayerGalleryUtils(player);
+  const slides = images?.slice(0, 10)?.map((file) => (
+    <div key={file?.public_id as string}>
+      <Image
+        width={300}
+        height={300}
+        src={file?.secure_url as string}
+        alt={file?.description as string}
+        className="w-auto max-h-[60vh] object-cover"
+      />
+      <p>{file?.description}</p>
+    </div>
+  ));
+
   return (
     <main className="min-h-screen bg-popover flex flex-col items-center p-10">
       {/* Header */}
@@ -93,7 +110,7 @@ export default function PlayerProfile({ players }: PageProps) {
               height={300}
               src={player?.avatar?.secure_url as string}
               alt={player?.lastName as string}
-              className="w-full object-cover"
+              className="w-auto max-h-[60vh] object-cover"
             />
           </div>
 
@@ -127,15 +144,7 @@ export default function PlayerProfile({ players }: PageProps) {
 
         {/* Right Section */}
         <div className="flex-1 relative">
-          <div className="absolute -top-10 right-0">
-            <Image
-              width={300}
-              height={300}
-              src={player?.avatar?.secure_url as string}
-              alt={player?.firstName as string}
-              className="w-72 drop-shadow-2xl"
-            />
-          </div>
+          <CardCarousel cards={slides} />
 
           {/* Trophies */}
           <div className="flex gap-6 justify-end mb-10">
@@ -169,23 +178,6 @@ export default function PlayerProfile({ players }: PageProps) {
             </div>
           </div>
 
-          {/* Radar Chart */}
-          <div className="h-64 w-full flex justify-center">
-            <ResponsiveContainer width="100%" height="100%">
-              <RadarChart data={statsData}>
-                <PolarGrid stroke="#333" />
-                <PolarAngleAxis dataKey="stat" tick={{ fontSize: 12 }} />
-                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} />
-                <Radar
-                  dataKey="value"
-                  stroke="#9b5cff"
-                  fill="#9b5cff"
-                  fillOpacity={0.4}
-                />
-              </RadarChart>
-            </ResponsiveContainer>
-          </div>
-
           {/* Product / Shirt */}
           <div className="mt-8 flex justify-end">
             <div className="bg-gradient-to-r from-purple-600 to-indigo-500 rounded-xl p-4 flex items-center gap-4 shadow-lg">
@@ -205,7 +197,25 @@ export default function PlayerProfile({ players }: PageProps) {
             </div>
           </div>
         </div>
+
+        {/* Radar Chart */}
       </section>
+
+      <div className="h-64 w-full flex justify-center">
+        <ResponsiveContainer width="100%" height="100%">
+          <RadarChart data={statsData}>
+            <PolarGrid stroke="#333" />
+            <PolarAngleAxis dataKey="stat" tick={{ fontSize: 12 }} />
+            <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} />
+            <Radar
+              dataKey="value"
+              stroke="#9b5cff"
+              fill="#9b5cff"
+              fillOpacity={0.4}
+            />
+          </RadarChart>
+        </ResponsiveContainer>
+      </div>
     </main>
   );
 }
