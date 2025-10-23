@@ -29,7 +29,7 @@ export default function UserLogButtons({
       <div className="grid md:flex items-center gap-6 md:gap-2">
         <Link
           href="/admin"
-          className="hidden md:block text-emerald-500 border _borderColor hover:ring rounded px-2 py-1 h-full "
+          className="hidden md:block border _borderColor hover:ring rounded px-2 py-1 h-full "
         >
           Admin
         </Link>
