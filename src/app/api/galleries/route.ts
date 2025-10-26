@@ -10,7 +10,52 @@ import FileModel from "@/models/file";
 // export const dynamic = "force-dynamic";
 
 ConnectMongoDb();
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const page = Number.parseInt(searchParams.get("page") || "1", 10);
+  const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
 
+  const search = searchParams.get("search") || "";
+  const tags = (searchParams.get("tags") || "")?.split(',');
+
+  const skip = (page - 1) * limit;
+
+  const regex = new RegExp(search, "i"); // case-insensitive partial match
+
+  const query: Record<string, unknown> = {};
+
+  if (tags && tags.length) {
+    query.tags = { $in: tags };
+  }
+
+  if (search) {
+    query.$or = [
+      { description: regex },
+      { tags: regex },
+      { title: regex },
+    ];
+  }
+
+  console.log({query})
+
+  const galleries = await GalleryModel.find(query).populate('files').sort({ 'updatedAt': -1 })
+    .skip(skip)
+    .limit(limit)
+    .lean();
+
+  const total = await GalleryModel.countDocuments(query);
+
+  return NextResponse.json({
+    success: true,
+    data: galleries,
+    pagination: {
+      page,
+      limit,
+      total,
+      pages: Math.ceil(total / limit),
+    },
+  });
+}
 export async function POST(request: NextRequest) {
   try {
     const { files, tags, name, description, } = (await request.json()) as IGalleryProps;
@@ -46,41 +91,4 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const page = Number.parseInt(searchParams.get("page") || "1", 10);
-  const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
 
-  const search = searchParams.get("search") || "";
-
-  const skip = (page - 1) * limit;
-
-  const regex = new RegExp(search, "i"); // case-insensitive partial match
-
-
-  const query = search ? {
-    $or: [
-      { "description": regex },
-      { "tags": regex },
-      { "title": regex },
-    ],
-  } : {};
-
-  const galleries = await GalleryModel.find({}).populate('files').sort({ 'updatedAt': -1 })
-    .skip(skip)
-    .limit(limit)
-    .lean();
-
-  const total = await GalleryModel.countDocuments(query);
-
-  return NextResponse.json({
-    success: true,
-    data: galleries,
-    pagination: {
-      page,
-      limit,
-      total,
-      pages: Math.ceil(total / limit),
-    },
-  });
-}

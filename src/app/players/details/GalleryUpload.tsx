@@ -4,11 +4,12 @@ import { Button } from "@/components/buttons/Button";
 import CloudinaryUploader, {
   ICldFileUploadResult,
 } from "@/components/Cloudinary";
+import { Input } from "@/components/input/Inputs";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { IGalleryProps, IQueryResponse } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import { toast } from "sonner";
 
 export function PlayerGalleryUpload() {
@@ -18,7 +19,10 @@ export function PlayerGalleryUpload() {
   const playerId = searchParams.get("playerId") || "";
   const [files, setFiles] = useState<ICldFileUploadResult[]>([]);
 
-  const handleSave = async () => {
+  const [description, setDescription] = useState("");
+
+  const handleSave = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       setIsBusy(true);
       const response = await fetch(apiConfig.galleries, {
@@ -26,7 +30,7 @@ export function PlayerGalleryUpload() {
         headers: { "Content-Type": "application/json" },
         cache: "no-cache",
         body: JSON.stringify({
-          description: "gallery for player " + playerId,
+          description,
           files: files.map((file) => ({ ...file, tags: [playerId] })),
           name: "test gallery",
           tags: [playerId],
@@ -34,6 +38,7 @@ export function PlayerGalleryUpload() {
       });
       const result: IQueryResponse = await response.json();
       toast.success(result.message);
+      setDescription("");
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
@@ -47,15 +52,26 @@ export function PlayerGalleryUpload() {
       <CloudinaryUploader triggerId={""} onComplete={setFiles} />
 
       {files.length > 0 && (
-        <div>
-          {files.length} file{files.length !== 1 ? "s" : ""} selected.
-          <Button
-            waiting={isLoading}
-            className="mt-2 _primaryBtn"
-            primaryText="Save Gallery"
-            onClick={handleSave}
+        <form
+          onSubmit={handleSave}
+          className="mx-auto p-4 flex flex-col items-center "
+        >
+          <p>
+            {files.length} file{files.length !== 1 ? "s" : ""} selected.
+          </p>
+          <Input
+            onChange={(e) => setDescription(e.target.value)}
+            name={"description"}
+            value={description}
+            placeholder="Description"
           />
-        </div>
+          <Button
+            type="submit"
+            waiting={isLoading}
+            className="mt-2 _primaryBtn h-12 w-48 justify-center"
+            primaryText="Save Gallery"
+          />
+        </form>
       )}
     </div>
   );
