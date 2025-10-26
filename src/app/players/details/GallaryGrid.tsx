@@ -2,10 +2,10 @@
 
 import React from "react";
 import Image from "next/image";
-import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IFileProps, IGalleryProps } from "@/types";
+import { getFormattedDate } from "@/lib/timeAndDate";
 
 interface GalleryGridProps {
   galleries: IGalleryProps[];
@@ -37,12 +37,12 @@ export default function GalleryGrid({
           <CardHeader>
             <CardTitle className="flex flex-wrap justify-between items-center gap-2">
               <span className="font-bold text-lg truncate">
-                {gallery.name || "Untitled Gallery"}
+                {gallery?.title || "Untitled Gallery"}
               </span>
 
               {showDate && gallery.createdAt && (
                 <span className="text-xs text-muted-foreground">
-                  {format(new Date(gallery.createdAt), "MMM d, yyyy")}
+                  {getFormattedDate(gallery.createdAt, "March 2, 2025")}
                 </span>
               )}
             </CardTitle>

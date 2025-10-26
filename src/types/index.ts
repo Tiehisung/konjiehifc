@@ -40,7 +40,7 @@ export interface IFileUpload {
 export interface IGalleryProps {
   _id?: string;
   tags: string[];
-  name?: string; 
+  title?: string; 
   description: string;
   files: Array<IFileProps>;
   timestamp?: number;

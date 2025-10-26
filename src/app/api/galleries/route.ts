@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
 }
 export async function POST(request: NextRequest) {
   try {
-    const { files, tags, name, description, } = (await request.json()) as IGalleryProps;
+    const { files, tags, title, description, } = (await request.json()) as IGalleryProps;
 
     //Save files to File collection
     const savedFiles = await FileModel.insertMany(files);
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
 
     //Create gallery with saved file IDs
     const savedGallery = await GalleryModel.create({
-      files: fileIds, tags, name, description,
+      files: fileIds, tags, title, description,
       timestamp: Date.now(),
     });
 

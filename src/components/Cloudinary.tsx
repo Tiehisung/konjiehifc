@@ -49,6 +49,7 @@ export interface ICloudinaryUploaderProps {
   triggerId: string;
   dismissOnComplete?: boolean;
   cropping?: boolean;
+  successMessage?:string
 }
 
 export default function CloudinaryUploader({
@@ -63,10 +64,9 @@ export default function CloudinaryUploader({
   trigger = "Upload Media",
   triggerId = "cloudinary-uploader",
   dismissOnComplete = true,
-  cropping = false,
+  cropping = false,successMessage
 }: ICloudinaryUploaderProps) {
   const [files, setFiles] = useState<ICldFileUploadResult[]>([]);
-  console.log({ files });
 
   const allowedFormats =
     resourceType === "image"
@@ -136,8 +136,9 @@ export default function CloudinaryUploader({
         }}
         onQueuesEnd={(result) => {
           // Fires when all uploads are done
-          toast.success("All uploads complete");
-          console.log("All uploads complete", result);
+          toast.success(successMessage??
+            `${result.info?.length} of ${files.length} uploads complete`
+          );
           if (dismissOnComplete) fireEscape();
         }}
       >

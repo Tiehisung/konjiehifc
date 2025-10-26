@@ -20,6 +20,7 @@ export function PlayerGalleryUpload() {
   const [files, setFiles] = useState<ICldFileUploadResult[]>([]);
 
   const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
 
   const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,7 +33,7 @@ export function PlayerGalleryUpload() {
         body: JSON.stringify({
           description,
           files: files.map((file) => ({ ...file, tags: [playerId] })),
-          name: "test gallery",
+          title,
           tags: [playerId],
         } as IGalleryProps),
       });
@@ -65,6 +66,12 @@ export function PlayerGalleryUpload() {
             name={"description"}
             value={description}
             placeholder="Description"
+          />
+          <Input
+            onChange={(e) => setTitle(e.target.value)}
+            name={"title"}
+            value={description}
+            placeholder="Title"
           />
           <Button
             type="submit"
