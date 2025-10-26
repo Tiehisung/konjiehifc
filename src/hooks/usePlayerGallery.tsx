@@ -1,18 +1,18 @@
 "use client";
 
 import { useMemo } from "react";
-import {   IFileProps,  } from "@/types";
-import { IPlayer } from "@/app/players/page";
+import { IFileProps, IGalleryProps } from "@/types";
 
+import { staticImages } from "@/assets/images";
 /**
  * Hook for managing a player's gallery content.
  * - Random image or video selection
  * - Avatar fallback
  * - Flattened slides for carousel/lightbox
  */
-export const usePlayerGalleryUtils = (player?: IPlayer) => {
+export const usePlayerGalleryUtils = (galleries?: IGalleryProps[]) => {
   return useMemo(() => {
-    if (!player) {
+    if (!galleries) {
       return {
         randomImage: undefined,
         randomGallery: undefined,
@@ -24,8 +24,6 @@ export const usePlayerGalleryUtils = (player?: IPlayer) => {
         totalGalleries: 0,
       };
     }
-
-    const galleries = player.galleries || [];
 
     // 🖼 Flatten all files across galleries
     const allFiles = galleries.flatMap((g) => g.files || []);
@@ -44,10 +42,10 @@ export const usePlayerGalleryUtils = (player?: IPlayer) => {
     const randomImage =
       images.length > 0
         ? images[Math.floor(Math.random() * images.length)]
-        : player.avatar;
+        : staticImages.avatar;
 
     // Combine all media for slides
-    const slides = allFiles.length > 0 ? allFiles : [player.avatar];
+    const slides = allFiles.length > 0 ? allFiles : [staticImages.avatar];
 
     return {
       randomImage,
@@ -59,5 +57,5 @@ export const usePlayerGalleryUtils = (player?: IPlayer) => {
       totalVideos: videos.length,
       totalGalleries: galleries.length,
     };
-  }, [player]);
+  }, [galleries]);
 };
