@@ -55,7 +55,7 @@ export interface ICloudinaryUploaderProps {
   dismissOnComplete?: boolean;
   cropping?: boolean;
   successMessage?: string;
-  uploadedFiles: ICldFileUploadResult[];
+  clearTrigger: number;
   setUploadedFiles: (files: ICldFileUploadResult[]) => void;
 }
 
@@ -63,7 +63,7 @@ export default function CloudinaryUploader({
   multiple = true,
   maxFiles = 4,
   folder = "players/gallery",
-  uploadedFiles,
+  clearTrigger,
   setUploadedFiles,
   resourceType = "auto",
   deletable = true,
@@ -75,7 +75,11 @@ export default function CloudinaryUploader({
   cropping = false,
   successMessage,
 }: ICloudinaryUploaderProps) {
-  useEffect(() => {}, []);
+  const [files, setFiles] = useState<ICldFileUploadResult[]>([]);
+
+  useEffect(() => {
+    setFiles([]);
+  }, [clearTrigger]);
 
   const allowedFormats =
     resourceType === "image"
@@ -96,9 +100,11 @@ export default function CloudinaryUploader({
           "wmv",
           "m4v",
         ];
+
   const handleRemove = async (public_id: string) => {
     try {
-      setUploadedFiles(uploadedFiles.filter((f) => f.public_id !== public_id));
+      setFiles((p) => p.filter((f) => f.public_id !== public_id));
+      setUploadedFiles(files.filter((f) => f.public_id !== public_id));
 
       // Optionally hit your API to delete from Cloudinary
       const res = await fetch("/api/deleteFile", {
@@ -134,16 +140,16 @@ export default function CloudinaryUploader({
           // Each successful upload fires this event
           if (result?.info) {
             const file = result.info as unknown as ICldFileUploadResult;
-            const updated = [...uploadedFiles, file];
-            setUploadedFiles(updated);
+            setFiles((prev) => {
+              const updated = [...prev, file];
+              setUploadedFiles(updated);
+              return updated;
+            });
           }
         }}
-        onQueuesEnd={(result) => {
+        onQueuesEnd={() => {
           // Fires when all uploads are done
-          toast.success(
-            successMessage ??
-              `${result.info?.length} of ${uploadedFiles.length} uploads complete`
-          );
+          toast.success(successMessage ?? `Uploads complete`);
           if (dismissOnComplete) fireEscape();
         }}
       >
@@ -160,9 +166,9 @@ export default function CloudinaryUploader({
       </CldUploadWidget>
 
       {/* Uploaded previews */}
-      {preview && uploadedFiles?.length > 0 && (
+      {preview && files?.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
-          {uploadedFiles.map((f) => (
+          {files.map((f) => (
             <div
               key={f.public_id}
               className="relative rounded-lg overflow-hidden shadow-md group"
@@ -199,33 +205,3 @@ export default function CloudinaryUploader({
     </div>
   );
 }
-
-// const _ = {
-//   id: "uw-file6",
-//   batchId: "uw-batch5",
-//   asset_id: "2e3cf4fb7df0261d0b84212a1fc66aec",
-//   public_id: "players/gallery/framer-motion-1_e9ktzy",
-//   version: 1761433501,
-//   version_id: "81de845e43a5890550b32e4308109e07",
-//   signature: "423c36c2cbeb3060289be92b6ab751a985af3d5e",
-//   width: 631,
-//   height: 528,
-//   format: "png",
-//   resource_type: "image",
-//   created_at: "2025-10-25T23:05:01Z",
-//   tags: [],
-//   bytes: 60640,
-//   type: "upload",
-//   etag: "fc21cb3316a01071025f361721f12134",
-//   placeholder: false,
-//   url: "http://res.cloudinary.com/dgp4vzn3m/image/upload/v1761433501/players/gallery/framer-motion-1_e9ktzy.png",
-//   secure_url:
-//     "https://res.cloudinary.com/dgp4vzn3m/image/upload/v1761433501/players/gallery/framer-motion-1_e9ktzy.png",
-//   folder: "players/gallery",
-//   access_mode: "public",
-//   existing: false,
-//   original_filename: "framer-motion-1",
-//   path: "v1761433501/players/gallery/framer-motion-1_e9ktzy.png",
-//   thumbnail_url:
-//     "https://res.cloudinary.com/dgp4vzn3m/image/upload/c_limit,h_60,w_90/v1761433501/players/gallery/framer-motion-1_e9ktzy.png",
-// };
