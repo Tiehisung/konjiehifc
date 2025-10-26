@@ -41,15 +41,14 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
 
   // console.log({player})
 
-  const { images, randomImage, slides: sd } = usePlayerGalleryUtils(galleries);
-  console.log({ images, sd, randomImage });
+  const { images } = usePlayerGalleryUtils(galleries);
   const slides = images?.slice(0, 10)?.map((file) => (
     <div key={file?.public_id as string}>
       <Image
         width={300}
         height={300}
         src={file?.secure_url as string}
-        alt={file?.description as string??'slide'}
+        alt={(file?.description as string) ?? "slide"}
         className="w-full h-72 object-cover "
       />
       <p>{file?.description}</p>
