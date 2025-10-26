@@ -22,6 +22,8 @@ export function PlayerGalleryUpload() {
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
 
+  const [clearTrigger, setClearTrigger] = useState(0);
+
   const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -40,7 +42,10 @@ export function PlayerGalleryUpload() {
       const result: IQueryResponse = await response.json();
       toast.success(result.message);
       setDescription("");
-      setFiles([]);
+      setTitle("");
+      setFiles([])
+
+      setClearTrigger((n) => n + 1); //triggers clear
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
@@ -54,8 +59,9 @@ export function PlayerGalleryUpload() {
       <CloudinaryUploader
         triggerId={""}
         setUploadedFiles={setFiles}
-        uploadedFiles={files}
         successMessage="Gallery Updated"
+        clearTrigger={clearTrigger}
+        maxFiles={6}
       />
 
       {files.length > 0 && (
