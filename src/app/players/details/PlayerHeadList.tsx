@@ -1,3 +1,5 @@
+'use client'
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { IPlayer } from "../page";
 import { getInitials } from "@/lib";
@@ -6,7 +8,7 @@ import { useSearchParams } from "next/navigation";
 
 export function PlayerHeadList({ players }: { players: IPlayer[] }) {
   const searchParams =useSearchParams()
-  
+
   if (!players || players.length === 0) {
     return null;
   }
