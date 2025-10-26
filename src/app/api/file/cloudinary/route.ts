@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
       name,
     });
 
-    console.log({ uploadResult });
+  
     //Return response
     return NextResponse.json({
       data: savedFile,

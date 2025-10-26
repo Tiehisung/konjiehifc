@@ -16,12 +16,11 @@ import mongoose, { Schema } from "mongoose";
 
 const gallerySchema = new Schema(
   {
-    title: { type: String,},
+    title: { type: String, },
     description: { type: String, trim: true },
-    files: [{}], // IFileProps[]
+    files: [{ type: Schema.Types.ObjectId, ref: "files" }], // IFileProps[]
     // Probable associated owners
-    player: { type: Schema.Types.ObjectId, ref: "player" },
-    manager: { type: Schema.Types.ObjectId, ref: "managers" },
+    tags:[{ type: String }],//eg. objectIds, anything relevant to search
   },
   { timestamps: true }
 );

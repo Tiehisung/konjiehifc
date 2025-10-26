@@ -70,6 +70,7 @@ export interface IPlayer {
 
 const PlayersPage = async () => {
   const players: IQueryResponse<IPlayer[]>  = await getPlayers();
+  console.log({players})
   return (
     <div className="">
       <h1 className="_heading mt-3 text-center">Players</h1>

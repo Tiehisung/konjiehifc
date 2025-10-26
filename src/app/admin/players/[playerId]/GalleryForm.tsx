@@ -13,7 +13,7 @@ import {
   IFileProps,
   IFileUpload,
   IGalleryProps,
-  IResultProps,
+  IQueryResponse,
   TConvertedFile,
 } from "@/types";
 
@@ -30,6 +30,8 @@ export default function UpdatePlayerGallery({
   folder?: string;
   presetType?: string;
 }) {
+
+  console.log({player})
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
   const [convertedFiles, setConvertedFiles] = useState<TConvertedFile[]>([]);
@@ -61,7 +63,7 @@ export default function UpdatePlayerGallery({
           body: JSON.stringify(body),
         });
 
-        const result: IResultProps<IFileProps> = await response.json();
+        const result: IQueryResponse<IFileProps> = await response.json();
 
         if (result.success && result.data) {
           uploadedFiles.push(result.data);
@@ -80,7 +82,7 @@ export default function UpdatePlayerGallery({
           files: uploadedFiles,
         }),
       });
-      const savedNewGallery: IResultProps<IGalleryProps> =
+      const savedNewGallery: IQueryResponse<IGalleryProps> =
         await newGalleryResponse.json();
 
       if (!savedNewGallery.success) return toast.error(savedNewGallery.message);
@@ -93,7 +95,7 @@ export default function UpdatePlayerGallery({
         headers: { "Content-Type": "application/json" },
         cache: "no-cache",
         body: JSON.stringify({
-          galleries: [savedNewGallery.data, ...player.galleries],
+          galleries: [savedNewGallery.data?._id, ...player.galleries.map((g) => g._id)],
         }),
       });
       const result = await response.json();

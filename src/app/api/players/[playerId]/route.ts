@@ -79,8 +79,8 @@ export async function PUT(
       }
       uploadedAvatarId = uploadedImage.data?._id as string;
     }
-    delete updates.avatar;
-    delete updates.galleries;
+    // delete updates.avatar;
+    // delete updates.galleries;
 
     if (uploadedAvatarId) updates.avatar = uploadedAvatarId;
     const saved = await PlayerModel.findByIdAndUpdate(playerId, {

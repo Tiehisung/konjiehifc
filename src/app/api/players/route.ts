@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     .populate({ path: "avatar" })
     .populate("galleries").skip(skip)
     .limit(limit)
-    .lean();;
+    .lean();
 
   const total = await PlayerModel.countDocuments(query)
   return NextResponse.json({

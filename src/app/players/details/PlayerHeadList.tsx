@@ -8,9 +8,9 @@ export function PlayerHeadList({ players }: { players: IPlayer[] }) {
     return null;
   }
   return (
-    <div className="flex items-center gap-4 flex-col border rounded-full p-2 bg-secondary/20 backdrop:blur-xs max-h-[75vh] w-fit overflow-y-auto _hideScrollbar">
+    <div className="fixed top-40 flex items-center gap-4 flex-col border rounded-full p-2 bg-secondary/20 backdrop:blur-xs max-h-[75vh] w-fit overflow-y-auto _hideScrollbar">
       {players.map((player) => (
-        <Link href={'/players/details?playerId='+player?._id} key={player?._id}>
+        <Link href={'/players/details?playerId='+player?._id} key={player?._id} title={player?.lastName?.[0]+ player?.firstName}>
           <Avatar className="hover:opacity-90 _slowTrans">
             <AvatarImage
               src={player?.avatar?.secure_url}

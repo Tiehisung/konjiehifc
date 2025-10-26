@@ -37,7 +37,10 @@ export default function PlayerProfile({ players }: PageProps) {
 
   const player = players.find((p) => p._id == playerId);
 
-  const { images } = usePlayerGalleryUtils(player);
+  // console.log({player})
+
+  const { images ,randomImage,slides:sd} = usePlayerGalleryUtils(player);
+  // console.log({images,sd,randomImage})
   const slides = images?.slice(0, 10)?.map((file) => (
     <div key={file?.public_id as string}>
       <Image
