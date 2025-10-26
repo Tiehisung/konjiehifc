@@ -27,7 +27,6 @@ export default async function PlayerProfilePage({ searchParams }: PageProps) {
   const galleries: IQueryResponse<IGalleryProps[]> = await getGalleries(
     [playerId].filter(Boolean)
   );
-  console.log({ galleries });
 
   return (
     <main className="">

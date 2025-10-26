@@ -53,7 +53,8 @@ export function PlayerGalleryUpload() {
     <div className="my-4 border py-12">
       <CloudinaryUploader
         triggerId={""}
-        onComplete={setFiles}
+        setUploadedFiles={setFiles}
+        uploadedFiles={files}
         successMessage="Gallery Updated"
       />
 

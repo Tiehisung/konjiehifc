@@ -4,7 +4,13 @@ import { fireEscape } from "@/hooks/Esc";
 import { X } from "lucide-react";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
-import { ReactNode, useEffect, useState } from "react";
+import {
+  ReactNode,
+  useEffect,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { toast } from "sonner";
 
 export interface ICldFileUploadResult {
@@ -43,20 +49,22 @@ export interface ICloudinaryUploaderProps {
   resourceType?: "image" | "video" | "raw" | "auto";
   deletable?: boolean;
   preview?: boolean;
-  onComplete?: (files: ICldFileUploadResult[]) => void;
   className?: string;
   trigger?: ReactNode;
   triggerId: string;
   dismissOnComplete?: boolean;
   cropping?: boolean;
-  successMessage?:string
+  successMessage?: string;
+  uploadedFiles: ICldFileUploadResult[];
+  setUploadedFiles: (files: ICldFileUploadResult[]) => void;
 }
 
 export default function CloudinaryUploader({
   multiple = true,
   maxFiles = 4,
   folder = "players/gallery",
-  onComplete,
+  uploadedFiles,
+  setUploadedFiles,
   resourceType = "auto",
   deletable = true,
   preview = true,
@@ -64,11 +72,10 @@ export default function CloudinaryUploader({
   trigger = "Upload Media",
   triggerId = "cloudinary-uploader",
   dismissOnComplete = true,
-  cropping = false,successMessage
+  cropping = false,
+  successMessage,
 }: ICloudinaryUploaderProps) {
-  const [files, setFiles] = useState<ICldFileUploadResult[]>([]);
-
-  useEffect(()=>{},[])
+  useEffect(() => {}, []);
 
   const allowedFormats =
     resourceType === "image"
@@ -91,8 +98,7 @@ export default function CloudinaryUploader({
         ];
   const handleRemove = async (public_id: string) => {
     try {
-      setFiles((prev) => prev.filter((f) => f.public_id !== public_id));
-      onComplete?.(files.filter((f) => f.public_id !== public_id));
+      setUploadedFiles(uploadedFiles.filter((f) => f.public_id !== public_id));
 
       // Optionally hit your API to delete from Cloudinary
       const res = await fetch("/api/deleteFile", {
@@ -103,9 +109,8 @@ export default function CloudinaryUploader({
 
       if (!res.ok) throw new Error("Failed to delete file");
       toast.success("File deleted successfully");
-    } catch (err) {
-      toast.error("Failed to delete file");
-      console.error(err);
+    } catch {
+      // toast.error("Failed to delete file");
     }
   };
   return (
@@ -129,17 +134,15 @@ export default function CloudinaryUploader({
           // Each successful upload fires this event
           if (result?.info) {
             const file = result.info as unknown as ICldFileUploadResult;
-            setFiles((prev) => {
-              const updated = [...prev, file];
-              onComplete?.(updated);
-              return updated;
-            });
+            const updated = [...uploadedFiles, file];
+            setUploadedFiles(updated);
           }
         }}
         onQueuesEnd={(result) => {
           // Fires when all uploads are done
-          toast.success(successMessage??
-            `${result.info?.length} of ${files.length} uploads complete`
+          toast.success(
+            successMessage ??
+              `${result.info?.length} of ${uploadedFiles.length} uploads complete`
           );
           if (dismissOnComplete) fireEscape();
         }}
@@ -157,9 +160,9 @@ export default function CloudinaryUploader({
       </CldUploadWidget>
 
       {/* Uploaded previews */}
-      {preview && files.length > 0 && (
+      {preview && uploadedFiles?.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
-          {files.map((f) => (
+          {uploadedFiles.map((f) => (
             <div
               key={f.public_id}
               className="relative rounded-lg overflow-hidden shadow-md group"

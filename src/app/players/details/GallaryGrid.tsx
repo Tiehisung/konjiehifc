@@ -27,12 +27,12 @@ export default function GalleryGrid({
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 _page">
       {galleries.map((gallery) => (
         <Card
           key={gallery._id}
           onClick={() => onSelect?.(gallery)}
-          className="cursor-pointer hover:shadow-lg transition-all duration-200"
+          className="cursor-pointer hover:shadow-lg transition-all duration-200 rounded-none"
         >
           <CardHeader>
             <CardTitle className="flex flex-wrap justify-between items-center gap-2">
