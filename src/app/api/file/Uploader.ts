@@ -12,9 +12,9 @@ export async function fileUploader({
     preset,
     folder,
     presetType,
-    description,
+
 }: IFileUpload) {
-    console.log('Uploading -- ', name)
+
     try {
         if (!path)
             return {

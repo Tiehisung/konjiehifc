@@ -1,3 +1,4 @@
+import { ICldFileUploadResult } from "@/components/Cloudinary";
 import { IUser } from "./user";
 
 export interface ISelectOptionLV {
@@ -18,14 +19,10 @@ export type TConvertedFile = {
   bytes?: number;
 };
 
-export interface IFileProps {
+export interface IFileProps extends ICldFileUploadResult {
   _id: string; //Trace any saved file data on db
-  secure_url: string;
-  resource_type: string;
-  public_id?: string;
   name?: string;
   description?: string; //Optional field to save with file on db
-  bytes?: number; //In bytes
   createdAt?: string;
   updatedAt?: string;
 }
@@ -41,10 +38,11 @@ export interface IFileUpload {
 }
 
 export interface IGalleryProps {
+  _id?: string;
+  tags: string[];
+  name?: string; 
   description: string;
   files: Array<IFileProps>;
-  name?: string;
-  _id?: string;
   timestamp?: number;
   createdAt?: string;
   updatedAt?: string;
