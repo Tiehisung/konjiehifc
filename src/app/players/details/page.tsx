@@ -31,7 +31,10 @@ export default async function PlayerProfilePage({ searchParams }: PageProps) {
 
   return (
     <main className="">
-      <PlayerProfile players={players?.data as IPlayer[]} />
+      <PlayerProfile
+        players={players?.data as IPlayer[]}
+        galleries={galleries?.data}
+      />
       <PlayerHeadList players={players?.data as IPlayer[]} />
 
       <PlayerGalleryUpload />

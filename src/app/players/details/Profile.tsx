@@ -16,6 +16,7 @@ import { useSearchParams } from "next/navigation";
 import { PrimarySelect } from "@/components/select/Select";
 import CardCarousel from "@/components/carousel/cards";
 import { usePlayerGalleryUtils } from "@/hooks/usePlayerGallery";
+import { IGalleryProps } from "@/types";
 
 const statsData = [
   { stat: "PAS", value: 82 },
@@ -28,9 +29,10 @@ const statsData = [
 
 interface PageProps {
   players: IPlayer[];
+  galleries?: IGalleryProps[];
 }
 
-export default function PlayerProfile({ players }: PageProps) {
+export default function PlayerProfile({ players, galleries }: PageProps) {
   const sp = useSearchParams();
 
   const playerId = sp.get("playerId");
@@ -39,16 +41,16 @@ export default function PlayerProfile({ players }: PageProps) {
 
   // console.log({player})
 
-  const { images ,randomImage,slides:sd} = usePlayerGalleryUtils(player);
-  // console.log({images,sd,randomImage})
+  const { images, randomImage, slides: sd } = usePlayerGalleryUtils(galleries);
+  console.log({ images, sd, randomImage });
   const slides = images?.slice(0, 10)?.map((file) => (
     <div key={file?.public_id as string}>
       <Image
         width={300}
         height={300}
         src={file?.secure_url as string}
-        alt={file?.description as string}
-        className="w-auto max-h-[60vh] object-cover"
+        alt={file?.description as string??'slide'}
+        className="w-full h-72 object-cover "
       />
       <p>{file?.description}</p>
     </div>

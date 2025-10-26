@@ -20,6 +20,7 @@ export function PlayerGalleryUpload() {
   const [files, setFiles] = useState<ICldFileUploadResult[]>([]);
 
   const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
 
   const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,7 +33,7 @@ export function PlayerGalleryUpload() {
         body: JSON.stringify({
           description,
           files: files.map((file) => ({ ...file, tags: [playerId] })),
-          name: "test gallery",
+          title,
           tags: [playerId],
         } as IGalleryProps),
       });
@@ -49,29 +50,43 @@ export function PlayerGalleryUpload() {
   };
 
   return (
-    <div className="my-4">
-      <CloudinaryUploader triggerId={""} onComplete={setFiles} />
+    <div className="my-4 border py-12">
+      <CloudinaryUploader
+        triggerId={""}
+        onComplete={setFiles}
+        successMessage="Gallery Updated"
+      />
 
       {files.length > 0 && (
         <form
           onSubmit={handleSave}
-          className="mx-auto p-4 flex flex-col items-center "
+          className="mx-auto p-4 flex flex-col items-center space-y-2 "
         >
           <p>
             {files.length} file{files.length !== 1 ? "s" : ""} selected.
           </p>
-          <Input
-            onChange={(e) => setDescription(e.target.value)}
-            name={"description"}
-            value={description}
-            placeholder="Description"
-          />
-          <Button
-            type="submit"
-            waiting={isLoading}
-            className="mt-2 _primaryBtn h-12 w-48 justify-center"
-            primaryText="Save Gallery"
-          />
+          <div className="flex items-center justify-center gap-4 flex-wrap">
+            <Input
+              onChange={(e) => setTitle(e.target.value)}
+              name={"title"}
+              value={title}
+              placeholder="Title"
+              className="grow flex-1"
+            />
+            <Input
+              onChange={(e) => setDescription(e.target.value)}
+              name={"description"}
+              className="grow w-full"
+              value={description}
+              placeholder="Description"
+            />
+            <Button
+              type="submit"
+              waiting={isLoading}
+              className=" _primaryBtn h-10 w-48 justify-center"
+              primaryText="Save Gallery"
+            />
+          </div>
         </form>
       )}
     </div>

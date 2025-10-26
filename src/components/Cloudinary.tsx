@@ -4,7 +4,7 @@ import { fireEscape } from "@/hooks/Esc";
 import { X } from "lucide-react";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export interface ICldFileUploadResult {
@@ -49,6 +49,7 @@ export interface ICloudinaryUploaderProps {
   triggerId: string;
   dismissOnComplete?: boolean;
   cropping?: boolean;
+  successMessage?:string
 }
 
 export default function CloudinaryUploader({
@@ -63,10 +64,11 @@ export default function CloudinaryUploader({
   trigger = "Upload Media",
   triggerId = "cloudinary-uploader",
   dismissOnComplete = true,
-  cropping = false,
+  cropping = false,successMessage
 }: ICloudinaryUploaderProps) {
   const [files, setFiles] = useState<ICldFileUploadResult[]>([]);
-  console.log({ files });
+
+  useEffect(()=>{},[])
 
   const allowedFormats =
     resourceType === "image"
@@ -136,8 +138,9 @@ export default function CloudinaryUploader({
         }}
         onQueuesEnd={(result) => {
           // Fires when all uploads are done
-          toast.success("All uploads complete");
-          console.log("All uploads complete", result);
+          toast.success(successMessage??
+            `${result.info?.length} of ${files.length} uploads complete`
+          );
           if (dismissOnComplete) fireEscape();
         }}
       >
