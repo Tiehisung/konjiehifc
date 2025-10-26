@@ -18,7 +18,7 @@ export function PlayerHeadList({ players }: { players: IPlayer[] }) {
         const isSelected=searchParams.get('playerId')==player?._id
         return (
           <Link
-            href={"/players/details?playerId=" + player?._id}
+            href={`/players/details?playerId=${player?._id}`}
             key={player?._id}
             title={player?.lastName?.[0] + player?.firstName}
             className={isSelected?'ring-2':''}

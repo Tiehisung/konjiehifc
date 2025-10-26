@@ -39,6 +39,7 @@ export function PlayerGalleryUpload() {
       const result: IQueryResponse = await response.json();
       toast.success(result.message);
       setDescription("");
+      setFiles([]);
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
