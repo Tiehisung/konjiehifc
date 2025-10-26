@@ -69,7 +69,7 @@ export function PlayerGalleryUpload() {
             <Input
               onChange={(e) => setTitle(e.target.value)}
               name={"title"}
-              value={description}
+              value={title}
               placeholder="Title"
               className="grow flex-1"
             />

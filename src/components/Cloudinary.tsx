@@ -4,7 +4,7 @@ import { fireEscape } from "@/hooks/Esc";
 import { X } from "lucide-react";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export interface ICldFileUploadResult {
@@ -67,6 +67,8 @@ export default function CloudinaryUploader({
   cropping = false,successMessage
 }: ICloudinaryUploaderProps) {
   const [files, setFiles] = useState<ICldFileUploadResult[]>([]);
+
+  useEffect(()=>{},[])
 
   const allowedFormats =
     resourceType === "image"
