@@ -228,6 +228,7 @@ export const UpdateFixtureMatch = ({
               setSelectedValue={setMatchType}
               values={["home", "away"]}
               wrapperStyles="flex gap-3 items-center"
+              className="uppercase"
             />
           </div>
 

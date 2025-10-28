@@ -12,6 +12,8 @@ import { getFormattedDate } from "@/lib/timeAndDate";
 import { IMatchProps, ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { BsPatchCheck } from "react-icons/bs";
 import { FaCheckCircle } from "react-icons/fa";
+import { MdLiveTv } from "react-icons/md";
+import { Badge } from "@/components/ui/badge";
 
 interface DisplayFixturesProps {
   fixtures: IMatchProps[];
@@ -37,11 +39,15 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
                 <td className="px-2 py-4 ">
                   <div className="flex items-center gap-2 text-nowrap uppercase">
                     <span className="">
-                      {" "}
                       {fixture.status == "COMPLETED" ? (
-                        <FaCheckCircle className='text-primaryGreen' size={30}/>
+                        <FaCheckCircle
+                          className="text-primaryGreen"
+                          size={30}
+                        />
+                      ) : fixture.status == "LIVE" ? (
+                        <MdLiveTv className="text-primaryRed" size={30} />
                       ) : (
-                        <BsPatchCheck size={30}/>
+                        <BsPatchCheck size={30} />
                       )}
                     </span>
 
@@ -63,11 +69,11 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
                 </td>
                 <td className="px-2 py-2 text-sm ">
                   <div className="flex gap-5 items-center justify-between max-w-sm">
-                    <UpdateFixtureMatch teams={teams} fixture={fixture} />
                     <StatusToggle
                       status={fixture.status}
                       fixtureId={fixture._id}
                     />
+                    <UpdateFixtureMatch teams={teams} fixture={fixture} />
                     <DeleteFixture fixtureId={fixture._id} />
                   </div>
                 </td>
@@ -131,7 +137,7 @@ export function DeleteFixture({ fixtureId }: { fixtureId: string }) {
       disabled={waiting}
       waitingText=""
       onClick={handleDelete}
-      className=" px-2 flex items-center text-red-600"
+      className=" px-2 flex items-center text-red-600 _deleteBtn"
     >
       <RiDeleteBin6Line className={waiting ? "hidden" : ""} />
     </Button>
@@ -167,7 +173,12 @@ export function StatusToggle({
     router.refresh();
   };
 
-  if (status == "COMPLETED") return null;
+  if (status == "COMPLETED")
+    return (
+      <Badge className="w-20 " variant={"outline"}>
+        FT
+      </Badge>
+    );
 
   return (
     <Button
