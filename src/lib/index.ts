@@ -49,10 +49,12 @@ export function removeEmptyKeys(obj: AnyObject): AnyObject {
   }, {});
 }
 
-export const checkTeams = (match: IMatchProps) => ({
-  home: match?.isHome ? teamKFC : match?.opponent,
-  away: match?.isHome ? match?.opponent : teamKFC,
-});
+export const checkTeams = (match?: IMatchProps) => {
+  return {
+    home: match?.isHome ? teamKFC : match?.opponent ?? null,
+    away: match?.isHome ? match?.opponent ?? null : teamKFC,
+  }
+};
 
 export function roundToNearest(num: number, nearest?: 10 | 100 | 1000) {
   if (nearest == 10) return Math.round(num / 10) * 10;

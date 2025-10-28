@@ -35,7 +35,7 @@ export interface IMatchEvent {
   title: string,
   description?: string;
   minute: string | number,
-  type: 'goal' | 'card' | 'injury' | 'general' | 'substitution'
+  type: 'goal' | 'card' | 'injury' | 'general'
 }
 
 
@@ -57,10 +57,10 @@ export interface IGoal {
   scorer: {
     number?: string | number; name: string; _id?: string; avatar?: string
   };
-  assist: {
+  assist?: {
     number?: string | number; name: string; _id?: string; avatar?: string
   };
-  type?:
+  modeOfScore?:
   | "Open Play Goal"
   | "Set Piece Goal"
   | "Penalty Goal"
@@ -69,7 +69,7 @@ export interface IGoal {
   | "Header Goal"
   | "Volley Goal"
   | "Tap-In Goal"
-  | "Long-Range Goal" | string;
+  | "Long-Range Goal" 
   description?: string
   match: string
 }
