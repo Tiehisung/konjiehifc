@@ -1,15 +1,11 @@
-import { IPlayer } from "@/app/players/page";
 import { IPlayerStatsProps } from "@/app/statistics/Statistics";
 import { IFileProps } from "@/types";
 
 export type TMatchType = "home" | "away";
 export type MatchStatus =
-  | "FT" // Full Time
-  | "HT" // Half Time
   | "LIVE" // Live Match
-  | "SCHEDULED" //  The match is scheduled to take place in the future.
-  | "POSTPONED" //  The match has been postponed to a later date.
-  | "CANCELED"; //  The match has been canceled.
+  | "UPCOMING" //  The match is scheduled to take place in the future.
+  | "COMPLETED" //  The match has been completed.
 
 export interface IMatchProps {
   challenge?: { reason: "Weather issues" | string; details?: string };
@@ -24,8 +20,24 @@ export interface IMatchProps {
   isHome: boolean;
   venue?: { name: string; files: IFileProps[] };
   goals: Array<IGoal>;
-  events: Array<{ description: string; time: string }>;
+  events: Array<IMatchEvent>;
+  cards: Array<IMatchCard>;
 }
+
+export interface IMatchCard {
+  type: 'red' | 'yellow';
+  minute: string | number
+  match: { name: string, _id: string }
+  player: { name: string; _id: string, number: string }
+  description?: string
+}
+export interface IMatchEvent {
+  title: string,
+  description?: string;
+  minute: string | number,
+  type: 'goal' | 'card' | 'injury' | 'general' | 'substitution'
+}
+
 
 export interface ITeamProps {
   _id: string;
@@ -39,12 +51,16 @@ export interface ITeamProps {
 }
 
 export interface IGoal {
-  _id: string;
-  team: string;
-  time: string;
-  timestamp: number;
-  player: IPlayer | string;
-  type:
+  _id?: string;
+  opponent: string; //ObjectId of team
+  minute: string | number;
+  scorer: {
+    number?: string | number; name: string; _id?: string; avatar?: string
+  };
+  assist: {
+    number?: string | number; name: string; _id?: string; avatar?: string
+  };
+  type?:
   | "Open Play Goal"
   | "Set Piece Goal"
   | "Penalty Goal"
@@ -53,13 +69,9 @@ export interface IGoal {
   | "Header Goal"
   | "Volley Goal"
   | "Tap-In Goal"
-  | "Long-Range Goal";
+  | "Long-Range Goal" | string;
+  description?: string
+  match: string
 }
 
-export interface IPostGoal {
-  team: string;
-  time: string;
-  timestamp: number;
-  player?: string;
-  type: IGoal["type"];
-}
+

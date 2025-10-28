@@ -8,8 +8,8 @@ const matchSchema = new Schema(
     title: { type: String },
     status: {
       type: String,
-      enum: ["FT", "HT", "LIVE", "SCHEDULED", "POSTPONED", "CANCELED"],
-      default: () => "SCHEDULED",
+      enum: ["LIVE", "UPCOMING", "COMPLETED"],
+      default: () => "UPCOMING",
     },
     sponsor: { type: Schema.Types.ObjectId, ref: "sponsors" },
     score: {

@@ -2,19 +2,22 @@ import { apiConfig } from "@/lib/configs";
 import { DisplayFixtures } from "./DisplayFixtures";
 import CreateMatch from "./CreateFixture";
 import { getTeams } from "../features/teams/page";
-import { ITeamProps, MatchStatus } from "@/app/matches/(fixturesAndResults)";
-import { buildQueryString } from "@/lib/searchParams";
-import { IQueryResponse, IRecord } from "@/types";
+import {
+  IMatchProps,
+  ITeamProps,
+  MatchStatus,
+} from "@/app/matches/(fixturesAndResults)";
+import { IQueryResponse } from "@/types";
+import { buildQueryString } from "@/lib";
 
 export interface IGetMatchesProps {
   status?: MatchStatus;
   isHome?: boolean;
   sort?: "desc" | "asc";
 }
-export const getMatches = async (filters?: IGetMatchesProps) => {
+export const getMatches = async (query?: string) => {
   try {
-    const qs = buildQueryString(filters as IRecord);
-    const response = await fetch(`${apiConfig.matches}/find${qs}`, {
+    const response = await fetch(`${apiConfig.matches}${query ?? ""}`, {
       cache: "no-store",
     });
     const fixtures = await response.json();
@@ -37,11 +40,16 @@ export const getMatchById = async (id: string) => {
 };
 
 export default async function AdminFixtures() {
-  const fixtures = await getMatches({});
+  const qs = buildQueryString();
+
+  const fixtures: IQueryResponse<IMatchProps[]> = await getMatches(qs);
   const teams: IQueryResponse<ITeamProps[]> = await getTeams();
   return (
-    <section className="pb-6 pt-10 px-3">
-      <DisplayFixtures fixtures={fixtures} teams={teams?.data} />
+    <section className="pb-6 pt-10 px-3 _page">
+      <DisplayFixtures
+        fixtures={fixtures?.data as IMatchProps[]}
+        teams={teams?.data}
+      />
       <div className="flex items-center py-14 gap-9">
         <CreateMatch teams={teams?.data} />
       </div>

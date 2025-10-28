@@ -61,6 +61,8 @@ export const apiConfig = {
   teams: `${baseUrl}/api/teams`,
 
   matches: `${baseUrl}/api/matches`,
+  goals: `${baseUrl}/api/goals`,
+  injuries: `${baseUrl}/api/injuries`,
 
   players: `${baseUrl}/api/players`,
 

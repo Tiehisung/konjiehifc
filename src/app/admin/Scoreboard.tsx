@@ -5,62 +5,62 @@ import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { PrimarySelect } from "@/components/select/Select";
 import { Button } from "@/components/buttons/Button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { INPUT } from "@/components/input/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
 import { IPlayer } from "../players/page";
 
 export interface IGoalEvent {
   scorer: string;
   assist?: string;
   minute: number;
-  card?: "yellow" | "red";
 }
 
-interface IScoreboardForm {
-  events: IGoalEvent[];
+interface IScoreEventForm {
+  goals: IGoalEvent[];
 }
 
 interface IProps {
   players: IPlayer[];
-  onSave?: (data: IScoreboardForm) => void;
+  onSave?: (data: IScoreEventForm) => void;
 }
 
-const ScoreboardManager = ({ players, onSave }: IProps) => {
-  const { control, handleSubmit } = useForm<IScoreboardForm>({
+export default function ScoreEventBoard({ players, onSave }: IProps) {
+  const { control, handleSubmit } = useForm<IScoreEventForm>({
     defaultValues: {
-      events: [{ scorer: "", assist: "", minute: 0, card: undefined }],
+      goals: [{ scorer: "", assist: "", minute: 0 }],
     },
   });
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "events",
+    name: "goals",
   });
 
-  const handleFormSubmit = (data: IScoreboardForm) => {
-    console.log("Scoreboard Data:", data);
+  const onSubmit = (data: IScoreEventForm) => {
+    console.log("Goal Events:", data);
     onSave?.(data);
-    toast.success("Scoreboard updated successfully!");
+    toast.success("Goal events saved successfully!");
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <Card className="border-0 shadow-lg">
         <CardHeader>
-          <CardTitle className="text-xl font-black">MATCH SCOREBOARD</CardTitle>
+          <CardTitle className="text-xl font-black">GOAL EVENTS</CardTitle>
         </CardHeader>
+
         <CardContent>
           {fields.map((field, index) => (
             <div
               key={field.id}
-              className="grid grid-cols-1 sm:grid-cols-5 gap-4 border-b pb-4 mb-4"
+              className="grid grid-cols-1 sm:grid-cols-4 gap-4 border-b pb-4 mb-4"
             >
-              {/* Goal Scorer */}
+              {/* Scorer */}
               <div>
                 <Label>Scorer</Label>
                 <Controller
-                  name={`events.${index}.scorer`}
+                  name={`goals.${index}.scorer`}
                   control={control}
                   render={({ field }) => (
                     <PrimarySelect
@@ -68,7 +68,7 @@ const ScoreboardManager = ({ players, onSave }: IProps) => {
                         label: `${p.firstName} ${p.lastName}`,
                         value: p._id,
                       }))}
-                      placeholder="Select Scorer"
+                      placeholder="Select scorer"
                       onChange={field.onChange}
                       value={field.value}
                     />
@@ -76,22 +76,22 @@ const ScoreboardManager = ({ players, onSave }: IProps) => {
                 />
               </div>
 
-              {/* Assist Giver */}
+              {/* Assist */}
               <div>
                 <Label>Assist</Label>
                 <Controller
-                  name={`events.${index}.assist`}
+                  name={`goals.${index}.assist`}
                   control={control}
                   render={({ field }) => (
                     <PrimarySelect
                       options={[
-                        { label: "None", value: "" },
+                       
                         ...players.map((p) => ({
                           label: `${p.firstName} ${p.lastName}`,
                           value: p._id,
                         })),
                       ]}
-                      placeholder="Assist Giver"
+                      placeholder="Assist giver"
                       onChange={field.onChange}
                       value={field.value}
                     />
@@ -99,52 +99,30 @@ const ScoreboardManager = ({ players, onSave }: IProps) => {
                 />
               </div>
 
-              {/* Goal Minute */}
+              {/* Minute */}
               <div>
                 <Label>Minute</Label>
                 <Controller
-                  name={`events.${index}.minute`}
+                  name={`goals.${index}.minute`}
                   control={control}
                   render={({ field }) => (
-                    <INPUT
+                    <Input
                       {...field}
-                      placeholder="e.g. 45"
                       type="number"
-                    //   min={1}
-                    //   max={120}
-                      others={{ min: 1, max: 120, }}
+                      min={1}
+                      max={120}
+                      placeholder="e.g. 45"
                     />
                   )}
                 />
               </div>
 
-              {/* Card Assignment */}
-              <div>
-                <Label>Card</Label>
-                <Controller
-                  name={`events.${index}.card`}
-                  control={control}
-                  render={({ field }) => (
-                    <PrimarySelect
-                      options={[
-                        { label: "None", value: "" },
-                        { label: "Yellow", value: "yellow" },
-                        { label: "Red", value: "red" },
-                      ]}
-                      placeholder="Card"
-                      onChange={field.onChange}
-                      value={field.value}
-                    />
-                  )}
-                />
-              </div>
-
-              {/* Remove Button */}
+              {/* Remove */}
               <div className="flex items-end">
                 <Button
                   type="button"
-                  className="bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-2 rounded-md"
                   onClick={() => remove(index)}
+                  className="bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-2 rounded-md"
                 >
                   Remove
                 </Button>
@@ -152,22 +130,18 @@ const ScoreboardManager = ({ players, onSave }: IProps) => {
             </div>
           ))}
 
-          {/* Add Another Event */}
           <Button
             type="button"
+            onClick={() => append({ scorer: "", assist: "", minute: 0 })}
             className="bg-green-600 hover:bg-green-700 text-white font-bold px-4 py-2 rounded-lg"
-            onClick={() =>
-              append({ scorer: "", assist: "", minute: 0, card: undefined })
-            }
           >
-            + Add Event
+            + Add Goal Event
           </Button>
 
-          {/* Save */}
           <div className="text-right mt-8">
             <Button
               type="submit"
-              primaryText="Save Scoreboard"
+              primaryText="Save Goal Events"
               className="_primaryBtn p-3"
             />
           </div>
@@ -175,6 +149,4 @@ const ScoreboardManager = ({ players, onSave }: IProps) => {
       </Card>
     </form>
   );
-};
-
-export default ScoreboardManager;
+}

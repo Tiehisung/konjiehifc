@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const goalSchema = new Schema(
+const cardSchema = new Schema(
   {
     opponent: { type: Schema.Types.ObjectId, ref: "teams", required: true }
     ,
@@ -29,7 +29,7 @@ const goalSchema = new Schema(
   { timestamps: true }
 );
 
-const GoalModel = mongoose.models.goals || mongoose.model("goals", goalSchema);
+const CardModel = mongoose.models.cards || mongoose.model("cards", cardSchema);
 
-export default GoalModel;
+export default CardModel;
 
