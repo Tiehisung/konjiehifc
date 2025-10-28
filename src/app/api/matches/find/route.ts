@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
       .sort({
         createdAt: sort,
       });
-    return NextResponse.json(fixtures);
+    return NextResponse.json({data:fixtures});
   } catch (error) {
     console.log(getErrorMessage(error).length);
     console.log({ error })

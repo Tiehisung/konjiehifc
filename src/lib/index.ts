@@ -53,7 +53,7 @@ export const checkTeams = (match: IMatchProps) => ({
   home: match?.isHome ? teamKFC : match?.opponent,
   away: match?.isHome ? match?.opponent : teamKFC,
 });
- 
+
 export function roundToNearest(num: number, nearest?: 10 | 100 | 1000) {
   if (nearest == 10) return Math.round(num / 10) * 10;
   if (nearest == 100) return Math.round(num / 100) * 100;
@@ -81,3 +81,15 @@ export const getAge = (dob: string | Date) => {
 export const getRandomIndex = (length: number) =>
   Math.ceil(Math.random() * length - 1);
 
+export function buildQueryString(
+  searchParams?: Record<string, string | string[] | undefined>
+) {
+  if (!searchParams) return "";
+  const query = new URLSearchParams(
+    Object.entries(searchParams).filter(([_, v]) => v !== undefined) as [
+      string,
+      string
+    ][]
+  ).toString();
+  return query ? `?${query}` : "";
+}

@@ -128,7 +128,7 @@ const CreateFixture = ({ teams }: { teams?: ITeamProps[] }) => {
             disabled={waiting}
             waitingText={"Saving..."}
             primaryText={"Save fixture"}
-            className="_primaryBtn px-3 mt-2 py-2 ml-auto"
+            className="_primaryBtn px-3 mt-2 py-2 mx-auto"
           />
         </form>
       </PrimaryModal>
@@ -200,9 +200,9 @@ export const UpdateFixtureMatch = ({
       closeId={fx._id}
       trigger="Edit"
       triggerStyles="text-teal-600"
-      title={"Update Fixture"}
+      title={"Update Fixture"} 
     >
-      <div>
+      <div className="flex flex-col justify-center items-center">
         <h1 className="mb-4 text-lg md:text-xl">
           {` ${home?.name} vs ${away?.name}`}
         </h1>

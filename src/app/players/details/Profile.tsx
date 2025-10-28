@@ -151,32 +151,36 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
           <CardCarousel cards={slides} />
 
           {/* Trophies */}
-          <div className="flex gap-6 justify-end mb-10">
-            {["🏆", "🥈", "🥇", "🏅", "🏆"].map((t, i) => (
-              <div key={i} className="flex flex-col items-center">
-                <span className="text-2xl">{t}</span>
-                <span className="text-xs mt-1 text-muted-foreground">
-                  {i + 1}
-                </span>
-              </div>
-            ))}
+
+          <div className="w-fit my-3">
+            <h1 className="_label mb-3">TROPHIES</h1>
+            <ul className="flex gap-6 justify-end mb-10">
+              {["🏆", "🥈", "🥇", "🏅", "🏆"].map((t, i) => (
+                <li key={i} className="flex flex-col items-center">
+                  <span className="text-2xl">{t}</span>
+                  <span className="text-xs mt-1 text-muted-foreground">
+                    {i + 1}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Stats */}
           <div className="grid grid-cols-4 gap-6 text-center mb-8">
-            <div>
+            <div className="_card">
               <p className="text-xl font-semibold">8.2</p>
               <p className="text-xs text-muted-foreground">Avg Rating</p>
             </div>
-            <div>
+            <div className="_card">
               <p className="text-xl font-semibold">7</p>
               <p className="text-xs text-muted-foreground">Assists</p>
             </div>
-            <div>
+            <div className="_card">
               <p className="text-xl font-semibold">2</p>
               <p className="text-xs text-muted-foreground">Goals</p>
             </div>
-            <div>
+            <div className="_card">
               <p className="text-xl font-semibold">26</p>
               <p className="text-xs text-muted-foreground">Matches</p>
             </div>

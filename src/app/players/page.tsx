@@ -1,7 +1,11 @@
 import { IFileProps, IQueryResponse } from "@/types";
 import React from "react";
 import { IManager } from "../admin/managers/page";
-import { IGoal, IMatchProps } from "../matches/(fixturesAndResults)";
+import {
+  IGoal,
+  IMatchCard,
+  IMatchProps,
+} from "../matches/(fixturesAndResults)";
 import { getPlayers } from "../admin/players/page";
 import Link from "next/link";
 import Image from "next/image";
@@ -29,18 +33,19 @@ export type TPlayerPosition =
 
 export interface IPlayerStats {
   goals: IGoal[] | string[];
-  matches: (IMatchProps | string)[];
-  assists: (IGoal | string)[];
+  matches: IMatchProps[] | string[];
+  assists: IGoal[] | string[];
   passAcc: string;
   trophies: number;
+  cards: IMatchCard[] | string[];
 }
 export interface IPlayer {
+  number: number | string;
   about?: string;
   description?: string;
   training: { team: string };
   medicals: { fitness: string }[];
   galleries: TPlayerGallery[];
-  card: "yellow" | "red";
   isFit: boolean;
   captaincy: string;
   firstName: string;
@@ -69,8 +74,8 @@ export interface IPlayer {
 }
 
 const PlayersPage = async () => {
-  const players: IQueryResponse<IPlayer[]>  = await getPlayers();
-  console.log({players})
+  const players: IQueryResponse<IPlayer[]> = await getPlayers();
+  console.log({ players });
   return (
     <div className="">
       <h1 className="_heading mt-3 text-center">Players</h1>

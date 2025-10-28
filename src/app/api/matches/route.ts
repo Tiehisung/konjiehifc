@@ -2,6 +2,10 @@ import { IPostMatch } from "@/app/admin/matches/CreateFixture";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import MatchModel from "@/models/matches";
 import { NextRequest, NextResponse } from "next/server";
+import "@/models/teams";
+import "@/models/file";
+import "@/models/goals";
+import "@/models/player";
 
 ConnectMongoDb();
 
@@ -9,6 +13,15 @@ ConnectMongoDb();
 // export const dynamic = "force-dynamic";
 
 //Post new fixture
+
+export async function GET() {
+  const fixtures = await MatchModel.find().populate({ path: "opponent", populate: { path: "logo" } })
+    .populate({ path: "goals", populate: { path: "players" } })
+    .sort({
+      createdAt: 'desc',
+    });;
+  return NextResponse.json({ data: fixtures, success: true });
+}
 export async function POST(request: NextRequest) {
   const formdata: IPostMatch = await request.json();
 
@@ -34,9 +47,4 @@ export async function DELETE(request: NextRequest) {
   if (deleted.acknowledged)
     return NextResponse.json({ message: "Deleted", success: true });
   return NextResponse.json({ message: "Delete failed", success: false });
-}
-
-export async function GET() {
-  const fixtures = await MatchModel.find();
-  return NextResponse.json(fixtures);
 }

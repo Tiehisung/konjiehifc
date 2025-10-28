@@ -7,10 +7,8 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import MatchModel from "@/models/matches";
 import { NextRequest, NextResponse } from "next/server";
 // export const revalidate = 0;
- 
 
 ConnectMongoDb();
-
 
 //Post new fixture
 
@@ -34,5 +32,5 @@ export async function GET() {
   const fixture = await MatchModel.findOne({ status: "LIVE" })
     .populate({ path: "opponent", populate: { path: "logo" } })
     .populate({ path: "goals", populate: { path: "players" } });
-  return NextResponse.json(fixture);
+  return NextResponse.json({ data: fixture });
 }
