@@ -48,7 +48,9 @@ export default async function LiveMatchPage() {
           <div className="text-xl md:text-2xl font-black uppercase">
             {home?.name}
           </div>
-          <div className="mx-auto text-2xl text-center">0 - 0</div>
+          <div className="mx-auto text-2xl text-center">
+            {match?.data?.goals?.length ?? 0} - 0
+          </div>
           <div className="text-xl md:text-2xl font-black uppercase">
             {away?.name}
           </div>

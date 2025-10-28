@@ -49,7 +49,7 @@ export function ScoreEventsTab({
     try {
       setIsLoading(true);
       if (!form.scorer || !form.minute || !form.description) {
-        alert("Please fill in scorer, minute, and team");
+        toast.warning("Please fill in scorer, minute, and description");
         return;
       }
 
@@ -73,7 +73,6 @@ export function ScoreEventsTab({
 
       const newGoal: IGoal = {
         opponent: opponent?._id,
-
         scorer: {
           _id: scorer._id,
           name: `${scorer.lastName} ${scorer.firstName}`,

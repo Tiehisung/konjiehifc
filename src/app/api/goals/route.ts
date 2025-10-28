@@ -7,6 +7,7 @@ import { logAction } from "../logs/helper";
 import { IGoal } from "@/app/matches/(fixturesAndResults)";
 import GoalModel from "@/models/goals";
 import { updateMatchEvent } from "../matches/live/events/route";
+import MatchModel from "@/models/matches";
 // export const revalidate = 0;
 // export const dynamic = "force-dynamic";
 
@@ -55,24 +56,26 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    const body = await request.json() as IGoal;
+    const { match, description, minute, opponent, scorer, assist, modeOfScore, } = await request.json() as IGoal;
 
-    const saved = await GoalModel.create({
-      ...body,
+    const savedGoal = await GoalModel.create({
+      match, description, minute, opponent, scorer, assist, modeOfScore,
     });
 
-    if (!saved) {
+    if (!savedGoal) {
       return NextResponse.json({ message: "Failed to create goal.", success: false });
     }
+    //Update Match
+    await MatchModel.findByIdAndUpdate(match, { $push: { goals: savedGoal._id } })
 
     //Update events
-    const assistance = body.assist ? `Assist: ${body.assist.number ?? ''} ${body.assist.name} ` : ''
+    const assistance = assist ? `Assist: ${assist.number ?? ''} ${assist.name} ` : ''
 
-    const event = await updateMatchEvent(body.match, {
+    const event = await updateMatchEvent(match, {
       type: 'goal',
-      minute: body.minute,
-      title: `${body.minute}' - ${body.scorer.number ?? ''}  ${body.scorer.name} `,
-      description: `${assistance} ${body.description} Mode of Score: ${body.modeOfScore ?? ''}`
+      minute: minute,
+      title: `${minute}' - ${scorer.number ?? ''}  ${scorer.name} `,
+      description: `${assistance} ${description} Mode of Score: ${modeOfScore ?? ''}`
 
     })
 
@@ -81,14 +84,14 @@ export async function POST(request: NextRequest) {
     // log
     await logAction({
       title: "Goal Created",
-      description: body.description as string,
+      description: description as string,
       category: "db",
       severity: "info",
       userEmail: session?.user?.email as string,
 
     });
 
-    return NextResponse.json({ message: "Goal created successfully!", success: true, data: saved });
+    return NextResponse.json({ message: "Goal created successfully!", success: true, data: savedGoal });
 
   } catch (error) {
     return NextResponse.json({
