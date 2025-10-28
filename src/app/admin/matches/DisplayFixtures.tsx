@@ -175,7 +175,7 @@ export function StatusToggle({
 
   if (status == "COMPLETED")
     return (
-      <Badge className="w-20 " variant={"outline"}>
+      <Badge className="w-20 py-2 font-black" variant={"outline"}>
         FT
       </Badge>
     );

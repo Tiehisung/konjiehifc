@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { getErrorMessage } from "@/lib";
 import { IPlayer } from "@/app/players/page";
 import { Button } from "@/components/buttons/Button";
+import { useRouter } from "next/navigation";
 
 interface ScoreEventsTabProps {
   players: IPlayer[];
@@ -34,6 +35,7 @@ export function ScoreEventsTab({
   opponent,
   match,
 }: ScoreEventsTabProps) {
+  const router = useRouter();
   const [form, setForm] = useState({
     scorer: "",
     assist: "",
@@ -52,8 +54,19 @@ export function ScoreEventsTab({
       }
 
       const scorer = players.find((p) => p._id === form.scorer);
-      const assist = form.assist
+      const assistBy = form.assist
         ? players.find((p) => p._id === form.assist)
+        : undefined;
+
+      const assist = assistBy
+        ? {
+            _id: assistBy?._id,
+            name: [assistBy?.lastName, assistBy?.firstName]
+              .filter(Boolean)
+              .join(" "),
+            avatar: assistBy?.avatar?.secure_url,
+            number: assistBy?.number,
+          }
         : undefined;
 
       if (!scorer || !opponent) return;
@@ -63,19 +76,14 @@ export function ScoreEventsTab({
 
         scorer: {
           _id: scorer._id,
-          name: scorer.lastName + " " + scorer.firstName,
+          name: `${scorer.lastName} ${scorer.firstName}`,
           avatar: scorer?.avatar?.secure_url,
-          number: undefined,
+          number: scorer?.number,
         },
-        assist: {
-          _id: assist?._id,
-          name: [assist?.lastName, assist?.firstName].filter(Boolean).join(" "),
-          avatar: assist?.avatar?.secure_url,
-          number: undefined,
-        },
+        assist,
         minute: Number.parseInt(form.minute),
         description: form.description,
-        type: "",
+        modeOfScore: "Open Play Goal",
         match: match?._id,
       };
 
@@ -94,6 +102,7 @@ export function ScoreEventsTab({
       toast.error(getErrorMessage(error));
     } finally {
       setIsLoading(false);
+      router.refresh();
     }
   };
 

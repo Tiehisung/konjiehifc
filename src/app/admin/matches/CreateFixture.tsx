@@ -195,12 +195,14 @@ export const UpdateFixtureMatch = ({
 
   const { home, away } = checkTeams(fx);
 
+  if (fx?.status !== "LIVE") return null;
+
   return (
     <DIALOG
       closeId={fx._id}
       trigger="Edit"
       triggerStyles="text-teal-600"
-      title={"Update Fixture"} 
+      title={"Update Fixture"}
     >
       <div className="flex flex-col justify-center items-center">
         <h1 className="mb-4 text-lg md:text-xl">

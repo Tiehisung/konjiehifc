@@ -66,14 +66,17 @@ export async function POST(request: NextRequest) {
     }
 
     //Update events
-    const assistance = body.assist ? `Assist: ${body.assist.number} ${body.assist.name} ` : ''
+    const assistance = body.assist ? `Assist: ${body.assist.number ?? ''} ${body.assist.name} ` : ''
 
-    await updateMatchEvent(body.match, {
+    const event = await updateMatchEvent(body.match, {
       type: 'goal',
       minute: body.minute,
-      title: `${body.minute}' - ${body.scorer.number}  ${body.scorer.name} `,
-      description: `${assistance} ${body.description}`
+      title: `${body.minute}' - ${body.scorer.number ?? ''}  ${body.scorer.name} `,
+      description: `${assistance} ${body.description} Mode of Score: ${body.modeOfScore ?? ''}`
+
     })
+
+    console.log({ event })
 
     // log
     await logAction({
@@ -84,7 +87,7 @@ export async function POST(request: NextRequest) {
       userEmail: session?.user?.email as string,
 
     });
-    
+
     return NextResponse.json({ message: "Goal created successfully!", success: true, data: saved });
 
   } catch (error) {

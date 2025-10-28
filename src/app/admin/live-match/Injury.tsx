@@ -17,6 +17,7 @@ import { apiConfig } from "@/lib/configs";
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { getErrorMessage } from "@/lib";
 import { Button } from "@/components/buttons/Button";
+import { useRouter } from "next/navigation";
 
 export interface IInjury {
   _id?: string;
@@ -33,16 +34,12 @@ export interface IInjury {
 }
 
 interface InjuryEventsTabProps {
-  
   players: IPlayer[];
   match: IMatchProps;
 }
 
-export function InjuryEventsTab({
- 
-  players,
-  match,
-}: InjuryEventsTabProps) {
+export function InjuryEventsTab({ players, match }: InjuryEventsTabProps) {
+  const router = useRouter();
   const [form, setForm] = useState({
     player: "",
     minute: "",
@@ -98,6 +95,7 @@ export function InjuryEventsTab({
       toast.error(getErrorMessage(error));
     } finally {
       setIsLoading(false);
+      router.refresh();
     }
   };
 

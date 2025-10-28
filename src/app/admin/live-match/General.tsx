@@ -10,12 +10,14 @@ import { toast } from "sonner";
 import { getErrorMessage, shortText } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { IMatchEvent, IMatchProps } from "@/app/matches/(fixturesAndResults)";
+import { useRouter } from "next/navigation";
 
 interface GeneralEventsTabProps {
   match: IMatchProps;
 }
 
 export function GeneralEventsTab({ match }: GeneralEventsTabProps) {
+  const router = useRouter();
   const [form, setForm] = useState({ minute: "", description: "" });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -49,6 +51,7 @@ export function GeneralEventsTab({ match }: GeneralEventsTabProps) {
       toast.error(getErrorMessage(error));
     } finally {
       setIsLoading(false);
+      router.refresh();
     }
   };
 

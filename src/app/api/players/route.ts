@@ -42,7 +42,9 @@ export async function GET(request: NextRequest) {
 
   const total = await PlayerModel.countDocuments(query)
   return NextResponse.json({
-    success: true, data: players, pagination: {
+    success: true, 
+    data: players, 
+    pagination: {
       page,
       limit,
       total,

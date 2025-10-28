@@ -20,7 +20,7 @@ const matchSchema = new Schema(
     broadcaster: {},
     venue: { name: String, files: [{}] },
     isHome: Boolean,
-    events: [{ description: String, time: String }],
+    events: [{ description: String, title: String, minute: String, modeOfScore: String }],
   },
   { timestamps: true }
 );

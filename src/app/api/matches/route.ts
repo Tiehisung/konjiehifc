@@ -32,10 +32,12 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-  const match = await request.json();
 
-  const updated = await MatchModel.findByIdAndUpdate(match._id, {
-    $set: { ...match },
+  const {_id,...others} = await request.json();
+  console.log(others)
+
+  const updated = await MatchModel.findByIdAndUpdate(_id, {
+    $set: { ...others },
   });
   if (updated) return NextResponse.json({ message: "Updated", success: true });
   return NextResponse.json({ message: "Update failed", success: false });

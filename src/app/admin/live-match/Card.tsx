@@ -14,6 +14,7 @@ import { Input } from "@/components/input/Inputs";
 import { IPlayer } from "@/app/players/page";
 import { Button } from "@/components/buttons/Button";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface CardEvent {
   id: string;
@@ -28,6 +29,7 @@ interface EventsTabProps {
 }
 
 export function CardEventsTab({ players }: EventsTabProps) {
+  const router = useRouter();
   const [form, setForm] = useState({
     player: "",
     type: "yellow" as "yellow" | "red",
@@ -53,6 +55,8 @@ export function CardEventsTab({ players }: EventsTabProps) {
     };
 
     setForm({ player: "", type: "yellow", minute: "", description: "" });
+    setIsLoading(false);
+    router.refresh();
   };
 
   return (
