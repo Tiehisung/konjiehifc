@@ -66,13 +66,13 @@ export async function POST(request: NextRequest) {
 
 
     //Update Player
-    await PlayerModel.findByIdAndUpdate(player?._id, { $push: { injuries: savedInjury._id  } })
+    await PlayerModel.findByIdAndUpdate(player?._id, { $push: { injuries: savedInjury._id } })
 
     //Update events
     await updateMatchEvent(match, {
       type: 'injury',
       minute: minute,
-      title: `${minute}' - ${player.number}  ${player.name} `,
+      title: `${minute}' - ${player.number ?? ''}  ${player.name} `,
       description
     })
 

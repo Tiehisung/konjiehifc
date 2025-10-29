@@ -17,7 +17,7 @@ export async function PUT(request: NextRequest) {
     await MatchModel.findByIdAndUpdate(matchId, {
       $push: { events: event },
     });
-    return NextResponse.json({ message: "Match updated", success: true });
+    return NextResponse.json({ message: "Match Event updated", success: true });
   } catch (error) {
     return NextResponse.json({
       message: getErrorMessage(error, "Event update failed"),
