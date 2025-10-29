@@ -31,6 +31,6 @@ export async function PUT(request: NextRequest) {
 export async function GET() {
   const fixture = await MatchModel.findOne({ status: "LIVE" })
     .populate({ path: "opponent", populate: { path: "logo" } })
-    .populate({ path: "goals", populate: { path: "players" } });
+    .populate({ path: "goals",  });
   return NextResponse.json({ data: fixture });
 }

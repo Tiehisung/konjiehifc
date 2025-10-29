@@ -25,6 +25,8 @@ interface IProps {
   match: IMatchProps;
 }
 export function MatchEventsAdmin({ players, opponent, match }: IProps) {
+
+  const sortedEvents = match?.events ? [...match.events].sort((a, b) => Number(b.minute ?? 0) - Number(a.minute ?? 0)) : [];
   return (
     <div>
       <Tabs defaultValue="scores" className="w-full gap-0">
@@ -55,7 +57,7 @@ export function MatchEventsAdmin({ players, opponent, match }: IProps) {
         </TabsContent>
 
         <TabsContent value="cards">
-          <CardEventsTab players={players as IPlayer[]} />
+          <CardEventsTab players={players as IPlayer[]} match={match} />
         </TabsContent>
 
         <TabsContent value="injuries">
@@ -67,7 +69,7 @@ export function MatchEventsAdmin({ players, opponent, match }: IProps) {
         </TabsContent>
       </Tabs>
 
-      {match?.events?.map((event, index) => (
+      {sortedEvents.map((event, index) => (
         <MatchEventCard event={event} key={index} match={match} />
       ))}
     </div>

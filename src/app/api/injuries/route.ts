@@ -7,6 +7,7 @@ import { logAction } from "../logs/helper";
 import { updateMatchEvent } from "../matches/live/events/route";
 import InjuryModel from "@/models/injury";
 import { IInjury } from "@/app/admin/live-match/Injury";
+import PlayerModel from "@/models/player";
 // export const revalidate = 0;
 // export const dynamic = "force-dynamic";
 
@@ -55,32 +56,36 @@ export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions)
     const { match, minute, player, description, severity } = await request.json() as IInjury
 
-    const saved = await InjuryModel.create({
+    const savedInjury = await InjuryModel.create({
       minute, description, severity, match, player
     });
 
-    if (!saved) {
+    if (!savedInjury) {
       return NextResponse.json({ message: "Failed to create injury.", success: false });
     }
 
+
+    //Update Player
+    await PlayerModel.findByIdAndUpdate(player?._id, { $push: { injuries: savedInjury._id } })
+
     //Update events
-    await updateMatchEvent(match , {
+    await updateMatchEvent(match, {
       type: 'injury',
       minute: minute,
-      title: `${minute}' - ${player.number}  ${player.name} `,
+      title: `${minute}' - ${player.number ?? ''}  ${player.name} `,
       description
     })
 
     // log
     await logAction({
       title: "Injury Created",
-      description:description as string,
+      description: description as string,
       category: "db",
       severity: "info",
       userEmail: session?.user?.email as string,
 
     });
-    return NextResponse.json({ message: "Injury created successfully!", success: true, data: saved });
+    return NextResponse.json({ message: "Injury created successfully!", success: true, data: savedInjury });
 
   } catch (error) {
     return NextResponse.json({

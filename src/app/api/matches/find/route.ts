@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
 
     const fixtures = await MatchModel.find(cleaned)
       .populate({ path: "opponent", populate: { path: "logo" } })
-      .populate({ path: "goals", populate: { path: "players" } })
+      .populate({ path: "goals", })
       .sort({
         createdAt: sort,
       });

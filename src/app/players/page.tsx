@@ -31,15 +31,16 @@ export type TPlayerPosition =
   | "winger"
   | "sweeper";
 
-export interface IPlayerStats {
-  goals: IGoal[] | string[];
-  matches: IMatchProps[] | string[];
-  assists: IGoal[] | string[];
-  passAcc: string;
-  trophies: number;
-  cards: IMatchCard[] | string[];
-}
+// export interface IPlayerStats {
+//   goals: IGoal[] | string[];
+//   matches: IMatchProps[] | string[];
+//   assists: IGoal[] | string[];
+//   passAcc: string;
+//   trophies: number;
+//   cards: IMatchCard[] | string[];
+// }
 export interface IPlayer {
+  _id: string;
   number: number | string;
   about?: string;
   description?: string;
@@ -55,7 +56,6 @@ export interface IPlayer {
   email: string;
   dob: string;
   height: string;
-  _id: string;
   avatar: IFileProps;
   jersey: string | number;
   manager: IManager;
@@ -70,7 +70,50 @@ export interface IPlayer {
     | "gray"
     | "white"
     | "gold";
-  stats?: IPlayerStats;
+    //Stats
+  goals: IGoal[];
+  matches: IMatchProps[];
+  assists: IGoal[];
+  passAcc: string;
+  trophies: number;
+  cards: IMatchCard[];
+}
+export interface IPostPlayer {
+  number: number | string;
+  about?: string;
+  description?: string;
+  training: { team: string };
+  medicals: { fitness: string }[];
+  galleries: string[];
+  isFit: boolean;
+  captaincy: string;
+  firstName: string;
+  lastName: string;
+  dateSigned: string;
+  phone: string;
+  email: string;
+  dob: string;
+  height: string;
+  avatar: IFileProps;
+  jersey: string | number;
+  manager: string;
+  position: TPlayerPosition;
+  favColor?:
+    | "red"
+    | "teal"
+    | "yellow"
+    | "green"
+    | "blue"
+    | "black"
+    | "gray"
+    | "white"
+    | "gold";
+  goals: string[];
+  matches: string[];
+  assists: string[];
+  passAcc: string;
+  trophies: number;
+  cards: string[];
 }
 
 const PlayersPage = async () => {

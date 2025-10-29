@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const injurySchema = new Schema(
+export const injurySchema = new Schema(
   {
     match: { type: Schema.Types.ObjectId, ref: "match", required: true },
     minute: String,

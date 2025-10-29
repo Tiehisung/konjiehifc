@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 import { Card } from "@/components/ui/card";
 import { Trash2, Plus } from "lucide-react";
@@ -22,8 +22,9 @@ export function GeneralEventsTab({ match }: GeneralEventsTabProps) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleAddEvent = async () => {
+  const handleAddEvent = async (e: FormEvent<HTMLFormElement>) => {
     try {
+      e.preventDefault();
       setIsLoading(true);
       if (!form.minute || !form.description) {
         toast("Please fill in all fields");
@@ -95,7 +96,6 @@ export function GeneralEventsTab({ match }: GeneralEventsTabProps) {
             </div>
 
             <Button
-              onClick={handleAddEvent}
               className="w-full justify-center _primaryBtn"
               waiting={isLoading}
               primaryText=" Add Event"

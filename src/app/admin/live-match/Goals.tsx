@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Card } from "@/components/ui/card";
+import { FormEvent, useState } from "react";
+import { Card, CardFooter } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -9,11 +9,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Trash2, Plus } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import { Input } from "@/components/input/Inputs";
 import {
   IGoal,
-  IMatchEvent,
   IMatchProps,
   ITeamProps,
 } from "@/app/matches/(fixturesAndResults)";
@@ -23,6 +22,7 @@ import { getErrorMessage } from "@/lib";
 import { IPlayer } from "@/app/players/page";
 import { Button } from "@/components/buttons/Button";
 import { useRouter } from "next/navigation";
+import { PrimaryAccordion } from "@/components/Accordion";
 
 interface ScoreEventsTabProps {
   players: IPlayer[];
@@ -44,9 +44,11 @@ export function ScoreEventsTab({
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingOG, setIsLoadingOG] = useState(false);
 
-  const handleAddGoal = async () => {
+  const handleAddGoal = async (e: FormEvent<HTMLFormElement>) => {
     try {
+      e.preventDefault();
       setIsLoading(true);
       if (!form.scorer || !form.minute || !form.description) {
         toast.warning("Please fill in scorer, minute, and description");
@@ -105,9 +107,37 @@ export function ScoreEventsTab({
     }
   };
 
+  //Increment Opponent goals
+  const handleRemoveGoal = async () => {
+    try {
+      setIsLoadingOG(true);
+
+      const response = await fetch(apiConfig.matches, {
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          _id: match?._id,
+          goals: [...match?.goals].slice(0, -1),
+        }),
+        method: "PUT",
+      });
+
+      const results = await response.json();
+      toast.success(results.message);
+    } catch (error) {
+      toast.error(getErrorMessage(error));
+    } finally {
+      setIsLoadingOG(false);
+      router.refresh();
+    }
+  };
+
   return (
     <div className="space-y-8">
-      <Card className="p-6 rounded-none">
+      <Card
+        className={`p-6 rounded-none ${
+          isLoadingOG || isLoading ? "pointer-events-none" : ""
+        }`}
+      >
         <form onSubmit={handleAddGoal}>
           <h2 className="mb-6 text-2xl font-bold">Add Goal</h2>
 
@@ -193,37 +223,97 @@ export function ScoreEventsTab({
               </div>
             </div>
 
-            <Button
-              onClick={handleAddGoal}
-              className="w-full justify-center _primaryBtn"
-              waiting={isLoading}
-              primaryText=" Add Goal"
-              waitingText="Adding Goal"
-              type="submit"
-            >
-              <Plus className="mr-2 h-4 w-4" />
-            </Button>
+            <CardFooter className="gap-6">
+              <Button
+                className="  justify-center _primaryBtn grow"
+                waiting={isLoading}
+                primaryText=" Add Goal"
+                waitingText="Adding Goal"
+                type="submit"
+              >
+                <Plus className="mr-2 h-4 w-4" />
+              </Button>
+              <Button
+                onClick={handleRemoveGoal}
+                className=" justify-center _deleteBtn"
+                waiting={isLoadingOG}
+                primaryText=" Remove Goal"
+                waitingText="Removing..."
+              >
+                <Plus className="mr-2 h-4 w-4" />
+              </Button>
+            </CardFooter>
           </div>
         </form>
+
+        <OppoentGoalsUpdate match={match} />
       </Card>
     </div>
   );
 }
 
-export function MatchEventCard({ event }: { event: IMatchEvent }) {
-  return (
-    <div
-      key={event?.description}
-      className="flex items-center justify-between rounded-lg bg-muted p-4"
-    >
-      <div>
-        <p className="font-semibold">{event.title}</p>
+function OppoentGoalsUpdate({ match }: { match: IMatchProps }) {
+  const router = useRouter();
+  const [isLoadingOG, setIsLoadingOG] = useState(false);
+  const [type, setType] = useState("");
 
-        <p className="text-xs text-muted-foreground">{event.description}</p>
-      </div>
-      <Button onClick={() => console.log(event.description)}>
-        <Trash2 className="h-4 w-4 text-destructive" />
-      </Button>
-    </div>
+  //Increment Opponent goals
+  const handleAddOpponentGoal = async (type: "inc" | "dec") => {
+    try {
+      setIsLoadingOG(true);
+      setType(type);
+
+      const response = await fetch(apiConfig.matches, {
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          _id: match?._id,
+          opponentGoals:
+            type == "inc" ? match.opponentGoals + 1 : match.opponentGoals - 1,
+        }),
+        method: "PUT",
+      });
+
+      const results = await response.json();
+      toast.success(results.message);
+    } catch (error) {
+      toast.error(getErrorMessage(error));
+    } finally {
+      setIsLoadingOG(false);
+      router.refresh();
+      setType("");
+    }
+  };
+  return (
+    <PrimaryAccordion
+      data={[
+        {
+          content: (
+            <div className="flex items-center gap-10 ">
+              <Button
+                onClick={() => handleAddOpponentGoal("dec")}
+                className=" justify-center _deleteBtn"
+                waiting={isLoadingOG && type == "dec"}
+                primaryText="Remove Opponent Goal"
+                waitingText="Removing..."
+              >
+                <Minus className="mr-2 h-4 w-4" />
+              </Button>
+
+              <Button
+                onClick={() => handleAddOpponentGoal("inc")}
+                className=" justify-center _deleteBtn"
+                waiting={isLoadingOG && type == "inc"}
+                primaryText="Add Opponent Goal"
+                waitingText="Adding..."
+              >
+                <Plus className="mr-2 h-4 w-4" />
+              </Button>
+            </div>
+          ),
+          value: "opponent",
+          trigger: <div className="_label ml-autot">Update Opponent</div>,
+        },
+      ]}
+    />
   );
 }

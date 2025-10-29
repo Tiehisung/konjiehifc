@@ -46,12 +46,16 @@ const playerSchema = new Schema(
       email: { type: String, match: [/\S+@\S+\.\S+/, "Email must be valid"] },
     },
     performance: { type: Schema.Types.Array, default: () => [] },
+
     galleries: [{ type: Schema.Types.ObjectId, ref: "galleries" }],
-    isFit: { type: Boolean, default: () => true },
-    card: { type: String, enum: ["yellow", "red"] },
+    cards: [{ type: Schema.Types.ObjectId, ref: "cards" }],
+    injuries: [{ type: Schema.Types.ObjectId, ref: "injuries" }],
+    goals: [{ type: Schema.Types.ObjectId, ref: "goals" }],
+
     issues: { type: Schema.Types.Array, default: () => [] },
     medicals: { type: Schema.Types.Array, default: () => [] },
     isActive: { type: Schema.Types.Boolean, default: () => true },
+    isFit: { type: Boolean, default: () => true },
     playRole: { type: String }, //revisit
     position: {
       type: String,
