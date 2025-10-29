@@ -30,6 +30,17 @@ export default async function LiveMatchPage() {
 
   const { home, away } = checkTeams(match?.data);
 
+  const goals = {
+    home:
+      home?.alias == "KFC"
+        ? match?.data?.goals?.length
+        : match?.data?.opponentGoals,
+    away:
+      away?.alias == "KFC"
+        ? match?.data?.goals?.length
+        : match?.data?.opponentGoals,
+  };
+
   if (!match?.data)
     return (
       <div className="_label _card rounded-2xl text-center my-14 mx-6">
@@ -56,7 +67,7 @@ export default async function LiveMatchPage() {
             {home?.name}
           </div>
           <div className="mx-auto text-2xl text-center">
-            {match?.data?.goals?.length ?? 0} - 0
+            {goals?.home ?? 0} - {goals?.away ?? 0}
           </div>
           <div className="text-xl md:text-2xl font-black uppercase">
             {away?.name}
