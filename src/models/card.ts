@@ -1,30 +1,31 @@
 import mongoose, { Schema } from "mongoose";
 
-const cardSchema = new Schema(
+export const cardSchema = new Schema(
   {
-    opponent: { type: Schema.Types.ObjectId, ref: "teams", required: true }
-    ,
+
     minute: String,
-    scorer: {
+    player: {
       _id: {
         type: Schema.Types.ObjectId,
         ref: "players",
         required: true
       },
       name: String,
-      avatar: String
+      avatar: String,
+      number: String
     },
-    assist: {
+    match: {
       _id: {
         type: Schema.Types.ObjectId,
-        ref: "players",
+        ref: "matches",
         required: true
       },
       name: String,
-      avatar: String
     },
-    type: String,
+
+    type: { type: String, enum: ['yellow', 'red'], default: 'yellow' },
     description: String,
+
   },
   { timestamps: true }
 );

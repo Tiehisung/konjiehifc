@@ -9,11 +9,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Trash2, Plus, Minus } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import { Input } from "@/components/input/Inputs";
 import {
   IGoal,
-  IMatchEvent,
   IMatchProps,
   ITeamProps,
 } from "@/app/matches/(fixturesAndResults)";
@@ -117,7 +116,7 @@ export function ScoreEventsTab({
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           _id: match?._id,
-          goals: [...match?.goals].slice(0, -2),
+          goals: [...match?.goals].slice(0, -1),
         }),
         method: "PUT",
       });

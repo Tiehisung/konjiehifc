@@ -8,6 +8,7 @@ import { IGoal } from "@/app/matches/(fixturesAndResults)";
 import GoalModel from "@/models/goals";
 import { updateMatchEvent } from "../matches/live/events/route";
 import MatchModel from "@/models/matches";
+import PlayerModel from "@/models/player";
 // export const revalidate = 0;
 // export const dynamic = "force-dynamic";
 
@@ -66,21 +67,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Failed to create goal.", success: false });
     }
     //Update Match
-    const goalpush = await MatchModel.findByIdAndUpdate(match, { $push: { goals: savedGoal._id } })
-    console.log(match,goalpush)
+    await MatchModel.findByIdAndUpdate(match, { $push: { goals: savedGoal._id } })
+
+    //Update Player
+    await PlayerModel.findByIdAndUpdate(scorer?._id, { $push: { goals: savedGoal._id } })
 
     //Update events
     const assistance = assist ? `Assist: ${assist.number ?? ''} ${assist.name} ` : ''
-
-    const event = await updateMatchEvent(match, {
+    await updateMatchEvent(match, {
       type: 'goal',
       minute: minute,
       title: `${minute}' - ${scorer.number ?? ''}  ${scorer.name} `,
       description: `${assistance} ${description} Mode of Score: ${modeOfScore ?? ''}`
 
     })
-
-    console.log({ event })
 
     // log
     await logAction({
@@ -89,7 +89,6 @@ export async function POST(request: NextRequest) {
       category: "db",
       severity: "info",
       userEmail: session?.user?.email as string,
-
     });
 
     return NextResponse.json({ message: "Goal created successfully!", success: true, data: savedGoal });

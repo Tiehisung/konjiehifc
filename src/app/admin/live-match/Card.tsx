@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Card } from "@/components/ui/card";
 import {
   Select,
@@ -9,26 +9,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Trash2, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Input } from "@/components/input/Inputs";
 import { IPlayer } from "@/app/players/page";
 import { Button } from "@/components/buttons/Button";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-
-interface CardEvent {
-  id: string;
-  player: IPlayer;
-  type: "yellow" | "red";
-  minute: number;
-  description?: string;
-}
+import { getErrorMessage } from "@/lib";
+import { apiConfig } from "@/lib/configs";
+import { IMatchCard, IMatchProps } from "@/app/matches/(fixturesAndResults)";
 
 interface EventsTabProps {
   players: IPlayer[];
+  match?: IMatchProps;
 }
 
-export function CardEventsTab({ players }: EventsTabProps) {
+export function CardEventsTab({ players, match }: EventsTabProps) {
   const router = useRouter();
   const [form, setForm] = useState({
     player: "",
@@ -37,26 +33,49 @@ export function CardEventsTab({ players }: EventsTabProps) {
     description: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const handleAddCard = () => {
-    if (!form.player || !form.minute || !form.description) {
-      toast.warning("Please fill in player, minute, and team");
-      return;
+
+  const handleAddCard = async (e: FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      setIsLoading(true);
+      if (!form.player || !form.minute || !form.description) {
+        toast.warning("Please fill in player, minute, and description", {
+          position: "bottom-center",
+        });
+        return;
+      }
+
+      const player = players.find((p) => p._id === form.player);
+      if (!player) return;
+
+      const newCard: IMatchCard = {
+        match: { _id: match?._id as string, name: match?.title as string },
+        player: {
+          _id: player?._id,
+          name: `${player?.lastName} ${player?.firstName}`,
+          number: (player?.number as string) ?? (player?.jersey as string),
+        },
+
+        type: form.type,
+        minute: Number.parseInt(form.minute),
+        description: form.description,
+      };
+
+      const response = await fetch(apiConfig.cards, {
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(newCard),
+        method: "POST",
+      });
+
+      const results = await response.json();
+      toast.success(results.message);
+      setForm({ player: "", type: "yellow", minute: "", description: "" });
+    } catch (error) {
+      toast.error(getErrorMessage(error));
+    } finally {
+      setIsLoading(false);
+      router.refresh();
     }
-
-    const player = players.find((p) => p._id === form.player);
-    if (!player) return;
-
-    const newCard: CardEvent = {
-      id: Date.now().toString(),
-      player,
-      type: form.type,
-      minute: Number.parseInt(form.minute),
-      description: form.description,
-    };
-
-    setForm({ player: "", type: "yellow", minute: "", description: "" });
-    setIsLoading(false);
-    router.refresh();
   };
 
   return (
@@ -81,7 +100,7 @@ export function CardEventsTab({ players }: EventsTabProps) {
                   <SelectContent>
                     {players?.map((player) => (
                       <SelectItem key={player._id} value={player._id}>
-                        {player.number} - {player.lastName}
+                        {player.number ?? player?.jersey} - {player.lastName}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -149,8 +168,8 @@ export function CardEventsTab({ players }: EventsTabProps) {
               type="submit"
               className="w-full justify-center _primaryBtn"
               waiting={isLoading}
-              primaryText=" Add Card"
-              waitingText="Adding Card"
+              primaryText="Add Card"
+              waitingText="Adding Card..."
             >
               <Plus className="mr-2 h-4 w-4" />
             </Button>

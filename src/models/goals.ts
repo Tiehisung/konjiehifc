@@ -1,9 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
-const goalSchema = new Schema(
+export const goalSchema = new Schema(
   {
-    opponent: { type: Schema.Types.ObjectId, ref: "teams", required: true }
-    ,
+    opponent: { type: Schema.Types.ObjectId, ref: "teams", required: true },
     minute: String,
     scorer: {
       _id: {
@@ -18,7 +17,6 @@ const goalSchema = new Schema(
       _id: {
         type: Schema.Types.ObjectId,
         ref: "players",
-        required: true
       },
       name: String,
       avatar: String

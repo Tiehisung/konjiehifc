@@ -7,6 +7,7 @@ import { logAction } from "../logs/helper";
 import { IMatchCard } from "@/app/matches/(fixturesAndResults)";
 import CardModel from "@/models/card";
 import { updateMatchEvent } from "../matches/live/events/route";
+import PlayerModel from "@/models/player";
 // export const revalidate = 0;
 // export const dynamic = "force-dynamic";
 
@@ -17,7 +18,7 @@ export async function GET(request: NextRequest) {
 
   // const isPlayed = searchParams.get("isPlayed") == "0" ? false : true
 
-  const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
+  const limit = Number.parseInt(searchParams.get("limit") || "30", 10);
   const skip = (page - 1) * limit;
 
   const search = searchParams.get("search") || "";
@@ -55,13 +56,16 @@ export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions)
     const { match, minute, player, type, description, } = await request.json() as IMatchCard;
 
-    const saved = await CardModel.create({
+    const savedCard = await CardModel.create({
       match, minute, player, type
     });
 
-    if (!saved) {
+    if (!savedCard) {
       return NextResponse.json({ message: "Failed to create card.", success: false });
     }
+
+    //Update Player
+    await PlayerModel.findByIdAndUpdate(player?._id, { $push: { cards: savedCard._id } })
 
     //Update events
     await updateMatchEvent(match._id, {
@@ -73,14 +77,14 @@ export async function POST(request: NextRequest) {
 
     // log
     await logAction({
-      title: "Goal Created",
-      description: `${type} card recorded. ${description || ''}` as string,
+      title: "Card Created",
+      description: `${type} card recorded. ${description || ''}`,
       category: "db",
       severity: "info",
       userEmail: session?.user?.email as string,
-
     });
-    return NextResponse.json({ message: "Card created successfully!", success: true, data: saved });
+
+    return NextResponse.json({ message: "Card created successfully!", success: true, data: savedCard });
 
   } catch (error) {
     return NextResponse.json({
