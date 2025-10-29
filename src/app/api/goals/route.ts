@@ -66,7 +66,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Failed to create goal.", success: false });
     }
     //Update Match
-    await MatchModel.findByIdAndUpdate(match, { $push: { goals: savedGoal._id } })
+    const goalpush = await MatchModel.findByIdAndUpdate(match, { $push: { goals: savedGoal._id } })
+    console.log(match,goalpush)
 
     //Update events
     const assistance = assist ? `Assist: ${assist.number ?? ''} ${assist.name} ` : ''

@@ -30,6 +30,13 @@ export default async function LiveMatchPage() {
 
   const { home, away } = checkTeams(match?.data);
 
+  if (!match?.data)
+    return (
+      <div className="_label _card rounded-2xl text-center my-14 mx-6">
+        No Live Match Yet. You need to start a match first.
+      </div>
+    );
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4 text-primaryRed">

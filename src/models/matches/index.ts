@@ -17,6 +17,7 @@ const matchSchema = new Schema(
       opponent: { type: Number, default: 0 },
     },
     goals: [{ type: Schema.Types.ObjectId, ref: "goals" }],
+    opponentGoals: Number,
     broadcaster: {},
     venue: { name: String, files: [{}] },
     isHome: Boolean,

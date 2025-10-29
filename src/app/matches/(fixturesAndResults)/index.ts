@@ -20,6 +20,7 @@ export interface IMatchProps {
   isHome: boolean;
   venue?: { name: string; files: IFileProps[] };
   goals: Array<IGoal>;
+  opponentGoals:number
   events: Array<IMatchEvent>;
   cards: Array<IMatchCard>;
 }

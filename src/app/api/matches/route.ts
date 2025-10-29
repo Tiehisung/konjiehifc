@@ -16,7 +16,7 @@ ConnectMongoDb();
 
 export async function GET() {
   const fixtures = await MatchModel.find().populate({ path: "opponent", populate: { path: "logo" } })
-    .populate({ path: "goals", populate: { path: "players" } })
+    .populate({ path: "goals",  })
     .sort({
       createdAt: 'desc',
     });;

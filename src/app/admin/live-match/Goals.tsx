@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Card } from "@/components/ui/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -44,6 +44,7 @@ export function ScoreEventsTab({
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingOG, setIsLoadingOG] = useState(false);
 
   const handleAddGoal = async () => {
     try {
@@ -105,9 +106,37 @@ export function ScoreEventsTab({
     }
   };
 
+  //Increment Opponent goals
+  const handleAddOpponentGoal = async () => {
+    try {
+      setIsLoadingOG(true);
+
+      const response = await fetch(apiConfig.matches, {
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          _id: match?._id,
+          opponentGoals: match.opponentGoals + 1,
+        }),
+        method: "PUT",
+      });
+
+      const results = await response.json();
+      toast.success(results.message);
+    } catch (error) {
+      toast.error(getErrorMessage(error));
+    } finally {
+      setIsLoadingOG(false);
+      router.refresh();
+    }
+  };
+
   return (
     <div className="space-y-8">
-      <Card className="p-6 rounded-none">
+      <Card
+        className={`p-6 rounded-none ${
+          isLoadingOG || isLoading ? "pointer-events-none" : ""
+        }`}
+      >
         <form onSubmit={handleAddGoal}>
           <h2 className="mb-6 text-2xl font-bold">Add Goal</h2>
 
@@ -193,16 +222,27 @@ export function ScoreEventsTab({
               </div>
             </div>
 
-            <Button
-              onClick={handleAddGoal}
-              className="w-full justify-center _primaryBtn"
-              waiting={isLoading}
-              primaryText=" Add Goal"
-              waitingText="Adding Goal"
-              type="submit"
-            >
-              <Plus className="mr-2 h-4 w-4" />
-            </Button>
+            <CardFooter className="gap-6">
+              <Button
+                onClick={handleAddGoal}
+                className="  justify-center _primaryBtn grow"
+                waiting={isLoading}
+                primaryText=" Add Goal"
+                waitingText="Adding Goal"
+                type="submit"
+              >
+                <Plus className="mr-2 h-4 w-4" />
+              </Button>
+              <Button
+                onClick={handleAddOpponentGoal}
+                className=" justify-center _secondaryBtn"
+                waiting={isLoadingOG}
+                primaryText=" Opponent Goal"
+                waitingText="Adding..."
+              >
+                <Plus className="mr-2 h-4 w-4" />
+              </Button>
+            </CardFooter>
           </div>
         </form>
       </Card>
