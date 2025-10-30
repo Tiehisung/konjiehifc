@@ -17,7 +17,8 @@ export interface IGetMatchesProps {
 }
 export const getMatches = async (query?: string) => {
   try {
-    const response = await fetch(`${apiConfig.matches}${query ?? ""}`, {
+    const cleaned = query?.startsWith("?") ? query : "?" + query;
+    const response = await fetch(`${apiConfig.matches}${cleaned ?? ""}`, {
       cache: "no-store",
     });
     const fixtures = await response.json();

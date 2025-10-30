@@ -169,19 +169,27 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
           {/* Stats */}
           <div className="grid grid-cols-4 gap-6 text-center mb-8">
             <div className="_card">
-              <p className="text-xl font-semibold">8.2</p>
+              <p className="text-xl font-semibold">
+                {player?.ratings?.length ?? 5.2}
+              </p>
               <p className="text-xs text-muted-foreground">Avg Rating</p>
             </div>
             <div className="_card">
-              <p className="text-xl font-semibold">7</p>
+              <p className="text-xl font-semibold">
+                {player?.assists?.length ?? 0}
+              </p>
               <p className="text-xs text-muted-foreground">Assists</p>
             </div>
             <div className="_card">
-              <p className="text-xl font-semibold">2</p>
+              <p className="text-xl font-semibold">
+                {player?.goals?.length ?? 0}
+              </p>
               <p className="text-xs text-muted-foreground">Goals</p>
             </div>
             <div className="_card">
-              <p className="text-xl font-semibold">26</p>
+              <p className="text-xl font-semibold">
+                {player?.matches?.length ?? 0}
+              </p>
               <p className="text-xs text-muted-foreground">Matches</p>
             </div>
           </div>

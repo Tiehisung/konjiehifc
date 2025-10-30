@@ -19,28 +19,29 @@ import { getFormattedDate, getTimeAgo } from "@/lib/timeAndDate";
 import SquadActionButtons from "./Action";
 
 interface SquadDisplayProps {
-  squad: ISquad;
+  squad?: ISquad;
 }
 
 const SquadCard = ({ squad }: SquadDisplayProps) => {
+  if(!squad)return <div className='_label text-center m-6'>Squad not found</div>
   return (
     <Card className="shadow-lg border-0 overflow-hidden rounded-none ml-2.5 mb-12">
       <CardHeader className="bg-muted/40 py-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between">
           <div>
             <CardTitle className="text-2xl font-bold">
-              Match Squad vs {squad?.opponent?.name || "Unknown"}
+              Match Squad | {squad?.match?.title || "Unknown"}
             </CardTitle>
             <CardDescription className="flex flex-wrap items-center gap-3 mt-1 text-muted-foreground">
               <span className="flex items-center gap-1">
-                <MapPin size={16} /> {squad?.venue}
+                <MapPin size={16} /> {squad?.match?.isHome ? "Home" : "Away"}
               </span>
               <span className="flex items-center gap-1">
                 <CalendarDays size={16} />{" "}
-                {getFormattedDate(squad.date, "March 2, 2025")}
+                {getFormattedDate(squad?.match?.date, "March 2, 2025")}
               </span>
               <span className="flex items-center gap-1">
-                <Clock size={16} /> {squad?.time}
+                <Clock size={16} /> {squad?.match?.time}
               </span>
             </CardDescription>
           </div>
@@ -146,10 +147,10 @@ const SquadCard = ({ squad }: SquadDisplayProps) => {
 
       <CardFooter className="justify-between text-sm text-muted-foreground">
         <p>
-          Created on {getFormattedDate(squad.createdAt)} (
-          {getTimeAgo(squad.createdAt as string)})
+          Created on {getFormattedDate(squad?.createdAt)} (
+          {getTimeAgo(squad?.createdAt as string)})
         </p>
-        <SquadActionButtons squadId={squad?._id as string }/>
+        <SquadActionButtons squadId={squad?._id as string} />
       </CardFooter>
     </Card>
   );

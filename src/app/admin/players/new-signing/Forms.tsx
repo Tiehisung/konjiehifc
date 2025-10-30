@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import { FcCamera } from "react-icons/fc";
@@ -101,7 +101,7 @@ export default function PlayerProfileForm({
       const results = await response.json();
       setWaiting(false);
 
-      toast(results.message, { type: results.success ? "success" : "error" });
+      toast(results.message);
       if (results.success) {
         setFormData({ ...dataModel });
         setImageFile("");

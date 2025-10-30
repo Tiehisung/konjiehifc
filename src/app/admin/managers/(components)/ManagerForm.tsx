@@ -2,7 +2,7 @@
 
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { useState } from "react";
 import { getErrorMessage } from "@/lib";
 import { IFileProps, IResultProps, ISelectOptionLV } from "@/types";
@@ -49,7 +49,7 @@ export default function TechnicalManagerForm({
       setWaiting(true);
 
       //Upload image if selected
-      let uploadedImage: IFileProps = {
+      let uploadedImage: Partial<IFileProps> = {
         _id: "",
         secure_url: "",
         resource_type: "",
@@ -91,7 +91,7 @@ export default function TechnicalManagerForm({
       const results = await response.json();
       setWaiting(false);
 
-      toast(results.message, { type: results.success ? "success" : "error" });
+      toast.success(results.message, );
       if (results.success) {
         const formEl = document.getElementById(
           "manager-form"

@@ -70,9 +70,10 @@ export interface IPlayer {
     | "gray"
     | "white"
     | "gold";
-    //Stats
+  //Stats
   goals: IGoal[];
   matches: IMatchProps[];
+  ratings: { rating: number; match: string }[];
   assists: IGoal[];
   passAcc: string;
   trophies: number;

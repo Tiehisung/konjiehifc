@@ -6,7 +6,7 @@ import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { HiOutlineUserRemove } from "react-icons/hi";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { IManager } from "../page";
 
 export function DisengageManager({
@@ -31,7 +31,7 @@ export function DisengageManager({
         body: JSON.stringify({ isActive: false }),
       });
       const results = await response.json();
-      toast(results.message, { type: results.success ? "success" : "error" });
+      toast.success(results.message,  );
       setWaiting(false);
     } catch (error) {
       toast.error(getErrorMessage(error, "Failed to delete team"));
@@ -46,7 +46,7 @@ export function DisengageManager({
       disabled={waiting}
       primaryText="Update"
       waitingText="Updating..."
-      handleClickEvent={handleDelete}
+      onClick={handleDelete}
       className={className}
     >
       <HiOutlineUserRemove className={waiting ? "hidden" : ""} />

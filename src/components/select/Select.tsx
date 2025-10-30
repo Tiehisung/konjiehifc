@@ -62,7 +62,7 @@ export function PrimarySelect(props: ISelect) {
       </Select>
 
       {props.error && (
-        <p className={` text-red-500 text-left text-sm mt-1`}>{props.error}</p>
+        <p className={` text-red-500 text-left text-sm mt-1 font-light`}>{props.error}</p>
       )}
     </>
   );

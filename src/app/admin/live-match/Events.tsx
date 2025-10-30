@@ -25,25 +25,30 @@ interface IProps {
   match: IMatchProps;
 }
 export function MatchEventsAdmin({ players, opponent, match }: IProps) {
+  const sortedEvents = match?.events
+    ? [...match.events].sort(
+        (a, b) => Number(b.minute ?? 0) - Number(a.minute ?? 0)
+      )
+    : [];
 
-  const sortedEvents = match?.events ? [...match.events].sort((a, b) => Number(b.minute ?? 0) - Number(a.minute ?? 0)) : [];
+  const className = `whitespace-nowrap data-[state=active]:border-primaryGreen data-[state=active]:text-primaryGreen rounded-none`;
   return (
     <div>
       <Tabs defaultValue="scores" className="w-full gap-0">
         <TabsList className="flex w-full overflow-x-auto h-14 rounded-none">
-          <TabsTrigger value="scores" className="whitespace-nowrap">
-            Score Events
+          <TabsTrigger value="scores" className={className}>
+            Goal
           </TabsTrigger>
 
-          <TabsTrigger value="cards" className="whitespace-nowrap">
-            Card Events
+          <TabsTrigger value="cards" className={className}>
+            Card
           </TabsTrigger>
 
-          <TabsTrigger value="injuries" className="whitespace-nowrap">
-            Injuries
+          <TabsTrigger value="injuries" className={className}>
+            Injury
           </TabsTrigger>
 
-          <TabsTrigger value="general" className="whitespace-nowrap">
+          <TabsTrigger value="general" className={className}>
             General
           </TabsTrigger>
         </TabsList>
@@ -69,9 +74,12 @@ export function MatchEventsAdmin({ players, opponent, match }: IProps) {
         </TabsContent>
       </Tabs>
 
-      {sortedEvents.map((event, index) => (
-        <MatchEventCard event={event} key={index} match={match} />
-      ))}
+      <div className="mt-6 ">
+        <h1 className="_label mb-3">LIVE EVENTS</h1>
+        {sortedEvents.map((event, index) => (
+          <MatchEventCard event={event} key={index} match={match} />
+        ))}
+      </div>
     </div>
   );
 }

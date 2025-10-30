@@ -8,6 +8,7 @@ import { getTeams } from "../features/teams/page";
 import { checkTeams } from "@/lib";
 import Image from "next/image";
 import { staticImages } from "@/assets/images";
+import { StartStopMatch } from "./StartStop";
 
 export const getLiveMatch = async () => {
   try {
@@ -53,7 +54,6 @@ export default async function LiveMatchPage() {
       <h1 className="text-2xl font-bold mb-4 text-primaryRed">
         Live Match Update
       </h1>
-
       <div className="my-6 _card rounded-tl-3xl rounded-br-3xl flex items-center justify-between gap-6">
         <Image
           src={home?.logo?.secure_url ?? staticImages.avatar}
@@ -82,11 +82,15 @@ export default async function LiveMatchPage() {
         />
       </div>
 
-      <MatchEventsAdmin
-        players={players?.data}
-        opponent={teams?.data?.[0] as ITeamProps}
-        match={match?.data as IMatchProps}
-      />
+      <StartStopMatch match={match?.data} players={players?.data} />
+
+      {match?.data?.status == "LIVE" && (
+        <MatchEventsAdmin
+          players={players?.data}
+          opponent={teams?.data?.[0] as ITeamProps}
+          match={match?.data as IMatchProps}
+        />
+      )}
     </div>
   );
 }

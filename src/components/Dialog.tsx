@@ -19,7 +19,7 @@ interface IDialog {
   className?: string;
   trigger: ReactNode;
   triggerStyles?: string;
-  closeId: string;
+  closeId?: string;
   variant?:
     | "secondary"
     | "default"

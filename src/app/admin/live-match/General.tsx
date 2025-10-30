@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 
 import { Card } from "@/components/ui/card";
-import { Trash2, Plus } from "lucide-react";
+import {   Plus } from "lucide-react";
 import { Input } from "@/components/input/Inputs";
 import { Button } from "@/components/buttons/Button";
 import { toast } from "sonner";

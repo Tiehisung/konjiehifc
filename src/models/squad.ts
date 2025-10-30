@@ -1,19 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
-const squadSchema = new Schema({
-  opponent: {
-    _id: { type: Schema.Types.ObjectId, ref: "Team", required: true },
-    name: String,
-    alias: String,
-  },
-  venue: {
-    type: String,
-    enum: ["Home", "Away"],
-    required: true,
-  },
+export const squadSchema = new Schema({
+  match: { type: Schema.Types.ObjectId, ref: "matches", required: true },
+
   description: String,
-  date: { type: String, required: true },
-  time: { type: String, required: true },
+
   players: [
     {
       _id: { type: Schema.Types.ObjectId, ref: "Player" },
@@ -43,3 +34,4 @@ const SquadModel =
   mongoose.models.squad || mongoose.model("squad", squadSchema);
 
 export default SquadModel;
+ 

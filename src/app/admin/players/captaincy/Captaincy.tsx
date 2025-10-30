@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import { getErrorMessage } from "@/lib";
@@ -188,7 +188,7 @@ const PlayerForCaptainRow = ({
         body: JSON.stringify({ playerId: player._id, role: newRole }),
       });
       const result: IResultProps = await response.json();
-      toast(result.message, { type: result.success ? "success" : "error" });
+      toast.success(result.message,  );
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {

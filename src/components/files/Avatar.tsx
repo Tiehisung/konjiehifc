@@ -5,7 +5,7 @@ import { getFilePath } from "@/lib";
 import Image from "next/image";
 import React, { ReactNode, useEffect, useState } from "react";
 import { FcCamera } from "react-icons/fc";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 interface AvatarPickerProps {
   imageUrl?: string;

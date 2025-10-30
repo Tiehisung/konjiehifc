@@ -14,6 +14,9 @@ import { BsPatchCheck } from "react-icons/bs";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdLiveTv } from "react-icons/md";
 import { Badge } from "@/components/ui/badge";
+import SquadCard from "../squad/SquadCard";
+import { DIALOG } from "@/components/Dialog";
+import { Eye } from "lucide-react";
 
 interface DisplayFixturesProps {
   fixtures: IMatchProps[];
@@ -32,9 +35,10 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
               <th className="px-2">TITLE</th>
               <th className="px-2">DATE</th>
               <th className="px-2">STATUS</th>
+              <th className="px-2">SQUAD</th>
               <th className="px-2">ACTION</th>
             </tr>
-            {fixtures?.map((fixture, index) => (
+            {fixtures?.map((fixture) => (
               <tr key={fixture._id} className={`border _borderColor `}>
                 <td className="px-2 py-4 ">
                   <div className="flex items-center gap-2 text-nowrap uppercase">
@@ -42,16 +46,16 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
                       {fixture.status == "COMPLETED" ? (
                         <FaCheckCircle
                           className="text-primaryGreen"
-                          size={30}
+                          size={16}
                         />
                       ) : fixture.status == "LIVE" ? (
-                        <MdLiveTv className="text-primaryRed" size={30} />
+                        <MdLiveTv className="text-primaryRed" size={16} />
                       ) : (
-                        <BsPatchCheck size={30} />
+                        <BsPatchCheck size={16} />
                       )}
                     </span>
 
-                    <strong className="w-24">
+                    <strong className="w-32 whitespace-nowrap line-clamp-1">
                       {checkTeams(fixture)?.home?.name}
                     </strong>
                     <span className="w-10">vs</span>
@@ -67,9 +71,18 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
                 <td className="px-2 py-2 whitespace-nowrap text-sm">
                   {fixture.status}
                 </td>
+                <td className="px-2 py-2 whitespace-nowrap text-sm" title="View Squad">
+                  {fixture?.squad ? (
+                    <DIALOG trigger={<Eye />} title="" className="min-w-[80vw]" >
+                      <SquadCard squad={fixture?.squad} />
+                    </DIALOG>
+                  ) : (
+                   <span className='text-muted-foreground'>N/A</span>  
+                  )}
+                </td>
                 <td className="px-2 py-2 text-sm ">
                   <div className="flex gap-5 items-center justify-between max-w-sm">
-                    <StatusToggle
+                    <ToggleMatchStatus
                       status={fixture.status}
                       fixtureId={fixture._id}
                     />
@@ -91,7 +104,7 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
           <tfoot>
             <tr>
               <td colSpan={4}>
-                <div className="p-2 flex items-center text-sm gap-3">
+                <div className="p-2 flex items-center text-sm gap-3 text-muted-foreground py-4">
                   <div>
                     Home fixtures: {fixtures?.filter((f) => f.isHome)?.length}
                   </div>
@@ -137,13 +150,14 @@ export function DeleteFixture({ fixtureId }: { fixtureId: string }) {
       disabled={waiting}
       waitingText=""
       onClick={handleDelete}
-      className=" px-2 flex items-center text-red-600 _deleteBtn"
+      className=" px-2 flex items-center text-red-600 _deleteBtn h-9"
     >
       <RiDeleteBin6Line className={waiting ? "hidden" : ""} />
     </Button>
   );
 }
-export function StatusToggle({
+
+export function ToggleMatchStatus({
   fixtureId,
   status,
 }: {
@@ -187,7 +201,7 @@ export function StatusToggle({
       primaryText={status == "LIVE" ? "Mark FT" : "Go Live"}
       waitingText="Updating..."
       onClick={handleToggle}
-      className=" px-2 flex items-center text-red-600 _deleteBtn"
+      className=" px-2 flex items-center text-red-600 _deleteBtn whitespace-nowrap"
     />
   );
 }

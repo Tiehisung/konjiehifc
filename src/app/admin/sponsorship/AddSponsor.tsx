@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FcCamera } from "react-icons/fc";
 import { IoAdd } from "react-icons/io5";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export function AddNewSponsor({ sponsors }: { sponsors: ISponsorProps[] }) {
   const router = useRouter();
@@ -76,7 +76,6 @@ export function AddNewSponsor({ sponsors }: { sponsors: ISponsorProps[] }) {
         });
         const results = await response.json();
         toast(results.message, {
-          type: results.success ? "success" : "error",
           position: "bottom-center",
         });
         setWaiting(false);
@@ -96,7 +95,7 @@ export function AddNewSponsor({ sponsors }: { sponsors: ISponsorProps[] }) {
         cache: "no-store",
       });
       const results = await response.json();
-      toast(results.message, { type: results.success ? "success" : "error" });
+      toast(results.message, );
       setWaiting(false);
       if (results.success) {
         setFormData(dataModel);

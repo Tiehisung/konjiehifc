@@ -11,7 +11,7 @@ import Image from "next/image";
 import { FcCamera } from "react-icons/fc";
 import { staticImages } from "@/assets/images";
 import { getErrorMessage, getFilePath } from "@/lib";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { apiConfig } from "@/lib/configs";
 import { Button } from "@/components/buttons/Button";
 
@@ -96,8 +96,8 @@ const CreateAdmin = ({ existingUser }: { existingUser?: IAdminProps }) => {
       });
       const results = await response.json();
 
-      toast(results.message, { type: results.success ? "success" : "error" });
       if (results.success) {
+        toast.success(results.message);
         const formEl = document.getElementById("admin-form") as HTMLFormElement;
 
         formEl.reset();

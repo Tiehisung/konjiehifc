@@ -30,7 +30,7 @@ export function Button({
   return (
     <button
       disabled={waiting || disabled}
-      className={`flex items-center gap-2  ${className} ${
+      className={`flex items-center gap-2 font-semibold ${className} ${
         waiting ? "cursor-wait" : "cursor-pointer"
       }`}
       type={type}
