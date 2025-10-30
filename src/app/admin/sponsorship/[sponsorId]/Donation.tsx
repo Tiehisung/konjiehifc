@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FcCamera } from "react-icons/fc";
 import { apiConfig } from "@/lib/configs";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { getErrorMessage, getFilePath } from "@/lib";
 import { Button } from "@/components/buttons/Button";
 import { IFileProps, IFileUpload, IResultProps } from "@/types";
@@ -108,15 +108,13 @@ export default function DonateToSponsor({
         );
         const donationResult: IResultProps = await response.json();
         // console.log(donationResult);
-        toast(donationResult.message, {
-          type: donationResult.success ? "success" : "error",
-          position: "bottom-center",
-        });
+
         setWaiting(false);
 
         if (donationResult.success) {
           setFormData(initialForm);
           setAttachedFiles([]);
+          toast.success(donationResult.message);
         }
         router.refresh();
         return;
@@ -129,8 +127,10 @@ export default function DonateToSponsor({
         body: JSON.stringify(formData),
         cache: "no-store",
       });
+      
       const results = await response.json();
-      toast(results.message, { type: results.success ? "success" : "error" });
+      if (results.success) toast.success(results.message);
+      else toast.error(results.message);
 
       if (results.success) {
         setFormData(initialForm);

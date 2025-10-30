@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { Button } from "@/components/buttons/Button";
 import { RemoveButton } from "@/components/buttons/DelClearRemove";
 import { Input } from "@/components/input/Inputs";
@@ -33,7 +33,7 @@ const roles = ["Player", "Captain", "Vice Captain", "Coach", "Goalkeeper"];
 
 export default function CreateSquad() {
   const [waiting, setWaiting] = useState(false);
-  
+
   const [players, setPlayers] = useState<Player[]>([]);
 
   useEffect(() => {
@@ -72,8 +72,10 @@ export default function CreateSquad() {
         body: JSON.stringify(data),
       });
       const result: IResultProps = await res.json();
-      toast(result.message, { type: result.success ? "success" : "error" });
-      if (result.success) reset();
+      if (result.success) {
+        toast(result.message);
+        reset();
+      }
     } catch (err) {
       toast.error(getErrorMessage(err, "Squad creation failed"));
     } finally {

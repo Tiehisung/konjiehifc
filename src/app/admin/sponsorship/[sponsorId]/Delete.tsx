@@ -4,7 +4,7 @@ import { Button } from "@/components/buttons/Button";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 interface DeleteSponsorProps {
   sponsorId: string;
@@ -22,7 +22,8 @@ export default function DeleteSponsor({ sponsorId }: DeleteSponsorProps) {
       body: JSON.stringify({ sponsorId }),
     });
     const result = await response.json();
-    toast(result.message, { type: result.success ? "success" : "error" });
+    if (result.success) toast.success(result.message);
+    else toast.error(result.message);
 
     router.refresh();
     if (result.success) router.back();

@@ -8,7 +8,7 @@ import { IAdminProps } from "./page";
 import CreateAdmin from "./CreateAdmin";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { IoPersonAddOutline, IoPersonRemoveOutline } from "react-icons/io5";
 import { Button } from "@/components/buttons/Button";
 import { getErrorMessage } from "@/lib";
@@ -94,7 +94,8 @@ export function AdminEngagement({
         cache: "no-cache",
       });
       const results = await response.json();
-      toast(results.message, { type: results.success ? "success" : "error" });
+      if (results.success) toast.success(results.message);
+      else toast.error(results.message);
       setWaiting(false);
     } catch (error) {
       toast.error(getErrorMessage(error, "Failed to update admin"));
@@ -109,7 +110,7 @@ export function AdminEngagement({
       disabled={waiting || !isAuthorized}
       primaryText={admin.isActive ? "Disengage" : "Re-engage"}
       waitingText="Processing..."
-      handleClickEvent={handleDelete}
+      onClick={handleDelete}
       className={className}
     >
       {admin.isActive ? (
@@ -146,7 +147,8 @@ export function AdminDelete({
         cache: "no-cache",
       });
       const results = await response.json();
-      toast(results.message, { type: results.success ? "success" : "error" });
+       if (results.success) toast.success(results.message);
+          else toast.error(results.message);
       setWaiting(false);
     } catch (error) {
       toast.error(getErrorMessage(error, "Failed to delete admin"));
@@ -161,7 +163,7 @@ export function AdminDelete({
       disabled={waiting || !isAuthorized}
       primaryText={`Delete ${admin.name?.split(" ")?.[0]}`}
       waitingText="Processing..."
-      handleClickEvent={handleDelete}
+      onClick={handleDelete}
       className={`whitespace-nowrap ${className}`}
     >
       <AiTwotoneDelete className={waiting ? "hidden" : ""} />

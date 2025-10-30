@@ -71,9 +71,9 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
                 <td className="px-2 py-2 whitespace-nowrap text-sm">
                   {fixture.status}
                 </td>
-                <td className="px-2 py-2 whitespace-nowrap text-sm">
+                <td className="px-2 py-2 whitespace-nowrap text-sm" title="View Squad">
                   {fixture?.squad ? (
-                    <DIALOG trigger={<Eye />} title="">
+                    <DIALOG trigger={<Eye />} title="" className="min-w-[80vw]" >
                       <SquadCard squad={fixture?.squad} />
                     </DIALOG>
                   ) : (

@@ -6,7 +6,7 @@ import { AiFillTwitterSquare } from "react-icons/ai";
 import { AiFillYoutube } from "react-icons/ai";
 import { FaWhatsapp } from "react-icons/fa";
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "sonner";
 import { getErrorMessage } from "@/lib";
 import { Button } from "@/components/buttons/Button";
 
@@ -29,7 +29,7 @@ export default function Contact() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!formData.email || !formData.text || !formData.subject)
-      return toast.warn("A required field is not filled out.");
+      return toast.warning("A required field is not filled out.");
     try {
       setWaiting(true);
       const response = await fetch("/api/messages/email", {
@@ -43,7 +43,7 @@ export default function Contact() {
         headers: { "Content-Type": "application/json" },
       });
       const data = await response.json();
-      toast(data.message, { type: data.success ? "success" : "error" });
+      toast.info(data.message);
 
       if (data.success) setFormdata(formModel);
     } catch (error) {
@@ -119,8 +119,6 @@ export default function Contact() {
           </div>
         </form>
       </div>
-
-      <ToastContainer />
     </main>
   );
 }

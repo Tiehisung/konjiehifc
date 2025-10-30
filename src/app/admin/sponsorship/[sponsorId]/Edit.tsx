@@ -3,7 +3,7 @@
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { ISponsorProps } from "@/app/sponsorship/page";
 import { IResultProps } from "@/types";
 import { Button } from "@/components/buttons/Button";
@@ -58,8 +58,7 @@ export default function EditSponsor({ sponsor }: { sponsor: ISponsorProps }) {
         cache: "no-cache",
       });
       const results: IResultProps = await response.json();
-      toast(results.message, {
-        type: results.success ? "success" : "error",
+      toast.success(results.message, {
         position: "bottom-center",
       });
       setWaiting(false);
@@ -77,13 +76,16 @@ export default function EditSponsor({ sponsor }: { sponsor: ISponsorProps }) {
       body: JSON.stringify(formData),
       cache: "no-store",
     });
+
     const results: IResultProps = await response.json();
-    toast(results.message, { type: results.success ? "success" : "error" });
+
     setWaiting(false);
     if (results.success) {
       setFormData(sponsor);
       setImageFile(null);
-    }
+      toast.success(results.message);
+    } else toast.error(results.message);
+
     router.refresh();
   };
   return (
