@@ -1,5 +1,6 @@
 import "@/models/teams";
 import "@/models/file";
+import "@/models/squad";
 import "@/models/player";
 import "@/models/goals";
 import { getErrorMessage } from "@/lib";
@@ -60,7 +61,9 @@ export async function GET() {
       { status: "LIVE" }
     ]
   }).populate({ path: "opponent", populate: { path: "logo" } })
-    .populate({ path: "goals", });;
+    .populate({ path: "squad", })
+    .populate({ path: "goals", })
+    .lean()
 
   return NextResponse.json({ data: match });
 }

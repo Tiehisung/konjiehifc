@@ -67,11 +67,10 @@ const SquadPage = async ({ searchParams }: PageProps) => {
   );
 
   const squads: IQueryResponse<ISquad[]> | null = await getSquads(qs);
-  console.log({ squads });
   const accordion = squads?.data?.map((squad) => ({
     trigger: (
       <div className="flex items-center gap-1 justify-between">
-        <span>{squad.match?.title}</span>
+        <span>{squad?.title}</span>
         <span className="_label">
           {squad.match?.isHome ? " Home" : " Away"}
         </span>

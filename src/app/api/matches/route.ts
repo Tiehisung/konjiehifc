@@ -6,6 +6,7 @@ import "@/models/teams";
 import "@/models/file";
 import "@/models/goals";
 import "@/models/player";
+import "@/models/squad";
 import { removeEmptyKeys } from "@/lib";
 import { MatchStatus } from "@/app/matches/(fixturesAndResults)";
 

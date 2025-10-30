@@ -17,13 +17,16 @@ import { Users, CalendarDays, MapPin, Clock, UserCog } from "lucide-react";
 import { ISquad } from "./page";
 import { getFormattedDate, getTimeAgo } from "@/lib/timeAndDate";
 import SquadActionButtons from "./Action";
+import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 
 interface SquadDisplayProps {
   squad?: ISquad;
+  match?: IMatchProps;
 }
 
-const SquadCard = ({ squad }: SquadDisplayProps) => {
-  if(!squad)return <div className='_label text-center m-6'>Squad not found</div>
+const SquadCard = ({ squad, match }: SquadDisplayProps) => {
+  if (!squad)
+    return <div className="_label text-center m-6">Squad not found</div>;
   return (
     <Card className="shadow-lg border-0 overflow-hidden rounded-none ml-2.5 mb-12">
       <CardHeader className="bg-muted/40 py-5">
@@ -34,14 +37,18 @@ const SquadCard = ({ squad }: SquadDisplayProps) => {
             </CardTitle>
             <CardDescription className="flex flex-wrap items-center gap-3 mt-1 text-muted-foreground">
               <span className="flex items-center gap-1">
-                <MapPin size={16} /> {squad?.match?.isHome ? "Home" : "Away"}
+                <MapPin size={16} />{" "}
+                {squad?.match?.isHome ?? match?.isHome ? "Home" : "Away"}
               </span>
               <span className="flex items-center gap-1">
                 <CalendarDays size={16} />{" "}
-                {getFormattedDate(squad?.match?.date, "March 2, 2025")}
+                {getFormattedDate(
+                  squad?.match?.date ?? match?.date,
+                  "March 2, 2025"
+                )}
               </span>
               <span className="flex items-center gap-1">
-                <Clock size={16} /> {squad?.match?.time}
+                <Clock size={16} /> {squad?.match?.time ?? match?.time}
               </span>
             </CardDescription>
           </div>

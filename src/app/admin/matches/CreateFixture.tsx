@@ -20,6 +20,7 @@ import { apiConfig } from "@/lib/configs";
 import { customStyles } from "@/styles";
 import { ISelectOptionLV } from "@/types";
 import { useRouter } from "next/navigation";
+import { timeLog } from "node:console";
 import React, { useState } from "react";
 import Select from "react-select";
 import { toast } from "sonner";
@@ -71,6 +72,10 @@ const CreateFixture = ({ teams }: { teams?: ITeamProps[] }) => {
       if (results.success) {
         toast.success(results.message);
         fireEscape();
+        setTime("");
+        setDate("");
+        setMatchType("");
+        setOpponent(null);
       } else toast.error(results.message);
     } catch (error) {
       toast.error(getErrorMessage(error));
@@ -90,12 +95,13 @@ const CreateFixture = ({ teams }: { teams?: ITeamProps[] }) => {
 
         <CardContent className="space-y-6 max-w-xl sm:min-w-sm">
           <div>
-            <p className="_label mb-3 ">Select team</p>
+            <p className="_label mb-2 ">Select team</p>
             <Select
               options={teamOptions}
               styles={customStyles}
               onChange={(e) => setOpponent(e as ISelectOptionLV)}
               className="bg-popover rounded"
+              value={opponent}
             />
           </div>
 
@@ -103,8 +109,8 @@ const CreateFixture = ({ teams }: { teams?: ITeamProps[] }) => {
             defaultValue={matchType}
             setSelectedValue={setMatchType}
             values={["home", "away"]}
-            wrapperStyles="flex gap-3 items-center"
             label="Match Type"
+            wrapperStyles="flex gap-3 items-center"
           />
 
           <DateTimeInput
@@ -112,6 +118,7 @@ const CreateFixture = ({ teams }: { teams?: ITeamProps[] }) => {
             onChange={(e) => setDate(e.target.value)}
             type="date"
             required
+            value={date}
             label={"Date Of Play"}
           />
 
@@ -121,13 +128,14 @@ const CreateFixture = ({ teams }: { teams?: ITeamProps[] }) => {
             type="time"
             required
             label={"Time Of Play"}
+            value={time}
           />
         </CardContent>
         <CardFooter>
           <Button
             type="submit"
             waiting={waiting}
-            disabled={waiting}
+            disabled={!date||!time||!opponent||!matchType}
             waitingText={"Saving..."}
             primaryText={"Save Fixture"}
             className="_primaryBtn px-3 mt-2 py-2 mx-auto grow justify-center "

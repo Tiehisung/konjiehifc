@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import SquadCard from "../squad/SquadCard";
 import { DIALOG } from "@/components/Dialog";
 import { Eye } from "lucide-react";
+import { isToday } from "date-fns";
 
 interface DisplayFixturesProps {
   fixtures: IMatchProps[];
@@ -69,15 +70,24 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
                   {getFormattedDate(fixture.date, "March 2, 2025")}
                 </td>
                 <td className="px-2 py-2 whitespace-nowrap text-sm">
-                  {fixture.status}
+                  <Badge
+                    variant={
+                      fixture?.status == "LIVE" ? "destructive" : "outline"
+                    }
+                  >
+                    {fixture.status}
+                  </Badge>
                 </td>
-                <td className="px-2 py-2 whitespace-nowrap text-sm" title="View Squad">
+                <td
+                  className="px-2 py-2 whitespace-nowrap text-sm"
+                  title="View Squad"
+                >
                   {fixture?.squad ? (
-                    <DIALOG trigger={<Eye />} title="" className="min-w-[80vw]" >
-                      <SquadCard squad={fixture?.squad} />
+                    <DIALOG trigger={<Eye />} title="" className="min-w-[80vw]">
+                      <SquadCard squad={fixture?.squad} match={fixture} />
                     </DIALOG>
                   ) : (
-                   <span className='text-muted-foreground'>N/A</span>  
+                    <span className="text-muted-foreground">N/A</span>
                   )}
                 </td>
                 <td className="px-2 py-2 text-sm ">
@@ -85,6 +95,7 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
                     <ToggleMatchStatus
                       status={fixture.status}
                       fixtureId={fixture._id}
+                      matchDate={fixture.date}
                     />
                     <UpdateFixtureMatch teams={teams} fixture={fixture} />
                     <DeleteFixture fixtureId={fixture._id} />
@@ -160,9 +171,11 @@ export function DeleteFixture({ fixtureId }: { fixtureId: string }) {
 export function ToggleMatchStatus({
   fixtureId,
   status,
+  matchDate,
 }: {
   fixtureId: string;
   status: IMatchProps["status"];
+  matchDate: string;
 }) {
   const router = useRouter();
 
@@ -194,14 +207,16 @@ export function ToggleMatchStatus({
       </Badge>
     );
 
-  return (
-    <Button
-      waiting={waiting}
-      disabled={waiting}
-      primaryText={status == "LIVE" ? "Mark FT" : "Go Live"}
-      waitingText="Updating..."
-      onClick={handleToggle}
-      className=" px-2 flex items-center text-red-600 _deleteBtn whitespace-nowrap"
-    />
-  );
+  if (isToday(matchDate))
+    return (
+      <Button
+        waiting={waiting}
+        disabled={waiting}
+        primaryText={status == "LIVE" ? "Mark FT" : "Go Live"}
+        waitingText="Updating..."
+        onClick={handleToggle}
+        className=" px-2 flex items-center text-red-600 _deleteBtn whitespace-nowrap"
+      />
+    );
+  return null;
 }

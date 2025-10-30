@@ -51,6 +51,28 @@ export const getFormattedDate = (
 };
 
 export const getTimeAgo = (dateString: string) => moment(dateString).fromNow();
+/**
+ * Checks whether the given date (MongoDB date, ISO string, or JS Date)
+ * represents "today" (local timezone).
+ */
+export function isToday(date: Date | string | number | null | undefined): boolean {
+  if (!date) return false;
+
+  // Convert MongoDB ISO string, timestamp, or Date to Date object
+  const d = new Date(date);
+
+  if (isNaN(d.getTime())) return false; // invalid date
+
+  const now = new Date();
+
+  // Compare year, month, and day only
+  return (
+    d.getFullYear() === now.getFullYear() &&
+    d.getMonth() === now.getMonth() &&
+    d.getDate() === now.getDate()
+  );
+}
+
 
 /**
  * @param daysAgo Accepts days in number and last date it falls on in time back
