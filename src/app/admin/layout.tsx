@@ -18,8 +18,9 @@ export default function Layout({ children }: { children: ReactNode }) {
       <LeftPaneDesktop />
       <section className="flex-1 md:h-screen md:overflow-y-auto">
         <Header />
-        {children}
-        
+
+        <div className="max-md:pt-4 pt-2">{children}</div>
+
         <AdminFooter />
       </section>
     </main>

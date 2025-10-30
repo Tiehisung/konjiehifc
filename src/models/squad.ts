@@ -4,6 +4,7 @@ export const squadSchema = new Schema({
   match: { type: Schema.Types.ObjectId, ref: "matches", required: true },
 
   description: String,
+  title: String,
 
   players: [
     {
@@ -25,7 +26,6 @@ export const squadSchema = new Schema({
     avatar: String,
   },
 
-  isPlayed: { type: Boolean, default: false }
 },
   { timestamps: true });
 

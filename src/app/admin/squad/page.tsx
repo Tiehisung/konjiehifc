@@ -15,6 +15,7 @@ import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 export interface ISquad {
   _id?: string;
   description?: string;
+  title?: string;
   players: { _id?: string; name: string; position: string; avatar?: string }[];
   coach?: { _id?: string; name: string; avatar?: string };
   assistant?: { _id?: string; name: string; avatar?: string };
@@ -65,9 +66,8 @@ const SquadPage = async ({ searchParams }: PageProps) => {
     "?status=UPCOMING"
   );
 
-  console.log({ matches });
   const squads: IQueryResponse<ISquad[]> | null = await getSquads(qs);
-
+  console.log({ squads });
   const accordion = squads?.data?.map((squad) => ({
     trigger: (
       <div className="flex items-center gap-1 justify-between">
