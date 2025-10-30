@@ -7,7 +7,7 @@ import { logAction } from "../logs/helper";
 import { IGoal } from "@/app/matches/(fixturesAndResults)";
 import GoalModel from "@/models/goals";
 import { updateMatchEvent } from "../matches/live/events/route";
-import MatchModel from "@/models/matches";
+import MatchModel from "@/models/match";
 import PlayerModel from "@/models/player";
 // export const revalidate = 0;
 // export const dynamic = "force-dynamic";

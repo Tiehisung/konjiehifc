@@ -1,3 +1,4 @@
+import { ISquad } from "@/app/admin/squad/page";
 import { IPlayerStatsProps } from "@/app/statistics/Statistics";
 import { IFileProps } from "@/types";
 
@@ -8,8 +9,8 @@ export type MatchStatus =
   | "COMPLETED" //  The match has been completed.
 
 export interface IMatchProps {
-  challenge?: { reason: "Weather issues" | string; details?: string };
   _id: string;
+  comment?: string;
   title: string;
   date: string;
   time: string;
@@ -20,9 +21,10 @@ export interface IMatchProps {
   isHome: boolean;
   venue?: { name: string; files: IFileProps[] };
   goals: Array<IGoal>;
-  opponentGoals:number
+  opponentGoals: number
   events: Array<IMatchEvent>;
   cards: Array<IMatchCard>;
+  squad?:ISquad
 }
 
 export interface IMatchCard {
@@ -70,7 +72,7 @@ export interface IGoal {
   | "Header Goal"
   | "Volley Goal"
   | "Tap-In Goal"
-  | "Long-Range Goal" 
+  | "Long-Range Goal"
   description?: string
   match: string
 }

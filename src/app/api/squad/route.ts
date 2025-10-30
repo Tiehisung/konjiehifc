@@ -7,8 +7,8 @@ import { postNews } from "../news/post";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
 import { logAction } from "../logs/helper";
-// export const revalidate = 0;
-// export const dynamic = "force-dynamic";
+import MatchModel from "@/models/match";
+
 
 ConnectMongoDb();
 export async function GET(request: NextRequest) {
@@ -55,28 +55,32 @@ export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions)
     const body = await request.json() as ISquad;
 
-    const saved = await SquadModel.create({
+    const savedSquad = await SquadModel.create({
       ...body,
     });
 
-    if (!saved) {
+    if (!savedSquad) {
       return NextResponse.json({ message: "Failed to create squad.", success: false });
     }
+
+    //Update Match Squad field
+    await MatchModel.findByIdAndUpdate(body.match, { $set: { squad: savedSquad._id } })
+
     await postNews({
       headline: { text: `New Squad Created: ${body.description}`, image: { secure_url: body.players[0].avatar }, },
-      metaDetails: [{ text: `A new squad has been created for the match against ${body.opponent.name} on ${body.date} at ${body.time}.` }],
+      metaDetails: [{ text: `A new squad has been created for the match against ${body.match.opponent.name ?? ''}. Scheduled on ${body.match.date ?? ''} at ${body.match.time ?? ''}.` }],
       type: 'squad'
     });
     // log
     await logAction({
       title: "Squad Created",
-      description: body.description || body.opponent?.name as string,
+      description: body.description || body.match.opponent?.name as string,
       category: "db",
       severity: "info",
       userEmail: session?.user?.email as string,
 
     });
-    return NextResponse.json({ message: "Squad created successfully!", success: true, data: saved });
+    return NextResponse.json({ message: "Squad created successfully!", success: true, data: savedSquad });
 
   } catch (error) {
     return NextResponse.json({

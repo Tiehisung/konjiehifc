@@ -1,13 +1,13 @@
 "use client";
 
+import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { Button } from "@/components/buttons/Button";
-import { ITeamProps } from "@/components/fixturesAndResults";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export function DeleteTeam({
   team,
@@ -31,7 +31,7 @@ export function DeleteTeam({
         body: JSON.stringify(team),
       });
       const results = await response.json();
-      toast(results.message, { type: results.success ? "success" : "error" });
+      toast.success(results.message, );
       setWaiting(false);
     } catch (error) {
       toast.error(getErrorMessage(error, "Failed to delete team"));
@@ -46,7 +46,7 @@ export function DeleteTeam({
       disabled={waiting}
       primaryText="Delete"
       waitingText="Deleting..."
-      handleClickEvent={handleDelete}
+      onClick={handleDelete}
       className={className}
     >
       <RiDeleteBin6Line className={waiting ? "hidden" : ""} />

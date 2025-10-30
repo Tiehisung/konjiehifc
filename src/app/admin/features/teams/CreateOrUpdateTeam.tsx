@@ -12,7 +12,7 @@ import { IFileUpload, TConvertedFile } from "@/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export interface IPostTeam {
   name: string;
@@ -57,7 +57,7 @@ export const NewTeamForm = () => {
       cache: "no-cache",
     });
     const results = await response.json();
-    toast(results.message, { type: results.success ? "success" : "error" });
+    toast.success(results.message, );
     setWaiting(false);
     router.refresh();
   };
@@ -163,7 +163,7 @@ export const UpdateTeamForm = ({ team }: { team: ITeamProps }) => {
       cache: "no-cache",
     });
     const results = await response.json();
-    toast(results.message, { type: results.success ? "success" : "error" });
+    toast.success(results.message,);
     setWaiting(false);
     router.refresh();
   };

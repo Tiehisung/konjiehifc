@@ -4,9 +4,9 @@ export const customStyles: StylesConfig = {
   control: (provided, state) => ({
     ...provided,
     backgroundColor: "transparent",
-    borderColor: Color.mediumGrey,
+    borderColor: Color.teal,
     minHeight: "40px",
-    boxShadow: state.isFocused ? `0 0 0 1px ${Color.liteBlue}` : "none",
+    boxShadow: state.isFocused ? `0 0 0 1px ${Color.teal}` : "none",
     "&:hover": {
       borderColor: "#aaa",
     },

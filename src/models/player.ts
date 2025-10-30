@@ -47,10 +47,13 @@ const playerSchema = new Schema(
     },
     performance: { type: Schema.Types.Array, default: () => [] },
 
-    galleries: [{ type: Schema.Types.ObjectId, ref: "galleries" }],
-    cards: [{ type: Schema.Types.ObjectId, ref: "cards" }],
-    injuries: [{ type: Schema.Types.ObjectId, ref: "injuries" }],
-    goals: [{ type: Schema.Types.ObjectId, ref: "goals" }],
+    galleries: [{ type: Schema.Types.ObjectId, ref: "galleries", default: [] }],
+    cards: [{ type: Schema.Types.ObjectId, ref: "cards", default: [] }],
+    injuries: [{ type: Schema.Types.ObjectId, ref: "injuries", default: [] }],
+    goals: [{ type: Schema.Types.ObjectId, ref: "goals", default: [] }],
+    assists: [{ type: Schema.Types.ObjectId, ref: "goals", default: [] }],
+    ratings: [{ match: { type: Schema.Types.ObjectId, ref: "matches" }, rating: Number, default: [] }],
+    matches: [{ type: Schema.Types.ObjectId, ref: "matches", default: [] }],
 
     issues: { type: Schema.Types.Array, default: () => [] },
     medicals: { type: Schema.Types.Array, default: () => [] },

@@ -5,7 +5,7 @@ import { IconInputWithLabel } from "../input/Inputs";
 import { Button } from "../buttons/Button";
 import { signIn } from "next-auth/react";
 import { getErrorMessage } from "@/lib";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { BiLogIn } from "react-icons/bi";
 import PrimaryModal from "../modals/Modals";
 import { FcGoogle } from "react-icons/fc";

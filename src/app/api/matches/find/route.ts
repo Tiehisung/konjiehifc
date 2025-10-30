@@ -1,7 +1,7 @@
 import { IGetMatchesProps } from "@/app/admin/matches/page";
 import { deleteEmptyKeys, getErrorMessage } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
-import MatchModel from "@/models/matches";
+import MatchModel from "@/models/match";
 import { NextRequest, NextResponse } from "next/server";
 import "@/models/teams";
 import "@/models/file";
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
 
-    const sort =  searchParams.get('sort') == 'asc' ? 'asc': "desc";
+    const sort = searchParams.get('sort') == 'asc' ? 'asc' : "desc";
     const status = searchParams.get('status') || "";
     const isHome = searchParams.get('isHome') || "";
 
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
       .sort({
         createdAt: sort,
       });
-    return NextResponse.json({data:fixtures});
+    return NextResponse.json({ data: fixtures });
   } catch (error) {
     console.log(getErrorMessage(error).length);
     console.log({ error })

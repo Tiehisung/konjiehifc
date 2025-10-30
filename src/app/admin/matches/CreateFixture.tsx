@@ -5,7 +5,15 @@ import { Button } from "@/components/buttons/Button";
 import { DIALOG } from "@/components/Dialog";
 import { DateTimeInput } from "@/components/input/Inputs";
 import RadioButtons from "@/components/input/Radio";
-import PrimaryModal from "@/components/modals/Modals";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { teamKFC } from "@/data/teams";
 import { fireEscape } from "@/hooks/Esc";
 import { getErrorMessage, checkTeams } from "@/lib";
 import { apiConfig } from "@/lib/configs";
@@ -37,7 +45,6 @@ const CreateFixture = ({ teams }: { teams?: ITeamProps[] }) => {
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");
   const [opponent, setOpponent] = useState<ISelectOptionLV | null>(null);
-  const [isOpenForm, setIsOpenForm] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,6 +56,10 @@ const CreateFixture = ({ teams }: { teams?: ITeamProps[] }) => {
         time,
         isHome: matchType === "home" ? true : false,
         opponent: opponent?.value, //opponentId
+        title:
+          matchType === "home"
+            ? `${teamKFC.name} VS ${opponent?.label}`
+            : `${opponent?.label} VS ${teamKFC.name}`,
       };
       const response = await fetch(apiConfig.matches, {
         method: "POST",
@@ -70,69 +81,60 @@ const CreateFixture = ({ teams }: { teams?: ITeamProps[] }) => {
   };
 
   return (
-    <div>
-      <Button
-        onClick={() => setIsOpenForm((p) => !p)}
-        primaryText="Create  Fixture"
-        className="px-2 py-1 ml-auto _primaryBtn"
-      />
-      <PrimaryModal isOpen={isOpenForm} setIsOpen={setIsOpenForm}>
-        <form
-          className="p-4 border _borderColor rounded-xl space-y-4 _shadow w-72 bg-accent  max-w-xl"
-          onSubmit={handleSubmit}
-        >
-          <h1 className="font-bold text-lg my-3">New Fixture</h1>
+    <form onSubmit={handleSubmit} className=" max-sm:grow">
+      <Card>
+        <CardHeader>
+          <CardTitle>NEW FIXTURE</CardTitle>
+          <CardDescription>Fill Out To Create Fixture</CardDescription>
+        </CardHeader>
+
+        <CardContent className="space-y-6 max-w-xl sm:min-w-sm">
           <div>
             <p className="_label mb-3 ">Select team</p>
             <Select
               options={teamOptions}
               styles={customStyles}
               onChange={(e) => setOpponent(e as ISelectOptionLV)}
-              className="bg-background rounded"
+              className="bg-popover rounded"
             />
           </div>
 
-          <div>
-            <p className="_label mb-3">Match type </p>
-            <RadioButtons
-              defaultValue={matchType}
-              setSelectedValue={setMatchType}
-              values={["home", "away"]}
-              wrapperStyles="flex gap-3 items-center"
-            />
-          </div>
+          <RadioButtons
+            defaultValue={matchType}
+            setSelectedValue={setMatchType}
+            values={["home", "away"]}
+            wrapperStyles="flex gap-3 items-center"
+            label="Match Type"
+          />
 
-          <div>
-            <p className="_label mb-3">Date </p>
-            <DateTimeInput
-              name={"match-date"}
-              onChange={(e) => setDate(e.target.value)}
-              type="date"
-              required
-            />
-          </div>
+          <DateTimeInput
+            name={"match-date"}
+            onChange={(e) => setDate(e.target.value)}
+            type="date"
+            required
+            label={"Date Of Play"}
+          />
 
-          <div>
-            <p className="_label mb-3">Time </p>
-            <DateTimeInput
-              name={"match-time"}
-              onChange={(e) => setTime(e.target.value)}
-              type="time"
-              required
-            />
-          </div>
-
+          <DateTimeInput
+            name={"match-time"}
+            onChange={(e) => setTime(e.target.value)}
+            type="time"
+            required
+            label={"Time Of Play"}
+          />
+        </CardContent>
+        <CardFooter>
           <Button
             type="submit"
             waiting={waiting}
             disabled={waiting}
             waitingText={"Saving..."}
-            primaryText={"Save fixture"}
-            className="_primaryBtn px-3 mt-2 py-2 mx-auto"
+            primaryText={"Save Fixture"}
+            className="_primaryBtn px-3 mt-2 py-2 mx-auto grow justify-center "
           />
-        </form>
-      </PrimaryModal>
-    </div>
+        </CardFooter>
+      </Card>
+    </form>
   );
 };
 
@@ -175,6 +177,10 @@ export const UpdateFixtureMatch = ({
       time,
       isHome: matchType === "home" ? true : false,
       opponent: opponent?.value, //opponentId
+      title:
+        matchType === "home"
+          ? `${teamKFC.name} VS ${fx.opponent.name}`
+          : `${fx.opponent.name} VS ${teamKFC.name}`,
     };
     const response = await fetch(apiConfig.matches, {
       method: "PUT",
@@ -195,64 +201,56 @@ export const UpdateFixtureMatch = ({
 
   const { home, away } = checkTeams(fx);
 
-  if (fx?.status !== "LIVE") return null;
+  if (fx?.status !== "UPCOMING") return null;
 
   return (
     <DIALOG
       closeId={fx._id}
       trigger="Edit"
       triggerStyles="text-teal-600"
-      title={"Update Fixture"}
+      title={"UPDATE FIXTURE"}
+      className="bg-popover"
+      description={` ${home?.name} vs ${away?.name}`.toUpperCase()}
     >
-      <div className="flex flex-col justify-center items-center">
-        <h1 className="mb-4 text-lg md:text-xl">
-          {` ${home?.name} vs ${away?.name}`}
-        </h1>
+      <div className=" ">
         <form
-          className="p-4 border _borderColor rounded-xl space-y-4 _shadow w-72  max-w-xl"
+          className="p-4 border _borderColor rounded-xl"
           onSubmit={handleSubmit}
         >
-          <div>
-            <p className="_label mb-3 ">Select team</p>
-            <Select
-              defaultValue={opponent}
-              options={teamOptions}
-              styles={customStyles}
-              onChange={(e) => setOpponent(e as ISelectOptionLV)}
-              className=" dark:bg-background rounded"
-            />
-          </div>
+          <div className="space-y-6 max-w-xl sm:min-w-sm">
+            <div>
+              <p className="_label mb-3 ">Select team</p>
+              <Select
+                defaultValue={opponent}
+                options={teamOptions}
+                styles={customStyles}
+                onChange={(e) => setOpponent(e as ISelectOptionLV)}
+                className=" dark:bg-background rounded"
+              />
+            </div>
 
-          <div>
-            <p className="_label mb-3">Match type </p>
             <RadioButtons
-              defaultValue={fx?.isHome ? "home" : "away"}
+              defaultValue={matchType}
               setSelectedValue={setMatchType}
               values={["home", "away"]}
               wrapperStyles="flex gap-3 items-center"
-              className="uppercase"
+              label="Match Type"
             />
-          </div>
 
-          <div>
-            <p className="_label mb-3">Date </p>
             <DateTimeInput
-              value={fx.date}
-              name={"update-date"}
+              name={"match-date"}
               onChange={(e) => setDate(e.target.value)}
               type="date"
               required
+              label={"Date Of Play"}
             />
-          </div>
 
-          <div>
-            <p className="_label mb-3">Time </p>
             <DateTimeInput
-              value={fx.time}
-              name={"update-time"}
+              name={"match-time"}
               onChange={(e) => setTime(e.target.value)}
               type="time"
               required
+              label={"Time Of Play"}
             />
           </div>
 
@@ -261,8 +259,8 @@ export const UpdateFixtureMatch = ({
             waiting={waiting}
             disabled={waiting}
             waitingText={"Saving..."}
-            primaryText={"Update fixture"}
-            className="_primaryBtn px-3 mt-2 py-2 ml-auto"
+            primaryText={"Update Fixture"}
+            className="_primaryBtn px-3 py-2 mx-auto grow w-full justify-center mt-6"
           />
         </form>
       </div>

@@ -1,7 +1,7 @@
 
 import { getErrorMessage } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
-import MatchModel from "@/models/matches";
+import MatchModel from "@/models/match";
 import { NextRequest, NextResponse } from "next/server";
 import { IMatchEvent } from "@/app/matches/(fixturesAndResults)";
 // export const revalidate = 0;

@@ -23,42 +23,36 @@ import {
 } from "@/components/ui/table";
 import { PrimarySelect } from "@/components/select/Select";
 import { Button } from "@/components/buttons/Button";
-import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { IManager } from "../managers/page";
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
 import { TextArea } from "@/components/input/Inputs";
 import { playPositions } from "@/data";
 import { toast } from "sonner";
-import { DATEPICKER } from "@/components/input/DatePicker";
-import { INPUT } from "@/components/input/input";
 import { Label } from "@/components/ui/label";
 import { getErrorMessage } from "@/lib";
 import { useRouter } from "next/navigation";
 import { ISquad } from "./page";
+import { getFormattedDate, getTimeLeftOrAgo } from "@/lib/timeAndDate";
+import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 
 interface IProps {
   players?: IPlayer[];
-  teams?: ITeamProps[];
   managers?: IManager[];
+  matches?: IMatchProps[];
 }
 
-interface SquadFormValues {
-  opponent: string;
-  venue: "Home" | "Away";
+interface IPostSquad {
   description?: string;
   selectedPlayers: Record<string, boolean>;
   positions: Record<string, string>;
   coach?: string;
   assistant?: string;
-  date: string;
-  time: string;
+  match: IMatchProps;
 }
 
 // 🧩 Joi Validation Schema
-const squadSchema = Joi.object<SquadFormValues>({
-  opponent: Joi.string().required().label("Opponent"),
-
-  venue: Joi.string().valid("Home", "Away").required().label("Venue"),
+const squadSchema = Joi.object<IPostSquad>({
+  match: Joi.object<IMatchProps>().required().label("Fixture"),
 
   description: Joi.string().allow("").max(500).label("Description"),
 
@@ -66,14 +60,16 @@ const squadSchema = Joi.object<SquadFormValues>({
 
   positions: Joi.object().required(),
 
-  date: Joi.string().required().label("Match Date"),
-  time: Joi.string().required().label("Match Time"),
-
   coach: Joi.string().required().label("Coach"),
   assistant: Joi.string().required().label("Assistant"),
 });
 
-const NewSquad = ({ players = [], teams = [], managers = [] }: IProps) => {
+const NewSquad = ({
+  players = [],
+
+  managers = [],
+  matches = [],
+}: IProps) => {
   const [waiting, setWaiting] = useState(false);
 
   const router = useRouter();
@@ -84,7 +80,7 @@ const NewSquad = ({ players = [], teams = [], managers = [] }: IProps) => {
     watch,
     reset,
     formState: {},
-  } = useForm<SquadFormValues>({
+  } = useForm<IPostSquad>({
     resolver: joiResolver(squadSchema),
     defaultValues: {
       selectedPlayers: {},
@@ -94,8 +90,9 @@ const NewSquad = ({ players = [], teams = [], managers = [] }: IProps) => {
 
   const selectedPlayers = watch("selectedPlayers");
   const positions = watch("positions");
+  const selectedMatch = watch("match");
 
-  const onSubmit = async (data: SquadFormValues) => {
+  const onSubmit = async (data: IPostSquad) => {
     try {
       const selected = Object.values(data.selectedPlayers || {}).filter(
         Boolean
@@ -112,8 +109,6 @@ const NewSquad = ({ players = [], teams = [], managers = [] }: IProps) => {
       const assistantObj = managers.find((m) => m._id === data.assistant);
 
       const payload: ISquad = {
-        opponent: teams.find((t) => t._id === data.opponent)!,
-        venue: data.venue,
         description: data.description,
         coach: coachObj
           ? {
@@ -137,8 +132,7 @@ const NewSquad = ({ players = [], teams = [], managers = [] }: IProps) => {
             position: data.positions[p._id] || p.position,
             avatar: p.avatar?.secure_url,
           })),
-        date: data.date,
-        time: data.time,
+        match: data.match,
       };
 
       setWaiting(true);
@@ -155,11 +149,9 @@ const NewSquad = ({ players = [], teams = [], managers = [] }: IProps) => {
       reset({
         selectedPlayers: {},
         positions: {},
-        time: "",
-        date: "",
+
         description: "",
-        venue: "Home",
-        opponent: "",
+        match: undefined, //matches?.[0]._id,
         coach: "",
         assistant: "",
       });
@@ -176,21 +168,23 @@ const NewSquad = ({ players = [], teams = [], managers = [] }: IProps) => {
       <Card className="border-0 shadow-lg">
         <CardHeader>
           <CardTitle className="text-xl font-black">NEW MATCH SQUAD</CardTitle>
-          <CardDescription className="flex gap-4 justify-between items-center flex-wrap">
+          <CardDescription className="flex gap-4 justify-between items-center flex-wrap border-b pb-5">
             {/* Opponent Select */}
             <div className="w-full sm:w-auto ">
-              <Label className="mb-2">Oponent</Label>
+              <Label className="mb-2">MATCH</Label>
               <Controller
-                name="opponent"
+                name="match"
                 control={control}
                 render={({ field, fieldState }) => (
                   <PrimarySelect
-                    options={teams.map((t) => ({
-                      label: `${t.name} (${t.alias})`,
-                      value: t._id,
+                    options={matches.map((f) => ({
+                      label: `${f.title}`,
+                      value: f._id,
                     }))}
-                    placeholder="Opponent"
-                    onChange={field.onChange}
+                    placeholder="Match"
+                    onChange={(v) =>
+                      field.onChange(matches.find((f) => f._id == v))
+                    }
                     error={fieldState?.error?.message}
                   />
                 )}
@@ -199,53 +193,21 @@ const NewSquad = ({ players = [], teams = [], managers = [] }: IProps) => {
 
             {/* Venue Select */}
             <div className="w-full sm:w-auto">
-              <Label className="mb-2">Venue</Label>
-              <Controller
-                name="venue"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <PrimarySelect
-                    options={[
-                      { label: "Home", value: "Home" },
-                      { label: "Away", value: "Away" },
-                    ]}
-                    placeholder="Venue"
-                    onChange={field.onChange}
-                    error={fieldState?.error?.message}
-                  />
-                )}
-              />
+              <Label className="mb-2">VENUE</Label>
+              <div>{selectedMatch?.isHome ? "Home" : "Away"}</div>
+            </div>
+            <div className="w-full sm:w-auto">
+              <Label className="mb-2">DATE</Label>
+              <div>
+                {getFormattedDate(selectedMatch?.date, "March 2, 2025")}(
+                {getTimeLeftOrAgo(selectedMatch?.date).formatted})
+              </div>
             </div>
 
-            <Controller
-              name="date"
-              control={control}
-              render={({ field, fieldState }) => (
-                <DATEPICKER
-                  {...field}
-                  onChange={(date) => field.onChange(date)}
-                  value={field.value as string}
-                  error={fieldState?.error?.message}
-                  placeholder="Match Date"
-                  label="Match Date"
-                />
-              )}
-            />
-
-            <Controller
-              name="time"
-              control={control}
-              render={({ field, fieldState }) => (
-                <INPUT
-                  {...field}
-                  value={field.value as string}
-                  error={fieldState?.error?.message}
-                  placeholder="Description"
-                  type="time"
-                  label="Match Time"
-                />
-              )}
-            />
+            <div className="w-full sm:w-auto">
+              <Label className="mb-2">TIME</Label>
+              <div>{selectedMatch?.time}</div>
+            </div>
 
             {/* Match Description */}
             <div className="w-full">
@@ -270,10 +232,10 @@ const NewSquad = ({ players = [], teams = [], managers = [] }: IProps) => {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-border">
-                  <th className="text-left py-3 px-4 font-black">Player</th>
-                  <th className="text-left py-3 px-4 font-black">Position</th>
-                  <th className="text-center py-3 px-4 font-black">Jersey</th>
+                <tr className="border-b border-border font-semibold">
+                  <th className="text-left py-3 px-4">PLAYER</th>
+                  <th className="text-left py-3 px-4 ">POSITION</th>
+                  <th className="text-center py-3 px-4 ">NUMBER</th>
                 </tr>
               </thead>
 

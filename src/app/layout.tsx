@@ -6,8 +6,6 @@ import AuthProvider from "@/providers/AuthProvider";
 import RTKStoreProvider from "@/providers/RtkProvider";
 import FooterCP from "@/components/footer/FooterCp";
 import { ReactNode } from "react";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
 import { Toaster } from "sonner";
 import BackToTopButton from "@/components/scroll/ToTop";
 import { usePathname } from "next/navigation";
@@ -38,7 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </ThemeProvider>
           </AuthProvider>
         </RTKStoreProvider>
-        <ToastContainer />
+        
       </body>
     </html>
   );

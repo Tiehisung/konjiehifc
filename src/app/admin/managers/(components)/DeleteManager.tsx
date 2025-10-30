@@ -6,7 +6,7 @@ import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { IManager } from "../page";
 
 export function DeleteManager({
@@ -30,7 +30,7 @@ export function DeleteManager({
         cache: "no-cache",
       });
       const results = await response.json();
-      toast(results.message, { type: results.success ? "success" : "error" });
+      toast.info(results.message,);
       setWaiting(false);
     } catch (error) {
       toast.error(getErrorMessage(error, "Failed to delete manager"));
@@ -45,7 +45,7 @@ export function DeleteManager({
       disabled={waiting}
       primaryText="Delete"
       waitingText="Deleting..."
-      handleClickEvent={handleDelete}
+      onClick={handleDelete}
       className={className}
     >
       <RiDeleteBin6Line className={waiting ? "hidden" : ""} />

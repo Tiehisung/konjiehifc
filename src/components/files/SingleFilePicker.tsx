@@ -5,7 +5,7 @@ import { FcMultipleCameras } from "react-icons/fc";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Button } from "../buttons/Button";
 import { getErrorMessage, getFilePath } from "@/lib";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { TConvertedFile } from "@/types";
 
 export type TFilePicker = {

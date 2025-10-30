@@ -3,6 +3,7 @@
 import {
   ChangeEvent,
   HTMLInputTypeAttribute,
+  ReactNode,
   useEffect,
   useState,
 } from "react";
@@ -155,6 +156,7 @@ export function Input({
 interface IDateInputProps extends IInput {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type: "time" | "datetime-local" | "date";
+  label?: ReactNode;
 }
 export function DateTimeInput({
   className = "",
@@ -166,30 +168,33 @@ export function DateTimeInput({
   others,
   required = false,
   type,
+  label,
 }: IDateInputProps) {
-  const handleIconClick = () => {
-    const dateInput = document.getElementById(`dt${name}`) as HTMLInputElement; //avoid id starting with number
+  const handleOpenPicker = () => {
+    const dateInput = document.getElementById(name) as HTMLInputElement; //avoid id starting with number
     dateInput.showPicker();
   };
   if (!name) return null;
   return (
     <label
-      className={`w-fit input bg-secondary  border _borderColor focus-within:border-teal-400 flex items-center gap-2 ${wrapperStyles}`}
+      className={`block grow focus-within: items-center gap-2 ${wrapperStyles}`}
       title={dataTip}
       htmlFor={name}
     >
-      <span onClick={handleIconClick} className={`text-xl _slowTrans`}>
-        {inputIcons.find((item) => item.type === "date")?.icon}
-      </span>
+      {label && (
+        <div onClick={handleOpenPicker} className="_label mb-2">
+          {label}
+        </div>
+      )}
       <input
         name={name}
-        id={`dt${name}`}
+        id={name}
         value={value}
         type={type ?? "date"}
         onChange={(e) => {
           onChange(e);
         }}
-        className={` bg-secondary  ${className}`}
+        className={`bg-transparent grow w-full border px-2 py-2 uppercase rounded focus:border-teal-500 ${className}`}
         {...others}
         required={required}
       />

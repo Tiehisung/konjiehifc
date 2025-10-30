@@ -28,7 +28,7 @@ export const getFormattedDate = (
   format?: "dd/mm/yyyy" | "March 2, 2025" | "Sunday, March 2, 2025"
 ) => {
   if (!dateString) return "N/A";
-  
+
   const createdAt = new Date(dateString);
 
   switch (format) {
@@ -62,4 +62,62 @@ export function getDateFromDaysAgo(daysAgo: number): Date {
   if (!daysAgo || typeof daysAgo !== "number") return date;
   date.setDate(date.getDate() - daysAgo);
   return date;
+}
+
+export type TimeUnit = "month" | "week" | "day" | "hour" | "minute";
+
+export interface TimeLeftResult {
+  value: number;
+  unit: TimeUnit;
+  expired: boolean;
+  formatted: string;
+}
+
+/**
+ * Returns time difference between now and a given date in the most relevant unit.
+ * Handles both future ("X days left") and past ("X days ago") scenarios.
+ */
+export function getTimeLeftOrAgo(date?: string | number | Date): TimeLeftResult {
+  const now = new Date();
+  const target = new Date(date ?? Date.now());
+
+  if (isNaN(target.getTime())) {
+    throw new Error("Invalid date provided to getTimeLeftUntil()");
+  }
+
+  const diffMs = target.getTime() - now.getTime();
+  const absDiffMs = Math.abs(diffMs);
+
+  const minutes = Math.floor(absDiffMs / (1000 * 60));
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  const weeks = Math.floor(days / 7);
+  const months = Math.floor(days / 30);
+
+  let value: number;
+  let unit: TimeUnit;
+
+  if (months >= 1) {
+    value = months;
+    unit = "month";
+  } else if (weeks >= 1) {
+    value = weeks;
+    unit = "week";
+  } else if (days >= 1) {
+    value = days;
+    unit = "day";
+  } else if (hours >= 1) {
+    value = hours;
+    unit = "hour";
+  } else {
+    value = Math.max(1, minutes); // at least 1 minute
+    unit = "minute";
+  }
+
+  const expired = diffMs < 0;
+  const formatted = expired
+    ? `${value} ${unit}${value !== 1 ? "s" : ""} ago`
+    : `${value} ${unit}${value !== 1 ? "s" : ""} left`;
+
+  return { value, unit, expired, formatted };
 }

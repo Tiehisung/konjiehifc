@@ -1,5 +1,5 @@
 import { ConnectMongoDb } from "@/lib/dbconfig";
-import MatchModel from "@/models/matches";
+import MatchModel from "@/models/match";
 import { NextRequest, NextResponse } from "next/server";
 import "@/models/teams";
 
@@ -11,13 +11,15 @@ ConnectMongoDb();
 //Post new fixture
 export async function GET(
   _: NextRequest,
-  { params }: { params: Promise<{ matchId: string } >}
+  { params }: { params: Promise<{ matchId: string }> }
 ) {
   const matchId = (await params).matchId;
 
   const fixtures = await MatchModel.findById(matchId)
     .populate({ path: "opponent", populate: { path: "logo" } })
-    .populate({ path: "goals", populate: { path: "players" } });
+    .populate({ path: "goals", })
+    .populate({ path: "squad", })
+    .lean()
 
   return NextResponse.json(fixtures);
 }
