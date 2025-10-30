@@ -46,12 +46,12 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
                       {fixture.status == "COMPLETED" ? (
                         <FaCheckCircle
                           className="text-primaryGreen"
-                          size={30}
+                          size={16}
                         />
                       ) : fixture.status == "LIVE" ? (
-                        <MdLiveTv className="text-primaryRed" size={30} />
+                        <MdLiveTv className="text-primaryRed" size={16} />
                       ) : (
-                        <BsPatchCheck size={30} />
+                        <BsPatchCheck size={16} />
                       )}
                     </span>
 
