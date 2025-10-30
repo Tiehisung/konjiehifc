@@ -30,7 +30,7 @@ const SquadCard = ({ squad }: SquadDisplayProps) => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between">
           <div>
             <CardTitle className="text-2xl font-bold">
-              Match Squad | {squad?.match?.title || "Unknown"}
+              Match Squad | {squad?.title ?? "Unknown"}
             </CardTitle>
             <CardDescription className="flex flex-wrap items-center gap-3 mt-1 text-muted-foreground">
               <span className="flex items-center gap-1">

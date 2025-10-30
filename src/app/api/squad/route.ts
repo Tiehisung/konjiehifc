@@ -26,16 +26,15 @@ export async function GET(request: NextRequest) {
 
   const query = {
     $or: [
+      { "title": regex },
       { "description": regex },
-      { "date": regex },
-      { "time": regex },
-      { "opponent.name": regex },
-      { "opponent.alias": regex },
+      { "coach.name": regex },
+      { "assistant.name": regex },
     ],
-    // isPlayed: true,
   }
 
   const managers = await SquadModel.find(query)
+    .populate('match')
     .limit(limit).skip(skip)
     .lean().sort({ createdAt: "desc" });
 
@@ -53,28 +52,30 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    const body = await request.json() as ISquad;
+    const { match, players, assistant, coach, description, } = await request.json() as ISquad;
 
     const savedSquad = await SquadModel.create({
-      ...body,
+      players, assistant, coach, description, title: match.title, match: match?._id
     });
+
+    console.log({ savedSquad })
 
     if (!savedSquad) {
       return NextResponse.json({ message: "Failed to create squad.", success: false });
     }
 
     //Update Match Squad field
-    await MatchModel.findByIdAndUpdate(body.match, { $set: { squad: savedSquad._id } })
+    await MatchModel.findByIdAndUpdate(match._id, { $set: { squad: savedSquad._id } })
 
     await postNews({
-      headline: { text: `New Squad Created: ${body.description}`, image: { secure_url: body.players[0].avatar }, },
-      metaDetails: [{ text: `A new squad has been created for the match against ${body.match.opponent.name ?? ''}. Scheduled on ${body.match.date ?? ''} at ${body.match.time ?? ''}.` }],
+      headline: { text: `New Squad Created: ${description}`, image: { secure_url: players[0].avatar }, },
+      metaDetails: [{ text: `A new squad has been created for the match against ${match.opponent.name ?? ''}. Scheduled on ${match.date ?? ''} at ${match.time ?? ''}.` }],
       type: 'squad'
     });
     // log
     await logAction({
       title: "Squad Created",
-      description: body.description || body.match.opponent?.name as string,
+      description: description || `${match.title} on ${match.date}` as string,
       category: "db",
       severity: "info",
       userEmail: session?.user?.email as string,
