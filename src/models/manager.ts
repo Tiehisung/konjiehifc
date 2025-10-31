@@ -26,7 +26,7 @@ const managerSchema = new Schema(
     },
     startDate: { type: String, default: () => new Date().toISOString() },
     endDate: { type: String },
-    avatar: { type: Schema.Types.Mixed, required: true }, //IFileProps
+    avatar: String,  
     galleries: [{ type: Schema.Types.ObjectId }],
     card: { type: String, default: () => "" },
     medicals: { type: Schema.Types.Array, default: () => [] },

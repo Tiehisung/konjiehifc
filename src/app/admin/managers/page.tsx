@@ -28,7 +28,7 @@ export interface IManager {
   email: string;
   dob: string;
   _id: string;
-  avatar: IFileProps;
+  avatar: string;
   role:
     | "Coach"
     | "Technical manager"
