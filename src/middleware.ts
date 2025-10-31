@@ -12,7 +12,7 @@ export type AuthenticatedRequest = NextRequest & {
   };
 };
 export default withAuth(
-  function proxy(request: AuthenticatedRequest) {
+  function middleware(request: AuthenticatedRequest) {
     const pathname = request.nextUrl.pathname;
     const token = request.nextauth?.token;
 
