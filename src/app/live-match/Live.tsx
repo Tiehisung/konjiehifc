@@ -1,4 +1,3 @@
-import React, {  } from "react";
 import { IMatchProps } from "../matches/(fixturesAndResults)";
 import { checkTeams } from "@/lib";
 import Image from "next/image";

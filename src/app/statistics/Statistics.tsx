@@ -1,9 +1,8 @@
 import { Title } from "@/components/Elements";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { _playerStats } from "@/data/statistics";
-import { IFileProps } from "@/types";
 import Image from "next/image";
-import React, { FC } from "react";
+import { FC } from "react";
 import { IPlayer } from "../players/page";
 
 const PlayerStatistics = () => {
@@ -46,7 +45,7 @@ export const PlayerStatsCard: FC<IPlayerStatsProps> = ({
         <Image
           width={300}
           height={300}
-          src={featuredPlayer?.avatar?.secure_url as string}
+          src={featuredPlayer?.avatar as string}
           alt={featuredPlayer?.lastName ?? ""}
           className="w-20 h-20 rounded-full mr-4"
         />
@@ -71,7 +70,7 @@ export const PlayerStatsCard: FC<IPlayerStatsProps> = ({
               <Image
                 width={300}
                 height={300}
-                src={player?.avatar?.secure_url as string}
+                src={player?.avatar as string}
                 alt={player?.lastName as string}
                 className="w-10 h-10 rounded-full"
               />
