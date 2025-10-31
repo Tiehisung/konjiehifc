@@ -8,11 +8,13 @@ import { Input } from "@/components/input/Inputs";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { IGalleryProps, IQueryResponse } from "@/types";
+import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, FormEvent } from "react";
 import { toast } from "sonner";
 
 export function PlayerGalleryUpload() {
+  const { data: session } = useSession();
   const router = useRouter();
   const [isLoading, setIsBusy] = useState(false);
   const searchParams = useSearchParams();
@@ -43,7 +45,7 @@ export function PlayerGalleryUpload() {
       toast.success(result.message);
       setDescription("");
       setTitle("");
-      setFiles([])
+      setFiles([]);
 
       setClearTrigger((n) => n + 1); //triggers clear
     } catch (error) {
@@ -53,6 +55,8 @@ export function PlayerGalleryUpload() {
       setIsBusy(false);
     }
   };
+
+  if (!session) return <div className="_card text-primaryBlue italic">Login to upload gallery</div>;
 
   return (
     <div className="my-4 border py-12">

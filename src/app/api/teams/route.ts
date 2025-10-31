@@ -21,7 +21,6 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const page = Number.parseInt(searchParams.get("page") || "1", 10);
 
-
     const limit = Number.parseInt(searchParams.get("limit") || "30", 10);
     const skip = (page - 1) * limit;
 
@@ -47,8 +46,8 @@ export async function GET(request: NextRequest) {
 
     const total = await TeamModel.countDocuments(query)
     return NextResponse.json({
-      success: true, 
-      data: teams, 
+      success: true,
+      data: teams,
       pagination: {
         page,
         limit,
@@ -106,7 +105,7 @@ export async function POST(request: NextRequest) {
       data: createdTeam,
     });
   } catch (error) {
-    console.log({ error });
+
     return NextResponse.json({
       message: "Failed to create team",
       success: false,

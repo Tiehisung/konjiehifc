@@ -27,8 +27,6 @@ export default async function LiveMatchPage() {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
   const teams: IQueryResponse<ITeamProps[]> = await getTeams();
 
-  console.log({ teams, match });
-
   const { home, away } = checkTeams(match?.data);
 
   const goals = {
@@ -44,13 +42,49 @@ export default async function LiveMatchPage() {
 
   if (!match?.data)
     return (
-      <div className="_label _card rounded-2xl text-center my-14 mx-6">
+      <div className="_label _card rounded-2xl text-center my-14 mx-6 _page">
         No Live Match Yet. You need to start a match first.
       </div>
     );
 
+  if (match?.data.status == "COMPLETED")
+    return (
+      <div className="_page p-4">
+        <h1 className="text-2xl font-bold mb-4 text-primaryRed">
+          Played today
+        </h1>
+        <div className="my-6 _card rounded-tl-3xl rounded-br-3xl flex items-center justify-between gap-6">
+          <Image
+            src={home?.logo?.secure_url ?? staticImages.avatar}
+            width={200}
+            height={200}
+            alt={home?.name ?? ""}
+            className="aspect-square h-16 w-16 sm:h-24 sm:w-24 object-cover"
+          />
+          <div className=" flex flex-col justify-center items-center">
+            <div className="text-xl md:text-2xl font-black uppercase">
+              {home?.name}
+            </div>
+            <div className="mx-auto text-2xl text-center">
+              {goals?.home ?? 0} - {goals?.away ?? 0}
+            </div>
+            <div className="text-xl md:text-2xl font-black uppercase">
+              {away?.name}
+            </div>
+          </div>
+          <Image
+            src={away?.logo?.secure_url ?? staticImages.avatar}
+            width={200}
+            height={200}
+            alt={away?.name ?? ""}
+            className="aspect-square h-16 w-16 sm:h-24 sm:w-24 object-cover"
+          />
+        </div>
+      </div>
+    );
+
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 _page">
       <h1 className="text-2xl font-bold mb-4 text-primaryRed">
         Live Match Update
       </h1>

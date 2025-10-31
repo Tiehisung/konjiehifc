@@ -39,20 +39,6 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
 
   const captains = await getCaptains(qs);
 
-  // const filterValue = (await searchParams).p_filter;
-
-  // function filteredPlayers() {
-  //   switch (filterValue) {
-  //     case "fit":
-  //       return players.filter((player) => player.isFit);
-  //     case "yellow":
-  //       return players.filter((player) => player.card == "yellow");
-  //     case "red":
-  //       return players.filter((player) => player.card == "red");
-  //     default:
-  //       return players;
-  //   }
-  // }
   return (
     <div className="py-12 px-6 space-y-8">
       <header className="mb-6 max-w-6xl  mx-auto">

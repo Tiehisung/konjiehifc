@@ -28,8 +28,15 @@ export default async function PlayerProfilePage({ searchParams }: PageProps) {
     [playerId].filter(Boolean)
   );
 
+  const player = players?.data?.find((p) => p._id == playerId);
+
+
   return (
-    <main className="">
+    <main className="_page">
+      <div
+        className="h-screen w-full rounded-t-md z-[-1] fixed inset-0 bottom-0 bg-no-repeat bg-cover "
+        style={{ backgroundImage: `url(${player?.avatar})` }}
+      />
       <PlayerProfile
         players={players?.data as IPlayer[]}
         galleries={galleries?.data}

@@ -4,7 +4,7 @@ import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { Button } from "@/components/buttons/Button";
 import AvatarPicker from "@/components/files/Avatar";
 import SingleFilePicker from "@/components/files/SingleFilePicker";
-import { IconInput, IconInputWithLabel } from "@/components/input/Inputs";
+import {  IconInputWithLabel } from "@/components/input/Inputs";
 import PrimaryModal from "@/components/modals/Modals";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { apiConfig } from "@/lib/configs";
@@ -170,7 +170,7 @@ export const UpdateTeamForm = ({ team }: { team: ITeamProps }) => {
   return (
     <div>
       <form className="" onSubmit={handleSubmit}>
-        <IconInput
+        <IconInputWithLabel
           name="name"
           type="text"
           className=""
@@ -179,7 +179,7 @@ export const UpdateTeamForm = ({ team }: { team: ITeamProps }) => {
           label="Name"
           placeholder="Name"
         />
-        <IconInput
+        <IconInputWithLabel
           name="alias"
           type="text"
           className=""
@@ -188,7 +188,7 @@ export const UpdateTeamForm = ({ team }: { team: ITeamProps }) => {
           label="alias"
           placeholder="Alias"
         />
-        <IconInput
+        <IconInputWithLabel
           name="community"
           type="text"
           className=""

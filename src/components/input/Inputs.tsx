@@ -157,6 +157,7 @@ interface IDateInputProps extends IInput {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type: "time" | "datetime-local" | "date";
   label?: ReactNode;
+  error?: string;
 }
 export function DateTimeInput({
   className = "",
@@ -169,6 +170,7 @@ export function DateTimeInput({
   required = false,
   type,
   label,
+  error,
 }: IDateInputProps) {
   const handleOpenPicker = () => {
     const dateInput = document.getElementById(name) as HTMLInputElement; //avoid id starting with number
@@ -194,10 +196,11 @@ export function DateTimeInput({
         onChange={(e) => {
           onChange(e);
         }}
-        className={`bg-transparent grow w-full border px-2 py-2 uppercase rounded focus:border-teal-500 ${className}`}
+        className={`bg-accent/40 grow w-full border px-2 py-2 uppercase rounded focus:border-teal-500 ${className}`}
         {...others}
         required={required}
       />
+      {error && <p className={` text-red-500 text-xs mt-1`}>{error}</p>}
     </label>
   );
 }
@@ -216,92 +219,55 @@ export function IconInputWithLabel({
   wrapperStyles = "",
   others,
   required = false,
+  error,
 }: IInputProps) {
   const [isFocus, setIsFocus] = useState(false);
   useEffect(() => {
     setIsFocus(value ? true : false);
   }, [value]);
   return (
-    <div
-      className={`flex items-center relative pl-[2px] border bg-accent focus-within:border-teal-400 shadow-teal-100/50 w-full rounded ${wrapperStyles} `}
-      data-tip={dataTip}
-    >
-      <label
-        htmlFor={name}
-        className={`absolute transition-all duration-200 ease-linear delay-0 select-none _label ${
-          isFocus
-            ? `-top-6 text-sm font-semibold ${labelStylesFocus}`
-            : "ml-1 pl-7 top-1/4 text-muted-foreground"
-        } ${labelStyles}`}
+    <div>
+      <div
+        className={`flex items-center relative pl-[2px] border bg-accent/40 focus-within:border-teal-400 shadow-teal-100/50 w-full rounded ${wrapperStyles} `}
+        data-tip={dataTip}
       >
-        {label}
-      </label>
-      <span
-        className={`text-2xl p-1 slowTrans h-[40px] flex items-center justify-center bg-accent text-muted-foreground`}
-        hidden={!inputIcons.find((item) => item.type === type)}
-      >
-        {inputIcons.find((item) => item.type === type)?.icon}
-      </span>
-      <input
-        name={name}
-        id={name}
-        value={value}
-        type={type}
-        onChange={(e) => {
-          onChange(e);
-        }}
-        placeholder={
-          placeholder?.length > 30
-            ? placeholder.substring(0, 27) + "..."
-            : placeholder
-        }
-        className={`outline-none grow h-[40px] min-w-10 max-w-full p-2 placeholder:line-clamp-1 _slowTrans rounded bg-accent ${className}`}
-        onFocus={() => setIsFocus(true)}
-        onBlur={() => setIsFocus(value ? true : false)}
-        {...others}
-        required={required}
-      />
+        <label
+          htmlFor={name}
+          className={`absolute transition-all duration-200 ease-linear delay-0 select-none _label ${
+            isFocus
+              ? `-top-6 text-sm font-semibold ${labelStylesFocus}`
+              : "ml-1 pl-7 top-1/4 text-muted-foreground"
+          } ${labelStyles}`}
+        >
+          {label}
+        </label>
+        <span
+          className={`text-2xl p-1 slowTrans h-[40px] flex items-center justify-center bg-accent/40 text-muted-foreground`}
+          hidden={!inputIcons.find((item) => item.type === type)}
+        >
+          {inputIcons.find((item) => item.type === type)?.icon}
+        </span>
+        <input
+          name={name}
+          id={name}
+          value={value}
+          type={type}
+          onChange={(e) => {
+            onChange(e);
+          }}
+          placeholder={
+            placeholder?.length > 30
+              ? placeholder.substring(0, 27) + "..."
+              : placeholder
+          }
+          className={`outline-none grow h-[40px] min-w-10 max-w-full p-2 placeholder:line-clamp-1 _slowTrans rounded bg-accent ${className}`}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(value ? true : false)}
+          {...others}
+          required={required}
+        />
+      </div>
+      {error && <p className={` text-red-500  text-xs mt-1`}>{error}</p>}
     </div>
-  );
-}
-
-export function IconInput({
-  className = "",
-  name,
-  placeholder = "",
-  onChange,
-  value,
-  dataTip = "",
-  type = "",
-  wrapperStyles = "",
-  others,
-  required = false,
-}: IInputProps) {
-  return (
-    <label
-      className={`input input-bordered _borderColor focus-within:outline-teal-500 flex items-center gap-2 overflow-x-hidden pr-2 ${wrapperStyles}`}
-      title={dataTip}
-      htmlFor={name}
-    >
-      <span
-        className={`text-xl text-gray-700 slowTrans h-full flex items-center justify-center`}
-        hidden={!inputIcons.find((item) => item.type === type)}
-      >
-        {inputIcons.find((item) => item.type === type)?.icon}
-      </span>
-      <input
-        name={name}
-        id={name}
-        value={value}
-        type={type}
-        onChange={(e) => {
-          onChange(e);
-        }}
-        className={`grow bg-secondary  ${className}`}
-        placeholder={placeholder}
-        {...others}
-        required={required}
-      />
-    </label>
   );
 }

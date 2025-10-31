@@ -30,15 +30,14 @@ const playerSchema = new Schema(
       message: "Email required",
       match: [/\S+@\S+\.\S+/, "Email must be valid"],
     },
-    height: { type: String },
+    height: { type: Number },
     captaincy: { type: String },
-    jersey: { type: String, required: true, unique: true },
     dob: { type: String, required: true },
     about: { type: String, },
     description: { type: String, },
     history: { type: String, },
     dateSigned: { type: String, required: true },
-    avatar: { type: Schema.Types.ObjectId, ref: "files" }, //Ref to file model
+    avatar: String,
     manager: {
       fullname: String,
       phone: String,
@@ -54,12 +53,13 @@ const playerSchema = new Schema(
     assists: [{ type: Schema.Types.ObjectId, ref: "goals", default: [] }],
     ratings: [{ match: { type: Schema.Types.ObjectId, ref: "matches" }, rating: Number, default: [] }],
     matches: [{ type: Schema.Types.ObjectId, ref: "matches", default: [] }],
-
-    issues: { type: Schema.Types.Array, default: () => [] },
-    medicals: { type: Schema.Types.Array, default: () => [] },
+    mvp: [{ type: Schema.Types.ObjectId, ref: "mvps", default: [] }],
+    
+    issues: [{ type: String, default: () => [] }],
     isActive: { type: Schema.Types.Boolean, default: () => true },
     isFit: { type: Boolean, default: () => true },
     playRole: { type: String }, //revisit
+    number: { type: String, required: true, unique: true },
     position: {
       type: String,
       enum: [
