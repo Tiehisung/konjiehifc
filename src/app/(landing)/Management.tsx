@@ -43,6 +43,7 @@ export const TechnicalManagement = async () => {
 
 export const CaptaincySlides = async () => {
   const captains = (await getCaptains())?.data as ICaptainProps[];
+  console.log({ captains });
   return (
     <div id="captaincy">
       <Title>Captaincy</Title>
