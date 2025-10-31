@@ -7,7 +7,7 @@ export function PlayerCard({ player }: { player: IPlayer }) {
   const className = `from-${player?.favColor}-500 to-${player?.favColor}-700`;
   return (
     <div
-      className={`relative rounded-2xl overflow-hidden bg-gradient-to-b ${className} from-red-500 to-red-700 shadow-lg p-6 flex flex-col justify-between`}
+      className={`relative rounded-2xl overflow-hidden bg-linear-to-b ${className} from-red-500 to-red-700 shadow-lg p-6 flex flex-col justify-between`}
     >
       <div className="z-10">
         <h2 className="text-xl font-bold backdrop-blur-xs w-fit p-0">{`${player?.lastName} ${player?.firstName}`}</h2>
