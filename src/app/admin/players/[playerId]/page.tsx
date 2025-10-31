@@ -8,7 +8,6 @@ import { getPlayers } from "../page";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import DeletePlayer from "./DeletePlayer";
 import PlayerProfileForm from "../new-signing/Forms";
-import UpdatePlayerGallery from "./GalleryForm";
 import Loader from "@/components/Loader";
 import { SubTitle } from "@/components/Elements";
 
@@ -84,7 +83,6 @@ export default async function PlayerProfilePage({
           <PlayerProfileForm player={player} />
         </section>
 
-        <UpdatePlayerGallery player={player} />
         <section>
           <SubTitle className="text-lg text-primaryRed font-light mb-4">
             Danger zone

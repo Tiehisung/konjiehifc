@@ -5,7 +5,7 @@ import { IAccordionProps, PrimaryAccordion } from "@/components/Accordion";
 import { Button } from "@/components/buttons/Button";
 import { Title } from "@/components/Elements";
 import { TextArea } from "@/components/input/Inputs";
-import { getErrorMessage, shortText } from "@/lib";
+import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";

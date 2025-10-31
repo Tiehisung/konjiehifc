@@ -25,7 +25,7 @@ export function PlayerHeadList({ players }: { players: IPlayer[] }) {
           >
             <Avatar className="hover:opacity-90 _slowTrans">
               <AvatarImage
-                src={player?.avatar?.secure_url}
+                src={player?.avatar}
                 alt={player?.lastName}
               />
               <AvatarFallback>

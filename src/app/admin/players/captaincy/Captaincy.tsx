@@ -83,7 +83,7 @@ export default function CaptaincyAdm({
             <li key={index}>
               <div>
                 <Image
-                  src={captain?.player?.avatar?.secure_url as string}
+                  src={captain?.player?.avatar as string}
                   width={300}
                   height={300}
                   alt="desc image"
