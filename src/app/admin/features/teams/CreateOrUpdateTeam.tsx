@@ -54,6 +54,15 @@ export const NewTeamForm = () => {
       cache: "no-cache",
     });
     const results = await response.json();
+    if(results.success){
+      setFormData({
+        name: "",
+        community: "",
+        alias: "",
+        contact: "",
+        logo: "",
+      });
+    }
     toast.success(results.message);
     setWaiting(false);
     router.refresh();

@@ -8,10 +8,10 @@ import { getFormattedDate } from "@/lib/timeAndDate";
 import { POPOVER } from "@/components/ui/popover";
 
 const DisplayTeams = ({ teams }: { teams?: ITeamProps[] }) => {
-  console.log({teams})
+  console.log({ teams });
   if (!teams) return <div className="_label p-6 "> No teams available</div>;
   return (
-    <div className=" bg-accent max-w-5xl overflow-x-auto mx-auto _card">
+    <div className=" bg-card max-w-5xl overflow-x-auto mx-auto _card">
       <h1 className="_label">Teams</h1>
       <table className="table-auto w-full">
         <tbody>
@@ -24,8 +24,8 @@ const DisplayTeams = ({ teams }: { teams?: ITeamProps[] }) => {
           </tr>
 
           {teams?.map((team: ITeamProps, index: number) => (
-            <tr key={index} className="_hover border-b">
-              <td className="py-3">{index + 1}</td>
+            <tr key={index} className=" border-b">
+              <td className="p-3">{index + 1}</td>
 
               <td className="py-3 min-w-44">
                 <div className="flex items-center gap-3">
@@ -34,7 +34,7 @@ const DisplayTeams = ({ teams }: { teams?: ITeamProps[] }) => {
                     alt="tlogo"
                     width={100}
                     height={100}
-                    className=" h-12 w-12 min-w-12 rounded-full"
+                    className=" h-12 w-12 min-w-12 aspect-square object-cover"
                   />
                   {team.name}
                 </div>
@@ -64,7 +64,9 @@ const DisplayTeams = ({ teams }: { teams?: ITeamProps[] }) => {
 
         <tfoot>
           <tr>
-            <td colSpan={5}> {`Teams: ${teams?.length}`}</td>
+            <td colSpan={5} className="py-3 text-muted-foreground">
+              {`Teams: ${teams?.length}`}
+            </td>
           </tr>
         </tfoot>
       </table>
