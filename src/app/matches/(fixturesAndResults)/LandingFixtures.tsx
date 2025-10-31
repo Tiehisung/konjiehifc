@@ -1,20 +1,20 @@
-import React from "react";
-import { CanceledMatchCard, MatchFixtureCard, PlayedMatchCard } from "./Cards";
+import {   MatchFixtureCard, PlayedMatchCard } from "./Cards";
 import { IMatchProps } from ".";
 import PrimLink from "@/components/Link";
-import Loader from "@/components/Loader";
 import { Title } from "@/components/Elements";
 import { getMatches } from "@/app/admin/matches/page";
+import { IQueryResponse } from "@/types";
 
-const LandingFixtures =async ( ) => {
-    const matches: IMatchProps[] = await getMatches({});
-  const fixtures = matches?.filter(
-    (match) =>
-      match.status !== "FT" && match.status !== "HT" && match.status !== "LIVE"
+const LandingFixtures = async () => {
+  const completedMatches: IQueryResponse<IMatchProps[]> = await getMatches(
+    "?status=COMPLETED"
   );
-  const played = matches?.filter((match) => match.status == "FT"); //Full Time
-  
- 
+  const upcomingMatches: IQueryResponse<IMatchProps[]> = await getMatches(
+    "?status=UPCOMING"
+  );
+
+  console.log({ completedMatches, upcomingMatches });
+
   return (
     <div className=" space-y-10 ">
       <section>
@@ -26,28 +26,15 @@ const LandingFixtures =async ( ) => {
             className="_link flex items-center"
           />
         </header>
+
         <div className="flex flex-wrap lg:grid-cols-2 xl:grid-cols-3 gap-[3vw] ">
-          {fixtures?.map((match, index) => {
-            switch (match.status) {
-              case "CANCELED":
-                return (
-                  <CanceledMatchCard
-                    match={match as IMatchProps}
-                    className="grow sm:max-w-lg"
-                    key={index}
-                    league="Salah Games"
-                  />
-                );
-              default:
-                return (
-                  <MatchFixtureCard
-                    match={match as IMatchProps}
-                    className="grow sm:max-w-lg"
-                    key={index}
-                  />
-                );
-            }
-          })}
+          {upcomingMatches?.data?.map((match, index) => (
+            <MatchFixtureCard
+              match={match as IMatchProps}
+              className="grow sm:max-w-lg"
+              key={index}
+            />
+          ))}
         </div>
       </section>
 
@@ -60,8 +47,8 @@ const LandingFixtures =async ( ) => {
             className="_link flex items-center"
           />
         </header>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {played?.map((match, index) => (
+        <div className="flex flex-wrap lg:grid-cols-2 xl:grid-cols-3 gap-[3vw]">
+          {completedMatches?.data?.map((match, index) => (
             <PlayedMatchCard
               key={index}
               match={match as IMatchProps}
@@ -70,7 +57,7 @@ const LandingFixtures =async ( ) => {
             />
           ))}
         </div>
-        {played?.length == 0 && (
+        {completedMatches?.data?.length == 0 && (
           <p className="_label ml-3">No matches played yet</p>
         )}
       </section>

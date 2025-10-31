@@ -1,6 +1,5 @@
 import { apiConfig } from "@/lib/configs";
 import { IQueryResponse } from "@/types";
-import React from "react";
 import { ICaptainProps } from "./Captaincy";
 
 export const getCaptains = async (query?: string) => {

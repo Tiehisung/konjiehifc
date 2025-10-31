@@ -13,7 +13,7 @@ export function PlayerHeadList({ players }: { players: IPlayer[] }) {
     return null;
   }
   return (
-    <div className="fixed top-20 z-10 flex items-center gap-4 flex-col border rounded-full p-1 bg-secondary/20 backdrop:blur-xs shadow-md max-h-[65vh] w-fit overflow-y-auto _hideScrollbar">
+    <div className="fixed top-20 -left-2 z-10 flex items-center gap-4 flex-col border rounded-full p-1 bg-secondary/20 backdrop:blur-xs shadow-md max-h-[45vh] w-fit overflow-y-auto _hideScrollbar">
       {players.map((player) => {
         const isSelected=searchParams.get('playerId')==player?._id
         return (
@@ -25,7 +25,7 @@ export function PlayerHeadList({ players }: { players: IPlayer[] }) {
           >
             <Avatar className="hover:opacity-90 _slowTrans">
               <AvatarImage
-                src={player?.avatar?.secure_url}
+                src={player?.avatar}
                 alt={player?.lastName}
               />
               <AvatarFallback>

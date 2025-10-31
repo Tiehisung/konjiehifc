@@ -1,17 +1,13 @@
 import { FaEdit } from "react-icons/fa";
 import { ScrollToPointBtn } from "@/components/scroll/ScrollToPoint";
-import { CgPerformance } from "react-icons/cg";
 import { FcGallery } from "react-icons/fc";
 import PlayerActivation from "./Activation";
-import Performance from "./Performance";
-import UpdatePlayerFitness from "./FitnessUpdate";
+import UpdatePlayerIssuesAndFitness from "./IssuesUpdate";
 import { GiHealthNormal, GiPresent } from "react-icons/gi";
 import { getPlayers } from "../page";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import DeletePlayer from "./DeletePlayer";
-import CardAndFit from "./CardAndFit";
 import PlayerProfileForm from "../new-signing/Forms";
-import UpdatePlayerGallery from "./GalleryForm";
 import Loader from "@/components/Loader";
 import { SubTitle } from "@/components/Elements";
 
@@ -30,7 +26,7 @@ export default async function PlayerProfilePage({
       {/* Cover image  */}
 
       <div
-        className="h-full w-full rounded-t-md z-[-1] fixed inset-0 bottom-0 bg-no-repeat bg-cover"
+        className="h-screen w-full rounded-t-md z-[-1] fixed inset-0 bottom-0 bg-no-repeat bg-cover"
         style={{ backgroundImage: `url(${player?.avatar?.secure_url})` }}
       />
 
@@ -42,14 +38,6 @@ export default async function PlayerProfilePage({
           label={"Edit"}
         >
           <FaEdit />
-        </ScrollToPointBtn>
-
-        <ScrollToPointBtn
-          sectionId={"player-performance"}
-          className="flex gap-1 items-center shadow p-1 hover:text-blue-400 transition-transform"
-          label={"Performance"}
-        >
-          <CgPerformance />
         </ScrollToPointBtn>
 
         <ScrollToPointBtn
@@ -87,17 +75,14 @@ export default async function PlayerProfilePage({
 
       {/* Sections */}
       <main className="space-y-36 px-[2vw] pb-24 pt-7 ">
-        <CardAndFit player={player} />
+        <h1 className="_heading backdrop-blur-xs p-0 ">{`${player?.firstName} ${player?.lastName}`}</h1>
 
-        <UpdatePlayerFitness player={player} />
-
-        <Performance playerId={playerId} />
+        <UpdatePlayerIssuesAndFitness player={player} />
 
         <section id="edit-player">
           <PlayerProfileForm player={player} />
         </section>
 
-        <UpdatePlayerGallery player={player} />
         <section>
           <SubTitle className="text-lg text-primaryRed font-light mb-4">
             Danger zone

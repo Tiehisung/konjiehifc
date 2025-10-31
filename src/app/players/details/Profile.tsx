@@ -12,11 +12,12 @@ import {
 } from "recharts";
 import { IPlayer } from "../page";
 import { teamKFC } from "@/data/teams";
-import { useSearchParams } from "next/navigation";
+import {  useSearchParams } from "next/navigation";
 import { PrimarySelect } from "@/components/select/Select";
 import CardCarousel from "@/components/carousel/cards";
 import { usePlayerGalleryUtils } from "@/hooks/usePlayerGallery";
 import { IGalleryProps } from "@/types";
+import { scrollToElement } from "@/lib/DOM";
 
 const statsData = [
   { stat: "PAS", value: 82 },
@@ -33,6 +34,7 @@ interface PageProps {
 }
 
 export default function PlayerProfile({ players, galleries }: PageProps) {
+
   const sp = useSearchParams();
 
   const playerId = sp.get("playerId");
@@ -56,7 +58,10 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
   ));
 
   return (
-    <main className="min-h-screen bg-popover flex flex-col items-center p-10">
+    <main
+      className="min-h-screen bg-popover flex flex-col items-center p-10"
+      id="overview"
+    >
       {/* Header */}
       <div className="flex gap-4 justify-between flex-wrap w-full max-w-6xl items-center mb-10">
         <h1 className="text-2xl font-semibold">
@@ -72,25 +77,17 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
           paramKey="playerId"
         />
 
+        {/* Quick Links */}
         <nav className="flex gap-6 text-muted-foreground text-sm">
-          <Link className="hover:text-popover-foreground" href="#">
-            Overview
-          </Link>
-          <Link className="hover:text-popover-foreground" href="#">
-            Schedule
-          </Link>
-          <Link className="hover:text-popover-foreground" href="#">
-            News
-          </Link>
-          <Link
-            className="text-purple-400 border-b-2 border-purple-400 pb-1"
-            href="#"
-          >
-            Squad
-          </Link>
-          <Link className="hover:text-popover-foreground" href="#">
-            Shop
-          </Link>
+          {["overview", "gallery", "stats", "sponsor"].map((sec) => (
+            <button
+              key={sec}
+              className="hover:text-popover-foreground cursor-pointer capitalize"
+              onClick={() => scrollToElement(sec)}
+            >
+              {sec}
+            </button>
+          ))}
         </nav>
       </div>
 
@@ -112,7 +109,7 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
             <Image
               width={300}
               height={300}
-              src={player?.avatar?.secure_url as string}
+              src={player?.avatar as string}
               alt={player?.lastName as string}
               className="w-auto max-h-[60vh] object-cover"
             />
@@ -154,7 +151,7 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
 
           <div className="w-fit my-3">
             <h1 className="_label mb-3">TROPHIES</h1>
-            <ul className="flex gap-6 justify-end mb-10">
+            <ul className="flex gap-6 justify-end mb-10 pb-3 border-b-2 ">
               {["🏆", "🥈", "🥇", "🏅", "🏆"].map((t, i) => (
                 <li key={i} className="flex flex-col items-center">
                   <span className="text-2xl">{t}</span>
@@ -167,35 +164,47 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-4 gap-6 text-center mb-8">
-            <div className="_card">
-              <p className="text-xl font-semibold">
-                {player?.ratings?.length ?? 5.2}
-              </p>
-              <p className="text-xs text-muted-foreground">Avg Rating</p>
-            </div>
-            <div className="_card">
-              <p className="text-xl font-semibold">
-                {player?.assists?.length ?? 0}
-              </p>
-              <p className="text-xs text-muted-foreground">Assists</p>
-            </div>
-            <div className="_card">
-              <p className="text-xl font-semibold">
-                {player?.goals?.length ?? 0}
-              </p>
-              <p className="text-xs text-muted-foreground">Goals</p>
-            </div>
-            <div className="_card">
-              <p className="text-xl font-semibold">
-                {player?.matches?.length ?? 0}
-              </p>
-              <p className="text-xs text-muted-foreground">Matches</p>
-            </div>
-          </div>
+          <section>
+            <h1 className="_label mb-3 ">STATS</h1>
+            <ul
+              className="grid md:grid-cols-4 gap-6 text-center mb-8"
+              id="stats"
+            >
+              <li className="_card">
+                <p className="text-xl font-semibold">
+                  {player?.ratings?.length ?? 5.2}
+                </p>
+                <p className="text-xs text-muted-foreground">Avg Rating</p>
+              </li>
+              <li className="_card">
+                <p className="text-xl font-semibold">
+                  {player?.assists?.length ?? 0}
+                </p>
+                <p className="text-xs text-muted-foreground">Assists</p>
+              </li>
+              <li className="_card">
+                <p className="text-xl font-semibold">
+                  {player?.goals?.length ?? 0}
+                </p>
+                <p className="text-xs text-muted-foreground">Goals</p>
+              </li>
+              <li className="_card">
+                <p className="text-xl font-semibold">
+                  {player?.matches?.length ?? 0}
+                </p>
+                <p className="text-xs text-muted-foreground">Matches</p>
+              </li>
+              <li className="_card">
+                <p className="text-xl font-semibold">
+                  {player?.mvp?.length ?? 0}
+                </p>
+                <p className="text-xs text-muted-foreground">MVPs</p>
+              </li>
+            </ul>
+          </section>
 
           {/* Product / Shirt */}
-          <div className="mt-8 flex justify-end">
+          <div className="mt-8 flex justify-end" id="sponsor">
             <div className="bg-gradient-to-r from-purple-600 to-indigo-500 rounded-xl p-4 flex items-center gap-4 shadow-lg">
               <Image
                 width={300}

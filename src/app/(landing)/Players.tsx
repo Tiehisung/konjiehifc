@@ -17,7 +17,7 @@ const LandingPlayers = async () => {
         {players?.data?.map((player, index: number) => (
           <DiveUpwards key={index} layoutId={`${index}`}>
             <Image
-              src={player?.avatar?.secure_url}
+              src={player?.avatar}
               width={800}
               height={800}
               alt="player"

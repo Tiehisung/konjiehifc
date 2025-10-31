@@ -50,9 +50,13 @@ export function removeEmptyKeys(obj: AnyObject): AnyObject {
 }
 
 export const checkTeams = (match?: IMatchProps) => {
+
+  if (match?.isHome) {
+    return { home: teamKFC, away: match?.opponent }
+  }
   return {
-    home: match?.isHome ? teamKFC : match?.opponent ?? null,
-    away: match?.isHome ? match?.opponent ?? null : teamKFC,
+    home: match?.opponent,
+    away: teamKFC,
   }
 };
 

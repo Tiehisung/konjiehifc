@@ -1,9 +1,10 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import { NewTeamForm } from "./CreateOrUpdateTeam";
 import DisplayTeams from "./DisplayTeams";
 import { apiConfig } from "@/lib/configs";
 import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import Loader from "@/components/Loader";
+import { IQueryResponse } from "@/types";
 
 export const metadata = {
   title: "Teams | KFC",
@@ -28,7 +29,7 @@ export const getTeams = async (teamId?: string) => {
 };
 
 const TeamsFeature = async () => {
-  const teams: ITeamProps[] = await getTeams();
+  const teams:IQueryResponse<ITeamProps[]>  = await getTeams();
   return (
     <div className="space-y-12 p-4 md:px-10">
       {/* Create */}
@@ -37,7 +38,7 @@ const TeamsFeature = async () => {
       {/* Display */}
 
       <Suspense fallback={<Loader />}>
-        <DisplayTeams teams={teams} />
+        <DisplayTeams teams={teams?.data} />
       </Suspense>
     </div>
   );

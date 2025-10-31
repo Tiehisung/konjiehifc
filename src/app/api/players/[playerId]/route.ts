@@ -17,8 +17,6 @@ export async function GET(
   { params }: { params: Promise<{ playerId: string }> }
 ) {
   const player = await PlayerModel.findById((await params).playerId)
-
-    .populate("avatar")
     .populate("galleries");
   return NextResponse.json(player);
 }
@@ -51,46 +49,18 @@ export async function PUT(
 ) {
   const playerId = (await params).playerId;
   const formData = await request.json();
-  const { avatar } = formData;
+
   const updates = { ...formData };
 
   try {
-    let uploadedAvatarId = "";
-    if (avatar && typeof avatar === "string") {
-      //avatar string means new avatar;
-      const uploaded = await fetch(apiConfig.fileUpload, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.firstName,
-          path: avatar,
-          type: "image",
-          description: "Player avatar updated",
-        }),
-      });
-
-      const uploadedImage: IResultProps<IFileProps> = await uploaded.json();
-      if (!uploadedImage.success) {
-        return NextResponse.json({
-          message: "Failed to upload image",
-          success: false,
-          data: uploadedImage,
-        });
-      }
-      uploadedAvatarId = uploadedImage.data?._id as string;
-    }
-    // delete updates.avatar;
-    // delete updates.galleries;
-
-    if (uploadedAvatarId) updates.avatar = uploadedAvatarId;
-    const saved = await PlayerModel.findByIdAndUpdate(playerId, {
+    const updatedPlayer = await PlayerModel.findByIdAndUpdate(playerId, {
       $set: { ...updates },
     });
 
     return NextResponse.json({
       message: "Update success",
       success: true,
-      data: saved,
+      data: updatedPlayer,
     });
   } catch (error) {
     return NextResponse.json({

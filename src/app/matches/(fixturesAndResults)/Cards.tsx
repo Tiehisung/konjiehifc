@@ -7,12 +7,8 @@ import { broadcasters } from "@/assets/broadcaster/broadcaster";
 import { teamLogos } from "@/assets/teams/logos/team-logos";
 import { checkTeams } from "@/lib";
 import { Button } from "@/components/buttons/Button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 interface IMatchFixtureCardProps {
   match: IMatchProps;
@@ -44,7 +40,7 @@ export const MatchFixtureCard: React.FC<IMatchFixtureCardProps> = ({
             <Image
               width={250}
               height={250}
-              src={home?.logo?.secure_url ?? teamLogos[0].logo}
+              src={home?.logo ?? teamLogos[0].logo}
               alt={"home logo"}
               className="w-12 h-12"
             />
@@ -71,7 +67,7 @@ export const MatchFixtureCard: React.FC<IMatchFixtureCardProps> = ({
           {/* Away Team */}
           <div className="flex flex-col items-center space-y-2">
             <Image
-              src={away?.logo?.secure_url ?? teamLogos[0].logo}
+              src={away?.logo ?? teamLogos[0].logo}
               width={250}
               height={250}
               alt={away?.name as string}
@@ -93,23 +89,15 @@ export const PlayedMatchCard: React.FC<{
   const { home, away } = checkTeams(match);
   const teams = [home, away];
 
-  const timeAgo = match.status == "FT" ? `(${getTimeAgo(match.date)})` : "";
   return (
     <Card
       className={`min-w-80  border  rounded-lg shadow-md p-4 text-sm ${className}`}
     >
       {/* Header */}
       <CardHeader className={`flex justify-between text-sm mb-4`}>
-        <span
-          className={` ${
-            match.status == "HT" || match.status == "LIVE"
-              ? "text-primaryGreen"
-              : "text-gray-50"
-          }`}
-        >
-          {match.status}
-          {timeAgo}
-        </span>
+        <Badge className={`  `} variant={"outline"}>
+          FT({getTimeAgo(match.date)})
+        </Badge>
         <span>{league}</span>
       </CardHeader>
 
@@ -124,8 +112,8 @@ export const PlayedMatchCard: React.FC<{
           {/* Team Details */}
           <div className="flex items-center space-x-3">
             <Image
-              src={team?.logo?.secure_url ?? teamLogos[0].logo}
-              alt={team?.name}
+              src={team?.logo ?? teamLogos[0].logo}
+              alt={team?.name ?? ""}
               className="w-8 h-8 rounded-full"
               width={400}
               height={400}
@@ -163,8 +151,8 @@ export const CanceledMatchCard: React.FC<{
           <Image
             width={100}
             height={100}
-            src={home?.logo?.secure_url ?? teamLogos[0].logo}
-            alt={home?.name}
+            src={home?.logo ?? teamLogos[0].logo}
+            alt={home?.name ?? "home"}
             className="w-12 h-12"
           />
           <span className="text-sm font-medium">{home?.name}</span>
@@ -178,20 +166,13 @@ export const CanceledMatchCard: React.FC<{
           <Image
             width={100}
             height={100}
-            src={away?.logo?.secure_url ?? teamLogos[0].logo}
+            src={away?.logo ?? teamLogos[0].logo}
             alt={away?.name}
             className="w-12 h-12"
           />
           <span className="text-sm font-medium">{away?.name}</span>
         </div>
       </CardContent>
-
-      {/* Reason for Cancellation */}
-      <CardFooter className="bg-red-100 text-red-600 text-center p-2 rounded-lg">
-        <span className="text-sm font-medium">
-          Reason: {match?.challenge?.reason}
-        </span>
-      </CardFooter>
     </Card>
   );
 };

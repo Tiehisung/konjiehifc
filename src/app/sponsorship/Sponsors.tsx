@@ -30,7 +30,7 @@ export default function TopSponsors({ sponsors }: TopSponsorsProps) {
           className=" p-4 w-fit h-fit rounded-2xl hover:bg-slate-400/30 slowTrans"
         >
           <Image
-            src={sponsor?.logo?.secure_url ?? staticImages.sponsor}
+            src={sponsor?.logo?.secure_url ?? staticImages.sponsor.src}
             width={300}
             height={300}
             alt="desc image"

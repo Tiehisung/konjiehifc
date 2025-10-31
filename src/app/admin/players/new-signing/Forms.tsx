@@ -1,42 +1,36 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
-import { FcCamera } from "react-icons/fc";
-import { getErrorMessage, getFilePath } from "@/lib";
-import { IPlayer } from "@/app/players/page";
+import { getErrorMessage } from "@/lib";
 import { Button } from "@/components/buttons/Button";
 import { DateTimeInput, IconInputWithLabel } from "@/components/input/Inputs";
 import { TimelineFlowbite } from "@/components/Timeline";
 import { RxAvatar } from "react-icons/rx";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { GrUserManager } from "react-icons/gr";
-import { ImageMimeTypes } from "@/types/enumerators";
-import { IManager } from "../../managers/page";
-import { staticImages } from "@/assets/images";
-import { SubTitle } from "@/components/Elements";
+import { useForm, Controller } from "react-hook-form";
 import DiveUpwards from "@/components/Animate";
+import AvatarUploader from "@/components/AvatarUpload";
+import type { IPlayer } from "@/app/players/page";
+import type { IManager } from "../../managers/page";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { playerJoiSchema } from ".";
 
-const dataModel = {
-  firstName: "",
-  lastName: "",
-  jersey: "",
-  dateSigned: "",
-  height: "",
-  phone: "",
-  email: "",
-  dob: "",
-  avatar: { secure_url: "" },
-  manager: {
-    fullname: "",
-    phone: "",
-    email: "",
-    dob: "",
-  },
-};
+interface IFormData {
+  firstName: string;
+  lastName: string;
+  number: string | number;
+  dateSigned: string;
+  height: number;
+  phone: string;
+  email: string;
+  dob: string;
+  avatar: string;
+  manager: IManager;
+}
 
 export default function PlayerProfileForm({
   player = null,
@@ -44,272 +38,272 @@ export default function PlayerProfileForm({
   player?: IPlayer | null;
 }) {
   const router = useRouter();
-  const [imageFile, setImageFile] = useState("");
   const [waiting, setWaiting] = useState(false);
-  const [formData, setFormData] = useState(
-    player || {
-      ...dataModel,
-    }
-  );
-  const OnchangePlayer = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-  const OnchangeManager = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    fieldName: string
-  ) => {
-    const { value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      manager: { ...prev.manager, [fieldName]: value } as IManager,
-    }));
-  };
 
-  // console.log("player at edit",player)
-  //Handle change image
-  async function handleImageSelection(e: React.ChangeEvent<HTMLInputElement>) {
-    const selectedFile = e.target?.files?.[0] as File;
-    if (!selectedFile) return;
-    if (selectedFile.size > 3524000) {
-      toast.error(
-        selectedFile.size + " is too large. Picture should not exceed 3.5mb"
-      );
-      return;
-    }
+  const { control, handleSubmit, reset } = useForm<IFormData>({
+    resolver: joiResolver(playerJoiSchema),
+    defaultValues: {
+      firstName: player?.firstName || "",
+      lastName: player?.lastName || "",
+      number: player?.jersey || "",
+      dateSigned: player?.dateSigned || "",
+      height: player?.height || 0,
+      phone: player?.phone || "",
+      email: player?.email || "",
+      dob: player?.dob || "",
+      avatar: player?.avatar || "",
+      manager: player?.manager || {
+        fullname: "",
+        phone: "",
+        email: "",
+        dob: "",
+      },
+    },
+  });
 
-    setImageFile(await getFilePath(selectedFile));
-  }
-
-  //Handle submit
-  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (data: IFormData) => {
     try {
-      e.preventDefault();
       setWaiting(true);
-
-      //Save to database
       const apiRoute = player
-        ? `${apiConfig.players}/${player?._id}`
-        : apiConfig.players + `/new-signing`;
+        ? `${apiConfig.players}/${player._id}`
+        : apiConfig.players;
 
       const response = await fetch(apiRoute, {
-        body: JSON.stringify({ ...formData, avatar: imageFile }), //avatar as string | object
-        cache: "no-cache",
         method: player ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
-      const results = await response.json();
-      setWaiting(false);
 
-      toast(results.message);
-      if (results.success) {
-        setFormData({ ...dataModel });
-        setImageFile("");
-      }
+      const result = await response.json();
+      if (result.success) {
+        toast.success(result.message);
+        reset();
+      } else toast.error(result.message);
     } catch (error) {
-      toast.error(
-        getErrorMessage(error, "Error saving player. Please try again")
-      );
+      toast.error(getErrorMessage(error, "Error saving player."));
     } finally {
+      setWaiting(false);
       router.refresh();
     }
   };
   const icons = [
-    <RxAvatar key="avatar" />,
-    <BiSolidUserDetail key="userDetail" />,
-    <GrUserManager key="userManager" />,
+    <RxAvatar key="a" />,
+    <BiSolidUserDetail key="b" />,
+    <GrUserManager key="c" />,
   ];
 
   return (
-    <section className="bg-card">
-      <SubTitle className="mt-5 mb-2 text-teal-600 text-center ">
+    <section className="bg-card pt-6 rounded-2xl">
+      <h1 className=" mb-2 text-teal-600 text-center _title">
         {player ? "Edit Player Profile" : "New Player Signup"}
-      </SubTitle>
+      </h1>
+
       <form
-        onSubmit={handleSignUp}
-        className=" py-6 sm:px-6 grid justify-center gap-y-6 border _borderColor rounded-md font-light container w-fit"
+        onSubmit={handleSubmit(onSubmit)}
+        className="py-6 sm:px-6 flex items-center justify-center gap-y-6 w-full"
       >
         <TimelineFlowbite
           icons={icons}
-          className="flex flex-wrap gap-12 mx-auto"
+          className="flex flex-col gap-12 mx-auto grow w-full"
         >
-          {/* Avatar */}
-          <DiveUpwards layoutId={""}>
-            <div className=" form-control gap-1 items-center w-full sm:min-w-72">
+          {/* Avatar Section */}
+          <DiveUpwards layoutId="lid1">
+            <div className=" gap-1 items-center w-full sm:min-w-72 ">
               <h2 className="_label">Avatar</h2>
-              <Image
-                src={
-                  imageFile || player?.avatar?.secure_url || staticImages.avatar
-                }
-                width={300}
-                height={300}
-                alt="player avatar"
-                className="h-36 w-36 rounded-full _primaryBg"
+              <Controller
+                control={control}
+                name="avatar"
+                render={({ field: { value, onChange }, fieldState }) => (
+                  <div className="flex flex-col items-center gap-2">
+                    <AvatarUploader
+                      initialAvatar={value}
+                      label="Upload"
+                      onUploaded={(file) => onChange(file?.secure_url ?? "")}
+                      className="flex text-sm items-center gap-2 border"
+                    />
+                    {fieldState.error && (
+                      <p className="text-red-500 text-xs">
+                        {fieldState.error.message}
+                      </p>
+                    )}
+                  </div>
+                )}
               />
-              <label
-                htmlFor={player ? player._id : "player-avatar"}
-                className="flex items-center shadow w-fit p-1 rounded mt-3 cursor-pointer"
-                title="Choose file"
-              >
-                <FcCamera size={30} /> Choose files
-                <input
-                  id={player ? player._id : "player-avatar"}
-                  hidden
-                  type="file"
-                  onChange={handleImageSelection}
-                  name="image"
-                  className=""
-                  accept={Object.values(ImageMimeTypes).join(",")}
-                />
-              </label>
             </div>
           </DiveUpwards>
 
-          {/* Personal information */}
-          <DiveUpwards layoutId={""}>
-            <div className=" p-3 grid gap-10 w-fit ">
-              <h2 className="_label ">Player personal information form</h2>
-              <IconInputWithLabel
-                required
-                label="Firstname"
-                type="text"
-                onChange={OnchangePlayer}
-                value={formData?.firstName}
+          {/* Personal Information */}
+          <DiveUpwards layoutId="lid2">
+            <div className="p-3 grid gap-10 md:min-w-md lg:min-w-lg">
+              <h2 className="_label">Player Information</h2>
+
+              <Controller
+                control={control}
                 name="firstName"
-                className="border _borderColor px-2 w-52 sm:w-60 h-7 rounded font-semibold "
+                rules={{ required: true }}
+                render={({ field, fieldState }) => (
+                  <IconInputWithLabel
+                    label="Firstname"
+                    {...field}
+                    error={fieldState.error?.message}
+                  />
+                )}
               />
 
-              <IconInputWithLabel
-                label="Lastname"
-                onChange={OnchangePlayer}
-                type="text"
-                required
+              <Controller
+                control={control}
                 name="lastName"
-                value={formData?.lastName}
-                className="border _borderColor px-2 w-52 sm:w-60 h-7 rounded font-semibold"
+                rules={{ required: true }}
+                render={({ field, fieldState }) => (
+                  <IconInputWithLabel
+                    label="Lastname"
+                    {...field}
+                    error={fieldState.error?.message}
+                  />
+                )}
               />
 
-              <IconInputWithLabel
-                label="Jersey number"
-                type="number"
-                onChange={OnchangePlayer}
-                name="jersey"
-                required
-                value={formData?.jersey}
-                className="border _borderColor px-2 w-52 sm:w-60 h-7 rounded font-semibold"
+              <Controller
+                control={control}
+                name="number"
+                rules={{ required: true }}
+                render={({ field, fieldState }) => (
+                  <IconInputWithLabel
+                    type="number"
+                    label="Jersey Number"
+                    {...field}
+                    error={fieldState.error?.message}
+                  />
+                )}
               />
 
-              <div>
-                <p className="_label">Date signed</p>
-                <DateTimeInput
-                  type="date"
-                  onChange={OnchangePlayer}
-                  name="dateSigned"
-                  required
-                  value={formData?.dateSigned}
-                  className="border _borderColor px-2 w-52 sm:w-60 h-7 rounded font-semibold"
-                />
-              </div>
+              <Controller
+                control={control}
+                name="dateSigned"
+                render={({ field, fieldState }) => (
+                  <DateTimeInput
+                    type="date"
+                    label="Date Signed"
+                    {...field}
+                    error={fieldState.error?.message}
+                  />
+                )}
+              />
 
-              <IconInputWithLabel
-                label="Current height"
-                type="number"
-                onChange={OnchangePlayer}
+              <Controller
+                control={control}
                 name="height"
-                required
-                value={formData?.height}
-                className=" px-2 w-52 sm:w-60 h-7 rounded font-semibold"
+                render={({ field, fieldState }) => (
+                  <IconInputWithLabel
+                    type="number"
+                    label="Height"
+                    {...field}
+                    error={fieldState.error?.message}
+                  />
+                )}
               />
 
-              <IconInputWithLabel
-                label="Phone"
-                onChange={OnchangePlayer}
-                type="tel"
-                required
+              <Controller
+                control={control}
                 name="phone"
-                value={formData?.phone}
-                className="border _borderColor px-2 w-52 sm:w-60 h-7 rounded font-semibold"
+                render={({ field, fieldState }) => (
+                  <IconInputWithLabel
+                    label="Phone"
+                    type='tel'
+                    {...field}
+                    error={fieldState.error?.message}
+                  />
+                )}
               />
 
-              <IconInputWithLabel
-                label="Email"
-                type="email"
-                onChange={OnchangePlayer}
+              <Controller
+                control={control}
                 name="email"
-                required
-                value={formData?.email}
-                className="border _borderColor px-2 w-52 sm:w-60 h-7 rounded font-semibold"
+                render={({ field, fieldState }) => (
+                  <IconInputWithLabel
+                    label="Email"
+                    type="email"
+                    {...field}
+                    error={fieldState.error?.message}
+                  />
+                )}
               />
 
-              <div>
-                <p className="_label">Date of birth</p>
-                <DateTimeInput
-                  type="date"
-                  onChange={OnchangePlayer}
-                  name="dob"
-                  required
-                  value={formData?.dob}
-                  className="border _borderColor px-2 w-52 sm:w-60 h-7 rounded font-semibold"
-                />
-              </div>
+              <Controller
+                control={control}
+                name="dob"
+                render={({ field, fieldState }) => (
+                  <DateTimeInput
+                    type="date"
+                    label="Date of Birth"
+                    {...field}
+                    error={fieldState.error?.message}
+                  />
+                )}
+              />
             </div>
           </DiveUpwards>
 
-          {/* Manager */}
-          <DiveUpwards layoutId={""}>
-            <div className="grid gap-10 h-fit w-fit  p-3 ">
-              <h2 className="_label ">Manager registration form</h2>
+          {/* Manager Section */}
+          <DiveUpwards layoutId="lid3">
+            <div className="p-3 grid gap-10 md:min-w-md lg:min-w-lg">
+              <h2 className="_label">Manager</h2>
 
-              <IconInputWithLabel
-                label="Fullname"
-                type="text"
-                onChange={(e) => OnchangeManager(e, "fullname")}
-                required
-                name="man-fullname"
-                value={formData?.manager?.fullname}
-                className="border _borderColor px-2 w-52 sm:w-60 h-7 rounded font-semibold"
+              <Controller
+                control={control}
+                name="manager.fullname"
+                render={({ field, fieldState }) => (
+                  <IconInputWithLabel
+                    label="Fullname"
+                    {...field}
+                    error={fieldState.error?.message}
+                  />
+                )}
               />
 
-              <IconInputWithLabel
-                label="Phone"
-                type="tel"
-                required
-                onChange={(e) => OnchangeManager(e, "phone")}
-                name="man-phone"
-                value={formData?.manager?.phone}
-                className="border _borderColor px-2 w-52 sm:w-60 h-7 rounded font-semibold"
+              <Controller
+                control={control}
+                name="manager.phone"
+                render={({ field, fieldState }) => (
+                  <IconInputWithLabel
+                    label="Phone"
+                    type='tel'
+                    {...field}
+                    error={fieldState.error?.message}
+                  />
+                )}
               />
 
-              <IconInputWithLabel
-                label="Email"
-                type="email"
-                required
-                onChange={(e) => OnchangeManager(e, "email")}
-                name="man-email"
-                value={formData?.manager?.email}
-                className="border _borderColor px-2 w-52 sm:w-60 h-7 rounded font-semibold"
+              <Controller
+                control={control}
+                name="manager.email"
+                render={({ field, fieldState }) => (
+                  <IconInputWithLabel
+                    label="Email"
+                    {...field}
+                    error={fieldState.error?.message}
+                  />
+                )}
               />
 
-              <div>
-                <p>Date of birth</p>
-                <DateTimeInput
-                  type="date"
-                  onChange={(e) => OnchangeManager(e, "dob")}
-                  name="man-dob"
-                  required
-                  value={formData?.manager?.dob}
-                  className=" px-2 w-52 sm:w-60 h-7 rounded font-semibold"
-                />
-              </div>
-
-              <hr />
+              <Controller
+                control={control}
+                name="manager.dob"
+                render={({ field, fieldState }) => (
+                  <DateTimeInput
+                    type="date"
+                    label="Date of Birth"
+                    {...field}
+                    error={fieldState.error?.message}
+                  />
+                )}
+              />
 
               <Button
                 type="submit"
                 waiting={waiting}
-                waitingText={"Please wait..."}
-                disabled={waiting}
-                primaryText={"Submit"}
+                waitingText="Please wait..."
+                primaryText="Submit"
                 className="_primaryBtn justify-center px-12 h-10 py-1 w-full flex-wrap-reverse"
               />
             </div>

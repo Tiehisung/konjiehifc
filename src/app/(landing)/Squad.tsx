@@ -11,7 +11,7 @@ const LandingSquad = async () => {
 
   return (
     <div className="py-12 px-6 space-y-8">
-      <h1 className="_title">SQUAD VRS {squad?.opponent?.name} </h1>
+      <h1 className="_title">SQUAD | {squad?.title} </h1>
       <ResponsiveSwiper
         slides={
           squad?.players?.map((p) => (

@@ -48,6 +48,7 @@ export interface IPlayer {
   medicals: { fitness: string }[];
   galleries: TPlayerGallery[];
   isFit: boolean;
+  issues:string[]
   captaincy: string;
   firstName: string;
   lastName: string;
@@ -55,8 +56,8 @@ export interface IPlayer {
   phone: string;
   email: string;
   dob: string;
-  height: string;
-  avatar: IFileProps;
+  height: number;
+  avatar: string;
   jersey: string | number;
   manager: IManager;
   position: TPlayerPosition;
@@ -75,10 +76,12 @@ export interface IPlayer {
   matches: IMatchProps[];
   ratings: { rating: number; match: string }[];
   assists: IGoal[];
+  mvp: { _id: string; match: IMatchProps }[];
   passAcc: string;
   trophies: number;
   cards: IMatchCard[];
 }
+
 export interface IPostPlayer {
   number: number | string;
   about?: string;
@@ -112,6 +115,7 @@ export interface IPostPlayer {
   goals: string[];
   matches: string[];
   assists: string[];
+  mvp: string[];
   passAcc: string;
   trophies: number;
   cards: string[];
@@ -119,7 +123,7 @@ export interface IPostPlayer {
 
 const PlayersPage = async () => {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
-  console.log({ players });
+ 
   return (
     <div className="">
       <h1 className="_heading mt-3 text-center">Players</h1>
@@ -137,7 +141,7 @@ const PlayersPage = async () => {
               >
                 <Image
                   alt={player?.lastName}
-                  src={player?.avatar?.secure_url}
+                  src={player?.avatar}
                   width={400}
                   height={400}
                   className="aspect-square w-full rounded-lg bg-secondary object-cover group-hover:opacity-85 xl:aspect-7/8"

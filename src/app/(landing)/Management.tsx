@@ -24,7 +24,7 @@ export const TechnicalManagement = async () => {
             className="flex flex-col w-fit justify-center items-center gap-2 mb-6 "
           >
             <Image
-              src={manager?.avatar?.secure_url}
+              src={manager?.avatar}
               width={300}
               height={300}
               alt="desc image"
@@ -43,6 +43,7 @@ export const TechnicalManagement = async () => {
 
 export const CaptaincySlides = async () => {
   const captains = (await getCaptains())?.data as ICaptainProps[];
+  console.log({ captains });
   return (
     <div id="captaincy">
       <Title>Captaincy</Title>
@@ -58,10 +59,7 @@ export const CaptaincySlides = async () => {
             className="flex flex-col justify-center items-center gap-2 mb-6"
           >
             <Image
-              src={
-                (captain?.player?.avatar?.secure_url as string) ??
-                _players[0].avatar?.secure_url
-              }
+              src={(captain?.player?.avatar as string) ?? _players[0].avatar}
               width={300}
               height={300}
               alt="desc image"

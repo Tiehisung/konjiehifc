@@ -21,7 +21,6 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const page = Number.parseInt(searchParams.get("page") || "1", 10);
 
-
     const limit = Number.parseInt(searchParams.get("limit") || "30", 10);
     const skip = (page - 1) * limit;
 
@@ -47,8 +46,8 @@ export async function GET(request: NextRequest) {
 
     const total = await TeamModel.countDocuments(query)
     return NextResponse.json({
-      success: true, 
-      data: teams, 
+      success: true,
+      data: teams,
       pagination: {
         page,
         limit,
@@ -72,26 +71,11 @@ export async function POST(request: NextRequest) {
   try {
     const team: IPostTeam = await request.json();
 
-    //Upload image to cloudinary
-    const uploaded = await fetch(apiConfig.fileUpload, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(team.logo),
-    });
-
-    const uploadedImage = await uploaded.json();
-    if (!uploadedImage.success) {
-      return NextResponse.json({
-        message: "Failed to upload image",
-        success: false,
-        data: uploadedImage,
-      });
-    }
-
+    
     //Save team to database
     const createdTeam = await TeamModel.create({
       ...team,
-      logo: uploadedImage.data._id,
+     
     });
     if (createdTeam) {
       return NextResponse.json({
@@ -106,7 +90,7 @@ export async function POST(request: NextRequest) {
       data: createdTeam,
     });
   } catch (error) {
-    console.log({ error });
+
     return NextResponse.json({
       message: "Failed to create team",
       success: false,
