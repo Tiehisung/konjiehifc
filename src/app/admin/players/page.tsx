@@ -9,19 +9,29 @@ import { PlayerCard } from "./PlayerCard";
 import { IQueryResponse } from "@/types";
 
 export const getPlayers = async (playerId?: string) => {
-  if (playerId) {
-    const response = await fetch(`${apiConfig.players}/${playerId}`, {
-      cache: "no-store",
-    });
-    const player = await response.json();
-    return player;
-  } else {
-    //Return all players
-    const response = await fetch(apiConfig.players, {
-      cache: "no-cache",
-    });
-    const players = await response.json();
-    return players;
+  try {
+    if (playerId) {
+      const response = await fetch(`${apiConfig.players}/${playerId}`, {
+        cache: "no-store",
+      });
+
+      if (!response.ok) return null;
+      const player = await response.json();
+      return player;
+    } else {
+      //Return all players
+      const response = await fetch(apiConfig.players, {
+        cache: "no-cache",
+      });
+      
+      if (!response.ok) return null;
+      const players = await response.json();
+
+      return players;
+    }
+  } catch (error) {
+    console.log({ error });
+    return null;
   }
 };
 
@@ -58,7 +68,7 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
           </Link>
         </div>
       </header>
-      <section className=" min-h-screen bg-gradient-to-br from-blue-400 via-purple-400 to-green-400 p-6 rounded-2xl">
+      <section className=" min-h-screen bg-linear-to-br from-blue-400 via-purple-400 to-green-400 p-6 rounded-2xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {players?.data?.map((player, i) => (
             <Link href={`/admin/players/${player?._id}`} key={i}>

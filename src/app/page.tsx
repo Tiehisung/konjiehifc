@@ -1,22 +1,22 @@
 import React, { Suspense } from "react";
 import PlayerStatistics from "./statistics/Statistics";
-// import LandingPlayers from "./(landing)/Players";
-// import { CaptaincySlides, TechnicalManagement } from "./(landing)/Management";
-// import LandingNewsHeadlines from "./news/LandingNews";
-// import LandingFixtures from "./matches/(fixturesAndResults)/LandingFixtures";
-// import Hero from "./(landing)/Hero";
+import LandingPlayers from "./(landing)/Players";
+import { CaptaincySlides, TechnicalManagement } from "./(landing)/Management";
+import LandingNewsHeadlines from "./news/LandingNews";
+import LandingFixtures from "./matches/(fixturesAndResults)/LandingFixtures";
+import Hero from "./(landing)/Hero";
 import Loader from "@/components/Loader";
-// import { LiveMatchCard } from "./live-match/Live";
-// import LandingSquad from "./(landing)/Squad";
+import { LiveMatchCard } from "./live-match/Live";
+import LandingSquad from "./(landing)/Squad";
 
 export default async function Home() {
   return (
     <main className=" relative md:block space-y-10">
-      {/* <Suspense fallback={<Loader message="Loading players.." />}>
+       <Suspense fallback={<Loader message="Loading players.." />}>
         <Hero />
-      </Suspense> */}
+      </Suspense>  
 
-      {/* <Suspense fallback={<Loader message="Loading players.." />}>
+       <Suspense fallback={<Loader message="Loading players.." />}>
         <LandingPlayers />
       </Suspense>
 
@@ -36,19 +36,19 @@ export default async function Home() {
 
       <Suspense fallback={<Loader message="Loading news.." />}>
         <LandingNewsHeadlines />
-      </Suspense> */}
+      </Suspense>  
 
       <Suspense fallback={<Loader message="Loading statistics.." />}>
         <PlayerStatistics />
       </Suspense>
 
-      {/* <Suspense fallback={<Loader message="Loading captains.." />}>
+      <Suspense fallback={<Loader message="Loading captains.." />}>
         <CaptaincySlides />
       </Suspense>
 
       <Suspense fallback={<Loader message="Loading Managers.." />}>
         <TechnicalManagement />
-      </Suspense> */}
+      </Suspense>
     </main>
   );
 }
