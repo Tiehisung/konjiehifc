@@ -12,13 +12,12 @@ import {
 } from "recharts";
 import { IPlayer } from "../page";
 import { teamKFC } from "@/data/teams";
-import { usePathname, useSearchParams } from "next/navigation";
+import {  useSearchParams } from "next/navigation";
 import { PrimarySelect } from "@/components/select/Select";
 import CardCarousel from "@/components/carousel/cards";
 import { usePlayerGalleryUtils } from "@/hooks/usePlayerGallery";
 import { IGalleryProps } from "@/types";
 import { scrollToElement } from "@/lib/DOM";
-import { URL } from "node:url";
 
 const statsData = [
   { stat: "PAS", value: 82 },
@@ -35,7 +34,7 @@ interface PageProps {
 }
 
 export default function PlayerProfile({ players, galleries }: PageProps) {
-  const pathname = usePathname();
+
   const sp = useSearchParams();
 
   const playerId = sp.get("playerId");
@@ -82,6 +81,7 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
         <nav className="flex gap-6 text-muted-foreground text-sm">
           {["overview", "gallery", "stats", "sponsor"].map((sec) => (
             <button
+              key={sec}
               className="hover:text-popover-foreground cursor-pointer capitalize"
               onClick={() => scrollToElement(sec)}
             >
@@ -109,7 +109,7 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
             <Image
               width={300}
               height={300}
-              src={player?.avatar?.secure_url as string}
+              src={player?.avatar as string}
               alt={player?.lastName as string}
               className="w-auto max-h-[60vh] object-cover"
             />

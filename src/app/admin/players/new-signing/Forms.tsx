@@ -172,6 +172,7 @@ export default function PlayerProfileForm({
                     type="number"
                     label="Jersey Number"
                     {...field}
+                    error={fieldState.error?.message}
                   />
                 )}
               />
@@ -208,6 +209,7 @@ export default function PlayerProfileForm({
                 render={({ field, fieldState }) => (
                   <IconInputWithLabel
                     label="Phone"
+                    type='tel'
                     {...field}
                     error={fieldState.error?.message}
                   />
@@ -265,6 +267,7 @@ export default function PlayerProfileForm({
                 render={({ field, fieldState }) => (
                   <IconInputWithLabel
                     label="Phone"
+                    type='tel'
                     {...field}
                     error={fieldState.error?.message}
                   />
