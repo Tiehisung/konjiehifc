@@ -99,3 +99,11 @@ export function buildQueryString(
   ).toString();
   return query ? `?${query}` : "";
 }
+
+export const generateNumbers = (from: number, to: number) => {
+  const acc = [];
+  for (let i = from; i <= to; i++) {
+    acc.push(i);
+  }
+  return acc;
+};

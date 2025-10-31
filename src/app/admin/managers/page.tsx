@@ -1,6 +1,6 @@
 import AdminManagers from "@/app/admin/managers/(components)/Managers";
 import { apiConfig } from "@/lib/configs";
-import { IFileProps, IQueryResponse } from "@/types";
+import { IQueryResponse } from "@/types";
 import React from "react";
 
 export const getManagers = async () => {

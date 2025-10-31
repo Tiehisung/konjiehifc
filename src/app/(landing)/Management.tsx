@@ -7,9 +7,11 @@ import SimpleCarousel from "@/components/carousel/SimpleCarousel";
 import { SubTitle, Title } from "@/components/Elements";
 import { getCaptains } from "../admin/players/captaincy/page";
 import { IQueryResponse } from "@/types";
+import { staticImages } from "@/assets/images";
 
 export const TechnicalManagement = async () => {
   const managers: IQueryResponse<IManager[]> = await getManagers();
+  console.log({ managers });
   return (
     <div
       id="technical-management"
@@ -24,7 +26,7 @@ export const TechnicalManagement = async () => {
             className="flex flex-col w-fit justify-center items-center gap-2 mb-6 "
           >
             <Image
-              src={manager?.avatar}
+              src={staticImages.avatar}
               width={300}
               height={300}
               alt="desc image"

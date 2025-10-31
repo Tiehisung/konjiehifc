@@ -3,6 +3,7 @@ import Image from "next/image";
 import { IQueryResponse } from "@/types";
 import { ResponsiveSwiper } from "@/components/carousel/ResponsiveSwiper";
 import { getSquads, ISquad } from "../admin/squad/page";
+import { staticImages } from "@/assets/images";
 
 const LandingSquad = async () => {
   const squads: IQueryResponse<ISquad[]> | null = await getSquads();
@@ -20,7 +21,7 @@ const LandingSquad = async () => {
               className="w-full rounded-lg overflow-hidden bg-card shadow-md hover:shadow-lg transition-shadow"
             >
               <Image
-                src={p?.avatar as string}
+                src={p?.avatar ??staticImages.avatar}
                 alt={p?.name}
                 className="w-full h-48 md:h-56 lg:h-64 object-cover"
                 width={500}

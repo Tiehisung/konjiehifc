@@ -123,6 +123,8 @@ export interface IPostPlayer {
 
 const PlayersPage = async () => {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
+
+  console.log({players})
  
   return (
     <div className="">
