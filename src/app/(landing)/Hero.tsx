@@ -51,7 +51,7 @@ const Hero = async () => {
           alt="hero image"
           width={500}
           height={500}
-          src={anyPlayer?.avatar?.secure_url || staticImages.ronaldo}
+          src={anyPlayer?.avatar ?? staticImages.ronaldo}
         />
       </div>
     </div>
