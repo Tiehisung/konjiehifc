@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { DeleteTeam } from "./(actions)/DeleteTeam";
 import Image from "next/image";
 import { teamLogos } from "@/assets/teams/logos/team-logos";
@@ -8,7 +7,9 @@ import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { getFormattedDate } from "@/lib/timeAndDate";
 import { POPOVER } from "@/components/ui/popover";
 
-const DisplayTeams = ({ teams }: { teams: ITeamProps[] }) => {
+const DisplayTeams = ({ teams }: { teams?: ITeamProps[] }) => {
+  console.log({teams})
+  if (!teams) return <div className="_label p-6 "> No teams available</div>;
   return (
     <div className=" bg-accent max-w-5xl overflow-x-auto mx-auto _card">
       <h1 className="_label">Teams</h1>
@@ -29,7 +30,7 @@ const DisplayTeams = ({ teams }: { teams: ITeamProps[] }) => {
               <td className="py-3 min-w-44">
                 <div className="flex items-center gap-3">
                   <Image
-                    src={team?.logo?.secure_url ?? teamLogos?.[0]?.logo}
+                    src={team?.logo ?? teamLogos?.[0]?.logo.src}
                     alt="tlogo"
                     width={100}
                     height={100}
@@ -64,8 +65,7 @@ const DisplayTeams = ({ teams }: { teams: ITeamProps[] }) => {
         <tfoot>
           <tr>
             <td colSpan={5}> {`Teams: ${teams?.length}`}</td>
-          </tr> 
-         
+          </tr>
         </tfoot>
       </table>
     </div>

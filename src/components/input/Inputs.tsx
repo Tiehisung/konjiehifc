@@ -226,7 +226,7 @@ export function IconInputWithLabel({
     setIsFocus(value ? true : false);
   }, [value]);
   return (
-    <div>
+    <div className="grow w-full">
       <div
         className={`flex items-center relative pl-[2px] border bg-accent/40 focus-within:border-teal-400 shadow-teal-100/50 w-full rounded ${wrapperStyles} `}
         data-tip={dataTip}

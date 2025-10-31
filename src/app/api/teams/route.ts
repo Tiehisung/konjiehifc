@@ -71,26 +71,11 @@ export async function POST(request: NextRequest) {
   try {
     const team: IPostTeam = await request.json();
 
-    //Upload image to cloudinary
-    const uploaded = await fetch(apiConfig.fileUpload, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(team.logo),
-    });
-
-    const uploadedImage = await uploaded.json();
-    if (!uploadedImage.success) {
-      return NextResponse.json({
-        message: "Failed to upload image",
-        success: false,
-        data: uploadedImage,
-      });
-    }
-
+    
     //Save team to database
     const createdTeam = await TeamModel.create({
       ...team,
-      logo: uploadedImage.data._id,
+     
     });
     if (createdTeam) {
       return NextResponse.json({
