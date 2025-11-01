@@ -26,7 +26,6 @@ import { Button } from "@/components/buttons/Button";
 import { IManager } from "../managers/page";
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
 import { TextArea } from "@/components/input/Inputs";
-import { playPositions } from "@/data";
 import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
 import { getErrorMessage } from "@/lib";
@@ -34,6 +33,7 @@ import { useRouter } from "next/navigation";
 import { ISquad } from "./page";
 import { getFormattedDate, getTimeLeftOrAgo } from "@/lib/timeAndDate";
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
+import { playerPositions } from "@/data/players";
 
 interface IProps {
   players?: IPlayer[];
@@ -278,7 +278,7 @@ const NewSquad = ({
 
                       <td className="text-center py-3 px-4">
                         <PrimarySelect
-                          options={playPositions.map((pos) => ({
+                          options={playerPositions.map((pos) => ({
                             label: pos,
                             value: pos,
                           }))}
