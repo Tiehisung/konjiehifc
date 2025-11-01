@@ -22,7 +22,7 @@ export interface ICldFileUploadResult {
   thumbnail_url?: string;
 }
 
-interface IAvatarUploaderProps {
+interface IImageUploaderCldWidgetProps {
   /** Initial image URL or default */
   initialAvatar?: string;
   /** Fallback image when none is available */
@@ -41,15 +41,16 @@ interface IAvatarUploaderProps {
   cropping?: boolean;
   successMessage?: string;
   className?: string;
+  escapeOnEnd?: boolean;
 }
 
 /**
- * AvatarUploader — Cloudinary-powered single-image uploader
+ * ImageUploaderCldWidget — Cloudinary-powered single-image uploader
  * - Allows camera upload
  * - Enables cropping for all sources
  * - Displays preview with fallback
  */
-export default function AvatarUploader({
+export default function ImageUploaderCldWidget({
   initialAvatar,
   defaultImage = staticImages.avatar.src,
   folder = "players/avatar",
@@ -60,7 +61,8 @@ export default function AvatarUploader({
   successMessage = "Avatar uploaded successfully!",
   cropping = true,
   className = " bg-blue-600 hover:bg-blue-700 text-white ",
-}: IAvatarUploaderProps) {
+  escapeOnEnd,
+}: IImageUploaderCldWidgetProps) {
   const [file, setFile] = useState<ICldFileUploadResult | null>(null);
 
   // Reset when trigger changes
@@ -125,7 +127,9 @@ export default function AvatarUploader({
         onError={(e) => {
           if (e) toast.success(e.toString());
         }}
-        onQueuesEnd={() => fireEscape()}
+        onQueuesEnd={() => {
+          if (escapeOnEnd) fireEscape();
+        }}
       >
         {({ open }) => (
           <button

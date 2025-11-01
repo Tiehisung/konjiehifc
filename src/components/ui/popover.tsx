@@ -49,7 +49,9 @@ function PopoverAnchor({
 export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor };
 
 export function POPOVER({
-  trigger = <CgMoreAlt className="p-1 cursor-pointer shadow-sm shadow-border hover:bg-border" size={30}/>,
+  trigger = (
+    <CgMoreAlt className="p-1.5 cursor-pointer shadow-xs hover:bg-border rounded-full text-4xl hover:scale-105 " />
+  ),
   children,
   triggerClassNames,
   className,
@@ -61,7 +63,10 @@ export function POPOVER({
 }) {
   return (
     <Popover>
-      <PopoverTrigger asChild className={triggerClassNames}>
+      <PopoverTrigger
+        asChild
+        className={`${triggerClassNames} transition-all _shrink `}
+      >
         {trigger}
       </PopoverTrigger>
       <PopoverContent className={`w-80 ${className}`}>

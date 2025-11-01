@@ -1,7 +1,8 @@
-import AdminManagers from "@/app/admin/managers/(components)/Managers";
+import AdminManagers from "@/app/admin/managers/DisplayManagers";
 import { apiConfig } from "@/lib/configs";
 import { IQueryResponse } from "@/types";
 import React from "react";
+import TechnicalManagerForm from "./ManagerForm";
 
 export const getManagers = async () => {
   try {
@@ -16,7 +17,10 @@ const TechnicalManagersPage = async () => {
   const managers: IQueryResponse<IManager[]> = await getManagers();
 
   return (
-    <div>
+    <div className="_page">
+      <TechnicalManagerForm
+        availableRoles={getAvailableManagerialRoles(managers?.data ?? [])}
+      />
       <AdminManagers managers={managers?.data} />
     </div>
   );
@@ -30,12 +34,14 @@ export interface IManager {
   _id: string;
   avatar: string;
   role:
+    | "Technical Manager"
     | "Coach"
-    | "Technical manager"
-    | "Assistant coach"
-    | "Goalkeeper coach"
-    | "Fitness coach"
-    | "Analyst";
+    | "Assistant Coach"
+    | "Goalkeeper Coach"
+    | "Fitness Coach"
+    | "Analyst"
+    | "Founder"
+    | "Co-Founder";
   fullname: string;
   dateSigned: string;
   phone: string;
@@ -44,3 +50,17 @@ export interface IManager {
   createdAt: string;
   updatedAt: string;
 }
+
+export const managerialRoles = [
+  "Technical Manager",
+  "Coach",
+  "Assistant Coach",
+  "Goalkeeper Coach",
+  "Fitness Coach",
+  "Analyst",
+  "Founder",
+  "Co-Founder",
+];
+
+export const getAvailableManagerialRoles = (managers?: IManager[]) =>
+  managerialRoles.filter((mr) => !managers?.find((r) => r.role == mr));

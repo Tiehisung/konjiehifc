@@ -27,14 +27,3 @@ export const ClearFiltersBtn = ({
     </button>
   );
 };
-
-export const useClearSearchParams = () => {
-  const pathname = usePathname();
-  const router = useRouter();
-  
-  function clearParams() {
-    router.push(pathname, { scroll: false });
-    router.refresh();
-  }
-  return clearParams;
-};

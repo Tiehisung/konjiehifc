@@ -1,9 +1,8 @@
 "use client";
 
 import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
-import AvatarUploader from "@/components/AvatarUpload";
+import ImageUploaderCldWidget from "@/components/cloudinary/AvatarUploadWidget";
 import { Button } from "@/components/buttons/Button";
-import { DIALOG } from "@/components/Dialog";
 import SingleFilePicker from "@/components/files/SingleFilePicker";
 import { IconInputWithLabel } from "@/components/input/Inputs";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -46,7 +45,7 @@ export const NewTeamForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setWaiting(true);
-  
+
     const response = await fetch(apiConfig.teams, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -54,7 +53,7 @@ export const NewTeamForm = () => {
       cache: "no-cache",
     });
     const results = await response.json();
-    if(results.success){
+    if (results.success) {
       setFormData({
         name: "",
         community: "",
@@ -81,7 +80,7 @@ export const NewTeamForm = () => {
           className="p-4 pt-10 border _borderColor max-w-md flex flex-col gap-4 gap-y-8 items-center justify-center mx-center md:min-w-md"
         >
           <div className="flex flex-col items-center justify-center gap-2 mx-auto ">
-            <AvatarUploader
+            <ImageUploaderCldWidget
               initialAvatar={formData.logo as string}
               label="Upload"
               onUploaded={(file) =>

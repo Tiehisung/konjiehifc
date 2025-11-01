@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  ClearFiltersBtn,
-  useClearSearchParams,
-} from "@/components/buttons/ClearFilters";
+import { ClearFiltersBtn } from "@/components/buttons/ClearFilters";
 import { PrimarySearch } from "@/components/Search";
 import { useUpdateSearchParams } from "@/hooks/params";
 import { ISelectOptionLV } from "@/types";
@@ -25,10 +22,10 @@ export const SearchCaptains = () => {
     if (option?.value) setParam("captains", option?.value);
   }, [option]);
 
-  const clear = useClearSearchParams();
+  const { clearParams } = useUpdateSearchParams();
 
   useEffect(() => {
-    if (!option?.value) clear();
+    if (!option?.value) clearParams();
   }, [option]);
 
   return (

@@ -1,4 +1,4 @@
-import { ICldFileUploadResult } from "@/components/Cloudinary";
+import { ICldFileUploadResult } from "@/components/cloudinary/FileUploadWidget";
 import { IUser } from "./user";
 
 export interface ISelectOptionLV {
@@ -40,7 +40,7 @@ export interface IFileUpload {
 export interface IGalleryProps {
   _id?: string;
   tags: string[];
-  title?: string; 
+  title?: string;
   description: string;
   files: Array<IFileProps>;
   timestamp?: number;

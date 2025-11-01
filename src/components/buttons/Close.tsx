@@ -13,6 +13,7 @@ const CloseButton = ({
   return (
     <button
       className={`w-fit text-primaryRed hover:text-[#e6caca] p-1 ${className}`}
+      type="button"
     >
       <CgClose size={25} onClick={() => onClose(false)} className={``} />
     </button>

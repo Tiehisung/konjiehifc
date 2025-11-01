@@ -34,12 +34,14 @@ const managerSchema = new Schema(
       type: String,
       required: true,
       enum: [
-        "Technical manager",
+        "Technical Manager",
         "Coach",
-        "Assistant coach",
-        "Goalkeeper coach",
-        "Fitness coach",
+        "Assistant Coach",
+        "Goalkeeper Coach",
+        "Fitness Coach",
         "Analyst",
+        "Founder",
+        "Co-Founder"
       ],
     },
     isActive: { type: Boolean, default: true },

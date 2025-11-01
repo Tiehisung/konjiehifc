@@ -228,3 +228,7 @@
 ._card {
   @apply p-4 border shadow-sm hover:shadow;
 }
+
+._growChild {
+  @apply *:w-full;
+}

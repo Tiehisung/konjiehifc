@@ -196,7 +196,7 @@ export function DateTimeInput({
         onChange={(e) => {
           onChange(e);
         }}
-        className={`bg-accent/40 grow w-full border px-2 py-2 uppercase rounded focus:border-teal-500 ${className}`}
+        className={`bg-accent/40 grow w-full min-w-full border px-2 py-2 uppercase rounded focus:border-teal-500 ${className}`}
         {...others}
         required={required}
       />
@@ -228,7 +228,7 @@ export function IconInputWithLabel({
   return (
     <div className="grow w-full">
       <div
-        className={`flex items-center relative pl-[2px] border bg-accent/40 focus-within:border-teal-400 shadow-teal-100/50 w-full rounded ${wrapperStyles} `}
+        className={`flex items-center relative pl-0.5 border bg-accent/40 focus-within:border-teal-400 shadow-teal-100/50 w-full rounded ${wrapperStyles} `}
         data-tip={dataTip}
       >
         <label
@@ -242,7 +242,7 @@ export function IconInputWithLabel({
           {label}
         </label>
         <span
-          className={`text-2xl p-1 slowTrans h-[40px] flex items-center justify-center bg-accent/40 text-muted-foreground`}
+          className={`text-2xl p-1 _slowTrans h-10 flex items-center justify-center bg-accent/40 text-muted-foreground`}
           hidden={!inputIcons.find((item) => item.type === type)}
         >
           {inputIcons.find((item) => item.type === type)?.icon}
@@ -260,7 +260,7 @@ export function IconInputWithLabel({
               ? placeholder.substring(0, 27) + "..."
               : placeholder
           }
-          className={`outline-none grow h-[40px] min-w-10 max-w-full p-2 placeholder:line-clamp-1 _slowTrans rounded bg-accent ${className}`}
+          className={`bg-transparent outline-none grow h-10 min-w-10 max-w-full p-2 placeholder:line-clamp-1 _slowTrans rounded ${className}`}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(value ? true : false)}
           {...others}
