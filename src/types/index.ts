@@ -55,7 +55,7 @@ export type TPreset = "konjiehifc";
 export type TResourceType = "image" | "video" | "audio" | "auto";
 // export type TFolders = "images/logos" | "images" | "videos" | "audios";
 
-export type IRecord = Record<string, string | string[] | undefined|unknown> | undefined
+export type IRecord = Record<string, string | string[] | undefined | unknown> | undefined
 
 export interface IQueryResponse<T = unknown> {
   success: boolean;
@@ -100,3 +100,19 @@ export interface ILog {
   createdAt: Date;
   updatedAt?: Date;
 }
+
+export type TSearchKey =
+  'search'
+  | 'captain_search'
+  | 'player_search'
+  | 'manager_search'
+  | 'match_search'
+  | 'squad_search'
+  | 'sponsor_search'
+  | 'card_search'
+  | 'injury_search'
+  | 'news_search'
+  | 'goal_search'
+  | 'team_search'
+  | 'gallery_search'
+  | 'log_search'

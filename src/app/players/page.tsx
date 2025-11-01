@@ -19,26 +19,20 @@ export type TPlayerGallery = {
 };
 
 export type TPlayerPosition =
-  | "goalkeeper"
+  | "goal keeper"
   | "defender"
   | "midfielder"
   | "forward"
   | "striker"
-  | "wingBack"
-  | "centerBack"
-  | "attackingMidfielder"
-  | "defensiveMidfielder"
+  | "wing Back"
+  | "center Back"
+  | "attacking Midfielder"
+  | "defensive Midfielder"
   | "winger"
   | "sweeper";
 
-// export interface IPlayerStats {
-//   goals: IGoal[] | string[];
-//   matches: IMatchProps[] | string[];
-//   assists: IGoal[] | string[];
-//   passAcc: string;
-//   trophies: number;
-//   cards: IMatchCard[] | string[];
-// }
+
+
 export interface IPlayer {
   _id: string;
   number: number | string;
@@ -48,7 +42,7 @@ export interface IPlayer {
   medicals: { fitness: string }[];
   galleries: TPlayerGallery[];
   isFit: boolean;
-  issues:string[]
+  issues: string[];
   captaincy: string;
   firstName: string;
   lastName: string;
@@ -58,7 +52,6 @@ export interface IPlayer {
   dob: string;
   height: number;
   avatar: string;
-  jersey: string | number;
   manager: IManager;
   position: TPlayerPosition;
   favColor?:
@@ -124,8 +117,8 @@ export interface IPostPlayer {
 const PlayersPage = async () => {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
 
-  console.log({players})
- 
+  console.log({ players });
+
   return (
     <div className="">
       <h1 className="_heading mt-3 text-center">Players</h1>
@@ -152,7 +145,7 @@ const PlayersPage = async () => {
                   {`${player?.firstName} ${player?.lastName}`}
                 </h3>
                 <p className="mt-1 text-lg font-medium text-muted-foreground">
-                  {player?.jersey}
+                  {player?.number}
                 </p>
               </Link>
             ))}

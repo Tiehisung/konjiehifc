@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
   const page = Number.parseInt(searchParams.get("page") || "1", 10);
   const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
 
-  const search = searchParams.get("search") || "";
+  const search = searchParams.get("news_search") || "";
   const isAdmin = searchParams.get("isAdmin") == 'true'
   const trending = searchParams.get("trending") == "1";
   const latest = searchParams.get("latest") == '1' ? true : false;

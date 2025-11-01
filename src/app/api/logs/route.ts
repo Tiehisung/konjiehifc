@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
   const page = Number.parseInt(searchParams.get("page") || "1", 10);
   const limit = Number.parseInt(searchParams.get("limit") || "20", 10);
 
-  const search = searchParams.get("search") || "";
+  const search = searchParams.get("log_search") || "";
   const type = searchParams.get("type") || "";
 
 

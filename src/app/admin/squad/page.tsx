@@ -98,6 +98,7 @@ const SquadPage = async ({ searchParams }: PageProps) => {
           className="bg-popover"
           inputStyles="h-9"
           placeholder="Search Squad"
+          searchKey="squad_search"
         />
         <PrimaryAccordion
           data={accordion ?? []}

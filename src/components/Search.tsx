@@ -4,6 +4,8 @@ import React from "react";
 
 import { useUpdateSearchParams } from "@/hooks/params";
 import { CgSearch } from "react-icons/cg";
+import useGetParam from "./Param";
+import { TSearchKey } from "@/types";
 
 interface ISearchProps {
   label?: string;
@@ -11,12 +13,11 @@ interface ISearchProps {
   type?: "text" | "search" | "email";
   placeholder?: string;
   value?: string;
-  defaultValue?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   inputStyles?: string;
   className?: string;
   others?: unknown & React.InputHTMLAttributes<HTMLInputElement>;
-  searchKey?: string;
+  searchKey?: TSearchKey;
   datalist?: string[];
   listId?: string;
 }
@@ -30,7 +31,6 @@ export const PrimarySearch = ({
   inputStyles,
   others,
   value,
-  defaultValue,
   searchKey = "search",
   datalist,
   listId = "search-datalist",
@@ -44,9 +44,10 @@ export const PrimarySearch = ({
       setParam(searchKey, e.target.value);
     }
   };
+  const defaultValue = useGetParam(searchKey);
   return (
     <div
-      className={`flex items-center border border-1.5 border-border focus-within:border-primary rounded-md grow px-2 ${className}`}
+      className={`bg-card flex items-center border border-1.5 border-border focus-within:ring ring-primaryGreen focus-within:border-primaryGreen rounded-md grow px-2 ${className}`}
     >
       <CgSearch className="h-4 w-auto" />
       <input

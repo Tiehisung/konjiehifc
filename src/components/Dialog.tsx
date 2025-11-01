@@ -43,7 +43,7 @@ export const DIALOG: FC<IDialog> = ({
 }) => {
   return (
     <Dialog>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild >
         <Button variant={variant} className={`cursor-pointer ${triggerStyles}`}>
           {trigger}
         </Button>

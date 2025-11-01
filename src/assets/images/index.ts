@@ -4,6 +4,7 @@ import avatar from "./avatar.png";
 import manager from "./manager.jpeg";
 import sponsor from "./sponsor.png";
 import ronaldo from "./ronaldo.png";
+import baloons from "./baloons.png";
 
 export const staticPeople = {
   rufai,
@@ -14,5 +15,6 @@ export const staticImages = {
   avatar,
   sponsor,
   manager, 
-  ronaldo: ronaldo.src
+  ronaldo: ronaldo.src,
+  baloons:baloons.src
 };
