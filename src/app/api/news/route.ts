@@ -85,6 +85,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const { headline, details, reporter, type, }: IPostNews = await request.json();
+    console.log(headline)
 
     const published = await NewsModel.create({
       headline,

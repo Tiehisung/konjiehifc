@@ -13,13 +13,12 @@ import { RichTextEditor } from "@/components/editor/TipTap";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { IFileProps, IResultProps } from "@/types";
-import { File, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import CloudinaryUploader, {
   ICldFileUploadResult,
 } from "@/components/cloudinary/FileUploadWidget";
-import ImageUploaderCldWidget from "@/components/cloudinary/AvatarUploadWidget";
-import { staticImages } from "@/assets/images";
 import { useSession } from "next-auth/react";
+import { CgAttachment } from "react-icons/cg";
 
 export interface IPostNews {
   details: {
@@ -48,7 +47,7 @@ const CreateNews = () => {
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
 
-  const { control, handleSubmit, reset } = useForm<IPostNews>({
+  const { control, handleSubmit, reset ,watch} = useForm<IPostNews>({
     defaultValues: {
       headline: { text: "", image: "" },
       details: [{ text: "<p>Start typing...</p><br/>" }],
@@ -59,6 +58,8 @@ const CreateNews = () => {
     },
   });
 
+  console.log(watch('headline.image'))
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "details",
@@ -66,6 +67,7 @@ const CreateNews = () => {
 
   const onSubmit = async (data: IPostNews) => {
     try {
+      console.log(data)
       setWaiting(true);
       const res = await fetch(apiConfig.news, {
         method: "POST",
@@ -101,6 +103,7 @@ const CreateNews = () => {
               {...field}
               label="Headline text"
               placeholder="Type headline here..."
+              labelStyles="mb-3"
             />
           )}
         />
@@ -109,11 +112,20 @@ const CreateNews = () => {
           name="headline.image"
           control={control}
           render={({ field }) => (
-            <ImageUploaderCldWidget
-              initialAvatar={staticImages.goalkeeperGloves.src}
-              label="Wall image"
-              onUploaded={(file) => field.onChange(file?.secure_url)}
-              className="border-none "
+            <CloudinaryUploader
+              triggerId={""}
+              setUploadedFiles={(fs) => field.onChange(fs?.[0].secure_url)}
+              successMessage=""
+              maxFiles={1}
+              className=" mr-auto _secondaryBtn "
+              trigger={
+                <>
+                  <CgAttachment size={24} /> Upload Wall Image
+                </>
+              }
+              folder={`news/media-${new Date().getFullYear()}`}
+              multiple={false}
+              cropping
             />
           )}
         />
@@ -121,7 +133,7 @@ const CreateNews = () => {
 
       {/* Details Section */}
       <h1 className="_subtitle">Details</h1>
-      <main className=" space-y-16 divide-y-2 divide-accent">
+      <main className=" space-y-10 divide-y-2 divide-accent ">
         {fields.map((item, index) => (
           <div key={item.id} className="flex items-start gap-2 ">
             <div className="grow space-y-3">
@@ -137,7 +149,7 @@ const CreateNews = () => {
                 )}
               />
 
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center mb-2">
                 <Controller
                   control={control}
                   name={`details.${index}.media`}
@@ -149,8 +161,13 @@ const CreateNews = () => {
                       }
                       successMessage=""
                       maxFiles={6}
-                      className="_secondaryBtn"
-                      trigger={<File />}
+                      className="hover:bg-accent p-1.5 rounded-md flex text-xs items-center font-light"
+                      trigger={
+                        <>
+                          <CgAttachment size={24} /> Attach Media
+                        </>
+                      }
+                      folder={`news/media-${new Date().getFullYear()}`}
                     />
                   )}
                 />
@@ -176,6 +193,8 @@ const CreateNews = () => {
           </button>
         </div>
       </main>
+
+      <br />
 
       <Button
         type="submit"
