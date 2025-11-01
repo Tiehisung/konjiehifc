@@ -71,7 +71,6 @@ const NewSquad = ({
   matches = [],
 }: IProps) => {
   const [waiting, setWaiting] = useState(false);
-
   const router = useRouter();
   const {
     handleSubmit,
@@ -283,7 +282,8 @@ const NewSquad = ({
                             value: pos,
                           }))}
                           placeholder="Position"
-                          triggerStyles="border-none text-primary font-bold"
+                          triggerStyles="border-none text-primary font-bold capitalize"
+                          className="capitalize"
                           onChange={(val) =>
                             setValue(`positions.${player._id}`, val)
                           }

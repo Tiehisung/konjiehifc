@@ -11,7 +11,6 @@ import { staticImages } from "@/assets/images";
 
 export const TechnicalManagement = async () => {
   const managers: IQueryResponse<IManager[]> = await getManagers();
-  console.log({ managers });
   return (
     <div
       id="technical-management"

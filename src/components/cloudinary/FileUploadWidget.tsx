@@ -55,7 +55,7 @@ export interface ICloudinaryUploaderProps {
   dismissOnComplete?: boolean;
   cropping?: boolean;
   successMessage?: string;
-  clearTrigger: number;
+  clearTrigger?: number;
   setUploadedFiles: (files: ICldFileUploadResult[]) => void;
 }
 

@@ -1,10 +1,12 @@
 "use client";
 
 import { ITeamProps, IMatchProps } from "@/app/matches/(fixturesAndResults)";
+import { staticImages } from "@/assets/images";
 import { Button } from "@/components/buttons/Button";
 import { DIALOG } from "@/components/Dialog";
 import { DateTimeInput } from "@/components/input/Inputs";
 import RadioButtons from "@/components/input/Radio";
+import ContentShowcaseWrapper from "@/components/ShowcaseWrapper";
 import {
   Card,
   CardContent,
@@ -86,63 +88,69 @@ const CreateFixture = ({ teams }: { teams?: ITeamProps[] }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className=" max-sm:grow">
-      <Card>
-        <CardHeader>
-          <CardTitle>NEW FIXTURE</CardTitle>
-          <CardDescription>Fill Out To Create Fixture</CardDescription>
-        </CardHeader>
+    <ContentShowcaseWrapper
+      images={[staticImages.team.src]}
+      className="py-6 bg-card gap-y-10 items-start"
+      graphicsStyles="md:min-h-[80vh] bg-primaryRed md:rounded-l-2xl"
+    >
+      <form onSubmit={handleSubmit} className=" max-sm:grow">
+        <Card>
+          <CardHeader>
+            <CardTitle>NEW FIXTURE</CardTitle>
+            <CardDescription>Fill Out To Create Fixture</CardDescription>
+          </CardHeader>
 
-        <CardContent className="space-y-6 max-w-xl sm:min-w-sm">
-          <div>
-            <p className="_label mb-2 ">Select team</p>
-            <Select
-              options={teamOptions}
-              styles={customStyles}
-              onChange={(e) => setOpponent(e as ISelectOptionLV)}
-              className="bg-popover rounded"
-              value={opponent}
+          <CardContent className="space-y-6 max-w-xl sm:min-w-sm">
+            <div>
+              <p className="_label mb-2 ">Select team</p>
+              <Select
+                options={teamOptions}
+                styles={customStyles}
+                onChange={(e) => setOpponent(e as ISelectOptionLV)}
+                className="bg-popover rounded"
+                value={opponent}
+              />
+            </div>
+
+            <RadioButtons
+              defaultValue={matchType}
+              setSelectedValue={setMatchType}
+              values={["home", "away"]}
+              label="Match Type"
+              wrapperStyles="flex gap-3 items-center"
             />
-          </div>
 
-          <RadioButtons
-            defaultValue={matchType}
-            setSelectedValue={setMatchType}
-            values={["home", "away"]}
-            label="Match Type"
-            wrapperStyles="flex gap-3 items-center"
-          />
+            <DateTimeInput
+              name={"match-date"}
+              onChange={(e) => setDate(e.target.value)}
+              type="date"
+              required
+              value={date}
+              label={"Date Of Play"}
+            />
 
-          <DateTimeInput
-            name={"match-date"}
-            onChange={(e) => setDate(e.target.value)}
-            type="date"
-            required
-            value={date}
-            label={"Date Of Play"}
-          />
-
-          <DateTimeInput
-            name={"match-time"}
-            onChange={(e) => setTime(e.target.value)}
-            type="time"
-            required
-            label={"Time Of Play"}
-            value={time}
-          />
-        </CardContent>
-        <CardFooter>
-          <Button
-            type="submit"
-            waiting={waiting}
-            disabled={!date||!time||!opponent||!matchType}
-            waitingText={"Saving..."}
-            primaryText={"Save Fixture"}
-            className="_primaryBtn px-3 mt-2 py-2 mx-auto grow justify-center "
-          />
-        </CardFooter>
-      </Card>
-    </form>
+            <DateTimeInput
+              name={"match-time"}
+              onChange={(e) => setTime(e.target.value)}
+              type="time"
+              required
+              label={"Time Of Play"}
+              value={time}
+            />
+          </CardContent>
+          <CardFooter>
+            <Button
+              type="submit"
+              waiting={waiting}
+              disabled={!date || !time || !opponent || !matchType}
+              waitingText={"Saving..."}
+              primaryText={"Save Fixture"}
+              className="_primaryBtn px-3 mt-2 py-2 mx-auto grow justify-center "
+            />
+          </CardFooter>
+        </Card>
+      </form>
+    </ContentShowcaseWrapper>
   );
 };
 
