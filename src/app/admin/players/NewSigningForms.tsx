@@ -19,6 +19,7 @@ import ContentShowcaseWrapper from "@/components/ShowcaseWrapper";
 import { playerPositions } from "@/data/players";
 import { PrimarySelect } from "@/components/select/Select";
 import { Label } from "@/components/ui/label";
+ 
 
 interface IFormData {
   firstName: string;
@@ -136,7 +137,7 @@ export default function PlayerProfileForm({
 
               {/* Personal Information */}
               <DiveUpwards layoutId="lid2">
-                <div className="p-3 grid gap-6 md:min-w-md lg:min-w-lg">
+                <div className="p-3 grid gap-8 md:min-w-md lg:min-w-lg">
                   <h2 className="_label">PERSONAL INFORMATION</h2>
 
                   <Controller
@@ -237,19 +238,7 @@ export default function PlayerProfileForm({
                       />
                     )}
                   />
-                  <Controller
-                    control={control}
-                    name="about"
-                    render={({ field, fieldState }) => (
-                      <IconInputWithLabel
-                        label="About this Player"
-                        type="tel"
-                        {...field}
-                        error={fieldState.error?.message}
-                      />
-                    )}
-                  />
-
+                  
                   <Controller
                     control={control}
                     name="email"
@@ -262,6 +251,18 @@ export default function PlayerProfileForm({
                       />
                     )}
                   />
+                  <Controller
+                    control={control}
+                    name="about"
+                    render={({ field, fieldState }) => (
+                      <IconInputWithLabel
+                        label="About this Player"
+                        {...field}
+                        error={fieldState.error?.message}
+                      />
+                    )}
+                  />
+
 
                   <Controller
                     control={control}
@@ -280,8 +281,8 @@ export default function PlayerProfileForm({
 
               {/* Manager Section */}
               <DiveUpwards layoutId="lid3">
-                <div className="p-3 grid gap-6 md:min-w-md lg:min-w-lg">
-                  <h2 className="_label mb-5">MANAGER</h2>
+                <div className="p-3 grid gap-8 md:min-w-md lg:min-w-lg">
+                  <h2 className="_label mb-5 border-b">MANAGER</h2>
 
                   <Controller
                     control={control}
@@ -378,6 +379,16 @@ export const playerJoiSchema = Joi.object({
   lastName: Joi.string().trim().min(2).max(30).required().messages({
     "string.empty": "Last name is required",
   }),
+  about: Joi.string().trim().min(20).max(300).required().messages({
+    "string.empty": "About is required",
+  }),
+  position: Joi.string()
+    .valid(...playerPositions)
+    .required()
+    .messages({
+      "any.only": `Position must be one of ${playerPositions.toString()}`,
+      "string.empty": "Position is required",
+    }),
   number: Joi.alternatives()
     .try(Joi.number(), Joi.string())
     .required()

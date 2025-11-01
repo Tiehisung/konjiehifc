@@ -114,14 +114,14 @@ const NewSquad = ({
           ? {
               name: coachObj.fullname,
               _id: coachObj._id,
-              avatar: coachObj.avatar?.secure_url,
+              avatar: coachObj.avatar,
             }
           : undefined,
         assistant: assistantObj
           ? {
               name: assistantObj.fullname,
               _id: assistantObj._id,
-              avatar: assistantObj.avatar?.secure_url,
+              avatar: assistantObj.avatar,
             }
           : undefined,
         players: players
@@ -130,7 +130,7 @@ const NewSquad = ({
             _id: p._id,
             name: `${p.firstName} ${p.lastName}`,
             position: data.positions[p._id] || p.position,
-            avatar: p.avatar?.secure_url,
+            avatar: p.avatar,
           })),
         match: data.match,
       };
@@ -301,7 +301,7 @@ const NewSquad = ({
 
                       <td className="text-center py-3 px-4">
                         <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-1 rounded-full font-bold">
-                          {player.jersey}
+                          {player?.number}
                         </span>
                       </td>
                     </tr>

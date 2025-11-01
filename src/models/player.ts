@@ -54,7 +54,7 @@ const playerSchema = new Schema(
     ratings: [{ match: { type: Schema.Types.ObjectId, ref: "matches" }, rating: Number, default: [] }],
     matches: [{ type: Schema.Types.ObjectId, ref: "matches", default: [] }],
     mvp: [{ type: Schema.Types.ObjectId, ref: "mvps", default: [] }],
-    
+
     issues: [{ type: String, default: () => [] }],
     isActive: { type: Schema.Types.Boolean, default: () => true },
     isFit: { type: Boolean, default: () => true },
@@ -63,15 +63,15 @@ const playerSchema = new Schema(
     position: {
       type: String,
       enum: [
-        "goalkeeper",
+        "goal keeper",
         "defender",
         "midfielder",
         "forward",
         "striker",
-        "wingBack",
-        "centerBack",
-        "attackingMidfielder",
-        "defensiveMidfielder",
+        "wing back",
+        "center back",
+        "attacking midfielder",
+        "defensive midfielder",
         "winger",
         "sweeper",
       ],

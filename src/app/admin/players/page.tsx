@@ -8,7 +8,6 @@ import { MdAdd } from "react-icons/md";
 import { PlayerCard } from "./PlayerCard";
 import { IQueryResponse } from "@/types";
 import PlayerProfileForm from "./NewSigningForms";
-import BackToTopButton from "@/components/scroll/ToTop";
 import { ScrollToPointBtn } from "@/components/scroll/ScrollToPoint";
 import { PrimaryAccordion } from "@/components/Accordion";
 import { PrimarySearch } from "@/components/Search";

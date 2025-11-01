@@ -81,7 +81,7 @@ export default function CaptaincyAdm({
           <SearchCaptains />
         </header>
 
-        <ul className="flex items-start justify-center flex-wrap gap-10 my-10 p-4">
+        <ul className="flex items-start justify-start flex-wrap gap-10 my-10 p-4">
           {filtered?.map((captain, index) => (
             <li key={index}>
               <div>
