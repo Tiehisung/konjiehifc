@@ -81,7 +81,7 @@ export default function CaptaincyAdm({
           <SearchCaptains />
         </header>
 
-        <ul className="flex items-start flex-wrap gap-10 my-10 p-4">
+        <ul className="flex items-start justify-start flex-wrap gap-10 my-10 p-4">
           {filtered?.map((captain, index) => (
             <li key={index}>
               <div>
@@ -97,7 +97,8 @@ export default function CaptaincyAdm({
                     <Verified className="text-primaryGreen" size={24} />
                   )}
 
-                  <Badge className="capitalize text-xs"
+                  <Badge
+                    className="capitalize text-xs "
                     variant={captain.isActive ? "secondary" : "destructive"}
                   >
                     {captain?.role}
@@ -150,7 +151,7 @@ export const UpdateCaptaincy = ({
   const [isBusy, setIsBusy] = useState(false);
 
   return (
-    <DIALOG title trigger="Update Captaincy" className="">
+    <DIALOG title trigger="Update Captaincy" triggerStyles="text-primaryGreen ">
       <OverlayLoader isLoading={isBusy} className="backdrop:blur-none" />
       <table
         className={` bg-card w-full ${

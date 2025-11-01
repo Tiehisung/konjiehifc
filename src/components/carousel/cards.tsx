@@ -34,7 +34,7 @@ export default function CardCarousel({
   return (
     <>
       <Swiper
-        effect={"cards"}
+        effect={effect}
         grabCursor={true}
         modules={[EffectCards]}
         className="mySwiper"

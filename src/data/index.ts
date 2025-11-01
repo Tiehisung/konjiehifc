@@ -1,15 +1,4 @@
-export const playPositions = [
-    'Goalkeeper',
-    'Defender',
-    'Midfielder',
-    'Forward',
-    'Winger',
-    'Striker',
-    'Sweeper',
-    'Wingback',
-    'Attacking Midfielder',
-    'Defensive Midfielder',
-]
+
 
 export const coachPositions = [
     'Head Coach',

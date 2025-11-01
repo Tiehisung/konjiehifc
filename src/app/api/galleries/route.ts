@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
   const page = Number.parseInt(searchParams.get("page") || "1", 10);
   const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
 
-  const search = searchParams.get("search") || "";
+  const search = searchParams.get("gallery_search") || "";
   const tags = (searchParams.get("tags") || "")?.split(',');
 
   const skip = (page - 1) * limit;

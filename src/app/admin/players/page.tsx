@@ -8,9 +8,9 @@ import { MdAdd } from "react-icons/md";
 import { PlayerCard } from "./PlayerCard";
 import { IQueryResponse } from "@/types";
 import PlayerProfileForm from "./NewSigningForms";
-import BackToTopButton from "@/components/scroll/ToTop";
 import { ScrollToPointBtn } from "@/components/scroll/ScrollToPoint";
 import { PrimaryAccordion } from "@/components/Accordion";
+import { PrimarySearch } from "@/components/Search";
 
 export const getPlayers = async (playerId?: string) => {
   try {
@@ -55,15 +55,9 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
 
   return (
     <div className="py-12 px-6 space-y-8">
-      <header className="mb-6 max-w-6xl  mx-auto">
+      <header className="mb-6 mx-auto">
         <div className="text-center mb-10 ">
           <h1 className="text-3xl font-bold">KFC PLAYERS</h1>
-          <p className="text-lg">Player Stats Card</p>
-        </div>
-
-        <div className="mt-4 mb-2 flex items-center justify-center gap-6 ">
-          <FilterPlayers />
-
           <ScrollToPointBtn
             label=" NEW SIGNING"
             sectionId="new-signing"
@@ -72,10 +66,24 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
             <MdAdd size={20} />
           </ScrollToPointBtn>
         </div>
+
+        <div className="mt-4 mb-2 flex flex-wrap items-center justify-center gap-6 ">
+          <FilterPlayers />
+
+          <PrimarySearch
+            className="py-1 max-w-[80vw] grow"
+            placeholder={`Search Player`}
+            type="search"
+            name="search"
+            searchKey="player_search"
+          />
+        </div>
       </header>
+      
       <hr className="border-red-500" />
-      <section className=" min-h-screen bg-linear-to-br from-blue-400 via-purple-400 to-green-400 p-6 rounded-2xl">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+
+      <section className=" min-h-screen bg-linear-to-br from-blue-400 via-purple-400 to-green-400 md:p-6 rounded-2xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mx-auto">
           {players?.data?.map((player, i) => (
             <Link href={`/admin/players/${player?._id}`} key={i}>
               <PlayerCard key={i} player={player} />

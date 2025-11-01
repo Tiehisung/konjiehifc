@@ -35,7 +35,7 @@ export const SearchCaptains = () => {
         placeholder={`Search captains`}
         type="search"
         name="search"
-        defaultValue={sp.get("search") || ""}
+        searchKey="captain_search"
       />
 
       <ul className=" text-xs text-secondary-foreground flex flex-wrap items-center gap-2  ">

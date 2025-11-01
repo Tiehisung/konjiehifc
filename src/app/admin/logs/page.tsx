@@ -99,7 +99,7 @@ export default async function LogsPage({searchParams}:IPageProps) {
     <div className='_page'>
       <header className=" space-y-5 mb-4">
         <div className="text-lg md:text-xl xl:text-3xl font-semibold"> System Logs</div>
-         <PrimarySearch placeholder='Search Logs' inputStyles="h-9" className="bg-secondary"/>
+         <PrimarySearch placeholder='Search Logs' inputStyles="h-9" className="bg-secondary" searchKey="log_search"/>
       </header>
       <PrimaryAccordion data={accordionData as IAccordionProps["data"]} triggerStyles="_card"/>
 

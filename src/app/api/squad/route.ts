@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
   const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
   const skip = (page - 1) * limit;
 
-  const search = searchParams.get("search") || "";
+  const search = searchParams.get("squad_search") || "";
 
   const regex = new RegExp(search, "i");
 
