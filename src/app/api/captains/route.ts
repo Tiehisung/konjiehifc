@@ -4,7 +4,8 @@ import { ICaptainProps } from "@/app/admin/players/captaincy/Captaincy";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import CaptaincyModel from "@/models/captain";
 import { NextRequest, NextResponse } from "next/server";
-import { getErrorMessage } from "@/lib";
+import { getErrorMessage, removeEmptyKeys } from "@/lib";
+import { IRecord } from "@/types";
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
 
@@ -23,31 +24,34 @@ export async function GET(request: NextRequest) {
     const page = Number.parseInt(searchParams.get("page") || "1", 10);
     const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
 
+
     const search = searchParams.get("search") || "";
+    const current = searchParams.get("current") || "";
 
     const skip = (page - 1) * limit;
 
     const regex = new RegExp(search, "i"); // case-insensitive partial match
 
+    let query: IRecord = {}
 
-    const query = search ? {
+    if (search) query = {
       $or: [
         { "player.firstName": regex },
         { "player.lastName": regex },
       ],
-    } : {};
+    }
+    if (current) query.current = current
 
-    console.log({ query })
+    const cleaned = removeEmptyKeys(query)
 
-    const captains = await CaptaincyModel.find({}).populate({
+    const captains = await CaptaincyModel.find(cleaned).populate({
       path: "player",
-      populate: { path: "avatar" },
-    }).sort({ 'updatedAt': -1 })
+    }).sort({ 'createdAt': -1 })
       .skip(skip)
       .limit(limit)
       .lean();
 
-    const total = await CaptaincyModel.countDocuments();
+    const total = await CaptaincyModel.countDocuments(cleaned);
 
     return NextResponse.json({
       success: true,
@@ -70,9 +74,9 @@ export async function POST(req: NextRequest) {
     const { playerId, role }: ICap = await req.json();
 
     //Update current captain role
-    const reignEnded = await CaptaincyModel.updateOne(
+    const reignEnded = await CaptaincyModel.updateMany(
       { isActive: true, role: role },
-      { $set: { isActive: false } }
+      { $set: { isActive: false, endDate: new Date().toISOString() } }
     );
 
     if (!reignEnded)

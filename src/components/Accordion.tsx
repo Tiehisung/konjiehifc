@@ -8,7 +8,12 @@ import { ReactNode } from "react";
 
 export interface IAccordionProps {
   className?: string;
-  data?: { trigger: ReactNode; value: string; content: ReactNode }[];
+  data?: {
+    trigger: ReactNode;
+    value: string;
+    content: ReactNode;
+    isDefault?: boolean;
+  }[];
   triggerStyles?: string;
 }
 export function PrimaryAccordion(props: IAccordionProps) {
@@ -16,10 +21,15 @@ export function PrimaryAccordion(props: IAccordionProps) {
     return <p>No data available.</p>;
   }
   return (
-    <Accordion type="single" collapsible className={props.className} >
+    <Accordion
+      type="single"
+      collapsible
+      className={props.className}
+      defaultValue={props.data?.find((d) => d.isDefault)?.value}
+    >
       {props.data?.map((d) => (
         <AccordionItem value={d.value} key={d.value}>
-          <AccordionTrigger className={props.triggerStyles} >
+          <AccordionTrigger className={props.triggerStyles}>
             {d.trigger}
           </AccordionTrigger>
           <AccordionContent>{d.content}</AccordionContent>

@@ -7,6 +7,10 @@ import { getCaptains } from "./captaincy/page";
 import { MdAdd } from "react-icons/md";
 import { PlayerCard } from "./PlayerCard";
 import { IQueryResponse } from "@/types";
+import PlayerProfileForm from "./NewSigningForms";
+import BackToTopButton from "@/components/scroll/ToTop";
+import { ScrollToPointBtn } from "@/components/scroll/ScrollToPoint";
+import { PrimaryAccordion } from "@/components/Accordion";
 
 export const getPlayers = async (playerId?: string) => {
   try {
@@ -23,7 +27,7 @@ export const getPlayers = async (playerId?: string) => {
       const response = await fetch(apiConfig.players, {
         cache: "no-cache",
       });
-      
+
       if (!response.ok) return null;
       const players = await response.json();
 
@@ -57,17 +61,19 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
           <p className="text-lg">Player Stats Card</p>
         </div>
 
-        <div className="mt-4 mb-2 flex items-center justify-center gap-6">
+        <div className="mt-4 mb-2 flex items-center justify-center gap-6 ">
           <FilterPlayers />
 
-          <Link
-            href={"/admin/players/new-signing"}
-            className="flex items-center gap-2 _primaryBtn px-3 py-2"
+          <ScrollToPointBtn
+            label=" NEW SIGNING"
+            sectionId="new-signing"
+            className="flex items-center gap-2 _primaryBtn px-3 py-2 grow justify-center font-semibold "
           >
-            <MdAdd /> New Signing
-          </Link>
+            <MdAdd size={20} />
+          </ScrollToPointBtn>
         </div>
       </header>
+      <hr className="border-red-500" />
       <section className=" min-h-screen bg-linear-to-br from-blue-400 via-purple-400 to-green-400 p-6 rounded-2xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {players?.data?.map((player, i) => (
@@ -76,6 +82,23 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
             </Link>
           ))}
         </div>
+      </section>
+
+      <section id="new-signing">
+        <PrimaryAccordion
+          data={[
+            {
+              content: <PlayerProfileForm />,
+              trigger: (
+                <span className=" grow justify-center no-underline">
+                  Toggle Signup Form
+                </span>
+              ),
+              value: "add-new",
+              isDefault: true,
+            },
+          ]}
+        />
       </section>
 
       <section className="mt-12">

@@ -46,10 +46,15 @@ const AdminManagers = ({ managers }: { managers?: IManager[] }) => {
                         className="h-20 w-auto aspect-square min-w-20 object-cover rounded-md bg-accent "
                       />
                     </td>
-                    <td className="px-4 py-2">{manager?.fullname}</td>
-                    <td className="px-4 py-2">{manager?.role}</td>
-                    <td className="px-4 py-2">{manager?.dateSigned}</td>
-                    <td className="px-4 py-2">{manager?.phone}</td>
+                    <td className="px-4 py-2 font-semibold">{manager?.fullname}</td>
+                    <td className="px-4 py-2 uppercase">{manager?.role}</td>
+                    <td className="px-4 py-2 font-light">
+                      <span>
+                        {getFormattedDate(manager?.dateSigned, "March 2, 2025")}
+                        ({getTimeLeftOrAgo(manager?.dateSigned).formatted})
+                      </span>
+                    </td>
+                    <td className="px-4 py-2 italic">{manager?.phone}</td>
                     <td className="px-4 py-2">
                       <ManagerActionsPopper
                         manager={manager}

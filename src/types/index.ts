@@ -55,7 +55,7 @@ export type TPreset = "konjiehifc";
 export type TResourceType = "image" | "video" | "audio" | "auto";
 // export type TFolders = "images/logos" | "images" | "videos" | "audios";
 
-export type IRecord = Record<string, string | string[] | undefined> | undefined
+export type IRecord = Record<string, string | string[] | undefined|unknown> | undefined
 
 export interface IQueryResponse<T = unknown> {
   success: boolean;
