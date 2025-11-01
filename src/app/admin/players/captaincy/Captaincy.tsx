@@ -5,15 +5,18 @@ import { toast } from "sonner";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import { getErrorMessage } from "@/lib";
-import { IQueryResponse, IResultProps } from "@/types";
+import { IQueryResponse } from "@/types";
 import { IPlayer } from "@/app/players/page";
 import RadioButtons from "@/components/input/Radio";
 import Image from "next/image";
-import PrimaryModal from "@/components/modals/Modals";
-import { Button } from "@/components/buttons/Button";
 import useGetParam from "@/hooks/params";
 import { Verified } from "lucide-react";
 import { SearchCaptains } from "./Search";
+import { DIALOG } from "@/components/Dialog";
+import { OverlayLoader } from "@/components/loaders/OverlayLoader";
+import { fireEscape } from "@/hooks/Esc";
+import { getFormattedDate } from "@/lib/timeAndDate";
+import { Badge } from "@/components/ui/badge";
 
 export type ICaptainProps = {
   isActive?: boolean;
@@ -78,7 +81,7 @@ export default function CaptaincyAdm({
           <SearchCaptains />
         </header>
 
-        <ul className="flex items-center flex-wrap gap-10 my-10 p-4">
+        <ul className="flex items-start flex-wrap gap-10 my-10 p-4">
           {filtered?.map((captain, index) => (
             <li key={index}>
               <div>
@@ -87,17 +90,41 @@ export default function CaptaincyAdm({
                   width={300}
                   height={300}
                   alt="desc image"
-                  className="h-36 w-36 rounded-xl shadow-md"
+                  className="h-36 w-36 rounded-xl shadow-md object-cover aspect-square"
                 />
-                <p className="_label text-[grayText] first-letter:uppercase flex items-center gap-3">
+                <p className="_label text-[grayText] first-letter:uppercase flex items-center gap-3 mt-1">
                   {captain.isActive && (
-                    <Verified className="text-primaryGreen" size={32} />
-                  )}{" "}
-                  {captain?.role}
+                    <Verified className="text-primaryGreen" size={24} />
+                  )}
+
+                  <Badge className="capitalize text-xs"
+                    variant={captain.isActive ? "secondary" : "destructive"}
+                  >
+                    {captain?.role}
+                  </Badge>
                 </p>
-                <p>
+                <p className="uppercase">
                   {`${captain?.player?.firstName} ${captain?.player?.lastName}`}
                 </p>
+                <div className="grid text-sm font-light gap-1">
+                  {captain?.isActive ? (
+                    <span>
+                      Since:
+                      {getFormattedDate(captain?.startDate, "March 2, 2025")}
+                    </span>
+                  ) : (
+                    <>
+                      <span>
+                        From:
+                        {getFormattedDate(captain?.startDate, "March 2, 2025")}
+                      </span>
+                      <span>
+                        To:
+                        {getFormattedDate(captain?.startDate, "March 2, 2025")}
+                      </span>
+                    </>
+                  )}
+                </div>
               </div>
             </li>
           ))}
@@ -121,60 +148,53 @@ export const UpdateCaptaincy = ({
   captains?: ICaptainProps[];
 }) => {
   const [isBusy, setIsBusy] = useState(false);
-  const [toggleEdit, setToggleEdit] = useState(false);
 
   return (
-    <div>
-      <PrimaryModal isOpen={toggleEdit} setIsOpen={setToggleEdit}>
-        <table
-          className={`_card bg-card ${
-            isBusy && "ring-1 ring-red-400 pointer-events-none opacity-85"
-          }`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <tbody>
-            <tr className="_label ">
-              <th>#</th>
-              <th className="p-2">Player</th>
-              <th className="p-2">Captain</th>
-            </tr>
-            {players?.map((player, index) => (
-              <PlayerForCaptainRow
-                key={index}
-                player={player}
-                captains={captains as ICaptainProps[]}
-                setIsBusy={setIsBusy}
-              />
-            ))}
-          </tbody>
-        </table>
-      </PrimaryModal>
-      <Button
-        onClick={() => setToggleEdit((p) => !p)}
-        className="_secondaryBtn px-2 py-4 mt-4 border shadow font-semibold rounded"
+    <DIALOG title trigger="Update Captaincy" className="">
+      <OverlayLoader isLoading={isBusy} className="backdrop:blur-none" />
+      <table
+        className={` bg-card w-full ${
+          isBusy &&
+          "ring-1 ring-red-400 pointer-events-none opacity-95 backdrop-blur-sm"
+        }`}
+        onClick={(e) => e.stopPropagation()}
       >
-        Update Captaincy
-      </Button>
-    </div>
+        <tbody>
+          <tr className=" text-left ">
+            <th className="p-3 text-muted-foreground">#</th>
+            <th className="p-3 text-muted-foreground">Player</th>
+            <th className="p-3 text-muted-foreground">Captain</th>
+          </tr>
+          {players?.map((player, index) => (
+            <PlayerForCaptainRow
+              key={index}
+              player={player}
+              setIsBusy={setIsBusy}
+              defaultRole={
+                captains?.find(
+                  (cap) => cap.player._id == player._id && cap.isActive
+                )?.role
+              }
+            />
+          ))}
+        </tbody>
+      </table>
+    </DIALOG>
   );
 };
 
 const PlayerForCaptainRow = ({
   player,
-  captains,
+  defaultRole,
   setIsBusy,
 }: {
   player: IPlayer;
-  captains: ICaptainProps[];
+  defaultRole?: ICaptainProps["role"];
   setIsBusy: (arg: boolean) => void;
 }) => {
   const router = useRouter();
   const [newRole, setNewRole] = useState<string>("");
   const [waiting, setWaiting] = useState(false);
-
-  const defaultRole = captains.find(
-    (cap) => cap.player._id == player._id
-  )?.role;
 
   const handleChangeCaptain = async () => {
     try {
@@ -187,8 +207,9 @@ const PlayerForCaptainRow = ({
         cache: "no-cache",
         body: JSON.stringify({ playerId: player._id, role: newRole }),
       });
-      const result: IResultProps = await response.json();
-      toast.success(result.message,  );
+      const result: IQueryResponse = await response.json();
+      toast.success(result.message);
+      if (result.success) fireEscape();
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
@@ -203,8 +224,8 @@ const PlayerForCaptainRow = ({
   }, [newRole, defaultRole]);
   return (
     <tr className={`border ${waiting && "pointer-events-none"}`}>
-      <td className="p-2">{player.jersey}</td>
-      <td className="p-2">{player.firstName + " " + player.lastName}</td>
+      <td className="p-2 font-black">{player.number}</td>
+      <td className="p-2 uppercase">{`${player.firstName} ${player.lastName}`}</td>
       <td className="p-2">
         <RadioButtons
           values={["captain", "vice"]}

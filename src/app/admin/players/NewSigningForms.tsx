@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { getErrorMessage } from "@/lib";
 import { Button } from "@/components/buttons/Button";
 import { DateTimeInput, IconInputWithLabel } from "@/components/input/Inputs";
-import { TimelineFlowbite } from "@/components/Timeline";
 import { RxAvatar } from "react-icons/rx";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { GrUserManager } from "react-icons/gr";
@@ -15,9 +14,9 @@ import { useForm, Controller } from "react-hook-form";
 import DiveUpwards from "@/components/Animate";
 import ImageUploaderCldWidget from "@/components/cloudinary/AvatarUploadWidget";
 import type { IPlayer } from "@/app/players/page";
-import type { IManager } from "../../managers/page";
+import type { IManager } from "../managers/page";
 import { joiResolver } from "@hookform/resolvers/joi";
-import { playerJoiSchema } from ".";
+import Joi from "joi";
 
 interface IFormData {
   firstName: string;
@@ -102,13 +101,10 @@ export default function PlayerProfileForm({
         onSubmit={handleSubmit(onSubmit)}
         className="py-6 sm:px-6 flex items-center justify-center gap-y-6 w-full"
       >
-        <TimelineFlowbite
-          icons={icons}
-          className="flex flex-col gap-12 mx-auto grow w-full"
-        >
+        <div className="flex flex-col gap-12 mx-auto grow w-full">
           {/* Avatar Section */}
           <DiveUpwards layoutId="lid1">
-            <div className=" gap-1 items-center w-full sm:min-w-72 ">
+            <div className=" flex flex-col gap-1 items-center w-full sm:min-w-72 ">
               <h2 className="_label">Avatar</h2>
               <Controller
                 control={control}
@@ -134,8 +130,8 @@ export default function PlayerProfileForm({
 
           {/* Personal Information */}
           <DiveUpwards layoutId="lid2">
-            <div className="p-3 grid gap-10 md:min-w-md lg:min-w-lg">
-              <h2 className="_label">Player Information</h2>
+            <div className="p-3 grid gap-6 md:min-w-md lg:min-w-lg">
+              <h2 className="_label">PERSONAL INFORMATION</h2>
 
               <Controller
                 control={control}
@@ -143,7 +139,7 @@ export default function PlayerProfileForm({
                 rules={{ required: true }}
                 render={({ field, fieldState }) => (
                   <IconInputWithLabel
-                    label="Firstname"
+                    label="First Name"
                     {...field}
                     error={fieldState.error?.message}
                   />
@@ -156,7 +152,7 @@ export default function PlayerProfileForm({
                 rules={{ required: true }}
                 render={({ field, fieldState }) => (
                   <IconInputWithLabel
-                    label="Lastname"
+                    label="Last Name"
                     {...field}
                     error={fieldState.error?.message}
                   />
@@ -246,15 +242,15 @@ export default function PlayerProfileForm({
 
           {/* Manager Section */}
           <DiveUpwards layoutId="lid3">
-            <div className="p-3 grid gap-10 md:min-w-md lg:min-w-lg">
-              <h2 className="_label">Manager</h2>
+            <div className="p-3 grid gap-6 md:min-w-md lg:min-w-lg">
+              <h2 className="_label">MANAGER</h2>
 
               <Controller
                 control={control}
                 name="manager.fullname"
                 render={({ field, fieldState }) => (
                   <IconInputWithLabel
-                    label="Fullname"
+                    label="Full Name"
                     {...field}
                     error={fieldState.error?.message}
                   />
@@ -308,8 +304,72 @@ export default function PlayerProfileForm({
               />
             </div>
           </DiveUpwards>
-        </TimelineFlowbite>
+        </div>
       </form>
     </section>
   );
 }
+
+
+export const playerManagerJoiSchema = Joi.object({
+    fullname: Joi.string().trim().min(2).max(50).required().messages({
+        "string.empty": "Manager fullname is required",
+    }),
+    phone: Joi.string()
+        .trim()
+        .pattern(/^[0-9]{7,15}$/)
+        .required()
+        .messages({
+            "string.pattern.base": "Phone must contain only digits (7–15 chars)",
+            "string.empty": "Manager phone is required",
+        }),
+    email: Joi.string().email({ tlds: false }).required().messages({
+        "string.email": "Manager email must be valid",
+    }),
+    dob: Joi.date().iso().less("now").required().messages({
+        "date.base": "Manager date of birth must be valid",
+        "any.required": "Manager DOB is required",
+    }),
+});
+
+export const playerJoiSchema = Joi.object({
+    firstName: Joi.string().trim().min(2).max(30).required().messages({
+        "string.empty": "First name is required",
+    }),
+    lastName: Joi.string().trim().min(2).max(30).required().messages({
+        "string.empty": "Last name is required",
+    }),
+    number: Joi.alternatives()
+        .try(Joi.number(), Joi.string())
+        .required()
+        .messages({
+            "any.required": "Jersey number is required",
+        }),
+    dateSigned: Joi.date().iso().required().messages({
+        "date.base": "Date signed must be a valid date",
+    }),
+    height: Joi.number().positive().max(300).required().messages({
+        "number.base": "Height must be a number",
+        "number.max": "Height cannot exceed 300 cm",
+    }),
+    phone: Joi.string()
+        .trim()
+        .pattern(/^[0-9]{7,15}$/)
+        .required()
+        .messages({
+            "string.pattern.base": "Phone must contain only digits (7–15 chars)",
+            "string.empty": "Phone is required",
+        }),
+    email: Joi.string().email({ tlds: false }).required().messages({
+        "string.email": "Invalid email format",
+    }),
+    dob: Joi.date().iso().less("now").required().messages({
+        "date.base": "Date of birth must be valid",
+        "any.required": "Date of birth is required",
+    }),
+    avatar: Joi.string().uri().required().messages({
+        "string.empty": "Profile photo is required",
+        "string.uri": "Invalid image URL",
+    }),
+    manager: playerManagerJoiSchema.required(),
+});

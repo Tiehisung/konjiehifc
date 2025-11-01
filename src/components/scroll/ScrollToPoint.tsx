@@ -21,7 +21,7 @@ export default function ScrollToPointCp({
     <button
       title="Scroll"
       onClick={handleScrollToPoint}
-      className={`secondary__btn rounded-lg shadow-lg bottom-2 right-3 p-3 bg-green-300 hidden group-hover:flex text-xs ${className}`}
+      className={`_secondaryBtn rounded-lg shadow-lg bottom-2 right-3 p-3 bg-green-300 hidden group-hover:flex text-xs ${className}`}
     >
       <FaArrowUp />
     </button>
@@ -51,6 +51,7 @@ export function ScrollToPointBtn({
   return (
     <button
       title={title}
+      type="button"
       onClick={handleScrollToPoint}
       className={`${className}`}
     >
