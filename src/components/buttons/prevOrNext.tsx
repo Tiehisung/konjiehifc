@@ -21,10 +21,11 @@ export function PreviousBtn({
   return (
     <button
       disabled={disabled}
-      className={`secondary__btn ${styles}`}
+      className={`_secondaryBtn ${styles}`}
       onClick={handleClick}
       title={title}
-    >
+      type="button"
+      >
       <FaAngleLeft className={` ${hideArrow && "md:hidden"}`} />
       <span className="max-md:hidden">{label}</span>
     </button>
@@ -42,9 +43,10 @@ export function NextBtn({
   return (
     <button
       disabled={disabled}
-      className={`secondary__btn ${styles}`}
+      className={`_secondaryBtn ${styles}`}
       onClick={handleClick}
       title={title}
+      type="button"
     >
       <FaAngleRight className={` ${hideArrow && "md:hidden"}`} />
       <span className="max-md:hidden">{label}</span>

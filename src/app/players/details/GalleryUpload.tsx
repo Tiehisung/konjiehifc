@@ -3,7 +3,7 @@
 import { Button } from "@/components/buttons/Button";
 import CloudinaryUploader, {
   ICldFileUploadResult,
-} from "@/components/Cloudinary";
+} from "@/components/cloudinary/FileUploadWidget";
 import { Input } from "@/components/input/Inputs";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
@@ -56,7 +56,12 @@ export function PlayerGalleryUpload() {
     }
   };
 
-  if (!session) return <div className="_card text-primaryBlue italic">Login to upload gallery</div>;
+  if (!session)
+    return (
+      <div className="_card text-primaryBlue italic">
+        Login to upload gallery
+      </div>
+    );
 
   return (
     <div className="my-4 border py-12">

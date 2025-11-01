@@ -13,7 +13,7 @@ import { BiSolidUserDetail } from "react-icons/bi";
 import { GrUserManager } from "react-icons/gr";
 import { useForm, Controller } from "react-hook-form";
 import DiveUpwards from "@/components/Animate";
-import AvatarUploader from "@/components/AvatarUpload";
+import ImageUploaderCldWidget from "@/components/cloudinary/AvatarUploadWidget";
 import type { IPlayer } from "@/app/players/page";
 import type { IManager } from "../../managers/page";
 import { joiResolver } from "@hookform/resolvers/joi";
@@ -115,7 +115,7 @@ export default function PlayerProfileForm({
                 name="avatar"
                 render={({ field: { value, onChange }, fieldState }) => (
                   <div className="flex flex-col items-center gap-2">
-                    <AvatarUploader
+                    <ImageUploaderCldWidget
                       initialAvatar={value}
                       label="Upload"
                       onUploaded={(file) => onChange(file?.secure_url ?? "")}
@@ -209,7 +209,7 @@ export default function PlayerProfileForm({
                 render={({ field, fieldState }) => (
                   <IconInputWithLabel
                     label="Phone"
-                    type='tel'
+                    type="tel"
                     {...field}
                     error={fieldState.error?.message}
                   />
@@ -267,7 +267,7 @@ export default function PlayerProfileForm({
                 render={({ field, fieldState }) => (
                   <IconInputWithLabel
                     label="Phone"
-                    type='tel'
+                    type="tel"
                     {...field}
                     error={fieldState.error?.message}
                   />

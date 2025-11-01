@@ -33,5 +33,10 @@ export function useUpdateSearchParams() {
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  return { setParam };
+  function clearParams() {
+    router.replace(pathname, { scroll: false });
+    router.refresh();
+  }
+
+  return { setParam, clearParams };
 }

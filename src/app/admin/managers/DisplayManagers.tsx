@@ -1,79 +1,59 @@
 "use client";
 
-import { ResponsiveModal } from "@/components/modals/Responsive";
 import Image from "next/image";
 import React from "react";
-import TechnicalManagerForm from "./ManagerForm";
-import { IManager } from "../page";
+import { getAvailableManagerialRoles, IManager } from "./page";
 import ManagerActionsPopper from "./Actions";
 import { useRouter } from "next/navigation";
 import { setSearchParams } from "@/lib/searchParams";
 import useGetParam from "@/components/Param";
 import { MdOutlineGridView } from "react-icons/md";
 import { CiBoxList } from "react-icons/ci";
-
-export enum ManagerRole {
-  TechnicalManager = "Technical manager",
-  Coach = "Coach",
-  AssistantCoach = "Assistant coach",
-  GoalkeeperCoach = "Goalkeeper coach",
-  FitnessCoach = "Fitness coach",
-  Analyst = "Analyst",
-}
+import { staticImages } from "@/assets/images";
+import { DisplayType } from "@/components/DisplayStyle";
+import { getFormattedDate, getTimeLeftOrAgo } from "@/lib/timeAndDate";
 
 const AdminManagers = ({ managers }: { managers?: IManager[] }) => {
-  const viewStyle = useGetParam("view");
+  const viewStyle = useGetParam("display");
   const router = useRouter();
 
-  // Available portfolios
-  const availablePortfolios = Object.values(ManagerRole).filter(
-    (port) => !managers?.map((mp) => mp.role).includes(port)
-  );
+  const availableRoles = getAvailableManagerialRoles(managers);
   return (
-    <div className="px-[2vw] relative">
-      <header className="flex items-center p-4 mb-6 h-fit ">
-        <ManagersViewSwitch />
-        <ResponsiveModal
-          modalId="create-manager"
-          trigger={"Create manager"}
-          triggerStyles="primary__btn px-3 py-1 ml-auto "
-        >
-          <TechnicalManagerForm availablePortfolios={availablePortfolios} />
-        </ResponsiveModal>
-      </header>
-
+    <div className="px-[2vw] relative ">
       <section className="  rounded-3xl p-4 pb-36 ">
+        <DisplayType defaultDisplay={"grid"} />
+        <hr className="my-4" />
         {viewStyle == "list" ? (
-          <div className="max-full overflow-x-auto">
-            <table className="table">
+          <div className="max-full overflow-x-auto mx-auto">
+            <table className="table w-full border border-primary/60">
               <tbody>
-                <tr className="_label">
-                  <th>Image</th>
-                  <th>Name</th>
-                  <th>Role</th>
-                  <th>Date signed</th>
-                  <th>Contact</th>
-                  <th></th>
+                <tr className="_label text-nowrap text-left bg-muted text-muted-foreground h-12 uppercase ">
+                  <th className="px-4 py-2">Image</th>
+                  <th className="px-4 py-2">Name</th>
+                  <th className="px-4 py-2">Role</th>
+                  <th className="px-4 py-2">Date signed</th>
+                  <th className="px-4 py-2">Contact</th>
+                  <th className="px-4 py-2"></th>
                 </tr>
                 {managers?.map((manager, index) => (
-                  <tr key={index} className="_borderColor">
-                    <td>
+                  <tr key={index} className="border-primary/60 border-b ">
+                    <td className="px-4 py-2">
                       <Image
-                        src={manager?.avatar?.secure_url}
+                        src={manager?.avatar ?? staticImages.avatar}
                         width={300}
                         height={300}
                         alt="desc image"
-                        className="h-20 w-auto min-w-20 object-cover rounded-md "
+                        className="h-20 w-auto aspect-square min-w-20 object-cover rounded-md bg-accent "
                       />
                     </td>
-                    <td>{manager?.fullname}</td>
-                    <td>{manager?.role}</td>
-                    <td>{manager?.dateSigned}</td>
-                    <td>{manager?.phone}</td>
-                    <td>
+                    <td className="px-4 py-2">{manager?.fullname}</td>
+                    <td className="px-4 py-2">{manager?.role}</td>
+                    <td className="px-4 py-2">{manager?.dateSigned}</td>
+                    <td className="px-4 py-2">{manager?.phone}</td>
+                    <td className="px-4 py-2">
                       <ManagerActionsPopper
                         manager={manager}
-                        availablePortfolios={availablePortfolios}
+                        availableRoles={availableRoles}
                       />
                     </td>
                   </tr>
@@ -82,19 +62,21 @@ const AdminManagers = ({ managers }: { managers?: IManager[] }) => {
             </table>
           </div>
         ) : (
-          <ul className="flex flex-wrap items-start justify-start gap-10">
+          <ul className="flex flex-wrap items-start justify-start gap-10 mx-auto w-full ">
             {managers?.map((manager, index: number) => (
               <li
                 key={index}
-                onClick={() => router.replace("/admin/managers/" + manager?._id)}
-                className="relative flex flex-col justify-center items-center gap-2 h-96 max-w-sm rounded-md shadow border _borderColor"
+                onClick={() =>
+                  router.replace(`/admin/managers/${manager?._id}`)
+                }
+                className="relative flex flex-col justify-center items-center gap-2 h-96 max-w-sm rounded-md shadow border _borderColor bg-secondary"
               >
                 <Image
-                  src={manager?.avatar?.secure_url}
+                  src={manager?.avatar ?? staticImages.avatar}
                   width={300}
                   height={300}
                   alt="desc image"
-                  className="h-56 w-60 grow bg-base-100 object-cover rounded-md"
+                  className="h-56 w-60 grow object-cover rounded-md"
                 />
                 <div className=" p-5 space-y-2">
                   <p className="_label text-[grayText] first-letter:uppercase">
@@ -103,7 +85,10 @@ const AdminManagers = ({ managers }: { managers?: IManager[] }) => {
                   <p>{manager?.fullname}</p>
                   <p>
                     <small className="italic">Since</small>{" "}
-                    <span>{manager?.dateSigned}</span>
+                    <span>
+                      {getFormattedDate(manager?.dateSigned, "March 2, 2025")}(
+                      {getTimeLeftOrAgo(manager?.dateSigned).formatted})
+                    </span>
                   </p>
                   <p className="text-teal-400">{manager?.phone}</p>
                 </div>
@@ -113,7 +98,7 @@ const AdminManagers = ({ managers }: { managers?: IManager[] }) => {
                 >
                   <ManagerActionsPopper
                     manager={manager}
-                    availablePortfolios={availablePortfolios}
+                    availableRoles={availableRoles}
                   />
                 </div>
               </li>
