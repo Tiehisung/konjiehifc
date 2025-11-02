@@ -13,17 +13,21 @@ const LandingSquad = async () => {
 
   return (
     <div className="py-12 px-6 space-y-8">
-      <h1 className="_title">SQUAD | {squad?.title} </h1>
+      <h1
+        className="_title rounded-full p-2 w-fit bg-primaryGreen px-3 shadow-2xl "
+        style={{ background: randomColor }}
+      >
+        SQUAD | {squad?.title}{" "}
+      </h1>
       <ResponsiveSwiper
         noSpacing
         slides={
           squad?.players?.map((p) => {
-            const bg = `bg-[${randomColor}]`;
-            console.log(bg);
+            console.log(randomColor);
             return (
               <div
                 key={p._id}
-                className="w-full overflow-hidden bg-card shadow-md hover:shadow-lg transition-shadow"
+                className="w-full overflow-hidden bg-card hover:shadow-lg transition-shadow"
               >
                 <Image
                   src={p?.avatar ?? staticImages.avatar}
@@ -32,12 +36,15 @@ const LandingSquad = async () => {
                   width={500}
                   height={500}
                 />
-                <div className={`p-4 ${bg}`}>
+                <div
+                  className={`p-4 bg-red-400`}
+                  style={{ background: randomColor }}
+                >
                   <h3 className="font-bold text-lg text-foreground uppercase">
                     {p?.name}
                   </h3>
 
-                  <p className="text-sm text-muted-foreground mt-2 uppercase">
+                  <p className="text-sm text-muted mt-2 uppercase">
                     {p?.position}
                   </p>
                 </div>

@@ -7,15 +7,11 @@ import SimpleCarousel from "@/components/carousel/SimpleCarousel";
 import { SubTitle, Title } from "@/components/Elements";
 import { getCaptains } from "../admin/players/captaincy/page";
 import { IQueryResponse } from "@/types";
-import { staticImages } from "@/assets/images";
 
 export const TechnicalManagement = async () => {
   const managers: IQueryResponse<IManager[]> = await getManagers();
   return (
-    <div
-      id="technical-management"
-      className="md:max-w-xl max-w-full overflow-hidden"
-    >
+    <div id="technical-management" className="max-w-full overflow-hidden">
       <Title>Technical Management</Title>
 
       <div className="flex flex-wrap items-center justify-center gap-8">
@@ -25,11 +21,11 @@ export const TechnicalManagement = async () => {
             className="flex flex-col w-fit justify-center items-center gap-2 mb-6 "
           >
             <Image
-              src={staticImages.avatar}
+              src={manager?.avatar}
               width={300}
               height={300}
               alt="desc image"
-              className="h-40 w-40 max-w-40 rounded-full shadow"
+              className="h-40 w-40 max-w-40 rounded-full object-cover"
             />
             <p className="font-bold text-lg text-[grayText] first-letter:uppercase">
               {manager?.role}
@@ -44,7 +40,7 @@ export const TechnicalManagement = async () => {
 
 export const CaptaincySlides = async () => {
   const captains = (await getCaptains())?.data as ICaptainProps[];
-  console.log({ captains });
+
   return (
     <div id="captaincy">
       <Title>Captaincy</Title>
@@ -60,7 +56,7 @@ export const CaptaincySlides = async () => {
             className="flex flex-col justify-center items-center gap-2 mb-6"
           >
             <Image
-              src={(captain?.player?.avatar as string) ?? _players[0].avatar}
+              src={captain?.player?.avatar as string}
               width={300}
               height={300}
               alt="desc image"

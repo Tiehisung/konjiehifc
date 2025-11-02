@@ -8,7 +8,7 @@ import { Camera, X } from "lucide-react";
 import { fireEscape } from "@/hooks/Esc";
 import { staticImages } from "@/assets/images";
 
-export interface ICldFileUploadResult {
+interface ICldUploadResult {
   secure_url: string;
   public_id: string;
   resource_type: "image" | "video" | "raw" | string;
@@ -32,7 +32,7 @@ interface IImageUploaderCldWidgetProps {
   /** Cloudinary upload preset */
   uploadPreset?: string;
   /** Fires when upload completes */
-  onUploaded: (file: ICldFileUploadResult | null) => void;
+  onUploaded: (file: ICldUploadResult | null) => void;
   /** Trigger external clearing */
   clearTrigger?: number;
   /** Button label */
@@ -63,7 +63,7 @@ export default function ImageUploaderCldWidget({
   className = " bg-blue-600 hover:bg-blue-700 text-white ",
   escapeOnEnd,
 }: IImageUploaderCldWidgetProps) {
-  const [file, setFile] = useState<ICldFileUploadResult | null>(null);
+  const [file, setFile] = useState<ICldUploadResult | null>(null);
 
   // Reset when trigger changes
   useEffect(() => {
@@ -118,7 +118,7 @@ export default function ImageUploaderCldWidget({
         }}
         onSuccess={(result) => {
           if (result?.info) {
-            const uploaded = result.info as ICldFileUploadResult;
+            const uploaded = result.info as ICldUploadResult;
             setFile(uploaded);
             onUploaded(uploaded);
             if (successMessage) toast.success(successMessage);

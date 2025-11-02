@@ -21,7 +21,7 @@ export function PlayerHeadList({ players }: { players: IPlayer[] }) {
             href={`/players/details?playerId=${player?._id}`}
             key={player?._id}
             title={`${player?.lastName?.[0]}. ${player?.firstName}`}
-            className={isSelected?'ring-2':''}
+            className={isSelected?'ring-4 ring-primaryGreen rounded-full after:w-1 after:h-1 after:bg-primaryGreen after:rounded-full':''}
           >
             <Avatar className="hover:opacity-90 _slowTrans">
               <AvatarImage

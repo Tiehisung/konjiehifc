@@ -1,8 +1,9 @@
 'use client'
 
 import { ReactNode, useEffect, useState } from "react";
-import DiveUpwards from "./animations/Animate";
-import { CloseBtn } from "./Buttons";
+import DiveUpwards from "./Animate";
+import CloseButton from "./buttons/Close";
+ 
 
 interface INotifierProps {
   message: ReactNode;
@@ -51,7 +52,7 @@ const NotifierWrapper = ({
         <p className="font-normal text-sm min-h-6">{message}</p>
         {children}
       </div>
-      <CloseBtn
+      <CloseButton
         onClose={() => setIsOpen(false)}
         className="absolute right-1 top-1"
       />

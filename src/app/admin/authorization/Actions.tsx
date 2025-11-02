@@ -2,7 +2,6 @@
 
 import { PopperToLeft } from "@/components/Poppers";
 import React, { useState } from "react";
-import { ResponsiveModal } from "@/components/modals/Responsive";
 import { CiEdit } from "react-icons/ci";
 import { IAdminProps } from "./page";
 import CreateAdmin from "./CreateAdmin";
@@ -14,6 +13,7 @@ import { Button } from "@/components/buttons/Button";
 import { getErrorMessage } from "@/lib";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { useSession } from "next-auth/react";
+import { DIALOG } from "@/components/Dialog";
 
 export interface IAdminSession {
   user: {
@@ -43,16 +43,16 @@ const AdminsActionsPopper = ({ admin }: { admin: IAdminProps }) => {
           />
         </li>
         <li className={className}>
-          <ResponsiveModal
-            modalId={admin._id}
+          <DIALOG
             trigger={
               <div className={` w-full grow flex items-center gap-2`}>
                 <CiEdit /> Edit {admin.name.split(" ")[0]}
               </div>
             }
+            title={undefined}
           >
             <CreateAdmin existingUser={admin} />
-          </ResponsiveModal>
+          </DIALOG>
         </li>
 
         <li>
@@ -147,8 +147,8 @@ export function AdminDelete({
         cache: "no-cache",
       });
       const results = await response.json();
-       if (results.success) toast.success(results.message);
-          else toast.error(results.message);
+      if (results.success) toast.success(results.message);
+      else toast.error(results.message);
       setWaiting(false);
     } catch (error) {
       toast.error(getErrorMessage(error, "Failed to delete admin"));

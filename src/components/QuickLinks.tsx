@@ -1,7 +1,7 @@
 "use client";
 
 import { scrollToElement } from "@/lib/DOM";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { CgScrollV } from "react-icons/cg";
 
 /**
@@ -21,12 +21,14 @@ type QLinksProps = {
   sections: Section[];
   className?: string;
   containerStyles?: string;
+  title?: ReactNode;
 };
 
 export default function QuickLinksCP({
   sections,
   className = "px-2 w-20 truncate rounded-full secondary__btn",
   containerStyles = "flex gap-3 p-1 items-center w-full overflow-x-auto ",
+  title = "Also in this page",
 }: QLinksProps) {
   const [reordered, setReordered] = useState(sections);
 
@@ -41,8 +43,9 @@ export default function QuickLinksCP({
   };
   return (
     <div>
-      <p className="text-xs text-white">Also in this page</p>
-      <ul className={`hideScrollbar ${containerStyles}`}>
+      {title && <div className="text-xs ">{title}</div>}
+
+      <ul className={`_hideScrollbar ${containerStyles}`}>
         {reordered.map((section, index) => (
           <li
             key={index}
