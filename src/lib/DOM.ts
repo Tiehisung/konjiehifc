@@ -12,6 +12,8 @@ export function scrollToElement(elementId: string) {
   }, 10)
 }
 export const toggleClick = (id?: string) => {
-  const doc = document.getElementById(id as string);
-  if (doc) doc.click();
+  setTimeout(() => {
+    const doc = document.getElementById(id as string);
+    if (doc) doc.click();
+  }, 1);
 };

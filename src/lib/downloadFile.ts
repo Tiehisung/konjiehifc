@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 export const downloadFile = (url: string | URL | Request, filename: string) => {
   fetch(url)
     .then((response) => response.blob())
@@ -9,9 +11,10 @@ export const downloadFile = (url: string | URL | Request, filename: string) => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      console.log("Downloaded");
+     
     })
     .catch((error) => {
       console.error("Error downloading file:", error);
+      toast.error('Error downloading file')
     });
 };
