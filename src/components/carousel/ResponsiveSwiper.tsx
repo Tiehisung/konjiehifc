@@ -7,7 +7,7 @@ import type { Swiper as SwiperType } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "./responsive-swiper-styles.css";
+import "./responsive-swiper.css";
 
 interface ResponsiveSwiperProps {
   slides: Array<ReactNode>;

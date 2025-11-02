@@ -33,7 +33,14 @@ export function useUpdateSearchParams() {
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  function clearParams() {
+  function clearParams(param?: string) {
+    if (param) {
+      //Remove one
+      setParam(param, "");
+      return;
+    }
+
+    //Clear all
     router.replace(pathname, { scroll: false });
     router.refresh();
   }

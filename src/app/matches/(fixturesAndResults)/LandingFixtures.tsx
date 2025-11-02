@@ -13,7 +13,7 @@ const LandingFixtures = async () => {
     "?status=UPCOMING"
   );
 
-  console.log({ completedMatches, upcomingMatches });
+ 
 
   return (
     <div className=" space-y-10 ">

@@ -205,11 +205,11 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
 
           {/* Product / Shirt */}
           <div className="mt-8 flex justify-end" id="sponsor">
-            <div className="bg-gradient-to-r from-purple-600 to-indigo-500 rounded-xl p-4 flex items-center gap-4 shadow-lg">
+            <div className="bg-linear-to-r from-purple-600 to-indigo-500 rounded-xl p-4 flex items-center gap-4 shadow-lg">
               <Image
                 width={300}
                 height={300}
-                src={teamKFC.logo.secure_url}
+                src={teamKFC.logo}
                 alt={player?.training.team as string}
                 className="w-20"
               />

@@ -9,10 +9,10 @@ import { ActionButton } from "@/components/buttons/ActionButton";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { apiConfig } from "@/lib/configs";
 import { HiOutlineUserRemove } from "react-icons/hi";
-import { StackModal } from "@/components/modals/Modals";
 import { Button } from "@/components/buttons/Button";
 import { useUpdateSearchParams } from "@/hooks/params";
 import { fireEscape } from "@/hooks/Esc";
+import { StackModal } from "@/components/modals/StackModal";
 
 const ManagerActionsPopper = ({
   manager,

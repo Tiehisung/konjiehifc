@@ -6,13 +6,11 @@ import { Button } from "../buttons/Button";
 import { signIn } from "next-auth/react";
 import { getErrorMessage } from "@/lib";
 import { toast } from "sonner";
-import { BiLogIn } from "react-icons/bi";
-import PrimaryModal from "../modals/Modals";
 import { FcGoogle } from "react-icons/fc";
 import { RiLoginBoxLine } from "react-icons/ri";
+import { DIALOG } from "../Dialog";
 
 const AdminLoginController = ({ className }: { className?: string }) => {
-  const [isOpenLogin, setOpenLogin] = useState(false); //modal control
   const [waiting, setWaiting] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,14 +38,11 @@ const AdminLoginController = ({ className }: { className?: string }) => {
   };
   return (
     <>
-      <Button
-        onClick={() => setOpenLogin(!isOpenLogin)}
-        primaryText="Login"
-        className={`_secondaryBtn justify-center px-2 py-1 h-full ${className}`}
+      <DIALOG
+        trigger={"Login"}
+        triggerStyles={`_secondaryBtn justify-center px-2 py-1 h-full ${className}`}
+        title={undefined}
       >
-        <BiLogIn />
-      </Button>
-      <PrimaryModal setIsOpen={setOpenLogin} isOpen={isOpenLogin}>
         <div className="bg-white grid gap-8 border p-5 rounded-2xl container shadow-xl">
           <IconInputWithLabel
             label="Email"
@@ -87,7 +82,7 @@ const AdminLoginController = ({ className }: { className?: string }) => {
             <FcGoogle size={24} /> Sign In with Google
           </button>
         </div>
-      </PrimaryModal>
+      </DIALOG>
     </>
   );
 };

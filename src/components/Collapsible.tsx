@@ -48,7 +48,7 @@ const CollapsibleA = ({
       </header>
 
       {/* Children */}
-      <main className="pb-4 bg-liteGrey/10 ">
+      <main className="pb-4 bg-accent/60 ">
         {isOpen && <DiveUpwards layoutId="">{children && children}</DiveUpwards>}
       </main>
     </div>
@@ -57,28 +57,4 @@ const CollapsibleA = ({
 
 export default CollapsibleA;
 
-export const CollapsibleB = ({
-  children,
-  title,
-  className,
-  defaultOpen = false,
-}: {
-  children: ReactNode;
-  title: ReactNode;
-  className?: string;
-  defaultOpen?: boolean;
-}) => {
-  return (
-    <div>
-      <section
-        className={`collapse collapse-arrow border rounded-lg ${className}`}
-      >
-        <input type="checkbox" defaultChecked={defaultOpen} checked />
-        <div className="collapse-title text-xl font-semibold ">{title}</div>
-        <div className="collapse-content  collapse-open bg-liteGrey/10">
-          {children}
-        </div>
-      </section>
-    </div>
-  );
-};
+ 

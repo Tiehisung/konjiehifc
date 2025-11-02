@@ -6,9 +6,6 @@ import { NextRequest, NextResponse } from "next/server";
 // import "@/models/file";
 import FileModel from "@/models/file";
 
-// export const revalidate = 0;
-// export const dynamic = "force-dynamic";
-
 ConnectMongoDb();
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -35,8 +32,6 @@ export async function GET(request: NextRequest) {
       { title: regex },
     ];
   }
-
-  console.log({query})
 
   const galleries = await GalleryModel.find(query).populate('files').sort({ 'updatedAt': -1 })
     .skip(skip)

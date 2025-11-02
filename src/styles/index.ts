@@ -48,19 +48,19 @@ export const customStyles: StylesConfig = {
 };
 
 export enum Color {
-  red = "#bf2026",
+  red = "#ff3434",
 
   teal = "#006265",
 
-  blue = "#285bd4",
-  lightBlue = "#70bfff",
+  blue = "#0c6bef",
+  lightBlue = "#2cb5ff",
   darkBlue = "#171c2e",
 
   lightGrey = "#e9ecef",
 
   grey = "#272727",
 
-  green = "#82b440",
+  green = "#2cff8e",
 
   placeholder = "#646464",
   modalTransparent = "#1a1212b1",

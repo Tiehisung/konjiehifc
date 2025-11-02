@@ -23,13 +23,13 @@ const FlowInPopper = ({
       <div
         role="button"
         onClick={() => setIsOpen((p) => !p)}
-        className={`flex items-center p-2 text-green-600 bg-base-200 border border-base-100 rounded transform ease-in duration-300 ${className}`}
+        className={`flex items-center p-2 text-green-600 bg-base-200 border rounded transform ease-in duration-300 ${className}`}
       >
         {trigger ?? "Open"}
       </div>
 
       <HideOnClickOutside
-        className={`z-20 fixed top-20 h-[80vh] overflow-y-auto _secondaryBg p-1 max-w-[400px] w-fit shadow-xl transition-all duration-200  ${
+        className={`z-20 fixed top-20 h-[80vh] overflow-y-auto bg-popover p-1 max-w-[400px] w-fit shadow-xl transition-all duration-200  ${
           isOpen ? " right-2 " : "-right-full"
         } ${wrapperStyles}`}
         setIsVisible={setIsOpen}

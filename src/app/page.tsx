@@ -8,6 +8,9 @@ import Hero from "./(landing)/Hero";
 import Loader from "@/components/Loader";
 import { LiveMatchCard } from "./live-match/Live";
 import LandingSquad from "./(landing)/Squad";
+import SwiperCarousel from "@/components/carousel/Swiper";
+ 
+ 
 
 export default async function Home() {
   return (
@@ -49,6 +52,9 @@ export default async function Home() {
       <Suspense fallback={<Loader message="Loading Managers.." />}>
         <TechnicalManagement />
       </Suspense>
+
+      <SwiperCarousel/>
+    
     </main>
   );
 }

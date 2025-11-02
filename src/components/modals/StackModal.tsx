@@ -6,59 +6,36 @@ import DiveUpwards from "../Animate";
 import { useSearchParams } from "next/navigation";
 import { useUpdateSearchParams } from "@/hooks/params";
 
-const PrimaryModal = ({
+export const StackModal = ({
   children,
-  isOpen = false,
-  setIsOpen,
   className,
+  id,
+  overlayClassName,
+  closeOnEsc,
 }: {
   children: ReactNode;
-  isOpen: boolean;
-  setIsOpen: (arg: boolean) => void;
   className?: string;
+  id: string;
+  overlayClassName?: string;
+  closeOnEsc?: boolean;
 }) => {
+  const modalId = useSearchParams().get("stackModal");
+
+  const { clearParams } = useUpdateSearchParams();
+
+  const isOpen = id == (modalId as string);
   useActionOnEsc({
     onEscape() {
-      setIsOpen(false);
+      if (closeOnEsc) {
+        clearParams("stackModal");
+      }
     },
   });
 
   if (!isOpen) return null;
   return (
     <div
-      onClick={() => setIsOpen(false)}
-      className={` z-50 fixed inset-0 bg-black/30 flex justify-center items-center h-screen ${className}`}
-    >
-      <DiveUpwards layoutId={""}>
-        <div className="max-h-[85vh] overflow-y-auto">{isOpen && children}</div>
-      </DiveUpwards>
-    </div>
-  );
-};
-
-export default PrimaryModal;
-
-export const StackModal = ({
-  children,
-  className,
-  id,
-  overlayClassName,
-}: {
-  children: ReactNode;
-  className?: string;
-  id: string;
-  overlayClassName?: string;
-}) => {
-  const modalId = useSearchParams().get("stackModal");
-
-  const { setParam } = useUpdateSearchParams();
-
-  const isOpen = id == (modalId as string);
-
-  if (!isOpen) return null;
-  return (
-    <div
-      onClick={() => setParam("stackModal", "")}
+      onClick={() => clearParams("stackModal")}
       className={` z-50 fixed inset-0 bg-black/30 flex justify-center items-center h-screen ${overlayClassName}`}
     >
       <DiveUpwards layoutId={""} y={8}>

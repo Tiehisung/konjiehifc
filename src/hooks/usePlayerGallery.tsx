@@ -26,7 +26,7 @@ export const usePlayerGalleryUtils = (galleries?: IGalleryProps[]) => {
     }
 
     // 🖼 Flatten all files across galleries
-    const allFiles = galleries.flatMap((g) => g.files || []);
+    const allFiles = galleries.flatMap((g) => g?.files || []);
 
     // Separate by type
     const images = allFiles.filter((f) => f.resource_type === "image");

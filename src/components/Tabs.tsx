@@ -55,7 +55,7 @@ const TabbedComponents = ({
           >
             {label}
             <div
-              className={` bg-gradient-to-r from-teal-300/35 via-teal-500 to-teal-700/40 absolute left-0 h-1 ${
+              className={` bg-linear-to-r from-teal-300/35 via-teal-500 to-teal-700/40 absolute left-0 h-1 ${
                 tabIndex == index
                   ? "bottom-0 right-0 text-Teal transition-all duration-200 ease-linear "
                   : "invisible right-full"
@@ -136,7 +136,7 @@ export const LinkTabs = ({
           >
             {label}
             <div
-              className={` bg-gradient-to-r from-teal-300/35 via-teal-500 to-teal-700/40 absolute left-0 h-1 ${
+              className={` bg-linear-to-r from-teal-300/35 via-teal-500 to-teal-700/40 absolute left-0 h-1 ${
                 isActive(path)
                   ? "bottom-0 right-0 text-Teal transition-all duration-200 ease-linear "
                   : "invisible right-full"

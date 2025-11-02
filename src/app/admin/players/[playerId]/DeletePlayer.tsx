@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/buttons/Button";
 import { TextArea } from "@/components/input/Inputs";
-import { GeneralSelector } from "@/components/Selectors";
+import { PrimarySelect } from "@/components/select/Select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
@@ -60,18 +60,18 @@ export default function DeletePlayer({
         >
           <div className="w-full">
             <p className="_label">Reason</p>
-            <GeneralSelector
-              data={[
+            <PrimarySelect
+              options={[
                 "Contract expired",
                 "Contract terminated",
                 "Demise",
                 "Misconduct",
                 "Health issues",
-              ]}
-              handleOnChange={(e) =>
-                setFormData((prev) => ({ ...prev, reason: e.target.value }))
+              ].map(o=>({label:o,value:o}))}
+              onChange={(val) =>
+                setFormData((prev) => ({ ...prev, reason: val }))
               }
-              selectedValue={formData.reason}
+              value={formData.reason}
               className="grow w-full "
             />
           </div>

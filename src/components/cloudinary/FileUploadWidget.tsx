@@ -4,41 +4,36 @@ import { fireEscape } from "@/hooks/Esc";
 import { X } from "lucide-react";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
-import {
-  ReactNode,
-  useEffect,
-  useState,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export interface ICldFileUploadResult {
   secure_url: string;
+  url: string;
+  thumbnail_url?: string;
   public_id: string;
   resource_type: "image" | "video" | "raw" | string;
   format?: string;
   bytes?: number;
+  type: string;
   original_filename?: string;
+  tags: string[];
+  width: number;
+  height: number;
+
   id: string;
   batchId: string;
   asset_id: string;
   version: number;
   version_id: string;
   signature: string;
-  width: number;
-  height: number;
   created_at?: string;
-  tags: string[];
-  type: string;
   etag: string;
   placeholder: boolean;
-  url: string;
   folder?: string;
   access_mode: string;
   existing: boolean;
   path?: string;
-  thumbnail_url?: string;
 }
 
 export interface ICloudinaryUploaderProps {

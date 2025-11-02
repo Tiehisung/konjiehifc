@@ -4,10 +4,10 @@ import { getServerSession } from "next-auth";
 import Image from "next/image";
 import React from "react";
 import AdminsActionsPopper, { IAdminSession } from "./Actions";
-import { ResponsiveModal } from "@/components/modals/Responsive";
 import CreateAdmin from "./CreateAdmin";
 import { getFormattedDate } from "@/lib/timeAndDate";
 import BackBtn from "@/components/buttons/BackBtn";
+import { DIALOG } from "@/components/Dialog";
 
 export const getAdmins = async (id?: string) => {
   if (id) {
@@ -47,13 +47,13 @@ const AuthorizationPage = async () => {
   return (
     <div>
       <header className="flex px-5 pt-4">
-        <ResponsiveModal
-          modalId="create-admin"
+        <DIALOG
+          title=""
           trigger="Create admin"
-          triggerStyles="primary__btn p-2 text-sm ml-auto "
+          triggerStyles="_primaryBtn p-2 text-sm ml-auto "
         >
           <CreateAdmin />
-        </ResponsiveModal>
+        </DIALOG>
       </header>
       <div className="max-full overflow-x-auto pb-40 px-[4%]">
         <table className="table">

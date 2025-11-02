@@ -14,7 +14,7 @@ const Hero = async () => {
   const anyPlayer = players?.data?.[players?.data?.length - 1];
 
   return (
-    <div className="flex items-center flex-wrap gap-10 _card">
+    <div className="flex items-center flex-wrap gap-10 ">
       <div className="max-w-2xl p-4 bg-tansparent">
         <div className="space-y-3 italic">
           <p className="text-4xl md:text-6xl font-semibold">
