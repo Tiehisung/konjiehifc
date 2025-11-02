@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, CSSProperties } from "react";
 import type { Swiper as SwiperClass } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
@@ -15,11 +15,11 @@ import { IFileProps } from "@/types";
 interface ThumbsGalleryProps {
   images: IFileProps[];
   title?: string;
-
-  mainSlideStyles?: object;
-  mainSwiperStyles?: object;
-  thumbnailSlideStyles?: object;
-  thumbnailSwiperStyles?: object;
+  enableBlur?: boolean;
+  mainSlideStyles?: CSSProperties;
+  mainSwiperStyles?: CSSProperties;
+  thumbnailSlideStyles?: CSSProperties;
+  thumbnailSwiperStyles?: CSSProperties;
 }
 
 export function ThumbsGallery({
@@ -63,7 +63,14 @@ export function ThumbsGallery({
               className="bg-muted flex items-center justify-center"
               style={{ ...props.mainSlideStyles }}
             >
-              <div className="relative w-full h-full">
+              <div
+                className="relative w-full h-full bg-cover"
+                style={
+                  props.enableBlur
+                    ? { background: `url(${image?.secure_url})` }
+                    : {}
+                }
+              >
                 <Image
                   src={image?.secure_url}
                   alt={
@@ -72,7 +79,11 @@ export function ThumbsGallery({
                     "gallery" + (i + 1)
                   }
                   fill
-                  className="object-cover"
+                  className={`${
+                    props.enableBlur
+                      ? "object-contain backdrop-blur-xl bg-[white]/50"
+                      : "object-cover"
+                  } `}
                   priority
                 />
               </div>

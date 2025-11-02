@@ -64,7 +64,7 @@ export function PlayerGalleryUpload() {
     );
 
   return (
-    <div className="my-4 border py-12">
+    <div className="my-4 border py-12 w-full">
       <CloudinaryUploader
         triggerId={""}
         setUploadedFiles={setFiles}
