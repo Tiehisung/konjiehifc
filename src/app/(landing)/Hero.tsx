@@ -45,7 +45,7 @@ const Hero = async () => {
         </div>
       </div>
 
-      <div className=" max-md:w-full min-w-1/2 grow rounded-xl overflow-hidden">
+      <div className=" max-md:w-full min-w-1/2 grow overflow-hidden">
         <Image
           className="h-[70vh] object-cover w-full hover:scale-105 _slowTrans"
           alt="hero image"

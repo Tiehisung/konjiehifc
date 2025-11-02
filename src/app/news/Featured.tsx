@@ -12,12 +12,12 @@ const FeaturedNews = ({ news }: { news: INewsProps[] }) => {
           <div key={i}>
             <Link
               style={{
-                backgroundImage: `url(${item.headline.image.secure_url})`,
+                backgroundImage: `url(${item.headline.image})`,
               }}
               href={`/news/${item._id}`}
               className="flex w-44 h-32 _label _card border _borderColor overflow-hidden hover:border-background bg-contain object-contain"
             >
-              <span className=" p-2 bg-gradient-to-b from-[#292929] to-transparent line-clamp-4">
+              <span className=" p-2 bg-linear-to-b from-[#292929] to-transparent line-clamp-4">
                 {item.headline.text}
               </span>
             </Link>

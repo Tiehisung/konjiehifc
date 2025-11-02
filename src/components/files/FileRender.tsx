@@ -1,4 +1,4 @@
-'use client'
+ 
 
 import { fileIcons, getFileTypeName } from "@/data/file";
 import { IFileProps } from "@/types";
@@ -7,16 +7,23 @@ import Image from "next/image";
 interface FileRendererProps {
   file?: IFileProps;
   className?: string;
-  localFile?:File
+  localFile?: File;
+  controls?: boolean;
 }
 
-const FileRenderer: React.FC<FileRendererProps> = ({ file, className ,localFile}) => {
+const FileRenderer: React.FC<FileRendererProps> = ({
+  file,
+  className,
+  localFile,
+  controls,
+}) => {
+  const fileUrl = localFile
+    ? URL.createObjectURL(localFile)
+    : (file?.secure_url as string);
+  const fileType = localFile ? localFile.type : (file?.resource_type as string);
+  const fileName = localFile ? localFile.name : file?.name;
 
-  const fileUrl =localFile? URL.createObjectURL(localFile):file?.secure_url as string;
-  const fileType=localFile?localFile.type:file?.resource_type as string
-  const fileName=localFile?localFile.name:file?.name
-
-  switch (getFileTypeName(fileType )) {
+  switch (getFileTypeName(fileType)) {
     case "image":
       return (
         <Image
@@ -30,12 +37,18 @@ const FileRenderer: React.FC<FileRendererProps> = ({ file, className ,localFile}
       );
 
     case "audio":
-      return <audio src={fileUrl} controls className={`w-full ${className}`} />;
+      return (
+        <audio
+          src={fileUrl}
+          controls={controls}
+          className={`w-full ${className}`}
+        />
+      );
     case "video":
       return (
         <video
           src={fileUrl}
-          controls
+          controls={controls}
           className={`max-w-full h-auto ${className}`}
         />
       );
