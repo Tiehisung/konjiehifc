@@ -16,7 +16,7 @@ const LandingFixtures = async () => {
  
 
   return (
-    <div className=" space-y-10 ">
+    <div className=" space-y-10 _page">
       <section>
         <header className="flex justify-between gap-4">
           <Title>Upcoming Fixtures</Title>
@@ -27,7 +27,7 @@ const LandingFixtures = async () => {
           />
         </header>
 
-        <div className="flex flex-wrap lg:grid-cols-2 xl:grid-cols-3 gap-[3vw] ">
+        <div className="flex flex-wrap lg:grid-cols-2 xl:grid-cols-3 gap-[3vw] justify-center">
           {upcomingMatches?.data?.map((match, index) => (
             <MatchFixtureCard
               match={match as IMatchProps}

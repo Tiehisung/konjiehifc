@@ -8,18 +8,15 @@ import Hero from "./(landing)/Hero";
 import Loader from "@/components/Loader";
 import { LiveMatchCard } from "./live-match/Live";
 import LandingSquad from "./(landing)/Squad";
-import SwiperCarousel from "@/components/carousel/Swiper";
- 
- 
 
 export default async function Home() {
   return (
     <main className=" relative md:block space-y-10">
-       <Suspense fallback={<Loader message="Loading players.." />}>
+      <Suspense fallback={<Loader message="Loading players.." />} >
         <Hero />
-      </Suspense>  
+      </Suspense>
 
-       <Suspense fallback={<Loader message="Loading players.." />}>
+      <Suspense fallback={<Loader message="Loading players.." />}>
         <LandingPlayers />
       </Suspense>
 
@@ -27,7 +24,7 @@ export default async function Home() {
         <LandingSquad />
       </Suspense>
       <Suspense fallback={<Loader message="Checking for LIVE match.." />}>
-        <div>
+        <div className="_page">
           <h1 className="_title">Live Match Update</h1>
           <LiveMatchCard />
         </div>
@@ -39,7 +36,7 @@ export default async function Home() {
 
       <Suspense fallback={<Loader message="Loading news.." />}>
         <LandingNewsHeadlines />
-      </Suspense>  
+      </Suspense>
 
       <Suspense fallback={<Loader message="Loading statistics.." />}>
         <PlayerStatistics />
@@ -52,9 +49,6 @@ export default async function Home() {
       <Suspense fallback={<Loader message="Loading Managers.." />}>
         <TechnicalManagement />
       </Suspense>
-
-      <SwiperCarousel/>
-    
     </main>
   );
 }

@@ -42,7 +42,7 @@ export const CaptaincySlides = async () => {
   const captains = (await getCaptains())?.data as ICaptainProps[];
 
   return (
-    <div id="captaincy">
+    <div id="captaincy" className="_page">
       <Title>Captaincy</Title>
 
       <SimpleCarousel
