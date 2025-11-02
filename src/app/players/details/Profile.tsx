@@ -12,12 +12,14 @@ import {
 } from "recharts";
 import { IPlayer } from "../page";
 import { teamKFC } from "@/data/teams";
-import {  useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { PrimarySelect } from "@/components/select/Select";
 import CardCarousel from "@/components/carousel/cards";
 import { usePlayerGalleryUtils } from "@/hooks/usePlayerGallery";
 import { IGalleryProps } from "@/types";
 import { scrollToElement } from "@/lib/DOM";
+import GalleryGrid from "./GallaryGrid";
+import { PlayerGalleryUpload } from "./GalleryUpload";
 
 const statsData = [
   { stat: "PAS", value: 82 },
@@ -34,7 +36,6 @@ interface PageProps {
 }
 
 export default function PlayerProfile({ players, galleries }: PageProps) {
-
   const sp = useSearchParams();
 
   const playerId = sp.get("playerId");
@@ -241,6 +242,12 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
           </RadarChart>
         </ResponsiveContainer>
       </div>
+
+      <GalleryGrid
+        galleries={galleries as IGalleryProps[]}
+        name={`${player?.firstName} ${player?.lastName}`}
+      />
+       <PlayerGalleryUpload />
     </main>
   );
 }

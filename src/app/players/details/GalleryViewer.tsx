@@ -1,6 +1,8 @@
 "use client";
 
 import { ThumbsGallery } from "@/components/carousel/ThumbsGallery";
+import { SideDrawer } from "@/components/ShadSideDrawer";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 import { usePlayerGalleryUtils } from "@/hooks/usePlayerGallery";
 import { IGalleryProps } from "@/types";
@@ -11,19 +13,30 @@ interface IProps {
 }
 export function PlayerGalleryViewer({ gallery }: IProps) {
   const { images } = usePlayerGalleryUtils([gallery] as IGalleryProps[]);
-
-  if (!gallery)
-    return (
-      <div className="p-6 text-muted-foreground font-semibold text-center text-lg md:text-2xl m-auto">
-        No content to display!
-      </div>
-    );
+  const isMobile = useIsMobile("md");
   return (
-    <ThumbsGallery
-      title={"Player Gallery"}
-      images={images}
-      mainSwiperStyles={{ minWidth: "100%" }}
-      thumbnailSwiperStyles={{ borderRadius: "0%" }}
-    />
+    <SideDrawer
+      triggerId={gallery?._id as string}
+      trigger={undefined}
+      side="bottom"
+      triggerStyles="hidden"
+    >
+      <ThumbsGallery
+        title={"Player Gallery"}
+        images={images}
+        thumbnailSwiperStyles={{
+          borderRadius: "0%",
+          height: "70px",
+          width: isMobile ? "100%" : "80%",
+        }}
+        enableBlur
+        mainSlideStyles={{
+          width: isMobile ? "100%" : "80%",
+          aspectRatio: "auto",
+          borderRadius: "0",
+          height: "600px",
+        }}
+      />
+    </SideDrawer>
   );
 }

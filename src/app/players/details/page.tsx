@@ -5,7 +5,6 @@ import { IGalleryProps, IQueryResponse } from "@/types";
 import { PlayerHeadList } from "./PlayerHeadList";
 import { PlayerGalleryUpload } from "./GalleryUpload";
 import { apiConfig } from "@/lib/configs";
-import GalleryGrid from "./GallaryGrid";
 
 interface PageProps {
   searchParams: Promise<{ playerId: string }>;
@@ -30,7 +29,6 @@ export default async function PlayerProfilePage({ searchParams }: PageProps) {
 
   const player = players?.data?.find((p) => p._id == playerId);
 
-
   return (
     <main className="_page">
       <div
@@ -42,9 +40,6 @@ export default async function PlayerProfilePage({ searchParams }: PageProps) {
         galleries={galleries?.data}
       />
       <PlayerHeadList players={players?.data as IPlayer[]} />
-
-      <PlayerGalleryUpload />
-      <GalleryGrid galleries={galleries?.data as IGalleryProps[]} />
     </main>
   );
 }

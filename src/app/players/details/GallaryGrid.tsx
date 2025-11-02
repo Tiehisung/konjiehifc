@@ -6,16 +6,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IFileProps, IGalleryProps } from "@/types";
 import { getFormattedDate } from "@/lib/timeAndDate";
 import { PlayerGalleryViewer } from "./GalleryViewer";
+import { useState } from "react";
+import { toggleClick } from "../../../lib/DOM";
 
 interface GalleryGridProps {
   galleries: IGalleryProps[];
   showDate?: boolean;
+  name?: string;
 }
 
 export default function GalleryGrid({
   galleries,
   showDate = true,
+  name,
 }: GalleryGridProps) {
+  const [selectedGallery, setSelectedGallery] = useState(galleries?.[0]);
   if (!galleries?.length) {
     return (
       <div className="text-center py-10 text-muted-foreground">
@@ -33,7 +38,6 @@ export default function GalleryGrid({
         {galleries?.map((gallery) => (
           <Card
             key={gallery?._id}
-            onClick={() => {}}
             className="cursor-pointer hover:shadow-lg transition-all duration-200 rounded-none"
           >
             <CardHeader>
@@ -50,7 +54,14 @@ export default function GalleryGrid({
               </CardTitle>
             </CardHeader>
 
-            <CardContent className="space-y-3">
+            <CardContent
+              className="space-y-3"
+              onClick={() => {
+                // control modal
+                setSelectedGallery(gallery);
+                toggleClick(gallery?._id);
+              }}
+            >
               {/* Media grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {gallery?.files.slice(0, 6).map((file) => (
@@ -83,7 +94,7 @@ export default function GalleryGrid({
           </Card>
         ))}
       </div>
-      <PlayerGalleryViewer gallery={galleries?.[0]} />
+      <PlayerGalleryViewer gallery={selectedGallery} name={name} />
     </>
   );
 }
