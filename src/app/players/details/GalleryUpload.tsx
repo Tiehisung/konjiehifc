@@ -70,7 +70,7 @@ export function PlayerGalleryUpload() {
         setUploadedFiles={setFiles}
         successMessage="Gallery Updated"
         clearTrigger={clearTrigger}
-        maxFiles={6}
+        maxFiles={16}
       />
 
       {files.length > 0 && (

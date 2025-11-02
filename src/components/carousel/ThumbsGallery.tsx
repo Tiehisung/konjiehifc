@@ -11,20 +11,22 @@ import "swiper/css/thumbs";
 import Image from "next/image";
 import "./thumbs-gallery.css";
 import { IFileProps } from "@/types";
- 
 
 interface ThumbsGalleryProps {
   images: IFileProps[];
   title?: string;
-  mainHeight?: string;
-  thumbnailHeight?: string;
+
+  mainSlideStyles?: object;
+  mainSwiperStyles?: object;
+  thumbnailSlideStyles?: object;
+  thumbnailSwiperStyles?: object;
 }
 
 export function ThumbsGallery({
   images,
   title,
-  mainHeight = "400px",
-  thumbnailHeight = "80px",
+
+  ...props
 }: ThumbsGalleryProps) {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -51,19 +53,24 @@ export function ThumbsGallery({
           navigation={true}
           thumbs={{ swiper: thumbsSwiper }}
           modules={[FreeMode, Navigation, Thumbs]}
-          style={{ height: mainHeight }}
+          style={{ height: "400px", ...props.mainSlideStyles }}
           className="main-swiper w-full"
           onSlideChange={(swiper) => setActiveImageIndex(swiper.realIndex)}
         >
-          {images.map((image,i) => (
+          {images?.map((image, i) => (
             <SwiperSlide
               key={image?._id}
               className="bg-muted flex items-center justify-center"
+              style={{ ...props.mainSlideStyles }}
             >
               <div className="relative w-full h-full">
                 <Image
-                  src={image?.secure_url  }
-                  alt={image?.name??image?.original_filename??'gallery'+(i+1)}
+                  src={image?.secure_url}
+                  alt={
+                    image?.name ??
+                    image?.original_filename ??
+                    "gallery" + (i + 1)
+                  }
                   fill
                   className="object-cover"
                   priority
@@ -106,17 +113,22 @@ export function ThumbsGallery({
               spaceBetween: 8,
             },
           }}
+          style={{ ...props.thumbnailSwiperStyles }}
         >
-          {images.map((image,i) => (
+          {images?.map((image, i) => (
             <SwiperSlide
               key={image?._id}
               className="cursor-pointer opacity-50 hover:opacity-75 transition-opacity"
-              style={{ height: thumbnailHeight }}
+              style={{ height: "60px", ...props.thumbnailSlideStyles }}
             >
               <div className="relative w-full h-full rounded border border-border overflow-hidden hover:border-primary transition-colors">
                 <Image
-                  src={image?.secure_url || "/placeholder.svg"}
-                  alt={image?.name??image?.original_filename??'gallery'+(i+1)}
+                  src={image?.secure_url}
+                  alt={
+                    image?.name ??
+                    image?.original_filename ??
+                    "gallery" + (i + 1)
+                  }
                   fill
                   className="object-cover"
                 />

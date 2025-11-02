@@ -11,12 +11,19 @@ interface IProps {
 }
 export function PlayerGalleryViewer({ gallery }: IProps) {
   const { images } = usePlayerGalleryUtils([gallery] as IGalleryProps[]);
- 
+
   if (!gallery)
     return (
       <div className="p-6 text-muted-foreground font-semibold text-center text-lg md:text-2xl m-auto">
         No content to display!
       </div>
     );
-  return <ThumbsGallery title={"Player Gallery"} images={images} />;
+  return (
+    <ThumbsGallery
+      title={"Player Gallery"}
+      images={images}
+      mainSwiperStyles={{ minWidth: "100%" }}
+      thumbnailSwiperStyles={{ borderRadius: "0%" }}
+    />
+  );
 }

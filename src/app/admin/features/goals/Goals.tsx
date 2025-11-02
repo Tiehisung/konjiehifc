@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/buttons/Button";
-import { ResponsiveModal } from "@/components/modals/Responsive";
+import { DIALOG } from "@/components/Dialog";
 import _players from "@/data/players";
 import React, { useState } from "react";
 import Select from "react-select";
@@ -16,7 +16,7 @@ const HomeTeamGoalForm = ({}) => {
     value: p._id,
   }));
   return (
-    <ResponsiveModal modalId="home-team-modal" trigger="Goal">
+    <DIALOG trigger="Goal" title={undefined}  >
       <form className="">
         <div>
           <p className="_label">Player</p>
@@ -47,7 +47,7 @@ const HomeTeamGoalForm = ({}) => {
           />
         </div>
       </form>
-    </ResponsiveModal>
+    </DIALOG>
   );
 };
 
@@ -58,7 +58,7 @@ export const AwayTeamGoalForm = ({}) => {
   console.log(setWaiting);
 
   return (
-    <ResponsiveModal modalId="away-team-modal" trigger="Goal">
+    <DIALOG trigger="Goal" title={undefined}>
       <form className="">
         <div>
           <p className="_label">Time</p>
@@ -82,7 +82,7 @@ export const AwayTeamGoalForm = ({}) => {
           />
         </div>
       </form>
-    </ResponsiveModal>
+    </DIALOG>
   );
 };
 
