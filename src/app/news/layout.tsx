@@ -1,8 +1,5 @@
 import React, { FC, ReactNode } from "react";
-// import { HotNews } from "./Hot";
-// import FeaturedNews from "./Featured";
-// import { getNews } from "../admin/news/page";
-// import { INewsProps } from "./page";
+
 
 const NewsLayout: FC<{ children: ReactNode }> = async ({ children }) => {
   // const news: INewsProps[] = (await getNews())?.data;

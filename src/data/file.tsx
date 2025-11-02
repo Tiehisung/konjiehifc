@@ -29,7 +29,7 @@ export const fileIcons: Array<{
   { type: "word", icon: <PiMicrosoftWordLogoFill color={Color.blue} /> },
   { type: "powerpoint", icon: <FaFilePowerpoint color={Color.red} /> },
   { type: "textfile", icon: <BsFillFileTextFill color={Color.grey} /> },
-  { type: "audio", icon: <MdAudiotrack color={Color.mediumGrey} /> },
+  { type: "audio", icon: <MdAudiotrack color={Color.grey} /> },
   { type: "video", icon: <GoVideo color={Color.red} /> },
   { type: "pdf", icon: <FaFilePdf color={Color.red} /> },
   { type: "image", icon: <FaImage color={Color.grey} /> },

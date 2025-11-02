@@ -19,7 +19,7 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
           width={1000}
           height={500}
           alt={newsItem.headline?.text}
-          src={newsItem.headline?.image?.secure_url ?? ""}
+          src={newsItem.headline?.image ?? ""}
           className={`w-full max-md:max-w-md min-w-64 h-auto bg-cover aspect-4/2 object-cover xl:aspect-5/3 ${
             loadingImage ? "bg-secondary" : ""
           }`}

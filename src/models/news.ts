@@ -4,7 +4,7 @@ const newsSchema = new Schema(
     headline: {
       text: { type: String, required: [true, "Headline text required"] },
       image: {
-        type: Schema.Types.Mixed,
+        type: String,
         required: [true, "Wall image for headline required"],
       },
     },
@@ -15,7 +15,7 @@ const newsSchema = new Schema(
     details: [
       {
         text: String,
-        media: [{}], //IFileProps
+        media: [{}],  
       },
     ],
     type: {

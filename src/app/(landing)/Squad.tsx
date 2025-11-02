@@ -4,6 +4,7 @@ import { IQueryResponse } from "@/types";
 import { ResponsiveSwiper } from "@/components/carousel/ResponsiveSwiper";
 import { getSquads, ISquad } from "../admin/squad/page";
 import { staticImages } from "@/assets/images";
+import { randomColor } from "@/styles";
 
 const LandingSquad = async () => {
   const squads: IQueryResponse<ISquad[]> | null = await getSquads();
@@ -14,34 +15,37 @@ const LandingSquad = async () => {
     <div className="py-12 px-6 space-y-8">
       <h1 className="_title">SQUAD | {squad?.title} </h1>
       <ResponsiveSwiper
+        noSpacing
         slides={
-          squad?.players?.map((p) => (
-            <div
-              key={p._id}
-              className="w-full rounded-lg overflow-hidden bg-card shadow-md hover:shadow-lg transition-shadow"
-            >
-              <Image
-                src={p?.avatar ??staticImages.avatar}
-                alt={p?.name}
-                className="w-full h-48 md:h-56 lg:h-64 object-cover"
-                width={500}
-                height={500}
-              />
-              <div className="p-4">
-                <h3 className="font-semibold text-lg text-foreground">
-                  {p?.name}
-                </h3>
+          squad?.players?.map((p) => {
+            const bg = `bg-[${randomColor}]`;
+            console.log(bg);
+            return (
+              <div
+                key={p._id}
+                className="w-full overflow-hidden bg-card shadow-md hover:shadow-lg transition-shadow"
+              >
+                <Image
+                  src={p?.avatar ?? staticImages.avatar}
+                  alt={p?.name}
+                  className="w-full h-48 md:h-56 lg:h-64 object-cover"
+                  width={500}
+                  height={500}
+                />
+                <div className={`p-4 ${bg}`}>
+                  <h3 className="font-bold text-lg text-foreground uppercase">
+                    {p?.name}
+                  </h3>
 
-                <p className="text-sm text-muted-foreground mt-2">
-                  {p?.position}
-                </p>
+                  <p className="text-sm text-muted-foreground mt-2 uppercase">
+                    {p?.position}
+                  </p>
+                </div>
               </div>
-            </div>
-          )) ?? []
+            );
+          }) ?? []
         }
       />
-
-   
     </div>
   );
 };

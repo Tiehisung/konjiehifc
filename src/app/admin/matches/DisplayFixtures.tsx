@@ -18,6 +18,7 @@ import SquadCard from "../squad/SquadCard";
 import { DIALOG } from "@/components/Dialog";
 import { Eye } from "lucide-react";
 import { isToday } from "date-fns";
+import Image from "next/image";
 
 interface DisplayFixturesProps {
   fixtures: IMatchProps[];
@@ -39,70 +40,89 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
               <th className="px-2">SQUAD</th>
               <th className="px-2">ACTION</th>
             </tr>
-            {fixtures?.map((fixture) => (
-              <tr key={fixture._id} className={`border _borderColor `}>
-                <td className="px-2 py-4 ">
-                  <div className="flex items-center gap-2 text-nowrap uppercase">
-                    <span className="">
-                      {fixture.status == "COMPLETED" ? (
-                        <FaCheckCircle
-                          className="text-primaryGreen"
-                          size={16}
-                        />
-                      ) : fixture.status == "LIVE" ? (
-                        <MdLiveTv className="text-primaryRed" size={16} />
-                      ) : (
-                        <BsPatchCheck size={16} />
-                      )}
-                    </span>
+            {fixtures?.map((fixture) => {
+              const { home, away } = checkTeams(fixture);
+              return (
+                <tr key={fixture._id} className={`border _borderColor `}>
+                  <td className="px-2 py-4 ">
+                    <div className="flex items-center gap-2 text-nowrap uppercase">
+                      <span className="">
+                        {fixture.status == "COMPLETED" ? (
+                          <FaCheckCircle
+                            className="text-primaryGreen"
+                            size={16}
+                          />
+                        ) : fixture.status == "LIVE" ? (
+                          <MdLiveTv className="text-primaryRed" size={16} />
+                        ) : (
+                          <BsPatchCheck size={16} />
+                        )}
+                      </span>
 
-                    <strong className="w-32 whitespace-nowrap line-clamp-1">
-                      {checkTeams(fixture)?.home?.name}
-                    </strong>
-                    <span className="w-10">vs</span>
+                      <Image
+                        src={home?.logo as string}
+                        alt={home?.name as string}
+                        className="h-10 w-10 aspect-square "
+                        width={100}
+                        height={100}
+                      />
+                      <strong className="w-36 line-clamp-1">
+                        {home?.name}
+                      </strong>
+                      <span className="w-10">VS</span>
 
-                    <strong className="w-24">
-                      {checkTeams(fixture)?.away?.name}
-                    </strong>
-                  </div>
-                </td>
-                <td className="px-2 py-2 whitespace-nowrap text-sm">
-                  {getFormattedDate(fixture.date, "March 2, 2025")}
-                </td>
-                <td className="px-2 py-2 whitespace-nowrap text-sm">
-                  <Badge
-                    variant={
-                      fixture?.status == "LIVE" ? "destructive" : "outline"
-                    }
+                      <Image
+                        src={away?.logo as string}
+                        width={100}
+                        height={100}
+                        alt={away?.name as string}
+                        className="h-10 w-10 aspect-square "
+                      />
+                      <strong className="w-36 line-clamp-1">{away?.name}</strong>
+                    </div>
+                  </td>
+                  <td className="px-2 py-2 whitespace-nowrap text-sm">
+                    {getFormattedDate(fixture.date, "March 2, 2025")}
+                  </td>
+                  <td className="px-2 py-2 whitespace-nowrap text-sm">
+                    <Badge
+                      variant={
+                        fixture?.status == "LIVE" ? "destructive" : "outline"
+                      }
+                    >
+                      {fixture.status}
+                    </Badge>
+                  </td>
+                  <td
+                    className="px-2 py-2 whitespace-nowrap text-sm"
+                    title="View Squad"
                   >
-                    {fixture.status}
-                  </Badge>
-                </td>
-                <td
-                  className="px-2 py-2 whitespace-nowrap text-sm"
-                  title="View Squad"
-                >
-                  {fixture?.squad ? (
-                    <DIALOG trigger={<Eye />} title="" className="min-w-[80vw]">
-                      <SquadCard squad={fixture?.squad} match={fixture} />
-                    </DIALOG>
-                  ) : (
-                    <span className="text-muted-foreground">N/A</span>
-                  )}
-                </td>
-                <td className="px-2 py-2 text-sm ">
-                  <div className="flex gap-5 items-center justify-between max-w-sm">
-                    <ToggleMatchStatus
-                      status={fixture.status}
-                      fixtureId={fixture._id}
-                      matchDate={fixture.date}
-                    />
-                    <UpdateFixtureMatch teams={teams} fixture={fixture} />
-                    <DeleteFixture fixtureId={fixture._id} />
-                  </div>
-                </td>
-              </tr>
-            ))}
+                    {fixture?.squad ? (
+                      <DIALOG
+                        trigger={<Eye />}
+                        title=""
+                        className="min-w-[80vw]"
+                      >
+                        <SquadCard squad={fixture?.squad} match={fixture} />
+                      </DIALOG>
+                    ) : (
+                      <span className="text-muted-foreground">N/A</span>
+                    )}
+                  </td>
+                  <td className="px-2 py-2 text-sm ">
+                    <div className="flex gap-5 items-center justify-between max-w-sm">
+                      <ToggleMatchStatus
+                        status={fixture.status}
+                        fixtureId={fixture._id}
+                        matchDate={fixture.date}
+                      />
+                      <UpdateFixtureMatch teams={teams} fixture={fixture} />
+                      <DeleteFixture fixtureId={fixture._id} />
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
             {fixtures?.length === 0 && (
               <tr>
                 <td colSpan={4} className="text-center _label">

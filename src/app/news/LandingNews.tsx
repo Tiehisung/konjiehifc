@@ -13,6 +13,7 @@ import { IQueryResponse } from "@/types";
 const casters = Object.values(broadcasters);
 const LandingNewsHeadlines = async () => {
   const news: IQueryResponse<INewsProps[]> = await getNews();
+  console.log({ news });
   return (
     <div>
       <Title>News</Title>
@@ -23,7 +24,7 @@ const LandingNewsHeadlines = async () => {
             <Card className="w-60 sm:max-w-60 max-sm:grow overflow-hidden rounded-none">
               <CardContent>
                 <Image
-                  src={item?.headline?.image?.secure_url as string}
+                  src={item?.headline?.image as string}
                   width={400}
                   height={400}
                   alt={item?.headline?.text as string}
@@ -60,7 +61,7 @@ export const NewsInPage = ({ news }: { news: INewsProps[] }) => {
             (firstText?.length ?? 0) > 100
               ? `${firstText?.substring(0, 97)}...`
               : item.details.find((det) => det.text)?.text;
-          console.log(text?.length);
+
           return (
             <Reveal
               key={index}
@@ -68,7 +69,7 @@ export const NewsInPage = ({ news }: { news: INewsProps[] }) => {
             >
               <section className="w-60 max-sm:grow container">
                 <Image
-                  src={item?.headline?.image?.secure_url as string}
+                  src={item?.headline?.image as string}
                   width={400}
                   height={400}
                   alt={item?.headline?.text as string}

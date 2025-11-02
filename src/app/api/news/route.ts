@@ -84,54 +84,23 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-
-    const { headlineText, headlineImage, details, }: IPostNews = await request.json();
-
-    const headlineImageUploadResult = await fileUploader({
-      name: headlineImage?.name ?? "headline",
-      path: headlineImage?.path ?? "",
-      type: headlineImage?.type ?? "image",
-    });
-
-    if (!headlineImageUploadResult.success)
-      return NextResponse.json(headlineImageUploadResult);
-
-    //Upload all files in details
-    const shallowCopy: IPostNews["details"] = [...details];
-
-    const modifiedDetails: INewsProps["details"] = [];
-
-    for (let x = 0; x < shallowCopy.length; x++) {
-      const detail = shallowCopy[x];
-      if (detail?.media && detail.media.length) {
-        const temp: IFileProps[] = [];
-        for (const file of detail.media) {
-          const uploaded = await fileUploader(file);
-          temp.push(uploaded?.data as IFileProps);
-        }
-        modifiedDetails.push({ ...detail, media: temp });
-      } else {
-        modifiedDetails.push(detail);
-      }
-    }
+    const { headline, details, reporter, type, }: IPostNews = await request.json();
+    console.log(headline)
 
     const published = await NewsModel.create({
-      headline: {
-        text: headlineText,
-        image: headlineImageUploadResult.success
-          ? headlineImageUploadResult.data
-          : {},
-      },
-      details: modifiedDetails,
+      headline,
+      details,
+      reporter, type: type ?? 'general'
     });
     const session = await getServerSession(authOptions)
     // log
     await logAction({
       title: "News Created",
-      description: headlineText as string,
+      description: headline.text as string,
       category: "db",
       severity: "info",
-      userEmail: session?.user?.email as string,
+      userEmail: (session?.user?.email as string) ?? reporter?.name,
+      meta: reporter
 
     });
     if (published)

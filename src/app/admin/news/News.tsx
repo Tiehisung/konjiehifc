@@ -1,7 +1,7 @@
 "use client";
 
 import { INewsProps } from "@/app/news/page";
-import { staticImages } from "@/assets/images";
+import { getFormattedDate } from "@/lib/timeAndDate";
 import { IQueryResponse } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,17 +16,19 @@ const AdminNews: FC<{ news: IQueryResponse<INewsProps[]> }> = ({ news }) => {
             <li key={index} className=" p-2 rounded border _borderColor flex ">
               <Link href={`/admin/news/${item._id}`}>
                 <Image
-                  src={
-                    item?.headline?.image?.secure_url ?? staticImages.ronaldo
-                  }
+                  src={item?.headline?.image}
                   width={400}
                   height={400}
                   className="w-full h-60 object-cover aspect-video"
                   alt={item.headline.text}
                 />
-                <p className=" overflow-hidden text-wrap max-w-60 line-clamp-2">
+                <p className=" overflow-hidden text-wrap line-clamp-2">
                   {item.headline.text}
                 </p>
+                <div className="font-light text-sm">
+                  <p>{getFormattedDate(item?.createdAt, "March 2, 2025")}</p>
+                  <p>{item?.reporter?.name}</p>
+                </div>
               </Link>
             </li>
           );

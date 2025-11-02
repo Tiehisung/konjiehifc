@@ -20,7 +20,7 @@ export interface INewsProps {
   };
   headline: {
     text: string;
-    image: Partial<IFileProps>;
+    image: string;
     hasVideo?: boolean;
     sponsor?: Partial<IFileProps>;
   };
@@ -32,7 +32,7 @@ export interface INewsProps {
   metaDetails?: unknown; //ISquad etc
   reporter?: {
     name: string;
-    avatar: Partial<IFileProps>;
+    avatar: string;
   };
   isPublished?: boolean;
   type?: "squad" | "signing" | "match" | "general";
@@ -118,7 +118,7 @@ const NewsItem = ({ item }: { item: INewsProps }) => {
       >
         <section className=" max-sm:grow ">
           <Image
-            src={item?.headline?.image?.secure_url as string}
+            src={item?.headline?.image as string}
             width={400}
             height={400}
             alt={item?.headline?.text as string}

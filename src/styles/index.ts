@@ -1,3 +1,4 @@
+import { getRandomIndex } from "@/lib";
 import { StylesConfig } from "react-select";
 
 export const customStyles: StylesConfig = {
@@ -18,18 +19,18 @@ export const customStyles: StylesConfig = {
   option: (provided, state) => ({
     ...provided,
     backgroundColor: state.isSelected
-      ? Color.liteBlue
+      ? Color.lightBlue
       : state.isFocused
-      ? Color.white
-      : "white",
+        ? Color.white
+        : "white",
     color: state.isSelected ? "white" : "black",
     "&:hover": {
-      backgroundColor: Color.liteGrey,
+      backgroundColor: Color.lightGrey,
     },
   }),
   multiValue: (provided) => ({
     ...provided,
-    backgroundColor: Color.liteBlue,
+    backgroundColor: Color.lightBlue,
     color: "white",
   }),
   multiValueLabel: (provided) => ({
@@ -52,11 +53,11 @@ export enum Color {
   teal = "#006265",
 
   blue = "#285bd4",
-  liteBlue = "#70bfff",
+  lightBlue = "#70bfff",
   darkBlue = "#171c2e",
 
-  liteGrey = "#e9ecef",
-  mediumGrey = "#ccc",
+  lightGrey = "#e9ecef",
+
   grey = "#272727",
 
   green = "#82b440",
@@ -66,3 +67,6 @@ export enum Color {
   white = "#fff",
   black = "#455A64",
 }
+
+export const colors = Object.values(Color)
+export const randomColor = colors[getRandomIndex(colors.length)] as string

@@ -57,6 +57,7 @@ export default function PlayerProfileForm({
       email: player?.email || "",
       dob: player?.dob || "",
       avatar: player?.avatar || "",
+      position:player?.position,
       manager: player?.manager || {
         fullname: "",
         phone: "",
