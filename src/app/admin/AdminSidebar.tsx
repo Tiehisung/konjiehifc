@@ -9,7 +9,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { BiHome, BiLogOut } from "react-icons/bi";
-import { BsChatRightQuote } from "react-icons/bs";
 import { CgDatabase } from "react-icons/cg";
 import { FcManager } from "react-icons/fc";
 import { FiUserCheck } from "react-icons/fi";
@@ -79,7 +78,7 @@ export function LeftPaneMobile() {
   const pathname = usePathname();
   const activeLink = (linkname: string) => {
     if (linkname == "/") return false;
-    else return pathname.startsWith(linkname) ? true : false;
+    else return pathname == linkname ? true : false;
   };
 
   return (

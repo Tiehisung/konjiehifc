@@ -41,10 +41,9 @@ export interface IPlayerMini {
 
 export interface IPlayer {
   _id: string;
-  number: number ;
+  number: number;
   about?: string;
   description?: string;
-  training: { team: string };
   medicals: { fitness: string }[];
   galleries: TPlayerGallery[];
   isFit: boolean;
@@ -79,6 +78,7 @@ export interface IPlayer {
   passAcc: string;
   trophies: number;
   cards: IMatchCard[];
+  training: { team?: "A" | "B" };
 }
 
 export interface IPostPlayer {

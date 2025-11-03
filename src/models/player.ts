@@ -64,7 +64,7 @@ const playerSchema = new Schema(
       type: String,
 
     },
-    training: { type: Schema.Types.Mixed, default: () => ({ team: "" }) },
+    training: { type: Schema.Types.Mixed, default: () => ({ team: "A" }) },
   },
   { timestamps: true }
 );
