@@ -79,7 +79,7 @@ export function LeftPaneMobile() {
   const pathname = usePathname();
   const activeLink = (linkname: string) => {
     if (linkname == "/") return false;
-    else return pathname.startsWith(linkname) ? true : false;
+    else return pathname == linkname ? true : false;
   };
 
   return (
