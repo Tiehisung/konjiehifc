@@ -90,7 +90,7 @@ export interface ILog {
   _id: string;
   title: string;
   description: string;
-  userEmail?: string;
+  // userEmail?: string;
   user?: IUser
   category?: 'auth' | 'api' | 'db' | 'system' | 'ui' | 'other';
   severity?: 'info' | 'warning' | 'error' | 'critical';
@@ -115,4 +115,5 @@ export type TSearchKey =
   | 'goal_search'
   | 'team_search'
   | 'gallery_search'
+  | 'training_search'
   | 'log_search'

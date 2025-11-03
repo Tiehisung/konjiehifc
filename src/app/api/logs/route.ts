@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 
       { "severity": regex },
 
-      { "catgory": new RegExp(type, "i") },
+      { "category": new RegExp(type, "i") },
     ],
 
   };
@@ -48,32 +48,5 @@ export async function GET(request: NextRequest) {
   });
 }
 
-// export async function POST(req: NextRequest) {
-//   try {
-//     const { title, description, category, severity, source, meta, url, user } = await req.json() as ILog;
-
-//     const log = await LogModel.create({
-//       title,
-//       description,
-//       category,
-//       severity,
-//       source,
-//       meta,
-//       url,
-//       user
-//     });
-//     return NextResponse.json({
-//       success: true,
-//       message: "New log created",
-//       data: log,
-//     });
-//   } catch (error) {
-//     return NextResponse.json({
-//       success: false,
-//       message: getErrorMessage(error, "Failed to create user"),
-//     });
-//   }
-// }
-
-
+ 
 

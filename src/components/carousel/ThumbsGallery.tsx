@@ -20,6 +20,7 @@ interface ThumbsGalleryProps {
   mainSwiperStyles?: CSSProperties;
   thumbnailSlideStyles?: CSSProperties;
   thumbnailSwiperStyles?: CSSProperties;
+  descriptionStyles?:string
 }
 
 export function ThumbsGallery({
@@ -92,7 +93,7 @@ export function ThumbsGallery({
         </Swiper>
       </div>
 
-      <div className="bg-background px-6 py-4 border-b border-border">
+      <div className={"bg-background px-6 py-4 border-b border-border "+props.descriptionStyles} >
         <h3 className="text-xl font-semibold text-foreground mb-1">
           {currentImage?.name}
         </h3>

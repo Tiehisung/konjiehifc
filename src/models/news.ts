@@ -20,7 +20,7 @@ const newsSchema = new Schema(
     ],
     type: {
       type: String
-      , enum: ['general', 'squad', 'fixture',],
+      , enum: ['general', 'squad', 'fixture','match','training',],
       default: 'general'
     },
     metaDetails: {}, //ISquad etc

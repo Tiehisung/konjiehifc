@@ -22,6 +22,7 @@ export const apiConfig = {
   injuries: `${baseUrl}/api/injuries`,
 
   players: `${baseUrl}/api/players`,
+  trainingSession: `${baseUrl}/api/training-session`,
 
   managers: `${baseUrl}/api/managers`,
 
