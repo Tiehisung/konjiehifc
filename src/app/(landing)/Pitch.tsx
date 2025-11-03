@@ -33,13 +33,17 @@ export function PitchGallery() {
     },
   ] as unknown as IFileProps[];
   return (
-    <ThumbsGallery
-      images={slides}
-      mainSlideStyles={{
-        width: isMobile ? "100%" : "70%",
-        height: "600px",
-      }}
-      enableBlur
-    />
+    <div className="_page">
+      <ThumbsGallery
+        images={slides}
+        mainSlideStyles={{
+          width: isMobile ? "100%" : "70%",
+          height: "600px",
+        }}
+        enableBlur
+        descriptionStyles="flex flex-col justify-center items-center"
+        thumbnailSwiperStyles={{ width: "100%",margin:'auto' }}
+      />
+    </div>
   );
 }

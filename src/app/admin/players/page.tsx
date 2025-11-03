@@ -33,8 +33,8 @@ export const getPlayers = async (playerId?: string) => {
 
       return players;
     }
-  } catch (error) {
-    console.log({ error });
+  } catch   {
+    
     return null;
   }
 };

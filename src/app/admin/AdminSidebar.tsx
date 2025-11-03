@@ -12,6 +12,7 @@ import { BiHome, BiLogOut } from "react-icons/bi";
 import { BsChatRightQuote } from "react-icons/bs";
 import { CgDatabase } from "react-icons/cg";
 import { FcManager } from "react-icons/fc";
+import { FiUserCheck } from "react-icons/fi";
 import { GiBabyfootPlayers } from "react-icons/gi";
 import { LiaDonateSolid, LiaRunningSolid } from "react-icons/lia";
 import { MdOutlineFeaturedPlayList, MdOutlineLiveTv } from "react-icons/md";
@@ -167,9 +168,9 @@ const sidebarLinks = [
     icon: <LiaDonateSolid />,
   },
   {
-    label: "Massenger",
-    path: "/admin/messages",
-    icon: <BsChatRightQuote />,
+    label: "Attendance",
+    path: "/admin/training/attendance",
+    icon: <FiUserCheck />,
   },
   {
     label: "Logs",

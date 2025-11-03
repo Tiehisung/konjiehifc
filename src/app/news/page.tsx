@@ -35,7 +35,7 @@ export interface INewsProps {
     avatar: string;
   };
   isPublished?: boolean;
-  type?: "squad" | "signing" | "match" | "general";
+  type?: "squad" | "signing" | "match" | "training" | "general";
   createdAt: string;
   updatedAt: string;
 }

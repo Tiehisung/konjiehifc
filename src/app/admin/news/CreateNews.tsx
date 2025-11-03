@@ -58,7 +58,7 @@ const CreateNews = () => {
     },
   });
 
-  console.log(watch('headline.image'))
+ 
 
   const { fields, append, remove } = useFieldArray({
     control,

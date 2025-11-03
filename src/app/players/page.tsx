@@ -32,11 +32,16 @@ export type TPlayerPosition =
   | "wing back"
   | "sweeper";
 
-
+export interface IPlayerMini {
+  _id: string;
+  name: string;
+  avatar: string;
+  number: number;
+}
 
 export interface IPlayer {
   _id: string;
-  number: number | string;
+  number: number ;
   about?: string;
   description?: string;
   training: { team: string };

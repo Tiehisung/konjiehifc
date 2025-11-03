@@ -49,6 +49,32 @@ export const getFormattedDate = (
       return moment(dateString).format("DD/MM/YYYY");
   }
 };
+export const formatDate = (
+  dateString?: string,
+  format?: "dd/mm/yyyy" | "March 2, 2025" | "Sunday, March 2, 2025"
+) => {
+  if (!dateString) return "N/A";
+
+  const createdAt = new Date(dateString);
+
+  switch (format) {
+    case "March 2, 2025":
+      return new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(
+        createdAt
+      );
+
+    case "Sunday, March 2, 2025":
+      return createdAt.toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
+
+    default:
+      return moment(dateString).format("DD/MM/YYYY");
+  }
+};
 
 export const getTimeAgo = (dateString: string) => moment(dateString).fromNow();
 /**
