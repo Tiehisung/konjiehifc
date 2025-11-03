@@ -7,8 +7,8 @@ export const metadata: Metadata = {
 };
 const FeaturesLayout: FC<{ children: ReactNode }> = ({ children }) => {
   const tabs = [
-    { label: "Goals", path: "/admin/features/goals" },
     { label: "Teams", path: "/admin/features/teams" },
+    { label: "Goals", path: "/admin/features/goals" },
   ];
   return (
     <div>
