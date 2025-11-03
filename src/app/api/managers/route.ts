@@ -1,6 +1,7 @@
-import { getErrorMessage } from "@/lib";
+import { getErrorMessage, removeEmptyKeys } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import ManagerModel from "@/models/manager";
+import { IRecord } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 // export const revalidate = 0;
 // export const dynamic = "force-dynamic";
@@ -10,29 +11,33 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const page = Number.parseInt(searchParams.get("page") || "1", 10);
 
-  // const isActive = searchParams.get("isActive") == "0" ? false : true
-
   const limit = Number.parseInt(searchParams.get("limit") || "30", 10);
   const skip = (page - 1) * limit;
 
   const search = searchParams.get("manager_search") || "";
+  const isActive = searchParams.get("isActive") || "";
 
   const regex = new RegExp(search, "i");
 
-  const query = {
+  let query: IRecord = {}
+
+  if (isActive) query.isActive = true
+
+  if (search) query = {
     $or: [
       { "fullname": regex },
       { "dob": regex },
       { "email": regex },
     ],
-    // isActive: true,
-  }
 
-  const managers = await ManagerModel.find(query)
+  }
+  const cleaned = removeEmptyKeys(query)
+
+  const managers = await ManagerModel.find(cleaned)
     .limit(limit).skip(skip)
     .lean();;
 
-  const total = await ManagerModel.countDocuments(query)
+  const total = await ManagerModel.countDocuments(cleaned)
   return NextResponse.json({
     success: true, data: managers, pagination: {
       page,

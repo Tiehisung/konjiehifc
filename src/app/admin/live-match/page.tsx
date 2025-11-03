@@ -7,7 +7,6 @@ import { MatchEventsAdmin } from "./Events";
 import { getTeams } from "../features/teams/page";
 import { checkTeams } from "@/lib";
 import Image from "next/image";
-import { staticImages } from "@/assets/images";
 import { StartStopMatch } from "./StartStop";
 
 export const getLiveMatch = async () => {
@@ -55,7 +54,7 @@ export default async function LiveMatchPage() {
         </h1>
         <div className="my-6 _card rounded-tl-3xl rounded-br-3xl flex items-center justify-between gap-6">
           <Image
-            src={home?.logo?.secure_url ?? staticImages.avatar}
+            src={home?.logo as string}
             width={200}
             height={200}
             alt={home?.name ?? ""}
@@ -73,7 +72,7 @@ export default async function LiveMatchPage() {
             </div>
           </div>
           <Image
-            src={away?.logo?.secure_url ?? staticImages.avatar}
+            src={away?.logo as string}
             width={200}
             height={200}
             alt={away?.name ?? ""}
@@ -90,7 +89,7 @@ export default async function LiveMatchPage() {
       </h1>
       <div className="my-6 _card rounded-tl-3xl rounded-br-3xl flex items-center justify-between gap-6">
         <Image
-          src={home?.logo?.secure_url ?? staticImages.avatar}
+          src={home?.logo as string}
           width={200}
           height={200}
           alt={home?.name ?? ""}
@@ -108,7 +107,7 @@ export default async function LiveMatchPage() {
           </div>
         </div>
         <Image
-          src={away?.logo?.secure_url ?? staticImages.avatar}
+          src={away?.logo as string}
           width={200}
           height={200}
           alt={away?.name ?? ""}

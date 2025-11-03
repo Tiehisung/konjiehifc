@@ -27,7 +27,7 @@ const LandingFixtures = async () => {
           />
         </header>
 
-        <div className="flex flex-wrap lg:grid-cols-2 xl:grid-cols-3 gap-[3vw] justify-center">
+        <div className="flex flex-wrap lg:grid lg:grid-cols-3 gap-[3vw] justify-center px-2">
           {upcomingMatches?.data?.map((match, index) => (
             <MatchFixtureCard
               match={match as IMatchProps}
@@ -40,14 +40,16 @@ const LandingFixtures = async () => {
 
       <section>
         <header className="flex justify-between gap-4">
-          <Title>Played Matches</Title>{" "}
+          <Title className="uppercase rounded-full p-2 w-fit bg-primaryGreen px-3 shadow-2xl ">
+            Played Matches
+          </Title>{" "}
           <PrimLink
             href={"/matches#matches"}
             text="More"
             className="_link flex items-center"
           />
         </header>
-        <div className="flex flex-wrap lg:grid-cols-2 xl:grid-cols-3 gap-[3vw]">
+        <div className="flex flex-wrap lg:grid-cols-2 xl:grid-cols-3 gap-[3vw] px-2">
           {completedMatches?.data?.map((match, index) => (
             <PlayedMatchCard
               key={index}

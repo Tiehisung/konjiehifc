@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 
 
     const search = searchParams.get("captain_search") || "";
-    const current = searchParams.get("current") || "";
+    const isActive = searchParams.get("isActive") || "";
 
     const skip = (page - 1) * limit;
 
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
         { "player.lastName": regex },
       ],
     }
-    if (current) query.current = current
+    if (isActive) query.isActive = true
 
     const cleaned = removeEmptyKeys(query)
 

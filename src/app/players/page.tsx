@@ -24,11 +24,12 @@ export type TPlayerPosition =
   | "midfielder"
   | "forward"
   | "striker"
-  | "wing Back"
-  | "center Back"
-  | "attacking Midfielder"
-  | "defensive Midfielder"
+  | "wing back"
+  | "center back"
+  | "attacking midfielder"
+  | "defensive midfielder"
   | "winger"
+  | "wing back"
   | "sweeper";
 
 

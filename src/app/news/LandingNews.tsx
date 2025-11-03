@@ -16,7 +16,7 @@ const LandingNewsHeadlines = async () => {
  
   return (
     <div className="_page">
-      <Title>News</Title>
+      <Title className="uppercase">News</Title>
 
       <SimpleCarousel className="_hideScrollbar " scrollButtonStyles="top-1/3">
         {news?.data?.map((item, index) => (

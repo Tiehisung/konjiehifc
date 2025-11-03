@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
@@ -15,6 +15,8 @@ interface ResponsiveSwiperProps {
   showNavigation?: boolean;
   showPagination?: boolean;
   noSpacing?: boolean;
+  swiperStyles?: CSSProperties;
+  slideStyles?: CSSProperties;
 }
 
 export function ResponsiveSwiper({
@@ -23,6 +25,8 @@ export function ResponsiveSwiper({
   showNavigation = true,
   showPagination = true,
   noSpacing,
+  swiperStyles = {},
+  slideStyles = {},
 }: ResponsiveSwiperProps) {
   const swiperRef = useRef<SwiperType | null>(null);
   const [slidesPerView, setSlidesPerView] = useState(1);
@@ -78,9 +82,14 @@ export function ResponsiveSwiper({
         }
         loop
         className="w-full"
+        style={{ ...swiperStyles }}
       >
         {slides.map((slide, i) => (
-          <SwiperSlide key={i} className="flex items-center justify-center">
+          <SwiperSlide
+            key={i}
+            className="flex items-center justify-center"
+            style={slideStyles}
+          >
             {slide}
           </SwiperSlide>
         ))}
