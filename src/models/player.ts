@@ -62,19 +62,7 @@ const playerSchema = new Schema(
     number: { type: String, required: true, unique: true },
     position: {
       type: String,
-      enum: [
-        "goal keeper",
-        "defender",
-        "midfielder",
-        "forward",
-        "striker",
-        "wing back",
-        "center back",
-        "attacking midfielder",
-        "defensive midfielder",
-        "winger",
-        "sweeper",
-      ],
+
     },
     training: { type: Schema.Types.Mixed, default: () => ({ team: "" }) },
   },

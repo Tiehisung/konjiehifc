@@ -4,8 +4,9 @@ import { IQueryResponse } from "@/types";
 import React from "react";
 import TechnicalManagerForm from "./ManagerForm";
 
-export const getManagers = async () => {
+export const getManagers = async (query?: string) => {
   try {
+  const formatted = query ? (query?.includes("?") ? query : "?" + query) : "";
     const response = await fetch(apiConfig.managers, { cache: "no-cache" });
     const result = await response.json();
     return result;

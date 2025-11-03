@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BiMailSend, BiTable } from "react-icons/bi";
+import { BiTable } from "react-icons/bi";
 import { GiSoccerBall } from "react-icons/gi";
 import { TbPlayFootball, TbTableRow } from "react-icons/tb";
-import { RiFundsFill, RiNewsLine } from "react-icons/ri";
+import { RiNewsLine } from "react-icons/ri";
+import { SiGithubsponsors } from "react-icons/si";
 import UserLogButtons from "./UserLogger";
 import { GrDashboard } from "react-icons/gr";
 import { useSession } from "next-auth/react";
@@ -18,14 +19,14 @@ export default function HeaderCp() {
   if (pathname.startsWith("/admin")) return;
   return (
     <div
-      className={`sticky top-1 flex justify-between items-center w-full p-1.5 z-40 bg-linear-to-tr from-primary/25 to-background/25 backdrop-blur-sm rounded-full border shadow`}
+      className={`sticky top-1 flex gap-6 justify-between items-center w-fit p-1.5 z-40 bg-linear-to-tr from-primary/25 to-background/25 backdrop-blur-sm rounded-full border shadow`}
     >
       <Link href={"/"} className="flex items-center">
         <div className="animate-pulse ">
           <GiSoccerBall size={44} />
         </div>
 
-        <h1 className="flex text-2xl md:text-3xl lg:text-4xl ">
+        <h1 className="flex text-2xl md:text-3xl lg:text-4xl font-semibold ">
           <span className="">Konjiehi</span>{" "}
           <span className="text-yellow-700">FC</span>
         </h1>
@@ -48,7 +49,11 @@ export function MobilieNavCp() {
   const { status } = useSession();
 
   return (
-    <SideDrawer className="pt-8 " triggerStyles="lg:hidden rounded-full aspect-square h-12 shadow-lg" side="bottom">
+    <SideDrawer
+      className="pt-8 "
+      triggerStyles="lg:hidden rounded-full aspect-square h-12 shadow-lg"
+      side="bottom"
+    >
       <ul className="items-center w-full min-h-full text-base cursor-pointer shadow-md space-y-2">
         {navLinks.map((nlink, index) => (
           <li key={index} className="flex">
@@ -67,7 +72,7 @@ export function MobilieNavCp() {
               href={"/admin"}
               className="hover:bg-blue-400 hover:text-white flex gap-1 w-full items-center h-10"
             >
-              <span className="p-2 ">{<GrDashboard />}</span>
+              <span className="p-2 ">{<GrDashboard size={24} />}</span>
               Admin Dashboard
             </Link>
           </li>
@@ -88,7 +93,9 @@ export const DesktopNav = () => {
         <li
           key={index}
           style={{ background: bgcolors[index] }}
-          className={`border border-border flex flex-col font-semibold capitalize text-white`}
+          className={` flex flex-col font-semibold capitalize text-white overflow-hidden ${
+            index == 0 ? "rounded-l-full" : index == navLinks.length - 1 ? "rounded-r-full" : ""
+          }`}
         >
           <Link
             href={lk.href}
@@ -121,10 +128,13 @@ const bgcolors = [
   "white",
 ];
 const navLinks = [
-  { title: "Sponsors", href: "/sponsorship", icon: <RiFundsFill /> },
-  { title: "Players", href: "/players", icon: <TbPlayFootball /> },
-  { title: "Contact us", href: "/contact-us", icon: <BiMailSend /> },
-  { title: "Matches", href: "/matches", icon: <BiTable /> },
-  { title: "Live", href: "/live-match", icon: <TbTableRow /> },
-  { title: "News", href: "/news", icon: <RiNewsLine /> },
+  {
+    title: "Sponsors",
+    href: "/sponsorship",
+    icon: <SiGithubsponsors size={24} />,
+  },
+  { title: "Players", href: "/players", icon: <TbPlayFootball size={24} /> },
+  { title: "Matches", href: "/matches", icon: <BiTable size={24} /> },
+  { title: "Live", href: "/live-match", icon: <TbTableRow size={24} /> },
+  { title: "News", href: "/news", icon: <RiNewsLine size={24} /> },
 ];

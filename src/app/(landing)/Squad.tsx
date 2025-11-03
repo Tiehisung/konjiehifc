@@ -12,18 +12,19 @@ const LandingSquad = async () => {
   const squad = squads?.data ? squads.data[0] : null;
 
   return (
-    <div className="py-12 space-y-8 _page">
+    <div className="py-12 space-y-8 _page ">
       <h1
         className="_title rounded-full p-2 w-fit bg-primaryGreen px-3 shadow-2xl "
         style={{ background: randomColor }}
       >
         SQUAD | {squad?.title}{" "}
       </h1>
+      <br />
       <ResponsiveSwiper
+        swiperStyles={{  width: "100%" }}
         noSpacing
         slides={
           squad?.players?.map((p) => {
-           
             return (
               <div
                 key={p._id}

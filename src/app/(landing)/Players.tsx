@@ -2,37 +2,57 @@ import React from "react";
 import Image from "next/image";
 import PrimLink from "@/components/Link";
 import { IPlayer } from "../players/page";
-import SimpleCarousel from "@/components/carousel/SimpleCarousel";
 import { getPlayers } from "../admin/players/page";
-import DiveUpwards from "@/components/Animate";
 import { IQueryResponse } from "@/types";
 import { ResponsiveSwiper } from "@/components/carousel/ResponsiveSwiper";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { lorem } from "@/data";
+import { generatePlayerAbout } from "@/data/about";
 
 const LandingPlayers = async () => {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
 
   return (
     <div className="_page">
-      <h1 className="_title">Players</h1>
+      <h1 className="_title uppercase">PLAYERS</h1>
+      <br />
       <ResponsiveSwiper
-        noSpacing
-        slides={(players?.data?.map((player, index: number) => (
-          <DiveUpwards key={index} layoutId={`${index}`}>
-            <Image
-              src={player?.avatar}
-              width={800}
-              height={800}
-              alt="player"
-              className="rounded-xl w-auto min-w-60 h-72 grow object-cover"
-            />
-            <div className="flex items-center justify-center gap-2">
-              <p className="text-3xl font-semibold">{player?.number}</p>
-              <p className="_p">
-                {`${player?.firstName} ${player?.lastName?.substring(0, 1)}.`}
-              </p>
+        swiperStyles={{ width: "100%", height: "fit-content" }}
+        slideStyles={{ borderRadius: "0" }}
+        // noSpacing
+        slides={
+          players?.data?.map((player, index: number) => (
+            <div key={index}>
+              <Image
+                src={player?.avatar}
+                width={800}
+                height={800}
+                alt="player"
+                className=" min-w-full grow object-cover border aspect-video"
+              />
+              <div className="bg-secondary text-secondary-foreground space-y-2 p-4 pb-8">
+                <Badge
+                  className="capitalize min-h-6 min-w-10"
+                  variant={"secondary"}
+                >
+                  {player?.position}
+                </Badge>
+                <div
+                  className="_p line-clamp-4 mb-5 font-semibold"
+                  dangerouslySetInnerHTML={{
+                    __html: generatePlayerAbout(player),
+                  }}
+                />
+
+                <br />
+                <Link href={`/players/details?playerId=${player?._id}`}>
+                  <span className="bg-primaryRed p-2 px-4 ">DISCOVER</span>
+                </Link>
+              </div>
             </div>
-          </DiveUpwards>
-        ))) ?? []}
+          )) ?? []
+        }
       />
 
       <PrimLink href={"/players"} text="See more" className="ml-auto" />

@@ -20,6 +20,7 @@ import { IGalleryProps } from "@/types";
 import { scrollToElement } from "@/lib/DOM";
 import GalleryGrid from "./GallaryGrid";
 import { PlayerGalleryUpload } from "./GalleryUpload";
+import { generatePlayerAbout } from "@/data/about";
 
 const statsData = [
   { stat: "PAS", value: 82 },
@@ -117,18 +118,10 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
           </div>
 
           {/* Description */}
-          <p className="text-secondary-foreground text-sm leading-relaxed mb-4">
-            {player?.description ??
-              `Marco Asensio Willemsen is a Spanish professional footballer who
-            plays as a winger and attacking midfielder for Real Madrid and the
-            Spain national team.`}
-          </p>
-          <p className="text-muted-foreground text-sm leading-relaxed">
-            {player?.about ??
-              ` After starting out at Mallorca, he signed with Real Madrid in
-            November 2014, being consecutively loaned to his former club as well
-            as Espanyol.`}
-          </p>
+          <div
+            className="_p mb-5 font-semibold"
+            dangerouslySetInnerHTML={{ __html: generatePlayerAbout(player as IPlayer) }}
+          />
 
           {/* Social Links */}
           <div className="flex gap-4 mt-6 text-muted-foreground">
@@ -247,7 +240,7 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
         galleries={galleries as IGalleryProps[]}
         name={`${player?.firstName} ${player?.lastName}`}
       />
-       <PlayerGalleryUpload />
+      <PlayerGalleryUpload />
     </main>
   );
 }
