@@ -19,13 +19,11 @@ import ball from "./ball.png";
 import cap from "./cap.png";
 import cards from "./cards.png";
 import goalkeeperGloves from "./goalkeeper-gloves.png";
+import blueCurvy from "./bg/blue-curvy-bg.png";
 
-export const staticPeople = {
-  rufai,
-  yunus,
-};
 
 export const staticImages = {
+  blueCurvy: blueCurvy.src,
   avatar,
   sponsor,
   manager,

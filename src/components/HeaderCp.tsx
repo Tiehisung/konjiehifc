@@ -18,11 +18,11 @@ export default function HeaderCp() {
   if (pathname.startsWith("/admin")) return;
   return (
     <div
-      className={`sticky top-0 flex justify-between items-center border-hidden w-full px-4 z-40 bg-linear-to-tr from-primaryGreen/25 to-primaryRed/25 backdrop-blur-sm`}
+      className={`sticky top-1 flex justify-between items-center w-full p-1.5 z-40 bg-linear-to-tr from-primary/25 to-background/25 backdrop-blur-sm rounded-full border shadow`}
     >
       <Link href={"/"} className="flex items-center">
         <div className="animate-pulse ">
-          <GiSoccerBall size={55} />
+          <GiSoccerBall size={44} />
         </div>
 
         <h1 className="flex text-2xl md:text-3xl lg:text-4xl ">
@@ -46,9 +46,9 @@ export function NavBar() {
 
 export function MobilieNavCp() {
   const { status } = useSession();
- 
+
   return (
-    <SideDrawer className="pt-8 " triggerStyles='lg:hidden' side="bottom">
+    <SideDrawer className="pt-8 " triggerStyles="lg:hidden rounded-full aspect-square h-12 shadow-lg" side="bottom">
       <ul className="items-center w-full min-h-full text-base cursor-pointer shadow-md space-y-2">
         {navLinks.map((nlink, index) => (
           <li key={index} className="flex">
@@ -82,7 +82,6 @@ export function MobilieNavCp() {
 }
 
 export const DesktopNav = () => {
- 
   return (
     <ul className="hidden lg:flex items-center font-semibold cursor-auto text-sm overflow-x-auto">
       {navLinks.map((lk, index) => (

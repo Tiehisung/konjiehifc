@@ -11,7 +11,7 @@ import { ThemeProvider } from "next-themes";
 
 export default function ClientLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const className = pathname.includes("/admin") ? "" : "px-[2vw]";
+  const className = pathname.includes("/admin") ? "" : "";
 
   return (
     <AuthProvider>

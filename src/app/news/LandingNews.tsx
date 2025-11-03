@@ -13,9 +13,9 @@ import { IQueryResponse } from "@/types";
 const casters = Object.values(broadcasters);
 const LandingNewsHeadlines = async () => {
   const news: IQueryResponse<INewsProps[]> = await getNews();
-  console.log({ news });
+ 
   return (
-    <div>
+    <div className="_page">
       <Title>News</Title>
 
       <SimpleCarousel className="_hideScrollbar " scrollButtonStyles="top-1/3">

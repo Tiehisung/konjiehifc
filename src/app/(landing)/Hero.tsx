@@ -10,35 +10,40 @@ import { getPlayers } from "../admin/players/page";
 import { IQueryResponse } from "@/types";
 
 const Hero = async () => {
-  const players: IQueryResponse<IPlayer[]>  = await getPlayers();
+  const players: IQueryResponse<IPlayer[]> = await getPlayers();
   const anyPlayer = players?.data?.[players?.data?.length - 1];
 
   return (
-    <div className="flex items-center flex-wrap gap-10 ">
-      <div className="max-w-2xl p-4 bg-tansparent">
+    <div className="flex items-center justify-center pt-6 flex-wrap gap-10 text-center">
+      <div
+        className=" p-4 bg-tansparent w-full "
+        style={{ background: `url(${staticImages.blueCurvy})` }}
+      >
         <div className="space-y-3 italic">
-          <p className="text-4xl md:text-6xl font-semibold">
+          <p className="text-4xl md:text-6xl font-semibold text-center">
             Born to Play. Built to Win.
           </p>
-          <p className="text-4xl md:text-6xl font-semibold text-amber-600">
-            YOUR PASSION
-          </p>
-          <p className="text-4xl md:text-6xl font-semibold">YOUR LEGACY</p>
+
+          <div className="rounded-full p-2 bg-background/20 backdrop-blur-xs">
+            <p className="text-4xl md:text-6xl font-semibold text-amber-600 text-center">
+              YOUR PASSION
+            </p>
+            <p className="text-4xl md:text-6xl font-semibold text-center">
+              YOUR LEGACY
+            </p>
+          </div>
         </div>
 
-        <p className="my-4 mt-8">
+        <p className="my-4 mt-8 text-center">
           At Konjieh FC, we play for pride, for our people, and for the love of
           football. Together, we rise — stronger every season.
         </p>
 
-        <div className=" flex items-center gap-6 mt-4">
+        <div className=" flex items-center justify-center gap-6 mt-4">
           <Button className="flex items-center gap-1.5 _primaryBtn backdrop-blur-sm">
             Explore Matches <FaAngleRight />
           </Button>
-          <Link
-            href={"/player-application"}
-            className="_secondaryBtn backdrop-blur-sm"
-          >
+          <Link href={"/contact-us"} className="_secondaryBtn backdrop-blur-sm">
             Apply as player
             <FaAngleRight />
           </Link>

@@ -25,7 +25,7 @@ export const customStyles: StylesConfig = {
         : "white",
     color: state.isSelected ? "white" : "black",
     "&:hover": {
-      backgroundColor: Color.lightGrey,
+      backgroundColor: '#e9ecef',
     },
   }),
   multiValue: (provided) => ({
@@ -56,13 +56,10 @@ export enum Color {
   lightBlue = "#2cb5ff",
   darkBlue = "#171c2e",
 
-  lightGrey = "#e9ecef",
-
   grey = "#272727",
 
   green = "#2cff8e",
 
-  placeholder = "#646464",
   modalTransparent = "#1a1212b1",
   white = "#fff",
   black = "#455A64",
