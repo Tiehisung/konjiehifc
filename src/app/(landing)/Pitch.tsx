@@ -33,16 +33,17 @@ export function PitchGallery() {
     },
   ] as unknown as IFileProps[];
   return (
-    <div className="_page">
+    <div className="_page px-4">
       <ThumbsGallery
         images={slides}
         mainSlideStyles={{
           width: isMobile ? "100%" : "70%",
-          height: "600px",
+          maxHeight: "500px",
         }}
         enableBlur
         descriptionStyles="flex flex-col justify-center items-center"
-        thumbnailSwiperStyles={{ width: "100%",margin:'auto' }}
+        thumbnailSwiperStyles={{ width: "100%", margin: "auto" ,height:'80px'}}
+        className=""
       />
     </div>
   );

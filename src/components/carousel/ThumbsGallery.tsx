@@ -20,7 +20,8 @@ interface ThumbsGalleryProps {
   mainSwiperStyles?: CSSProperties;
   thumbnailSlideStyles?: CSSProperties;
   thumbnailSwiperStyles?: CSSProperties;
-  descriptionStyles?:string
+  descriptionStyles?: string;
+  className?: string;
 }
 
 export function ThumbsGallery({
@@ -36,7 +37,11 @@ export function ThumbsGallery({
   const currentImage = images[activeImageIndex];
 
   return (
-    <div className="w-full bg-card rounded-lg overflow-hidden border border-border shadow-lg">
+    <div
+      className={
+        `w-full bg-card rounded-lg overflow-hidden border border-border shadow-lg ${props.className}`
+      }
+    >
       {title && (
         <div className="bg-muted/30 px-6 py-4 border-b border-border">
           <h2 className="text-2xl font-semibold text-foreground">{title}</h2>
@@ -93,7 +98,12 @@ export function ThumbsGallery({
         </Swiper>
       </div>
 
-      <div className={"bg-background px-6 py-4 border-b border-border "+props.descriptionStyles} >
+      <div
+        className={
+          "bg-background px-6 py-4 border-b border-border " +
+          props.descriptionStyles
+        }
+      >
         <h3 className="text-xl font-semibold text-foreground mb-1">
           {currentImage?.name}
         </h3>
