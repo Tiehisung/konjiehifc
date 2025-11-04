@@ -8,7 +8,8 @@ import {
 } from "../matches/(fixturesAndResults)";
 import { getPlayers } from "../admin/players/page";
 import Link from "next/link";
-import Image from "next/image";
+import PlayerFeatureStatsCard from "./PlayerStatsCard";
+import { AnimateOnView } from "@/components/Animate/AnimateOnView";
 
 export type TPlayerGallery = {
   _id: string;
@@ -57,6 +58,7 @@ export interface IPlayer {
   dob: string;
   height: number;
   avatar: string;
+  featureImage?: string;
   manager: IManager;
   position: TPlayerPosition;
   favColor?:
@@ -123,8 +125,6 @@ export interface IPostPlayer {
 const PlayersPage = async () => {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
 
-  console.log({ players });
-
   return (
     <div className="">
       <h1 className="_heading mt-3 text-center">Players</h1>
@@ -133,31 +133,33 @@ const PlayersPage = async () => {
         <div className="mx-auto max-w-2xl lg:max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
           <h2 className="sr-only">Players</h2>
 
-          <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            {players?.data?.map((player) => (
+          <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3 xl:gap-x-8">
+            {players?.data?.map((player, index) => (
               <Link
                 key={player?._id}
                 href={`/players/details?playerId=${player?._id}`}
-                className="group after:h-1 after:w-full after:bg-primary after:mt-2 after:block"
               >
-                <Image
-                  alt={player?.lastName}
-                  src={player?.avatar}
-                  width={400}
-                  height={400}
-                  className="aspect-square w-full rounded-lg bg-secondary object-cover group-hover:opacity-85 xl:aspect-7/8"
-                />
-                <h3 className="mt-4 text-sm text-muted-foreground">
-                  {`${player?.firstName} ${player?.lastName}`}
-                </h3>
-                <p className="mt-1 text-lg font-medium text-muted-foreground">
-                  {player?.number}
-                </p>
+                <AnimateOnView index={index} delay={0.5} x={-20}>
+                  <PlayerFeatureStatsCard
+                    name={`${player?.firstName} ${player?.lastName}`}
+                    position={player.position}
+                    avatar={player.avatar}
+                    playerImage={player?.featureImage ?? player.avatar}
+                    goals={player.goals?.length}
+                    matches={player.matches?.length}
+                    assists={player.assists?.length}
+                    passAccuracy={player.passAcc?.length}
+                    trophies={player.trophies}
+                    className="grow ring w-full"
+                  />
+                </AnimateOnView>
               </Link>
             ))}
           </div>
         </div>
       </div>
+
+      {/* <FeaturedPlayers /> */}
     </div>
   );
 };

@@ -9,6 +9,7 @@ import { PrimaryAccordion } from "@/components/Accordion";
 import { formatDate } from "@/lib/timeAndDate";
 import TrainingSessionCard from "./SessionCard";
 import { PrimarySearch } from "@/components/Search";
+import { AttendanceStandingsTable } from "./AttendanceStandings";
 
 export interface ITrainingSession {
   date: string;
@@ -75,9 +76,9 @@ const AttendancePage = async () => {
     content: <TrainingSessionCard trainingSession={tSession} />,
     value: tSession._id ?? "",
   }));
-
+  console.log({ trainingSessions });
   return (
-    <div className="_page px-6">
+    <div className="_page px-6 space-y-12">
       <AttendanceTable
         players={players?.data}
         trainingSessions={trainingSessions?.data}
@@ -95,6 +96,10 @@ const AttendancePage = async () => {
           triggerStyles="cursor-pointer border-b"
         />
       </div>
+
+      <hr className="h-8 my-16 bg-linear-to-br from-primary/30 via-secondary to-primaryRed " />
+
+      <AttendanceStandingsTable trainingSessions={trainingSessions?.data} />
     </div>
   );
 };

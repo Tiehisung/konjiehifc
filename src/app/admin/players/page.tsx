@@ -1,16 +1,17 @@
-import Link from "next/link";
 import FilterPlayers from "./FilterPlayers";
 import { IPlayer } from "@/app/players/page";
 import { apiConfig } from "@/lib/configs";
 import CaptaincyAdm from "./captaincy/Captaincy";
 import { getCaptains } from "./captaincy/page";
 import { MdAdd } from "react-icons/md";
-import { PlayerCard } from "./PlayerCard";
 import { IQueryResponse } from "@/types";
 import PlayerProfileForm from "./NewSigningForms";
 import { ScrollToPointBtn } from "@/components/scroll/ScrollToPoint";
 import { PrimaryAccordion } from "@/components/Accordion";
 import { PrimarySearch } from "@/components/Search";
+import { staticImages } from "@/assets/images";
+import { teamKFC } from "@/data/teams";
+import { DisplayAdminPlayers } from "./DisplayPlayers";
 
 export const getPlayers = async (playerId?: string) => {
   try {
@@ -33,8 +34,7 @@ export const getPlayers = async (playerId?: string) => {
 
       return players;
     }
-  } catch   {
-    
+  } catch {
     return null;
   }
 };
@@ -54,7 +54,7 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
   const captains = await getCaptains(qs);
 
   return (
-    <div className="py-12 px-6 space-y-8">
+    <div className="py-12 px-6 space-y-8 _page">
       <header className="mb-6 mx-auto">
         <div className="text-center mb-10 ">
           <h1 className="text-3xl font-bold">KFC PLAYERS</h1>
@@ -79,18 +79,15 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
           />
         </div>
       </header>
-      
+
       <hr className="border-red-500" />
 
       <section className=" min-h-screen bg-linear-to-br from-blue-400 via-purple-400 to-green-400 md:p-6 rounded-2xl">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mx-auto">
-          {players?.data?.map((player, i) => (
-            <Link href={`/admin/players/${player?._id}`} key={i}>
-              <PlayerCard key={i} player={player} />
-            </Link>
-          ))}
-        </div>
+      
+        <DisplayAdminPlayers players={players?.data}/>
       </section>
+
+    
 
       <section id="new-signing">
         <PrimaryAccordion

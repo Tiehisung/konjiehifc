@@ -28,7 +28,7 @@ export default function ContentShowcaseWrapper({
   autoplay = true,
   delay = 4000,
   loop = true,
-  className = "bg-white",
+  className = "",
   reverse = false,
   graphicsStyles,
 }: ShowcaseWrapperProps) {
@@ -92,7 +92,7 @@ export default function ContentShowcaseWrapper({
             className="rounded-xl object-contain grow"
           />
         ) : (
-          <div className="text-gray-400 text-center italic">
+          <div className="text-muted-foreground text-center italic">
             No graphics or tips provided
           </div>
         )}
