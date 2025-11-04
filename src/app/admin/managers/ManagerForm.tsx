@@ -91,7 +91,7 @@ export default function TechnicalManagerForm({
       >
         <div className="flex flex-col items-center gap-2">
           <ImageUploaderCldWidget
-            initialAvatar={staticImages.avatar.src}
+            initialAvatar={existingManager?.avatar ?? staticImages.avatar.src}
             label="Upload"
             onUploaded={(file) =>
               setFormData((prev) => ({
@@ -101,7 +101,7 @@ export default function TechnicalManagerForm({
             }
             className="flex text-sm items-center gap-2 border"
           />
-         
+
           {!formData.avatar && (
             <p className="text-red-500 text-xs">Avatar is required</p>
           )}
