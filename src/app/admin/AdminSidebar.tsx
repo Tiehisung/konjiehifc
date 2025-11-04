@@ -8,6 +8,7 @@ import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { AiOutlineTeam } from "react-icons/ai";
 import { BiHome, BiLogOut } from "react-icons/bi";
 import { CgDatabase } from "react-icons/cg";
 import { FcManager } from "react-icons/fc";
@@ -129,6 +130,11 @@ const sidebarLinks = [
     label: "Matches",
     path: "/admin/matches",
     icon: <CgDatabase />,
+  },
+  {
+    label: "Teams",
+    path: "/admin/features/teams",
+    icon: <AiOutlineTeam />,
   },
   {
     label: "Squad",

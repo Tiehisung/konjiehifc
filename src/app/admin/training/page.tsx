@@ -25,7 +25,8 @@ export default async function TrainingSettingsAdm() {
 
   return (
     <main className="grid px-1 _page">
-      <div className="rounded-2xl p-2 md:p-3 mb-10">
+      <h1 className="_heading">Manage Training with Teams</h1>
+      <div className="rounded-2xl p-2 md:p-3 mb-20">
         <Table>
           <TableCaption>Training Teaming</TableCaption>
           <TableHeader>
@@ -38,7 +39,7 @@ export default async function TrainingSettingsAdm() {
           <TableBody>
             {players?.data?.map((player) => (
               <TableRow className="shadow" key={player?._id}>
-                <TableCell className=" flex items-center gap-4">
+                <TableCell className=" flex items-center gap-4 uppercase">
                   <AVATAR
                     className="h-12 w-12"
                     src={player?.avatar}
@@ -46,7 +47,7 @@ export default async function TrainingSettingsAdm() {
                     fallbackText={`${player.firstName} ${player.lastName}`}
                   />
 
-                  <span>
+                  <span >
                     {`${player.firstName} ${player.lastName}(${player.number})`}
                   </span>
                 </TableCell>
@@ -67,6 +68,9 @@ export default async function TrainingSettingsAdm() {
           </TableBody>
         </Table>
       </div>
+
+
+
 
       <PreviewTeamGroups teamA={teamA} teamB={teamB} />
     </main>
