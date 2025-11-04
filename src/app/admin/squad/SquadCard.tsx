@@ -18,6 +18,7 @@ import { ISquad } from "./page";
 import { getFormattedDate, getTimeAgo } from "@/lib/timeAndDate";
 import SquadActionButtons from "./Action";
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
+import { useSession } from "next-auth/react";
 
 interface SquadDisplayProps {
   squad?: ISquad;
@@ -25,6 +26,7 @@ interface SquadDisplayProps {
 }
 
 const SquadCard = ({ squad, match }: SquadDisplayProps) => {
+  const session =useSession()
   if (!squad)
     return <div className="_label text-center m-6">Squad not found</div>;
   return (
@@ -157,7 +159,8 @@ const SquadCard = ({ squad, match }: SquadDisplayProps) => {
           Created on {getFormattedDate(squad?.createdAt)} (
           {getTimeAgo(squad?.createdAt as string)})
         </p>
-        <SquadActionButtons squadId={squad?._id as string} />
+       
+        {session?.data?.user?.role.includes('admin')&& <SquadActionButtons squadId={squad?._id as string} />}
       </CardFooter>
     </Card>
   );
