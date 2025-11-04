@@ -15,7 +15,7 @@ import { MatchUpdator } from "./Updator";
 export const LiveMatchCard = async () => {
   const match: IMatchProps|null = (await getLiveMatch())?.data;
 
-  const { home, away } = checkTeams(match);
+  const { home, away } = checkTeams(match as IMatchProps);
 
   if (!match) return null;
   return (
