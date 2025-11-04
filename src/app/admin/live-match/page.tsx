@@ -116,6 +116,7 @@ export default async function LiveMatchPage() {
       </div>
 
       <StartStopMatch match={match?.data} players={players?.data} />
+      <br />
 
       {match?.data?.status == "LIVE" && (
         <MatchEventsAdmin

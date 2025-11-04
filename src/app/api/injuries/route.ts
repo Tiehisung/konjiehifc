@@ -6,8 +6,9 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import { logAction } from "../logs/helper";
 import { updateMatchEvent } from "../matches/live/events/route";
 import InjuryModel from "@/models/injury";
-import { IInjury } from "@/app/admin/live-match/Injury";
+import { IInjury } from "@/app/admin/live-match/(events)/Injury";
 import PlayerModel from "@/models/player";
+import { IUser } from "@/types/user";
 // export const revalidate = 0;
 // export const dynamic = "force-dynamic";
 
@@ -72,17 +73,17 @@ export async function POST(request: NextRequest) {
     await updateMatchEvent(match, {
       type: 'injury',
       minute: minute,
-      title: `${minute}' - ${player.number ?? ''}  ${player.name} `,
+      title: `🤕 ${minute}' - ${player.number ?? ''}  ${player.name} `,
       description
     })
 
     // log
     await logAction({
-      title: "Injury Created",
+      title: "🤕 Injury Created",
       description: description as string,
       category: "db",
       severity: "info",
-      userEmail: session?.user?.email as string,
+      user : session?.user  as IUser,
 
     });
     return NextResponse.json({ message: "Injury created successfully!", success: true, data: savedInjury });

@@ -1,10 +1,10 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CardEventsTab } from "./Card";
-import { GeneralEventsTab } from "./General";
-import { ScoreEventsTab } from "./Goals";
-import { InjuryEventsTab } from "./Injury";
+import { CardEventsTab } from "./(events)/Card";
+import { GeneralEventsTab } from "./(events)/General";
+import { ScoreEventsTab } from "./(events)/Goals";
+import { InjuryEventsTab } from "./(events)/Injury";
 import { IPlayer } from "@/app/players/page";
 import {
   IMatchEvent,
@@ -34,8 +34,13 @@ export function MatchEventsAdmin({ players, opponent, match }: IProps) {
   const className = `whitespace-nowrap data-[state=active]:border-primaryGreen data-[state=active]:text-primaryGreen rounded-none`;
   return (
     <div>
+      <h1 className="_label my-3">EVENTS LOGGER</h1>
       <Tabs defaultValue="scores" className="w-full gap-0">
         <TabsList className="flex w-full overflow-x-auto h-14 rounded-none">
+          <TabsTrigger value="general" className={className}>
+            General
+          </TabsTrigger>
+
           <TabsTrigger value="scores" className={className}>
             Goal
           </TabsTrigger>
@@ -47,11 +52,13 @@ export function MatchEventsAdmin({ players, opponent, match }: IProps) {
           <TabsTrigger value="injuries" className={className}>
             Injury
           </TabsTrigger>
-
-          <TabsTrigger value="general" className={className}>
-            General
-          </TabsTrigger>
         </TabsList>
+
+        {/* Content */}
+
+        <TabsContent value="general">
+          <GeneralEventsTab match={match} />
+        </TabsContent>
 
         <TabsContent value="scores" className="rounded-none">
           <ScoreEventsTab
@@ -67,10 +74,6 @@ export function MatchEventsAdmin({ players, opponent, match }: IProps) {
 
         <TabsContent value="injuries">
           <InjuryEventsTab players={players as IPlayer[]} match={match} />
-        </TabsContent>
-
-        <TabsContent value="general">
-          <GeneralEventsTab match={match} />
         </TabsContent>
       </Tabs>
 

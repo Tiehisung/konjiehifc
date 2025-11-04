@@ -9,6 +9,7 @@ import GoalModel from "@/models/goals";
 import { updateMatchEvent } from "../matches/live/events/route";
 import MatchModel from "@/models/match";
 import PlayerModel from "@/models/player";
+import { IUser } from "@/types/user";
 // export const revalidate = 0;
 // export const dynamic = "force-dynamic";
 
@@ -77,7 +78,7 @@ export async function POST(request: NextRequest) {
     await updateMatchEvent(match, {
       type: 'goal',
       minute: minute,
-      title: `${minute}' - ${scorer.number ?? ''}  ${scorer.name} `,
+      title: `⚽ ${minute}' - ${scorer.number ?? ''}  ${scorer.name} `,
       description: `${assistance} ${description} Mode of Score: ${modeOfScore ?? ''}`
 
     })
@@ -88,7 +89,7 @@ export async function POST(request: NextRequest) {
       description: description as string,
       category: "db",
       severity: "info",
-      userEmail: session?.user?.email as string,
+      user: session?.user as IUser,
     });
 
     return NextResponse.json({ message: "Goal created successfully!", success: true, data: savedGoal });

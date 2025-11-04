@@ -8,6 +8,8 @@ import { IMatchCard } from "@/app/matches/(fixturesAndResults)";
 import CardModel from "@/models/card";
 import { updateMatchEvent } from "../matches/live/events/route";
 import PlayerModel from "@/models/player";
+import { IUser } from "@/types/user";
+import { FOOTBALL_EMOJIS } from "@/components/input/EmojiPicker";
 // export const revalidate = 0;
 // export const dynamic = "force-dynamic";
 
@@ -71,17 +73,17 @@ export async function POST(request: NextRequest) {
     await updateMatchEvent(match._id, {
       type: 'card',
       minute: minute,
-      title: `${minute}' - ${player.number}  ${player.name} `,
+      title: `${type == 'red' ? '🟥' : '🟨'} ${minute}' - ${player.number}  ${player.name} `,
       description
     })
 
     // log
     await logAction({
       title: "Card Created",
-      description: `${type} card recorded. ${description || ''}`,
+      description: `${type == 'red' ? '🟥' : '🟨'} ${type} card recorded. ${description || ''}`,
       category: "db",
       severity: "info",
-      userEmail: session?.user?.email as string,
+      user: session?.user as IUser
     });
 
     return NextResponse.json({ message: "Card created successfully!", success: true, data: savedCard });

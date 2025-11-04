@@ -1,4 +1,5 @@
 import { ISquad } from "@/app/admin/squad/page";
+import { IPlayerMini } from "@/app/players/page";
 import { IPlayerStatsProps } from "@/app/statistics/Statistics";
 import { IFileProps } from "@/types";
 
@@ -24,14 +25,14 @@ export interface IMatchProps {
   opponentGoals: number
   events: Array<IMatchEvent>;
   cards: Array<IMatchCard>;
-  squad?:ISquad
+  squad?: ISquad
 }
 
 export interface IMatchCard {
   type: 'red' | 'yellow';
   minute: string | number
   match: { name: string, _id: string }
-  player: { name: string; _id: string, number: string }
+  player: IPlayerMini
   description?: string
 }
 export interface IMatchEvent {
@@ -39,6 +40,7 @@ export interface IMatchEvent {
   description?: string;
   minute: string | number,
   type: 'goal' | 'card' | 'injury' | 'general'
+
 }
 
 
@@ -57,12 +59,8 @@ export interface IGoal {
   _id?: string;
   opponent: string; //ObjectId of team
   minute: string | number;
-  scorer: {
-    number?: string | number; name: string; _id?: string; avatar?: string
-  };
-  assist?: {
-    number?: string | number; name: string; _id?: string; avatar?: string
-  };
+  scorer: IPlayerMini;
+  assist?: IPlayerMini;
   modeOfScore?:
   | "Open Play Goal"
   | "Set Piece Goal"

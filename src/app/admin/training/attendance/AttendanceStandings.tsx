@@ -31,9 +31,7 @@ interface IProps {
   trainingSessions?: ITrainingSession[];
 }
 
-export function AttendanceStandingsTable({
-  trainingSessions,
-}: IProps) {
+export function AttendanceStandingsTable({ trainingSessions }: IProps) {
   const standings = computeAttendanceStandings(
     trainingSessions as ITrainingSession[]
   );
@@ -63,21 +61,26 @@ export function AttendanceStandingsTable({
 
         <TableBody>
           {standings.map((player, i) => {
-             
             return (
               <TableRow key={player._id}>
                 <TableCell className="flex items-center gap-2.5 font-medium uppercase">
                   <span className="text-xl">{i + 1}</span>
                   <AVATAR
-                    src={player.avatar}
+                    src={player?.avatar as string}
                     fallbackText={getInitials(player?.name)}
                   />
                   <span className="text-xl w-8">{player.number}</span>
                   <span>{player?.name}</span>
                 </TableCell>
-                <TableCell className="text-center">{player?.attendancePercentage}</TableCell>
-                <TableCell className="text-center">{player?.attendedCount}</TableCell>
-                <TableCell className="text-center">{player?.totalSessions}</TableCell>
+                <TableCell className="text-center">
+                  {player?.attendancePercentage}
+                </TableCell>
+                <TableCell className="text-center">
+                  {player?.attendedCount}
+                </TableCell>
+                <TableCell className="text-center">
+                  {player?.totalSessions}
+                </TableCell>
               </TableRow>
             );
           })}
