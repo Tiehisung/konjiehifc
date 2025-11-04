@@ -10,10 +10,10 @@ import {
 } from "@/components/ui/card";
 import { getLiveMatch } from "../admin/live-match/page";
 import { MatchUpdator } from "./Updator";
-import { IQueryResponse } from "@/types";
+ 
 
 export const LiveMatchCard = async () => {
-  const match: IQueryResponse<IMatchProps> = (await getLiveMatch())?.data;
+  const match: IMatchProps|null = (await getLiveMatch())?.data;
 
   const { home, away } = checkTeams(match);
 
