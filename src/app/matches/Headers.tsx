@@ -34,7 +34,7 @@ export const SearchQueryUpdator = ({
           <button
             onClick={() => handleUpdateQuery(value)}
             key={i}
-            className={`border border-gray-100 rounded-full px-3 py-1 mx-1 text-xs hover:bg-slate-50 transition-transform ${
+            className={`border border-border rounded-full px-3 py-1 mx-1 text-xs bg-popover hover:bg-card cursor-pointer transition-transform capitalize ${
               selectedKey == value ? "ring-1" : ""
             } ${className}`}
           >

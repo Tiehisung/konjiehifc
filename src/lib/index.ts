@@ -60,6 +60,19 @@ export const checkTeams = (match?: IMatchProps) => {
   }
 };
 
+export const checkGoals = (match?: IMatchProps) => {
+  return {
+    home:
+      match?.opponent?.alias == "KFC"
+        ? match?.goals?.length
+        : match?.opponentGoals,
+    away:
+      match?.opponent?.alias == "KFC"
+        ? match?.goals?.length
+        : match?.opponentGoals,
+  }
+};
+
 export function roundToNearest(num: number, nearest?: 10 | 100 | 1000) {
   if (nearest == 10) return Math.round(num / 10) * 10;
   if (nearest == 100) return Math.round(num / 100) * 100;

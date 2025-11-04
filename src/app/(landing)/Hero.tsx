@@ -1,17 +1,15 @@
 import React from "react";
-import { IPlayer } from "../players/page";
 import { staticImages } from "@/assets/images";
 import { Button } from "@/components/buttons/Button";
 import Link from "next/link";
 import { FaAngleRight } from "react-icons/fa";
 
-import Image from "next/image";
-import { getPlayers } from "../admin/players/page";
-import { IQueryResponse } from "@/types";
+// import { IPlayer } from "../players/page";
+// import { IQueryResponse } from "@/types";
+// import { getPlayers } from "../admin/players/page";
 
 const Hero = async () => {
-  const players: IQueryResponse<IPlayer[]> = await getPlayers();
-  const anyPlayer = players?.data?.[players?.data?.length - 1];
+  // const players: IQueryResponse<IPlayer[]> = await getPlayers();
 
   return (
     <div className="flex items-center justify-center pt-6 flex-wrap gap-10 text-center">
@@ -50,15 +48,14 @@ const Hero = async () => {
         </div>
       </div>
 
-      <div className=" max-md:w-full min-w-1/2 grow overflow-hidden">
+      {/* <div className=" max-md:w-full min-w-1/2 grow overflow-hidden">
         <Image
-          className="h-[70vh] object-cover w-full hover:scale-105 _slowTrans"
+          className="h-[70vh] object-contain w-full hover:scale-105 _slowTrans"
           alt="hero image"
-          width={500}
-          height={500}
+          fill
           src={anyPlayer?.avatar ?? staticImages.ronaldo}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

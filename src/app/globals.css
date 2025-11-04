@@ -167,7 +167,9 @@
 ._page {
   @apply mx-auto max-w-2xl lg:max-w-7xl;
 }
-
+._gradient {
+  @apply bg-linear-to-br from-primary/30 via-secondary to-primaryRed;
+}
 ._shadow {
   @apply shadow-xl shadow-border/40;
 }

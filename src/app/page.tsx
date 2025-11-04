@@ -16,12 +16,12 @@ export default async function Home() {
       <Suspense fallback={<Loader message="Loading players.." />}>
         <Hero />
       </Suspense>
-
-      <PitchGallery/>
-
       <Suspense fallback={<Loader message="Loading players.." />}>
         <LandingPlayers />
       </Suspense>
+
+      <PitchGallery/>
+
 
       <Suspense fallback={<Loader message="Checking for LIVE match.." />}>
         <LandingSquad />

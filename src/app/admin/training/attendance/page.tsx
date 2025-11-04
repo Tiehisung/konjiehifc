@@ -97,7 +97,7 @@ const AttendancePage = async () => {
         />
       </div>
 
-      <hr className="h-8 my-16 bg-linear-to-br from-primary/30 via-secondary to-primaryRed " />
+      <hr className="h-8 my-16 _gradient" />
 
       <AttendanceStandingsTable trainingSessions={trainingSessions?.data} />
     </div>

@@ -1,20 +1,20 @@
+import { buildQueryString } from "@/lib";
+import { IQueryResponse } from "@/types";
 import React from "react";
-// import FixturesSection from "./Fixtures";
-// import MatchesSection from "./Matches";
-
-// import { getMatches } from "../admin/matches/page";
-// import { IMatchProps } from "./(fixturesAndResults)";
+import { getMatches } from "../admin/matches/page";
+import { IMatchProps,  } from "./(fixturesAndResults)";
+import FixturesSection from "./Fixtures";
 
 export default async function MatchesPage() {
-  // const allMatches: IMatchProps[] = await getMatches();
+  const qs = buildQueryString();
 
-  // console.log({ allMatches });
-  // const playedMatches = allMatches?.filter((match) => match.status == "FT");
-  // const fixtures = allMatches?.filter((match) => match.status !== "FT");
+  const fixtures: IQueryResponse<IMatchProps[]> = await getMatches(qs);
+  // const teams: IQueryResponse<ITeamProps[]> = await getTeams();
   return (
-    <div className="space-y-8">
-      {/* <FixturesSection fixtures={fixtures} />
-      <MatchesSection matches={playedMatches} /> */}
-    </div>
+    <section className="pb-6 pt-10 px-3 _page">
+      
+
+      <FixturesSection fixtures={fixtures   } />
+    </section>
   );
 }
