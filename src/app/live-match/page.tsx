@@ -1,17 +1,21 @@
 import React from "react";
-// import { MatchEvents } from "../admin/live-match/(components)/Events";
+
 import { Title } from "@/components/Elements";
-// import { LiveMatchCard } from "./Live";
+import { IMatchProps } from "../matches/(fixturesAndResults)";
+import { getLiveMatch } from "../admin/live-match/page";
+import { IQueryResponse } from "@/types";
+import { LiveMatchEvents } from "./LiveEventsDisplay";
 
 export default async function LiveMatchPage() {
-  // const match = await getLiveMatch();
+  const match: IQueryResponse<IMatchProps> = await getLiveMatch();
+
   return (
     <div className="pt-4 container">
       <Title>Live Match Page</Title>
       <div className="grid gap-6">
-        {/* <LiveMatchCard match={match} />
-
-        <MatchEvents match={match} className="max-h-fit" /> */}
+        {match?.data?.status == "LIVE" && (
+          <LiveMatchEvents match={match?.data} />
+        )}
       </div>
     </div>
   );
