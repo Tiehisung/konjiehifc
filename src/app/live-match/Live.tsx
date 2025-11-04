@@ -15,7 +15,7 @@ import { IQueryResponse } from "@/types";
 export const LiveMatchCard = async () => {
   const match: IQueryResponse<IMatchProps> = await getLiveMatch();
 
-  const { home, away } = checkTeams(match);
+  const { home, away } = checkTeams(match?.data);
 
   if (!match?.data) return null;
   return (
