@@ -12,7 +12,7 @@ export async function FeaturedPlayers() {
       {players?.data?.map((pl, index) => {
         const name = `${pl?.firstName} ${pl?.lastName}`;
         return (
-          <AnimateOnView index={index} key={i}>
+          <AnimateOnView index={index} key={index}>
             <PlayerFeatureStatsCard
               name={name}
               position={pl.position}
