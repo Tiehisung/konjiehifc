@@ -80,11 +80,11 @@ const FixturesSection = ({ fixtures }: IProps) => {
                         {home?.name}
                       </strong>
                       {fixture?.status == "COMPLETED" ? (
-                        <div className="mx-auto text-2xl text-center">
-                          {goals?.home ?? 0} - {goals?.away ?? 0}
-                        </div>
+                        <span className="w-11 text-xl font-semibold  ">
+                          {goals?.home} - {goals?.away}
+                        </span>
                       ) : (
-                        <span className="w-10">V</span>
+                        <span className="w-11 text-xl">V</span>
                       )}
 
                       <Image

@@ -13,7 +13,7 @@ export function MobileFixtureCard({
       {fixtures?.data?.map((fix) => {
         const { home, away } = checkTeams(fix);
         return (
-          <li>
+          <li key={fix._id}>
             <div className="flex items-center ">
               <AVATAR
                 src={home?.logo as string}

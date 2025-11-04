@@ -63,13 +63,13 @@ export const checkTeams = (match?: IMatchProps) => {
 export const checkGoals = (match?: IMatchProps) => {
   return {
     home:
-      match?.alias == "KFC"
-        ? match?.data?.goals?.length
-        : match?.data?.opponentGoals,
+      match?.opponent?.alias == "KFC"
+        ? match?.goals?.length
+        : match?.opponentGoals,
     away:
-      match?.alias == "KFC"
-        ? match?.data?.goals?.length
-        : match?.data?.opponentGoals,
+      match?.opponent?.alias == "KFC"
+        ? match?.goals?.length
+        : match?.opponentGoals,
   }
 };
 
