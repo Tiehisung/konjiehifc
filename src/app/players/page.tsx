@@ -8,7 +8,7 @@ import {
 } from "../matches/(fixturesAndResults)";
 import { getPlayers } from "../admin/players/page";
 import Link from "next/link";
-import PlayerFeatureStatsCard from "./PlayerFeatureStatsCard";
+import PlayerFeatureStatsCard from "./PlayerStatsCard";
 import { AnimateOnView } from "@/components/Animate/AnimateOnView";
 
 export type TPlayerGallery = {
@@ -165,23 +165,3 @@ const PlayersPage = async () => {
 };
 
 export default PlayersPage;
-
-// <Link
-//   key={player?._id}
-//   href={`/players/details?playerId=${player?._id}`}
-//   className="group after:h-1 after:w-full after:bg-primary after:mt-2 after:block"
-// >
-//   <Image
-//     alt={player?.lastName}
-//     src={player?.avatar}
-//     width={400}
-//     height={400}
-//     className="aspect-square w-full rounded-lg bg-secondary object-cover group-hover:opacity-85 xl:aspect-7/8"
-//   />
-//   <h3 className="mt-4 text-sm text-muted-foreground">
-//     {`${player?.firstName} ${player?.lastName}`}
-//   </h3>
-//   <p className="mt-1 text-lg font-medium text-muted-foreground">
-//     {player?.number}
-//   </p>
-// </Link>

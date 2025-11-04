@@ -1,7 +1,7 @@
 import { IQueryResponse } from "@/types";
 import { getPlayers } from "../admin/players/page";
 import { IPlayer } from "./page";
-import PlayerFeatureStatsCard from "./PlayerFeatureStatsCard";
+import PlayerFeatureStatsCard from "./PlayerStatsCard";
 import { AnimateOnView } from "@/components/Animate/AnimateOnView";
 
 export async function FeaturedPlayers() {
@@ -12,7 +12,7 @@ export async function FeaturedPlayers() {
       {players?.data?.map((pl, index) => {
         const name = `${pl?.firstName} ${pl?.lastName}`;
         return (
-          <AnimateOnView index={index}>
+          <AnimateOnView index={index} key={i}>
             <PlayerFeatureStatsCard
               name={name}
               position={pl.position}
