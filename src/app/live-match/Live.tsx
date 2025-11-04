@@ -13,11 +13,11 @@ import { MatchUpdator } from "./Updator";
 import { IQueryResponse } from "@/types";
 
 export const LiveMatchCard = async () => {
-  const match: IQueryResponse<IMatchProps> = await getLiveMatch();
+  const match: IQueryResponse<IMatchProps> = (await getLiveMatch())?.data;
 
-  const { home, away } = checkTeams(match?.data);
+  const { home, away } = checkTeams(match);
 
-  if (!match?.data) return null;
+  if (!match) return null;
   return (
     <div className="_page">
       <h1 className="uppercase rounded-full p-2 w-fit bg-primaryGreen px-3 shadow-2xl _title">
