@@ -4,6 +4,7 @@ import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { IPlayer } from "@/app/players/page";
 import { Button } from "@/components/buttons/Button";
 import { DIALOG } from "@/components/Dialog";
+import { fireEscape } from "@/hooks/Esc";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
@@ -22,6 +23,7 @@ export function StartStopMatch({ match, players }: IProps) {
   const [isStarting, setIsStarting] = useState(false);
   const [isStopping, setIsStopping] = useState(false);
 
+  console.log({ match });
   const handleStart = async () => {
     try {
       setIsStarting(true);
@@ -29,7 +31,7 @@ export function StartStopMatch({ match, players }: IProps) {
       const response = await fetch(`${apiConfig.matches}/live`, {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          matchId: match?._id,
+          _id: match?._id,
           playerIds: players?.map((p) => p._id),
         }),
         method: "POST",
@@ -37,6 +39,7 @@ export function StartStopMatch({ match, players }: IProps) {
 
       const results = await response.json();
       toast.success(results.message);
+      fireEscape()
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {

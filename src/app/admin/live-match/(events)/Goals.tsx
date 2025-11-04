@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { Card, CardFooter } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -66,7 +66,7 @@ export function ScoreEventsTab({
             name: [assistBy?.lastName, assistBy?.firstName]
               .filter(Boolean)
               .join(" "),
-            avatar: assistBy?.avatar?.secure_url,
+            avatar: assistBy?.avatar,
             number: assistBy?.number,
           }
         : undefined;
@@ -78,12 +78,12 @@ export function ScoreEventsTab({
         scorer: {
           _id: scorer._id,
           name: `${scorer.lastName} ${scorer.firstName}`,
-          avatar: scorer?.avatar?.secure_url,
+          avatar: scorer?.avatar,
           number: scorer?.number,
         },
         assist,
         minute: Number.parseInt(form.minute),
-        description: form.description,
+        description: `⚽ ${form.description}`,
         modeOfScore: "Open Play Goal",
         match: match?._id,
       };
@@ -157,7 +157,7 @@ export function ScoreEventsTab({
                   <SelectContent>
                     {players?.map((player) => (
                       <SelectItem key={player._id} value={player._id}>
-                        {`${player?.number ?? player?.jersey} - ${
+                        {`${player?.number ?? player?.number} - ${
                           player.lastName
                         } ${player?.firstName}`}
                       </SelectItem>
@@ -181,7 +181,7 @@ export function ScoreEventsTab({
                   <SelectContent>
                     {players?.map((player) => (
                       <SelectItem key={player._id} value={player._id}>
-                        {`${player?.number ?? player?.jersey} - ${
+                        {`${player?.number ?? player?.number} - ${
                           player.lastName
                         } ${player?.firstName}`}
                       </SelectItem>
@@ -223,7 +223,7 @@ export function ScoreEventsTab({
               </div>
             </div>
 
-            <CardFooter className="gap-6">
+            <div className="gap-6 flex items-center mt-8">
               <Button
                 className="  justify-center _primaryBtn grow"
                 waiting={isLoading}
@@ -242,7 +242,7 @@ export function ScoreEventsTab({
               >
                 <Plus className="mr-2 h-4 w-4" />
               </Button>
-            </CardFooter>
+            </div>
           </div>
         </form>
 

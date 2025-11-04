@@ -1,7 +1,8 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -10,66 +11,86 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Plus } from "lucide-react";
-import { Input } from "@/components/input/Inputs";
 import { IPlayer } from "@/app/players/page";
-import { Button } from "@/components/buttons/Button";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
-import { IMatchCard, IMatchProps } from "@/app/matches/(fixturesAndResults)";
+import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
+import { getErrorMessage } from "@/lib";
+import { Button } from "@/components/buttons/Button";
+import { useRouter } from "next/navigation";
 
-interface EventsTabProps {
-  players: IPlayer[];
-  match?: IMatchProps;
+export interface IInjury {
+  _id?: string;
+  player: {
+    name: string;
+    _id: string;
+    avatar: string;
+    number: string | number;
+  };
+  minute: number;
+  description?: string;
+  severity: "minor" | "moderate" | "severe";
+  match: string;
 }
 
-export function CardEventsTab({ players, match }: EventsTabProps) {
+interface InjuryEventsTabProps {
+  players: IPlayer[];
+  match: IMatchProps;
+}
+
+export function InjuryEventsTab({ players, match }: InjuryEventsTabProps) {
   const router = useRouter();
   const [form, setForm] = useState({
     player: "",
-    type: "yellow" as "yellow" | "red",
     minute: "",
     description: "",
+    severity: "moderate" as "minor" | "moderate" | "severe",
   });
+
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleAddCard = async (e: FormEvent<HTMLFormElement>) => {
+  const handleAddInjury = async () => {
     try {
-      e.preventDefault();
       setIsLoading(true);
+
       if (!form.player || !form.minute || !form.description) {
-        toast.warning("Please fill in player, minute, and description", {
-          position: "bottom-center",
-        });
+        toast.warning("Please fill in player, minute, and description");
         return;
       }
 
       const player = players.find((p) => p._id === form.player);
       if (!player) return;
 
-      const newCard: IMatchCard = {
-        match: { _id: match?._id as string, name: match?.title as string },
+      const newInjury: IInjury = {
         player: {
           _id: player?._id,
-          name: `${player?.lastName} ${player?.firstName}`,
-          number: (player?.number as string) ?? (player?.jersey as string),
+          name: player?.firstName + " " + player?.lastName,
+          avatar: player?.avatar,
+          number: player?.number,
         },
-
-        type: form.type,
         minute: Number.parseInt(form.minute),
-        description: form.description,
+        description: "🤕 " + form.description,
+        severity: form.severity,
+        match: match?._id,
       };
 
-      const response = await fetch(apiConfig.cards, {
+      setForm({
+        player: "",
+        minute: "",
+        description: "",
+        severity: "moderate",
+      });
+
+      const response = await fetch(apiConfig.injuries, {
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(newCard),
+        body: JSON.stringify(newInjury),
         method: "POST",
       });
 
       const results = await response.json();
       toast.success(results.message);
-      setForm({ player: "", type: "yellow", minute: "", description: "" });
+
+      setForm({ minute: "", description: "", player: "", severity: "minor" });
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
@@ -81,8 +102,8 @@ export function CardEventsTab({ players, match }: EventsTabProps) {
   return (
     <div className="space-y-8">
       <Card className="p-6 rounded-none">
-        <form onSubmit={handleAddCard}>
-          <h2 className="mb-6 text-2xl font-bold">Add Card</h2>
+        <form onSubmit={handleAddInjury}>
+          <h2 className="mb-6 text-2xl font-bold">Add Injury</h2>
 
           <div className="space-y-4">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -94,13 +115,14 @@ export function CardEventsTab({ players, match }: EventsTabProps) {
                     setForm((prev) => ({ ...prev, player: value }))
                   }
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger>
                     <SelectValue placeholder="Select player" />
                   </SelectTrigger>
                   <SelectContent>
                     {players?.map((player) => (
                       <SelectItem key={player._id} value={player._id}>
-                        {player.number ?? player?.jersey} - {player.lastName}
+                        {player.number} -{" "}
+                        {player.lastName + " " + player?.firstName}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -111,13 +133,13 @@ export function CardEventsTab({ players, match }: EventsTabProps) {
                 <label className="mb-2 block text-sm font-medium">Minute</label>
                 <Input
                   type="number"
-                  others={{ min: "0", max: "120" }}
-                  placeholder="e.g., 30"
+                  min="0"
+                  max="120"
+                  placeholder="e.g., 25"
                   value={form.minute}
                   onChange={(e) =>
                     setForm((prev) => ({ ...prev, minute: e.target.value }))
                   }
-                  name={"cardMinutes"}
                 />
               </div>
             </div>
@@ -125,27 +147,27 @@ export function CardEventsTab({ players, match }: EventsTabProps) {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
                 <label className="mb-2 block text-sm font-medium">
-                  Card Type
+                  Severity
                 </label>
                 <Select
-                  value={form.type}
+                  value={form.severity}
                   onValueChange={(value) =>
                     setForm((prev) => ({
                       ...prev,
-                      type: value as "yellow" | "red",
+                      severity: value as "minor" | "moderate" | "severe",
                     }))
                   }
                 >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select card type" />
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select severity" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="yellow">Yellow Card</SelectItem>
-                    <SelectItem value="red">Red Card</SelectItem>
+                    <SelectItem value="minor">Minor</SelectItem>
+                    <SelectItem value="moderate">Moderate</SelectItem>
+                    <SelectItem value="severe">Severe</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-
               <div>
                 <label className="mb-2 block text-sm font-medium">
                   Description
@@ -165,51 +187,19 @@ export function CardEventsTab({ players, match }: EventsTabProps) {
             </div>
 
             <Button
-              type="submit"
+              onClick={handleAddInjury}
               className="w-full justify-center _primaryBtn"
               waiting={isLoading}
-              primaryText="Add Card"
-              waitingText="Adding Card..."
+              primaryText=" Add Injury"
+              waitingText="Adding Injury"
+              type="submit"
             >
               <Plus className="mr-2 h-4 w-4" />
             </Button>
           </div>
         </form>
+     
       </Card>
-
-      {/* {cards.length > 0 && (
-        <Card className="p-6">
-          <h3 className="mb-4 text-xl font-bold">Cards</h3>
-          <div className="space-y-2">
-            {cards.map((card) => (
-              <div
-                key={card.id}
-                className="flex items-center justify-between rounded-lg bg-muted p-4"
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`h-8 w-6 rounded ${
-                      card.type === "yellow" ? "bg-yellow-400" : "bg-red-600"
-                    }`}
-                  />
-                  <div>
-                    <p className="font-semibold">
-                      {card.minute}' - {card.player.number}{" "}
-                      {card.player.lastName}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {card.description}
-                    </p>
-                  </div>
-                </div>
-                <Button onClick={() => console.log(card.id)}>
-                  <Trash2 className="h-4 w-4 text-destructive" />
-                </Button>
-              </div>
-            ))}
-          </div>
-        </Card>
-      )} */}
     </div>
   );
 }

@@ -36,13 +36,13 @@ export type TPlayerPosition =
 export interface IPlayerMini {
   _id: string;
   name: string;
-  avatar: string;
-  number: number;
+  avatar?: string;
+  number: string;
 }
 
 export interface IPlayer {
   _id: string;
-  number: number;
+  number: string;
   about?: string;
   description?: string;
   medicals: { fitness: string }[];

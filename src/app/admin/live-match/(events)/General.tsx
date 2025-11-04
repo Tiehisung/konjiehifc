@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 
 import { Card } from "@/components/ui/card";
-import {   Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Input } from "@/components/input/Inputs";
 import { Button } from "@/components/buttons/Button";
 import { toast } from "sonner";
@@ -11,6 +11,7 @@ import { getErrorMessage, shortText } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { IMatchEvent, IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { useRouter } from "next/navigation";
+import { EmojiPicker } from "@/components/input/EmojiPicker";
 
 interface GeneralEventsTabProps {
   match: IMatchProps;
@@ -95,6 +96,11 @@ export function GeneralEventsTab({ match }: GeneralEventsTabProps) {
               </div>
             </div>
 
+            <EmojiPicker
+              onSelect={(v) =>
+                setForm({ ...form, description: v.value + form.description })
+              }
+            />
             <Button
               className="w-full justify-center _primaryBtn"
               waiting={isLoading}
@@ -107,32 +113,6 @@ export function GeneralEventsTab({ match }: GeneralEventsTabProps) {
           </div>
         </form>
       </Card>
-
-      {/* {events.length > 0 && (
-        <Card className="p-6">
-          <h3 className="mb-4 text-xl font-bold">General Events</h3>
-          <div className="space-y-2">
-            {events.map((event) => (
-              <div
-                key={event.description}
-                className="flex items-center justify-between rounded-lg bg-muted p-4"
-              >
-                <div>
-                  <p className="font-semibold">
-                    {event.minute}' - {event.description}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {event.description}
-                  </p>
-                </div>
-                <Button onClick={() => console.log(event.description)}>
-                  <Trash2 className="h-4 w-4 text-destructive" />
-                </Button>
-              </div>
-            ))}
-          </div>
-        </Card>
-      )} */}
     </div>
   );
 }
