@@ -1,7 +1,6 @@
 import React from "react";
 import { SearchQueryUpdator } from "./Headers";
-import { _pagination, Pagination } from "@/components/Pagination";
-
+import { Pagination } from "@/components/Pagination";
 import { IMatchProps } from "./(fixturesAndResults)";
 import {
   Table,
@@ -22,14 +21,14 @@ import { FaCheckCircle } from "react-icons/fa";
 import { Eye } from "lucide-react";
 import { BsPatchCheck } from "react-icons/bs";
 import { MdLiveTv } from "react-icons/md";
-import { checkTeams } from "@/lib";
+import { checkGoals, checkTeams } from "@/lib";
 import { IQueryResponse } from "@/types";
 
-const FixturesSection = ({
-  fixtures,
-}: {
+interface IProps {
   fixtures: IQueryResponse<IMatchProps[]>;
-}) => {
+}
+
+const FixturesSection = ({ fixtures }: IProps) => {
   const filters = ["all", "home", "away", "canceled"];
   if (!fixtures) return <div className="_label">No fixtures</div>;
   return (
@@ -52,6 +51,7 @@ const FixturesSection = ({
           <TableBody>
             {fixtures?.data?.map((fixture) => {
               const { home, away } = checkTeams(fixture);
+              const goals = checkGoals(fixture);
               return (
                 <TableRow key={fixture._id} className={`border _borderColor `}>
                   <TableCell className="px-4 py-4 ">
@@ -79,7 +79,13 @@ const FixturesSection = ({
                       <strong className="w-36 line-clamp-1">
                         {home?.name}
                       </strong>
-                      <span className="w-10">V</span>
+                      {fixture?.status == "COMPLETED" ? (
+                        <div className="mx-auto text-2xl text-center">
+                          {goals?.home ?? 0} - {goals?.away ?? 0}
+                        </div>
+                      ) : (
+                        <span className="w-10">V</span>
+                      )}
 
                       <Image
                         src={away?.logo as string}

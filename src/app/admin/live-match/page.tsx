@@ -5,7 +5,7 @@ import { getPlayers } from "../players/page";
 import { IQueryResponse } from "@/types";
 import { MatchEventsAdmin } from "./EventsUpdator";
 import { getTeams } from "../features/teams/page";
-import { checkTeams } from "@/lib";
+import { checkGoals, checkTeams } from "@/lib";
 import Image from "next/image";
 import { StartStopMatch } from "./StartStop";
 
@@ -27,17 +27,9 @@ export default async function LiveMatchPage() {
   const teams: IQueryResponse<ITeamProps[]> = await getTeams();
 
   const { home, away } = checkTeams(match?.data);
+  const goals = checkGoals(match?.data);
 
-  const goals = {
-    home:
-      home?.alias == "KFC"
-        ? match?.data?.goals?.length
-        : match?.data?.opponentGoals,
-    away:
-      away?.alias == "KFC"
-        ? match?.data?.goals?.length
-        : match?.data?.opponentGoals,
-  };
+ 
 
   if (!match?.data)
     return (
