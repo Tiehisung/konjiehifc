@@ -3,7 +3,7 @@ import { IMatchProps, ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { IPlayer } from "@/app/players/page";
 import { getPlayers } from "../players/page";
 import { IQueryResponse } from "@/types";
-import { MatchEventsAdmin } from "./Events";
+import { MatchEventsAdmin } from "./EventsUpdator";
 import { getTeams } from "../features/teams/page";
 import { checkTeams } from "@/lib";
 import Image from "next/image";
@@ -67,6 +67,39 @@ export default async function LiveMatchPage() {
             <div className="mx-auto text-2xl text-center">
               {goals?.home ?? 0} - {goals?.away ?? 0}
             </div>
+            <div className="text-xl md:text-2xl font-black uppercase">
+              {away?.name}
+            </div>
+          </div>
+          <Image
+            src={away?.logo as string}
+            width={200}
+            height={200}
+            alt={away?.name ?? ""}
+            className="aspect-square h-16 w-16 sm:h-24 sm:w-24 object-cover"
+          />
+        </div>
+      </div>
+    );
+  if (match?.data.status == "UPCOMING")
+    return (
+      <div className="_page p-4">
+        <h1 className="text-2xl font-bold mb-4 text-primaryRed">
+          Played today
+        </h1>
+        <div className="my-6 _card rounded-tl-3xl rounded-br-3xl flex items-center justify-between gap-6">
+          <Image
+            src={home?.logo as string}
+            width={200}
+            height={200}
+            alt={home?.name ?? ""}
+            className="aspect-square h-16 w-16 sm:h-24 sm:w-24 object-cover"
+          />
+          <div className=" flex justify-center items-center">
+            <div className="text-xl md:text-2xl font-black uppercase">
+              {home?.name}
+            </div>
+            <div className="mx-auto text-2xl text-center">VS</div>
             <div className="text-xl md:text-2xl font-black uppercase">
               {away?.name}
             </div>
