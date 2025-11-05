@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 
   const status = searchParams.get('status') as MatchStatus
 
-  const limit = Number.parseInt(searchParams.get("limit") || "30", 10);
+  const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
 
   const skip = (page - 1) * limit;
 

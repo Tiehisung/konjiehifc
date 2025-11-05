@@ -16,9 +16,9 @@ const LandingFixtures = async () => {
   return (
     <div className="px-4 space-y-10 _page">
       <section>
-        
-          <Title className="flex justify-between gap-4 _gradient" >UPCOMING FIXTURES</Title>
-       
+        <Title className="flex justify-between gap-4 _gradient">
+          UPCOMING FIXTURES
+        </Title>
 
         <div className="flex flex-wrap lg:grid lg:grid-cols-3 gap-[3vw] justify-center px-2">
           {upcomingMatches?.data?.slice(0, 3)?.map((match, index) => (
@@ -37,9 +37,8 @@ const LandingFixtures = async () => {
       </section>
 
       <section>
-      
-          <Title className="_gradient">PLAYED FIXTURES</Title>
-       
+        <Title className="_gradient">PLAYED FIXTURES</Title>
+
         <div className="flex flex-wrap lg:grid-cols-2 xl:grid-cols-3 gap-[3vw]">
           {completedMatches?.data?.slice(0, 3)?.map((match, index) => (
             <PlayedMatchCard

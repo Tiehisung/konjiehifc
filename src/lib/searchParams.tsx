@@ -2,6 +2,7 @@
 
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { AnyObject, removeEmptyKeys } from ".";
+import { useSearchParams } from "next/navigation";
 
 /**
  * Adds a searchparams and returns new pathname containing the searchParams with it's value
@@ -73,15 +74,41 @@ export const setMultiSearchParams = (
   else router.push(newPathname);
 };
 
+
+
+/**
+ * Builds a query string using the current URL search params by default.
+ * Optionally, you can pass overrides or additional query params.
+ *
+ * @param searchParams Optional overrides or additional parameters
+ * @returns string - formatted query string like `?key=value&foo=bar`
+ */
 export function buildQueryString(
   searchParams?: Record<string, string | string[] | undefined>
 ) {
-  if (!searchParams) return "";
+  const sp = useSearchParams();
+
+  // Convert current URL params into a mutable object
+  const currentParams: Record<string, string | string[]> = {};
+  sp.forEach((value, key) => {
+    currentParams[key] = value;
+  });
+
+  // Merge defaults with passed-in overrides
+  const mergedParams = {
+    ...currentParams,
+    ...searchParams,
+  };
+
+  // Filter out undefined or empty values
   const query = new URLSearchParams(
-    Object.entries(searchParams).filter(([_, v]) => v !== undefined) as [
+    Object.entries(mergedParams).filter(([_, v]) => v !== undefined) as [
       string,
       string
     ][]
   ).toString();
+
   return query ? `?${query}` : "";
 }
+
+ 

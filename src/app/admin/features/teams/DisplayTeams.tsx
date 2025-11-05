@@ -6,16 +6,18 @@ import { teamLogos } from "@/assets/teams/logos/team-logos";
 import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { getFormattedDate } from "@/lib/timeAndDate";
 import { POPOVER } from "@/components/ui/popover";
+import { Pagination } from "@/components/Pagination";
+import { IQueryResponse } from "@/types";
 
-const DisplayTeams = ({ teams }: { teams?: ITeamProps[] }) => {
-  console.log({ teams });
+const DisplayTeams = ({ teams }: { teams?: IQueryResponse<ITeamProps[]> }) => {
+ 
   if (!teams) return <div className="_label p-6 "> No teams available</div>;
   return (
     <div className=" bg-card max-w-5xl overflow-x-auto mx-auto _card">
       <h1 className="_label">Teams</h1>
       <table className="table-auto w-full">
         <tbody>
-          <tr className="text-muted-foreground text-left">
+          <tr className="text-muted-foreground text-left uppercase">
             <th>#</th>
             <th>Name</th>
             <th>Alias</th>
@@ -23,7 +25,7 @@ const DisplayTeams = ({ teams }: { teams?: ITeamProps[] }) => {
             <th>Actions</th>
           </tr>
 
-          {teams?.map((team: ITeamProps, index: number) => (
+          {teams?.data?.map((team: ITeamProps, index: number) => (
             <tr key={index} className=" border-b">
               <td className="p-3">{index + 1}</td>
 
@@ -53,7 +55,7 @@ const DisplayTeams = ({ teams }: { teams?: ITeamProps[] }) => {
               </td>
             </tr>
           ))}
-          {teams?.length === 0 && (
+          {teams?.data?.length === 0 && (
             <tr>
               <td colSpan={6} className="text-center _label">
                 No teams available.
@@ -65,11 +67,12 @@ const DisplayTeams = ({ teams }: { teams?: ITeamProps[] }) => {
         <tfoot>
           <tr>
             <td colSpan={5} className="py-3 text-muted-foreground">
-              {`Teams: ${teams?.length}`}
+              {`Teams: ${teams?.data?.length}`}
             </td>
           </tr>
         </tfoot>
       </table>
+        <Pagination pagination={teams?.pagination} />
     </div>
   );
 };

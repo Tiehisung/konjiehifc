@@ -17,7 +17,7 @@ import { FcCamera } from "react-icons/fc";
 import { IoAdd } from "react-icons/io5";
 import { toast } from "sonner";
 
-export function AddNewSponsor({ sponsors }: { sponsors: ISponsorProps[] }) {
+export function AddNewSponsor({ sponsors }: { sponsors?: ISponsorProps[] }) {
   const router = useRouter();
   const [imageFile, setImageFile] = useState<string | null>(null);
   const [formData, setFormData] = useState({ ...dataModel });
@@ -66,7 +66,7 @@ export function AddNewSponsor({ sponsors }: { sponsors: ISponsorProps[] }) {
           return;
         }
 
-        console.log({ uploadRsp });
+     
         //Proceed to database
         const response = await fetch(apiConfig.sponsors, {
           method: "POST",
@@ -111,10 +111,10 @@ export function AddNewSponsor({ sponsors }: { sponsors: ISponsorProps[] }) {
   };
 
   const checkBusinessExists = (input: string) => {
-    const businessNames = sponsors.map((s) => s.businessName);
+    const businessNames = sponsors?.map((s) => s.businessName);
 
     if (
-      businessNames.find(
+      businessNames?.find(
         (bn) => bn.trim().toLowerCase() == input.trim().toLowerCase()
       )
     ) {

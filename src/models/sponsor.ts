@@ -17,7 +17,7 @@ const sponsorSchema = new Schema(
     },
     businessDescription: { type: String },
     phone: String,
-    logo: { type: Schema.Types.ObjectId, ref: "files" },
+    logo: String,
     donations: [
       {
         type: Schema.Types.ObjectId,

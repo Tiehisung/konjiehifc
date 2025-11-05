@@ -8,7 +8,7 @@ import {
   MatchStatus,
 } from "@/app/matches/(fixturesAndResults)";
 import { IQueryResponse } from "@/types";
-import { buildQueryString } from "@/lib";
+import { buildQueryStringServer } from "@/lib";
 
 export interface IGetMatchesProps {
   status?: MatchStatus;
@@ -40,18 +40,22 @@ export const getMatchById = async (id: string) => {
   }
 };
 
-export default async function AdminFixtures() {
-  const qs = buildQueryString();
+interface IPageProps {
+  searchParams: Record<string, string | string[] | undefined>;
+}
+
+export default async function AdminFixtures({ searchParams }: IPageProps) {
+  const qs = buildQueryStringServer(searchParams);
 
   const fixtures: IQueryResponse<IMatchProps[]> = await getMatches(qs);
   const teams: IQueryResponse<ITeamProps[]> = await getTeams();
   return (
     <section className="pb-6 pt-10 px-3 _page">
-      <DisplayFixtures
-        fixtures={fixtures?.data as IMatchProps[]}
-        teams={teams?.data}
-      />
-      <div className="flex items-center py-14 gap-9">
+      <div>
+        <DisplayFixtures fixtures={fixtures} teams={teams?.data} />
+      </div>
+      <div className=" py-14 ">
+        <h1 className="_title">Create Fixture</h1>
         <CreateMatch teams={teams?.data} />
       </div>
     </section>

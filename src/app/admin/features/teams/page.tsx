@@ -5,6 +5,7 @@ import { apiConfig } from "@/lib/configs";
 import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import Loader from "@/components/loaders/Loader";
 import { IQueryResponse } from "@/types";
+import { buildQueryStringServer } from "@/lib";
 
 export const metadata = {
   title: "Teams | KFC",
@@ -27,9 +28,16 @@ export const getTeams = async (teamId?: string) => {
     return [];
   }
 };
+interface IPageProps {
+  searchParams: Record<string, string | string[] | undefined>;
+}
 
-const TeamsFeature = async () => {
-  const teams: IQueryResponse<ITeamProps[]> = await getTeams();
+ 
+  
+  const TeamsFeature = async ({ searchParams }: IPageProps) => {
+  const qs = buildQueryStringServer(searchParams);
+
+  const teams: IQueryResponse<ITeamProps[]> = await getTeams(qs);
   return (
     <div className="space-y-12 p-4 md:px-10">
       {/* Create */}
@@ -38,7 +46,7 @@ const TeamsFeature = async () => {
       {/* Display */}
 
       <Suspense fallback={<Loader />}>
-        <DisplayTeams teams={teams?.data} />
+        <DisplayTeams teams={teams} />
       </Suspense>
     </div>
   );

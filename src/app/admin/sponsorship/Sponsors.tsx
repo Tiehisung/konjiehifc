@@ -6,17 +6,18 @@ import Link from "next/link";
 import { AddNewSponsor } from "./AddSponsor";
 import { staticImages } from "@/assets/images";
 import { Title } from "@/components/Elements";
+import { IQueryResponse } from "@/types";
 
-const AdminSponsors = async () => {
-  const sponsors: ISponsorProps[] = await getSponsors();
+const AdminSponsors =   ({sponsors}:{sponsors:IQueryResponse<ISponsorProps[]>}) => {
+  
   return (
     <div>
       <header className="flex items-center gap-6 pr-3">
         <Title className="">Sponsorship</Title>
-        <AddNewSponsor sponsors={sponsors} />
+        <AddNewSponsor sponsors={sponsors?.data} />
       </header>
       <ul className="grid grid-cols-3 sm:flex flex-wrap max-full  my-8">
-        {sponsors?.map((sponsor, index) => (
+        {sponsors?.data?.map((sponsor, index) => (
           <li key={index} className="flex">
             <Link
               href={`/admin/sponsorship/${sponsor._id}`}

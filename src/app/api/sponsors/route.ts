@@ -3,6 +3,7 @@ import SponsorModel from "@/models/sponsor";
 import { NextRequest, NextResponse } from "next/server";
 import "@/models/file";
 import "@/models/donation";
+import { removeEmptyKeys } from "@/lib";
 
 // export const dynamic = "force-dynamic";
 // export const revalidate = 0;
@@ -50,9 +51,42 @@ export async function DELETE(request: NextRequest) {
   return NextResponse.json({ message: "Delete failed", success: false });
 }
 
-export async function GET() {
-  const sponsors = await SponsorModel.find()
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const page = Number.parseInt(searchParams.get("page") || "1", 10);
+
+  const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
+  const skip = (page - 1) * limit;
+
+  const search = searchParams.get("team_search") || "";
+
+  const regex = new RegExp(search, "i");
+
+  const query = {
+    $or: [
+      { "ownerName": regex },
+      { "businessName": regex },
+      { "businessDescription": regex },
+      { community: regex },
+    ],
+  }
+  const cleaned = removeEmptyKeys(query)
+
+  const sponsors = await SponsorModel.find(cleaned)
     .populate("logo")
-    .populate({ path: "donations", populate: { path: "files" } });
+    .populate({ path: "donations", });
+
+  const total = await SponsorModel.countDocuments(cleaned)
+
+  return NextResponse.json({
+    success: true,
+    data: sponsors,
+    pagination: {
+      page,
+      limit,
+      total,
+      pages: Math.ceil(total / limit),
+    },
+  });
   return NextResponse.json(sponsors);
 }

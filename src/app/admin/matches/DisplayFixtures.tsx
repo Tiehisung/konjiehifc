@@ -19,9 +19,11 @@ import { DIALOG } from "@/components/Dialog";
 import { Eye } from "lucide-react";
 import { isToday } from "date-fns";
 import Image from "next/image";
+import { Pagination } from "@/components/Pagination";
+import { IQueryResponse } from "@/types";
 
 interface DisplayFixturesProps {
-  fixtures: IMatchProps[];
+  fixtures: IQueryResponse<IMatchProps[]>;
   teams?: ITeamProps[];
 }
 // Fixture is  match that is not yet played successfully
@@ -40,7 +42,7 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
               <th className="px-2">SQUAD</th>
               <th className="px-2">ACTION</th>
             </tr>
-            {fixtures?.map((fixture) => {
+            {fixtures?.data?.map((fixture) => {
               const { home, away } = checkTeams(fixture);
               return (
                 <tr key={fixture._id} className={`border _borderColor `}>
@@ -78,7 +80,9 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
                         alt={away?.name as string}
                         className="h-10 w-10 aspect-square "
                       />
-                      <strong className="w-36 line-clamp-1">{away?.name}</strong>
+                      <strong className="w-36 line-clamp-1">
+                        {away?.name}
+                      </strong>
                     </div>
                   </td>
                   <td className="px-2 py-2 whitespace-nowrap text-sm">
@@ -123,7 +127,7 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
                 </tr>
               );
             })}
-            {fixtures?.length === 0 && (
+            {fixtures?.data?.length === 0 && (
               <tr>
                 <td colSpan={4} className="text-center _label">
                   No fixtures available.
@@ -137,18 +141,19 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
               <td colSpan={4}>
                 <div className="p-2 flex items-center text-sm gap-3 text-muted-foreground py-4">
                   <div>
-                    Home fixtures: {fixtures?.filter((f) => f.isHome)?.length}
+                    Home fixtures: {fixtures?.data?.filter((f) => f.isHome)?.length}
                   </div>
                   <div>
-                    Away fixtures: {fixtures?.filter((f) => !f.isHome)?.length}
+                    Away fixtures: {fixtures?.data?.filter((f) => !f.isHome)?.length}
                   </div>
-                  <div>Total fixtures: {fixtures?.length}</div>
+                  <div>Total fixtures: {fixtures?.data?.length}</div>
                 </div>
               </td>
             </tr>
           </tfoot>
         </table>
       </div>
+      <Pagination pagination={fixtures?.pagination} />
     </div>
   );
 }
