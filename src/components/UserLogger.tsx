@@ -5,7 +5,7 @@ import { BiLogOut } from "react-icons/bi";
 import { Button } from "./buttons/Button";
 import Link from "next/link";
 import AdminLoginController from "./auth/Login";
-import Loader from "./Loader";
+import Loader from "./loaders/Loader";
 
 interface UserLogButtonsProps {
   loginStyles?: string;

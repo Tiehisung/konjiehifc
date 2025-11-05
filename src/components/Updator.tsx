@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import DiveUpwards from "@/components/Animate";
 import { useState, useEffect } from "react";
@@ -10,28 +10,30 @@ const updates = [
   "Substitution KFC",
 ];
 
-interface ILiveUpdates {
+interface IProps {
   data?: string[];
   random?: boolean;
   every?: number;
+  className?:string
 }
-export const MatchUpdator = ({ data=updates, random, every = 5000 }: ILiveUpdates) => {
-  const [update, setUpdate] = useState(updates[0]);
+export const Updator = ({ data = updates, random, every = 5000,className }: IProps) => {
+  const [update, setUpdate] = useState(data?.[0]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       const valueIndex = random ? Math.floor(Math.random() * data.length) : 0;
-      setUpdate(updates[valueIndex]);
+      setUpdate(data[valueIndex]);
     }, every);
     return () => clearInterval(interval);
   }, [data]);
   return (
-    <div>
-      <DiveUpwards layoutId={update}dependency={update} y={5}>
-        <p className="_p text-blueBlack dark:text-white line-clamp-1 max-w-40">
-          {update}
-        </p>
-      </DiveUpwards>
-    </div>
+    <DiveUpwards
+      layoutId={update}
+      dependency={update}
+      y={5}
+      className={`line-clamp-1 max-w-40 ${className}`}
+    >
+      {update}
+    </DiveUpwards>
   );
 };

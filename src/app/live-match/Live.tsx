@@ -9,7 +9,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { getLiveMatch } from "../admin/live-match/page";
-import { MatchUpdator } from "./Updator";
+import { Updator } from "@/components/Updator";
  
 
 export const LiveMatchCard = async () => {
@@ -19,18 +19,18 @@ export const LiveMatchCard = async () => {
 
   if (!match) return null;
   return (
-    <div className="_page">
+    <div className="_page px-4">
       <h1 className="uppercase rounded-full p-2 w-fit bg-primaryGreen px-3 shadow-2xl _title">
         Live Match Update
       </h1>
-      <Card className=" ">
+      <Card >
         <CardHeader className="flex items-center gap-1.5 mb-2 ">
           <span className=" bg-primaryRed my-0.5 ">LIVE</span>
           <span className="_p">Konjieh JHS park</span>
           <span className="text-xl font-thin text-emerald-400">{`56'`}</span>
         </CardHeader>
 
-        <CardContent className="">
+        <CardContent >
           <div className="flex items-center justify-between gap-5 ">
             <section className="flex flex-col items-center space-y-2">
               <Image
@@ -55,14 +55,14 @@ export const LiveMatchCard = async () => {
                 alt={"away logo"}
                 className="w-12 h-12"
               />
-              <span className=" _label">{away?.name}</span>
+              <span className="_label">{away?.name}</span>
             </section>
           </div>
         </CardContent>
-        <CardFooter className="   px-4 h-10">
-          <MatchUpdator random />
+        <CardFooter className="h-10">
+          <Updator random />
         </CardFooter>
-      </Card>{" "}
+      </Card> 
     </div>
   );
 };

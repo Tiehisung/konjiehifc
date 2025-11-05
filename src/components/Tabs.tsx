@@ -4,7 +4,7 @@ import { setSearchParams } from "@/lib/searchParams";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { ReactNode, useEffect, useState } from "react";
-import Loader from "./Loader";
+import Loader from "./loaders/Loader";
 
 /**
  *
@@ -112,7 +112,9 @@ export const LinkTabs = ({
             key={i}
             href={tab.path}
             className={` py-1 px-2 capitalize _hover _label ${
-              isActive(tab.path) ? " cursor-default text-muted-foreground" : " cursor-pointer"
+              isActive(tab.path)
+                ? " cursor-default text-muted-foreground"
+                : " cursor-pointer"
             } ${className}`}
           >
             {tab.label}

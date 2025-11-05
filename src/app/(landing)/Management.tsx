@@ -14,7 +14,7 @@ export const TechnicalManagement = async () => {
     ?.data as ICaptainProps[];
 
   return (
-    <div id="technical-management" className="max-w-full overflow-hidden">
+    <div id="technical-management" className="_page max-w-full overflow-hidden">
       <Title>Technical Management</Title>
 
       <div className="flex flex-wrap items-center justify-center gap-8">
@@ -40,7 +40,9 @@ export const TechnicalManagement = async () => {
             )) ?? []
           }
         />
-        <CgShapeRhombus size={100} className='animate-pulse' />
+
+        <CgShapeRhombus size={100} className="animate-pulse" />
+
         <CardCarousel
           effect="flip"
           cards={

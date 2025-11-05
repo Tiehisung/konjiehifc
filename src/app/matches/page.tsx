@@ -2,7 +2,7 @@ import { buildQueryString } from "@/lib";
 import { IQueryResponse } from "@/types";
 import React from "react";
 import { getMatches } from "../admin/matches/page";
-import { IMatchProps,  } from "./(fixturesAndResults)";
+import { IMatchProps } from "./(fixturesAndResults)";
 import FixturesSection from "./Fixtures";
 
 export default async function MatchesPage() {
@@ -12,9 +12,7 @@ export default async function MatchesPage() {
   // const teams: IQueryResponse<ITeamProps[]> = await getTeams();
   return (
     <section className="pb-6 pt-10 px-3 _page">
-      
-
-      <FixturesSection fixtures={fixtures   } />
+      <FixturesSection fixtures={fixtures} />
     </section>
   );
 }

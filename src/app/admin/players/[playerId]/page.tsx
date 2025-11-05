@@ -8,7 +8,7 @@ import { getPlayers } from "../page";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import DeletePlayer from "./DeletePlayer";
 import PlayerProfileForm from "../NewSigningForms";
-import Loader from "@/components/Loader";
+import Loader from "@/components/loaders/Loader";
 import { SubTitle } from "@/components/Elements";
 
 export default async function PlayerProfilePage({

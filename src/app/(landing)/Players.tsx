@@ -14,7 +14,7 @@ const LandingPlayers = async () => {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
 
   return (
-    <div className="_page">
+    <div className="_page px-4">
       <h1 className="_title uppercase">PLAYERS</h1>
       <br />
       <ResponsiveSwiper

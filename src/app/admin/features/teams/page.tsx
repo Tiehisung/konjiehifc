@@ -3,7 +3,7 @@ import { NewTeamForm } from "./CreateOrUpdateTeam";
 import DisplayTeams from "./DisplayTeams";
 import { apiConfig } from "@/lib/configs";
 import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
-import Loader from "@/components/Loader";
+import Loader from "@/components/loaders/Loader";
 import { IQueryResponse } from "@/types";
 
 export const metadata = {
@@ -29,7 +29,7 @@ export const getTeams = async (teamId?: string) => {
 };
 
 const TeamsFeature = async () => {
-  const teams:IQueryResponse<ITeamProps[]>  = await getTeams();
+  const teams: IQueryResponse<ITeamProps[]> = await getTeams();
   return (
     <div className="space-y-12 p-4 md:px-10">
       {/* Create */}

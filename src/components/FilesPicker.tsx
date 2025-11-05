@@ -3,7 +3,7 @@
 import { Button } from "@/components/buttons/Button";
 import Image from "next/image";
 import { CgClose } from "react-icons/cg";
-import Loader from "./Loader";
+import Loader from "./loaders/Loader";
 import { getFilePath } from "@/lib";
 import { ChangeEvent } from "react";
 import { TConvertedFile } from "@/types";
