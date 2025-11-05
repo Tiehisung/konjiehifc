@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import Loader from "@/components/Loader";
+import Loader from "@/components/loaders/Loader";
 import { ISponsorProps } from "./page";
 import { getSponsors } from "../admin/sponsorship/page";
 import Link from "next/link";

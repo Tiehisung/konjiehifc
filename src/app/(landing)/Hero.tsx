@@ -3,6 +3,7 @@ import { staticImages } from "@/assets/images";
 import { Button } from "@/components/buttons/Button";
 import Link from "next/link";
 import { FaAngleRight } from "react-icons/fa";
+import { Updator } from "@/components/Updator";
 
 // import { IPlayer } from "../players/page";
 // import { IQueryResponse } from "@/types";
@@ -14,7 +15,7 @@ const Hero = async () => {
   return (
     <div className="flex items-center justify-center pt-6 flex-wrap gap-10 text-center">
       <div
-        className=" p-4 bg-tansparent w-full "
+        className=" p-4 bg-tansparent w-full min-h-80 "
         style={{ background: `url(${staticImages.blueCurvy})` }}
       >
         <div className="space-y-3 italic">
@@ -38,13 +39,14 @@ const Hero = async () => {
         </p>
 
         <div className=" flex items-center justify-center gap-6 mt-4">
-          <Button className="flex items-center gap-1.5 _primaryBtn backdrop-blur-sm">
-            Explore Matches <FaAngleRight />
+          <Button className="flex items-center gap-1.5 _secondaryBtn backdrop-blur-sm w-64 justify-between h-10 shadow">
+            <span> Support the Club 👉</span>
+            <Updator
+              data={["Jerseys", "Boots", "Balls", "First Aid", "Cash", "Any"]}
+              random
+              className=" text-white rounded-full px-2 border bg-primaryGreen "
+            />
           </Button>
-          <Link href={"/contact-us"} className="_secondaryBtn backdrop-blur-sm">
-            Apply as player
-            <FaAngleRight />
-          </Link>
         </div>
       </div>
 

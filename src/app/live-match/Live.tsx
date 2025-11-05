@@ -9,7 +9,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { getLiveMatch } from "../admin/live-match/page";
-import { MatchUpdator } from "./Updator";
+import { Updator } from "@/components/Updator";
  
 
 export const LiveMatchCard = async () => {
@@ -60,7 +60,7 @@ export const LiveMatchCard = async () => {
           </div>
         </CardContent>
         <CardFooter className="h-10">
-          <MatchUpdator random />
+          <Updator random />
         </CardFooter>
       </Card> 
     </div>

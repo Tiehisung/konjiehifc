@@ -14,7 +14,7 @@ const TableLoader = ({
   const rowsCount = generateNumbers(1, rows);
   const colsCount = generateNumbers(1, cols);
   return (
-    <table className={` w-full ${wrapperClassName}`}>
+    <table className={`mx-auto w-full ${wrapperClassName}`}>
       <tbody>
         <tr>
           {colsCount.map((_, cIndex) => (

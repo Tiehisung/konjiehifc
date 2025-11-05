@@ -5,10 +5,14 @@ import { TechnicalManagement } from "./(landing)/Management";
 import LandingNewsHeadlines from "./news/LandingNews";
 import LandingFixtures from "./matches/(fixturesAndResults)/LandingFixtures";
 import Hero from "./(landing)/Hero";
-import Loader from "@/components/Loader";
+import Loader from "@/components/loaders/Loader";
 import { LiveMatchCard } from "./live-match/Live";
 import LandingSquad from "./(landing)/Squad";
 import { PitchGallery } from "./(landing)/Pitch";
+import LoadingSkeleton from "react-loading-skeleton";
+import { lorem } from "@/data";
+import BottomSheetLite from "@/components/modals/BottomSheetLite";
+import TableLoader from "@/components/loaders/Table";
 
 export default async function Home() {
   return (
@@ -16,34 +20,49 @@ export default async function Home() {
       <Suspense fallback={<Loader message="Loading players.." />}>
         <Hero />
       </Suspense>
-      <Suspense fallback={<Loader message="Loading players.." />}>
+
+      <BottomSheetLite id="testid" trigger={"Open"}>
+        <div>{lorem}</div>
+      </BottomSheetLite>
+      <Suspense
+        fallback={<TableLoader className="h-36 w-40" wrapperClassName="" />}
+      >
         <LandingPlayers />
       </Suspense>
 
-      <PitchGallery/>
+      <PitchGallery />
 
-
-      <Suspense fallback={<Loader message="Checking for LIVE match.." />}>
+      <Suspense fallback={<LoadingSkeleton width={200} height={120} />}>
         <LandingSquad />
       </Suspense>
 
-      <Suspense fallback={<Loader message="Checking for LIVE match.." />}>
+      <Suspense
+        fallback={<TableLoader className="h-36 w-40" wrapperClassName="" />}
+      >
         <LiveMatchCard />
       </Suspense>
 
-      <Suspense fallback={<Loader message="Loading fixtures.." />}>
+      <Suspense
+        fallback={<TableLoader className="h-36 w-40" wrapperClassName="" />}
+      >
         <LandingFixtures />
       </Suspense>
 
-      <Suspense fallback={<Loader message="Loading news.." />}>
+      <Suspense
+        fallback={<TableLoader className="h-36 w-40" wrapperClassName="" />}
+      >
         <LandingNewsHeadlines />
       </Suspense>
 
-      <Suspense fallback={<Loader message="Loading statistics.." />}>
+      <Suspense
+        fallback={<TableLoader className="h-36 w-40" wrapperClassName="" />}
+      >
         <PlayerStatistics />
       </Suspense>
 
-      <Suspense fallback={<Loader message="Loading Managers.." />}>
+      <Suspense
+        fallback={<TableLoader className="h-36 w-40" wrapperClassName="" />}
+      >
         <TechnicalManagement />
       </Suspense>
     </main>
