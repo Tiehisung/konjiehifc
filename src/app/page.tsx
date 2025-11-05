@@ -10,8 +10,6 @@ import { LiveMatchCard } from "./live-match/Live";
 import LandingSquad from "./(landing)/Squad";
 import { PitchGallery } from "./(landing)/Pitch";
 import LoadingSkeleton from "react-loading-skeleton";
-import { lorem } from "@/data";
-import BottomSheetLite from "@/components/modals/BottomSheetLite";
 import TableLoader from "@/components/loaders/Table";
 
 export default async function Home() {
@@ -21,9 +19,7 @@ export default async function Home() {
         <Hero />
       </Suspense>
 
-      <BottomSheetLite id="testid" trigger={"Open"}>
-        <div>{lorem}</div>
-      </BottomSheetLite>
+     
       <Suspense
         fallback={<TableLoader className="h-36 w-40" wrapperClassName="" />}
       >

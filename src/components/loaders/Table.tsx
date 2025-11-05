@@ -14,31 +14,33 @@ const TableLoader = ({
   const rowsCount = generateNumbers(1, rows);
   const colsCount = generateNumbers(1, cols);
   return (
-    <table className={`mx-auto w-full ${wrapperClassName}`}>
-      <tbody>
-        <tr>
-          {colsCount.map((_, cIndex) => (
-            <th key={cIndex}>
-              <div
-                className={`m-2 w-[80%] h-4 bg-card rounded animate-pulse ${className}`}
-              />
-            </th>
-          ))}
-        </tr>
-
-        {rowsCount.map((_, index) => (
-          <tr key={index}>
+    <div className={"flex justify-center items-center " + wrapperClassName}>
+      <table className={`mx-auto w-full `}>
+        <tbody>
+          <tr>
             {colsCount.map((_, cIndex) => (
-              <td key={cIndex}>
+              <th key={cIndex}>
                 <div
                   className={`m-2 w-[80%] h-4 bg-card rounded animate-pulse ${className}`}
                 />
-              </td>
+              </th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+
+          {rowsCount.map((_, index) => (
+            <tr key={index}>
+              {colsCount.map((_, cIndex) => (
+                <td key={cIndex}>
+                  <div
+                    className={`m-2 w-[80%] h-4 bg-card rounded animate-pulse ${className}`}
+                  />
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

@@ -14,7 +14,7 @@ const LandingSquad = async () => {
   return (
     <div className="py-12 px-4 space-y-8 _page ">
       <h1
-        className="_title rounded-full p-2 w-fit bg-primaryGreen px-3 shadow-2xl "
+        className="_title px-3 p-2 text-white "
         style={{ background: randomColor }}
       >
         SQUAD | {squad?.title}{" "}

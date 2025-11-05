@@ -42,7 +42,8 @@ export function PitchGallery() {
         }}
         enableBlur
         descriptionStyles="flex flex-col justify-center items-center"
-        thumbnailSwiperStyles={{ width: "100%", margin: "auto" ,height:'80px'}}
+        thumbnailSwiperStyles={{  margin: "auto" ,height:'70px',}}
+        thumbnailSlideStyles={{width:'80px'}}
         className=""
       />
     </div>
