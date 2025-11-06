@@ -1,26 +1,46 @@
 "use client";
 
-import { ISponsorProps } from "@/app/sponsorship/page";
-import { IGalleryProps } from "@/types";
+import { IDonation, ISponsorProps } from "@/app/sponsorship/page";
+import { IGalleryProps, IQueryResponse } from "@/types";
 import GalleryGrid from "@/components/Gallery/GallaryGrid";
 import DonationForm from "./DonationForm";
-import { StackModal } from "@/components/modals/StackModal";
 import { Button } from "@/components/ui/button";
+import { Pagination } from "@/components/Pagination";
+import { PrimaryAccordion } from "@/components/Accordion";
 
-export function DisplayDonations({ sponsor }: { sponsor?: ISponsorProps }) {
+export function DisplayDonations({
+  sponsor,
+  donations,
+}: {
+  sponsor?: ISponsorProps;
+  donations?: IQueryResponse<IDonation[]>;
+}) {
   const galleries: IGalleryProps[] =
-    sponsor?.donations?.map((d) => ({ ...d, tags: [], title: d.item })) ?? [];
+    donations?.data?.map((d) => ({ ...d, tags: [], title: d.item })) ?? [];
+
+    console.log(donations)
   return (
-    <div id="support">
-      <StackModal
-        id="donate"
-        trigger={<Button variant={"default"}>Donator Now</Button>}
-        className="bg-card px-6 max-w-4xl rounded-2xl"
-        closeOnEsc
-      >
-        <DonationForm sponsor={sponsor} />
-      </StackModal>
+    <div id="support" className="space-y-6">
+      <PrimaryAccordion
+        data={[
+          {
+            trigger: (
+              <Button variant={"default"} className="cursor-pointer">
+                Donator Now
+              </Button>
+            ),
+            value: "donate",
+            content: (
+              <div className="bg-card p-4 rounded-2xl">
+                <DonationForm sponsor={sponsor} />
+              </div>
+            ),
+          },
+        ]}
+      />
+      <div />
       <GalleryGrid galleries={galleries} />
+      <Pagination pagination={donations?.pagination} />
     </div>
   );
 }

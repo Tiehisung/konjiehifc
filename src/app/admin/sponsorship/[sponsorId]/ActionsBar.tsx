@@ -10,7 +10,7 @@ import { LiaDonateSolid } from "react-icons/lia";
 export default function SponsorActionsBar() {
   const className = `flex items-center h-full gap-2 px-2 hover:bg-base-100 transition-all duration-200 hover:opacity-90`;
   return (
-    <div className="flex items-center h-10 px-2 bg-secondary/40 max-md:gap-2 sticky top-1 z-[4]">
+    <div className="flex items-center h-10 px-2 bg-secondary/40 backdrop-blur-xs max-md:gap-2 sticky top-0 z-[4]">
       <BackBtn className={" mr-auto p-2 bg-transparent cursor-pointer"} />
       <ScrollToPointBtn
         sectionId={"sponsor-info"}

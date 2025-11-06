@@ -18,6 +18,32 @@ export const getSponsors = async (query?: string) => {
   }
 };
 
+export const getDonations = async (sponsorId?: string, query?: string) => {
+  try {
+    let cleaned = query?.startsWith("?") ? query : `?${query}`;
+    if (sponsorId) cleaned = `${cleaned}&sponsorId=${sponsorId}`;
+    const response = await fetch(
+      `${apiConfig.sponsors}/donations${cleaned ?? ""}`,
+      {
+        cache: "no-store",
+      }
+    );
+    return await response.json();
+  } catch {
+    return null;
+  }
+};
+export const getDonationsBySponsor = async (sponsorId: string) => {
+  try {
+    const response = await fetch(`${apiConfig.sponsors}/${`${sponsorId}/donations`}`, {
+      cache: "no-store",
+    });
+    return await response.json();
+  } catch {
+    return null;
+  }
+};
+
 export const getSponsorById = async (id?: string) => {
   try {
     if (id) {
@@ -31,6 +57,7 @@ export const getSponsorById = async (id?: string) => {
     return null;
   }
 };
+
 interface IPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }

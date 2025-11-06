@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { apiConfig } from "@/lib/configs";
 import { toast } from "sonner";
@@ -25,12 +25,7 @@ const initialForm = {
   files: [],
 };
 
-export default function DonationForm({
-  sponsor,
-}: {
-  sponsor?: ISponsorProps;
-}) {
- 
+export default function DonationForm({ sponsor }: { sponsor?: ISponsorProps }) {
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
   const [clearFiles, setClearFiles] = useState(0);
@@ -41,6 +36,8 @@ export default function DonationForm({
     description: string;
     files: ICldFileUploadResult[];
   }>(initialForm);
+
+  const sponsorId = useParams()?.sponsorId ?? sponsor?._id;
 
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -58,7 +55,7 @@ export default function DonationForm({
 
       //Proceed Without logo
       const response = await fetch(
-        `${apiConfig.sponsors}/${sponsor?._id}/donations`,
+        `${apiConfig.sponsors}/${sponsorId}/donations`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -83,7 +80,7 @@ export default function DonationForm({
     }
   };
   return (
-    <div  >
+    <div>
       <h1 className=" _title">Support the club</h1>
       <form
         onSubmit={handleSubmit}
@@ -135,7 +132,7 @@ export default function DonationForm({
                 <CgAttachment size={24} /> Attach Media
               </>
             }
-            folder={`donations/${sponsor?.name}`}
+            folder={`donations/${sponsor?.name ?? sponsorId}`}
             wrapperStyles="justify-start"
             clearTrigger={clearFiles}
           />
@@ -158,9 +155,6 @@ export default function DonationForm({
       </form>
 
       <br />
-
-       
     </div>
   );
 }
- 

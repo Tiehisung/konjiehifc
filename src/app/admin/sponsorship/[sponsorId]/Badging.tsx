@@ -5,8 +5,8 @@ import { ISponsorProps } from "@/app/sponsorship/page";
 export default function DonorBadging({ sponsor }: { sponsor: ISponsorProps }) {
   const badges = String(sponsor?.badges??'');
   return (
-    <div className="p-2" id="badging">
-      <h1 className="_title ">Donor badges</h1>
+    <div className="p-2 flex flex-col items-center justify-center" id="badging">
+      <h1 className="_title ">DONOR BADGES</h1>
       <div className=" p-5 ">
         <p>Badging is simply tracking the donations by instance.</p>
         <br />
