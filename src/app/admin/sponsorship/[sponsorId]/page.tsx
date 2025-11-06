@@ -1,6 +1,5 @@
 import { DisplayDonations } from "./Donation";
 import DonorBadging from "./Badging";
-import DeleteSponsor from "./Delete";
 import { IDonation, ISponsorProps } from "@/app/sponsorship/page";
 import AdminSponsorOverview from "./Overview";
 import { getDonations, getSponsorById } from "../page";
@@ -18,9 +17,12 @@ interface IProps {
 export default async function AdminSponsor({ params, searchParams }: IProps) {
   const sponsorId = (await params).sponsorId;
   const query = buildQueryStringServer(await searchParams);
-  
+
   const sponsor: ISponsorProps = await getSponsorById(sponsorId);
-  const donations: IQueryResponse<IDonation[]> = await getDonations(sponsorId,query);
+  const donations: IQueryResponse<IDonation[]> = await getDonations(
+    sponsorId,
+    query
+  );
 
   return (
     <div className="_page flex flex-col items-center justify-center gap-16 py-10 w-full ">
@@ -33,19 +35,22 @@ export default async function AdminSponsor({ params, searchParams }: IProps) {
       <DisplayDonations sponsor={sponsor} donations={donations} />
 
       <DonorBadging sponsor={sponsor} />
-      <EditSponsor sponsor={sponsor} />
-      <DeleteSponsor sponsorId={sponsor?._id as string} />
-      {/* Delete */}
-      <ConfirmActionButton
-        primaryText="Delete Sponsor"
-        uri={`${apiConfig.sponsors}/${sponsor?._id}`}
-        method={"DELETE"}
-        escapeOnEnd
-        variant="destructive"
-        title="Delete sponsor"
-        confirmText={`Are you sure you want to delete ${sponsor?.name}?`}
-        gobackAfter
-      />
+
+      <div className="flex items-center justify-center rounded-2xl gap-8 ring ring-primaryRed w-full">
+        <EditSponsor sponsor={sponsor} />
+
+        {/* Delete */}
+        <ConfirmActionButton
+          primaryText="Delete Sponsor"
+          uri={`${apiConfig.sponsors}/${sponsor?._id}`}
+          method={"DELETE"}
+          escapeOnEnd
+          variant="destructive"
+          title="Delete sponsor"
+          confirmText={`Are you sure you want to delete ${sponsor?.name}?`}
+          gobackAfter
+        />
+      </div>
     </div>
   );
 }

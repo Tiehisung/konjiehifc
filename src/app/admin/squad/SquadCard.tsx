@@ -16,9 +16,11 @@ import { Badge } from "@/components/ui/badge";
 import { Users, CalendarDays, MapPin, Clock, UserCog } from "lucide-react";
 import { ISquad } from "./page";
 import { getFormattedDate, getTimeAgo } from "@/lib/timeAndDate";
-import SquadActionButtons from "./Action";
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { useSession } from "next-auth/react";
+import { apiConfig } from "@/lib/configs";
+import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
+import { IUser } from "@/types/user";
 
 interface SquadDisplayProps {
   squad?: ISquad;
@@ -26,7 +28,7 @@ interface SquadDisplayProps {
 }
 
 const SquadCard = ({ squad, match }: SquadDisplayProps) => {
-  const session =useSession()
+  const session = useSession();
   if (!squad)
     return <div className="_label text-center m-6">Squad not found</div>;
   return (
@@ -159,8 +161,18 @@ const SquadCard = ({ squad, match }: SquadDisplayProps) => {
           Created on {getFormattedDate(squad?.createdAt)} (
           {getTimeAgo(squad?.createdAt as string)})
         </p>
-       
-        {session?.data?.user?.role.includes('admin')&& <SquadActionButtons squadId={squad?._id as string} />}
+
+        {(session?.data?.user as IUser)?.role?.includes("admin") && (
+          <ConfirmActionButton
+            primaryText="Delete Squad"
+            uri={`${apiConfig.squad}/${squad?._id}`}
+            method={"DELETE"}
+            escapeOnEnd
+            variant="destructive"
+            title="Delete Squad"
+            confirmText={`Are you sure you want to delete "${squad?.title}" Squad?`}
+          />
+        )}
       </CardFooter>
     </Card>
   );

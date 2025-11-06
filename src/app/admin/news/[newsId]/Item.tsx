@@ -5,14 +5,17 @@ import FileRenderer from "@/components/files/FileRender";
 import Image from "next/image";
 import { IFileProps } from "@/types";
 import { INewsProps } from "@/app/news/page";
-import ActionButtonNews from "./Action";
 import { ISquad } from "../../squad/page";
 import { getFormattedDate } from "@/lib/timeAndDate";
+import { useSession } from "next-auth/react";
+import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
+import { apiConfig } from "@/lib/configs";
+import { shortText } from "@/lib";
 
 const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
+  const session = useSession();
   const [loadingImage, setLoadingImage] = useState(false);
 
-  console.log({ newsItem });
   return (
     <div className=" mb-10 p-4">
       <header className="flex flex-wrap justify-center items-center">
@@ -21,7 +24,7 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
           width={1000}
           height={500}
           alt={newsItem.headline?.text}
-          src={newsItem.headline?.image?.secure_url ?? ""}
+          src={newsItem.headline?.image as string}
           className={`w-full min-w-64 h-auto bg-cover object-cover aspect-5/3 ${
             loadingImage ? "bg-secondary" : ""
           }`}
@@ -84,10 +87,17 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
                   </h1>
                   <h1>
                     Match Date:{" "}
-                    {getFormattedDate((newsItem.metaDetails as ISquad)?.date)}
+                    {getFormattedDate(
+                      (newsItem.metaDetails as ISquad)?.match?.date
+                    )}
                   </h1>
-                  <h1>Time: {(newsItem.metaDetails as ISquad)?.time}</h1>
-                  <h1>Venue: {(newsItem.metaDetails as ISquad)?.venue}</h1>
+                  <h1>Time: {(newsItem.metaDetails as ISquad)?.match?.time}</h1>
+                  <h1>
+                    Venue:{" "}
+                    {(newsItem.metaDetails as ISquad)?.match?.isHome
+                      ? "Home"
+                      : "Away"}
+                  </h1>
                 </div>
               </div>
             ) : (
@@ -98,14 +108,53 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
           {/* Comments and reactions */}
           <section className="_subtitle">
             <h1 className="_title">Actions</h1>
+
             <div className="flex items-center gap-5 flex-wrap p-4 _card">
               {newsItem?.isPublished ? (
-                <ActionButtonNews type="Unpublish" />
+                <ConfirmActionButton
+                  primaryText="Unpublish News"
+                  uri={`${apiConfig.news}/${newsItem?._id}`}
+                  method={"PUT"}
+                  escapeOnEnd
+                  variant="destructive"
+                  title="Delete News"
+                  confirmText={`Are you sure you want to unpblish "<b>${shortText(
+                    newsItem?.headline.text,
+                    40
+                  )}</b>"?`}
+                  body={{
+                    isPublished: false,
+                  }}
+                />
               ) : (
-                <ActionButtonNews type="Publish" />
+                <ConfirmActionButton
+                  primaryText="Publish News"
+                  uri={`${apiConfig.news}/${newsItem?._id}`}
+                  method={"PUT"}
+                  escapeOnEnd
+                  title="Publish News to public"
+                  confirmText={`Confirm to publish "<b>${shortText(
+                    newsItem?.headline.text,
+                    40
+                  )}</b>"`}
+                  body={{
+                    isPublished: true,
+                  }}
+                />
               )}
-
-              <ActionButtonNews type="Delete" />
+              <ConfirmActionButton
+                primaryText="Delete News"
+                uri={`${apiConfig.news}/${newsItem?._id}`}
+                method={"DELETE"}
+                escapeOnEnd
+                variant="destructive"
+                title="Delete News"
+                confirmText={`Are you sure you want to delete "<b>${shortText(
+                  newsItem?.headline.text,
+                  40
+                )}</b>"?`}
+                gobackAfter
+              />
             </div>
           </section>
         </main>
