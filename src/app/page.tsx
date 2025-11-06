@@ -10,7 +10,7 @@ import { LiveMatchCard } from "./live-match/Live";
 import LandingSquad from "./(landing)/Squad";
 import { PitchGallery } from "./(landing)/Pitch";
 import LoadingSkeleton from "react-loading-skeleton";
-import TableLoader from "@/components/loaders/Table";
+import CardLoader from "@/components/loaders/CardLoader";
 
 export default async function Home() {
   return (
@@ -19,10 +19,7 @@ export default async function Home() {
         <Hero />
       </Suspense>
 
-     
-      <Suspense
-        fallback={<TableLoader className="h-36 w-40" wrapperClassName="" />}
-      >
+      <Suspense fallback={<CardLoader className="h-36 w-40" />}>
         <LandingPlayers />
       </Suspense>
 
@@ -32,33 +29,23 @@ export default async function Home() {
         <LandingSquad />
       </Suspense>
 
-      <Suspense
-        fallback={<TableLoader className="h-36 w-40" wrapperClassName="" />}
-      >
+      <Suspense fallback={<CardLoader className="h-36 w-40" />}>
         <LiveMatchCard />
       </Suspense>
 
-      <Suspense
-        fallback={<TableLoader className="h-36 w-40" wrapperClassName="" />}
-      >
+      <Suspense fallback={<CardLoader className="h-36 w-40" />}>
         <LandingFixtures />
       </Suspense>
 
-      <Suspense
-        fallback={<TableLoader className="h-36 w-40" wrapperClassName="" />}
-      >
+      <Suspense fallback={<CardLoader className="h-36 w-40" />}>
         <LandingNewsHeadlines />
       </Suspense>
 
-      <Suspense
-        fallback={<TableLoader className="h-36 w-40" wrapperClassName="" />}
-      >
+      <Suspense fallback={<CardLoader className="h-36 w-40" />}>
         <PlayerStatistics />
       </Suspense>
 
-      <Suspense
-        fallback={<TableLoader className="h-36 w-40" wrapperClassName="" />}
-      >
+      <Suspense fallback={<CardLoader className="h-36 w-40" />}>
         <TechnicalManagement />
       </Suspense>
     </main>

@@ -41,11 +41,11 @@ export const getMatchById = async (id: string) => {
 };
 
 interface IPageProps {
-  searchParams: Record<string, string | string[] | undefined>;
+  searchParams:Promise< Record<string, string | string[] | undefined>>;
 }
 
 export default async function AdminFixtures({ searchParams }: IPageProps) {
-  const qs = buildQueryStringServer(searchParams);
+  const qs = buildQueryStringServer(await searchParams);
 
   const fixtures: IQueryResponse<IMatchProps[]> = await getMatches(qs);
   const teams: IQueryResponse<ITeamProps[]> = await getTeams();

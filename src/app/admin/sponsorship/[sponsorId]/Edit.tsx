@@ -1,144 +1,129 @@
 "use client";
 
-import { apiConfig } from "@/lib/configs";
-import { useRouter } from "next/navigation";
-import { ChangeEvent, FormEvent, useState } from "react";
-import { toast } from "sonner";
 import { ISponsorProps } from "@/app/sponsorship/page";
-import { IResultProps } from "@/types";
 import { Button } from "@/components/buttons/Button";
-import { Title } from "@/components/Elements";
+import ImageUploaderCldWidget from "@/components/cloudinary/AvatarUploadWidget";
 import { IconInputWithLabel } from "@/components/input/Inputs";
-import AvatarPicker from "@/components/files/Avatar";
+import BottomSheetLite from "@/components/modals/BottomSheetLite";
+import ContentShowcaseWrapper from "@/components/ShowcaseWrapper";
+import { getErrorMessage } from "@/lib";
+import { apiConfig } from "@/lib/configs";
+import { Edit } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
-export default function EditSponsor({ sponsor }: { sponsor: ISponsorProps }) {
+export function EditSponsor({ sponsor }: { sponsor?: ISponsorProps }) {
   const router = useRouter();
-  const [formData, setFormData] = useState(sponsor);
-  const [imageFile, setImageFile] = useState<string | null>(null);
-
+  const [formData, setFormData] = useState({ ...initialForm });
   const [waiting, setWaiting] = useState(false);
 
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const OnChangeSponsor = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  //Handle submit
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setWaiting(true);
-
-    if (imageFile) {
-      //Upload logo
-      const upload = await fetch(apiConfig.fileUpload, {
+    try {
+      const response = await fetch(apiConfig.sponsors, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.businessName,
-          path: imageFile,
-          type: "image",
-          preset: "konjiehifc",
-          folder: "sponsors/logos",
-          presetType: "authenticated",
-        }),
+        body: JSON.stringify(formData),
+        cache: "no-store",
       });
-      const uploadRsp: IResultProps = await upload.json();
-      if (!uploadRsp.success) {
-        setWaiting(false);
-        toast(uploadRsp.message, { position: "bottom-center" });
-        return;
-      }
-
-      //Proceed to database
-      const response = await fetch(apiConfig.sponsors, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, logo: uploadRsp.data }),
-        cache: "no-cache",
-      });
-      const results: IResultProps = await response.json();
-      toast.success(results.message, {
-        position: "bottom-center",
-      });
+      const results = await response.json();
       setWaiting(false);
       if (results.success) {
-        setImageFile(null);
-      }
+        setFormData(initialForm);
+        toast.success(results.message);
+      } else toast.error(results.message);
       router.refresh();
-      return;
+    } catch (error) {
+      toast.error(getErrorMessage(error, "Add sponsor failed"));
+    } finally {
+      router.refresh();
+      setWaiting(false);
     }
-
-    //Proceed Without logo
-    const response = await fetch(apiConfig.sponsors, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-      cache: "no-store",
-    });
-
-    const results: IResultProps = await response.json();
-
-    setWaiting(false);
-    if (results.success) {
-      setFormData(sponsor);
-      setImageFile(null);
-      toast.success(results.message);
-    } else toast.error(results.message);
-
-    router.refresh();
   };
+
   return (
-    <div id="edit-sponsor">
-      <Title className="_title text-center ">Edit sponsor</Title>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-10 justify-center items-center p-2 _secondaryBg border _borderColor"
+    <BottomSheetLite
+      trigger={
+        <>
+          <Edit /> Edit sponsor
+        </>
+      }
+      triggerStyles="_primaryBtn justify-center "
+      id={"edit-sponsor"}
+    >
+      <ContentShowcaseWrapper
+        images={
+          sponsor?.donations
+            ?.slice(0, 3)
+            ?.map((d) => d.files)
+            ?.flat(1)
+            ?.filter((f) => f.resource_type == "image")
+            ?.map((f) => f.secure_url) ?? []
+        }
+        graphicsStyles=" "
       >
-        <AvatarPicker
-          inputId={sponsor?._id}
-          setImageUrl={setImageFile}
-          imageUrl={formData?.logo?.secure_url}
-          inputLabel="Change logo"
-          title="Logo"
-        />
+        <form onSubmit={handleSubmit} className="grid gap-6 pt-4 _card grow ">
+          <div className=" flex gap-2 justify-center flex-col items-center relative">
+            <ImageUploaderCldWidget
+              label="Logo"
+              onUploaded={(file) =>
+                setFormData({ ...formData, logo: file?.secure_url as string })
+              }
+            />
+          </div>
 
-        <IconInputWithLabel
-          onChange={handleOnChange}
-          value={formData?.ownerName}
-          name="ownerName"
-          label="Owner name"
-        />
-        <IconInputWithLabel
-          onChange={handleOnChange}
-          value={formData?.businessName}
-          label="Business name"
-          name="businessName"
-          required
-        />
-        <IconInputWithLabel
-          onChange={handleOnChange}
-          value={formData?.businessDescription}
-          label="Business description"
-          name="businessDescription"
-        />
-        <IconInputWithLabel
-          onChange={handleOnChange}
-          value={formData?.phone}
-          label="Phone"
-          name="phone"
-          type="tel"
-        />
+          <IconInputWithLabel
+            onChange={OnChangeSponsor}
+            value={formData.name}
+            name="name"
+            label="Owner name"
+          />
+          <IconInputWithLabel
+            onChange={OnChangeSponsor}
+            value={formData.businessName}
+            label="Business name"
+            name="businessName"
+            required
+          />
+          <IconInputWithLabel
+            onChange={OnChangeSponsor}
+            value={formData.businessDescription}
+            label="Business description"
+            name="businessDescription"
+          />
+          <IconInputWithLabel
+            onChange={OnChangeSponsor}
+            value={formData.phone}
+            label="Phone"
+            name="phone"
+            type="tel"
+          />
 
-        <Button
-          type="submit"
-          primaryText="Save changes"
-          className={"_primaryBtn px-4 py-2 rounded shadow"}
-          waiting={waiting}
-          disabled={waiting}
-          waitingText={"Saving changes..."}
-        />
-      </form>
-    </div>
+          <Button
+            type="submit"
+            waiting={waiting}
+            disabled={waiting}
+            waitingText={"Saving sponsor..."}
+            primaryText={"Save"}
+            className="_primaryBtn w-full py-1 my-3 px-10 mx-auto justify-center text-lg md:text-xl"
+          />
+        </form>
+      </ContentShowcaseWrapper>
+    </BottomSheetLite>
   );
 }
+
+const initialForm = {
+  name: "",
+  phone: "",
+  logo: "",
+  businessName: "",
+  businessDescription: "",
+};

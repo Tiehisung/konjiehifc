@@ -1,8 +1,7 @@
 
-import { ICldFileUploadResult } from "@/components/cloudinary/FileUploadWidget";
 import mongoose from "mongoose";
 
-const fileSchema = new mongoose.Schema(
+export const fileSchema = new mongoose.Schema(
   {
     name: { type: String },
     original_filename: { type: String },

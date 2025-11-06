@@ -31,11 +31,11 @@ export default function DeleteSponsor({ sponsorId }: DeleteSponsorProps) {
   return (
     <div id="delete-sponsor">
       <p className="_title">Danger zone</p>
-      <div className="_secondaryBg shadow p-5 ">
-        <h1 className="_label ">Delete sponsor</h1>
+      <div className=" p-5 ">
+        <h1 className="_label mb-3">Delete sponsor</h1>
         <Button
           primaryText="Delete sponsor"
-          className={"delete__btn px-4 py-2 rounded shadow"}
+          className={"_deleteBtn px-4 py-2 rounded shadow"}
           waiting={waiting}
           disabled={waiting}
           onClick={handleDelete}

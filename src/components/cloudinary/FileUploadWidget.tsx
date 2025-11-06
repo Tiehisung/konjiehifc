@@ -51,6 +51,7 @@ export interface ICloudinaryUploaderProps {
   cropping?: boolean;
   successMessage?: string;
   clearTrigger?: number;
+  wrapperStyles?:string
   setUploadedFiles: (files: ICldFileUploadResult[]) => void;
 }
 
@@ -68,7 +69,7 @@ export default function CloudinaryUploader({
   triggerId = "cloudinary-uploader",
   dismissOnComplete = true,
   cropping = false,
-  successMessage,
+  successMessage,wrapperStyles
 }: ICloudinaryUploaderProps) {
   const [files, setFiles] = useState<ICldFileUploadResult[]>([]);
 
@@ -114,8 +115,9 @@ export default function CloudinaryUploader({
       // toast.error("Failed to delete file");
     }
   };
+
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className={`flex flex-col items-center gap-4 ${wrapperStyles}`}>
       <CldUploadWidget
         uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
         options={{

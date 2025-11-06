@@ -20,7 +20,7 @@ export type TConvertedFile = {
 };
 
 export interface IFileProps extends ICldFileUploadResult {
-  _id: string; //Trace any saved file data on db
+  _id?: string; //Trace any saved file data on db
   name?: string;
   description?: string; //Optional field to save with file on db
   createdAt?: string;

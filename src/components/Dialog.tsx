@@ -13,7 +13,7 @@ import {
 
 interface IDialog {
   hideCloseBtn?: boolean;
-  title: ReactNode;
+  title?: ReactNode;
   description?: ReactNode;
   children: ReactNode;
   className?: string;
@@ -29,6 +29,7 @@ interface IDialog {
     | "ghost"
     | null
     | undefined;
+  modal?: boolean; //Turn to 'false' when using another modal within e.g cloudinary upload widget
 }
 
 export const DIALOG: FC<IDialog> = ({
@@ -40,10 +41,11 @@ export const DIALOG: FC<IDialog> = ({
   triggerStyles,
   closeId,
   variant = "secondary",
+  modal = true,
 }) => {
   return (
-    <Dialog>
-      <DialogTrigger asChild >
+    <Dialog modal={modal}>
+      <DialogTrigger asChild>
         <Button variant={variant} className={`cursor-pointer ${triggerStyles}`}>
           {trigger}
         </Button>
@@ -57,9 +59,7 @@ export const DIALOG: FC<IDialog> = ({
           </DialogDescription>
         </DialogHeader>
 
-        <main className={` max-h-[80vh] overflow-y-auto`}>
-          {children}
-        </main>
+        <main className={` max-h-[80vh] overflow-y-auto`}>{children}</main>
 
         <DialogFooter>
           <DialogClose asChild id={closeId}>

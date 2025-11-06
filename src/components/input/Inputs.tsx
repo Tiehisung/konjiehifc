@@ -153,7 +153,15 @@ export function Input({
   );
 }
 
-interface IDateInputProps extends IInput {
+interface IDateInputProps {
+  className?: string;
+  name: string;
+  placeholder?: string;
+  value?: string | number;
+  dataTip?: string;
+  others?: object;
+  required?: boolean;
+  wrapperStyles?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type: "time" | "datetime-local" | "date";
   label?: ReactNode;

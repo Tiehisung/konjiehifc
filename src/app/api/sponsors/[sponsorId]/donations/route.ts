@@ -8,7 +8,7 @@ import { NextRequest, NextResponse } from "next/server";
 ConnectMongoDb();
 export async function POST(
   request: NextRequest,
-  { params }: { params:Promise< { sponsorId: string }> }
+  { params }: { params: Promise<{ sponsorId: string }> }
 ) {
   const sponsorId = (await params).sponsorId;
   const { item, description, files, date } = await request.json();
@@ -23,6 +23,7 @@ export async function POST(
 
   await SponsorModel.findByIdAndUpdate(sponsorId, {
     $push: { donations: donated._id },
+    $inc: { badge: 1 }
   });
 
   return NextResponse.json({

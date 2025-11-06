@@ -12,16 +12,18 @@ export const StackModal = ({
   id,
   overlayClassName,
   closeOnEsc,
+  trigger,
 }: {
   children: ReactNode;
   className?: string;
   id: string;
   overlayClassName?: string;
   closeOnEsc?: boolean;
+  trigger?: ReactNode;
 }) => {
   const modalId = useSearchParams().get("stackModal");
 
-  const { clearParams } = useUpdateSearchParams();
+  const { clearParams, setParam } = useUpdateSearchParams();
 
   const isOpen = id == (modalId as string);
   useActionOnEsc({
@@ -32,17 +34,25 @@ export const StackModal = ({
     },
   });
 
-  if (!isOpen) return null;
   return (
-    <div
-      onClick={() => clearParams("stackModal")}
-      className={` z-50 fixed inset-0 bg-black/30 flex justify-center items-center h-screen ${overlayClassName}`}
-    >
-      <DiveUpwards layoutId={""} y={8}>
-        <div className={`max-h-[85vh] overflow-y-auto pb-14 ${className}`}>
-          {isOpen && children}
+    <>
+      {trigger && (
+        <span onClick={() => setParam("stackModal", id)}>{trigger}</span>
+      )}
+      {isOpen && (
+        <div
+          onClick={() => clearParams("stackModal")}
+          className={` z-50 fixed inset-0 bg-black/30 flex justify-center items-center h-screen ${overlayClassName}`}
+        >
+          <DiveUpwards layoutId={""} y={8}>
+            <div
+              className={`max-h-[85vh] overflow-y-auto pb-14 min-w-[60vw] ${className}`}
+            >
+              {isOpen && children}
+            </div>
+          </DiveUpwards>
         </div>
-      </DiveUpwards>
-    </div>
+      )}
+    </>
   );
 };

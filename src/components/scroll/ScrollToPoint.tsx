@@ -53,7 +53,7 @@ export function ScrollToPointBtn({
       title={title}
       type="button"
       onClick={handleScrollToPoint}
-      className={`${className}`}
+      className={`cursor-pointer ${className}`}
     >
       {children} {label}
     </button>

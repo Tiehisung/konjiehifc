@@ -46,7 +46,7 @@ const TrainingActionButtons = ({ trainingId }: { trainingId: string }) => {
         fireEscape();
       } else toast.error(result.error || "An error occurred");
     } catch {
-      toast.error("Failed to delete squad. Please try again.");
+      toast.error("Failed to delete addendance. Please try again.");
     } finally {
       setIsLoading(false);
       router.refresh();
@@ -56,9 +56,9 @@ const TrainingActionButtons = ({ trainingId }: { trainingId: string }) => {
   return (
     <div className="my-12 ">
       <DIALOG
-        trigger={`Delete Squad`}
+        trigger={`Delete Attendance`}
         triggerStyles={`text-red-500 capitalize`}
-        title={`Are you sure you want to Delete the Squad?`}
+        title={`Are you sure you want to Delete the Attendance?`}
         closeId={""}
       >
         <Card>

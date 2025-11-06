@@ -7,26 +7,22 @@ import React from "react";
 
 const AdminSponsorOverview = ({ sponsor }: { sponsor: ISponsorProps }) => {
   return (
-    <div id="sponsor-info">
-      <h1 className="_title">Overview</h1>
-      <div className="_secondaryBg p-5 ">
-        <p className="">
-          Name : <span className="_label ">{sponsor?.ownerName}</span>
-        </p>
-        <p className="">
-          Business : <span className="_label ">{sponsor?.businessName}</span>
-        </p>
-        <p className="">
-          Contact : <span className="_label ">{sponsor?.phone}</span>
-        </p>
+    <div id="sponsor-info" className=" w-full">
+      <h1 className="_title _gradient text-center">Overview</h1>
+      <div className=" p-5 flex flex-col justify-center items-center gap-1.5">
         <br />
         <Image
-          src={sponsor?.logo?.secure_url || staticImages.manager}
+          src={(sponsor?.logo as string) ?? staticImages.sponsor}
           width={600}
           height={600}
-          alt={sponsor.ownerName ?? "sponsor"}
+          alt={sponsor?.name ?? "sponsor"}
           className="w-80 h-auto m-1"
         />
+        <div className="text-center">
+          <p className="_heading">{sponsor?.name}</p>
+          <p className="_title">{sponsor?.businessName}</p>
+          <p className="_subtitle">{sponsor?.phone}</p>
+        </div>
       </div>
     </div>
   );

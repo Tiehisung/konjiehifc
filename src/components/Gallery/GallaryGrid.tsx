@@ -5,9 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IFileProps, IGalleryProps } from "@/types";
 import { getFormattedDate } from "@/lib/timeAndDate";
-import { PlayerGalleryViewer } from "./GalleryViewer";
 import { useState } from "react";
-import { toggleClick } from "../../../lib/DOM";
+import { GalleryViewer } from "./GalleryViewer";
+import { toggleClick } from "@/lib/DOM";
 
 interface GalleryGridProps {
   galleries: IGalleryProps[];
@@ -42,7 +42,7 @@ export default function GalleryGrid({
           >
             <CardHeader>
               <CardTitle className="flex flex-wrap justify-between items-center gap-2">
-                <span className="font-bold text-lg truncate">
+                <span className="font-semibold line-clamp-2">
                   {gallery?.title || "Untitled Gallery"}
                 </span>
 
@@ -94,7 +94,7 @@ export default function GalleryGrid({
           </Card>
         ))}
       </div>
-      <PlayerGalleryViewer gallery={selectedGallery} name={name} />
+      <GalleryViewer gallery={selectedGallery} title={name} />
     </>
   );
 }

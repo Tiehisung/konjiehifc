@@ -1,7 +1,7 @@
 import { generateNumbers } from "@/lib";
 
 const TableLoader = ({
-  rows = 2,
+  rows = 1,
   cols = 2,
   className,
   wrapperClassName,
@@ -14,7 +14,7 @@ const TableLoader = ({
   const rowsCount = generateNumbers(1, rows);
   const colsCount = generateNumbers(1, cols);
   return (
-    <div className={"flex justify-center items-center " + wrapperClassName}>
+    <div className={"flex justify-center items-center grow w-full" + wrapperClassName}>
       <table className={`mx-auto w-full `}>
         <tbody>
           <tr>

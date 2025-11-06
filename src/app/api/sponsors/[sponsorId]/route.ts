@@ -8,11 +8,23 @@ import "@/models/donation";
 // export const dynamic = "force-dynamic";
 ConnectMongoDb();
 export async function GET(
-  req: NextRequest,
+  _: NextRequest,
   { params }: { params: Promise<{ sponsorId: string }> }
 ) {
   const sponsor = await SponsorModel.findById((await params).sponsorId)
-    .populate("logo")
-    .populate({ path: "donations", populate: { path: "files" } });
+
+    .populate({ path: "donations", });
   return NextResponse.json(sponsor);
+}
+export async function DELETE(_: NextRequest,
+  { params }: { params: Promise<{ sponsorId: string }> }) {
+  try {
+    const deleted = await SponsorModel.findByIdAndDelete((await params).sponsorId);
+    if (deleted)
+      return NextResponse.json({ message: "Deleted", success: true });
+
+  } catch (error) {
+    return NextResponse.json({ message: "Delete failed", success: false, data: error });
+
+  }
 }

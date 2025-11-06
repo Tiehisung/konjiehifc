@@ -34,7 +34,7 @@ export function SideDrawer({
         side={side}
         className={` overflow-y-auto max-h-[85vh] ${className}`}
       >
-        <SheetTitle></SheetTitle>
+        <SheetTitle className="h-[1px] invisible"></SheetTitle>
         {children}
       </SheetContent>
     </Sheet>

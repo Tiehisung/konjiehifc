@@ -9,9 +9,9 @@ import { IGalleryProps } from "@/types";
 
 interface IProps {
   gallery?: IGalleryProps;
-  name?: string;
+  title?: string;
 }
-export function PlayerGalleryViewer({ gallery }: IProps) {
+export function GalleryViewer({ gallery ,title}: IProps) {
   const { images } = usePlayerGalleryUtils([gallery] as IGalleryProps[]);
   const isMobile = useIsMobile("md");
   return (
@@ -20,9 +20,10 @@ export function PlayerGalleryViewer({ gallery }: IProps) {
       trigger={undefined}
       side="bottom"
       triggerStyles="hidden"
+      className="max-h-[95vh]"
     >
       <ThumbsGallery
-        title={"Player Gallery"}
+        title={title}
         images={images}
         thumbnailSwiperStyles={{
           borderRadius: "0%",
@@ -34,7 +35,7 @@ export function PlayerGalleryViewer({ gallery }: IProps) {
           width: isMobile ? "100%" : "80%",
           aspectRatio: "auto",
           borderRadius: "0",
-          height: "600px",
+          height: "400px",
         }}
       />
     </SideDrawer>

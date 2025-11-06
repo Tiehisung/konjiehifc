@@ -7,7 +7,6 @@ import "@/models/sponsor";
 ConnectMongoDb();
 export async function GET() {
   const donations = await DonationModel.find()
-    .populate({ path: "files" })
     .populate({ path: "sponsor" });
   return NextResponse.json(donations);
 }
