@@ -18,9 +18,9 @@ import CardCarousel from "@/components/carousel/cards";
 import { usePlayerGalleryUtils } from "@/hooks/usePlayerGallery";
 import { IGalleryProps } from "@/types";
 import { scrollToElement } from "@/lib/DOM";
-import GalleryGrid from "./GallaryGrid";
 import { PlayerGalleryUpload } from "./GalleryUpload";
 import { generatePlayerAbout } from "@/data/about";
+import GalleryGrid from "@/components/Gallery/GallaryGrid";
 
 const statsData = [
   { stat: "PAS", value: 82 },

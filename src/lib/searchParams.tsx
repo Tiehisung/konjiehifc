@@ -73,15 +73,25 @@ export const setMultiSearchParams = (
   else router.push(newPathname);
 };
 
+/**
+ * Builds a query string using the current URL search params by default.
+ * Optionally, you can pass overrides or additional query params.
+ *
+ * @param searchParams Optional overrides or additional parameters
+ * @returns string - formatted query string like `?key=value&foo=bar`
+ */
 export function buildQueryString(
   searchParams?: Record<string, string | string[] | undefined>
 ) {
   if (!searchParams) return "";
+
+  // Filter out undefined or empty values
   const query = new URLSearchParams(
     Object.entries(searchParams).filter(([_, v]) => v !== undefined) as [
       string,
       string
     ][]
   ).toString();
+
   return query ? `?${query}` : "";
 }

@@ -100,18 +100,7 @@ export const getAge = (dob: string | Date) => {
 export const getRandomIndex = (length: number) =>
   Math.ceil(Math.random() * length - 1);
 
-export function buildQueryString(
-  searchParams?: Record<string, string | string[] | undefined>
-) {
-  if (!searchParams) return "";
-  const query = new URLSearchParams(
-    Object.entries(searchParams).filter(([_, v]) => v !== undefined) as [
-      string,
-      string
-    ][]
-  ).toString();
-  return query ? `?${query}` : "";
-}
+
 
 export const generateNumbers = (from: number, to: number) => {
   const acc = [];
@@ -124,3 +113,18 @@ export const generateNumbers = (from: number, to: number) => {
 export const bytesToMB = (bytes: number): number => {
   return Number((bytes / (1024 * 1024)).toFixed(2));
 };
+
+export function buildQueryStringServer(
+  searchParams: Record<string, string | string[] | undefined>
+) {
+  if (!searchParams) return "";
+
+  const query = new URLSearchParams(
+    Object.entries(searchParams).filter(([_, v]) => v !== undefined) as [
+      string,
+      string
+    ][]
+  ).toString();
+
+  return query ? `?${query}` : "";
+}

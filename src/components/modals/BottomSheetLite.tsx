@@ -38,16 +38,15 @@ const BottomSheetLite: React.FC<Props> = ({
     },
   });
 
-  const before ='before:h-1 before:w-12 before:bg-border before:rounded-full before:mx-auto'
 
   return (
     <>
       <div
         id={id}
         onClick={() => setIsOpen((p) => !p)}
-        className={`line-clamp-3 cursor-pointer ${
+        className={`line-clamp-3 cursor-pointer flex items-center gap-4 ${
           isPreparing ? "pointer-events-none" : ""
-        } ${triggerStyles}  `}
+        } ${triggerStyles}   `}
       >
         {isPreparing ? (
           <VscLoading className="spin min-h-5 min-w-5" />
@@ -57,20 +56,21 @@ const BottomSheetLite: React.FC<Props> = ({
       </div>
 
       {isOpen && (
-        <div
+        <div style={{inset:'0'}}
           onClick={() => {
             if (allowOverlayClose) setIsOpen((p) => !p);
           }}
-          className={`fixed inset-0 bottom-0 bg-modalOverlay backdrop-blur-sm flex flex-col justify-end z-50 ${before} ${wrapperStyles}`}
+          className={`fixed inset-0  bg-modalOverlay backdrop-blur-sm flex flex-col justify-end z-50 ${wrapperStyles}`}
         >
           <DiveUpwards
             layoutId={`pmod${id}`}
             y={y}
             duration="0.05"
-            className={` shadow-2xl relative bg-card rounded-t-2xl w-full space-y-2 `}
+            className={` shadow-2xl relative bg-popover rounded-t-2xl w-full space-y-2 `}
           >
+            <hr className='h-1.5 w-16 rounded-full bg-border mx-auto'/>
             <div
-              className={`mt-auto md:min-w-[400px] grow max-h-[85vh] min-h-48 h-fit overflow-y-auto p-6 ${className}`}
+              className={`mt-auto md:min-w-[400px] grow max-h-[90vh] min-h-48 h-fit overflow-y-auto p-6 pb-20 ${className}`}
             >
               {children}
             </div>

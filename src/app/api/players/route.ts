@@ -6,7 +6,7 @@ import PlayerModel from "@/models/player";
 import { NextRequest, NextResponse } from "next/server";
 import { IFileProps, IResultProps } from "@/types";
 import { apiConfig } from "@/lib/configs";
-import { getErrorMessage } from "@/lib";
+import { getErrorMessage, removeEmptyKeys } from "@/lib";
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
 
@@ -36,13 +36,14 @@ export async function GET(request: NextRequest) {
     ],
     isActive: isActive,
   }
+  const cleaned = removeEmptyKeys(query)
 
-  const players = await PlayerModel.find(query)
+  const players = await PlayerModel.find(cleaned)
     .populate("galleries").skip(skip)
     .limit(limit)
     .lean();
 
-  const total = await PlayerModel.countDocuments(query)
+  const total = await PlayerModel.countDocuments(cleaned)
   return NextResponse.json({
     success: true,
     data: players,

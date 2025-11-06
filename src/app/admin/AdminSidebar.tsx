@@ -9,7 +9,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { AiOutlineTeam } from "react-icons/ai";
-import { BiHome, BiLogOut } from "react-icons/bi";
+import { BiLogOut } from "react-icons/bi";
 import { CgDatabase } from "react-icons/cg";
 import { FcManager } from "react-icons/fc";
 import { FiUserCheck } from "react-icons/fi";
@@ -41,7 +41,9 @@ export function LeftPaneDesktop() {
       className={`max-md:hidden bg-accent w-[220px] max-h-screen overflow-y-auto py-6`}
     >
       <div className="p-6 flex items-center justify-between">
-        <h1 className="text-2xl font-black">⚽ KFC </h1>
+        <Link href={"/"} className="text-2xl font-black grow flex" title="Home">
+          ⚽ KFC
+        </Link>
       </div>
       <ul className="flex flex-col flex-1 gap-3 h-fit pl-1">
         {sidebarLinks.map((slink, index) => (
@@ -77,10 +79,8 @@ export function LeftPaneDesktop() {
 }
 export function LeftPaneMobile() {
   const pathname = usePathname();
-  const activeLink = (linkname: string) => {
-    if (linkname == "/") return false;
-    else return pathname == linkname ? true : false;
-  };
+  const activeLink = (linkname: string) =>
+    pathname == linkname ? true : false;
 
   return (
     <SideDrawerToRight>
@@ -116,11 +116,6 @@ export function LeftPaneMobile() {
 }
 
 const sidebarLinks = [
-  {
-    label: "Home",
-    path: "/",
-    icon: <BiHome />,
-  },
   {
     label: "Features",
     path: "/admin/features",

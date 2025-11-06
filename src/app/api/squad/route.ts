@@ -1,5 +1,5 @@
 import { ISquad } from "@/app/admin/squad/page";
-import { getErrorMessage } from "@/lib";
+import { getErrorMessage, removeEmptyKeys } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import SquadModel from "@/models/squad";
 import { NextRequest, NextResponse } from "next/server";
@@ -8,6 +8,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
 import { logAction } from "../logs/helper";
 import MatchModel from "@/models/match";
+import { IUser } from "@/types/user";
 
 
 ConnectMongoDb();
@@ -33,12 +34,14 @@ export async function GET(request: NextRequest) {
     ],
   }
 
-  const managers = await SquadModel.find(query)
+  const cleaned = removeEmptyKeys(query)
+
+  const managers = await SquadModel.find(cleaned)
     .populate('match')
     .limit(limit).skip(skip)
     .lean().sort({ createdAt: "desc" });
 
-  const total = await SquadModel.countDocuments(query)
+  const total = await SquadModel.countDocuments(cleaned)
   return NextResponse.json({
     success: true, data: managers, pagination: {
       page,
@@ -68,7 +71,7 @@ export async function POST(request: NextRequest) {
     await MatchModel.findByIdAndUpdate(match._id, { $set: { squad: savedSquad._id } })
 
     await postNews({
-      headline: { text: `New Squad Created: ${description}`, image: { secure_url: players[0].avatar }, },
+      headline: { text: `New Squad Created: ${description}`, image: players[0].avatar as string, },
       metaDetails: [{ text: `A new squad has been created for the match against ${match.opponent.name ?? ''}. Scheduled on ${match.date ?? ''} at ${match.time ?? ''}.` }],
       type: 'squad'
     });
@@ -78,7 +81,7 @@ export async function POST(request: NextRequest) {
       description: description || `${match.title} on ${match.date}` as string,
       category: "db",
       severity: "info",
-      userEmail: session?.user?.email as string,
+      user: session?.user as IUser,
 
     });
     return NextResponse.json({ message: "Squad created successfully!", success: true, data: savedSquad });

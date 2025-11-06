@@ -19,7 +19,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <section className="flex-1 md:h-screen md:overflow-y-auto">
         <Header />
 
-        <div className="max-md:pt-4 pt-2">{children}</div>
+        <div className="max-md:pt-4 pt-2 px-[4vw]">{children}</div>
 
         <AdminFooter />
       </section>

@@ -28,8 +28,8 @@ export function PrimaryAccordion(props: IAccordionProps) {
       defaultValue={props.data?.find((d) => d.isDefault)?.value}
     >
       {props.data?.map((d) => (
-        <AccordionItem value={d.value} key={d.value}>
-          <AccordionTrigger className={props.triggerStyles}>
+        <AccordionItem value={d.value} key={d.value} className="group">
+          <AccordionTrigger className={` ${props.triggerStyles}`}>
             {d.trigger}
           </AccordionTrigger>
           <AccordionContent>{d.content}</AccordionContent>

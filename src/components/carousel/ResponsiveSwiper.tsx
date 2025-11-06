@@ -17,6 +17,7 @@ interface ResponsiveSwiperProps {
   noSpacing?: boolean;
   swiperStyles?: CSSProperties;
   slideStyles?: CSSProperties;
+  doubleCount?: boolean;
 }
 
 export function ResponsiveSwiper({
@@ -27,6 +28,7 @@ export function ResponsiveSwiper({
   noSpacing,
   swiperStyles = {},
   slideStyles = {},
+  doubleCount,
 }: ResponsiveSwiperProps) {
   const swiperRef = useRef<SwiperType | null>(null);
   const [slidesPerView, setSlidesPerView] = useState(1);
@@ -68,7 +70,7 @@ export function ResponsiveSwiper({
       <Swiper
         onSwiper={(s) => (swiperRef.current = s)}
         modules={[Navigation, Pagination, Autoplay]}
-        slidesPerView={slidesPerView}
+        slidesPerView={slidesPerView * (doubleCount ? 2 : 1)}
         spaceBetween={noSpacing ? 0 : spaceBetween}
         navigation={showNavigation}
         pagination={showPagination ? { clickable: true } : false}

@@ -42,7 +42,7 @@ export default function ContentShowcaseWrapper({
       } ${className}`}
     >
       {/* Left: Main Content */}
-      <div className="max-md:w-full md:min-w-[60%] flex justify-center">{children}</div>
+      <div className="max-md:w-full md:min-w-[60%] flex justify-center grow">{children}</div>
 
       {/* Right: Graphic / Tips Section */}
       <div
@@ -71,7 +71,7 @@ export default function ContentShowcaseWrapper({
                     alt={`Slide ${i + 1}`}
                     width={500}
                     height={400}
-                    className="rounded-xl object-contain bg-popover max-md:max-h-[70vh]"
+                    className="rounded-xl object-contain bg-popover max-md:max-h-[60vh]"
                   />
                 </div>
               </SwiperSlide>

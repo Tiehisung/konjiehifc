@@ -7,7 +7,7 @@ import { IPlayer } from "../players/page";
 
 const PlayerStatistics = () => {
   return (
-    <div className="_page">
+    <div className="_page px-5">
       <Title>Statistics</Title>
       <div className=" flex items-center flex-wrap justify-center gap-6  ">
         {_playerStats.map((pstat, i) => (

@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { fileSchema } from "./file";
 
 const donationSchema = new Schema(
   {
@@ -8,7 +9,8 @@ const donationSchema = new Schema(
       trim: true,
     },
     description: String,
-    files: [{ type: Schema.Types.ObjectId, ref: "files" }],
+    files: [fileSchema]
+    ,
     sponsor: {
       type: Schema.Types.ObjectId,
       ref: "sponsors",
@@ -22,3 +24,4 @@ const DonationModel =
   mongoose.models.donations || mongoose.model("donations", donationSchema);
 
 export default DonationModel;
+

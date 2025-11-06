@@ -2,22 +2,19 @@ import mongoose, { Schema } from "mongoose";
 
 const sponsorSchema = new Schema(
   {
-    ownerName: {
+    name: {
       type: String,
-      unique: [true, "Name already exists"],
       trim: true,
     },
     businessName: {
       type: String,
-      required: true,
-      unique: [true, "Business name already exists"],
       trim: true,
       min: [2, "Minimun length is 2"],
       max: [20, "Maximum length is 20"],
     },
     businessDescription: { type: String },
     phone: String,
-    logo: { type: Schema.Types.ObjectId, ref: "files" },
+    logo: String,
     donations: [
       {
         type: Schema.Types.ObjectId,

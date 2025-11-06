@@ -2,31 +2,33 @@
 
 import { ISponsorProps } from "@/app/sponsorship/page";
 import { staticImages } from "@/assets/images";
-import Image from "next/image";
+import { AVATAR } from "@/components/ui/avatar";
 import React from "react";
+import { FaPhoneAlt } from "react-icons/fa";
+import { MdLabelImportant } from "react-icons/md";
 
 const AdminSponsorOverview = ({ sponsor }: { sponsor: ISponsorProps }) => {
   return (
-    <div id="sponsor-info">
-      <h1 className="_title">Overview</h1>
-      <div className="_secondaryBg p-5 ">
-        <p className="">
-          Name : <span className="_label ">{sponsor?.ownerName}</span>
-        </p>
-        <p className="">
-          Business : <span className="_label ">{sponsor?.businessName}</span>
-        </p>
-        <p className="">
-          Contact : <span className="_label ">{sponsor?.phone}</span>
-        </p>
+    <div id="sponsor-info" className="relative w-full">
+      <h1 className="_title _gradient text-center">Overview</h1>
+      <div className=" p-5 flex flex-col justify-center items-center gap-1.5 _card bg-accent/20 backdrop-blur-xs">
         <br />
-        <Image
-          src={sponsor?.logo?.secure_url || staticImages.manager}
-          width={600}
-          height={600}
-          alt={sponsor.ownerName ?? "sponsor"}
-          className="w-80 h-auto m-1"
+        <AVATAR
+          src={(sponsor?.logo as string) ?? staticImages.sponsor}
+          alt={sponsor?.name ?? "sponsor"}
+          className="w-40 h-auto m-1"
         />
+        <div className="text-center">
+          <p className="_heading">{sponsor?.name}</p>
+          <p className="_subtitle flex items-center gap-4">
+            <MdLabelImportant />
+            {sponsor?.businessName}
+          </p>
+          <p className="_subtitle flex items-center gap-4 ">
+            <FaPhoneAlt />
+            {sponsor?.phone}
+          </p>
+        </div>
       </div>
     </div>
   );

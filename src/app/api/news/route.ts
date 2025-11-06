@@ -9,6 +9,7 @@ import { fileUploader } from "../file/Uploader";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
 import { logAction } from "../logs/helper";
+import { IUser } from "@/types/user";
 // export const revalidate = 0;
 
 ConnectMongoDb();
@@ -99,7 +100,7 @@ export async function POST(request: NextRequest) {
       description: headline.text as string,
       category: "db",
       severity: "info",
-      userEmail: (session?.user?.email as string) ?? reporter?.name,
+      user: (session?.user as IUser) ?? reporter,
       meta: reporter
 
     });

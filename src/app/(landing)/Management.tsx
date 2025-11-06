@@ -17,7 +17,7 @@ export const TechnicalManagement = async () => {
     <div id="technical-management" className="_page max-w-full overflow-hidden">
       <Title>Technical Management</Title>
 
-      <div className="flex flex-wrap items-center justify-center gap-8">
+      <div className="flex max-sm:flex-col flex-wrap items-center justify-center gap-8">
         <CardCarousel
           cards={
             captains?.map((captain, index: number) => (
@@ -44,7 +44,6 @@ export const TechnicalManagement = async () => {
         <CgShapeRhombus size={100} className="animate-pulse" />
 
         <CardCarousel
-          effect="flip"
           cards={
             managers?.map((manager: IManager, index: React.Key) => (
               <div

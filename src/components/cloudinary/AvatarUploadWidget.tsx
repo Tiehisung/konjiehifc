@@ -111,7 +111,7 @@ export default function ImageUploaderCldWidget({
           cropping,
           croppingAspectRatio: 1, // force square
           resourceType: "image",
-          sources: ["camera", "local", "url", "google_drive", "image_search"],
+          sources: ["local", "url","camera",  "google_drive", "image_search"],
           clientAllowedFormats: ["jpg", "jpeg", "png", "webp"],
           showPoweredBy: false,
           theme: "minimal",
@@ -135,7 +135,7 @@ export default function ImageUploaderCldWidget({
           <button
             type="button"
             onClick={() => open()}
-            className={`${className} px-4 py-2 rounded-md text-sm font-semibold shadow transition cursor-pointer`}
+            className={`${className} flex gap-2 px-4 py-2 rounded-md text-sm font-semibold shadow transition cursor-pointer`}
           >
             {label}
             <Camera />

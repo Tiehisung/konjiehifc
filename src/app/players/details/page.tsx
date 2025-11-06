@@ -3,7 +3,6 @@ import { IPlayer } from "../page";
 import PlayerProfile from "./Profile";
 import { IGalleryProps, IQueryResponse } from "@/types";
 import { PlayerHeadList } from "./PlayerHeadList";
-import { PlayerGalleryUpload } from "./GalleryUpload";
 import { apiConfig } from "@/lib/configs";
 
 interface PageProps {

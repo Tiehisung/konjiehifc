@@ -20,7 +20,7 @@ export type TConvertedFile = {
 };
 
 export interface IFileProps extends ICldFileUploadResult {
-  _id: string; //Trace any saved file data on db
+  _id?: string; //Trace any saved file data on db
   name?: string;
   description?: string; //Optional field to save with file on db
   createdAt?: string;
@@ -55,7 +55,7 @@ export type TPreset = "konjiehifc";
 export type TResourceType = "image" | "video" | "audio" | "auto";
 // export type TFolders = "images/logos" | "images" | "videos" | "audios";
 
-export type IRecord = Record<string, string | string[] | undefined | unknown> | undefined
+export type IRecord = Record<string, string | string[] | undefined >
 
 export interface IQueryResponse<T = unknown> {
   success: boolean;
@@ -80,9 +80,10 @@ export interface IQueryRecords {
   type?: string;
   page?: number
   limit?: number
-  startDate?: string
+  date?: string
   endDate?: string
   search?: string
+  
 }
 
 

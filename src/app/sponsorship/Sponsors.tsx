@@ -30,7 +30,7 @@ export default function TopSponsors({ sponsors }: TopSponsorsProps) {
           className=" p-4 w-fit h-fit rounded-2xl hover:bg-slate-400/30 slowTrans"
         >
           <Image
-            src={sponsor?.logo?.secure_url ?? staticImages.sponsor.src}
+            src={sponsor?.logo ?? staticImages.sponsor.src}
             width={300}
             height={300}
             alt="desc image"
@@ -45,15 +45,7 @@ export default function TopSponsors({ sponsors }: TopSponsorsProps) {
   );
 }
 
-export function AllSponsors({ sponsors }: { sponsors: ISponsorProps[] }) {
-  if (!sponsors)
-    return (
-      <Loader
-        message="Loading sponsors..."
-        iconStyles={"text-3xl"}
-        className="flex flex-col justify-center items-center h-40 text-teal-400"
-      />
-    );
+export function AllSponsors({ sponsors = [] }: { sponsors?: ISponsorProps[] }) {
   return (
     <ul className="grid grid-cols-3 sm:flex flex-wrap max-full  my-8">
       {sponsors?.map((sponsor, index) => (
@@ -63,7 +55,7 @@ export function AllSponsors({ sponsors }: { sponsors: ISponsorProps[] }) {
             className=" p-4 w-fit h-fit rounded-2xl hover:bg-slate-400/30 slowTrans"
           >
             <Image
-              src={sponsor?.logo?.secure_url ?? staticImages.sponsor}
+              src={sponsor?.logo ?? staticImages.sponsor}
               width={300}
               height={300}
               alt="desc image"
@@ -84,7 +76,7 @@ export function MegaSponsors() {
   useEffect(() => {
     async function getSponsorsData() {
       const sponsors = await getSponsors();
-      setSponsors(sponsors);
+      setSponsors(sponsors?.data??[]);
     }
     getSponsorsData();
   }, []);
