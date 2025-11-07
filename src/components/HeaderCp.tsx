@@ -11,7 +11,7 @@ import UserLogButtons from "./UserLogger";
 import { GrDashboard } from "react-icons/gr";
 import { useSession } from "next-auth/react";
 import { ThemeModeToggle } from "./ThemeToggle";
-import { SideDrawer } from "./ShadSideDrawer";
+import { NavigationPopover } from "./NavigationPopover";
 
 export default function HeaderCp() {
   const pathname = usePathname();
@@ -40,51 +40,12 @@ export function NavBar() {
   return (
     <div className=" container ml-auto flex justify-end items-center ">
       <DesktopNav />
-      <MobilieNavCp />
+      <MobilePublicNuv />
     </div>
   );
 }
 
-export function MobilieNavCp() {
-  const { status } = useSession();
 
-  return (
-    <SideDrawer
-      className="pt-8 "
-      triggerStyles="lg:hidden rounded-full aspect-square h-12 shadow-lg"
-      side="bottom"
-    >
-      <ul className="items-center w-full min-h-full text-base cursor-pointer shadow-md space-y-2">
-        {navLinks.map((nlink, index) => (
-          <li key={index} className="flex">
-            <Link
-              href={nlink.href}
-              className="hover:bg-blue-400 hover:text-white flex gap-1 w-full items-center h-10"
-            >
-              <span className="p-2 ">{nlink.icon}</span>
-              {nlink.title}
-            </Link>
-          </li>
-        ))}
-        {status == "authenticated" && (
-          <li className={`flex`}>
-            <Link
-              href={"/admin"}
-              className="hover:bg-blue-400 hover:text-white flex gap-1 w-full items-center h-10"
-            >
-              <span className="p-2 ">{<GrDashboard size={24} />}</span>
-              Admin Dashboard
-            </Link>
-          </li>
-        )}
-        <li className="mt-12 px-3 flex gap-6 items-center flex-wrap">
-          <ThemeModeToggle />
-          <UserLogButtons logoutStyles="_deleteBtn border rounded flex items-center gap-1 text-sm justify-center w-fit py-1 px-2" />
-        </li>
-      </ul>
-    </SideDrawer>
-  );
-}
 
 export const DesktopNav = () => {
   return (
@@ -94,7 +55,11 @@ export const DesktopNav = () => {
           key={index}
           style={{ background: bgcolors[index] }}
           className={` flex flex-col font-semibold capitalize text-white overflow-hidden ${
-            index == 0 ? "rounded-l-full" : index == navLinks.length - 1 ? "rounded-r-full" : ""
+            index == 0
+              ? "rounded-l-full"
+              : index == navLinks.length - 1
+              ? "rounded-r-full"
+              : ""
           }`}
         >
           <Link
@@ -138,3 +103,80 @@ const navLinks = [
   { title: "Live", href: "/live-match", icon: <TbTableRow size={24} /> },
   { title: "News", href: "/news", icon: <RiNewsLine size={24} /> },
 ];
+
+export const MobilePublicNuv = () => {
+  const { status } = useSession();
+  return (
+    <NavigationPopover>
+      <ul className="items-center w-full space-y-2">
+        {navLinks.map((nlink, index) => (
+          <li key={index} className="flex _hover">
+            <Link
+              href={nlink.href}
+              className="flex gap-1 w-full items-center h-10 hover:font-black px-2"
+            >
+              <span className="p-2 ">{nlink.icon}</span>
+              {nlink.title}
+            </Link>
+          </li>
+        ))}
+        {status == "authenticated" && (
+          <li className={`flex _hover`}>
+            <Link
+              href={"/admin"}
+              className="flex gap-1 w-full items-center h-10 hover:font-semibold px-2"
+            >
+              <span className="p-2 ">{<GrDashboard size={24} />}</span>
+              Admin Dashboard
+            </Link>
+          </li>
+        )}
+        <li className="mt-12 px-3 flex gap-6 items-center flex-wrap">
+          <ThemeModeToggle />
+          <UserLogButtons logoutStyles="_deleteBtn border rounded flex items-center gap-1 text-sm justify-center w-fit py-1 px-2" />
+        </li>
+      </ul>
+    </NavigationPopover>
+  );
+};
+
+// export function MobilieNavCp() {
+//   const { status } = useSession();
+
+//   return (
+//     <SideDrawer
+//       className="pt-8 "
+//       triggerStyles="lg:hidden rounded-full aspect-square h-12 shadow-lg"
+//       side="bottom"
+//     >
+//       <ul className="items-center w-full min-h-full text-base cursor-pointer shadow-md space-y-2">
+//         {navLinks.map((nlink, index) => (
+//           <li key={index} className="flex">
+//             <Link
+//               href={nlink.href}
+//               className="hover:bg-blue-400 hover:text-white flex gap-1 w-full items-center h-10"
+//             >
+//               <span className="p-2 ">{nlink.icon}</span>
+//               {nlink.title}
+//             </Link>
+//           </li>
+//         ))}
+//         {status == "authenticated" && (
+//           <li className={`flex`}>
+//             <Link
+//               href={"/admin"}
+//               className="hover:bg-blue-400 hover:text-white flex gap-1 w-full items-center h-10"
+//             >
+//               <span className="p-2 ">{<GrDashboard size={24} />}</span>
+//               Admin Dashboard
+//             </Link>
+//           </li>
+//         )}
+//         <li className="mt-12 px-3 flex gap-6 items-center flex-wrap">
+//           <ThemeModeToggle />
+//           <UserLogButtons logoutStyles="_deleteBtn border rounded flex items-center gap-1 text-sm justify-center w-fit py-1 px-2" />
+//         </li>
+//       </ul>
+//     </SideDrawer>
+//   );
+// }

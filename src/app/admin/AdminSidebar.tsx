@@ -1,15 +1,15 @@
 "use client";
 
 import { Button } from "@/components/buttons/Button";
-import SideDrawerToRight from "@/components/drawer/SideDrawerToRight";
+import { NavigationPopover } from "@/components/NavigationPopover";
 import { ThemeModeToggle } from "@/components/ThemeToggle";
+import UserLogButtons from "@/components/UserLogger";
 import { LogOut, Logs } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { AiOutlineTeam } from "react-icons/ai";
-import { BiLogOut } from "react-icons/bi";
 import { CgDatabase } from "react-icons/cg";
 import { FcManager } from "react-icons/fc";
 import { FiUserCheck } from "react-icons/fi";
@@ -77,21 +77,24 @@ export function LeftPaneDesktop() {
     </div>
   );
 }
+
 export function LeftPaneMobile() {
   const pathname = usePathname();
   const activeLink = (linkname: string) =>
     pathname == linkname ? true : false;
 
   return (
-    <SideDrawerToRight>
-      <ul className="w-full text-teal-500 overflow-y-auto ">
+    <NavigationPopover triggerStyles="md:hidden" className="backdrop-blur-sm text-white">
+      <ul className="w-full">
         {sidebarLinks.map((slink, index) => (
           <li
             key={index}
-            className={`_hover ${activeLink(slink.path) ? " bg-card  " : " "}`}
+            className={`flex _hover px-2 rounded-md ${
+              activeLink(slink.path) ? " bg-card  " : " "
+            }`}
           >
             <Link
-              className="px-3 py-2 border-b _borderColor w-full flex gap-2 items-center  "
+              className="flex gap-1 w-full items-center h-10 hover:font-black "
               href={slink.path}
             >
               <span className="text-xl">{slink.icon}</span>
@@ -100,21 +103,14 @@ export function LeftPaneMobile() {
           </li>
         ))}
 
-        <li className="mt-10 flex gap-10 justify-center items-center">
-          <Button
-            onClick={() => signOut()}
-            primaryText="Logout"
-            className={`p-2  _deleteBtn rounded-full w-44 justify-center`}
-          >
-            <BiLogOut />
-          </Button>
+        <li className="mt-12 px-3 flex gap-6 items-center flex-wrap">
           <ThemeModeToggle />
+          <UserLogButtons logoutStyles="_deleteBtn border rounded flex items-center gap-1 text-sm justify-center w-fit py-1 px-2" />
         </li>
       </ul>
-    </SideDrawerToRight>
+    </NavigationPopover>
   );
 }
-
 const sidebarLinks = [
   {
     label: "Features",
@@ -178,3 +174,38 @@ const sidebarLinks = [
     icon: <Logs />,
   },
 ];
+// export const MobilePublicNuv = () => {
+//   const { status } = useSession();
+//   return (
+//     <NavigationPopover>
+//       <ul className="items-center w-full space-y-2">
+//         {navLinks.map((nlink, index) => (
+//           <li key={index} className="flex">
+//             <Link
+//               href={nlink.href}
+//               className="flex gap-1 w-full items-center h-10 hover:font-black"
+//             >
+//               <span className="p-2 ">{nlink.icon}</span>
+//               {nlink.title}
+//             </Link>
+//           </li>
+//         ))}
+//         {status == "authenticated" && (
+//           <li className={`flex`}>
+//             <Link
+//               href={"/admin"}
+//               className="flex gap-1 w-full items-center h-10 hover:font-semibold"
+//             >
+//               <span className="p-2 ">{<GrDashboard size={24} />}</span>
+//               Admin Dashboard
+//             </Link>
+//           </li>
+//         )}
+//         <li className="mt-12 px-3 flex gap-6 items-center flex-wrap">
+//           <ThemeModeToggle />
+//           <UserLogButtons logoutStyles="_deleteBtn border rounded flex items-center gap-1 text-sm justify-center w-fit py-1 px-2" />
+//         </li>
+//       </ul>
+//     </NavigationPopover>
+//   );
+// };

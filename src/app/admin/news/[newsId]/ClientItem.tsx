@@ -7,19 +7,24 @@ import { IFileProps } from "@/types";
 import { INewsProps } from "@/app/news/page";
 import { ISquad } from "../../squad/page";
 import { getFormattedDate } from "@/lib/timeAndDate";
-import { useSession } from "next-auth/react";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { apiConfig } from "@/lib/configs";
 import { shortText } from "@/lib";
+ 
 
 const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
-  const session = useSession();
   const [loadingImage, setLoadingImage] = useState(false);
 
   return (
     <div className=" mb-10 p-4">
       <header className="flex flex-wrap justify-center items-center">
-        <p className="_title">{newsItem?.headline?.text}</p>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: newsItem?.headline?.text as string,
+          }}
+          className="text-sm md:text-lg mb-5 font-semibold "
+        />
+
         <Image
           width={1000}
           height={500}
@@ -101,7 +106,26 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
                 </div>
               </div>
             ) : (
-              ""
+              newsItem?.details?.map((detail, index) => {
+                return (
+                  <div key={index}>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: detail?.text as string,
+                      }}
+                    />
+
+                    <div key={index} className="flex flex-wrap gap-4">
+                      {detail?.media?.map((file, i) => {
+                        if (file.secure_url)
+                          return (
+                            <FileRenderer file={file as IFileProps} key={i} />
+                          );
+                      })}
+                    </div>
+                  </div>
+                );
+              })
             )}
           </section>
 
@@ -158,6 +182,8 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
             </div>
           </section>
         </main>
+
+      
       </div>
     </div>
   );

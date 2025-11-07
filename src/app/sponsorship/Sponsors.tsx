@@ -52,14 +52,14 @@ export function AllSponsors({ sponsors = [] }: { sponsors?: ISponsorProps[] }) {
         <li key={index} className="flex">
           <Link
             href={`/sponsorship/${sponsor._id}`}
-            className=" p-4 w-fit h-fit rounded-2xl hover:bg-slate-400/30 slowTrans"
+            className=" p-4 w-fit h-fit rounded-2xl hover:bg-slate-400/30 _slowTrans"
           >
             <Image
               src={sponsor?.logo ?? staticImages.sponsor}
               width={300}
               height={300}
               alt="desc image"
-              className="h-20 w-24 min-w-20 rounded-2xl object-cover bg-base-100"
+              className="h-20 w-20 min-w-20 rounded-2xl object-cover bg-base-100"
             />
             <p className="max-w-24 line-clamp-1 _label text-center">
               {sponsor?.businessName}

@@ -69,7 +69,9 @@ export function POPOVER({
       >
         {trigger}
       </PopoverTrigger>
-      <PopoverContent className={`w-80 ${className}`}>
+      <PopoverContent
+        className={`w-80 max-h-[80vh] overflow-y-auto _hideScrollbar  ${className}`}
+      >
         {children}
       </PopoverContent>
     </Popover>

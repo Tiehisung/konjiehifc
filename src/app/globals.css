@@ -216,7 +216,7 @@
 }
 
 ._hover {
-  @apply hover:opacity-85 hover:bg-accent/85 hover:text-primaryGreen transition-transform;
+  @apply hover:bg-secondary-foreground/10 transition-colors
 }
 
 ._inspect {
