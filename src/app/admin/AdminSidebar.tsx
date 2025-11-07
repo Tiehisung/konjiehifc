@@ -4,7 +4,7 @@ import { Button } from "@/components/buttons/Button";
 import { NavigationPopover } from "@/components/NavigationPopover";
 import { ThemeModeToggle } from "@/components/ThemeToggle";
 import UserLogButtons from "@/components/UserLogger";
-import { LogOut, Logs } from "lucide-react";
+import { Home, LogOut, Logs } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -97,7 +97,7 @@ export function LeftPaneMobile() {
               className="flex gap-1 w-full items-center h-10 hover:font-black "
               href={slink.path}
             >
-              <span className="text-xl">{slink.icon}</span>
+              <span className="text-xl bg-accent/30 rounded-full p-1.5">{slink.icon}</span>
               {slink.label}
             </Link>
           </li>
@@ -112,6 +112,11 @@ export function LeftPaneMobile() {
   );
 }
 const sidebarLinks = [
+  {
+    label: "Home",
+    path: "/",
+    icon: <Home />,
+  },
   {
     label: "Features",
     path: "/admin/features",

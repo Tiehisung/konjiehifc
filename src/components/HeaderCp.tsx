@@ -108,14 +108,16 @@ export const MobilePublicNuv = () => {
   const { status } = useSession();
   return (
     <NavigationPopover>
-      <ul className="items-center w-full space-y-2">
+      <ul className="items-center w-full space-y-2 text-white">
         {navLinks.map((nlink, index) => (
           <li key={index} className="flex _hover">
             <Link
               href={nlink.href}
               className="flex gap-1 w-full items-center h-10 hover:font-black px-2"
             >
-              <span className="p-2 ">{nlink.icon}</span>
+              <span className="text-xl bg-accent/30 rounded-full p-1.5">
+                {nlink.icon}
+              </span>
               {nlink.title}
             </Link>
           </li>
