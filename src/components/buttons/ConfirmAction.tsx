@@ -23,6 +23,7 @@ interface IProps {
   title?: string;
   confirmText?: string;
   gobackAfter?: boolean;
+  triggerStyles?: string;
 }
 
 export const ConfirmActionButton = ({
@@ -38,10 +39,27 @@ export const ConfirmActionButton = ({
   confirmText,
   title,
   gobackAfter,
+  triggerStyles = variant == "primary"
+    ? "text-primaryGreen"
+    : variant == "secondary"
+    ? "text-primary"
+    : variant == "destructive"
+    ? "text-red-500"
+    : "",
 }: IProps) => {
   const router = useRouter();
 
   const [waiting, setWaiting] = useState(false);
+
+  const triggerClassName =
+    triggerStyles ??
+    (variant == "primary"
+      ? "text-primaryGreen"
+      : variant == "secondary"
+      ? "text-primary"
+      : variant == "destructive"
+      ? "text-red-500"
+      : "");
 
   const handleAction = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -70,6 +88,9 @@ export const ConfirmActionButton = ({
     } finally {
       setWaiting(false);
       router.refresh();
+      setTimeout(() => {
+        router.refresh();
+      }, 1000);
       if (escapeOnEnd) fireEscape();
     }
   };
@@ -78,13 +99,18 @@ export const ConfirmActionButton = ({
     <div className="my-12 ">
       <DIALOG
         trigger={primaryText}
-        triggerStyles={`text-red-500 capitalize`}
+        triggerStyles={`${triggerClassName} capitalize`}
         title={title}
         closeId={""}
       >
         <Card>
           <CardContent className="flex flex-col items-center justify-center">
-            {confirmText && <p className="_label mb-6">{confirmText}</p>}
+            {confirmText && (
+              <div
+                className="_label mb-6"
+                dangerouslySetInnerHTML={{ __html: confirmText }}
+              />
+            )}
             <Button
               waiting={waiting}
               disabled={waiting}

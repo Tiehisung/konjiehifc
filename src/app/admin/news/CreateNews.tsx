@@ -47,7 +47,7 @@ const CreateNews = () => {
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
 
-  const { control, handleSubmit, reset ,watch} = useForm<IPostNews>({
+  const { control, handleSubmit, reset } = useForm<IPostNews>({
     defaultValues: {
       headline: { text: "", image: "" },
       details: [{ text: "<p>Start typing...</p><br/>" }],
@@ -58,8 +58,6 @@ const CreateNews = () => {
     },
   });
 
- 
-
   const { fields, append, remove } = useFieldArray({
     control,
     name: "details",
@@ -67,7 +65,6 @@ const CreateNews = () => {
 
   const onSubmit = async (data: IPostNews) => {
     try {
-      console.log(data)
       setWaiting(true);
       const res = await fetch(apiConfig.news, {
         method: "POST",
@@ -156,11 +153,9 @@ const CreateNews = () => {
                   render={({ field }) => (
                     <CloudinaryUploader
                       triggerId={""}
-                      setUploadedFiles={(fs) =>
-                        field.onChange(fs.map((f) => f.secure_url))
-                      }
+                      setUploadedFiles={(fs) => field.onChange(fs)}
                       successMessage=""
-                      maxFiles={6}
+                      maxFiles={30}
                       className="hover:bg-accent p-1.5 rounded-md flex text-xs items-center font-light"
                       trigger={
                         <>

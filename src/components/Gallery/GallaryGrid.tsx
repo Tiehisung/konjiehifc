@@ -13,6 +13,7 @@ interface GalleryGridProps {
   galleries: IGalleryProps[];
   showDate?: boolean;
   name?: string;
+  
 }
 
 export default function GalleryGrid({

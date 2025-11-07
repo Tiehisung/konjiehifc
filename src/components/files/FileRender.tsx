@@ -1,5 +1,3 @@
- 
-
 import { fileIcons, getFileTypeName } from "@/data/file";
 import { IFileProps } from "@/types";
 import Image from "next/image";
@@ -7,23 +5,19 @@ import Image from "next/image";
 interface FileRendererProps {
   file?: IFileProps;
   className?: string;
-  localFile?: File;
   controls?: boolean;
 }
 
 const FileRenderer: React.FC<FileRendererProps> = ({
   file,
   className,
-  localFile,
   controls,
 }) => {
-  const fileUrl = localFile
-    ? URL.createObjectURL(localFile)
-    : (file?.secure_url as string);
-  const fileType = localFile ? localFile.type : (file?.resource_type as string);
-  const fileName = localFile ? localFile.name : file?.name;
+  const fileUrl = file?.secure_url as string;
+  const fileType = file?.resource_type as string;
+  const fileName = file?.original_filename;
 
-  switch (getFileTypeName(fileType)) {
+  switch (fileType) {
     case "image":
       return (
         <Image
@@ -53,6 +47,7 @@ const FileRenderer: React.FC<FileRendererProps> = ({
         />
       );
     case "pdf":
+    case "auto":
       return (
         <iframe
           src={fileUrl}

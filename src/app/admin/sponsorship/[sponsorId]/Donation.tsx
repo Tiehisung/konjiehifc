@@ -17,8 +17,7 @@ export function DisplayDonations({
 }) {
   const galleries: IGalleryProps[] =
     donations?.data?.map((d) => ({ ...d, tags: [], title: d.item })) ?? [];
-
-    console.log(donations)
+ 
   return (
     <div id="support" className="space-y-6">
       <PrimaryAccordion

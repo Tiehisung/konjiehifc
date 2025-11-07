@@ -14,11 +14,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Users, CalendarDays, MapPin, Clock, UserCog } from "lucide-react";
-import { getFormattedDate, getTimeAgo } from "@/lib/timeAndDate";
+import { formatDate, getFormattedDate, getTimeAgo } from "@/lib/timeAndDate";
 import { ITrainingSession } from "./page";
 import { IPlayer } from "@/app/players/page";
 import { getInitials } from "@/lib";
-import TrainingActionButtons from "./Action";
+import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
+import { apiConfig } from "@/lib/configs";
 
 interface Props {
   trainingSession?: ITrainingSession;
@@ -124,7 +125,17 @@ const TrainingSessionCard = ({ trainingSession }: Props) => {
           Created on {getFormattedDate(trainingSession?.createdAt)} (
           {getTimeAgo(trainingSession?.createdAt as string)})
         </p>
-        <TrainingActionButtons trainingId={trainingSession?._id as string} />
+        {/* <TrainingActionButtons trainingId={trainingSession?._id as string} /> */}
+        <ConfirmActionButton
+          primaryText="Delete Attendance"
+          uri={`${apiConfig.trainingSession}/${trainingSession?._id}`}
+          method={"DELETE"}
+          escapeOnEnd
+          variant="destructive"
+          title="Delete Attendance"
+          confirmText={`Are you sure you want to delete "${formatDate(trainingSession?.date,'March 2, 2025') }" attendance?`}
+       
+        />
       </CardFooter>
     </Card>
   );

@@ -1,7 +1,6 @@
 import { getErrorMessage, removeEmptyKeys } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import { NextRequest, NextResponse } from "next/server";
-import { postNews } from "../news/post";
 import { logAction } from "../logs/helper";
 import TrainingSession from "@/models/training";
 import { formatDate } from "@/lib/timeAndDate";
@@ -63,11 +62,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Failed to record session.", success: false });
     }
 
-    await postNews({
-      headline: { text: `New session recorded at ${location}`, image: attendance.attendedBy[0].avatar as string, },
-      metaDetails: [{ text: `A new training session has been created on ${formatDate(new Date().toISOString()) ?? ''}.` }],
-      type: 'training'
-    });
+
 
     // log
     await logAction({

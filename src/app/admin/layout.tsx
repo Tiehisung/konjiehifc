@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <main className="md:flex relative ">
+    <main className="md:flex  ">
       <LeftPaneDesktop />
       <section className="flex-1 md:h-screen md:overflow-y-auto">
         <Header />
@@ -33,7 +33,7 @@ const Header = async () => {
     session?.user?.name?.split(" ")?.[0] ??
     session?.user?.email?.split("@")?.[0];
   return (
-    <header className="flex justify-between px-6 pt-2">
+    <header className="flex justify-between px-6 pt-2 sticky top-1">
       <LeftPaneMobile />
 
       <div className="flex items-center gap-3 text-sm ml-auto divide-x">

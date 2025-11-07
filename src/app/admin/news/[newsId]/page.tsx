@@ -1,6 +1,6 @@
-import {  getNewsById } from "@/app/admin/news/page";
+import { getNewsById } from "@/app/admin/news/page";
 import React, { Suspense } from "react";
-import NewsItemClient from "./Item";
+import NewsItemClient from "./ClientItem";
 import Skeleton from "react-loading-skeleton";
 import { INewsProps } from "@/app/news/page";
 
@@ -23,9 +23,7 @@ const NewsItemPage = async ({ params }: Props) => {
             <Skeleton width={300} height={"200px"} className="" />
           </div>
         }
-      >
-   
-      </Suspense>
+      ></Suspense>
     </div>
   );
 };
