@@ -12,8 +12,9 @@ import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, FormEvent } from "react";
 import { toast } from "sonner";
+import { IPlayer } from "../page";
 
-export function PlayerGalleryUpload() {
+export function PlayerGalleryUpload({ player }: { player?: IPlayer }) {
   const { data: session } = useSession();
   const router = useRouter();
   const [isLoading, setIsBusy] = useState(false);
@@ -36,7 +37,10 @@ export function PlayerGalleryUpload() {
         cache: "no-cache",
         body: JSON.stringify({
           description,
-          files: files.map((file) => ({ ...file, tags: [playerId] })),
+          files: files.map((file) => ({
+            ...file,
+            tags: [player?.lastName, "player", playerId], //playerId ensures easy filtering
+          })),
           title,
           tags: [playerId],
         } as IGalleryProps),

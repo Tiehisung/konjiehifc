@@ -51,6 +51,7 @@ export async function GET(request: NextRequest) {
     },
   });
 }
+
 export async function POST(request: NextRequest) {
   try {
     const { files, tags, title, description, } = (await request.json()) as IGalleryProps;

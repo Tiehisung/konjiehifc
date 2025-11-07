@@ -4,8 +4,6 @@ import "@/models/galleries";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import PlayerModel from "@/models/player";
 import { NextRequest, NextResponse } from "next/server";
-import { IFileProps, IResultProps } from "@/types";
-import { apiConfig } from "@/lib/configs";
 import { getErrorMessage, removeEmptyKeys } from "@/lib";
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
@@ -39,7 +37,7 @@ export async function GET(request: NextRequest) {
   const cleaned = removeEmptyKeys(query)
 
   const players = await PlayerModel.find(cleaned)
-    .populate("galleries").skip(skip)
+    .populate({ path: "galleries", populate: { path: 'files' } }).skip(skip)
     .limit(limit)
     .lean();
 

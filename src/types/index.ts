@@ -43,6 +43,7 @@ export interface IGalleryProps {
   title?: string;
   description: string;
   files: Array<IFileProps>;
+  type?: 'player' | 'donation' | 'general',
   timestamp?: number;
   createdAt?: string;
   updatedAt?: string;
@@ -55,7 +56,7 @@ export type TPreset = "konjiehifc";
 export type TResourceType = "image" | "video" | "audio" | "auto";
 // export type TFolders = "images/logos" | "images" | "videos" | "audios";
 
-export type IRecord = Record<string, string | string[] | undefined >
+export type IRecord = Record<string, string | string[] | undefined>
 
 export interface IQueryResponse<T = unknown> {
   success: boolean;
@@ -83,7 +84,7 @@ export interface IQueryRecords {
   date?: string
   endDate?: string
   search?: string
-  
+
 }
 
 

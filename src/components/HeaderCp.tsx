@@ -31,21 +31,13 @@ export default function HeaderCp() {
           <span className="text-yellow-700">FC</span>
         </h1>
       </Link>
-      <NavBar />
+      <div className=" container ml-auto flex justify-end items-center ">
+        <DesktopNav />
+        <MobilePublicNuv />
+      </div>
     </div>
   );
 }
-
-export function NavBar() {
-  return (
-    <div className=" container ml-auto flex justify-end items-center ">
-      <DesktopNav />
-      <MobilePublicNuv />
-    </div>
-  );
-}
-
-
 
 export const DesktopNav = () => {
   return (
@@ -128,7 +120,9 @@ export const MobilePublicNuv = () => {
               href={"/admin"}
               className="flex gap-1 w-full items-center h-10 hover:font-semibold px-2"
             >
-              <span className="p-2 ">{<GrDashboard size={24} />}</span>
+              <span className="text-xl bg-accent/30 rounded-full p-1.5">
+                {<GrDashboard />}
+              </span>
               Admin Dashboard
             </Link>
           </li>

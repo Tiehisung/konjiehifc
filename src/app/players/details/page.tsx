@@ -28,6 +28,8 @@ export default async function PlayerProfilePage({ searchParams }: PageProps) {
 
   const player = players?.data?.find((p) => p._id == playerId);
 
+  console.log(player)
+
   return (
     <main className="_page">
       <div

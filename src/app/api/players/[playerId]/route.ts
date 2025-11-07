@@ -1,15 +1,10 @@
 import "@/models/file";
 import "@/models/galleries";
 import { getErrorMessage } from "@/lib";
-import { apiConfig } from "@/lib/configs";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import ArchivesModel from "@/models/archive";
 import PlayerModel from "@/models/player";
-import { IResultProps, IFileProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
-
-// export const revalidate = 0;
-// export const dynamic = "force-dynamic";
 
 ConnectMongoDb();
 export async function GET(
@@ -17,7 +12,7 @@ export async function GET(
   { params }: { params: Promise<{ playerId: string }> }
 ) {
   const player = await PlayerModel.findById((await params).playerId)
-    .populate("galleries");
+    .populate({ path: "galleries", populate: { path: 'files' } });
   return NextResponse.json(player);
 }
 
