@@ -85,7 +85,7 @@ export function LeftPaneMobile() {
     pathname == linkname ? true : false;
 
   return (
-    <NavigationPopover triggerStyles="md:hidden" className="backdrop-blur-sm text-white">
+    <NavigationPopover align="start" triggerStyles="md:hidden" className="backdrop-blur-sm text-white">
       <ul className="w-full">
         {sidebarLinks.map((slink, index) => (
           <li

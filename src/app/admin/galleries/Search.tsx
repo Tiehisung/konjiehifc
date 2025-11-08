@@ -10,6 +10,7 @@ export function SearchGallery({ players }: { players?: IPlayer[] }) {
   return (
     <div className="my-8 space-y-2 border-b pb-3">
       <PrimarySearch
+        type="search"
         datalist={(players ?? [])?.map((p) => `${p?.firstName} ${p?.lastName}`)}
         listId="players-search"
         searchKey="gallery_search"

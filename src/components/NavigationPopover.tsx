@@ -10,10 +10,12 @@ export function NavigationPopover({
   children,
   className,
   triggerStyles = "lg:hidden ",
+  align = "end",
 }: {
   children: ReactNode;
   className?: string;
   triggerStyles?: string;
+  align?: "end" | "center" | "start";
 }) {
   const pathname = usePathname();
   useEffect(() => {
@@ -25,6 +27,7 @@ export function NavigationPopover({
       trigger={<Menu />}
       triggerStyles={`rounded-full aspect-square h-10 w-10 shadow-lg p-1.5 cursor-pointer ${triggerStyles}`}
       id={""}
+      align={align}
     >
       {children}
     </PrimaryDropdown>

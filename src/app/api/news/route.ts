@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
 
   const session = await getServerSession(authOptions)
 
-  console.log({ session })
 
   const { searchParams } = new URL(request.url);
   const page = Number.parseInt(searchParams.get("page") || "1", 10);
