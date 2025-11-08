@@ -22,8 +22,8 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit;
     const regex = new RegExp(search, "i");
 
-    // 🧠 Build Query Object
-    const query: Record<string, any> = {};
+    // Build Query Object
+    const query: Record<string, unknown> = {};
 
     if (tags.length > 0) {
       query.tags = { $in: tags };
@@ -38,9 +38,8 @@ export async function GET(request: NextRequest) {
     }
 
     const cleaned = removeEmptyKeys(query);
-    console.log("🟢 Final Query =>", cleaned);
 
-    // ✅ Apply filters here
+    // Apply filters here
     const galleries = await GalleryModel.find(cleaned)
       .populate("files")
       .sort({ updatedAt: -1 })
@@ -61,7 +60,6 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("❌ Error fetching galleries:", error);
     return NextResponse.json(
       {
         success: false,

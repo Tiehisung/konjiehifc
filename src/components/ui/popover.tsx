@@ -65,7 +65,7 @@ export function POPOVER({
     <Popover >
       <PopoverTrigger
         asChild
-        className={`${triggerClassNames} transition-all _shrink `}
+        className={`${triggerClassNames} transition-all _shrink select-none `}
       >
         {trigger}
       </PopoverTrigger>

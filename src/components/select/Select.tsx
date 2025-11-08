@@ -48,6 +48,7 @@ export function PrimarySelect(props: ISelect) {
         disabled={props.disabled}
         name={props.name}
         required={props.required}
+        
       >
         <SelectTrigger className={`${props.triggerStyles}`} id={props.id}>
           <SelectValue placeholder={props.placeholder ?? "Select"} />

@@ -1,27 +1,23 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { useUpdateSearchParams } from "@/hooks/params";
 import { MdOutlineFilterAltOff } from "react-icons/md";
 
 export const ClearFiltersBtn = ({
-  className = "bg-primaryBg rounded px-2 ",
+  className = " rounded px-2 ",
   label,
 }: {
   className?: string;
   label?: string;
 }) => {
-  const pathname = usePathname();
-  const router = useRouter();
-  function handleClearParams() {
-    router.push(pathname, { scroll: false });
-    router.refresh();
-  }
+  const { clearParams } = useUpdateSearchParams();
+
   return (
     <button
       type="button"
       title="Clear filters"
-      className={`hover:text-opacity-75 text-xs transform primaryBg tag active:text-primaryOrange p-2 w-fit ${className}`}
-      onClick={handleClearParams}
+      className={`_hover text-xs transform active:text-primaryRed p-2 w-fit select-none ${className}`}
+      onClick={() => clearParams()}
     >
       {label ? <span>{label}</span> : <MdOutlineFilterAltOff />}
     </button>

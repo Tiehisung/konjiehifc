@@ -1,11 +1,8 @@
 import { IPostNews } from "@/app/admin/news/CreateNews";
-import { INewsProps, } from "@/app/news/page";
 import { getErrorMessage } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import NewsModel from "@/models/news";
-import { IFileProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
-import { fileUploader } from "../file/Uploader";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
 import { logAction } from "../logs/helper";

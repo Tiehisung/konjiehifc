@@ -3,7 +3,6 @@ import React from "react";
 import { Title } from "@/components/Elements";
 import { IMatchProps } from "../matches/(fixturesAndResults)";
 import { getLiveMatch } from "../admin/live-match/page";
-import { IQueryResponse } from "@/types";
 import { LiveMatchEvents } from "./LiveEventsDisplay";
 import Image from "next/image";
 import { checkTeams } from "@/lib";

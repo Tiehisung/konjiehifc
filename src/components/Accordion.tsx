@@ -17,7 +17,10 @@ export interface IAccordionProps {
   triggerStyles?: string;
 }
 export function PrimaryAccordion(props: IAccordionProps) {
-  if (!props.data || props.data.length === 0) {
+  if (!props.data) {
+    return null;
+  }
+  if (props.data.length === 0) {
     return <p>No data available.</p>;
   }
   return (

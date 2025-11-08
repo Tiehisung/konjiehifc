@@ -25,7 +25,7 @@ export default async function GalleriesAdmin({ searchParams }: IProps) {
   const qs = buildQueryStringServer(await searchParams)
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
   const galleries: IQueryResponse<IGalleryProps[]> = await getGallery(qs);
-  // console.log(galleries);
+ 
   return (
     <div>
       <StackModal
