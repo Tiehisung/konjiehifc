@@ -8,6 +8,7 @@ import { getFormattedDate } from "@/lib/timeAndDate";
 import { useState } from "react";
 import { GalleryViewer } from "./GalleryViewer";
 import { toggleClick } from "@/lib/DOM";
+import { MediaPreview } from "../files/MediaView";
 
 interface GalleryGridProps {
   galleries: IGalleryProps[];
@@ -100,28 +101,4 @@ export default function GalleryGrid({
   );
 }
 
-function MediaPreview({ file }: { file: IFileProps }) {
-  const isVideo = file?.resource_type === "video";
 
-  return (
-    <div className="relative aspect-square overflow-hidden rounded-lg">
-      {isVideo ? (
-        <video
-          src={file?.secure_url}
-          controls={false}
-          className="w-full h-full object-cover"
-          muted
-          playsInline
-        />
-      ) : (
-        <Image
-          src={file?.secure_url}
-          alt={file?.name || "gallery file"}
-          width={400}
-          height={400}
-          className="w-full h-full object-cover"
-        />
-      )}
-    </div>
-  );
-}

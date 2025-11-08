@@ -1,4 +1,3 @@
-import { IGetMatchesProps } from "@/app/admin/matches/page";
 import { deleteEmptyKeys, getErrorMessage } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import MatchModel from "@/models/match";

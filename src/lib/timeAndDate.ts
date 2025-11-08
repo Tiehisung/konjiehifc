@@ -51,7 +51,7 @@ export const getFormattedDate = (
 };
 export const formatDate = (
   dateString?: string,
-  format?: "dd/mm/yyyy" | "March 2, 2025" | "Sunday, March 2, 2025"
+  format?: "dd/mm/yyyy" | "March 2, 2025" | "Sunday, March 2, 2025",
 ) => {
   if (!dateString) return "N/A";
 
@@ -59,7 +59,7 @@ export const formatDate = (
 
   switch (format) {
     case "March 2, 2025":
-      return new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(
+      return new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(
         createdAt
       );
 

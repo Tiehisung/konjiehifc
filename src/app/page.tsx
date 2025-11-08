@@ -21,6 +21,7 @@ export default async function Home() {
 
       <Suspense fallback={<CardLoader className="h-36 w-40" />}>
         <LandingPlayers />
+       
       </Suspense>
 
       <PitchGallery />

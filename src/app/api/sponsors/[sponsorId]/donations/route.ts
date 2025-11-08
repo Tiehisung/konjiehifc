@@ -1,11 +1,10 @@
+import { createGallery } from "@/app/api/galleries/helper";
 import { removeEmptyKeys } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import DonationModel from "@/models/donation";
 import SponsorModel from "@/models/sponsor";
-import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
-// export const revalidate = 0;
-// export const dynamic = "force-dynamic";
+ 
 
 ConnectMongoDb();
 
@@ -72,6 +71,12 @@ export async function POST(
     $push: { donations: donated._id },
     $inc: { badge: 1 }
   });
+
+  //Update gallery
+  if (files?.length > 0) {
+    const sponsor = await SponsorModel.findById(sponsorId)
+    createGallery({ title: item, description, files, tags: [sponsor.name ?? ''].filter(Boolean) })
+  }
 
   return NextResponse.json({
     message: "Donated successfully",

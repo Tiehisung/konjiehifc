@@ -9,7 +9,7 @@ interface PageProps {
   searchParams: Promise<{ playerId: string }>;
 }
 
-export const getGalleries = async (tagNames?: string[]) => {
+export const getGalleries = async (tagNames?: string[],query?:string) => {
   const formatted =
     tagNames && tagNames.length ? `?tags=${tagNames.join(",")}` : "";
 
@@ -27,6 +27,8 @@ export default async function PlayerProfilePage({ searchParams }: PageProps) {
   );
 
   const player = players?.data?.find((p) => p._id == playerId);
+
+  console.log(player)
 
   return (
     <main className="_page">

@@ -18,9 +18,9 @@ import CardCarousel from "@/components/carousel/cards";
 import { usePlayerGalleryUtils } from "@/hooks/usePlayerGallery";
 import { IGalleryProps } from "@/types";
 import { scrollToElement } from "@/lib/DOM";
-import { PlayerGalleryUpload } from "./GalleryUpload";
 import { generatePlayerAbout } from "@/data/about";
 import GalleryGrid from "@/components/Gallery/GallaryGrid";
+import { GalleryUpload } from "@/components/Gallery/GalleryUpload";
 
 const statsData = [
   { stat: "PAS", value: 82 },
@@ -120,7 +120,9 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
           {/* Description */}
           <div
             className="_p mb-5 font-semibold"
-            dangerouslySetInnerHTML={{ __html: generatePlayerAbout(player as IPlayer) }}
+            dangerouslySetInnerHTML={{
+              __html: generatePlayerAbout(player as IPlayer),
+            }}
           />
 
           {/* Social Links */}
@@ -240,7 +242,7 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
         galleries={galleries as IGalleryProps[]}
         name={`${player?.firstName} ${player?.lastName}`}
       />
-      <PlayerGalleryUpload />
+      <GalleryUpload tags={[player?.lastName,player?.firstName,playerId]} />
     </main>
   );
 }

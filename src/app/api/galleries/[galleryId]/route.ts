@@ -16,3 +16,16 @@ export async function GET(
     .sort({ createdAt: "desc" });
   return NextResponse.json(gallery);
 }
+
+
+export async function DELETE(_: NextRequest, { params }: { params: Promise<{ galleryId: string }> }) {
+  try {
+    const galleryId = (await params).galleryId;
+    const deleted = await GalleryModel.findByIdAndDelete(galleryId);
+
+    return NextResponse.json({ message: "Deleted", success: true, data: deleted });
+  } catch {
+
+    return NextResponse.json({ message: "Delete failed", success: false });
+  }
+}

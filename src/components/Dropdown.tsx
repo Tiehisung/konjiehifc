@@ -1,20 +1,20 @@
 import type { ReactNode } from "react";
-import { SlOptions } from "react-icons/sl";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, MoreHorizontal } from "lucide-react";
 
 export function PrimaryDropdown({
   children,
   className,
-  trigger = <SlOptions />,
+  trigger = <MoreHorizontal className="w-4 h-4" />,
   triggerStyles = "hover:bg-background/50 p-2",
   id,
   hideAngle = true,
+  align = "end",
 }: {
   children: ReactNode;
   trigger?: ReactNode;
@@ -22,6 +22,7 @@ export function PrimaryDropdown({
   id: string;
   triggerStyles?: string;
   hideAngle?: boolean;
+  align?: "center" | "start" | "end";
 }) {
   return (
     <DropdownMenu>
@@ -34,7 +35,7 @@ export function PrimaryDropdown({
           {!hideAngle && <ChevronDown size={16} />}
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className={`w-56 ${className}`} align="start">
+      <DropdownMenuContent className={`w-56 ${className}`} align={align}>
         <>{children}</>
       </DropdownMenuContent>
     </DropdownMenu>

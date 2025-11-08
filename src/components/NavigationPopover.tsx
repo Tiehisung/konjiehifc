@@ -1,10 +1,10 @@
 "use client";
 
 import { ReactNode, useEffect } from "react";
-import { POPOVER } from "./ui/popover";
 import { Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { fireEscape } from "@/hooks/Esc";
+import { PrimaryDropdown } from "./Dropdown";
 
 export function NavigationPopover({
   children,
@@ -20,12 +20,13 @@ export function NavigationPopover({
     fireEscape();
   }, [pathname]);
   return (
-    <POPOVER
-      className={`rounded-3xl border shadow bg-blue-500/40 backdrop-blur-xs max-w-[80vw] ${className}`}
+    <PrimaryDropdown
+      className={`rounded-3xl border shadow bg-blue-500/40 backdrop-blur-xs max-w-[70vw] -ml-8 ${className}`}
       trigger={<Menu />}
-      triggerClassNames={`rounded-full aspect-square h-10 w-10 shadow-lg p-1.5 cursor-pointer ${triggerStyles}`}
+      triggerStyles={`rounded-full aspect-square h-10 w-10 shadow-lg p-1.5 cursor-pointer ${triggerStyles}`}
+      id={""}
     >
       {children}
-    </POPOVER>
+    </PrimaryDropdown>
   );
 }

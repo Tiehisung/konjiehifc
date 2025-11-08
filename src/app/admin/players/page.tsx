@@ -9,8 +9,6 @@ import PlayerProfileForm from "./NewSigningForms";
 import { ScrollToPointBtn } from "@/components/scroll/ScrollToPoint";
 import { PrimaryAccordion } from "@/components/Accordion";
 import { PrimarySearch } from "@/components/Search";
-import { staticImages } from "@/assets/images";
-import { teamKFC } from "@/data/teams";
 import { DisplayAdminPlayers } from "./DisplayPlayers";
 
 export const getPlayers = async (playerId?: string) => {

@@ -47,7 +47,7 @@ export const PrimarySearch = ({
   const defaultValue = useGetParam(searchKey);
   return (
     <div
-      className={`bg-card flex items-center border border-1.5 border-border focus-within:ring ring-primaryGreen focus-within:border-primaryGreen rounded-md grow px-2 ${className}`}
+      className={`bg-card flex items-center border border-1.5 border-border focus-within:ring ring-teal-500 focus-within:border-teal-ring-teal-500 rounded-md grow px-2 ${className}`}
     >
       <CgSearch className="h-4 w-auto" />
       <input

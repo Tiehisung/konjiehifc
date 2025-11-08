@@ -3,16 +3,17 @@ import Image from "next/image";
 import PrimLink from "@/components/Link";
 import { IPlayer } from "../players/page";
 import { getPlayers } from "../admin/players/page";
-import { IQueryResponse } from "@/types";
+import { IGalleryProps, IQueryResponse } from "@/types";
 import { ResponsiveSwiper } from "@/components/carousel/ResponsiveSwiper";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { lorem } from "@/data";
 import { generatePlayerAbout } from "@/data/about";
+import { HomePlayersGallery } from "./PlayersGallery";
+import { getGalleries } from "../players/details/page";
 
 const LandingPlayers = async () => {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
-
+  const galleries: IQueryResponse<IGalleryProps[]> = await getGalleries();
   return (
     <div className="_page px-4">
       <h1 className="_title uppercase">PLAYERS</h1>
@@ -56,6 +57,8 @@ const LandingPlayers = async () => {
       />
 
       <PrimLink href={"/players"} text="See more" className="ml-auto" />
+
+      <HomePlayersGallery galleries={galleries} />
     </div>
   );
 };

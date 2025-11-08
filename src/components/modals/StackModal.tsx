@@ -37,7 +37,7 @@ export const StackModal = ({
   return (
     <>
       {trigger && (
-        <span onClick={() => setParam("stackModal", id)}>{trigger}</span>
+        <div onClick={() => setParam("stackModal", id)} className="w-fit h-fit">{trigger}</div>
       )}
       {isOpen && (
         <div

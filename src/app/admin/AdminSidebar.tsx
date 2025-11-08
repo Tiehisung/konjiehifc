@@ -14,6 +14,7 @@ import { CgDatabase } from "react-icons/cg";
 import { FcManager } from "react-icons/fc";
 import { FiUserCheck } from "react-icons/fi";
 import { GiBabyfootPlayers } from "react-icons/gi";
+import { GrGallery } from "react-icons/gr";
 import { LiaDonateSolid, LiaRunningSolid } from "react-icons/lia";
 import { MdOutlineFeaturedPlayList, MdOutlineLiveTv } from "react-icons/md";
 import { PiNewspaperThin } from "react-icons/pi";
@@ -90,7 +91,7 @@ export function LeftPaneMobile() {
           <li
             key={index}
             className={`flex _hover px-2 rounded-md ${
-              activeLink(slink.path) ? " bg-card  " : " "
+              activeLink(slink.path) ? " text-muted-foreground  " : " "
             }`}
           >
             <Link
@@ -128,6 +129,11 @@ const sidebarLinks = [
     icon: <CgDatabase />,
   },
   {
+    label: "Live match",
+    path: "/admin/live-match",
+    icon: <MdOutlineLiveTv />,
+  },
+  {
     label: "Teams",
     path: "/admin/features/teams",
     icon: <AiOutlineTeam />,
@@ -147,11 +153,6 @@ const sidebarLinks = [
     path: "/admin/training",
     icon: <LiaRunningSolid />,
   },
-  {
-    label: "Live match",
-    path: "/admin/live-match",
-    icon: <MdOutlineLiveTv />,
-  },
 
   {
     label: "Managers",
@@ -167,6 +168,11 @@ const sidebarLinks = [
     label: "Sponsorship",
     path: "/admin/sponsorship",
     icon: <LiaDonateSolid />,
+  },
+  {
+    label: "Gallery",
+    path: "/admin/galleries",
+    icon: <GrGallery />,
   },
   {
     label: "Attendance",
