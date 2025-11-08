@@ -9,7 +9,7 @@ interface PageProps {
   searchParams: Promise<{ playerId: string }>;
 }
 
-export const getGalleries = async (tagNames?: string[]) => {
+export const getGalleries = async (tagNames?: string[],query?:string) => {
   const formatted =
     tagNames && tagNames.length ? `?tags=${tagNames.join(",")}` : "";
 

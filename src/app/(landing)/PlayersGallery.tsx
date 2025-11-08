@@ -16,7 +16,7 @@ export function HomePlayersGallery({
 }) {
   const [limit, setLimit] = useState(initialCount);
 
-  console.log({galleries})
+  console.log({ galleries });
 
   return (
     <section className="space-y-3">
@@ -28,7 +28,7 @@ export function HomePlayersGallery({
               <CardCarousel
                 effect="creative"
                 cards={galF?.files?.map((f) => (
-                  <MediaPreview file={f} />
+                  <MediaPreview file={f} key={f.secure_url} />
                 ))}
               />
             </AnimateOnView>
@@ -48,7 +48,7 @@ export function HomePlayersGallery({
       {/* Description */}
 
       <p className="text-sm text-muted-foreground line-clamp-3">
-        Our galleries 
+        Our galleries
       </p>
 
       {/* Tags */}

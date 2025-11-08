@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import React, { ReactNode, useState } from "react";
 import { toast } from "sonner";
 import { fireEscape } from "@/hooks/Esc";
+import { useSession } from "next-auth/react";
+import { IUser } from "@/types/user";
 
 interface IProps {
   className?: string;
@@ -24,6 +26,7 @@ interface IProps {
   confirmText?: string;
   gobackAfter?: boolean;
   triggerStyles?: string;
+  hidden?: boolean;
 }
 
 export const ConfirmActionButton = ({
@@ -46,10 +49,14 @@ export const ConfirmActionButton = ({
     : variant == "destructive"
     ? "text-red-500"
     : "",
+  hidden = true,
 }: IProps) => {
   const router = useRouter();
 
   const [waiting, setWaiting] = useState(false);
+
+  const session = useSession();
+  const isAdmin = (session?.data?.user as IUser)?.role?.includes("admin");
 
   const triggerClassName =
     triggerStyles ??
@@ -94,6 +101,10 @@ export const ConfirmActionButton = ({
       if (escapeOnEnd) fireEscape();
     }
   };
+
+  if (!isAdmin && hidden) {
+    return null;
+  }
 
   return (
     <div className="my-12 ">

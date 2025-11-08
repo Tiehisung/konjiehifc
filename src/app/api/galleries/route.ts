@@ -1,56 +1,77 @@
-import { getErrorMessage } from "@/lib";
+import { getErrorMessage, removeEmptyKeys } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import GalleryModel from "@/models/galleries";
-import { IGalleryProps } from "@/types";
-import { NextRequest, NextResponse } from "next/server";
-// import "@/models/file";
 import FileModel from "@/models/file";
+import { NextRequest, NextResponse } from "next/server";
+import { IGalleryProps } from "@/types";
 
 ConnectMongoDb();
+
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const page = Number.parseInt(searchParams.get("page") || "1", 10);
-  const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
+  try {
+    const { searchParams } = new URL(request.url);
 
-  const search = searchParams.get("gallery_search") || "";
-  const tags = (searchParams.get("tags") || "")?.split(',');
+    const page = Number.parseInt(searchParams.get("page") || "1", 10);
+    const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
+    const search = searchParams.get("gallery_search") || "";
+    const tags = (searchParams.get("tags") || "")
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
 
-  const skip = (page - 1) * limit;
+    const skip = (page - 1) * limit;
+    const regex = new RegExp(search, "i");
 
-  const regex = new RegExp(search, "i"); // case-insensitive partial match
+    // 🧠 Build Query Object
+    const query: Record<string, any> = {};
 
-  const query: Record<string, unknown> = {};
+    if (tags.length > 0) {
+      query.tags = { $in: tags };
+    }
 
-  if (tags && tags.length) {
-    query.tags = { $in: tags };
+    if (search) {
+      query.$or = [
+        { title: regex },
+        { description: regex },
+        { tags: regex },
+      ];
+    }
+
+    const cleaned = removeEmptyKeys(query);
+    console.log("🟢 Final Query =>", cleaned);
+
+    // ✅ Apply filters here
+    const galleries = await GalleryModel.find(cleaned)
+      .populate("files")
+      .sort({ updatedAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+    const total = await GalleryModel.countDocuments(cleaned);
+
+    return NextResponse.json({
+      success: true,
+      data: galleries,
+      pagination: {
+        page,
+        limit,
+        total,
+        pages: Math.ceil(total / limit),
+      },
+    });
+  } catch (error) {
+    console.error("❌ Error fetching galleries:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: getErrorMessage(error),
+      },
+      { status: 500 }
+    );
   }
-
-  if (search) {
-    query.$or = [
-      { description: regex },
-      { tags: regex },
-      { title: regex },
-    ];
-  }
-
-  const galleries = await GalleryModel.find(query).populate('files').sort({ 'updatedAt': -1 })
-    .skip(skip)
-    .limit(limit)
-    .lean();
-
-  const total = await GalleryModel.countDocuments(query);
-
-  return NextResponse.json({
-    success: true,
-    data: galleries,
-    pagination: {
-      page,
-      limit,
-      total,
-      pages: Math.ceil(total / limit),
-    },
-  });
 }
+
 
 export async function POST(request: NextRequest) {
   try {
