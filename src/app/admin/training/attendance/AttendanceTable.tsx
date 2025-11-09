@@ -4,16 +4,6 @@ import { IPlayer, IPlayerMini } from "@/app/players/page";
 import { Button } from "@/components/buttons/Button";
 import { AVATAR } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { getErrorMessage, getInitials } from "@/lib";
 import { ITrainingSession } from "./page";
 import { useSession } from "next-auth/react";
@@ -24,6 +14,8 @@ import { IUser } from "@/types/user";
 import { isToday } from "@/lib/timeAndDate";
 import { toast } from "sonner";
 import { apiConfig } from "@/lib/configs";
+import ContentShowcaseWrapper from "@/components/ShowcaseWrapper";
+import { imageIcons } from "@/assets/icons/icons";
 
 export interface IPostTrainingSession {
   date: string;
@@ -166,65 +158,55 @@ export function AttendanceTable({
           </span>
         )}
       </div>
-
-      <Table>
-        <TableCaption>Training Attendance List</TableCaption>
-
-        <TableHeader className="uppercase text-lg md:text-xl">
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Number</TableHead>
-            <TableHead className="text-center">Present</TableHead>
-          </TableRow>
-        </TableHeader>
-
-        <TableBody>
-          {players.map((player) => {
-            const name = `${player.firstName} ${player.lastName}`;
-            return (
-              <TableRow key={player._id}>
-                <TableCell className="flex items-center gap-6 font-medium uppercase">
-                  <AVATAR
-                    src={player.avatar}
-                    fallbackText={getInitials(name)}
-                  />
-                  {name}
-                </TableCell>
-                <TableCell className="font-bold text-xl text-left">
-                  {player.number}
-                </TableCell>
-                <TableCell className="text-center">
+      <ContentShowcaseWrapper
+        images={[todaySession ? imageIcons.success : imageIcons.error]}
+        graphicsStyles="animate-pulse"
+      >
+        <section>
+          <h1>Training Attendance List</h1>
+          <br />
+          <ul className="w-fit ring">
+            {players.map((player) => {
+              const name = `${player.firstName} ${player.lastName}`;
+              return (
+                <li
+                  key={player._id}
+                  className="flex items-center justify-start gap-6 font-medium uppercase ring p-1.5"
+                >
                   <Input
                     type="checkbox"
                     checked={!!checked[player._id]}
                     onChange={() => handleCheck(player)}
-                    className="accent-primary cursor-pointer"
+                    className="accent-primary cursor-pointer w-8"
                     disabled={!!todaySession && !editing} // 🔒 disable unless editing
                   />
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
+                  <AVATAR
+                    src={player.avatar}
+                    fallbackText={getInitials(name)}
+                  />
+                  <span>
+                    {name} <b>({player.number})</b>
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
 
-        <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3} className="py-6 text-center">
-              {(!todaySession || editing) && (
-                <Button
-                  onClick={handleSubmit(onSubmit)}
-                  waiting={waiting}
-                  waitingText="Saving..."
-                  primaryText={
-                    todaySession ? "Update Attendance" : "Save Attendance"
-                  }
-                  className="_primaryBtn min-w-72 justify-center h-10"
-                />
-              )}
-            </TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
+          <div className="py-6 text-center">
+            {(!todaySession || editing) && (
+              <Button
+                onClick={handleSubmit(onSubmit)}
+                waiting={waiting}
+                waitingText="Saving..."
+                primaryText={
+                  todaySession ? "Update Attendance" : "Save Attendance"
+                }
+                className="_primaryBtn min-w-72 justify-center h-10"
+              />
+            )}
+          </div>
+        </section>
+      </ContentShowcaseWrapper>
     </div>
   );
 }
