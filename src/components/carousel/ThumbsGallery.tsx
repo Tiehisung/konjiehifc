@@ -38,15 +38,9 @@ export function ThumbsGallery({
 
   return (
     <div
-      className={
-        `w-full bg-card rounded-lg overflow-hidden border border-border shadow-lg ${props.className}`
-      }
+      className={`w-full bg-card rounded-lg overflow-hidden border border-border shadow-lg ${props.className}`}
     >
-      {title && (
-        <div className="bg-muted/30 px-6 py-4 border-b border-border">
-          <h2 className="text-2xl font-semibold text-foreground">{title}</h2>
-        </div>
-      )}
+      {title && <h2 className="text-xl font-light line-clamp-1 p-1.5 ">{title}</h2>}
 
       {/* Main Gallery */}
       <div className="w-full bg-muted/50">
