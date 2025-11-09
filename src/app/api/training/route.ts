@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { logAction } from "../logs/helper";
 import TrainingSession from "@/models/training";
 import { formatDate } from "@/lib/timeAndDate";
-import { IPostTrainingSession } from "@/app/admin/training/attendance/Table";
+import { IPostTrainingSession } from "@/app/admin/training/attendance/AttendanceTable";
 import { IUser } from "@/types/user";
 
 ConnectMongoDb();

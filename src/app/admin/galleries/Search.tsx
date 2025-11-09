@@ -33,7 +33,7 @@ export function SearchGallery({ players }: { players?: IPlayer[] }) {
                   />
                 ),
                 trigger: (
-                  <span className="_hover text-sm px-2 py-1 rounded font-light">
+                  <span className="_hover text-sm px-2 py-0.5 rounded font-light">
                     Tag Players
                   </span>
                 ),

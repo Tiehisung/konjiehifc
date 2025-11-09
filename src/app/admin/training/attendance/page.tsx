@@ -2,7 +2,7 @@ import { IPlayer, IPlayerMini } from "@/app/players/page";
 import { IQueryResponse } from "@/types";
 import React from "react";
 import { getPlayers } from "../../players/page";
-import { AttendanceTable } from "./Table";
+import { AttendanceTable } from "./AttendanceTable";
 import { IUser } from "@/types/user";
 import { apiConfig } from "@/lib/configs";
 import { PrimaryAccordion } from "@/components/Accordion";
@@ -76,7 +76,6 @@ const AttendancePage = async () => {
     content: <TrainingSessionCard trainingSession={tSession} />,
     value: tSession._id ?? "",
   }));
-  console.log({ trainingSessions });
   return (
     <div className="_page px-6 space-y-12">
       <AttendanceTable

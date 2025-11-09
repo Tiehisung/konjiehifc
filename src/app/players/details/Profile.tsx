@@ -242,7 +242,9 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
         galleries={galleries as IGalleryProps[]}
         name={`${player?.firstName} ${player?.lastName}`}
       />
-      <GalleryUpload tags={[player?.lastName,player?.firstName,playerId]} />
+      <GalleryUpload
+        tags={[player?.lastName, player?.firstName, playerId].filter(Boolean) as string[]}
+      />
     </main>
   );
 }

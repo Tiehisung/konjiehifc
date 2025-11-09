@@ -9,27 +9,31 @@ import CardCarousel from "@/components/carousel/cards";
 
 export function HomePlayersGallery({
   galleries,
-  initialCount = 10,
+  initialCount = 4,
 }: {
   galleries?: IQueryResponse<IGalleryProps[]>;
   initialCount?: number;
 }) {
   const [limit, setLimit] = useState(initialCount);
-
-  console.log({ galleries });
+ 
 
   return (
     <section className="space-y-3">
+      <p className="text-sm text-muted-foreground line-clamp-3">
+        Our galleries
+      </p>
       {/* Media grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+      <div className="flex flex-col sm:grid grid-cols-2 lg:grid-cols-3 gap-3">
         {galleries?.data?.slice(0, limit)?.map((galF, i) => (
           <MotionWrapper key={galF?._id}>
             <AnimateOnView index={i}>
               <CardCarousel
-                effect="creative"
+                effect={i % 2 == 0 ? "creative" : i % 3 == 0 ? "cube" : "fade"}
                 cards={galF?.files?.map((f) => (
                   <MediaPreview file={f} key={f.secure_url} />
                 ))}
+                slideClassName=""
+                swiperStyles={{ width: "100%" }}
               />
             </AnimateOnView>
           </MotionWrapper>
@@ -47,21 +51,6 @@ export function HomePlayersGallery({
 
       {/* Description */}
 
-      <p className="text-sm text-muted-foreground line-clamp-3">
-        Our galleries
-      </p>
-
-      {/* Tags */}
-      {/* <div className="flex flex-wrap gap-1">
-        {galleries?.data
-          ?.filter((p) => p?.captaincy)
-          ?.map((pl) => (
-            <Badge key={pl._id} variant="outline">
-              #{pl.captaincy}
-              {pl.firstName}
-            </Badge>
-          ))}
-      </div> */}
     </section>
   );
 }
