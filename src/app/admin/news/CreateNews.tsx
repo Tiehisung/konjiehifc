@@ -50,7 +50,7 @@ const CreateNews = () => {
   const { control, handleSubmit, reset } = useForm<IPostNews>({
     defaultValues: {
       headline: { text: "", image: "" },
-      details: [{ text: "<p>Start typing...</p><br/>" }],
+      details: [{ text: "" }],
       reporter: {
         name: session.data?.user?.name as string,
         avatar: session.data?.user?.image as string,
