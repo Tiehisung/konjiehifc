@@ -51,7 +51,7 @@ export interface ICloudinaryUploaderProps {
   cropping?: boolean;
   successMessage?: string;
   clearTrigger?: number;
-  wrapperStyles?:string
+  wrapperStyles?: string;
   setUploadedFiles: (files: ICldFileUploadResult[]) => void;
 }
 
@@ -69,13 +69,20 @@ export default function CloudinaryUploader({
   triggerId = "cloudinary-uploader",
   dismissOnComplete = true,
   cropping = false,
-  successMessage,wrapperStyles
+  successMessage,
+  wrapperStyles,
 }: ICloudinaryUploaderProps) {
   const [files, setFiles] = useState<ICldFileUploadResult[]>([]);
 
   useEffect(() => {
     setFiles([]);
   }, [clearTrigger]);
+
+  useEffect(() => {
+    if (files) {
+      setUploadedFiles(files);
+    }
+  }, [files]);
 
   const allowedFormats =
     resourceType === "image"

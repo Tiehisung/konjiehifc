@@ -47,3 +47,20 @@ export function useUpdateSearchParams() {
 
   return { setParam, clearParams };
 }
+
+export function useClearParams() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const clearAll = () => {
+    router.replace(window.location.pathname);
+  };
+
+  const clearOnly = (...keys: string[]) => {
+    const params = new URLSearchParams(searchParams.toString());
+    keys.forEach((k) => params.delete(k));
+    router.replace(`${window.location.pathname}?${params.toString()}`);
+  };
+
+  return { clearAll, clearOnly };
+}

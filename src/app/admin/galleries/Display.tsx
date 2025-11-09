@@ -27,6 +27,7 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
 
   const session = useSession();
   const isAdmin = (session?.data?.user as IUser)?.role?.includes("admin");
+
   if (!galleries?.length)
     return (
       <p className="text-center text-muted-foreground py-8">
@@ -66,7 +67,7 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
             <h3 className=" text-sm flex items-center gap-4 justify-between text-nowrap">
               <span className="font-semibold line-clamp-1 grow">
                 {gallery.title || "Untitled"}
-              </span>{" "}
+              </span> 
               <span className="font-light ml-auto">
                 {formatDate(gallery?.createdAt, "March 2, 2025")}
               </span>

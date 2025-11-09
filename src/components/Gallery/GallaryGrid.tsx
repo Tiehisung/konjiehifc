@@ -9,12 +9,12 @@ import { useState } from "react";
 import { GalleryViewer } from "./GalleryViewer";
 import { toggleClick } from "@/lib/DOM";
 import { MediaPreview } from "../files/MediaView";
+import { isObjectId } from "@/lib";
 
 interface GalleryGridProps {
   galleries: IGalleryProps[];
   showDate?: boolean;
   name?: string;
-  
 }
 
 export default function GalleryGrid({
@@ -87,7 +87,7 @@ export default function GalleryGrid({
               {/* Tags */}
               <div className="flex flex-wrap gap-1">
                 {gallery?.tags.map((tag) => (
-                  <Badge key={tag} variant="outline">
+                  <Badge key={tag} variant="outline" hidden={isObjectId(tag)}>
                     #{tag}
                   </Badge>
                 ))}
@@ -100,5 +100,3 @@ export default function GalleryGrid({
     </>
   );
 }
-
-

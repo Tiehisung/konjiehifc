@@ -3,7 +3,6 @@
 import { useState, FormEvent, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import ReactSelect from "react-select";
 import { Button } from "@/components/buttons/Button";
 import CloudinaryUploader, {
   ICldFileUploadResult,
@@ -13,6 +12,7 @@ import { apiConfig } from "@/lib/configs";
 import { getErrorMessage } from "@/lib";
 import { IGalleryProps, IQueryResponse } from "@/types";
 import { IPlayer } from "@/app/players/page";
+import MultiSelectionInput from "../select/MultiSelect";
 
 interface GalleryUploadProps {
   tags?: string[];
@@ -118,20 +118,18 @@ export function GalleryUpload({ tags = [], players = [] }: GalleryUploadProps) {
             />
           </div>
 
-          {players.length > 0 && (
+          {players?.length > 0 && (
             <div className="w-full">
               <p className="_label mb-2">Tag Players</p>
-              <ReactSelect
-                onChange={(selected) =>
-                  setTaggedPlayers(selected.map((item) => item.value))
-                }
-                options={players.map((p) => ({
+              <MultiSelectionInput
+                onChange={(ts) => setTaggedPlayers(ts.map((t) => t.value))}
+                options={players?.map((p) => ({
                   label: `${p.firstName} ${p.lastName}`,
                   value: `${p._id} ${p.firstName} ${p.lastName}`,
                 }))}
-                isMulti
                 className="text-sm"
-                placeholder="Select players to tag"
+                label="Select players to tag"
+                name={"tags"}
               />
             </div>
           )}

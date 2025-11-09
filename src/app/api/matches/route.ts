@@ -23,19 +23,29 @@ export async function GET(request: NextRequest) {
   const skip = (page - 1) * limit;
 
   const search = searchParams.get("match_search") || "";
+  const fixtureType = searchParams.get("fixture") || "";
 
   const regex = new RegExp(search, "i");
 
-  const cleanedFilters = removeEmptyKeys({ status })
-  const query = {
-    $or: [
+  const query: Record<string, string | boolean | unknown> = {}
+
+  if (fixtureType == 'home') query.isHome = true
+
+  if (fixtureType == 'away') query.isHome = false
+
+  if (status) query.status = status
+
+  if (search) {
+    query.$or = [
       { "title": regex },
       { "date": regex },
-    ], ...cleanedFilters
+    ]
   }
 
-  const fixtures = await MatchModel.find(query)
-    .populate({ path: "opponent", populate: { path: "logo" } })
+  const cleanedFilters = removeEmptyKeys(query)
+
+  const fixtures = await MatchModel.find(cleanedFilters)
+    .populate({ path: "opponent", })
     .populate({ path: "squad", })
     .populate({ path: "goals", })
     .limit(limit)
@@ -43,7 +53,7 @@ export async function GET(request: NextRequest) {
     .lean()
     .sort({ createdAt: "desc" });
 
-  const total = await MatchModel.countDocuments(query)
+  const total = await MatchModel.countDocuments(cleanedFilters)
   return NextResponse.json({
     data: fixtures, success: true, pagination: {
       page,

@@ -244,6 +244,7 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
       />
       <GalleryUpload
         tags={[player?.lastName, player?.firstName, playerId].filter(Boolean) as string[]}
+        players={players}
       />
     </main>
   );
