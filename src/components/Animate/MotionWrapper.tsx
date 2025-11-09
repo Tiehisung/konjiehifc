@@ -5,7 +5,7 @@ import React from "react";
 
 interface MotionWrapperProps {
   children: React.ReactNode;
-  delay?: number;
+  index?: number;
   duration?: number;
   direction?: "up" | "down" | "left" | "right" | "none";
   hoverEffect?: boolean;
@@ -14,12 +14,14 @@ interface MotionWrapperProps {
 
 export const MotionWrapper: React.FC<MotionWrapperProps> = ({
   children,
-  delay = 0.05,
+ 
   duration = 0.5,
   direction = "up",
   hoverEffect = true,
   className,
+  index,
 }) => {
+  const delay = index ? (index % 3) * 0.05 : 0.05;
   const getDirectionOffset = () => {
     switch (direction) {
       case "up":

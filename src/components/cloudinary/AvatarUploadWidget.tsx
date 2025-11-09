@@ -42,6 +42,7 @@ interface IImageUploaderCldWidgetProps {
   successMessage?: string;
   className?: string;
   escapeOnEnd?: boolean;
+  imageStyles?:string
 }
 
 /**
@@ -61,7 +62,7 @@ export default function ImageUploaderCldWidget({
   successMessage = "File uploaded successfully!",
   cropping = true,
   className = " bg-blue-600 hover:bg-blue-700 text-white ",
-  escapeOnEnd,
+  escapeOnEnd,imageStyles
 }: IImageUploaderCldWidgetProps) {
   const [file, setFile] = useState<ICldUploadResult | null>(null);
 
@@ -80,13 +81,13 @@ export default function ImageUploaderCldWidget({
   return (
     <div className="flex flex-col items-center gap-3">
       {/* Avatar Preview */}
-      <div className="relative w-32 h-32 rounded-full overflow-hidden shadow-md">
+      <div className={`relative w-32 h-32 rounded-full overflow-hidden shadow-md ${imageStyles}`}>
         <Image
           src={currentSrc}
           alt="avatar preview"
           fill
           sizes="128px"
-          className="object-cover"
+          className="object-cover w-full h-full"
         />
         {file && (
           <button

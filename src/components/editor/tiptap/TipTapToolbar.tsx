@@ -23,7 +23,7 @@ import {
   Redo2,
 } from "lucide-react";
 import { useState } from "react";
-import { Button } from "../buttons/Button";
+import { Button } from "../../buttons/Button";
 
 interface EditorToolbarProps {
   editor: Editor;
@@ -60,7 +60,9 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
     <Button
       onClick={onClick}
       title={title}
-      className={`h-9 w-9 p-0 justify-center rounded ${isActive ? "bg-blue-500 text-white" : ""}`}
+      className={`h-9 w-9 p-0 justify-center rounded ${
+        isActive ? "bg-blue-500 text-white" : ""
+      }`}
       type="button"
     >
       <Icon className="h-4 w-4" />

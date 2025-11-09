@@ -14,7 +14,7 @@ export default async function MatchesPage({ searchParams }: IPageProps) {
   const fixtures: IQueryResponse<IMatchProps[]> = await getMatches(qs);
   // const teams: IQueryResponse<ITeamProps[]> = await getTeams();
   return (
-    <section className="pb-6 pt-10 _page">
+    <section className="pb-6 pt-10 px-6 _page">
       <FixturesSection fixtures={fixtures} />
     </section>
   );

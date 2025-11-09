@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/input/Inputs";
 import { Button } from "@/components/buttons/Button";
 import { RemoveButton } from "@/components/buttons/DelClearRemove";
-import { RichTextEditor } from "@/components/editor/TipTap";
 
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
@@ -19,6 +18,7 @@ import CloudinaryUploader, {
 } from "@/components/cloudinary/FileUploadWidget";
 import { useSession } from "next-auth/react";
 import { CgAttachment } from "react-icons/cg";
+import QuillEditor from "@/components/editor/Quill";
 
 export interface IPostNews {
   details: {
@@ -111,7 +111,7 @@ const CreateNews = () => {
           render={({ field }) => (
             <CloudinaryUploader
               triggerId={""}
-              setUploadedFiles={(fs) => field.onChange(fs?.[0].secure_url)}
+              setUploadedFiles={(fs) => field.onChange(fs?.[0]?.secure_url)}
               successMessage=""
               maxFiles={1}
               className=" mr-auto _secondaryBtn "
@@ -138,7 +138,7 @@ const CreateNews = () => {
                 control={control}
                 name={`details.${index}.text`}
                 render={({ field }) => (
-                  <RichTextEditor
+                  <QuillEditor
                     value={field.value || ""}
                     onChange={field.onChange}
                     className="w-full grow"
