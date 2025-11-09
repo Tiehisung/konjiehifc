@@ -1,6 +1,6 @@
 "use client";
 
-import { useUpdateSearchParams } from "@/hooks/params";
+import { useClearParams } from "@/hooks/params";
 import { MdOutlineFilterAltOff } from "react-icons/md";
 
 export const ClearFiltersBtn = ({
@@ -10,14 +10,14 @@ export const ClearFiltersBtn = ({
   className?: string;
   label?: string;
 }) => {
-  const { clearParams } = useUpdateSearchParams();
+  const { clearAll } = useClearParams();
 
   return (
     <button
       type="button"
       title="Clear filters"
-      className={`_hover text-xs transform active:text-primaryRed p-2 w-fit select-none ${className}`}
-      onClick={() => clearParams()}
+      className={`_hover _active _shrink text-xs transform active:text-primaryRed p-2 w-fit select-none cursor-pointer ${className}`}
+      onClick={() => clearAll()}
     >
       {label ? <span>{label}</span> : <MdOutlineFilterAltOff />}
     </button>

@@ -1,6 +1,6 @@
 "use client";
 
-import{ useUpdateSearchParams } from "@/hooks/params";
+import { useUpdateSearchParams } from "@/hooks/params";
 import { ISelectOptionLV } from "@/types";
 import { ReactNode, useEffect, useState } from "react";
 import { MdOutlineDone } from "react-icons/md";
@@ -83,7 +83,6 @@ const MultiSelectionInput = ({
             {selectedOptions?.includes(option) && <MdOutlineDone size={10} />}
           </Button>
         ))}
-        <li></li>
       </div>
     </div>
   );

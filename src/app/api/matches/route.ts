@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
   const cleanedFilters = removeEmptyKeys(query)
 
   const fixtures = await MatchModel.find(cleanedFilters)
-    .populate({ path: "opponent", populate: { path: "logo" } })
+    .populate({ path: "opponent", })
     .populate({ path: "squad", })
     .populate({ path: "goals", })
     .limit(limit)

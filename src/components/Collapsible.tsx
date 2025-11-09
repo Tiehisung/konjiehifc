@@ -1,60 +1,104 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
 import { ReactNode, useState } from "react";
-import { TfiAngleRight } from "react-icons/tfi";
-import { usePathname, useRouter } from "next/navigation";
-import DiveUpwards from "./Animate";
+import { usePathname } from "next/navigation";
+import { ChevronDown } from "lucide-react";
 
-interface ICollapsibleProps {
-  children?: ReactNode;
-  triggerStyles?: string;
-  headerStyles?: string;
-  header: { text: string; link?: string; icon?: ReactNode };
+interface ICollapsible {
+  header: {
+    icon?: ReactNode;
+    label: ReactNode;
+    path?: string;
+  };
+  children: ReactNode;
+  isMinimize?: boolean;
 }
 
-const CollapsibleA = ({
+export function PrimaryCollapsible({
   children,
-  triggerStyles = "bg-white rounded-full p-1 ",
-  headerStyles = "  freeBtn",
   header,
-}: ICollapsibleProps) => {
-  const router = useRouter();
+  isMinimize,
+}: ICollapsible) {
   const [isOpen, setIsOpen] = useState(false);
-  const { text, icon, link } = header;
-  const path = usePathname();
+  const pathname = usePathname();
+  const isActiveLink = (path: string) => pathname === path;
   return (
-    <div>
-      <header
-        className={`flex items-center gap-2 cursor-pointer ${headerStyles} ${
-          path == header.link && "primLink"
+    <div className="space-y-1">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={`w-full flex items-center justify-between p-3 rounded-lg _hover _slowTrans ${
+          isActiveLink(header.path || "")
+            ? "bg-primary/10 text-muted-foreground"
+            : ""
         }`}
-        onClick={() => {
-          if (link) router.push(link);
-          setIsOpen((p) => !p);
-        }}
-        data-tip={header.text}
       >
-        <span>{icon && icon}</span>
-        <p className="grow">{text}</p>
-        <button
-          className={`group flex items-center justify-center ml-auto ${triggerStyles}`}
-        >
-          <TfiAngleRight
-            className={`group-active:scale-105 slowTrans text-xl ${
-              isOpen && "rotate-90"
-            }`}
-          />
-        </button>
-      </header>
+        <div className="flex items-center gap-3 grow">
+          <span className="flex-shrink-0">{header.icon}</span>
+          <AnimatePresence>
+            {!isMinimize && (
+              <motion.div
+                variants={contentVariants}
+                initial="closed"
+                animate="open"
+                exit="closed"
+                className="font-medium "
+              >
+                {header.label}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+        <AnimatePresence>
+          {!isMinimize && (
+            <motion.div
+              variants={contentVariants}
+              initial="closed"
+              animate="open"
+              exit="closed"
+            >
+              <ChevronDown
+                size={16}
+                className={`_slowTrans ${isOpen ? "" : "-rotate-90"}`}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </button>
 
-      {/* Children */}
-      <main className="pb-4 bg-accent/60 ">
-        {isOpen && <DiveUpwards layoutId="">{children && children}</DiveUpwards>}
-      </main>
+      <AnimatePresence>
+        {!isMinimize && isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="ml-3 space-y-1 border-l border-gray-200 pl-4">
+              {children}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
+}
+
+const contentVariants = {
+  open: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.2,
+      delay: 0.1,
+    },
+  },
+  closed: {
+    opacity: 0,
+    x: -20,
+    transition: {
+      duration: 0.2,
+    },
+  },
 };
-
-export default CollapsibleA;
-
- 
