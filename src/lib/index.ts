@@ -128,3 +128,10 @@ export function buildQueryStringServer(
 
   return query ? `?${query}` : "";
 }
+
+export function isObjectId(value: any): boolean {
+  return (
+    typeof value === "string" &&
+    /^[a-fA-F0-9]{24}$/.test(value)
+  );
+}

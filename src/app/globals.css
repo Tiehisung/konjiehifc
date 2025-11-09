@@ -189,7 +189,7 @@
 }
 
 /* Buttons */
-._slowTrans {
+.transition-all ease-linear duration-100 {
   transition: all 0.3s ease-in-out;
 }
 
@@ -216,7 +216,7 @@
 }
 
 ._hover {
-  @apply hover:bg-secondary-foreground/10 transition-colors
+  @apply hover:bg-secondary-foreground/10 transition-colors;
 }
 
 ._inspect {
@@ -233,4 +233,13 @@
 
 ._growChild {
   @apply *:w-full;
+}
+._before {
+  @apply before:absolute before:w-full before:h-[80%] before:bg-border before:my-3;
+}
+._hoverBefore {
+  @apply before:invisible hover:before:visible transition-all ease-linear duration-100 before:absolute before:w-1 before:h-[80%] before:bg-primary/50 before:-left-0 before:rounded-full;
+}
+._after {
+  @apply after:absolute after:-bottom-3 after:h-[1.5px] after:bg-border after:right-1 after:left-0;
 }

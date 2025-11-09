@@ -1,6 +1,6 @@
 "use client";
 
-import useGetParam, { useUpdateSearchParams } from "@/hooks/params";
+import{ useUpdateSearchParams } from "@/hooks/params";
 import { ISelectOptionLV } from "@/types";
 import { ReactNode, useEffect, useState } from "react";
 import { MdOutlineDone } from "react-icons/md";
@@ -38,7 +38,6 @@ const MultiSelectionInput = ({
       setSelectedOptions([...selectedOptions, option]);
     }
   }
-
   //Initialize
   useEffect(() => {
     const _value = sp.get(name);
@@ -47,7 +46,6 @@ const MultiSelectionInput = ({
         ?.split(",")
         .map((v) => options?.find((o) => o?.value == v) as ISelectOptionLV)
         .filter(Boolean);
-      console.log(values);
       setSelectedOptions(values);
     } else if (initialOptions) {
       setSelectedOptions(initialOptions);
@@ -68,25 +66,25 @@ const MultiSelectionInput = ({
   if (!options) return;
   return (
     <div className={`border border-border rounded-lg p-3 ${wrapperStyles}`}>
-      {label && label}
-      <ul className="flex flex-wrap gap-x-3 gap-y-1 p-3">
+      {label && <div className="_label mb-2.5">{label} </div>}
+
+      <div className="flex flex-wrap gap-x-3 gap-y-1 p-3">
         {options?.map((option, index) => (
-          <li key={index} className="flex">
-            <Button
-              onClick={() => handleChangeOption(option)}
-              primaryText={option.label}
-              className={`${className} capitalize font-light text-sm w-fit px-2 py-1 grow text-center border border-border shadow-sm _slowTrans cursor-pointer  select-none ${
-                selectedOptions?.includes(option)
-                  ? " bg-primary/45 flex items-center gap-1"
-                  : " bg-popover hover:bg-popover/70"
-              }`}
-            >
-              {selectedOptions?.includes(option) && <MdOutlineDone size={10} />}
-            </Button>
-          </li>
+          <Button
+            key={index}
+            onClick={() => handleChangeOption(option)}
+            primaryText={option.label}
+            className={`${className} capitalize font-light text-sm w-fit px-2 py-1 grow text-center border border-border shadow-sm _slowTrans cursor-pointer select-none ${
+              selectedOptions?.find((op) => op.value == option.value)
+                ? " bg-primary/45 flex items-center gap-1"
+                : " bg-popover hover:bg-popover/70"
+            }`}
+          >
+            {selectedOptions?.includes(option) && <MdOutlineDone size={10} />}
+          </Button>
         ))}
         <li></li>
-      </ul>
+      </div>
     </div>
   );
 };

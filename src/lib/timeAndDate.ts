@@ -76,6 +76,20 @@ export const formatDate = (
   }
 };
 
+export function formatTimeToAmPm(time: string, separator: ':' | '.' = '.') {
+  if (!time) return "";
+
+  // Expecting formats like "13:45", "09:02", "23:59"
+  const [rawHour, rawMinute] = time.split(":");
+  let hour = Number(rawHour);
+  const minute = rawMinute || "00";
+
+  const ampm = hour >= 12 ? "pm" : "am";
+  hour = hour % 12 || 12; // converts 0 → 12, 13 → 1, etc.
+
+  return `${hour}${separator}${minute}${ampm}`;
+}
+
 export const getTimeAgo = (dateString: string) => moment(dateString).fromNow();
 /**
  * Checks whether the given date (MongoDB date, ISO string, or JS Date)
