@@ -19,7 +19,7 @@ const YouMayLike = async () => {
             <Link href={`/news/${item?._id}`}>
               <div className="w-full overflow-hidden group relative">
                 <Image
-                  src={item?.headline?.image?.secure_url as string}
+                  src={item?.headline?.image as string}
                   width={400}
                   height={500}
                   alt={item?.headline.text}

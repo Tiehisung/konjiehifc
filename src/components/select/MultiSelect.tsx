@@ -74,7 +74,7 @@ const MultiSelectionInput = ({
             key={index}
             onClick={() => handleChangeOption(option)}
             primaryText={option.label}
-            className={`${className} capitalize font-light text-sm w-fit px-2 py-1 grow text-center border border-border shadow-sm _slowTrans cursor-pointer select-none ${
+            className={`${className} capitalize font-light text-sm w-fit px-2 py-1 grow text-center justify-center border border-border _slowTrans cursor-pointer select-none ${
               selectedOptions?.find((op) => op.value == option.value)
                 ? " bg-primary/45 flex items-center gap-1"
                 : " bg-popover hover:bg-popover/70"

@@ -2,10 +2,8 @@ import React from "react";
 import { getNews } from "../admin/news/page";
 import { IQueryResponse } from "@/types";
 import { INewsProps } from "./page";
-import Image from "next/image";
-import Link from "next/link";
-import { RxVideo } from "react-icons/rx";
-import { AnimateOnView } from "@/components/Animate/AnimateOnView";
+import NewsCard from "./NewsItemCard";
+import { markupToPlainText } from "@/lib/DOM";
 
 const BestOfUs = async () => {
   const news: IQueryResponse<INewsProps[]> = await getNews();
@@ -13,30 +11,21 @@ const BestOfUs = async () => {
   return (
     <div>
       <h1 className="_heading mb-6">BEST OF US</h1>
-      <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-5 gap-y-10">
-        {news?.data?.slice(0, 6)?.map((item, index) => (
-          <AnimateOnView key={item._id} index={index}>
-            <Link href={`/news/${item?._id}`}>
-              <div className="w-full overflow-hidden group relative">
-                <Image
-                  src={item?.headline?.image as string}
-                  width={400}
-                  height={500}
-                  alt={item?.headline.text}
-                  className="aspect-4/2 w-full bg-secondary object-cover group-hover:opacity-85 xl:aspect-5/3 group-hover:scale-105 _slowTrans "
-                />
-
-                {item?.headline?.hasVideo && (
-                  <RxVideo className="-mt-12 text-primaryRed text-2xl" />
-                )}
-                <div>
-                  <p className="_p line-clamp-3">{item?.headline?.text}</p>
-                </div>
-              </div>
-            </Link>
-          </AnimateOnView>
+      <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-6">
+        {news?.data?.slice(0, 5)?.map((item) => (
+          <NewsCard
+            key={item?._id}
+            id={item?._id}
+            title={item?.headline?.text}
+            summary={markupToPlainText(
+              item?.details?.find((d) => d.text)?.text as string
+            )}
+            image={item?.headline?.image}
+            date={item?.createdAt}
+            tags={["transfer", "midfielder"]}
+          />
         ))}
-      </div>
+      </section>
     </div>
   );
 };

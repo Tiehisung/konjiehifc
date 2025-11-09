@@ -7,10 +7,6 @@ import { PrimarySearch } from "@/components/Search";
 import MultiSelectionInput from "@/components/select/MultiSelect";
 
 export function SearchGallery({ players }: { players?: IPlayer[] }) {
- 
-
- 
-  
   return (
     <div className="my-8 space-y-2 border-b pb-3">
       <PrimarySearch
@@ -40,6 +36,7 @@ export function SearchGallery({ players }: { players?: IPlayer[] }) {
                 label: `${p?.firstName} ${p?.lastName}`,
                 value: p?._id,
               }))}
+              className="rounded-full"
             />
           </PrimaryCollapsible>
 

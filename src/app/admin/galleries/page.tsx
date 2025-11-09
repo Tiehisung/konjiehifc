@@ -27,7 +27,7 @@ export default async function GalleriesAdmin({ searchParams }: IProps) {
   const galleries: IQueryResponse<IGalleryProps[]> = await getGallery(qs);
  
   return (
-    <div>
+    <div className="pt-16"> 
       <StackModal
         id="new-gallery" 
         trigger={

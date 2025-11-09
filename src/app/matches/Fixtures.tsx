@@ -4,6 +4,7 @@ import { Pagination } from "@/components/Pagination";
 import { IMatchProps } from "./(fixturesAndResults)";
 import { IQueryResponse } from "@/types";
 import { SecondaryFixtureCard } from "./FixtureCard";
+import { FancyMotion, MotionWrapper } from "@/components/Animate/MotionWrapper";
 
 interface IProps {
   fixtures: IQueryResponse<IMatchProps[]>;
@@ -23,8 +24,15 @@ const FixturesSection = ({ fixtures }: IProps) => {
 
       <div className=" ">
         <section className="grid md:grid-cols-2 gap-y-3.5 gap-x-5">
-          {fixtures?.data?.map((f) => (
-            <SecondaryFixtureCard fixture={f} key={f._id} className="w-full " />
+          {fixtures?.data?.map((f, index) => (
+            <MotionWrapper
+              hoverEffect={false}
+              direction="right"
+              key={f._id}
+              index={index}
+            >
+              <SecondaryFixtureCard fixture={f} className="w-full " />
+            </MotionWrapper>
           ))}
         </section>
         <br />

@@ -12,7 +12,7 @@ interface CardLoaderProps {
  */
 const CardLoader = ({ className, message }: CardLoaderProps) => {
   return (
-    <div className="w-full ">
+    <div className="w-full _page">
       {message && <p className="font-light my-2">{message}</p>}
       <div className="flex flex-wrap gap-4 w-full justify-center py-4">
         {/* xs (mobile) - 2 loaders */}
@@ -20,7 +20,7 @@ const CardLoader = ({ className, message }: CardLoaderProps) => {
           {[...Array(2)].map((_, i) => (
             <div
               key={i}
-              className={`w-36 h-5 bg-card rounded animate-pulse ${className}`}
+              className={`w-36 h-5 bg-popover rounded animate-pulse ${className}`}
             />
           ))}
         </div>
@@ -30,7 +30,7 @@ const CardLoader = ({ className, message }: CardLoaderProps) => {
           {[...Array(4)].map((_, i) => (
             <div
               key={i}
-              className={`w-40 h-5 bg-card rounded animate-pulse ${className}`}
+              className={`w-40 h-5 bg-popover rounded animate-pulse ${className}`}
             />
           ))}
         </div>
@@ -40,7 +40,7 @@ const CardLoader = ({ className, message }: CardLoaderProps) => {
           {[...Array(6)].map((_, i) => (
             <div
               key={i}
-              className={`w-44 h-5 bg-card rounded animate-pulse ${className}`}
+              className={`w-44 h-5 bg-popover rounded animate-pulse ${className}`}
             />
           ))}
         </div>
@@ -50,7 +50,7 @@ const CardLoader = ({ className, message }: CardLoaderProps) => {
           {[...Array(8)].map((_, i) => (
             <div
               key={i}
-              className={`w-48 h-5 bg-card rounded animate-pulse ${className}`}
+              className={`w-48 h-5 bg-popover rounded animate-pulse ${className}`}
             />
           ))}
         </div>
@@ -60,7 +60,7 @@ const CardLoader = ({ className, message }: CardLoaderProps) => {
           {[...Array(10)].map((_, i) => (
             <div
               key={i}
-              className={`w-52 h-5 bg-card rounded animate-pulse ${className}`}
+              className={`w-52 h-5 bg-popover rounded animate-pulse ${className}`}
             />
           ))}
         </div>

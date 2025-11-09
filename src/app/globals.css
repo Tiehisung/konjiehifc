@@ -159,7 +159,7 @@
 }
 
 ._p {
-  @apply text-lg md:text-xl;
+  @apply text-[16px] md:text-lg;
 }
 ._small {
   @apply text-[10px] font-light;
