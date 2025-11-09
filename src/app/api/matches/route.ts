@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 
   const regex = new RegExp(search, "i");
 
-  let query: Record<string, string | boolean | unknown> = {}
+  const query: Record<string, string | boolean | unknown> = {}
 
   if (fixtureType == 'home') query.isHome = true
 
