@@ -6,10 +6,11 @@ import UpdatePlayerIssuesAndFitness from "./IssuesUpdate";
 import { GiHealthNormal, GiPresent } from "react-icons/gi";
 import { getPlayers } from "../page";
 import { RiDeleteBin2Line } from "react-icons/ri";
-import DeletePlayer from "./DeletePlayer";
 import PlayerProfileForm from "../NewSigningForms";
 import Loader from "@/components/loaders/Loader";
 import { SubTitle } from "@/components/Elements";
+import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
+import { apiConfig } from "@/lib/configs";
 
 export default async function PlayerProfilePage({
   params,
@@ -57,7 +58,7 @@ export default async function PlayerProfilePage({
         </ScrollToPointBtn>
 
         <ScrollToPointBtn
-          sectionId={"activate-player"}
+          sectionId={"danger-zone"}
           className="flex gap-1 items-center shadow p-1 hover:text-blue-400 transition-transform"
           label={player?.isActive ? "Deactivate" : "Activate"}
         >
@@ -65,7 +66,7 @@ export default async function PlayerProfilePage({
         </ScrollToPointBtn>
 
         <ScrollToPointBtn
-          sectionId={"delete-player"}
+          sectionId={"danger-zone"}
           className="flex gap-1 items-center shadow p-1 hover:text-blue-400 transition-transform"
           label={"Delete"}
         >
@@ -83,14 +84,23 @@ export default async function PlayerProfilePage({
           <PlayerProfileForm player={player} />
         </section>
 
-        <section>
+        <section id="danger-zone">
           <SubTitle className="text-lg text-primaryRed font-light mb-4">
             Danger zone
           </SubTitle>
           <div className="grid items-start gap-10 md:flex flex-wrap  ">
             <PlayerActivation playerId={playerId} isActive={player?.isActive} />
 
-            <DeletePlayer playerId={playerId} name={player?.firstName} />
+            <ConfirmActionButton
+              uri={`${apiConfig.players}/${playerId}`}
+              method="DELETE"
+              primaryText="DELETE PLAYER"
+              loadingText="DELETING..."
+              confirmText={`Do you want to delete ${player?.firstName}?`}
+              gobackAfter
+              variant="destructive"
+              title="Delete Player"
+            />
           </div>
         </section>
       </main>

@@ -5,7 +5,7 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import CaptaincyModel from "@/models/captain";
 import { NextRequest, NextResponse } from "next/server";
 import { getErrorMessage, removeEmptyKeys } from "@/lib";
-import { IRecord } from "@/types";
+import { FilterQuery } from "mongoose";
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
 
@@ -19,11 +19,9 @@ interface ICap {
 
 export async function GET(request: NextRequest) {
   try {
-
     const { searchParams } = new URL(request.url);
     const page = Number.parseInt(searchParams.get("page") || "1", 10);
     const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
-
 
     const search = searchParams.get("captain_search") || "";
     const isActive = searchParams.get("isActive") || "";
@@ -32,13 +30,13 @@ export async function GET(request: NextRequest) {
 
     const regex = new RegExp(search, "i"); // case-insensitive partial match
 
-    let query: IRecord = {}
+    let query = {} as FilterQuery<unknown>
 
-    if (search) query = {
-      $or: [
+    if (search) {
+      query.$or = [
         { "player.firstName": regex },
         { "player.lastName": regex },
-      ],
+      ]
     }
     if (isActive) query.isActive = true
 

@@ -80,7 +80,7 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
 
       <hr className="border-red-500" />
 
-      <section className=" min-h-screen bg-linear-to-br from-blue-400 via-purple-400 to-green-400 md:p-6 rounded-2xl">
+      <section className=" min-h-screen md:p-6 rounded-2xl">
       
         <DisplayAdminPlayers players={players?.data}/>
       </section>
