@@ -12,8 +12,9 @@ const AdminNews: FC<{ news: IQueryResponse<INewsProps[]> }> = ({ news }) => {
     <div className="my-5">
       <ul className="grid md:grid-cols-2 gap-3 xl:grid-cols-3">
         {news?.data?.map((item, index) => {
+
           return (
-            <li key={index} className=" p-2 rounded border _borderColor flex ">
+            <li key={index} className=" p-2 rounded border _borderColor flex relative">
               <Link href={`/admin/news/${item._id}`}>
                 <Image
                   src={item?.headline?.image}
@@ -30,6 +31,11 @@ const AdminNews: FC<{ news: IQueryResponse<INewsProps[]> }> = ({ news }) => {
                   <p>{item?.reporter?.name}</p>
                 </div>
               </Link>
+
+              <div >
+                {item?.isPublished?'Published':'Un '}
+
+              </div>
             </li>
           );
         })}

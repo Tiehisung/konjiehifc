@@ -259,6 +259,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
       // Clean up Quill instance and any attached listeners
       try {
         if (quillRef.current) {
+          //@ts-ignore
           quillRef.current.off && quillRef.current.off("text-change");
           // attempt to remove DOM toolbar if it exists
           const tb = toolbarRef.current;
