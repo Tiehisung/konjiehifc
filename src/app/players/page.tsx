@@ -10,6 +10,7 @@ import { getPlayers } from "../admin/players/page";
 import Link from "next/link";
 import PlayerFeatureStatsCard from "./PlayerStatsCard";
 import { AnimateOnView } from "@/components/Animate/AnimateOnView";
+import { ICldFileUploadResult } from "@/components/cloudinary/FileUploadWidget";
 
 export type TPlayerGallery = {
   _id: string;
@@ -58,7 +59,7 @@ export interface IPlayer {
   dob: string;
   height: number;
   avatar: string;
-  featureImage?: string;
+  featureMedia?: ICldFileUploadResult[];
   manager: IManager;
   position: TPlayerPosition;
   favColor?:
@@ -144,7 +145,7 @@ const PlayersPage = async () => {
                     name={`${player?.firstName} ${player?.lastName}`}
                     position={player.position}
                     avatar={player.avatar}
-                    playerImage={player?.featureImage ?? player.avatar}
+                    playerImage={player.avatar}
                     goals={player.goals?.length}
                     matches={player.matches?.length}
                     assists={player.assists?.length}

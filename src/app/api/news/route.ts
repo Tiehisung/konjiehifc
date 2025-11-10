@@ -1,5 +1,5 @@
 import { IPostNews } from "@/app/admin/news/CreateNews";
-import { getErrorMessage } from "@/lib";
+import { getErrorMessage, removeEmptyKeys } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import NewsModel from "@/models/news";
 import { NextRequest, NextResponse } from "next/server";
@@ -7,67 +7,65 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
 import { logAction } from "../logs/helper";
 import { IUser } from "@/types/user";
-// export const revalidate = 0;
+import { FilterQuery } from "mongoose";
 
 ConnectMongoDb();
 export async function GET(request: NextRequest) {
 
   const session = await getServerSession(authOptions)
 
-
   const { searchParams } = new URL(request.url);
   const page = Number.parseInt(searchParams.get("page") || "1", 10);
   const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
 
   const search = searchParams.get("news_search") || "";
-  const isAdmin = searchParams.get("isAdmin") == 'true'
-  const trending = searchParams.get("trending") == "1";
-  const latest = searchParams.get("latest") == '1' ? true : false;
-  const hasVideo = searchParams.get("hasVideo") == '1' ? true : false;
+  const isTrending = searchParams.get("isTrending") == "true";
+  const isLatest = searchParams.get("isLatest") == 'true' ? true : false;
+  const isPublished = searchParams.get("isPublished") == 'true' ? true : false;
+  const isUnpublished = searchParams.get("isPublished") == 'false' ? true : false;
+  const hasVideo = searchParams.get("hasVideo") == 'true' ? true : false;
+
+  const from = searchParams.get("from");
+  const to = searchParams.get("to");
 
 
   const skip = (page - 1) * limit;
 
   const regex = new RegExp(search, "i");
 
-  let querySwitch: Record<string, unknown>[] = [];
+  let query = {} as FilterQuery<unknown>;
 
-  if (trending) {
-    querySwitch = [
-      { "stats.isTrending": true },
-    ];
-  }
-  if (latest) {
-    querySwitch = [
-      { "stats.isLatest": true },
-    ];
-  }
-  if (hasVideo) {
-    querySwitch = [
-      { "stats.hasVideo": true },
-    ];
+  if (isTrending) {
+    query["stats.isTrending"] = true
   }
 
-  const query = isAdmin ? {
-    $or: [
-      ...querySwitch
-    ],
-    "headline.text": regex,
+  if (isLatest) query["stats.isLatest"] = true
 
+  if (hasVideo) query["stats.hasVideo"] = true
 
-  } : {
-    $or: [
-      ...querySwitch
-    ],
-    "headline.text": regex,
-    "isPublished": true,
+  if (isPublished) query["isPublished"] = true
+  if (isUnpublished) query["isPublished"] = false
+
+  if (from || to) {
+    query.createdAt = {};
+
+    if (from) query.createdAt.$gte = new Date(from);
+    if (to) query.createdAt.$lte = new Date(to);
   }
 
-  const news = await NewsModel.find(query).sort({ createdAt: "desc" }).skip(skip)
+  if (search)
+    query.$or = [
+      { "headline.text": regex }
+    ]
+
+  const cleaned = removeEmptyKeys(query)
+
+  console.log({ cleaned })
+  const news = await NewsModel.find(cleaned).sort({ createdAt: "desc" }).skip(skip)
     .limit(limit)
     .lean();
 
-  const total = await NewsModel.countDocuments(query)
+  const total = await NewsModel.countDocuments(cleaned)
 
   return NextResponse.json({
     success: true, data: news, pagination: {

@@ -86,7 +86,7 @@ export default function GalleryGrid({
 
               {/* Tags */}
               <div className="flex flex-wrap gap-1">
-                {gallery?.tags.map((tag) => (
+                {gallery?.tags?.slice(0,10)?.map((tag) => (
                   <Badge key={tag} variant="outline" hidden={isObjectId(tag)}>
                     #{tag}
                   </Badge>

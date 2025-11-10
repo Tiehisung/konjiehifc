@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,6 +7,10 @@ import {
 } from "./ui/dropdown-menu";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 import { ChevronDown, MoreHorizontal } from "lucide-react";
+import { FC, ReactNode, useState } from "react";
+import { LuSlidersHorizontal } from "react-icons/lu";
+import HideOnClickOutside from "./HideOnClickOutside";
+import { useActionOnEsc } from "@/hooks/Esc";
 
 export function PrimaryDropdown({
   children,
@@ -73,3 +78,50 @@ export function HoverDropdown({
     </HoverCard>
   );
 }
+
+export const SecondaryDropdown: FC<{
+  className?: string;
+  wrapperStyles?: string;
+  triggerStyles?: string;
+  children: ReactNode;
+  triggerLabel?: ReactNode;
+}> = ({
+  className = "",
+  wrapperStyles = "",
+  children,
+  triggerLabel = <LuSlidersHorizontal size={20} />,
+  triggerStyles = "",
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useActionOnEsc({
+    onEscape() {
+      setIsOpen(false);
+    },
+  });
+
+  return (
+    <div className={`relative flex items-center w-fit z-50 ${wrapperStyles}`}>
+      <HideOnClickOutside setIsVisible={setIsOpen}>
+        <button
+          type="button"
+          onClick={() => setIsOpen((p) => !p)}
+          className={`p-1.5 _hover _slowTrans cursor-pointer border rounded ${triggerStyles}`}
+        >
+          {triggerLabel}
+        </button>
+
+        <main
+          className={`absolute bg-card right-0 left-auto rounded-2xl ${
+            isOpen
+              ? " visible _slowTrans min-w-[200px] sm:w-80 border top-full shadow-2xl"
+              : "invisible h-0 top-6"
+          } ${className}`}
+        >
+          {children}
+        </main>
+
+      </HideOnClickOutside>
+    </div>
+  );
+};
