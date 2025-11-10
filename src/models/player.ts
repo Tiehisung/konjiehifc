@@ -38,7 +38,7 @@ const playerSchema = new Schema(
     history: { type: String, },
     dateSigned: { type: String, required: true },
     avatar: String,
-    featureImage: String,
+    featureMedia: { type: [{}], default: [] },
     manager: {
       fullname: String,
       phone: String,

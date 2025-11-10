@@ -21,6 +21,7 @@ import { scrollToElement } from "@/lib/DOM";
 import { generatePlayerAbout } from "@/data/about";
 import GalleryGrid from "@/components/Gallery/GallaryGrid";
 import { GalleryUpload } from "@/components/Gallery/GalleryUpload";
+import { PlayerFeatureMedia } from "./FeatureMedia";
 
 const statsData = [
   { stat: "PAS", value: 82 },
@@ -41,9 +42,8 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
 
   const playerId = sp.get("playerId");
 
-  const player = players.find((p) => p._id == playerId);
+  const player = players?.find((p) => p._id == playerId);
 
-  // console.log({player})
 
   const { images } = usePlayerGalleryUtils(galleries);
   const slides = images?.slice(0, 10)?.map((file) => (
@@ -222,7 +222,7 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
         {/* Radar Chart */}
       </section>
 
-      <div className="h-64 w-full flex justify-center">
+      <section className="h-64 w-full flex justify-center">
         <ResponsiveContainer width="100%" height="100%">
           <RadarChart data={statsData}>
             <PolarGrid stroke="#333" />
@@ -236,16 +236,26 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
             />
           </RadarChart>
         </ResponsiveContainer>
-      </div>
+      </section>
 
-      <GalleryGrid
-        galleries={galleries as IGalleryProps[]}
-        name={`${player?.firstName} ${player?.lastName}`}
-      />
-      <GalleryUpload
-        tags={[player?.lastName, player?.firstName, playerId].filter(Boolean) as string[]}
-        players={players}
-      />
+      <PlayerFeatureMedia player={player} />
+
+      <section>
+        <h1 className="my-6 _title _gradient p-4">GALLERIES</h1>
+        <GalleryGrid
+          galleries={galleries as IGalleryProps[]}
+          name={`${player?.firstName} ${player?.lastName}`}
+        />
+
+        <GalleryUpload
+          tags={
+            [player?.lastName, player?.firstName, playerId].filter(
+              Boolean
+            ) as string[]
+          }
+          players={players}
+        />
+      </section>
     </main>
   );
 }

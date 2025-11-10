@@ -115,7 +115,7 @@ export const bytesToMB = (bytes: number): number => {
 };
 
 export function buildQueryStringServer(
-  searchParams: Record<string, string | string[] | undefined>
+  searchParams: Record<string, string | string[] |boolean | undefined>
 ) {
   if (!searchParams) return "";
 

@@ -4,18 +4,19 @@ import { apiConfig } from "@/lib/configs";
 import AdminNews from "./News";
 import { IQueryResponse } from "@/types";
 import { INewsProps } from "@/app/news/page";
+import { buildQueryStringServer } from "@/lib";
 
-export const getNews = async (isAdmin?: boolean) => {
+export const getNews = async (query?: string) => {
   try {
-    const uri = isAdmin ? `${apiConfig.news}?isAdmin=true` : apiConfig.news;
+    const uri = query ? `${apiConfig.news}${query}` : apiConfig.news;
 
     const response = await fetch(uri, { cache: "no-cache" });
-      return  await response.json();
-  
+    return await response.json();
   } catch {
     return null;
   }
 };
+
 export const getNewsById = async (id: string) => {
   try {
     const response = await fetch(`${apiConfig.news}/${id}`, {
@@ -28,14 +29,21 @@ export const getNewsById = async (id: string) => {
   }
 };
 
-const AdminNewsPage = async () => {
-  const news: IQueryResponse<INewsProps[]> = await getNews(true);
+interface IPageProps {
+  searchParams: Promise<
+    Record<string, string | string[] | boolean | undefined>
+  >;
+}
+
+const AdminNewsPage = async ({ searchParams }: IPageProps) => {
+  const qs = buildQueryStringServer(await searchParams);
+
+  const news: IQueryResponse<INewsProps[]> = await getNews(qs);
 
   return (
     <div>
       <h1 className="_title px-6 text-primaryRed uppercase">News Publisher </h1>
       <CreateNews />
-      {/* <RichTextEditor /> */}
 
       <AdminNews news={news} />
     </div>

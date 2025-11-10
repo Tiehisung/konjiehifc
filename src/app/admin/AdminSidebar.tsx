@@ -42,8 +42,8 @@ export function LeftPaneDesktop() {
       className={`max-md:hidden bg-accent w-[220px] max-h-screen overflow-y-auto py-6`}
     >
       <div className="p-6 flex items-center justify-between">
-        <Link href={"/"} className="text-2xl font-black grow flex" title="Home">
-          ⚽ KFC
+        <Link href={"/"} className="text-2xl font-semibold grow flex" title="Home">
+          ⚽ KonFC
         </Link>
       </div>
       <ul className="flex flex-col flex-1 gap-3 h-fit pl-1">
