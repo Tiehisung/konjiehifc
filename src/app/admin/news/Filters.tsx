@@ -12,9 +12,7 @@ export interface NewsFilterValues {
   to?: string;
 }
 
-interface NewsFilterProps {}
-
-export default function NewsFilter({}: NewsFilterProps) {
+export default function NewsFilter() {
   const sp = useSearchParams();
   const isTrending = sp.get("isTrending");
   const isPublished = sp.get("isPublished");

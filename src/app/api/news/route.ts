@@ -28,12 +28,11 @@ export async function GET(request: NextRequest) {
   const from = searchParams.get("from");
   const to = searchParams.get("to");
 
-
   const skip = (page - 1) * limit;
 
   const regex = new RegExp(search, "i");
 
-  let query = {} as FilterQuery<unknown>;
+  const query = {} as FilterQuery<unknown>;
 
   if (isTrending) {
     query["stats.isTrending"] = true
