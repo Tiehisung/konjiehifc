@@ -3,8 +3,8 @@ import { IQueryResponse } from "@/types";
 import { ICaptainProps } from "./Captaincy";
 
 export const getCaptains = async (query?: string) => {
-  const formatted = query ? (query?.includes("?") ? query : "?" + query) : "";
   try {
+  const formatted = query ? (query?.includes("?") ? query : "?" + query) : "";
     const response = await fetch(apiConfig.captains + (formatted || ""), {
       cache: "no-cache",
     });

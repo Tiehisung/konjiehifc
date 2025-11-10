@@ -11,27 +11,30 @@ import { PrimaryAccordion } from "@/components/Accordion";
 import { PrimarySearch } from "@/components/Search";
 import { DisplayAdminPlayers } from "./DisplayPlayers";
 
-export const getPlayers = async (playerId?: string) => {
+export const getPlayers = async (query?: string) => {
   try {
-    if (playerId) {
-      const response = await fetch(`${apiConfig.players}/${playerId}`, {
-        cache: "no-store",
-      });
+    const formatted = query ? (query?.includes("?") ? query : "?" + query) : "";
+    const response = await fetch(apiConfig.captains + (formatted || ""), {
+      cache: "no-cache",
+    });
 
-      if (!response.ok) return null;
-      const player = await response.json();
-      return player;
-    } else {
-      //Return all players
-      const response = await fetch(apiConfig.players, {
-        cache: "no-cache",
-      });
+    if (!response.ok) return null;
+ 
+    return   await response.json();
+  } catch {
+    return null;
+  }
+};
 
-      if (!response.ok) return null;
-      const players = await response.json();
+export const getPlayerById = async (playerId: string) => {
+  try {
+    const response = await fetch(`${apiConfig.players}/${playerId}`, {
+      cache: "no-store",
+    });
 
-      return players;
-    }
+    if (!response.ok) return null;
+    const player = await response.json();
+    return player;
   } catch {
     return null;
   }
@@ -47,12 +50,12 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
   // const qs = buildQueryString(await searchParams);
   const qs = new URLSearchParams(await searchParams).toString();
 
-  const players: IQueryResponse<IPlayer[]> = await getPlayers();
+  const players: IQueryResponse<IPlayer[]> = await getPlayers(qs);
 
   const captains = await getCaptains(qs);
 
   return (
-    <div className="py-12 px-6 space-y-8 _page">
+    <div className="py-12 px-2.5 md:px-6 space-y-8 _page">
       <header className="mb-6 mx-auto">
         <div className="text-center mb-10 ">
           <h1 className="text-3xl font-bold">KFC PLAYERS</h1>
@@ -81,11 +84,8 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
       <hr className="border-red-500" />
 
       <section className=" min-h-screen md:p-6 rounded-2xl">
-      
-        <DisplayAdminPlayers players={players?.data}/>
+        <DisplayAdminPlayers players={players} />
       </section>
-
-    
 
       <section id="new-signing">
         <PrimaryAccordion

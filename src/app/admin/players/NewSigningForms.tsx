@@ -71,7 +71,7 @@ export default function PlayerProfileForm({
     try {
       setWaiting(true);
       const apiRoute = player
-        ? `${apiConfig.players}/${player._id}`
+        ? `${apiConfig.players}/${player?._id}`
         : apiConfig.players;
 
       const response = await fetch(apiRoute, {
@@ -96,7 +96,7 @@ export default function PlayerProfileForm({
   const images = Object.values(staticImages);
 
   return (
-    <section className="bg-card pt-6 rounded-2xl flex items-start ">
+    <section className="bg-card _card pt-6 rounded-2xl flex items-start ">
       <ContentShowcaseWrapper images={images as string[]}>
         <div className="w-full">
           <h1 className=" mb-2 text-teal-600 text-center _title">

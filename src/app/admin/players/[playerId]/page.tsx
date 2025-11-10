@@ -4,7 +4,7 @@ import { FcGallery } from "react-icons/fc";
 import PlayerActivation from "./Activation";
 import UpdatePlayerIssuesAndFitness from "./IssuesUpdate";
 import { GiHealthNormal, GiPresent } from "react-icons/gi";
-import { getPlayers } from "../page";
+import { getPlayerById } from "../page";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import PlayerProfileForm from "../NewSigningForms";
 import Loader from "@/components/loaders/Loader";
@@ -18,7 +18,7 @@ export default async function PlayerProfilePage({
   params: Promise<{ playerId: string }>;
 }) {
   const playerId = (await params).playerId;
-  const player = await getPlayers(playerId);
+  const player = await getPlayerById(playerId);
 
   if (!player) return <Loader message="Loading player..." />;
 
