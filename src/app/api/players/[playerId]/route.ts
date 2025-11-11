@@ -5,6 +5,7 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import ArchivesModel from "@/models/archive";
 import PlayerModel from "@/models/player";
 import { NextRequest, NextResponse } from "next/server";
+import { logAction } from "../../logs/helper";
 
 ConnectMongoDb();
 export async function GET(
@@ -70,30 +71,33 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ playerId: string }> }
 ) {
-  const playerId = (await params).playerId
-  const { reason, detail } = await request.json();
   try {
+    const playerId = (await params).playerId
+
     //Update issues
-    const updatedWithIssue = await PlayerModel.findOneAndUpdate(
-      { _id: playerId },
-      { $push: { issues: { reason, date: new Date(), detail } } },
-      { returnDocument: "after" }
-    );
-    // const player = await PlayerModel.findById(playerId);
+    const player = await PlayerModel.findById(playerId);
 
     await ArchivesModel.updateOne(
       { category: "deleted_players" },
-      { $push: { data: updatedWithIssue } }
+      { $push: { data: player } }
     );
 
     //Now remove player
     const deleted = await PlayerModel.deleteOne({ _id: playerId });
-    if (deleted.acknowledged)
-      return NextResponse.json({
-        message: "Deleted successful",
-        success: true,
-      });
+    // log
+    await logAction({
+      title: "Player Deleted",
+      description: `Player with id [${playerId}] deleted on ${new Date().toLocaleString()}`,
+      category: "db",
+      severity: "critical",
+      meta: { ...deleted }
+    });
+    return NextResponse.json({
+      message: "Deleted successful",
+      success: true,
+    });
   } catch (error) {
+    console.log(error)
     return NextResponse.json({
       message: `Delete failed. ${getErrorMessage(error)}`,
       success: false,

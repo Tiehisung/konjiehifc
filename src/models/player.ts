@@ -23,8 +23,6 @@ const playerSchema = new Schema(
     },
     email: {
       type: String,
-      unique: true,
-      required: true,
       trim: true,
       lowercase: true,
       message: "Email required",
@@ -63,7 +61,6 @@ const playerSchema = new Schema(
     number: { type: String, required: true, unique: true },
     position: {
       type: String,
-
     },
     training: { type: Schema.Types.Mixed, default: () => ({ team: "A" }) },
   },

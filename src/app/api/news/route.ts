@@ -43,6 +43,7 @@ export async function GET(request: NextRequest) {
   if (hasVideo) query["stats.hasVideo"] = true
 
   if (isPublished) query["isPublished"] = true
+  
   if (isUnpublished) query["isPublished"] = false
 
   if (from || to) {

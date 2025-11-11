@@ -36,7 +36,6 @@ export default function CaptaincyAdm({
   captains: IQueryResponse<ICaptainProps[]> | null;
   players: IPlayer[];
 }) {
-  console.log({ captains });
   const [filtered, setFiltered] = useState<ICaptainProps[]>(
     captains?.data as ICaptainProps[]
   );
@@ -82,7 +81,7 @@ export default function CaptaincyAdm({
         </header>
 
         <ul className="flex items-start justify-start flex-wrap gap-10 my-10 p-4">
-          {filtered?.map((captain, index) => (
+          {filtered?.filter(Boolean)?.map((captain, index) => (
             <li key={index}>
               <div>
                 <Image
@@ -173,7 +172,7 @@ export const UpdateCaptaincy = ({
               setIsBusy={setIsBusy}
               defaultRole={
                 captains?.find(
-                  (cap) => cap.player._id == player._id && cap.isActive
+                  (cap) => cap?.player?._id == player?._id && cap?.isActive
                 )?.role
               }
             />
