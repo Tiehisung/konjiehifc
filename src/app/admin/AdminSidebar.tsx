@@ -4,7 +4,7 @@ import { Button } from "@/components/buttons/Button";
 import { NavigationPopover } from "@/components/NavigationPopover";
 import { ThemeModeToggle } from "@/components/ThemeToggle";
 import UserLogButtons from "@/components/UserLogger";
-import { Home, LogOut, Logs } from "lucide-react";
+import {  LogOut, Logs } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -14,7 +14,7 @@ import { CgDatabase } from "react-icons/cg";
 import { FcManager } from "react-icons/fc";
 import { FiUserCheck } from "react-icons/fi";
 import { GiBabyfootPlayers } from "react-icons/gi";
-import { GrGallery } from "react-icons/gr";
+import { GrDashboard, GrGallery } from "react-icons/gr";
 import { LiaDonateSolid, LiaRunningSolid } from "react-icons/lia";
 import { MdOutlineFeaturedPlayList, MdOutlineLiveTv } from "react-icons/md";
 import { PiNewspaperThin } from "react-icons/pi";
@@ -114,9 +114,9 @@ export function LeftPaneMobile() {
 }
 const sidebarLinks = [
   {
-    label: "Home",
-    path: "/",
-    icon: <Home />,
+    label: "Dashboard",
+    path: "/admin",
+    icon: <GrDashboard />,
   },
   {
     label: "Features",

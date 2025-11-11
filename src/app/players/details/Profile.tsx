@@ -22,6 +22,7 @@ import { generatePlayerAbout } from "@/data/about";
 import GalleryGrid from "@/components/Gallery/GallaryGrid";
 import { GalleryUpload } from "@/components/Gallery/GalleryUpload";
 import { PlayerFeatureMedia } from "./FeatureMedia";
+import { IPlayerStats } from "@/types/stats";
 
 const statsData = [
   { stat: "PAS", value: 82 },
@@ -35,15 +36,19 @@ const statsData = [
 interface PageProps {
   players: IPlayer[];
   galleries?: IGalleryProps[];
+  stats?: IPlayerStats;
 }
 
-export default function PlayerProfile({ players, galleries }: PageProps) {
+export default function PlayerProfile({
+  players,
+  galleries,
+  stats,
+}: PageProps) {
   const sp = useSearchParams();
 
   const playerId = sp.get("playerId");
 
   const player = players?.find((p) => p._id == playerId);
-
 
   const { images } = usePlayerGalleryUtils(galleries);
   const slides = images?.slice(0, 10)?.map((file) => (
@@ -168,26 +173,25 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
             >
               <li className="_card">
                 <p className="text-xl font-semibold">
-                  {player?.ratings?.length ?? 5.2}
+                  {stats?.ratings && stats.ratings.length
+                    ? (
+                        stats.ratings.reduce((sum, r) => sum + r.rating, 0) /
+                        stats.ratings.length
+                      ).toFixed(1)
+                    : "0"}
                 </p>
                 <p className="text-xs text-muted-foreground">Avg Rating</p>
               </li>
               <li className="_card">
-                <p className="text-xl font-semibold">
-                  {player?.assists?.length ?? 0}
-                </p>
+                <p className="text-xl font-semibold">{stats?.assists}</p>
                 <p className="text-xs text-muted-foreground">Assists</p>
               </li>
               <li className="_card">
-                <p className="text-xl font-semibold">
-                  {player?.goals?.length ?? 0}
-                </p>
+                <p className="text-xl font-semibold">{stats?.goals}</p>
                 <p className="text-xs text-muted-foreground">Goals</p>
               </li>
               <li className="_card">
-                <p className="text-xl font-semibold">
-                  {player?.matches?.length ?? 0}
-                </p>
+                <p className="text-xl font-semibold">{stats?.matches}</p>
                 <p className="text-xs text-muted-foreground">Matches</p>
               </li>
               <li className="_card">
@@ -195,6 +199,12 @@ export default function PlayerProfile({ players, galleries }: PageProps) {
                   {player?.mvp?.length ?? 0}
                 </p>
                 <p className="text-xs text-muted-foreground">MVPs</p>
+              </li>
+              <li className="_card">
+                <p className="text-xl font-semibold">
+                  {stats?.performanceScore}
+                </p>
+                <p className="text-xs text-muted-foreground">Performance</p>
               </li>
             </ul>
           </section>

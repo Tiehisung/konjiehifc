@@ -49,7 +49,9 @@ export interface IPlayer {
   medicals: { fitness: string }[];
   galleries: TPlayerGallery[];
   isFit: boolean;
+  isActive: boolean;
   issues: string[];
+  injuries: string[];
   captaincy: string;
   firstName: string;
   lastName: string;
@@ -166,3 +168,4 @@ const PlayersPage = async () => {
 };
 
 export default PlayersPage;
+

@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
 
     const regex = new RegExp(search, "i"); // case-insensitive partial match
 
-    let query = {} as FilterQuery<unknown>
+    const query = {} as FilterQuery<unknown>
 
     if (search) {
       query.$or = [

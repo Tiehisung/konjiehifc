@@ -4,6 +4,8 @@ import PlayerProfile from "./Profile";
 import { IGalleryProps, IQueryResponse } from "@/types";
 import { PlayerHeadList } from "./PlayerHeadList";
 import { apiConfig } from "@/lib/configs";
+import { getPlayersStats, } from "@/app/admin/page";
+import { IPlayerStats } from "@/types/stats";
 
 interface PageProps {
   searchParams: Promise<{ playerId: string }>;
@@ -19,12 +21,16 @@ export const getGalleries = async (tagNames?: string[],query?:string) => {
   return await response.json();
 };
 
+
+
 export default async function PlayerProfilePage({ searchParams }: PageProps) {
   const playerId = (await searchParams).playerId;
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
   const galleries: IQueryResponse<IGalleryProps[]> = await getGalleries(
     [playerId].filter(Boolean)
   );
+
+  const playerStats:IQueryResponse<IPlayerStats> = await getPlayersStats(playerId)
 
   const player = players?.data?.find((p) => p._id == playerId);
 
@@ -37,6 +43,7 @@ export default async function PlayerProfilePage({ searchParams }: PageProps) {
       <PlayerProfile
         players={players?.data as IPlayer[]}
         galleries={galleries?.data}
+        stats={playerStats?.data}
       />
       <PlayerHeadList players={players?.data as IPlayer[]} />
     </main>

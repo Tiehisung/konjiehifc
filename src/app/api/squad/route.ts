@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
       players, assistant, coach, description, title: match.title, match: match?._id
     });
 
-    console.log({ savedSquad })
+ 
 
     if (!savedSquad) {
       return NextResponse.json({ message: "Failed to create squad.", success: false });
