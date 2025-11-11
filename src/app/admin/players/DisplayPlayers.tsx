@@ -7,6 +7,8 @@ import { Pagination } from "@/components/Pagination";
 import { IQueryResponse } from "@/types";
 
 export function DisplayAdminPlayers({ players }: { players?:IQueryResponse<IPlayer[]> }) {
+  console.log({players});
+
   if(!players)return
   return (
     <div>
