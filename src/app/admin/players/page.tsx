@@ -14,7 +14,7 @@ import { DisplayAdminPlayers } from "./DisplayPlayers";
 export const getPlayers = async (query?: string) => {
   try {
     const formatted = query ? (query?.includes("?") ? query : "?" + query) : "";
-    const response = await fetch(apiConfig.captains + (formatted || ""), {
+    const response = await fetch(apiConfig.players + (formatted || ""), {
       cache: "no-cache",
     });
 
@@ -57,7 +57,7 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
   return (
     <div className="py-12 px-2.5 md:px-6 space-y-8 _page">
       <header className="mb-6 mx-auto">
-        <div className="text-center mb-10 ">
+        <div className="text-center mb-10 space-y-3.5 ">
           <h1 className="text-3xl font-bold">KFC PLAYERS</h1>
           <ScrollToPointBtn
             label=" NEW SIGNING"

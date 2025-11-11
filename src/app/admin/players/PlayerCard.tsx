@@ -5,10 +5,9 @@ import { getRandomIndex } from "@/lib";
 import Image from "next/image";
 
 export function PlayerCard({ player }: { player: IPlayer }) {
-  const className = `from-${player?.favColor}-500 to-${player?.favColor}-700`;
   return (
     <div
-      className={`relative overflow-hidden bg-linear-to-b text-white ${className} from-red-500 to-red-700 shadow-lg pb-2 flex flex-col justify-between`}
+      className={`relative overflow-hidden bg-linear-to-b text-white from-red-500 to-red-700 shadow-lg pb-2 flex flex-col justify-between`}
     >
       <div className="z-10 px-3">
         <h2 className="text-xl font-bold backdrop-blur-xs w-fit p-0 uppercase line-clamp-1">
