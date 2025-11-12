@@ -2,17 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import LogModel from "@/models/logs";
 import "@/models/user";
 import { ConnectMongoDb } from "@/lib/dbconfig";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/options";
+ 
 
 
 export const dynamic = "force-dynamic";
 
 ConnectMongoDb();
 export async function GET(request: NextRequest) {
-  const session = await getServerSession(authOptions)
-
-  console.log({session})
 
   const { searchParams } = new URL(request.url);
   const page = Number.parseInt(searchParams.get("page") || "1", 10);
