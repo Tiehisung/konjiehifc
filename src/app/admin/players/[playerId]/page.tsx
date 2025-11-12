@@ -11,6 +11,7 @@ import Loader from "@/components/loaders/Loader";
 import { SubTitle } from "@/components/Elements";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { apiConfig } from "@/lib/configs";
+import { IPlayer } from "@/app/players/page";
 
 export default async function PlayerProfilePage({
   params,
@@ -18,7 +19,7 @@ export default async function PlayerProfilePage({
   params: Promise<{ playerId: string }>;
 }) {
   const playerId = (await params).playerId;
-  const player = await getPlayerById(playerId);
+  const player:IPlayer = await getPlayerById(playerId);
 
   if (!player) return <Loader message="Loading player..." />;
 
@@ -28,7 +29,7 @@ export default async function PlayerProfilePage({
 
       <div
         className="h-screen w-full rounded-t-md z-[-1] fixed inset-0 bottom-0 bg-no-repeat bg-cover"
-        style={{ backgroundImage: `url(${player?.avatar?.secure_url})` }}
+        style={{ backgroundImage: `url(${player?.featureMedia?.[0].secure_url??player?.avatar})` }}
       />
 
       {/*Nav Scroll controllers */}
