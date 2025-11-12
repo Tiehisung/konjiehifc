@@ -5,7 +5,7 @@ import { getNews } from "../admin/news/page";
 import { Reveal } from "@/components/Animate/Reveal";
 import Image from "next/image";
 import { broadcasters } from "@/assets/broadcaster/broadcaster";
-import { getFormattedDate } from "@/lib/timeAndDate";
+import { formatDate } from "@/lib/timeAndDate";
 import Link from "next/link";
 import BestOfUs from "./BestOfUs";
 import { LatestNews } from "./Latest";
@@ -162,7 +162,7 @@ const NewsItem = ({ item }: { item: INewsProps }) => {
               className="h-5 w-auto object-contain my-2"
             />
             <p className="_pp">
-              {getFormattedDate(item.createdAt, "March 2, 2025")}
+              {formatDate(item.createdAt, "March 2, 2025")}
             </p>
           </div>
         </section>

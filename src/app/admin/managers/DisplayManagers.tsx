@@ -11,7 +11,7 @@ import { MdOutlineGridView } from "react-icons/md";
 import { CiBoxList } from "react-icons/ci";
 import { staticImages } from "@/assets/images";
 import { DisplayType } from "@/components/DisplayStyle";
-import { getFormattedDate, getTimeLeftOrAgo } from "@/lib/timeAndDate";
+import { formatDate, getTimeLeftOrAgo } from "@/lib/timeAndDate";
 
 const AdminManagers = ({ managers }: { managers?: IManager[] }) => {
   const viewStyle = useGetParam("display");
@@ -50,7 +50,7 @@ const AdminManagers = ({ managers }: { managers?: IManager[] }) => {
                     <td className="px-4 py-2 uppercase">{manager?.role}</td>
                     <td className="px-4 py-2 font-light">
                       <span>
-                        {getFormattedDate(manager?.dateSigned, "March 2, 2025")}
+                        {formatDate(manager?.dateSigned, "March 2, 2025")}
                         ({getTimeLeftOrAgo(manager?.dateSigned).formatted})
                       </span>
                     </td>
@@ -91,7 +91,7 @@ const AdminManagers = ({ managers }: { managers?: IManager[] }) => {
                   <p>
                     <small className="italic">Since</small>{" "}
                     <span>
-                      {getFormattedDate(manager?.dateSigned, "March 2, 2025")}(
+                      {formatDate(manager?.dateSigned, "March 2, 2025")}(
                       {getTimeLeftOrAgo(manager?.dateSigned).formatted})
                     </span>
                   </p>

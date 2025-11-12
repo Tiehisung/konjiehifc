@@ -4,14 +4,14 @@ import { Pagination } from "@/components/Pagination";
 import { PrimarySearch } from "@/components/Search";
 import { shortText } from "@/lib";
 import { apiConfig } from "@/lib/configs";
-import { getFormattedDate, getTimeAgo } from "@/lib/timeAndDate";
-import { ILog, IPagination, IQueryResponse,   } from "@/types";
+import { formatDate, getTimeAgo } from "@/lib/timeAndDate";
+import { ILog, IPagination, IQueryResponse } from "@/types";
 import { IUser } from "@/types/user";
 // import { getServerSession } from "next-auth";
 
 export const getLogs = async (queryString?: string) => {
   try {
-    const url =   `${apiConfig.base}/logs${queryString || ""}`  
+    const url = `${apiConfig.base}/logs${queryString || ""}`;
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -34,19 +34,21 @@ interface IPageProps {
     type?: string;
   }>;
 }
-export default async function LogsPage({searchParams}:IPageProps) {
-    const qs = new URLSearchParams(await searchParams).toString();
+export default async function LogsPage({ searchParams }: IPageProps) {
+  const qs = new URLSearchParams(await searchParams).toString();
   const logs = (await getLogs(qs)) as IQueryResponse<ILog[]>;
-  
+
   const accordionData = logs?.data?.map((log) => ({
     trigger: (
       <div className="flex justify-between gap-5 items-center grow ">
         <p className="font-black ">{shortText(log.title, 50)}</p>
-        <span className="font-light">{getTimeAgo(log.createdAt.toString())}</span>
+        <span className="font-light">
+          {getTimeAgo(log.createdAt.toString())}
+        </span>
       </div>
     ),
     content: (
-      <div className="space-y-2 border-b pb-6 pl-3">
+      <div className="space-y-2 pb-6 pl-3">
         <p>
           <span className="_label mr-1.5 text-muted-foreground ">
             Description:
@@ -77,7 +79,7 @@ export default async function LogsPage({searchParams}:IPageProps) {
           <span className="_label mr-1.5 text-muted-foreground ">
             Created At:
           </span>
-          {getFormattedDate(log.createdAt.toString(), "March 2, 2025")},
+          {formatDate(log.createdAt.toString(), "March 2, 2025")},
           {getTimeAgo(log.createdAt.toString())}
         </p>
 
@@ -91,19 +93,26 @@ export default async function LogsPage({searchParams}:IPageProps) {
     ),
     value: log._id,
   }));
-  // const session = await getServerSession(authOptions)
 
-  // console.log('session',session)
- 
   return (
-    <div className='_page'>
+    <div className="_page">
       <header className=" space-y-5 mb-4">
-        <div className="text-lg md:text-xl xl:text-3xl font-semibold"> System Logs</div>
-         <PrimarySearch placeholder='Search Logs' inputStyles="h-9" className="bg-secondary" searchKey="log_search"/>
+        <div className="text-lg md:text-xl xl:text-3xl font-semibold">
+          System Logs
+        </div>
+        <PrimarySearch
+          placeholder="Search Logs"
+          inputStyles="h-9"
+          className="bg-secondary"
+          searchKey="log_search"
+        />
       </header>
-      <PrimaryAccordion data={accordionData as IAccordionProps["data"]} triggerStyles="_card"/>
+      <PrimaryAccordion
+        data={accordionData as IAccordionProps["data"]}
+        triggerStyles=" rounded-none"
+      />
 
-       <Pagination pagination={logs?.pagination as IPagination} />
+      <Pagination pagination={logs?.pagination as IPagination} />
     </div>
   );
 }

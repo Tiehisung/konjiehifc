@@ -8,7 +8,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "sonner";
 import { UpdateFixtureMatch } from "./CreateFixture";
 import { checkTeams } from "@/lib";
-import { getFormattedDate } from "@/lib/timeAndDate";
+import { formatDate } from "@/lib/timeAndDate";
 import { IMatchProps, ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { BsPatchCheck } from "react-icons/bs";
 import { FaCheckCircle } from "react-icons/fa";
@@ -86,7 +86,7 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
                     </div>
                   </td>
                   <td className="px-2 py-2 whitespace-nowrap text-sm">
-                    {getFormattedDate(fixture.date, "March 2, 2025")}
+                    {formatDate(fixture.date, "March 2, 2025")}
                   </td>
                   <td className="px-2 py-2 whitespace-nowrap text-sm">
                     <Badge

@@ -21,7 +21,7 @@ export function PrimaryAccordion(props: IAccordionProps) {
     return null;
   }
   if (props.data.length === 0) {
-    return <p>No data available.</p>;
+    return <p className="_label p-5">No data available.</p>;
   }
   return (
     <Accordion

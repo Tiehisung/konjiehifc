@@ -15,7 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Users, CalendarDays, MapPin, Clock, UserCog } from "lucide-react";
 import { ISquad } from "./page";
-import { getFormattedDate, getTimeAgo } from "@/lib/timeAndDate";
+import { formatDate, getTimeAgo } from "@/lib/timeAndDate";
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { useSession } from "next-auth/react";
 import { apiConfig } from "@/lib/configs";
@@ -46,10 +46,7 @@ const SquadCard = ({ squad, match }: SquadDisplayProps) => {
               </span>
               <span className="flex items-center gap-1">
                 <CalendarDays size={16} />{" "}
-                {getFormattedDate(
-                  squad?.match?.date ?? match?.date,
-                  "March 2, 2025"
-                )}
+                {formatDate(squad?.match?.date ?? match?.date, "March 2, 2025")}
               </span>
               <span className="flex items-center gap-1">
                 <Clock size={16} /> {squad?.match?.time ?? match?.time}
@@ -158,7 +155,7 @@ const SquadCard = ({ squad, match }: SquadDisplayProps) => {
 
       <CardFooter className="justify-between text-sm text-muted-foreground">
         <p>
-          Created on {getFormattedDate(squad?.createdAt)} (
+          Created on {formatDate(squad?.createdAt)} (
           {getTimeAgo(squad?.createdAt as string)})
         </p>
 

@@ -5,7 +5,7 @@ import Image from "next/image";
 import React from "react";
 import AdminsActionsPopper, { IAdminSession } from "./Actions";
 import CreateAdmin from "./CreateAdmin";
-import { getFormattedDate } from "@/lib/timeAndDate";
+import { formatDate } from "@/lib/timeAndDate";
 import BackBtn from "@/components/buttons/BackBtn";
 import { DIALOG } from "@/components/Dialog";
 
@@ -94,7 +94,7 @@ const AuthorizationPage = async () => {
                     {admin.role.replace("_", " ")}
                   </p>
                   <time className="border-l px-2 ml-2 italic">
-                    {getFormattedDate(admin.dateEngaged ?? admin.createdAt)}
+                    {formatDate(admin.dateEngaged ?? admin.createdAt)}
                   </time>
                 </td>
                 <td className="font-light">{admin.email}</td>

@@ -4,7 +4,7 @@ import { INewsProps } from "@/app/news/page";
 import { Pagination } from "@/components/Pagination";
 import { PrimarySearch } from "@/components/Search";
 import { Badge } from "@/components/ui/badge";
-import { getFormattedDate } from "@/lib/timeAndDate";
+import { formatDate } from "@/lib/timeAndDate";
 import { IQueryResponse } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -48,7 +48,7 @@ const AdminNews: FC<{ news: IQueryResponse<INewsProps[]> }> = ({ news }) => {
                   {item.headline.text}
                 </p>
                 <div className="font-light text-sm">
-                  <p>{getFormattedDate(item?.createdAt, "March 2, 2025")}</p>
+                  <p>{formatDate(item?.createdAt, "March 2, 2025")}</p>
                   <p>{item?.reporter?.name}</p>
                 </div>
               </Link>
