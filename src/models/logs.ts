@@ -13,12 +13,8 @@ const logSchema = new Schema(
     description: String,
 
     // store the user email that triggered this log
-    userEmail: {
-      type: String,
-      trim: true,
-    },
-
-
+    user: {},
+    
     severity: {
       type: String,
       default: "info",
@@ -34,7 +30,7 @@ const logSchema = new Schema(
     source: {
       type: String,
       default: "user",
-      enum: ["admin", "user",  "system",  "other"],
+      enum: ["admin", "user", "system", "other"],
     },
 
     meta: { type: mongoose.Schema.Types.Mixed },
@@ -48,13 +44,6 @@ const logSchema = new Schema(
   }
 );
 
-// use `ref`, not `model`
-logSchema.virtual("user", {
-  ref: "User",             // must match the model name of your users
-  localField: "userEmail", // field in logs
-  foreignField: "email",   // field in users
-  justOne: true,
-});
 
 const LogModel =
   mongoose.models.logs || mongoose.model<ILog>("logs", logSchema);

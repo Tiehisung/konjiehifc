@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-
 import LogModel from "@/models/logs";
 import "@/models/user";
 import { ConnectMongoDb } from "@/lib/dbconfig";
+ 
 
 
 export const dynamic = "force-dynamic";

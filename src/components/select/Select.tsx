@@ -54,7 +54,7 @@ export function PrimarySelect(props: ISelect) {
           <SelectValue placeholder={props.placeholder ?? "Select"} />
         </SelectTrigger>
         <SelectContent className={props.className}>
-          {props.options.map((option) => (
+          {props?.options?.map((option) => (
             <SelectItem key={option.value} value={option.value}>
               {option.label}
             </SelectItem>

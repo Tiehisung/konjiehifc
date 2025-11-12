@@ -4,7 +4,7 @@ import { DeleteTeam } from "./(actions)/DeleteTeam";
 import Image from "next/image";
 import { teamLogos } from "@/assets/teams/logos/team-logos";
 import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
-import { getFormattedDate } from "@/lib/timeAndDate";
+import { formatDate } from "@/lib/timeAndDate";
 import { POPOVER } from "@/components/ui/popover";
 import { Pagination } from "@/components/Pagination";
 import { IQueryResponse } from "@/types";
@@ -45,7 +45,7 @@ const DisplayTeams = ({ teams }: { teams?: IQueryResponse<ITeamProps[]> }) => {
               <td className="py-3">{team.alias}</td>
 
               <td className="py-3">
-                {getFormattedDate(team?.createdAt, "March 2, 2025")}
+                {formatDate(team?.createdAt, "March 2, 2025")}
               </td>
 
               <td className="py-3">

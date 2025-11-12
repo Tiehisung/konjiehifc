@@ -6,7 +6,7 @@ import Image from "next/image";
 import { IFileProps } from "@/types";
 import { INewsProps } from "@/app/news/page";
 import { ISquad } from "../../squad/page";
-import { getFormattedDate } from "@/lib/timeAndDate";
+import { formatDate } from "@/lib/timeAndDate";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { apiConfig } from "@/lib/configs";
 import { shortText } from "@/lib";
@@ -92,7 +92,7 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
                   </h1>
                   <h1>
                     Match Date:{" "}
-                    {getFormattedDate(
+                    {formatDate(
                       (newsItem.metaDetails as ISquad)?.match?.date
                     )}
                   </h1>

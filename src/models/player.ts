@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { fileSchema } from "./file";
 
 const playerSchema = new Schema(
   {
@@ -36,7 +37,7 @@ const playerSchema = new Schema(
     history: { type: String, },
     dateSigned: { type: String, required: true },
     avatar: String,
-    featureMedia: { type: [{}], default: [] },
+    featureMedia: { type: [fileSchema], default: () => [] },
     manager: {
       fullname: String,
       phone: String,

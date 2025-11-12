@@ -1,15 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { IFileProps, IGalleryProps } from "@/types";
-import { getFormattedDate } from "@/lib/timeAndDate";
+import { IGalleryProps } from "@/types";
 import { useState } from "react";
 import { GalleryViewer } from "./GalleryViewer";
 import { toggleClick } from "@/lib/DOM";
 import { MediaPreview } from "../files/MediaView";
 import { isObjectId } from "@/lib";
+import { formatDate } from "@/lib/timeAndDate";
 
 interface GalleryGridProps {
   galleries: IGalleryProps[];
@@ -50,7 +49,7 @@ export default function GalleryGrid({
 
                 {showDate && gallery?.createdAt && (
                   <span className="text-xs text-muted-foreground">
-                    {getFormattedDate(gallery?.createdAt, "March 2, 2025")}
+                    {formatDate(gallery?.createdAt, "March 2, 2025")}
                   </span>
                 )}
               </CardTitle>

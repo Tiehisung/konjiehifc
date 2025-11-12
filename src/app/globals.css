@@ -216,7 +216,7 @@
 }
 
 ._hover {
-  @apply hover:bg-secondary-foreground/10 transition-colors;
+  @apply hover:bg-secondary-foreground/10 transition-colors cursor-pointer;
 }
 ._active {
   @apply  active:opacity-80 transition-colors;

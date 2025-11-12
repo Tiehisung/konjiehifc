@@ -32,6 +32,7 @@ export const apiConfig = {
   galleries: `${baseUrl}/api/galleries`,
 
   messages: `${baseUrl}/api/messages`,
+  transactions: `${baseUrl}/api/finance/transactions`,
   news: `${baseUrl}/api/news`,
   squad: `${baseUrl}/api/squad`,
 

@@ -15,7 +15,7 @@ import { SearchCaptains } from "./Search";
 import { DIALOG } from "@/components/Dialog";
 import { OverlayLoader } from "@/components/loaders/OverlayLoader";
 import { fireEscape } from "@/hooks/Esc";
-import { getFormattedDate } from "@/lib/timeAndDate";
+import { formatDate } from "@/lib/timeAndDate";
 import { Badge } from "@/components/ui/badge";
 
 export type ICaptainProps = {
@@ -110,17 +110,17 @@ export default function CaptaincyAdm({
                   {captain?.isActive ? (
                     <span>
                       Since:
-                      {getFormattedDate(captain?.startDate, "March 2, 2025")}
+                      {formatDate(captain?.startDate, "March 2, 2025")}
                     </span>
                   ) : (
                     <>
                       <span>
                         From:
-                        {getFormattedDate(captain?.startDate, "March 2, 2025")}
+                        {formatDate(captain?.startDate, "March 2, 2025")}
                       </span>
                       <span>
                         To:
-                        {getFormattedDate(captain?.startDate, "March 2, 2025")}
+                        {formatDate(captain?.startDate, "March 2, 2025")}
                       </span>
                     </>
                   )}
@@ -207,7 +207,7 @@ const PlayerForCaptainRow = ({
         cache: "no-cache",
         body: JSON.stringify({
           player: {
-            _id:player?._id,
+            _id: player?._id,
             name: `${player?.firstName} ${player?.lastName}`,
             number: player?.number,
             avatar: player?.avatar,

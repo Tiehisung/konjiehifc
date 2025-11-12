@@ -7,7 +7,7 @@ import NewSquad from "./NewSquad";
 import { getManagers, IManager } from "../managers/page";
 import { apiConfig } from "@/lib/configs";
 import SquadCard from "./SquadCard";
-import { getFormattedDate } from "@/lib/timeAndDate";
+import { formatDate } from "@/lib/timeAndDate";
 import { PrimarySearch } from "@/components/Search";
 import { getMatches } from "../matches/page";
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
@@ -76,7 +76,7 @@ const SquadPage = async ({ searchParams }: PageProps) => {
         </span>
         {" - "}
         <span>
-          {getFormattedDate(squad.match?.date, "March 2, 2025")},{" "}
+          {formatDate(squad.match?.date, "March 2, 2025")},{" "}
           {squad.match?.time}
         </span>
       </div>

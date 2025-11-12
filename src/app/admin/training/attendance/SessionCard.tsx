@@ -14,7 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Users, CalendarDays, MapPin, Clock, UserCog } from "lucide-react";
-import { formatDate, getFormattedDate, getTimeAgo } from "@/lib/timeAndDate";
+import { formatDate,  getTimeAgo } from "@/lib/timeAndDate";
 import { ITrainingSession } from "./page";
 import { IPlayer } from "@/app/players/page";
 import { getInitials } from "@/lib";
@@ -43,7 +43,7 @@ const TrainingSessionCard = ({ trainingSession }: Props) => {
               </span>
               <span className="flex items-center gap-1">
                 <CalendarDays size={16} />{" "}
-                {getFormattedDate(trainingSession?.createdAt, "March 2, 2025")}
+                {formatDate(trainingSession?.createdAt, "March 2, 2025")}
               </span>
               <span className="flex items-center gap-1">
                 <Clock size={16} />{" "}
@@ -122,7 +122,7 @@ const TrainingSessionCard = ({ trainingSession }: Props) => {
 
       <CardFooter className="justify-between text-sm text-muted-foreground">
         <p>
-          Created on {getFormattedDate(trainingSession?.createdAt)} (
+          Created on {formatDate(trainingSession?.createdAt)} (
           {getTimeAgo(trainingSession?.createdAt as string)})
         </p>
         {/* <TrainingActionButtons trainingId={trainingSession?._id as string} /> */}

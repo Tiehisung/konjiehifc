@@ -33,7 +33,7 @@ export function INPUT(props: IInputProps) {
         id={props.name}
         step={props.type == "time" ? "1" : ""}
         required={props.required ?? false}
-        defaultValue={props.type == "time" ? "10:30:00" : props.value}
+        // defaultValue={ props.type == "time" ? "10:30:00" : props.value}
         placeholder={props.placeholder}
         value={props.value}
         onChange={(e) => {

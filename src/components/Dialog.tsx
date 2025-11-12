@@ -20,6 +20,7 @@ interface IDialog {
   trigger: ReactNode;
   triggerStyles?: string;
   closeId?: string;
+  id?: string;
   variant?:
     | "secondary"
     | "default"
@@ -40,13 +41,18 @@ export const DIALOG: FC<IDialog> = ({
   trigger = "Open",
   triggerStyles,
   closeId,
+  id,
   variant = "secondary",
   modal = true,
 }) => {
   return (
     <Dialog modal={modal}>
       <DialogTrigger asChild>
-        <Button variant={variant} className={`cursor-pointer ${triggerStyles}`}>
+        <Button
+          variant={variant}
+          className={`cursor-pointer ${triggerStyles}`}
+          id={id}
+        >
           {trigger}
         </Button>
       </DialogTrigger>

@@ -170,6 +170,11 @@ const sidebarLinks = [
     icon: <LiaDonateSolid />,
   },
   {
+    label: "Finance",
+    path: "/admin/resources/finance",
+    icon: <LiaDonateSolid />,
+  },
+  {
     label: "Gallery",
     path: "/admin/galleries",
     icon: <GrGallery />,

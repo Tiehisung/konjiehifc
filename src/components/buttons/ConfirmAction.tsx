@@ -82,7 +82,10 @@ export const ConfirmActionButton = ({
           method,
           headers: { "Content-Type": "application/json" },
           cache: "no-cache",
-          body: JSON.stringify(body),
+          body: JSON.stringify({
+            ...(body as object),
+            user: session?.data?.user,
+          }),
         }
       );
       const results = await response.json();
@@ -107,44 +110,42 @@ export const ConfirmActionButton = ({
   }
 
   return (
-    <div className="my-12 ">
-      <DIALOG
-        trigger={primaryText}
-        triggerStyles={`${triggerClassName} capitalize`}
-        title={title}
-        closeId={""}
-      >
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center">
-            {confirmText && (
-              <div
-                className="_label mb-6"
-                dangerouslySetInnerHTML={{ __html: confirmText }}
-              />
-            )}
-            <Button
-              waiting={waiting}
-              disabled={waiting}
-              primaryText={`Confirm ${primaryText}`}
-              waitingText={loadingText}
-              onClick={handleAction}
-              className={`${className} ${
-                variant == "destructive"
-                  ? "_deleteBtn"
-                  : variant == "primary"
-                  ? "_primaryBtn"
-                  : variant == "secondary"
-                  ? "_secondaryBtn"
-                  : variant == "outline"
-                  ? "border rounded-md "
-                  : ""
-              }`}
-            >
-              {children}
-            </Button>
-          </CardContent>
-        </Card>
-      </DIALOG>
-    </div>
+    <DIALOG
+      trigger={primaryText}
+      triggerStyles={`${triggerClassName} capitalize`}
+      title={title}
+      closeId={""}
+    >
+      <Card>
+        <CardContent className="flex flex-col items-center justify-center">
+          {confirmText && (
+            <div
+              className="_label mb-6"
+              dangerouslySetInnerHTML={{ __html: confirmText }}
+            />
+          )}
+          <Button
+            waiting={waiting}
+            disabled={waiting}
+            primaryText={`Confirm ${primaryText}`}
+            waitingText={loadingText}
+            onClick={handleAction}
+            className={`${className} ${
+              variant == "destructive"
+                ? "_deleteBtn"
+                : variant == "primary"
+                ? "_primaryBtn"
+                : variant == "secondary"
+                ? "_secondaryBtn"
+                : variant == "outline"
+                ? "border rounded-md "
+                : ""
+            }`}
+          >
+            {children}
+          </Button>
+        </CardContent>
+      </Card>
+    </DIALOG>
   );
 };

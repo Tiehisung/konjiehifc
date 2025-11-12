@@ -31,7 +31,7 @@ import { Label } from "@/components/ui/label";
 import { getErrorMessage } from "@/lib";
 import { useRouter } from "next/navigation";
 import { ISquad } from "./page";
-import { getFormattedDate, getTimeLeftOrAgo } from "@/lib/timeAndDate";
+import { formatDate, getTimeLeftOrAgo } from "@/lib/timeAndDate";
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { playerPositions } from "@/data/players";
 
@@ -198,7 +198,7 @@ const NewSquad = ({
             <div className="w-full sm:w-auto">
               <Label className="mb-2">DATE</Label>
               <div>
-                {getFormattedDate(selectedMatch?.date, "March 2, 2025")}(
+                {formatDate(selectedMatch?.date, "March 2, 2025")}(
                 {getTimeLeftOrAgo(selectedMatch?.date).formatted})
               </div>
             </div>

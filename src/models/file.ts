@@ -12,10 +12,11 @@ export const fileSchema = new mongoose.Schema(
     resource_type: String,
     bytes: Number,
     public_id: String,
+    asset_id: String,
     format: String,
     width: Number,
     height: Number,
-    tags: { type: [String], default: [] },//Can be used to store any tags associated with the file eg.'objectIds', 'profile-picture', 'gallery-image','video', etc.
+    tags: { type: [String], default: () => [] },//Can be used to store any tags associated with the file eg.'objectIds', 'profile-picture', 'gallery-image','video', etc.
   },
   { timestamps: true }
 );

@@ -9,7 +9,6 @@ import CardModel from "@/models/card";
 import { updateMatchEvent } from "../matches/live/events/route";
 import PlayerModel from "@/models/player";
 import { IUser } from "@/types/user";
-import { FOOTBALL_EMOJIS } from "@/components/input/EmojiPicker";
 // export const revalidate = 0;
 // export const dynamic = "force-dynamic";
 
