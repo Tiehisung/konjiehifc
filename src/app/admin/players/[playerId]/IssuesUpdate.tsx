@@ -3,12 +3,14 @@
 import { IPlayer } from "@/app/players/page";
 import { IAccordionProps, PrimaryAccordion } from "@/components/Accordion";
 import { Button } from "@/components/buttons/Button";
+import { PrimaryCollapsible } from "@/components/Collapsible";
 import { Title } from "@/components/Elements";
 import { TextArea } from "@/components/input/Inputs";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { CgAdd } from "react-icons/cg";
 import { TbRibbonHealth } from "react-icons/tb";
 import { toast } from "sonner";
 
@@ -19,7 +21,7 @@ export default function UpdatePlayerIssuesAndFitness({
 }) {
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
-  const [issue, setIssue] = useState(player?.issues?.[0] ?? "");
+  const [issue, setIssue] = useState("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,52 +46,60 @@ export default function UpdatePlayerIssuesAndFitness({
       setWaiting(false);
     }
   };
-  
+
   const accordionData: IAccordionProps["data"] = player?.issues?.map(
     (issue, i) => ({
       content: <div className="ml-2 border-l pl-0.5">{issue}</div>,
-      trigger: (
-        <p className=" line-clamp-1 pl-1 max-w-full">
-          {issue}
-        </p>
-      ),
+      trigger: <p className=" line-clamp-1 pl-1 max-w-full">{issue}</p>,
       value: issue + i,
     })
   );
   return (
     <div id="fitness-update">
-      <Title icon={<TbRibbonHealth size={36} />}>
-        <span className="text-left mr-auto">Fitness & Issues Updates</span>
-      </Title>
-      <form
-        onSubmit={handleSubmit}
-        className="grid gap-3 p-2 border rounded-md shadow-md bg-card "
-      >
-        <div className=" mb-4" />
-
-        <div>
-          <TextArea
-            name={"fitness"}
-            label="Update fitness"
-            onChange={(e) => setIssue(e.target.value)}
-            value={issue}
-            className=" max-h-32 min-h-20 w-full "
-          />
-        </div>
-        <Button
-          type="submit"
-          primaryText={"Update"}
-          waiting={waiting}
-          waitingText={"Updating, wait..."}
-          disabled={waiting || !issue}
-          className="_primaryBtn grow px-5 rounded shadow md:w-64 justify-center"
-        />
-      </form>
-      <h1 className=" mt-6">ISSUES</h1>
+      <header className="flex items-center gap-3 mt-6">
+        <TbRibbonHealth size={36} /> <span>FITNESS & ISSUES UPDATES</span>
+      </header>
       <PrimaryAccordion
         data={accordionData}
         className="_card backdrop-blur-[1px] overflow-x-hidden"
       />
+      <br />
+      <PrimaryCollapsible
+        header={{
+          label: (
+            <div className="w-full">
+              <CgAdd size={24} />
+            </div>
+          ),
+          others: { title: "Add Issue" },
+        }}
+      >
+        <h1 className="text-left mr-auto mb-2.5 _label">Add Issue</h1>
+
+        <form
+          onSubmit={handleSubmit}
+          className="grid gap-3 p-2 border rounded-md shadow-md bg-card "
+        >
+          <div className=" mb-4" />
+
+          <TextArea
+            name={"fitness"}
+            label="Update Fitness"
+            onChange={(e) => setIssue(e.target.value)}
+            value={issue}
+            className=" max-h-32 min-h-16 w-full "
+          />
+
+          <Button
+            type="submit"
+            primaryText={"Update"}
+            waiting={waiting}
+            waitingText={"Updating, wait..."}
+            disabled={waiting || !issue}
+            className="_primaryBtn grow px-5 rounded shadow md:w-64 justify-center"
+          />
+        </form>
+      </PrimaryCollapsible>
     </div>
   );
 }

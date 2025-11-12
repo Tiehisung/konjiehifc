@@ -4,13 +4,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ReactNode, useState } from "react";
 import { usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
-
 interface ICollapsible {
   header: {
     icon?: ReactNode;
     label: ReactNode;
     path?: string;
     className?: string;
+    others?: object;
   };
   children: ReactNode;
   isMinimize?: boolean;
@@ -33,6 +33,7 @@ export function PrimaryCollapsible({
             ? "bg-primary/10 text-muted-foreground"
             : ""
         } ${header.className ?? ""}`}
+       {...header?.others} 
       >
         <div className="flex items-center gap-3 grow">
           <span className="flex-shrink-0">{header.icon}</span>
