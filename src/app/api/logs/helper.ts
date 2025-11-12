@@ -2,7 +2,7 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import LogModel from "@/models/logs";
 import { ILog } from "@/types";
 
-
+ConnectMongoDb();
 export async function logAction({
     title,
     description,
@@ -12,8 +12,6 @@ export async function logAction({
     meta = {},
 }: Omit<ILog, "_id" | "createdAt">) {
     try {
-        await ConnectMongoDb();
-
         const log = await LogModel.create({
             title,
             description,
@@ -23,11 +21,9 @@ export async function logAction({
             meta,
             createdAt: new Date(),
         });
-
         return log;
     } catch (error) {
         console.error("Failed to commit log:", error);
-        // optionally log this to an external monitoring tool (Sentry, etc.)
         return null;
     }
 }

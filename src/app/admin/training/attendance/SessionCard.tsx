@@ -14,7 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Users, CalendarDays, MapPin, Clock, UserCog } from "lucide-react";
-import { formatDate, formatDate, getTimeAgo } from "@/lib/timeAndDate";
+import { formatDate,  getTimeAgo } from "@/lib/timeAndDate";
 import { ITrainingSession } from "./page";
 import { IPlayer } from "@/app/players/page";
 import { getInitials } from "@/lib";
