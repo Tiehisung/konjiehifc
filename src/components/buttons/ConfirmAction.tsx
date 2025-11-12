@@ -82,7 +82,10 @@ export const ConfirmActionButton = ({
           method,
           headers: { "Content-Type": "application/json" },
           cache: "no-cache",
-          body: JSON.stringify(body),
+          body: JSON.stringify({
+            ...(body as object),
+            user: session?.data?.user,
+          }),
         }
       );
       const results = await response.json();

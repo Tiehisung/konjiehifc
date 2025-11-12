@@ -118,4 +118,5 @@ export type TSearchKey =
   | 'team_search'
   | 'gallery_search'
   | 'training_search'
+  | 'transaction_search'
   | 'log_search'
