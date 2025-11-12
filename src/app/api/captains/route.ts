@@ -6,13 +6,14 @@ import CaptaincyModel from "@/models/captain";
 import { NextRequest, NextResponse } from "next/server";
 import { getErrorMessage, removeEmptyKeys } from "@/lib";
 import { FilterQuery } from "mongoose";
+import { IPlayerMini } from "@/app/players/page";
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
 
 ConnectMongoDb();
 
 interface ICap {
-  playerId: string;
+  player : IPlayerMini;
   role: ICaptainProps["role"];
 }
 //Get all captains
@@ -69,7 +70,7 @@ export async function GET(request: NextRequest) {
 //Update database file metadata
 export async function POST(req: NextRequest) {
   try {
-    const { playerId, role }: ICap = await req.json();
+    const { player , role }: ICap = await req.json();
 
     //Update current captain role
     const reignEnded = await CaptaincyModel.updateMany(
@@ -86,7 +87,7 @@ export async function POST(req: NextRequest) {
 
     //Now set new captains
     const newCaptain = await CaptaincyModel.create({
-      player: playerId,
+      player,
       role,
       isActive: true,
     });

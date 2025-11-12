@@ -205,7 +205,15 @@ const PlayerForCaptainRow = ({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         cache: "no-cache",
-        body: JSON.stringify({ playerId: player._id, role: newRole }),
+        body: JSON.stringify({
+          player: {
+            _id:player?._id,
+            name: `${player?.firstName} ${player?.lastName}`,
+            number: player?.number,
+            avatar: player?.avatar,
+          },
+          role: newRole,
+        }),
       });
       const result: IQueryResponse = await response.json();
       toast.success(result.message);
