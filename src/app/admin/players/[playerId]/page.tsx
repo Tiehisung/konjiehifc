@@ -29,7 +29,7 @@ export default async function PlayerProfilePage({
 
       <div
         className="h-screen w-full rounded-t-md z-[-1] fixed inset-0 bottom-0 bg-no-repeat bg-cover"
-        style={{ backgroundImage: `url(${player?.featureMedia?.[0].secure_url??player?.avatar})` }}
+        style={{ backgroundImage: `url(${player?.featureMedia?.[0]?.secure_url??player?.avatar})` }}
       />
 
       {/*Nav Scroll controllers */}
