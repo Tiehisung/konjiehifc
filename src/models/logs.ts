@@ -13,9 +13,8 @@ const logSchema = new Schema(
     description: String,
 
     // store the user email that triggered this log
-    userEmail: {
-      type: String,
-      trim: true,
+    user: {
+
     },
 
 
@@ -34,7 +33,7 @@ const logSchema = new Schema(
     source: {
       type: String,
       default: "user",
-      enum: ["admin", "user",  "system",  "other"],
+      enum: ["admin", "user", "system", "other"],
     },
 
     meta: { type: mongoose.Schema.Types.Mixed },

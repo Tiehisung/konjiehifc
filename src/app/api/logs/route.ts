@@ -4,7 +4,6 @@ import "@/models/user";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
-// import { auth } from "../auth/[...nextauth]/route";
 
 
 export const dynamic = "force-dynamic";
@@ -15,9 +14,6 @@ export async function GET(request: NextRequest) {
 
   console.log({session})
 
-  // if (!session) {
-  //   return Response.json({ error: 'Unauthorized' }, { status: 401 })
-  // }
   const { searchParams } = new URL(request.url);
   const page = Number.parseInt(searchParams.get("page") || "1", 10);
   const limit = Number.parseInt(searchParams.get("limit") || "20", 10);
