@@ -1,17 +1,19 @@
 import { FaEdit } from "react-icons/fa";
 import { ScrollToPointBtn } from "@/components/scroll/ScrollToPoint";
 import { FcGallery } from "react-icons/fc";
-import PlayerActivation from "./Activation";
 import UpdatePlayerIssuesAndFitness from "./IssuesUpdate";
 import { GiHealthNormal, GiPresent } from "react-icons/gi";
-import { getPlayerById } from "../page";
+import { getPlayerById, getPlayers } from "../page";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import PlayerProfileForm from "../NewSigningForms";
 import Loader from "@/components/loaders/Loader";
-import { SubTitle } from "@/components/Elements";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { apiConfig } from "@/lib/configs";
 import { IPlayer } from "@/app/players/page";
+import GalleryGrid from "@/components/Gallery/GallaryGrid";
+import { GalleryUpload } from "@/components/Gallery/GalleryUpload";
+import { IGalleryProps, IQueryResponse } from "@/types";
+import { getGalleries } from "@/app/players/details/page";
 
 export default async function PlayerProfilePage({
   params,
@@ -19,8 +21,12 @@ export default async function PlayerProfilePage({
   params: Promise<{ playerId: string }>;
 }) {
   const playerId = (await params).playerId;
-  const player:IPlayer = await getPlayerById(playerId);
+  const player: IPlayer = await getPlayerById(playerId);
 
+   const galleries: IQueryResponse<IGalleryProps[]> = await getGalleries(
+      [playerId].filter(Boolean)
+    );
+  const players: IQueryResponse<IPlayer[]> = await getPlayers();
   if (!player) return <Loader message="Loading player..." />;
 
   return (
@@ -28,8 +34,12 @@ export default async function PlayerProfilePage({
       {/* Cover image  */}
 
       <div
-        className="h-screen w-full rounded-t-md z-[-1] fixed inset-0 bottom-0 bg-no-repeat bg-cover"
-        style={{ backgroundImage: `url(${player?.featureMedia?.[0]?.secure_url??player?.avatar})` }}
+        className="h-screen w-full z-[-1] absolute inset-0 bottom-0 bg-no-repeat bg-cover"
+        style={{
+          backgroundImage: `url(${
+            player?.featureMedia?.[0]?.secure_url ?? player?.avatar
+          })`,
+        }}
       />
 
       {/*Nav Scroll controllers */}
@@ -85,13 +95,38 @@ export default async function PlayerProfilePage({
           <PlayerProfileForm player={player} />
         </section>
 
-        <section id="danger-zone">
-          <SubTitle className="text-lg text-primaryRed font-light mb-4">
-            Danger zone
-          </SubTitle>
-          <div className="grid items-start gap-10 md:flex flex-wrap  ">
-            <PlayerActivation playerId={playerId} isActive={player?.isActive} />
+        <section id='galleries'>
+          <h1 className="my-6 _title _gradient p-4">GALLERIES</h1>
+          <GalleryGrid
+            galleries={galleries?.data as IGalleryProps[]}
+            name={`${player?.firstName} ${player?.lastName}`}
+          />
 
+          <GalleryUpload
+            tags={
+              [player?.lastName, player?.firstName, playerId].filter(
+                Boolean
+              ) as string[]
+            }
+            players={players?.data}
+          />
+        </section>
+
+        <section id="danger-zone" className="">
+          <h3 className="text-lg font-light mb-4 _label border-b pb-2">
+            DANGER ZONE
+          </h3>
+          <div className="flex gap-10 max-sm:flex-col flex-wrap justify-center items-center bg-card py-6">
+            <ConfirmActionButton
+              uri={`${apiConfig.players}/${playerId}`}
+              method="PUT"
+              body={{ isActive: false }}
+              primaryText="DEACTIVATE PLAYER"
+              loadingText="DELETING..."
+              confirmText={`Do you want to disable ${player?.firstName}?`}
+              variant="destructive"
+              title="Deactivate Player"
+            />
             <ConfirmActionButton
               uri={`${apiConfig.players}/${playerId}`}
               method="DELETE"
@@ -101,6 +136,7 @@ export default async function PlayerProfilePage({
               gobackAfter
               variant="destructive"
               title="Delete Player"
+              className="ring"
             />
           </div>
         </section>

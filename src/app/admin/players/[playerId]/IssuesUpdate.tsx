@@ -4,7 +4,6 @@ import { IPlayer } from "@/app/players/page";
 import { IAccordionProps, PrimaryAccordion } from "@/components/Accordion";
 import { Button } from "@/components/buttons/Button";
 import { PrimaryCollapsible } from "@/components/Collapsible";
-import { Title } from "@/components/Elements";
 import { TextArea } from "@/components/input/Inputs";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
@@ -55,15 +54,20 @@ export default function UpdatePlayerIssuesAndFitness({
     })
   );
   return (
-    <div id="fitness-update">
+    <div id="fitness-update" className=" bg-card">
       <header className="flex items-center gap-3 mt-6">
         <TbRibbonHealth size={36} /> <span>FITNESS & ISSUES UPDATES</span>
       </header>
+
+      <br />
+
       <PrimaryAccordion
         data={accordionData}
         className="_card backdrop-blur-[1px] overflow-x-hidden"
       />
+
       <br />
+      
       <PrimaryCollapsible
         header={{
           label: (
