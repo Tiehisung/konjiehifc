@@ -8,6 +8,7 @@ import { getTeams } from "../features/teams/page";
 import { checkGoals, checkTeams } from "@/lib";
 import Image from "next/image";
 import { StartStopMatch } from "./StartStop";
+import Header from "../Header";
 
 export const getLiveMatch = async () => {
   try {
@@ -28,8 +29,6 @@ export default async function LiveMatchPage() {
 
   const { home, away } = checkTeams(match?.data);
   const goals = checkGoals(match?.data);
-
- 
 
   if (!match?.data)
     return (
@@ -76,34 +75,38 @@ export default async function LiveMatchPage() {
   if (match?.data.status == "UPCOMING")
     return (
       <div className="_page p-4">
-        <h1 className="text-2xl font-bold mb-4 text-primaryRed">
-          Played today
-        </h1>
-        <div className="my-6 _card rounded-tl-3xl rounded-br-3xl flex items-center justify-between gap-6">
-          <Image
-            src={home?.logo as string}
-            width={200}
-            height={200}
-            alt={home?.name ?? ""}
-            className="aspect-square h-16 w-16 sm:h-24 sm:w-24 object-cover"
-          />
-          <div className=" flex justify-center items-center">
-            <div className="text-xl md:text-2xl font-black uppercase">
-              {home?.name}
-            </div>
-            <div className="mx-auto text-2xl text-center">VS</div>
-            <div className="text-xl md:text-2xl font-black uppercase">
-              {away?.name}
-            </div>
-          </div>
-          <Image
-            src={away?.logo as string}
-            width={200}
-            height={200}
-            alt={away?.name ?? ""}
-            className="aspect-square h-16 w-16 sm:h-24 sm:w-24 object-cover"
-          />
+        <div className="  font-bold mb-4 text-primaryRed">
+          <Header title="DUE TODAY" subtitle=" Update all events live" />
         </div>
+        {match?.data?.squad ? (
+          <div className="my-6 _card rounded-tl-3xl rounded-br-3xl flex items-center justify-between gap-6">
+            <Image
+              src={home?.logo as string}
+              width={200}
+              height={200}
+              alt={home?.name ?? ""}
+              className="aspect-square h-16 w-16 sm:h-24 sm:w-24 object-cover"
+            />
+            <div className=" flex justify-center items-center">
+              <div className="text-xl md:text-2xl font-black uppercase">
+                {home?.name}
+              </div>
+              <div className="mx-auto text-2xl text-center px-3">VS</div>
+              <div className="text-xl md:text-2xl font-black uppercase">
+                {away?.name}
+              </div>
+            </div>
+            <Image
+              src={away?.logo as string}
+              width={200}
+              height={200}
+              alt={away?.name ?? ""}
+              className="aspect-square h-16 w-16 sm:h-24 sm:w-24 object-cover"
+            />
+          </div>
+        ) : (
+          <p className="_label p-6">No Squad Yet!</p>
+        )}
       </div>
     );
 
@@ -143,7 +146,7 @@ export default async function LiveMatchPage() {
       <StartStopMatch match={match?.data} players={players?.data} />
       <br />
 
-      {match?.data?.status == "LIVE" && (
+      {match?.data?.status == "LIVE" && match?.data?.squad && (
         <MatchEventsAdmin
           players={players?.data}
           opponent={teams?.data?.[0] as ITeamProps}

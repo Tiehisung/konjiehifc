@@ -24,6 +24,7 @@ import { IQueryResponse } from "@/types";
 import { AdminMatchCard } from "./MatchCard";
 import { DisplayType } from "@/components/DisplayStyle";
 import useGetParam from "@/hooks/params";
+import Link from "next/link";
 
 interface DisplayFixturesProps {
   fixtures: IQueryResponse<IMatchProps[]>;
@@ -36,7 +37,8 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
   return (
     <div>
       <h1 className="_title">Fixtures</h1>
-      <DisplayType defaultDisplay="grid" />
+      <DisplayType defaultDisplay="grid" className="w-fit" />
+      <br />
 
       <div className="overflow-x-auto " hidden={displayType !== "list"}>
         <table className="table table-auto bg-popover w-full">
@@ -119,7 +121,14 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
                         <SquadCard squad={fixture?.squad} match={fixture} />
                       </DIALOG>
                     ) : (
-                      <span className="text-muted-foreground">N/A</span>
+                      <span className="text-muted-foreground">
+                        <Link
+                          href={`/admin/squad?matchId=${fixture?._id}`}
+                          className="_hover p-1 rounded"
+                        >
+                          Choose Squad
+                        </Link>
+                      </span>
                     )}
                   </td>
                   <td className="px-2 py-2 text-sm ">
@@ -166,7 +175,7 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
       </div>
 
       {displayType !== "list" && (
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+        <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-5">
           {fixtures?.data?.map((fx) => (
             <AdminMatchCard key={fx?._id} match={fx} teams={teams} />
           ))}

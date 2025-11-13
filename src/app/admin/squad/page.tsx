@@ -55,6 +55,7 @@ export const getSquads = async (query?: string) => {
 interface PageProps {
   searchParams: Promise<{
     search?: string;
+    matchId?: string;
   }>;
 }
 const SquadPage = async ({ searchParams }: PageProps) => {
@@ -66,6 +67,10 @@ const SquadPage = async ({ searchParams }: PageProps) => {
     "?status=UPCOMING"
   );
 
+  const targetMatchId = (await searchParams).matchId;
+  const targetMatch = matches?.data?.find((m) => m._id == targetMatchId); //In case to choose from matches page
+
+
   const squads: IQueryResponse<ISquad[]> | null = await getSquads(qs);
   const accordion = squads?.data?.map((squad) => ({
     trigger: (
@@ -76,8 +81,7 @@ const SquadPage = async ({ searchParams }: PageProps) => {
         </span>
         {" - "}
         <span>
-          {formatDate(squad.match?.date, "March 2, 2025")},{" "}
-          {squad.match?.time}
+          {formatDate(squad.match?.date, "March 2, 2025")}, {squad.match?.time}
         </span>
       </div>
     ),
@@ -91,6 +95,7 @@ const SquadPage = async ({ searchParams }: PageProps) => {
         players={players?.data}
         managers={managers?.data}
         matches={matches?.data}
+        defaultMatch={targetMatch}
       />
 
       <div className="mt-12 space-y-6">

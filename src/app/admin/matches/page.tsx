@@ -9,6 +9,7 @@ import {
 } from "@/app/matches/(fixturesAndResults)";
 import { IQueryResponse } from "@/types";
 import { buildQueryStringServer } from "@/lib";
+import Header from "../Header";
 
 export interface IGetMatchesProps {
   status?: MatchStatus;
@@ -46,16 +47,15 @@ interface IPageProps {
 }
 
 export default async function AdminFixtures({ searchParams }: IPageProps) {
- 
   const qs = buildQueryStringServer(await searchParams);
 
   const fixtures: IQueryResponse<IMatchProps[]> = await getMatches(qs);
   const teams: IQueryResponse<ITeamProps[]> = await getTeams();
   return (
     <section className="pb-6 pt-10 px-3 _page">
-      <div>
-        <DisplayFixtures fixtures={fixtures} teams={teams?.data} />
-      </div>
+      <Header title="FIXTURES & SCORES" subtitle="Manage Fixtures" />
+      <DisplayFixtures fixtures={fixtures} teams={teams?.data} />
+
       <div className=" py-14 ">
         <h1 className="_title">Create Fixture</h1>
         <CreateMatch teams={teams?.data} />
