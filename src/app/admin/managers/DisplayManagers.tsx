@@ -22,7 +22,7 @@ const AdminManagers = ({ managers }: { managers?: IManager[] }) => {
     <div className="px-[2vw] relative ">
       <section className="  rounded-3xl p-4 pb-36 ">
         <DisplayType defaultDisplay={"grid"} />
-        <hr className="my-4" />
+        <br />
         {viewStyle == "list" ? (
           <div className="max-full overflow-x-auto mx-auto">
             <table className="table w-full border border-primary/60">
@@ -46,12 +46,14 @@ const AdminManagers = ({ managers }: { managers?: IManager[] }) => {
                         className="h-20 w-auto aspect-square min-w-20 object-cover rounded-md bg-accent "
                       />
                     </td>
-                    <td className="px-4 py-2 font-semibold">{manager?.fullname}</td>
+                    <td className="px-4 py-2 font-semibold">
+                      {manager?.fullname}
+                    </td>
                     <td className="px-4 py-2 uppercase">{manager?.role}</td>
                     <td className="px-4 py-2 font-light">
                       <span>
-                        {formatDate(manager?.dateSigned, "March 2, 2025")}
-                        ({getTimeLeftOrAgo(manager?.dateSigned).formatted})
+                        {formatDate(manager?.dateSigned, "March 2, 2025")}(
+                        {getTimeLeftOrAgo(manager?.dateSigned).formatted})
                       </span>
                     </td>
                     <td className="px-4 py-2 italic">{manager?.phone}</td>

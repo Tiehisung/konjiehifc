@@ -4,9 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { AddNewSponsor } from "./AddSponsor";
 import { staticImages } from "@/assets/images";
-import { Title } from "@/components/Elements";
 import { IQueryResponse } from "@/types";
 import { shortText } from "@/lib";
+import Header from "../Header";
 
 const AdminSponsors = ({
   sponsors,
@@ -15,10 +15,8 @@ const AdminSponsors = ({
 }) => {
   return (
     <div>
-      <header className="flex items-center gap-6 pr-3">
-        <Title className="">Sponsorship</Title>
-        <AddNewSponsor sponsors={sponsors?.data} />
-      </header>
+      <Header title="Sponsorships" subtitle="Donate to support KonFC" />
+
       <ul className="grid grid-cols-3 sm:flex flex-wrap max-full  my-8">
         {sponsors?.data?.map((sponsor, index) => (
           <li key={index} className="flex">
@@ -30,7 +28,7 @@ const AdminSponsors = ({
                 src={sponsor?.logo ?? staticImages.sponsor}
                 width={300}
                 height={300}
-                alt={shortText(sponsor?.name,10)}
+                alt={shortText(sponsor?.name, 10)}
                 className="h-20 w-24 min-w-20 rounded-2xl object-cover bg-secondary"
               />
               <p className="max-w-24 line-clamp-1 _label text-center">
@@ -39,6 +37,10 @@ const AdminSponsors = ({
             </Link>
           </li>
         ))}
+
+        <li className="flex _slowTrans">
+          <AddNewSponsor sponsors={sponsors?.data} />
+        </li>
       </ul>
     </div>
   );

@@ -37,7 +37,7 @@ export default function ContentShowcaseWrapper({
 
   return (
     <div
-      className={`flex flex-wrap max-md:flex-col items-start justify-between w-full ${
+      className={`flex flex-wrap gap-y-8 max-md:flex-col items-start justify-between w-full ${
         reverse ? "md:flex-row-reverse" : ""
       } ${className}`}
     >

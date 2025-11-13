@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardHeader from "./Header";
+import DashboardHeader from "../../Header";
 import SummaryCards from "./SummaryCards";
 import TransactionForm from "./TransactionForm";
 import TransactionList from "./TransactionList";
@@ -15,11 +15,13 @@ interface IProps {
 }
 
 export default function ClientFinance({ transactionsData }: IProps) {
-
-  console.log({transactionsData})
+ 
   return (
     <div className="min-h-screen bg-background">
-      <DashboardHeader />
+      <DashboardHeader
+        title="Finance Tracker"
+        subtitle="Monitor your income and expenses"
+      />
       <main className="max-w-7xl mx-auto px-4 py-8 space-y-8">
         <SummaryCards transactions={transactionsData?.data?.transactions} />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

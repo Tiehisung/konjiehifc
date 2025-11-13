@@ -66,7 +66,7 @@ const AdminSponsorshipPage = async ({ searchParams }: IPageProps) => {
   const qs = buildQueryStringServer(await searchParams);
   const sponsors: IQueryResponse<ISponsorProps[]> = await getSponsors(qs);
   return (
-    <div>
+    <div className="_page">
       <AdminSponsors sponsors={sponsors} />
     </div>
   );

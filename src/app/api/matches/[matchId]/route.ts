@@ -5,10 +5,6 @@ import "@/models/teams";
 
 ConnectMongoDb();
 
-// export const revalidate = 0;
-// export const dynamic = "force-dynamic";
-
-//Post new fixture
 export async function GET(
   _: NextRequest,
   { params }: { params: Promise<{ matchId: string }> }
@@ -22,4 +18,11 @@ export async function GET(
     .lean()
 
   return NextResponse.json(fixtures);
+}
+export async function DELETE(_: NextRequest, { params }: { params: Promise<{ matchId: string }> }) {
+  const { matchId } = await params;
+  const deleted = await MatchModel.deleteOne({ _id: matchId });
+  if (deleted.acknowledged)
+    return NextResponse.json({ message: "Deleted", success: true });
+  return NextResponse.json({ message: "Delete failed", success: false });
 }

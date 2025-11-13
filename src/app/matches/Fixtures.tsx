@@ -4,7 +4,7 @@ import { Pagination } from "@/components/Pagination";
 import { IMatchProps } from "./(fixturesAndResults)";
 import { IQueryResponse } from "@/types";
 import { SecondaryFixtureCard } from "./FixtureCard";
-import { FancyMotion, MotionWrapper } from "@/components/Animate/MotionWrapper";
+import {  MotionWrapper } from "@/components/Animate/MotionWrapper";
 
 interface IProps {
   fixtures: IQueryResponse<IMatchProps[]>;

@@ -21,6 +21,9 @@ import { isToday } from "date-fns";
 import Image from "next/image";
 import { Pagination } from "@/components/Pagination";
 import { IQueryResponse } from "@/types";
+import { AdminMatchCard } from "./MatchCard";
+import { DisplayType } from "@/components/DisplayStyle";
+import useGetParam from "@/hooks/params";
 
 interface DisplayFixturesProps {
   fixtures: IQueryResponse<IMatchProps[]>;
@@ -29,10 +32,13 @@ interface DisplayFixturesProps {
 // Fixture is  match that is not yet played successfully
 
 export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
+  const displayType = useGetParam("display");
   return (
     <div>
       <h1 className="_title">Fixtures</h1>
-      <div className="overflow-x-auto ">
+      <DisplayType defaultDisplay="grid" />
+
+      <div className="overflow-x-auto " hidden={displayType !== "list"}>
         <table className="table table-auto bg-popover w-full">
           <tbody>
             <tr className="border p-2 _label h-12 text-left">
@@ -45,44 +51,35 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
             {fixtures?.data?.map((fixture) => {
               const { home, away } = checkTeams(fixture);
               return (
-                <tr key={fixture._id} className={`border _borderColor `}>
+                <tr key={fixture._id} className={`border-b `}>
                   <td className="px-2 py-4 ">
-                    <div className="flex items-center gap-2 text-nowrap uppercase">
-                      <span className="">
-                        {fixture.status == "COMPLETED" ? (
-                          <FaCheckCircle
-                            className="text-primaryGreen"
-                            size={16}
-                          />
-                        ) : fixture.status == "LIVE" ? (
-                          <MdLiveTv className="text-primaryRed" size={16} />
-                        ) : (
-                          <BsPatchCheck size={16} />
-                        )}
-                      </span>
-
-                      <Image
-                        src={home?.logo as string}
-                        alt={home?.name as string}
-                        className="h-10 w-10 aspect-square "
-                        width={100}
-                        height={100}
-                      />
-                      <strong className="w-36 line-clamp-1">
-                        {home?.name}
-                      </strong>
+                    <div className="grid md:flex items-center gap-2 text-nowrap uppercase text-sm ">
+                      <div className="flex items-center gap-1.5">
+                        <Image
+                          src={home?.logo as string}
+                          alt={home?.name as string}
+                          className="h-7 w-7 aspect-square "
+                          width={100}
+                          height={100}
+                        />
+                        <strong className="w-36 line-clamp-1">
+                          {home?.name}
+                        </strong>
+                      </div>
                       <span className="w-10">VS</span>
 
-                      <Image
-                        src={away?.logo as string}
-                        width={100}
-                        height={100}
-                        alt={away?.name as string}
-                        className="h-10 w-10 aspect-square "
-                      />
-                      <strong className="w-36 line-clamp-1">
-                        {away?.name}
-                      </strong>
+                      <div className="flex items-center gap-1.5">
+                        <Image
+                          src={away?.logo as string}
+                          width={100}
+                          height={100}
+                          alt={away?.name as string}
+                          className="h-7 w-7 aspect-square "
+                        />
+                        <strong className="w-36 line-clamp-1">
+                          {away?.name}
+                        </strong>
+                      </div>
                     </div>
                   </td>
                   <td className="px-2 py-2 whitespace-nowrap text-sm">
@@ -94,6 +91,18 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
                         fixture?.status == "LIVE" ? "destructive" : "outline"
                       }
                     >
+                      <span className="">
+                        {fixture.status == "COMPLETED" ? (
+                          <FaCheckCircle
+                            className="text-primaryGreen"
+                            size={10}
+                          />
+                        ) : fixture.status == "LIVE" ? (
+                          <MdLiveTv className="text-primaryRed" size={10} />
+                        ) : (
+                          <BsPatchCheck size={10} />
+                        )}
+                      </span>
                       {fixture.status}
                     </Badge>
                   </td>
@@ -136,22 +145,41 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
             )}
           </tbody>
 
-          <tfoot>
+          {/* <tfoot>
             <tr>
               <td colSpan={4}>
                 <div className="p-2 flex items-center text-sm gap-3 text-muted-foreground py-4">
                   <div>
-                    Home fixtures: {fixtures?.data?.filter((f) => f.isHome)?.length}
+                    Home fixtures:{" "}
+                    {fixtures?.data?.filter((f) => f.isHome)?.length}
                   </div>
                   <div>
-                    Away fixtures: {fixtures?.data?.filter((f) => !f.isHome)?.length}
+                    Away fixtures:{" "}
+                    {fixtures?.data?.filter((f) => !f.isHome)?.length}
                   </div>
                   <div>Total fixtures: {fixtures?.data?.length}</div>
                 </div>
               </td>
             </tr>
-          </tfoot>
+          </tfoot> */}
         </table>
+      </div>
+
+      {displayType !== "list" && (
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+          {fixtures?.data?.map((fx) => (
+            <AdminMatchCard key={fx?._id} match={fx} teams={teams} />
+          ))}
+        </div>
+      )}
+      <div className="p-2 flex items-center text-sm gap-3 text-muted-foreground py-4">
+        <div>
+          Home fixtures: {fixtures?.data?.filter((f) => f.isHome)?.length}
+        </div>
+        <div>
+          Away fixtures: {fixtures?.data?.filter((f) => !f.isHome)?.length}
+        </div>
+        <div>Total fixtures: {fixtures?.data?.length}</div>
       </div>
       <Pagination pagination={fixtures?.pagination} />
     </div>

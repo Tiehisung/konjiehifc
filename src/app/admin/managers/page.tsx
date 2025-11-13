@@ -3,11 +3,16 @@ import { apiConfig } from "@/lib/configs";
 import { IQueryResponse } from "@/types";
 import React from "react";
 import TechnicalManagerForm from "./ManagerForm";
+import { PrimaryCollapsible } from "@/components/Collapsible";
+import { Plus } from "lucide-react";
+import Header from "../Header";
 
 export const getManagers = async (query?: string) => {
   try {
-  const formatted = query ? (query?.includes("?") ? query : "?" + query) : "";
-    const response = await fetch(apiConfig.managers, { cache: "no-cache" });
+    const formatted = query ? (query?.includes("?") ? query : "?" + query) : "";
+    const response = await fetch(apiConfig.managers + formatted, {
+      cache: "no-cache",
+    });
     const result = await response.json();
     return result;
   } catch {
@@ -19,10 +24,28 @@ const TechnicalManagersPage = async () => {
 
   return (
     <div className="_page">
-      <TechnicalManagerForm
-        availableRoles={getAvailableManagerialRoles(managers?.data ?? [])}
+      <Header
+        title="Technical Management"
+        subtitle="Staff and Managing Personnel"
       />
       <AdminManagers managers={managers?.data} />
+      <PrimaryCollapsible
+        header={{
+          label: (
+            <span
+              className="rounded p-2 flex items-center hover:opacity-90 justify-center"
+              title="Add Manager"
+            >
+              <Plus size={40} /> Add Manager
+            </span>
+          ),
+          className: "border",
+        }}
+      >
+        <TechnicalManagerForm
+          availableRoles={getAvailableManagerialRoles(managers?.data ?? [])}
+        />
+      </PrimaryCollapsible>
     </div>
   );
 };

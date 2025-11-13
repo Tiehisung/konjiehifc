@@ -29,14 +29,14 @@ export function PrimaryCollapsible({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`w-full flex items-center justify-between p-3 rounded-lg _hover _slowTrans ${
-          isActiveLink(header.path || "")
+          isActiveLink(header?.path || "")
             ? "bg-primary/10 text-muted-foreground"
             : ""
-        } ${header.className ?? ""}`}
+        } ${header?.className ?? ""}`}
        {...header?.others} 
       >
         <div className="flex items-center gap-3 grow">
-          <span className="flex-shrink-0">{header.icon}</span>
+          <span className="flex-shrink-0">{header?.icon}</span>
           <AnimatePresence>
             {!isMinimize && (
               <motion.div
