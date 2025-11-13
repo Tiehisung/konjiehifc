@@ -18,18 +18,8 @@ interface IDialog {
   children: ReactNode;
   className?: string;
   trigger: ReactNode;
-  triggerStyles?: string;
   closeId?: string;
   id?: string;
-  variant?:
-    | "secondary"
-    | "default"
-    | "destructive"
-    | "link"
-    | "outline"
-    | "ghost"
-    | null
-    | undefined;
   modal?: boolean; //Turn to 'false' when using another modal within e.g cloudinary upload widget
 }
 
@@ -39,22 +29,19 @@ export const DIALOG: FC<IDialog> = ({
   children,
   className,
   trigger = "Open",
-  triggerStyles,
   closeId,
   id,
-  variant = "secondary",
   modal = true,
 }) => {
   return (
     <Dialog modal={modal}>
       <DialogTrigger asChild>
-        <Button
-          variant={variant}
-          className={`cursor-pointer ${triggerStyles}`}
+        <div
+          className={`cursor-pointer`}
           id={id}
         >
           {trigger}
-        </Button>
+        </div>
       </DialogTrigger>
 
       <DialogContent className={` ${className}`}>

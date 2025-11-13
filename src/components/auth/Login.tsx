@@ -39,8 +39,13 @@ const AdminLoginController = ({ className }: { className?: string }) => {
   return (
     <>
       <DIALOG
-        trigger={"Login"}
-        triggerStyles={`_secondaryBtn justify-center px-2 py-1 h-full ${className}`}
+        trigger={
+          <Button
+            primaryText="Login"
+            className={"_secondaryBtn justify-center px-2 py-1 h-full "+className}
+          />
+        }
+      
         title={undefined}
       >
         <div className="bg-white grid gap-8 border p-5 rounded-2xl container shadow-xl">

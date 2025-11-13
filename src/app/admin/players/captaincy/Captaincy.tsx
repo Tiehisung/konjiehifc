@@ -17,6 +17,7 @@ import { OverlayLoader } from "@/components/loaders/OverlayLoader";
 import { fireEscape } from "@/hooks/Esc";
 import { formatDate } from "@/lib/timeAndDate";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/buttons/Button";
 
 export type ICaptainProps = {
   isActive?: boolean;
@@ -150,7 +151,12 @@ export const UpdateCaptaincy = ({
   const [isBusy, setIsBusy] = useState(false);
 
   return (
-    <DIALOG title trigger="Update Captaincy" triggerStyles="text-primaryGreen ">
+    <DIALOG
+      title
+      trigger={
+        <Button primaryText="Update Captaincy" className="text-primaryGreen" />
+      }
+    >
       <OverlayLoader isLoading={isBusy} className="backdrop:blur-none" />
       <table
         className={` bg-card w-full ${

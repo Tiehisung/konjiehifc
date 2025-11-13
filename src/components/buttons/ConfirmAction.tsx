@@ -25,7 +25,7 @@ interface IProps {
   title?: string;
   confirmText?: string;
   gobackAfter?: boolean;
-  triggerStyles?: string;
+  trigger?: ReactNode;
   hidden?: boolean;
 }
 
@@ -42,14 +42,8 @@ export const ConfirmActionButton = ({
   confirmText,
   title,
   gobackAfter,
-  triggerStyles = variant == "primary"
-    ? "text-primaryGreen"
-    : variant == "secondary"
-    ? "text-primary"
-    : variant == "destructive"
-    ? "text-red-500"
-    : "",
   hidden = true,
+  trigger,
 }: IProps) => {
   const router = useRouter();
 
@@ -59,14 +53,13 @@ export const ConfirmActionButton = ({
   const isAdmin = (session?.data?.user as IUser)?.role?.includes("admin");
 
   const triggerClassName =
-    triggerStyles ??
-    (variant == "primary"
+    variant == "primary"
       ? "text-primaryGreen"
       : variant == "secondary"
       ? "text-primary"
       : variant == "destructive"
       ? "text-red-500"
-      : "");
+      : "";
 
   const handleAction = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -111,10 +104,10 @@ export const ConfirmActionButton = ({
 
   return (
     <DIALOG
-      trigger={primaryText}
-      triggerStyles={`${triggerClassName} capitalize`}
+      trigger={
+        <span className={triggerClassName}>{trigger ?? primaryText}</span>
+      }
       title={title}
-     
     >
       <Card>
         <CardContent className="flex flex-col items-center justify-center">

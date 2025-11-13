@@ -14,7 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Users, CalendarDays, MapPin, Clock, UserCog } from "lucide-react";
-import { formatDate,  getTimeAgo } from "@/lib/timeAndDate";
+import { formatDate, getTimeAgo } from "@/lib/timeAndDate";
 import { ITrainingSession } from "./page";
 import { IPlayer } from "@/app/players/page";
 import { getInitials } from "@/lib";
@@ -133,8 +133,10 @@ const TrainingSessionCard = ({ trainingSession }: Props) => {
           escapeOnEnd
           variant="destructive"
           title="Delete Attendance"
-          confirmText={`Are you sure you want to delete "${formatDate(trainingSession?.date,'March 2, 2025') }" attendance?`}
-       
+          confirmText={`Are you sure you want to delete "${formatDate(
+            trainingSession?.date,
+            "March 2, 2025"
+          )}" attendance?`}
         />
       </CardFooter>
     </Card>

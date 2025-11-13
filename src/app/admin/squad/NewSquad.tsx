@@ -34,8 +34,6 @@ import { ISquad } from "./page";
 import { formatDate, getTimeLeftOrAgo } from "@/lib/timeAndDate";
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { playerPositions } from "@/data/players";
-import useGetParam from "@/hooks/params";
-
 interface IProps {
   players?: IPlayer[];
   managers?: IManager[];
@@ -52,7 +50,7 @@ interface IPostSquad {
   match: IMatchProps;
 }
 
-// 🧩 Joi Validation Schema
+// Joi Validation Schema
 const squadSchema = Joi.object<IPostSquad>({
   match: Joi.object<IMatchProps>().required().label("Fixture"),
 
@@ -67,8 +65,8 @@ const squadSchema = Joi.object<IPostSquad>({
 });
 
 const NewSquad = ({
-  players = [],
   defaultMatch,
+  players = [],
   managers = [],
   matches = [],
 }: IProps) => {
@@ -94,7 +92,6 @@ const NewSquad = ({
   const selectedPlayers = watch("selectedPlayers");
   const positions = watch("positions");
   const selectedMatch = watch("match");
-
 
   const onSubmit = async (data: IPostSquad) => {
     try {
@@ -191,6 +188,7 @@ const NewSquad = ({
                       field.onChange(matches.find((f) => f._id == v))
                     }
                     error={fieldState?.error?.message}
+                    disabled={defaultMatch ? true : false}
                   />
                 )}
               />

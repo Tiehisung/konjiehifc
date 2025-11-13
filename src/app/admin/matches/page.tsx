@@ -10,6 +10,9 @@ import {
 import { IQueryResponse } from "@/types";
 import { buildQueryStringServer } from "@/lib";
 import Header from "../Header";
+import { getPlayers } from "../players/page";
+import { getManagers, IManager } from "../managers/page";
+import { IPlayer } from "@/app/players/page";
 
 export interface IGetMatchesProps {
   status?: MatchStatus;
@@ -51,10 +54,19 @@ export default async function AdminFixtures({ searchParams }: IPageProps) {
 
   const fixtures: IQueryResponse<IMatchProps[]> = await getMatches(qs);
   const teams: IQueryResponse<ITeamProps[]> = await getTeams();
+
+  const players: IQueryResponse<IPlayer[]> = await getPlayers();
+  const managers: IQueryResponse<IManager[]> = await getManagers();
+
   return (
     <section className="pb-6 pt-10 px-3 _page">
       <Header title="FIXTURES & SCORES" subtitle="Manage Fixtures" />
-      <DisplayFixtures fixtures={fixtures} teams={teams?.data} />
+      <DisplayFixtures
+        fixtures={fixtures}
+        teams={teams?.data}
+        managers={managers?.data}
+        players={players?.data}
+      />
 
       <div className=" py-14 ">
         <h1 className="_title">Create Fixture</h1>

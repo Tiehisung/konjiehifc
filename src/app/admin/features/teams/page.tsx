@@ -32,9 +32,7 @@ interface IPageProps {
   searchParams: Record<string, string | string[] | undefined>;
 }
 
- 
-  
-  const TeamsFeature = async ({ searchParams }: IPageProps) => {
+const TeamsFeature = async ({ searchParams }: IPageProps) => {
   const qs = buildQueryStringServer(searchParams);
 
   const teams: IQueryResponse<ITeamProps[]> = await getTeams(qs);
