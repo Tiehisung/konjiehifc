@@ -8,6 +8,7 @@ import CreateAdmin from "./CreateAdmin";
 import { formatDate } from "@/lib/timeAndDate";
 import BackBtn from "@/components/buttons/BackBtn";
 import { DIALOG } from "@/components/Dialog";
+import { Button } from "@/components/buttons/Button";
 
 export const getAdmins = async (id?: string) => {
   if (id) {
@@ -49,8 +50,12 @@ const AuthorizationPage = async () => {
       <header className="flex px-5 pt-4">
         <DIALOG
           title=""
-          trigger="Create admin"
-          triggerStyles="_primaryBtn p-2 text-sm ml-auto "
+          trigger={
+            <Button
+              primaryText="Create Admin"
+              className="_primaryBtn p-2 text-sm ml-auto "
+            />
+          }
         >
           <CreateAdmin />
         </DIALOG>

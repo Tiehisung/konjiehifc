@@ -39,7 +39,7 @@ export function StartStopMatch({ match, players }: IProps) {
 
       const results = await response.json();
       toast.success(results.message);
-      fireEscape()
+      fireEscape();
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
@@ -76,9 +76,10 @@ export function StartStopMatch({ match, players }: IProps) {
         {match?.status == "UPCOMING" ? (
           <DIALOG
             title="Start Match"
-            trigger={"START MATCH"}
-            variant={"destructive"}
-            closeId="start-match"
+            trigger={
+              <Button primaryText="START MATCH" className="_deleteBtn" />
+            }
+            id="start-match"
             description="Are you sure you want to start this match?"
           >
             <Button
@@ -94,9 +95,10 @@ export function StartStopMatch({ match, players }: IProps) {
         ) : (
           <DIALOG
             title="Stop Match"
-            trigger={"STOP MATCH"}
-            variant={"destructive"}
-            closeId="stoop-match"
+            trigger={
+              <Button primaryText="STOP MATCH" className="_deleteBtn" />
+            }
+            id="stop-match"
             description="Are you sure you want to stop this match?"
           >
             <Button

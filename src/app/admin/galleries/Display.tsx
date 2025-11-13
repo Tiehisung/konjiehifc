@@ -67,7 +67,7 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
             <h3 className=" text-sm flex items-center gap-4 justify-between text-nowrap">
               <span className="font-semibold line-clamp-1 grow">
                 {gallery.title || "Untitled"}
-              </span> 
+              </span>
               <span className="font-light ml-auto">
                 {formatDate(gallery?.createdAt, "March 2, 2025")}
               </span>
@@ -104,8 +104,6 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
                 Download Gallery
               </DropdownMenuItem>
 
-              {}
-
               <DropdownMenuItem
                 onClick={() => {
                   setSelectedGallery(gallery);
@@ -122,10 +120,8 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
                 method={"DELETE"}
                 confirmText="Delete Gallery?"
                 uri={`${apiConfig.galleries}/${gallery?._id}`}
-                triggerStyles="_hover h-8 grow w-full"
                 className="h-fit"
                 variant="destructive"
-
               />
             </PrimaryDropdown>
           </div>

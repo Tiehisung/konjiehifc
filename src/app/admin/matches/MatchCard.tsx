@@ -14,14 +14,23 @@ import { DIALOG } from "@/components/Dialog";
 import { Eye } from "lucide-react";
 import SquadCard from "../squad/SquadCard";
 import { UpdateFixtureMatch } from "./CreateFixture";
-import Link from "next/link";
+import NewSquad from "../squad/NewSquad";
+import { IPlayer } from "@/app/players/page";
+import { IManager } from "../managers/page";
+import { Button } from "@/components/buttons/Button";
 
 export function AdminMatchCard({
   match,
   teams,
+  managers,
+  matches,
+  players,
 }: {
   match?: IMatchProps;
   teams?: ITeamProps[];
+  players?: IPlayer[];
+  managers?: IManager[];
+  matches?: IMatchProps[];
 }) {
   const { away, home } = checkTeams(match);
   const scores = checkGoals(match);
@@ -84,7 +93,7 @@ export function AdminMatchCard({
           <UpdateFixtureMatch teams={teams} fixture={match} />
           <ConfirmActionButton
             primaryText="Delete"
-            triggerStyles="  px-2 flex items-center text-red-600 _deleteBtn h-9"
+            trigger={" Delete"}
             uri={`${apiConfig.matches}/${match?._id}`}
             method={"DELETE"}
             variant="destructive"
@@ -107,14 +116,23 @@ export function AdminMatchCard({
               <SquadCard squad={match?.squad} match={match} />
             </DIALOG>
           ) : (
-            <span className="text-muted-foreground text-sm font-thin">
-              <Link
-                href={`/admin/squad?matchId=${match?._id}`}
-                className="_hover p-1 rounded"
-              >
-                Choose Squad
-              </Link>
-            </span>
+            <DIALOG
+              trigger={
+                <Button
+                  primaryText="Choose Squad"
+                  className="text-xs font-thin"
+                />
+              }
+              title={`Select Squad for ${match?.title}`}
+              className="min-w-[80vw]"
+            >
+              <NewSquad
+                players={players}
+                managers={managers}
+                matches={matches}
+                defaultMatch={match}
+              />
+            </DIALOG>
           )}
         </div>
       </div>

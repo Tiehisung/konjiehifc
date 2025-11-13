@@ -24,15 +24,24 @@ import { IQueryResponse } from "@/types";
 import { AdminMatchCard } from "./MatchCard";
 import { DisplayType } from "@/components/DisplayStyle";
 import useGetParam from "@/hooks/params";
-import Link from "next/link";
+import { IPlayer } from "@/app/players/page";
+import { IManager } from "../managers/page";
+import NewSquad from "../squad/NewSquad";
 
 interface DisplayFixturesProps {
   fixtures: IQueryResponse<IMatchProps[]>;
   teams?: ITeamProps[];
+  players?: IPlayer[];
+  managers?: IManager[];
 }
 // Fixture is  match that is not yet played successfully
 
-export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
+export function DisplayFixtures({
+  fixtures,
+  teams,
+  managers,
+  players,
+}: DisplayFixturesProps) {
   const displayType = useGetParam("display");
   return (
     <div>
@@ -121,14 +130,23 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
                         <SquadCard squad={fixture?.squad} match={fixture} />
                       </DIALOG>
                     ) : (
-                      <span className="text-muted-foreground">
-                        <Link
-                          href={`/admin/squad?matchId=${fixture?._id}`}
-                          className="_hover p-1 rounded"
-                        >
-                          Choose Squad
-                        </Link>
-                      </span>
+                      <DIALOG
+                        trigger={
+                          <Button
+                            primaryText="Choose Squad"
+                            className="text-xs font-thin"
+                          />
+                        }
+                        title={`Select Squad for ${fixture?.title}`}
+                        className="min-w-[80vw]"
+                      >
+                        <NewSquad
+                          players={players}
+                          managers={managers}
+                          matches={fixtures?.data}
+                          defaultMatch={fixture}
+                        />
+                      </DIALOG>
                     )}
                   </td>
                   <td className="px-2 py-2 text-sm ">
@@ -177,7 +195,14 @@ export function DisplayFixtures({ fixtures, teams }: DisplayFixturesProps) {
       {displayType !== "list" && (
         <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-5">
           {fixtures?.data?.map((fx) => (
-            <AdminMatchCard key={fx?._id} match={fx} teams={teams} />
+            <AdminMatchCard
+              key={fx?._id}
+              match={fx}
+              teams={teams}
+              managers={managers}
+              matches={fixtures?.data}
+              players={players}
+            />
           ))}
         </div>
       )}

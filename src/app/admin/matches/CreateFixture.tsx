@@ -197,7 +197,6 @@ export const UpdateFixtureMatch = ({
         matchType === "home"
           ? `${teamKFC.name} VS ${fx?.opponent?.name}`
           : `${fx?.opponent.name} VS ${teamKFC.name}`,
-
     };
     const response = await fetch(apiConfig.matches, {
       method: "PUT",
@@ -223,8 +222,7 @@ export const UpdateFixtureMatch = ({
   return (
     <DIALOG
       closeId={fx._id}
-      trigger="Edit"
-      triggerStyles="text-teal-600"
+      trigger={<Button className="text-teal-600" primaryText="Edit" />}
       title={"UPDATE FIXTURE"}
       className="bg-popover"
       description={` ${home?.name} vs ${away?.name}`.toUpperCase()}

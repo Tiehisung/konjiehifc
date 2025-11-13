@@ -12,6 +12,7 @@ import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { shortText } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/buttons/Button";
 
 export default function TransactionList({
   transactions,
@@ -107,8 +108,12 @@ function TransactionActions({ transaction }: { transaction: ITransaction }) {
   return (
     <PrimaryDropdown id={transaction?._id + "-mod"} className="space-y-2 p-2">
       <DIALOG
-        triggerStyles="text-primaryRed w-full text-left justify-start"
-        trigger={"Edit"}
+        trigger={
+          <Button
+            primaryText="Edit"
+            className="text-primaryRed w-full text-left justify-start"
+          />
+        }
       >
         <TransactionForm
           transaction={{
@@ -120,7 +125,6 @@ function TransactionActions({ transaction }: { transaction: ITransaction }) {
 
       <ConfirmActionButton
         primaryText="Delete Transaction"
-        triggerStyles="w-full justify-start"
         uri={`${apiConfig.transactions}/${transaction?._id}`}
         method={"DELETE"}
         variant="destructive"

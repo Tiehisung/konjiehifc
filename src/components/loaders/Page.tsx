@@ -1,10 +1,18 @@
-const PageLoader = ({ showAvatar }: { showAvatar?: boolean }) => {
+const PageLoader = ({
+  showAvatar,
+  className,
+}: {
+  showAvatar?: boolean;
+  className?: string;
+}) => {
   return (
-    <div className="col-span-2 w-full rounded-md bg-accent p-6 animate-pulse min-h-[70vh]">
+    <div
+      className={
+        `col-span-2 w-full rounded-md bg-accent p-6 animate-pulse min-h-[70vh] ${className}`
+      }
+    >
       {/* Profile Image Placeholder */}
-      {showAvatar && (
-        <div className="w-24 h-24 bg-card rounded-full mb-6" />
-      )}
+      {showAvatar && <div className="w-24 h-24 bg-card rounded-full mb-6" />}
 
       {/* Name Placeholder */}
       <div className="w-1/3 h-6 bg-card rounded mb-4" />
