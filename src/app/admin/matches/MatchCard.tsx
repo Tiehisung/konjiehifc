@@ -14,6 +14,7 @@ import { DIALOG } from "@/components/Dialog";
 import { Eye } from "lucide-react";
 import SquadCard from "../squad/SquadCard";
 import { UpdateFixtureMatch } from "./CreateFixture";
+import Link from "next/link";
 
 export function AdminMatchCard({
   match,
@@ -38,7 +39,7 @@ export function AdminMatchCard({
           }
         >
           {status}
-        </Badge> 
+        </Badge>
         <span>
           {formatDate(match?.date, "March 2, 2025")}(
           {getTimeLeftOrAgo(match?.date).formatted})
@@ -82,7 +83,7 @@ export function AdminMatchCard({
         <div className="flex items-center gap-5">
           <UpdateFixtureMatch teams={teams} fixture={match} />
           <ConfirmActionButton
-            primaryText="Delete Match"
+            primaryText="Delete"
             triggerStyles="  px-2 flex items-center text-red-600 _deleteBtn h-9"
             uri={`${apiConfig.matches}/${match?._id}`}
             method={"DELETE"}
@@ -106,7 +107,14 @@ export function AdminMatchCard({
               <SquadCard squad={match?.squad} match={match} />
             </DIALOG>
           ) : (
-            <span className="text-muted-foreground">N/A</span>
+            <span className="text-muted-foreground text-sm font-thin">
+              <Link
+                href={`/admin/squad?matchId=${match?._id}`}
+                className="_hover p-1 rounded"
+              >
+                Choose Squad
+              </Link>
+            </span>
           )}
         </div>
       </div>

@@ -34,11 +34,13 @@ import { ISquad } from "./page";
 import { formatDate, getTimeLeftOrAgo } from "@/lib/timeAndDate";
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { playerPositions } from "@/data/players";
+import useGetParam from "@/hooks/params";
 
 interface IProps {
   players?: IPlayer[];
   managers?: IManager[];
   matches?: IMatchProps[];
+  defaultMatch?: IMatchProps;
 }
 
 interface IPostSquad {
@@ -66,12 +68,13 @@ const squadSchema = Joi.object<IPostSquad>({
 
 const NewSquad = ({
   players = [],
-
+  defaultMatch,
   managers = [],
   matches = [],
 }: IProps) => {
   const [waiting, setWaiting] = useState(false);
   const router = useRouter();
+
   const {
     handleSubmit,
     control,
@@ -84,12 +87,15 @@ const NewSquad = ({
     defaultValues: {
       selectedPlayers: {},
       positions: {},
+      match: defaultMatch,
     },
   });
 
   const selectedPlayers = watch("selectedPlayers");
   const positions = watch("positions");
   const selectedMatch = watch("match");
+
+  console.log(selectedMatch);
 
   const onSubmit = async (data: IPostSquad) => {
     try {
@@ -181,6 +187,7 @@ const NewSquad = ({
                       value: f._id,
                     }))}
                     placeholder="Match"
+                    value={field?.value?._id as string}
                     onChange={(v) =>
                       field.onChange(matches.find((f) => f._id == v))
                     }

@@ -55,10 +55,12 @@ export const getSquads = async (query?: string) => {
 interface PageProps {
   searchParams: Promise<{
     search?: string;
+    matchId?: string;
   }>;
 }
 const SquadPage = async ({ searchParams }: PageProps) => {
   const qs = new URLSearchParams(await searchParams).toString();
+  const defaultMatchId = (await searchParams).matchId; //In case to choose from matches page
 
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
   const managers: IQueryResponse<IManager[]> = await getManagers();
@@ -76,8 +78,7 @@ const SquadPage = async ({ searchParams }: PageProps) => {
         </span>
         {" - "}
         <span>
-          {formatDate(squad.match?.date, "March 2, 2025")},{" "}
-          {squad.match?.time}
+          {formatDate(squad.match?.date, "March 2, 2025")}, {squad.match?.time}
         </span>
       </div>
     ),
@@ -91,6 +92,7 @@ const SquadPage = async ({ searchParams }: PageProps) => {
         players={players?.data}
         managers={managers?.data}
         matches={matches?.data}
+        defaultMatch={matches?.data?.find((m) => m._id == defaultMatchId)}
       />
 
       <div className="mt-12 space-y-6">

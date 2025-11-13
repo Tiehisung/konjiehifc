@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify'
+
 /**
  *Timeout is used because the component might not have been created yet.
  * @param elementId Element id of the component to scroll to.

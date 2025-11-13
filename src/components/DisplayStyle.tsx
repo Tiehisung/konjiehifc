@@ -32,14 +32,16 @@ export const DisplayType = ({
   return (
     <div className={`flex border rounded-md text-2xl shadow ${className}`}>
       <Button
-        className={`p-1 rounded-md ${display == "grid" && "bg-border"}`}
+        className={`p-2 rounded-md ${display == "grid" && "bg-border"}`}
         onClick={() => handleClick("grid")}
-      >
+        title="Grid View"
+        >
         <Grid />
       </Button>
 
       <Button
-        className={`p-1 rounded-md ${display == "list" && "bg-border"}`}
+        title="List View"
+        className={`p-2 rounded-md ${display == "list" && "bg-border"}`}
         onClick={() => handleClick("list")}
       >
         <List/>
