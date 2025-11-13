@@ -10,6 +10,7 @@ import BottomSheetLite from "@/components/modals/BottomSheetLite";
 import ContentShowcaseWrapper from "@/components/ShowcaseWrapper";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
+import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoAdd } from "react-icons/io5";
@@ -71,18 +72,26 @@ export function AddNewSponsor({ sponsors }: { sponsors?: ISponsorProps[] }) {
   return (
     <BottomSheetLite
       trigger={
-        <>
-          <IoAdd /> New sponsor
-        </>
+        <span
+          className="rounded p-6 border _borderColor hover:opacity-90 _secondaryBtn justify-center"
+          title="Add Sponsor"
+        >
+          <Plus size={40} />
+        </span>
       }
-      triggerStyles="_primaryBtn "
+      triggerStyles=" "
       id={"new-sponsor"}
+      className="_page"
     >
       <ContentShowcaseWrapper
         images={sponsors?.slice(0, 6)?.map((s) => s.logo) ?? []}
         graphicsStyles=" "
+        className=""
       >
-        <form onSubmit={handleSubmit} className="grid gap-6 pt-4 _card grow">
+        <form onSubmit={handleSubmit} className="grid grow gap-6 pt-4 _card  ">
+          <h1 className="uppercase _label mb-5 p-4 _gradient">
+            Sponsor/Donor Registration
+          </h1>
           <div className=" flex gap-2 justify-center flex-col items-center relative">
             <ImageUploaderCldWidget
               label="Logo"

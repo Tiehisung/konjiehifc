@@ -1,6 +1,15 @@
 import React from "react";
 import AdminDashboard from "./Dashboard";
 import { apiConfig } from "@/lib/configs";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/options";
+
+export async function getSessionUser() {
+  const session = await getServerSession(authOptions); // works in server context
+  if (!session?.user) return null;
+
+  return session.user; // contains id, name, email, image, etc.
+}
 
 export const getPlayersStats = async (playerId?: string) => {
   try {
@@ -32,10 +41,6 @@ export const getMatchesStats = async () => {
 };
 
 const AdminDashboardPage = async () => {
-  const matchesStats = await getMatchesStats();
-  const playersStats = await getPlayersStats();
-
-  console.log({ matchesStats, playersStats });
   return (
     <div>
       <AdminDashboard />

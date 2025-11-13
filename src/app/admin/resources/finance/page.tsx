@@ -43,7 +43,7 @@ const FinancePage = async ({ searchParams }: IPageProps) => {
     financialSummary: IFinancialSummary;
   }> = await getTransactions(qs);
 
-  console.log({ transactionsData });
+ 
   return (
     <div>
       <ClientFinance transactionsData={transactionsData} />

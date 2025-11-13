@@ -53,7 +53,6 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const formdata = await request.json();
- 
   const created = await SponsorModel.create({ ...formdata });
   if (created)
     return NextResponse.json({ message: "Sponsor created", success: true });
@@ -65,7 +64,6 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   const formData = await request.json();
-  // console.log("formData", formData);
   const updated = await SponsorModel.updateOne(
     { _id: formData._id },
     {

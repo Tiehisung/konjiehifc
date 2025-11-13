@@ -9,6 +9,7 @@ import "@/models/player";
 import "@/models/squad";
 import { removeEmptyKeys } from "@/lib";
 import { MatchStatus } from "@/app/matches/(fixturesAndResults)";
+import { getSessionUser } from "@/app/admin/page";
 
 ConnectMongoDb();
 
@@ -41,6 +42,8 @@ export async function GET(request: NextRequest) {
       { "date": regex },
     ]
   }
+  const user = await getSessionUser()
+  console.log({ user })
 
   const cleanedFilters = removeEmptyKeys(query)
 
@@ -76,6 +79,8 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const user = await getSessionUser()
+  console.log({ user })
 
   const { _id, ...others } = await request.json();
 

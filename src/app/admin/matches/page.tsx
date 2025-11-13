@@ -13,6 +13,7 @@ import { buildQueryStringServer } from "@/lib";
 export interface IGetMatchesProps {
   status?: MatchStatus;
   isHome?: boolean;
+
   sort?: "desc" | "asc";
 }
 export const getMatches = async (query?: string) => {
@@ -41,10 +42,11 @@ export const getMatchById = async (id: string) => {
 };
 
 interface IPageProps {
-  searchParams:Promise< Record<string, string | string[] | undefined>>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
 export default async function AdminFixtures({ searchParams }: IPageProps) {
+ 
   const qs = buildQueryStringServer(await searchParams);
 
   const fixtures: IQueryResponse<IMatchProps[]> = await getMatches(qs);

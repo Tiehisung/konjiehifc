@@ -22,7 +22,6 @@ import { apiConfig } from "@/lib/configs";
 import { customStyles } from "@/styles";
 import { ISelectOptionLV } from "@/types";
 import { useRouter } from "next/navigation";
-import { timeLog } from "node:console";
 import React, { useState } from "react";
 import Select from "react-select";
 import { toast } from "sonner";
@@ -160,10 +159,11 @@ export const UpdateFixtureMatch = ({
   fixture: fx,
   teams,
 }: {
-  fixture: IMatchProps;
+  fixture?: IMatchProps;
   teams?: ITeamProps[];
 }) => {
   const router = useRouter();
+
   const [waiting, setWaiting] = useState(false);
 
   const teamOptions: ISelectOptionLV[] =
@@ -177,11 +177,11 @@ export const UpdateFixtureMatch = ({
   );
   const [time, setTime] = useState(fx?.time);
 
-  const [date, setDate] = useState(fx?.date);
+  const [date, setDate] = useState(fx?.date?.split("T")?.[0]);
 
   const [opponent, setOpponent] = useState<ISelectOptionLV | null>({
-    label: fx?.opponent?.name,
-    value: fx?.opponent?._id,
+    label: fx?.opponent?.name as string,
+    value: fx?.opponent?._id as string,
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -195,8 +195,9 @@ export const UpdateFixtureMatch = ({
       opponent: opponent?.value, //opponentId
       title:
         matchType === "home"
-          ? `${teamKFC.name} VS ${fx.opponent.name}`
-          : `${fx.opponent.name} VS ${teamKFC.name}`,
+          ? `${teamKFC.name} VS ${fx?.opponent?.name}`
+          : `${fx?.opponent.name} VS ${teamKFC.name}`,
+
     };
     const response = await fetch(apiConfig.matches, {
       method: "PUT",
@@ -257,6 +258,7 @@ export const UpdateFixtureMatch = ({
               name={"match-date"}
               onChange={(e) => setDate(e.target.value)}
               type="date"
+              value={date}
               required
               label={"Date Of Play"}
             />
@@ -265,6 +267,7 @@ export const UpdateFixtureMatch = ({
               name={"match-time"}
               onChange={(e) => setTime(e.target.value)}
               type="time"
+              value={time}
               required
               label={"Time Of Play"}
             />

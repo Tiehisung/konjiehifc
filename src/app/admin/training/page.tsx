@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Header from "../Header";
 
 export default async function TrainingSettingsAdm() {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
@@ -25,8 +26,8 @@ export default async function TrainingSettingsAdm() {
 
   return (
     <main className="grid px-1 _page">
-      <h1 className="_heading">Manage Training with Teams</h1>
-      <div className="rounded-2xl p-2 md:p-3 mb-20">
+      <Header title="Manage Training with Teams" />
+      <div className="rounded-2xl p-2 md:p-3 mb-20 overflow-x-auto">
         <Table>
           <TableCaption>Training Teaming</TableCaption>
           <TableHeader>
@@ -47,12 +48,12 @@ export default async function TrainingSettingsAdm() {
                     fallbackText={`${player.firstName} ${player.lastName}`}
                   />
 
-                  <span >
+                  <span>
                     {`${player.firstName} ${player.lastName}(${player.number})`}
                   </span>
                 </TableCell>
 
-                <TableCell className="">
+                <TableCell className="min-w-24">
                   <ChangePlayerTeam player={player} />
                 </TableCell>
               </TableRow>
@@ -60,17 +61,14 @@ export default async function TrainingSettingsAdm() {
 
             <TableRow>
               <TableCell>{players?.data?.length}</TableCell>
-              <TableCell className='grid grid-cols-2'>
-                <span>{teamA?.length??0}</span>
-                <span>{teamB?.length??0}</span>
+              <TableCell className="grid grid-cols-2">
+                <span>{teamA?.length ?? 0}</span>
+                <span>{teamB?.length ?? 0}</span>
               </TableCell>
             </TableRow>
           </TableBody>
         </Table>
       </div>
-
-
-
 
       <PreviewTeamGroups teamA={teamA} teamB={teamB} />
     </main>

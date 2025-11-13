@@ -114,7 +114,7 @@ export const ConfirmActionButton = ({
       trigger={primaryText}
       triggerStyles={`${triggerClassName} capitalize`}
       title={title}
-      closeId={""}
+     
     >
       <Card>
         <CardContent className="flex flex-col items-center justify-center">
