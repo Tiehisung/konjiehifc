@@ -95,7 +95,6 @@ const NewSquad = ({
   const positions = watch("positions");
   const selectedMatch = watch("match");
 
-  console.log(selectedMatch);
 
   const onSubmit = async (data: IPostSquad) => {
     try {

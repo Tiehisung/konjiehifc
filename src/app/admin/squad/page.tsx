@@ -60,13 +60,16 @@ interface PageProps {
 }
 const SquadPage = async ({ searchParams }: PageProps) => {
   const qs = new URLSearchParams(await searchParams).toString();
-  const defaultMatchId = (await searchParams).matchId; //In case to choose from matches page
 
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
   const managers: IQueryResponse<IManager[]> = await getManagers();
   const matches: IQueryResponse<IMatchProps[]> = await getMatches(
     "?status=UPCOMING"
   );
+
+  const targetMatchId = (await searchParams).matchId;
+  const targetMatch = matches?.data?.find((m) => m._id == targetMatchId); //In case to choose from matches page
+
 
   const squads: IQueryResponse<ISquad[]> | null = await getSquads(qs);
   const accordion = squads?.data?.map((squad) => ({
@@ -92,7 +95,7 @@ const SquadPage = async ({ searchParams }: PageProps) => {
         players={players?.data}
         managers={managers?.data}
         matches={matches?.data}
-        defaultMatch={matches?.data?.find((m) => m._id == defaultMatchId)}
+        defaultMatch={targetMatch}
       />
 
       <div className="mt-12 space-y-6">
