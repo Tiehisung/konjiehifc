@@ -19,7 +19,6 @@ import ContentShowcaseWrapper from "@/components/ShowcaseWrapper";
 import { playerPositions } from "@/data/players";
 import { PrimarySelect } from "@/components/select/Select";
 import { Label } from "@/components/ui/label";
- 
 
 interface IFormData {
   firstName: string;
@@ -57,7 +56,7 @@ export default function PlayerProfileForm({
       email: player?.email || "",
       dob: player?.dob || "",
       avatar: player?.avatar || "",
-      position:player?.position,
+      position: player?.position,
       manager: player?.manager || {
         fullname: "",
         phone: "",
@@ -239,7 +238,7 @@ export default function PlayerProfileForm({
                       />
                     )}
                   />
-                  
+
                   <Controller
                     control={control}
                     name="email"
@@ -263,7 +262,6 @@ export default function PlayerProfileForm({
                       />
                     )}
                   />
-
 
                   <Controller
                     control={control}
@@ -364,7 +362,7 @@ export const playerManagerJoiSchema = Joi.object({
       "string.pattern.base": "Phone must contain only digits (7–15 chars)",
       "string.empty": "Manager phone is required",
     }),
-  email: Joi.string().email({ tlds: false }).required().messages({
+  email: Joi.string().email({ tlds: false }).optional().messages({
     "string.email": "Manager email must be valid",
   }),
   dob: Joi.date().iso().less("now").required().messages({
@@ -411,7 +409,7 @@ export const playerJoiSchema = Joi.object({
       "string.pattern.base": "Phone must contain only digits (7–15 chars)",
       "string.empty": "Phone is required",
     }),
-  email: Joi.string().email({ tlds: false }).required().messages({
+  email: Joi.string().email({ tlds: false }).optional().messages({
     "string.email": "Invalid email format",
   }),
   dob: Joi.date().iso().less("now").required().messages({
