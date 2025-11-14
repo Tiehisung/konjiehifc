@@ -6,7 +6,7 @@ import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import { getErrorMessage } from "@/lib";
 import { IQueryResponse } from "@/types";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer, IPlayerMini } from "@/app/players/page";
 import RadioButtons from "@/components/input/Radio";
 import Image from "next/image";
 import useGetParam from "@/hooks/params";
@@ -22,7 +22,7 @@ import { Button } from "@/components/buttons/Button";
 export type ICaptainProps = {
   isActive?: boolean;
   _id: string;
-  player: Partial<IPlayer>;
+  player: Partial<IPlayerMini>;
   role: "captain" | "vice";
   startDate: string;
   endDate: string;
@@ -105,7 +105,7 @@ export default function CaptaincyAdm({
                   </Badge>
                 </p>
                 <p className="uppercase">
-                  {`${captain?.player?.firstName} ${captain?.player?.lastName}`}
+                  {captain?.player?.name}
                 </p>
                 <div className="grid text-sm font-light gap-1">
                   {captain?.isActive ? (
