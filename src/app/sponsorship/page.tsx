@@ -1,7 +1,17 @@
 import { IQueryResponse } from "@/types";
 import { getSponsors } from "../admin/sponsorship/page";
 import { ICldFileUploadResult } from "@/components/cloudinary/FileUploadWidget";
-// import { AllSponsors } from "./Sponsors";
+ 
+export const metadata = {
+  title: "Sponsors",
+  description: "Konjiehi FC official sponsors and partnership opportunities.",
+  keywords: ["Konjiehi FC sponsors", "football sponsors", "partnership",'donations'],
+  openGraph: {
+    title: "Konjiehi FC Sponsors",
+    description: "Meet the official sponsors and partners of Konjiehi FC.",
+    images: ["/kfc.png"],
+  },
+};
 
 export default async function SponsorsPage({}) {
   const sponsors:IQueryResponse<ISponsorProps[]> = await getSponsors();

@@ -12,6 +12,24 @@ import { PitchGallery } from "./(landing)/Pitch";
 import LoadingSkeleton from "react-loading-skeleton";
 import CardLoader from "@/components/loaders/CardLoader";
 
+export const metadata = {
+  title: "Konjiehi FC – Official Website",
+  description: "Latest news, fixtures, player stats and match highlights.",
+  keywords: ["Konjiehi FC", "football", "fixtures", "news", "players",'Wa', 'Konjiehi','konfc'],
+  openGraph: {
+    title: "Konjiehi FC",
+    description: "Official football club website.",
+    url: "https://konjiehifc.vercel.app",
+    images: [
+      {
+        url: "https://konjiehifc.vercel.app/favicon.ico",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+};
+
 export default async function Home() {
   return (
     <main className=" relative md:block space-y-10">
