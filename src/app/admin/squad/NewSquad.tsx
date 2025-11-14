@@ -238,7 +238,6 @@ const NewSquad = ({
                 <tr className="border-b border-border font-semibold">
                   <th className="text-left py-3 px-4">PLAYER</th>
                   <th className="text-left py-3 px-4 ">POSITION</th>
-                  <th className="text-center py-3 px-4 ">NUMBER</th>
                 </tr>
               </thead>
 
@@ -276,6 +275,7 @@ const NewSquad = ({
                             />
                           )}
                           {`${player.lastName} ${player.firstName}`}
+                          <span>({player?.number})</span>
                         </Button>
                       </td>
 
@@ -286,7 +286,7 @@ const NewSquad = ({
                             value: pos,
                           }))}
                           placeholder="Position"
-                          triggerStyles="border-none text-primary font-bold capitalize"
+                          triggerStyles="border border-border rounded text-primary font-bold capitalize"
                           className="capitalize"
                           onChange={(val) =>
                             setValue(`positions.${player._id}`, val)
@@ -301,12 +301,6 @@ const NewSquad = ({
                               : ""
                           }
                         />
-                      </td>
-
-                      <td className="text-center py-3 px-4">
-                        <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-1 rounded-full font-bold">
-                          {player?.number}
-                        </span>
                       </td>
                     </tr>
                   );

@@ -45,8 +45,8 @@ export function DisplayFixtures({
   const displayType = useGetParam("display");
   return (
     <div>
-      <h1 className="_title">Fixtures</h1>
-      <DisplayType defaultDisplay="grid" className="w-fit" />
+      <br />
+      <DisplayType defaultDisplay="grid" className="w-fit ml-auto" />
       <br />
 
       <div className="overflow-x-auto " hidden={displayType !== "list"}>
@@ -123,7 +123,12 @@ export function DisplayFixtures({
                   >
                     {fixture?.squad ? (
                       <DIALOG
-                        trigger={<Eye />}
+                        trigger={
+                          <Button primaryText="View" className="_secondaryBtn">
+                            {" "}
+                            <Eye />
+                          </Button>
+                        }
                         title=""
                         className="min-w-[80vw]"
                       >
@@ -134,7 +139,7 @@ export function DisplayFixtures({
                         trigger={
                           <Button
                             primaryText="Choose Squad"
-                            className="text-xs font-thin"
+                            className="text-xs font-thin _secondaryBtn"
                           />
                         }
                         title={`Select Squad for ${fixture?.title}`}

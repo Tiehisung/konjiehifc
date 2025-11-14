@@ -120,7 +120,7 @@ export function AdminMatchCard({
               trigger={
                 <Button
                   primaryText="Choose Squad"
-                  className="text-xs font-thin"
+                  className="text-xs font-thin _secondaryBtn "
                 />
               }
               title={`Select Squad for ${match?.title}`}
