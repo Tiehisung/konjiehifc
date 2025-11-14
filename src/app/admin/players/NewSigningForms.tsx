@@ -362,7 +362,7 @@ export const playerManagerJoiSchema = Joi.object({
       "string.pattern.base": "Phone must contain only digits (7–15 chars)",
       "string.empty": "Manager phone is required",
     }),
-  email: Joi.string().email({ tlds: false }).optional().messages({
+  email: Joi.string().email({ tlds: false }).optional().allow("").messages({
     "string.email": "Manager email must be valid",
   }),
   dob: Joi.date().iso().less("now").required().messages({
@@ -409,7 +409,7 @@ export const playerJoiSchema = Joi.object({
       "string.pattern.base": "Phone must contain only digits (7–15 chars)",
       "string.empty": "Phone is required",
     }),
-  email: Joi.string().email({ tlds: false }).optional().messages({
+  email: Joi.string().email({ tlds: false }).optional().allow("").messages({
     "string.email": "Invalid email format",
   }),
   dob: Joi.date().iso().less("now").required().messages({
