@@ -26,8 +26,13 @@ const playerSchema = new Schema(
       type: String,
       trim: true,
       lowercase: true,
-      message: "Email required",
-      match: [/\S+@\S+\.\S+/, "Email must be valid"],
+      validate: {
+        validator: function (v: string) {
+          if (!v) return true; // skip validation if empty
+          return /\S+@\S+\.\S+/.test(v); // check format if exists
+        },
+        message: "Email must be valid",
+      },
     },
     height: { type: Number },
     captaincy: { type: String },
@@ -42,7 +47,18 @@ const playerSchema = new Schema(
       fullname: String,
       phone: String,
       dob: String,
-      email: { type: String, match: [/\S+@\S+\.\S+/, "Email must be valid"] },
+      email: {
+        type: String,
+        trim: true,
+        lowercase: true,
+        validate: {
+          validator: function (v: string) {
+            if (!v) return true; // skip validation if empty
+            return /\S+@\S+\.\S+/.test(v); // check format if exists
+          },
+          message: "Email must be valid",
+        },
+      },
     },
     performance: { type: Schema.Types.Array, default: () => [] },
 
