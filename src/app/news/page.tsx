@@ -4,7 +4,6 @@ import React, { Suspense } from "react";
 import { getNews } from "../admin/news/page";
 import { Reveal } from "@/components/Animate/Reveal";
 import Image from "next/image";
-import { broadcasters } from "@/assets/broadcaster/broadcaster";
 import { formatDate } from "@/lib/timeAndDate";
 import Link from "next/link";
 import BestOfUs from "./BestOfUs";
@@ -13,6 +12,7 @@ import Skeleton from "react-loading-skeleton";
 import YouMayLike from "./YouMayLike";
 import NewsCard from "./NewsItemCard";
 import { markupToPlainText } from "@/lib/DOM";
+import { kfc } from "@/data/kfc";
 
 export interface INewsProps {
   _id: string;
@@ -66,59 +66,93 @@ export interface IPostNews {
   };
 }
 
-const casters = Object.values(broadcasters);
+export const metadata = {
+  title: "Club News | Konjiehi FC",
+  description:
+    "Latest news, updates, transfers and announcements from Konjiehi FC.",
+  openGraph: {
+    title: "Konjiehi FC News",
+    description: "Stay informed with the latest club news.",
+    url: `${kfc.url}/news`,
+    siteName: kfc.name,
+    images: [`${kfc.logo}`],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Konjiehi FC News",
+    description: "Latest news & headlines from Konjiehi FC.",
+    images: [`${kfc.logo}`],
+  },
+};
 
 const NewsPage = async () => {
   const news: IQueryResponse<INewsProps[]> = await getNews();
   return (
-    <main className="my-5 container _page ">
-      <section className="space-y-10">
-        <Suspense
-          fallback={
-            <div>
-              <Skeleton width={300} height={"200px"} className="" />
-            </div>
-          }
-        >
-          <BestOfUs />
-        </Suspense>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "NewsMediaOrganization",
+            name: kfc.name,
+            logo: kfc.logo,
+            url: `${kfc.logo}/news`,
+          }),
+        }}
+      />
 
-        <Suspense
-          fallback={
-            <div>
-              <Skeleton width={300} height={"200px"} className="" />
-            </div>
-          }
-        >
-          <LatestNews />
-        </Suspense>
+      <main className="my-5 container _page ">
+        <section className="space-y-10">
+          <Suspense
+            fallback={
+              <div>
+                <Skeleton width={300} height={"200px"} className="" />
+              </div>
+            }
+          >
+            <BestOfUs />
+          </Suspense>
 
-        <Suspense
-          fallback={
-            <div>
-              <Skeleton width={300} height={"200px"} className="" />
-            </div>
-          }
-        >
-          <YouMayLike />
-        </Suspense>
-      </section>
-      <br />
- 
-      <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-6">
-        {news?.data?.slice(0, 5)?.map((item) => (
-          <NewsCard
-            key={item?._id}
-            id={item?._id}
-            title={item?.headline?.text}
-            summary={markupToPlainText(item?.details?.find((d) => d.text)?.text as string) }
-            image={item?.headline?.image}
-            date={item?.createdAt}
-            tags={["transfer", "midfielder"]}
-          />
-        ))}
-      </section>
-    </main>
+          <Suspense
+            fallback={
+              <div>
+                <Skeleton width={300} height={"200px"} className="" />
+              </div>
+            }
+          >
+            <LatestNews />
+          </Suspense>
+
+          <Suspense
+            fallback={
+              <div>
+                <Skeleton width={300} height={"200px"} className="" />
+              </div>
+            }
+          >
+            <YouMayLike />
+          </Suspense>
+        </section>
+        <br />
+
+        <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-6">
+          {news?.data?.slice(0, 5)?.map((item) => (
+            <NewsCard
+              key={item?._id}
+              id={item?._id}
+              title={item?.headline?.text}
+              summary={markupToPlainText(
+                item?.details?.find((d) => d.text)?.text as string
+              )}
+              image={item?.headline?.image}
+              date={item?.createdAt}
+              tags={["transfer", "midfielder"]}
+            />
+          ))}
+        </section>
+      </main>
+    </>
   );
 };
 
@@ -155,15 +189,13 @@ const NewsItem = ({ item }: { item: INewsProps }) => {
 
           <div className="inline-flex gap-2 mt-5">
             <Image
-              src={casters[2]}
+              src={kfc.logo}
               width={100}
               height={100}
               alt={item?.headline?.text as string}
               className="h-5 w-auto object-contain my-2"
             />
-            <p className="_pp">
-              {formatDate(item.createdAt, "March 2, 2025")}
-            </p>
+            <p className="_pp">{formatDate(item.createdAt, "March 2, 2025")}</p>
           </div>
         </section>
       </Link>

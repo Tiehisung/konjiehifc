@@ -5,7 +5,7 @@ import { BiCopy } from "react-icons/bi";
 
 interface CopyButtonProps {
   buttonText?: string;
-  styles?: string;
+  className?: string;
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
   textToCopy: string;
@@ -13,7 +13,7 @@ interface CopyButtonProps {
 
 export const CopyButton = ({
   buttonText = "Copy url",
-  styles = "secondary__btn",
+  className = "_secondaryBtn",
   disabled = false,
   type = "button",
   textToCopy,
@@ -33,9 +33,9 @@ export const CopyButton = ({
       type={type}
       disabled={disabled}
       style={{ color: copyButtonText === "Copied!" ? "green" : "" }}
-      className={`${styles} `}
+      className={`${className} `}
     >
-      <BiCopy />
+      <BiCopy size={20}/>
       {copyButtonText}
     </button>
   );
