@@ -51,9 +51,7 @@ export default function CaptaincyAdm({
   function searcher(caps: ICaptainProps[]) {
     if (searchKey)
       return caps?.filter((c) =>
-        `${c.player?.firstName} ${c.player.lastName}`
-          .toLowerCase()
-          .includes(searchKey.toLowerCase())
+        c.player?.name?.toLowerCase()?.includes(searchKey.toLowerCase())
       );
     return caps;
   }
@@ -104,9 +102,7 @@ export default function CaptaincyAdm({
                     {captain?.role}
                   </Badge>
                 </p>
-                <p className="uppercase">
-                  {captain?.player?.name}
-                </p>
+                <p className="uppercase">{captain?.player?.name}</p>
                 <div className="grid text-sm font-light gap-1">
                   {captain?.isActive ? (
                     <span>
