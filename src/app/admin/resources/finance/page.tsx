@@ -35,6 +35,19 @@ interface IPageProps {
     Record<string, string | string[] | boolean | undefined>
   >;
 }
+export const metadata = {
+  title: "Finance",
+  description:
+    "Konjiehi FC club financial records, expenses, and income reports.",
+  keywords: ["Konjiehi FC finance", "club finance", "expenses", "income"],
+  openGraph: {
+    title: "Konjiehi FC Finance",
+    description:
+      "Overview of Konjiehi FC’s financial activities and club accounting.",
+    images: ["/kfc.png"],
+  },
+};
+
 const FinancePage = async ({ searchParams }: IPageProps) => {
   const qs = buildQueryStringServer(await searchParams);
 

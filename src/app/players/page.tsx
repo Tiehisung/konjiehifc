@@ -125,6 +125,18 @@ export interface IPostPlayer {
   cards: string[];
 }
 
+export const metadata = {
+  title: "Players",
+  description:
+    "Meet the Konjiehi FC squad, including stats, bios, and profiles.",
+  keywords: ["Konjiehi FC players", "squad", "football team", "player stats"],
+  openGraph: {
+    title: "Konjiehi FC Squad",
+    description: "View all Konjiehi FC players and their profiles.",
+    images: ["/kfc.png"],
+  },
+};
+
 const PlayersPage = async () => {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
 

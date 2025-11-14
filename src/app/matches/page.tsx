@@ -8,6 +8,18 @@ interface IPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
+export const metadata = {
+  title: "Matches",
+  description:
+    "View Konjiehi FC’s upcoming fixtures, match results, and past games.",
+  keywords: ["Konjiehi FC matches", "fixtures", "results", "football schedule"],
+  openGraph: {
+    title: "Konjiehi FC Matches",
+    description: "Upcoming fixtures and match results for Konjiehi FC.",
+    images: ["/kfc.png"],
+  },
+};
+
 export default async function MatchesPage({ searchParams }: IPageProps) {
   const qs = buildQueryStringServer(await searchParams);
 

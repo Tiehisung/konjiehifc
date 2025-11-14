@@ -7,6 +7,18 @@ import { LiveMatchEvents } from "./LiveEventsDisplay";
 import Image from "next/image";
 import { checkTeams } from "@/lib";
 
+export const metadata = {
+  title: "Live Match",
+  description:
+    "Live match updates, commentary, and real-time scores for Konjiehi FC.",
+  keywords: ["Konjiehi FC live", "live match", "football livestream"],
+  openGraph: {
+    title: "Konjiehi FC – Live Match",
+    description: "Follow live commentary, scores, and match moments.",
+    images: ["/kfc.png"],
+  },
+};
+
 export default async function LiveMatchPage() {
   const match: IMatchProps = (await getLiveMatch())?.data;
 
