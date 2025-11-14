@@ -43,9 +43,7 @@ export async function GET(request: NextRequest) {
 
     const cleaned = removeEmptyKeys(query)
 
-    const captains = await CaptaincyModel.find(cleaned).populate({
-      path: "player",
-    }).sort({ 'createdAt': -1 })
+    const captains = await CaptaincyModel.find(cleaned).sort({ 'createdAt': -1 })
       .skip(skip)
       .limit(limit)
       .lean();
