@@ -51,7 +51,7 @@ export default function ContentShowcaseWrapper({
         {hasCarousel ? (
           <Swiper
             modules={[Pagination, Autoplay]}
-            pagination={{ clickable: true }}
+            // pagination={{ clickable: true }}
             autoplay={
               autoplay
                 ? {
