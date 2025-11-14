@@ -11,6 +11,7 @@ import Link from "next/link";
 import PlayerFeatureStatsCard from "./PlayerStatsCard";
 import { AnimateOnView } from "@/components/Animate/AnimateOnView";
 import { ICldFileUploadResult } from "@/components/cloudinary/FileUploadWidget";
+import { kfc } from "@/data/kfc";
 
 export type TPlayerGallery = {
   _id: string;
@@ -133,7 +134,7 @@ export const metadata = {
   openGraph: {
     title: "Konjiehi FC Squad",
     description: "View all Konjiehi FC players and their profiles.",
-    images: ["/kfc.png"],
+    images: [kfc.logo],
   },
 };
 
