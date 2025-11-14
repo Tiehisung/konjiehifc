@@ -54,15 +54,17 @@ export default function PlayerProfileForm({
       phone: player?.phone || "",
       about: player?.about || "",
       email: player?.email || "",
-      dob: player?.dob || "",
+      dob: player?.dob?.split("T")?.[0] || "",
       avatar: player?.avatar || "",
       position: player?.position,
-      manager: player?.manager || {
-        fullname: "",
-        phone: "",
-        email: "",
-        dob: "",
-      },
+      manager: player?.manager
+        ? { ...player?.manager, dob: player?.manager?.dob?.split("T")?.[0] }
+        : {
+            fullname: "",
+            phone: "",
+            email: "",
+            dob: "",
+          },
     },
   });
 
