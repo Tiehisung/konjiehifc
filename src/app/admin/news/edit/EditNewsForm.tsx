@@ -76,7 +76,7 @@ export const EditNewsForm = ({ newsItem }: INewsForm) => {
   });
 
   const details = watch("details");
-  console.log({ newsItem });
+ 
 
   /** -------------------------
    *  SUBMIT HANDLER

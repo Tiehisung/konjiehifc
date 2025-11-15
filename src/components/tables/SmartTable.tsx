@@ -106,10 +106,6 @@ export default function SmartTable({
     }
   }, [tableData]);
 
-  function remove(index: any) {
-    throw new Error("Function not implemented.");
-  }
-
   return (
     <>
       <button

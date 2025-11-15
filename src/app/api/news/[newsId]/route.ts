@@ -5,8 +5,7 @@ import NewsModel from "@/models/news";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/options";
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+ 
 
 ConnectMongoDb();
 export async function GET(
@@ -58,8 +57,7 @@ export async function PUT(
   try {
     const newsId = (await params).newsId;
     const body = await request.json();
-    console.log(body)
-
+ 
     //update field
     const updated = await NewsModel.updateOne(
       { _id: newsId },
