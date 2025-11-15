@@ -1,11 +1,11 @@
 "use client";
 
-import DeleteButton from "@/components/buttons/DelClearRemove";
 import React, { Key, useEffect, useState } from "react";
 import { FcAddColumn, FcAddRow } from "react-icons/fc";
 import { RiDeleteColumn, RiDeleteRow } from "react-icons/ri";
 import { Button } from "../buttons/Button";
 import { ImportTableProps } from "./PlainTable";
+import { CgRemove } from "react-icons/cg";
 
 interface FixedSmartTableProps {
   setExportTable: (tableData: ImportTableProps) => void;
@@ -141,17 +141,21 @@ export default function FixedSmartTable({
         >
           <FcAddRow className="max-sm:hidden" /> Add row
         </button>
-        <DeleteButton
-          className={`prim__delete__btn h-fit flex items-center gap-2 px-1 text-xs text-red-300 ${
+      
+
+        <Button
+          primaryText="Clear table"
+          onClick={handleDeleteTable}
+          className={`_deleteBtn h-fit flex items-center gap-2 text-xs text-red-300 ${
             isTable() ? " " : "hidden"
           }`}
-          buttonText="Clear table"
-          handleDelete={handleDeleteTable}
-        />
+        >
+          <CgRemove />
+        </Button>
         {/* Close table */}
         <Button
           className="primary__btn text-center px-1 py-0 font-thin hover:ring ml-auto"
-          handleClickEvent={() => setToggleTable(false)}
+          onClick={() => setToggleTable(false)}
           title="Close table"
           primaryText={"Save and exit"}
         />

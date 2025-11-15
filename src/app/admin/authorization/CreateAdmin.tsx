@@ -3,7 +3,6 @@
 import { DateTimeInput, IconInputWithLabel } from "@/components/input/Inputs";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
-import { IAdminProps } from "./page";
 import Select from "react-select";
 import { customStyles } from "@/styles";
 import { IFileProps, IResultProps, ISelectOptionLV } from "@/types";
@@ -14,11 +13,12 @@ import { getErrorMessage, getFilePath } from "@/lib";
 import { toast } from "sonner";
 import { apiConfig } from "@/lib/configs";
 import { Button } from "@/components/buttons/Button";
+import { IUser } from "@/types/user";
 
-const CreateAdmin = ({ existingUser }: { existingUser?: IAdminProps }) => {
+const CreateAdmin = ({ existingUser }: { existingUser?: IUser }) => {
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
-  const [formData, setFormData] = useState<Partial<IAdminProps>>(
+  const [formData, setFormData] = useState<Partial<IUser>>(
     existingUser ?? {}
   );
 
@@ -86,8 +86,8 @@ const CreateAdmin = ({ existingUser }: { existingUser?: IAdminProps }) => {
         : formData;
 
       const apiRoute = existingUser
-        ? `${apiConfig.admins}/${existingUser?._id}`
-        : apiConfig.admins;
+        ? `${apiConfig.users}/${existingUser?._id}`
+        : apiConfig.users;
       const response = await fetch(apiRoute, {
         body: JSON.stringify(body),
         cache: "no-cache",
@@ -165,7 +165,7 @@ const CreateAdmin = ({ existingUser }: { existingUser?: IAdminProps }) => {
             const e = newValue as ISelectOptionLV;
             setFormData((p) => ({
               ...p,
-              role: e.value as IAdminProps["role"],
+              role: e.value as IUser["role"],
             }));
           }}
         />

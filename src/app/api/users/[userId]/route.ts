@@ -1,6 +1,6 @@
 import { ConnectMongoDb } from "@/lib/dbconfig";
-import AdminModel from "@/models/user";
-import { getServerSession } from "next-auth";
+import UserModel from "@/models/user";
+ 
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/options";
 import { IAdminSession } from "@/app/admin/authorization/Actions";
@@ -12,28 +12,28 @@ ConnectMongoDb();
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { adminId: string } }
+  { params }: { params: { userId: string } }
 ) {
-  const users = await AdminModel.findById(params.adminId);
+  const users = await UserModel.findById(params.userId);
   return NextResponse.json(users);
 }
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { adminId: string } }
+  { params }: { params: { userId: string } }
 ) {
   try {
-    const session = (await getServerSession(authOptions)) as IAdminSession;
-    if (session?.user?.role !== "super_admin")
-      return NextResponse.json({
-        success: false,
-        message: "You are not authorized to perform this action.",
-      });
+ 
+    // if (session?.user?.role !== "super_admin")
+    //   return NextResponse.json({
+    //     success: false,
+    //     message: "You are not authorized to perform this action.",
+    //   });
 
     const data = await req.json();
-    console.log({ data });
+   
 
-    const updated = await AdminModel.findByIdAndUpdate(params.adminId, {
+    const updated = await UserModel.findByIdAndUpdate(params.userId, {
       $set: { ...data },
     });
     return NextResponse.json({
@@ -53,10 +53,10 @@ export async function PUT(
 // Engage/Disengage manager
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { adminId: string } }
+  { params }: { params: { userId: string } }
 ) {
   try {
-    const admin = await AdminModel.findById(params.adminId);
+    const admin = await UserModel.findById(params.userId);
     admin.isActive = !admin.isActive;
     admin.save();
 
@@ -76,17 +76,17 @@ export async function PATCH(
 }
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { adminId: string } }
+  { params }: { params: { userId: string } }
 ) {
   try {
-    const session = (await getServerSession(authOptions)) as IAdminSession;
+ 
 
-    if (session?.user?.role !== "super_admin")
-      return NextResponse.json({
-        success: false,
-        message: "You are not authorized to perform this action.",
-      });
-    const deleted = await AdminModel.findByIdAndDelete(params.adminId);
+    // if (session?.user?.role !== "super_admin")
+    //   return NextResponse.json({
+    //     success: false,
+    //     message: "You are not authorized to perform this action.",
+    //   });
+    const deleted = await UserModel.findByIdAndDelete(params.userId);
 
     return NextResponse.json({
       message: "Admin deleted",

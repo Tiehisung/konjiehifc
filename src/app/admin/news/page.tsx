@@ -1,10 +1,10 @@
 import React from "react";
-import CreateNews from "./CreateNews";
 import { apiConfig } from "@/lib/configs";
 import AdminNews from "./News";
 import { IQueryResponse } from "@/types";
 import { INewsProps } from "@/app/news/page";
 import { buildQueryStringServer } from "@/lib";
+import { NewsForm } from "./NewsForm";
 
 export const getNews = async (query?: string) => {
   try {
@@ -43,7 +43,7 @@ const AdminNewsPage = async ({ searchParams }: IPageProps) => {
   return (
     <div>
       <h1 className="_title px-6 text-primaryRed uppercase">News Publisher </h1>
-      <CreateNews />
+      <NewsForm />
 
       <AdminNews news={news} />
     </div>

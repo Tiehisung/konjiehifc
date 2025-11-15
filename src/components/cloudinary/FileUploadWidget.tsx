@@ -46,7 +46,7 @@ export interface ICloudinaryUploaderProps {
   preview?: boolean;
   className?: string;
   trigger?: ReactNode;
-  triggerId: string;
+  triggerId?: string;
   dismissOnComplete?: boolean;
   cropping?: boolean;
   successMessage?: string;
@@ -153,7 +153,9 @@ export default function CloudinaryUploader({
         }}
         onQueuesEnd={() => {
           // Fires when all uploads are done
-          toast.success(successMessage ?? `Uploads complete`);
+        
+          if (successMessage)
+            toast.success(successMessage ?? `Uploads complete`);
           if (dismissOnComplete) fireEscape();
         }}
       >

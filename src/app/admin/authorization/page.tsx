@@ -1,50 +1,53 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { apiConfig } from "@/lib/configs";
-import { getServerSession } from "next-auth";
 import Image from "next/image";
 import React from "react";
 import AdminsActionsPopper, { IAdminSession } from "./Actions";
 import CreateAdmin from "./CreateAdmin";
 import { formatDate } from "@/lib/timeAndDate";
-import BackBtn from "@/components/buttons/BackBtn";
 import { DIALOG } from "@/components/Dialog";
 import { Button } from "@/components/buttons/Button";
+import { IUser } from "@/types/user";
 
-export const getAdmins = async (id?: string) => {
-  if (id) {
-    const resp = await fetch(apiConfig.admins + "/" + id, {
+export const getUsers = async (q?: string) => {
+  const resp = await fetch(
+    apiConfig.users + (q && q.startsWith("?") ? q : ""),
+    {
       cache: "no-cache",
-    });
-    const admin = await resp.json();
-    return admin;
-  }
-  const resp = await fetch(apiConfig.admins, {
-    cache: "no-cache",
-  });
+    }
+  );
   const admins = await resp.json();
   return admins;
 };
 
+export const getUserById = async (id?: string) => {
+  const resp = await fetch(`${apiConfig.users}/${id}`, {
+    cache: "no-cache",
+  });
+
+  return await resp.json();
+};
+
 const AuthorizationPage = async () => {
-  const session: IAdminSession | null = await getServerSession(authOptions);
+  // const session: IAdminSession | null = await getServerSession(authOptions);
 
-  const admins: IAdminProps[] = await getAdmins();
+  const admins: IUser[] = await getUsers();
 
-  if (session?.user?.role !== "super_admin")
-    return (
-      <div>
-        <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-          <h1 className="text-4xl font-bold text-red-500 mb-4">
-            Access Denied
-          </h1>
-          <p className="text-lg text-gray-600 mb-8">
-            You do not have the necessary permissions to access this page.
-          </p>
+  // if (session?.user?.role !== "super_admin")
+  //   return (
+  //     <div>
+  //       <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+  //         <h1 className="text-4xl font-bold text-red-500 mb-4">
+  //           Access Denied
+  //         </h1>
+  //         <p className="text-lg text-gray-600 mb-8">
+  //           You do not have the necessary permissions to access this page.
+  //         </p>
 
-          <BackBtn label="Return" />
-        </div>
-      </div>
-    );
+  //         <BackBtn label="Return" />
+  //       </div>
+  //     </div>
+  //   );
   return (
     <div>
       <header className="flex px-5 pt-4">
@@ -96,10 +99,13 @@ const AuthorizationPage = async () => {
                         : "badge-secondary"
                     }`}
                   >
-                    {admin.role.replace("_", " ")}
+                    {admin?.role?.replace("_", " ")}
                   </p>
                   <time className="border-l px-2 ml-2 italic">
-                    {formatDate(admin.dateEngaged ?? admin.createdAt)}
+                    {formatDate(
+                      (admin?.dateEngaged as string) ??
+                        (admin?.createdAt as string)
+                    )}
                   </time>
                 </td>
                 <td className="font-light">{admin.email}</td>
@@ -116,16 +122,3 @@ const AuthorizationPage = async () => {
 };
 
 export default AuthorizationPage;
-
-export interface IAdminProps {
-  isActive: boolean;
-  _id: string;
-  role: "admin" | "super_admin";
-  dateEngaged: string;
-  name: string;
-  email: string;
-  password?: string;
-  image: string;
-  createdAt?: string;
-  updatedAt?: string;
-}

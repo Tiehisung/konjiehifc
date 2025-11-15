@@ -1,5 +1,5 @@
 import { ConnectMongoDb } from "@/lib/dbconfig";
-import AdminModel from "@/models/user";
+import UserModel from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { getErrorMessage } from "@/lib";
@@ -15,14 +15,14 @@ export async function POST(req: NextRequest) {
     const { email, password, image, name } = await req.json();
     const hashedPass = await bcrypt.hash(password, salt);
 
-    const alreadyExists = await AdminModel.findOne({ email: email });
+    const alreadyExists = await UserModel.findOne({ email: email });
     if (alreadyExists)
       return NextResponse.json({
         success: false,
         message: `User with email ${email} already exists`,
       });
 
-    const user = await AdminModel.create({
+    const user = await UserModel.create({
       email,
       password: hashedPass,
       image,
@@ -42,6 +42,6 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
-  const users = await AdminModel.find().select("-password");
+  const users = await UserModel.find().select("-password");
   return NextResponse.json(users);
 }

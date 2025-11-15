@@ -4,13 +4,13 @@ import React, { useState, useEffect } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@/components/buttons/Button";
-import { RemoveButton } from "@/components/buttons/DelClearRemove";
 import { Input } from "@/components/input/Inputs";
 import SingleFilePicker from "@/components/files/SingleFilePicker";
 import { TConvertedFile, IResultProps } from "@/types";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { PrimarySelect } from "@/components/select/Select";
+import { CgRemove } from "react-icons/cg";
 
 type Player = {
   fullName: string;
@@ -112,11 +112,13 @@ export default function CreateSquad() {
             className="relative border border-gray-200 rounded-lg p-4 shadow-sm"
           >
             <div className="absolute top-2 right-2">
-              <RemoveButton
-                handleRemove={async () => remove(index)}
-                buttonText="Remove"
-                className="text-sm text-red-500"
-              />
+              <Button
+                primaryText="Remove"
+                onClick={async () => remove(index)}
+                className="text-red-400 text-xs _deleteBtn"
+              >
+                <CgRemove />
+              </Button>
             </div>
 
             <h3 className="font-semibold text-sky-700 mb-3">

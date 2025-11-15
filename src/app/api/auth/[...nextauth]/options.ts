@@ -1,21 +1,21 @@
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import AdminModel from "@/models/user";
-import { IAdminProps } from "@/app/admin/authorization/page";
+import UserModel from "@/models/user";
 import { Account, Profile, Session, User } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
 import { JWT } from "next-auth/jwt";
+import { IUser } from "@/types/user";
 
 export const authOptions = {
   providers: [
     GoogleProvider({
       async profile(profile) {
-        const foundAdmin = (await AdminModel.findOne({
+        const foundAdmin = (await UserModel.findOne({
           email: profile?.email,
         })
           .lean()
-          .exec()) as IAdminProps | null;
+          .exec()) as IUser | null;
         if (foundAdmin) {
           const { _id, name, image, role, email } = foundAdmin;
           const safeUser = {
@@ -23,7 +23,7 @@ export const authOptions = {
             image: image ?? profile.picture,
             role,
             email,
-            id: _id,
+            id: _id as string,
           };
 
           return safeUser;
@@ -56,11 +56,11 @@ export const authOptions = {
       },
       async authorize(credentials) {
         try {
-          const foundAdmin = (await AdminModel.findOne({
+          const foundAdmin = (await UserModel.findOne({
             email: credentials?.email,
           })
             .lean()
-            .exec()) as IAdminProps | null;
+            .exec()) as IUser | null;
           if (foundAdmin) {
             const matched = await bcrypt.compare(
               credentials?.password as string,
@@ -75,7 +75,7 @@ export const authOptions = {
                 image,
                 role,
                 email,
-                id: _id,
+                id: _id as string,
               };
 
               //Normal user
@@ -94,23 +94,23 @@ export const authOptions = {
     //To be used at server
     async jwt({ token, user, }: {
       token: JWT;
-      user?: IAdminProps | User | AdapterUser;
+      user?: IUser | User | AdapterUser;
       account?: Account | null;
       profile?: Profile;
       trigger?: "signIn" | "signUp" | "update";
       isNewUser?: boolean;
       session?: Session;
     }) {
-      // If your logic depends on custom IAdminProps fields, check and assign them only if present
+      // If your logic depends on custom IUser fields, check and assign them only if present
       if (user && 'role' in user) {
-        token.role = (user as IAdminProps).role;
-        token.id = (user as IAdminProps & { id: string }).id;
+        token.role = (user as IUser).role;
+        token.id = (user as IUser & { id: string }).id;
       }
       return token;
     },
     async session({ session, token }: { session: Session; token: JWT }) {
       if (session.user) {
-        (session.user as IAdminProps).role = token.role as IAdminProps['role'];
+        (session.user as IUser).role = token.role as IUser['role'];
       }
       return session;
     },

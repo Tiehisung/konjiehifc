@@ -1,4 +1,4 @@
-import { IPostNews } from "@/app/admin/news/CreateNews";
+import { IPostNews } from "@/app/admin/news/NewsForm";
 import { getErrorMessage, removeEmptyKeys } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import NewsModel from "@/models/news";
@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
   if (hasVideo) query["stats.hasVideo"] = true
 
   if (isPublished) query["isPublished"] = true
-  
+
   if (isUnpublished) query["isPublished"] = false
 
   if (from || to) {
@@ -80,7 +80,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const { headline, details, reporter, type, }: IPostNews = await request.json();
- 
+
 
     const published = await NewsModel.create({
       headline,

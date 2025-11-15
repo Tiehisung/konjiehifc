@@ -58,6 +58,7 @@ export async function PUT(
   try {
     const newsId = (await params).newsId;
     const body = await request.json();
+    console.log(body)
 
     //update field
     const updated = await NewsModel.updateOne(
