@@ -3,7 +3,6 @@
 import { PopperToLeft } from "@/components/Poppers";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import { IAdminProps } from "./page";
 import CreateAdmin from "./CreateAdmin";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
@@ -14,17 +13,18 @@ import { getErrorMessage } from "@/lib";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { useSession } from "next-auth/react";
 import { DIALOG } from "@/components/Dialog";
+import { IUser } from "@/types/user";
 
 export interface IAdminSession {
   user: {
     name: string;
     image: string;
-    role: IAdminProps["role"];
+    role: IUser["role"];
     email: string;
   };
 }
 
-const AdminsActionsPopper = ({ admin }: { admin: IAdminProps }) => {
+const AdminsActionsPopper = ({ admin }: { admin: IUser }) => {
   const { data: session } = useSession({ required: true });
   const isAuthorized =
     (session as IAdminSession | null)?.user?.role == "super_admin";
@@ -75,7 +75,7 @@ export function AdminEngagement({
   className,
   isAuthorized,
 }: {
-  admin: IAdminProps;
+  admin: IUser;
   className?: string;
   isAuthorized: boolean;
 }) {
@@ -88,7 +88,7 @@ export function AdminEngagement({
     try {
       if (!isAuthorized) return toast.error("Forbidden action!");
       setWaiting(true);
-      const response = await fetch(`${apiConfig.admins}/${admin._id}`, {
+      const response = await fetch(`${apiConfig.users}/${admin._id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         cache: "no-cache",
@@ -128,7 +128,7 @@ export function AdminDelete({
   className,
   isAuthorized,
 }: {
-  admin: IAdminProps;
+  admin: IUser;
   className?: string;
   isAuthorized: boolean;
 }) {
@@ -141,7 +141,7 @@ export function AdminDelete({
     try {
       if (!isAuthorized) return toast.error("Forbidden action!");
       setWaiting(true);
-      const response = await fetch(`${apiConfig.admins}/${admin._id}`, {
+      const response = await fetch(`${apiConfig.users}/${admin._id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         cache: "no-cache",

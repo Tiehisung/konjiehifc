@@ -8,7 +8,7 @@ export const baseUrl =
 
 export const apiConfig = {
   base: `${baseUrl}/api`,
-  admins: `${baseUrl}/api/admins`,
+  users: `${baseUrl}/api/users`,
   signin: `${baseUrl}/api/auth/signin`,
   signout: `${baseUrl}/api/auth/signout`,
   logout: `${baseUrl}/api/auth/users/logout`,

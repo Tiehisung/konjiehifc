@@ -1,10 +1,11 @@
 "use client";
 
-import DeleteButton from "@/components/buttons/DelClearRemove";
 import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FcAddColumn, FcAddRow } from "react-icons/fc";
 import { RiDeleteColumn, RiDeleteRow } from "react-icons/ri";
+import { Button } from "../buttons/Button";
+import { CgRemove } from "react-icons/cg";
 
 /**
  * @param {*} importTable Data variable that holds imported data to this table.
@@ -140,13 +141,16 @@ export default function SmartTable({
           >
             <FcAddRow className="max-sm:hidden" /> Add row
           </button>
-          <DeleteButton
-            className={`prim__delete__btn h-fit flex items-center gap-2 text-xs text-red-300 ${
+          
+          <Button
+            primaryText="Delete table"
+            onClick={handleDeleteTable}
+            className={`_deleteBtn h-fit flex items-center gap-2 text-xs text-red-300 ${
               isTable() ? " " : "hidden"
             }`}
-            buttonText="Delete table"
-            handleDelete={handleDeleteTable}
-          />
+          >
+            <CgRemove />
+          </Button>
         </div>
 
         <div
@@ -216,7 +220,13 @@ export default function SmartTable({
   );
 }
 
-export function DeleteCol({ colIndex, setTableData }: { colIndex: number; setTableData: React.Dispatch<React.SetStateAction<TableData>> }) {
+export function DeleteCol({
+  colIndex,
+  setTableData,
+}: {
+  colIndex: number;
+  setTableData: React.Dispatch<React.SetStateAction<TableData>>;
+}) {
   const handleDeleteCol = () => {
     setTableData((prev) => {
       const body = [];
@@ -245,7 +255,13 @@ export function DeleteCol({ colIndex, setTableData }: { colIndex: number; setTab
     </div>
   );
 }
-export function DeleteRow({ rowToRemoveIndex, setTableData }: { rowToRemoveIndex: number; setTableData: React.Dispatch<React.SetStateAction<TableData>> }) {
+export function DeleteRow({
+  rowToRemoveIndex,
+  setTableData,
+}: {
+  rowToRemoveIndex: number;
+  setTableData: React.Dispatch<React.SetStateAction<TableData>>;
+}) {
   const handleDeleteCol = () => {
     setTableData((prev) => ({
       ...prev,

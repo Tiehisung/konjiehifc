@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 
 import { Input } from "@/components/input/Inputs";
 import { Button } from "@/components/buttons/Button";
-import { RemoveButton } from "@/components/buttons/DelClearRemove";
 
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
@@ -17,8 +16,9 @@ import CloudinaryUploader, {
   ICldFileUploadResult,
 } from "@/components/cloudinary/FileUploadWidget";
 import { useSession } from "next-auth/react";
-import { CgAttachment } from "react-icons/cg";
+import { CgAttachment, CgRemove } from "react-icons/cg";
 import QuillEditor from "@/components/editor/Quill";
+import { INewsProps } from "@/app/news/page";
 
 export interface IPostNews {
   details: {
@@ -39,16 +39,19 @@ export interface IPostNews {
     avatar: string;
   };
   isPublished?: boolean;
-  type?: "squad" | "signing" | "match" | "general";
+  type?: "squad" | "signing" | "match" | "training" | "general";
 }
 
-const CreateNews = () => {
+interface INewsForm {
+  newsItem?: INewsProps | null;
+}
+export const NewsForm = ({ newsItem = null }: INewsForm) => {
   const session = useSession();
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
 
   const { control, handleSubmit, reset } = useForm<IPostNews>({
-    defaultValues: {
+    defaultValues: newsItem ?? {
       headline: { text: "", image: "" },
       details: [{ text: "" }],
       reporter: {
@@ -130,7 +133,7 @@ const CreateNews = () => {
 
       {/* Details Section */}
       <h1 className="_subtitle">Details</h1>
-      <main className=" space-y-10 divide-y-2 divide-accent ">
+      <main className=" space-y-10 divide-y-2 divide-primary ">
         {fields.map((item, index) => (
           <div key={item.id} className="flex items-start gap-2 ">
             <div className="grow space-y-3">
@@ -167,11 +170,14 @@ const CreateNews = () => {
                   )}
                 />
 
-                <RemoveButton
-                  handleRemove={async () => remove(index)}
-                  buttonText="Remove"
-                  className="w-fit text-sm text-red-500 rounded-full _borderColor"
-                />
+                 
+                <Button
+                  primaryText="Remove"
+                  onClick={async () => remove(index)}
+                  className="text-red-400 text-xs _deleteBtn"
+                >
+                  <CgRemove />
+                </Button>
               </div>
             </div>
           </div>
@@ -202,5 +208,3 @@ const CreateNews = () => {
     </form>
   );
 };
-
-export default CreateNews;

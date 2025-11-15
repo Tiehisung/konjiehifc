@@ -158,47 +158,4 @@ const NewsPage = async () => {
 
 export default NewsPage;
 
-const NewsItem = ({ item }: { item: INewsProps }) => {
-  return (
-    <Reveal className="w-full grow mb-4">
-      <Link
-        href={`/news/${item._id}`}
-        className={`w-full grow grid sm:flex flex-wrap items-start justify-start h-44 border _borderColor rounded-xl dark:hover:border-white`}
-      >
-        <section className=" max-sm:grow ">
-          <Image
-            src={item?.headline?.image as string}
-            width={400}
-            height={400}
-            alt={item?.headline?.text as string}
-            className="h-44 rounded-xl max-w-44 object-cover _secondaryBg"
-          />
-        </section>
-
-        <section className="p-4 w-72 h-full overflow-hidden grid justify-between">
-          <div className="_subtitle line-clamp-4 max-w-72">
-            {item?.headline?.text?.substring(0, 120) as string}
-          </div>
-
-          <div
-            className="mt-5 _pp max-w-full line-clamp-3 max-h-14 overflow-hidden "
-            dangerouslySetInnerHTML={{
-              __html: (item?.details?.[0]?.text as string) ?? "",
-            }}
-          />
-
-          <div className="inline-flex gap-2 mt-5">
-            <Image
-              src={kfc.logo}
-              width={100}
-              height={100}
-              alt={item?.headline?.text as string}
-              className="h-5 w-auto object-contain my-2"
-            />
-            <p className="_pp">{formatDate(item.createdAt, "March 2, 2025")}</p>
-          </div>
-        </section>
-      </Link>
-    </Reveal>
-  );
-};
+ 

@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 // mongoose.connect(process.env.MDB_URI!);
 // mongoose.Promise = global.Promise;
-const adminSchema = new Schema(
+const userSchema = new Schema(
   {
     name: {
       type: String,
@@ -35,7 +35,7 @@ const adminSchema = new Schema(
   { timestamps: true }
 );
 
-const AdminModel =
-  mongoose.models.admins || mongoose.model("admins", adminSchema);
+const UserModel =
+  mongoose.models.User || mongoose.model("User", userSchema);
 
-export default AdminModel;
+export default UserModel;
