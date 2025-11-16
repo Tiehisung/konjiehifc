@@ -5,7 +5,7 @@ import { fireEscape } from "@/hooks/Esc";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
-import React, { ReactNode, useState } from "react";
+import React, { CSSProperties, ReactNode, useState } from "react";
 import { toast } from "sonner";
 
 interface IProps {
@@ -18,6 +18,7 @@ interface IProps {
   method: "PUT" | "POST" | "DELETE" | "GET";
   body?: unknown;
   escapeOnEnd?: boolean;
+  styles?: CSSProperties;
 }
 
 export function ActionButton({
@@ -30,6 +31,7 @@ export function ActionButton({
   uri,
   primaryText,
   escapeOnEnd = false,
+  styles = {},
 }: IProps) {
   const router = useRouter();
 
@@ -70,17 +72,9 @@ export function ActionButton({
       primaryText={primaryText}
       waitingText={loadingText}
       onClick={handleAction}
-      className={`${className} ${
-        variant == "destructive"
-          ? "_deleteBtn"
-          : variant == "primary"
-          ? "_primaryBtn"
-          : variant == "secondary"
-          ? "_secondaryBtn"
-          : variant == "outline"
-          ? "border rounded-md "
-          : ""
-      }`}
+      className={`${className} `}
+      styles={styles}
+      variant={variant}
     >
       {children}
     </Button>
