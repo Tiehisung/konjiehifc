@@ -144,7 +144,7 @@ export function Input({
             ? placeholder.substring(0, 27) + "..."
             : placeholder
         }
-        className={`bg-secondary outline-none border border-border focus:border-teal-400 shadow-teal-100/50 h-9 rounded px-2 text-primary w-full placeholder:line-clamp-1 _slowTrans ${className}`}
+        className={`bg-secondary outline-none border border-border focus:border-teal-500 shadow-teal-100/50 h-9 rounded px-2 text-primary w-full placeholder:line-clamp-1 _slowTrans ${className}`}
         {...others}
         required={required}
       />

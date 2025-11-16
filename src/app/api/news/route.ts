@@ -8,17 +8,16 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import { logAction } from "../logs/helper";
 import { IUser } from "@/types/user";
 import { FilterQuery } from "mongoose";
+import { TSearchKey } from "@/types";
 
 ConnectMongoDb();
 export async function GET(request: NextRequest) {
-
-  const session = await getServerSession(authOptions)
 
   const { searchParams } = new URL(request.url);
   const page = Number.parseInt(searchParams.get("page") || "1", 10);
   const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
 
-  const search = searchParams.get("news_search") || "";
+  const search = searchParams.get("news_search" as TSearchKey) || "";
   const isTrending = searchParams.get("isTrending") == "true";
   const isLatest = searchParams.get("isLatest") == 'true' ? true : false;
   const isPublished = searchParams.get("isPublished") == 'true' ? true : false;
@@ -58,9 +57,11 @@ export async function GET(request: NextRequest) {
       { "headline.text": regex }
     ]
 
+
   const cleaned = removeEmptyKeys(query)
 
-  console.log({ cleaned })
+  console.log({ cleaned ,search,query})
+
   const news = await NewsModel.find(cleaned).sort({ createdAt: "desc" }).skip(skip)
     .limit(limit)
     .lean();

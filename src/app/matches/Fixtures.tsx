@@ -4,14 +4,19 @@ import { Pagination } from "@/components/Pagination";
 import { IMatchProps } from "./(fixturesAndResults)";
 import { IQueryResponse } from "@/types";
 import { SecondaryFixtureCard } from "./FixtureCard";
-import {  MotionWrapper } from "@/components/Animate/MotionWrapper";
+import { MotionWrapper } from "@/components/Animate/MotionWrapper";
 
 interface IProps {
   fixtures: IQueryResponse<IMatchProps[]>;
 }
 
 const FixturesSection = ({ fixtures }: IProps) => {
-  const filters = ["all", "home", "away"];
+  const filters = [
+    { label: "All", value: "" },
+    { label: "Home", value: "home" },
+    { label: "Away", value: "away" },
+  ];
+
   if (!fixtures) return <div className="_label">No fixtures</div>;
   return (
     <section id="fixtures" className="">
@@ -19,7 +24,7 @@ const FixturesSection = ({ fixtures }: IProps) => {
         <h2 className="font-bold _title">Scores & Fixtures</h2>{" "}
       </header>
 
-      <SearchQueryUpdator query="fixture" values={filters} />
+      <SearchQueryUpdator query="fixture" options={filters} />
       <br />
 
       <div className=" ">

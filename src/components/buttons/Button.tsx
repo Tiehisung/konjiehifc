@@ -1,4 +1,4 @@
-import { MouseEventHandler } from "react";
+import { CSSProperties, MouseEventHandler } from "react";
 import { VscLoading } from "react-icons/vsc";
 
 interface ButtonProps {
@@ -9,6 +9,7 @@ interface ButtonProps {
   disabled?: boolean;
   children?: React.ReactNode;
   type?: "submit" | "button" | "reset";
+  styles?: CSSProperties;
 }
 
 interface ClickButtonProps extends ButtonProps {
@@ -26,6 +27,7 @@ export function Button({
   onClick,
   children,
   title = "",
+  styles = {},
 }: ClickButtonProps) {
   return (
     <button
@@ -36,6 +38,7 @@ export function Button({
       type={type}
       onClick={onClick}
       title={title}
+      style={styles}
     >
       {children}
       {waiting ? (

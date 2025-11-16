@@ -135,3 +135,4 @@ export function isObjectId(value?: string): boolean {
     /^[a-fA-F0-9]{24}$/.test(value)
   );
 }
+export const getUrlToShare = () => window.location.href;

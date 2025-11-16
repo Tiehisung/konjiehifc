@@ -40,6 +40,8 @@ export interface INewsProps {
   type?: "squad" | "signing" | "match" | "training" | "general";
   summary?: string;
   tags?: string[];
+  likes?:{name:string,date:string,device?:string}[]
+  shares?:{name:string,date:string,device?:string}[]
   comments?: { image?: string; name?: string; comment: string; date: string }[];
   createdAt: string;
   updatedAt: string;
