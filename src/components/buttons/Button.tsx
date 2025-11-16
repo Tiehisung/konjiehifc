@@ -10,6 +10,7 @@ interface ButtonProps {
   children?: React.ReactNode;
   type?: "submit" | "button" | "reset";
   styles?: CSSProperties;
+  variant?: "destructive" | "primary" | "secondary" | "outline";
 }
 
 interface ClickButtonProps extends ButtonProps {
@@ -28,12 +29,23 @@ export function Button({
   children,
   title = "",
   styles = {},
+  variant,
 }: ClickButtonProps) {
   return (
     <button
       disabled={waiting || disabled}
       className={`flex items-center gap-2 font-semibold ${className} ${
         waiting ? "cursor-wait" : "cursor-pointer"
+      } ${
+        variant == "destructive"
+          ? "_deleteBtn"
+          : variant == "primary"
+          ? "_primaryBtn"
+          : variant == "secondary"
+          ? "_secondaryBtn"
+          : variant == "outline"
+          ? "border rounded-md "
+          : ""
       }`}
       type={type}
       onClick={onClick}

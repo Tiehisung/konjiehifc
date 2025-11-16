@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
-import { Facebook, Linkedin, MessageCircle } from "lucide-react";
+import { Facebook, Linkedin } from "lucide-react";
 import { getUrlToShare } from "@/lib";
 import { CopyButton } from "./buttons/CopyBtn";
 import { FaXTwitter } from "react-icons/fa6";
+import { ImWhatsapp } from "react-icons/im";
 
 // Custom share button components that match dv-social-share functionality
 const FBShareBtn: React.FC<{ url: string; openInNewTab?: boolean }> = ({
@@ -26,12 +27,12 @@ const FBShareBtn: React.FC<{ url: string; openInNewTab?: boolean }> = ({
     <button
       type="button"
       onClick={handleClick}
-      className="group flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-200 hover:scale-105"
+      className="group flex items-center justify-center w-10 h-10 rounded-lg bg-popover _hover transition-all duration-200 hover:scale-105"
       title="Share on Facebook"
     >
       <Facebook
         size={20}
-        className="text-gray-500 group-hover:text-gray-700 transition-colors duration-200"
+        className=" group-hover:text-muted-foreground transition-colors duration-200"
       />
     </button>
   );
@@ -56,12 +57,12 @@ const LinkedInShareBtn: React.FC<{ url: string; openInNewTab?: boolean }> = ({
     <button
       type="button"
       onClick={handleClick}
-      className="group flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-200 hover:scale-105"
+      className="group flex items-center justify-center w-10 h-10 rounded-lg bg-popover _hover transition-all duration-200 hover:scale-105"
       title="Share on LinkedIn"
     >
       <Linkedin
         size={20}
-        className="text-gray-500 group-hover:text-gray-700 transition-colors duration-200"
+        className=" group-hover:text-muted-foreground transition-colors duration-200"
       />
     </button>
   );
@@ -84,12 +85,12 @@ const WhatsAppShareBtn: React.FC<{ url: string; openInNewTab?: boolean }> = ({
     <button
       type="button"
       onClick={handleClick}
-      className="group flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-200 hover:scale-105"
+      className="group flex items-center justify-center w-10 h-10 rounded-lg bg-popover _hover transition-all duration-200 hover:scale-105"
       title="Share on WhatsApp"
     >
-      <MessageCircle
+      <ImWhatsapp
         size={20}
-        className="text-gray-500 group-hover:text-gray-700 transition-colors duration-200"
+        className=" group-hover:text-muted-foreground transition-colors duration-200"
       />
     </button>
   );
@@ -114,12 +115,12 @@ const TwitterShareBtn: React.FC<{ url: string; openInNewTab?: boolean }> = ({
     <button
       type="button"
       onClick={handleClick}
-      className="group flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-200 hover:scale-105"
+      className="group flex items-center justify-center w-10 h-10 rounded-lg bg-popover _hover transition-all duration-200 hover:scale-105"
       title="Share on Twitter"
     >
       <FaXTwitter
         size={20}
-        className="text-gray-500 group-hover:text-gray-700 transition-colors duration-200"
+        className=" group-hover:text-muted-foreground transition-colors duration-200"
       />
     </button>
   );
@@ -130,7 +131,10 @@ const SocialShare: React.FC = ({ className }: { className?: string }) => {
 
   return (
     <div className={`flex gap-2 mt-2 ${className}`}>
-      <CopyButton textToCopy={url} />
+      <CopyButton
+        textToCopy={url}
+        className="text-nowrap flex items-center px-2 _secondaryBtn"
+      />
       <FBShareBtn url={url} openInNewTab />
       <LinkedInShareBtn url={url} openInNewTab />
       <WhatsAppShareBtn url={url} openInNewTab />
