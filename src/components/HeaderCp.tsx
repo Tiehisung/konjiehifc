@@ -26,7 +26,7 @@ export default function HeaderCp() {
           <GiSoccerBall size={44} />
         </div>
 
-        <h1 className="flex text-2xl md:text-3xl lg:text-4xl font-semibold ">
+        <h1 className="flex text-2xl md:text-3xl lg:text-4xl font-semibold text-black dark:text-white ">
           <span className="">Konjiehi</span>{" "}
           <span className="text-yellow-700">FC</span>
         </h1>

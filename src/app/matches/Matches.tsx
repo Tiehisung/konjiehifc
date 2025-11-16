@@ -9,7 +9,11 @@ import { IMatchProps } from "./(fixturesAndResults)";
 import { PrimarySelect } from "@/components/select/Select";
 
 const MatchesSection = ({ matches }: { matches: IMatchProps[] }) => {
-  const filters = ["home", "away", "lost", "wins", "draws"];
+   const filters = [
+     { label: "All", value: "" },
+     { label: "Home", value: "home" },
+     { label: "Away", value: "away" },
+   ];
   const [_selectedFilter, setSelectedFilter] = useState<ISelectOptionLV>();
 
   console.log(typeof _selectedFilter);
@@ -20,13 +24,13 @@ const MatchesSection = ({ matches }: { matches: IMatchProps[] }) => {
         <h2 className="font-bold my-3">Matches</h2>{" "}
         <Pagination pagination={_pagination} />
         <PrimarySelect
-          options={filters.map((f) => ({ label: f, value: f }))}
+          options={filters}
           placeholder="Filter"
           className="w-24"
           onChange={(v) => setSelectedFilter({ label: v, value: v })}
         />
       </header>
-      <SearchQueryUpdator query="matches" values={filters} />
+      <SearchQueryUpdator query="matches" options={filters} />
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-2">
         {matches?.map((match, index) => (
           <PlayedMatchCard

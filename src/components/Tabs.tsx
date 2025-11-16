@@ -6,6 +6,16 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { ReactNode, useEffect, useState } from "react";
 import Loader from "./loaders/Loader";
 
+interface IProps {
+  labels: string[];
+  children: ReactNode[];
+  wrapperStyles?: string;
+  className?: string;
+  tabButtonStyles?: string;
+  footer?: ReactNode;
+  queryName?: string;
+}
+
 /**
  *
  * @param {*} labels The array of tab labels to toggle.
@@ -19,15 +29,7 @@ const TabbedComponents = ({
   tabButtonStyles,
   footer,
   queryName = "tab", //Name to lookup for in the searchParams
-}: {
-  labels: string[];
-  children: ReactNode[];
-  wrapperStyles?: string;
-  className?: string;
-  tabButtonStyles?: string;
-  footer?: ReactNode;
-  queryName?: string;
-}) => {
+}: IProps) => {
   const router = useRouter();
   const sp = useSearchParams();
   const [tabIndex, setTabIndex] = useState<number | null>(null);

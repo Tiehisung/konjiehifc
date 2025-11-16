@@ -15,12 +15,12 @@ const newsSchema = new Schema(
     details: [
       {
         text: String,
-        media: [{}],  
+        media: [{}],
       },
     ],
     type: {
       type: String
-      , enum: ['general', 'squad', 'fixture','match','training',],
+      , enum: ['general', 'squad', 'fixture', 'match', 'training',],
       default: 'general'
     },
     metaDetails: {}, //ISquad etc
@@ -28,6 +28,18 @@ const newsSchema = new Schema(
     stats: {
       type: Schema.Types.Mixed,
       default: () => ({ isTrending: true, isLatest: true }),
+    },
+    likes: {
+      type: Schema.Types.Mixed,
+      default: () => [],
+    },
+    comments: {
+      type: Schema.Types.Mixed,
+      default: () => [],
+    },
+    shares: {
+      type: Schema.Types.Mixed,
+      default: () => [],
     },
 
     isPublished: {
