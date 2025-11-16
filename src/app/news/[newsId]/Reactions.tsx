@@ -111,7 +111,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
                       image:
                         session?.data?.user?.image ?? staticImages.avatar.src,
                       date: new Date().toLocaleDateString(),
-                      device: "unknown",
+                      comment
                     },
                   ],
                 },
