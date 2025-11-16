@@ -42,7 +42,7 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
                     {detail?.media?.map((file, i) => {
                       if (file.secure_url)
                         return (
-                          <FileRenderer file={file as IFileProps} key={i} />
+                          <FileRenderer file={file as IFileProps} key={i} controls/>
                         );
                     })}
                   </div>

@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/buttons/Button";
 import { INewsProps } from "../page";
-import { ThumbsUp, SendHorizontal } from "lucide-react";
+import { ThumbsUp, SendHorizontal, Dot } from "lucide-react";
 import { Input } from "@/components/input/Inputs";
 import { ActionButton } from "@/components/buttons/ActionButton";
 import { apiConfig } from "@/lib/configs";
@@ -16,13 +16,51 @@ import { LiaCommentSolid } from "react-icons/lia";
 import { IoShareSocial } from "react-icons/io5";
 import { AVATAR } from "@/components/ui/avatar";
 import { getTimeLeftOrAgo } from "@/lib/timeAndDate";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { getErrorMessage, shortText } from "@/lib";
 
 export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
+  const router = useRouter();
   const { handleAction: handleShare } = useAction();
-  const { handleAction: handleComment, isLoading } = useAction();
   const [comment, setComment] = useState("");
   const session = useSession();
-  console.log(comment)
+  console.log({ newsItem });
+
+  const [waiting, setWaiting] = useState(false);
+
+  const onComment = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      setWaiting(true);
+      const response = await fetch(`${apiConfig.news}/${newsItem?._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        cache: "no-cache",
+        body: JSON.stringify({
+          comments: [
+            ...(newsItem?.comments ?? []),
+            {
+              name: session?.data?.user?.name ?? "unknown",
+              image: session?.data?.user?.image ?? staticImages.avatar.src,
+              date: new Date().toLocaleDateString(),
+              comment,
+            },
+          ],
+        }),
+      });
+      const results = await response.json();
+      if (results.success) {
+        toast.success("Comment sent");
+        setComment("");
+      }
+    } catch (error) {
+      toast.error(getErrorMessage(error));
+    } finally {
+      setWaiting(false);
+      router.refresh();
+    }
+  };
   return (
     <div>
       <ul className="flex items-center flex-wrap gap-4">
@@ -96,46 +134,30 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
             <LiaCommentSolid size={24} />
           </div>
           <span className="font-lght text-sm ">
-            {newsItem?.comments?.length ?? ""} Comments
+            {newsItem?.comments?.length ?? ""} Comment
+            {newsItem?.comments?.length == 1 ? "" : "s"}
           </span>
         </li>
 
         <li>
           <form
-            onSubmit={(e: FormEvent<HTMLFormElement>) => {
-              e.preventDefault();
-
-              handleComment({
-                method: "PUT",
-                uri: `${apiConfig.news}/${newsItem?._id}`,
-                body: {
-                  comments: [
-                    ...(newsItem?.comments ?? []),
-                    {
-                      name: session?.data?.user?.name ?? "unknown",
-                      image:
-                        session?.data?.user?.image ?? staticImages.avatar.src,
-                      date: new Date().toLocaleDateString(),
-                      comment,
-                    },
-                  ],
-                },
-              });
-            }}
+            onSubmit={onComment}
             className="flex items-center border rounded-full bg-accent"
           >
             <Input
               name={"comment"}
               onChange={(e) => setComment(e.target.value)}
               className="rounded-full pl-3.5 border-none"
-              others={{ disabled: isLoading }}
+              others={{ disabled: waiting, maxLength: 3500 }}
               placeholder="Write a comment..."
+              required
+              value={comment}
             />
             <Button
               type="submit"
               className="_primaryBtn backdrop-blur-2xl text-white rounded-full p-1 h-14 w-14"
               styles={{ borderRadius: "100%" }}
-              waiting={isLoading}
+              waiting={waiting}
               waitingText=""
             >
               <SendHorizontal size={20} />
@@ -144,23 +166,30 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
         </li>
       </ul>
 
-      <ul>
+      <br />
+      <hr />
+      <br />
+
+      {/* Comments */}
+      <ul className="grid gap-6 divide-y-2">
         {newsItem?.comments?.map((com, i) => (
-          <li key={"com-" + i}>
+          <li key={`com-${i}`} className=" pb-6">
             <div className="flex items-center gap-6">
               <AVATAR src={com?.image ?? staticImages.avatar?.src} />
-              <div>
-                {com?.name && <h1 className="_title">{com?.name ?? ""}</h1>}
-
-                {com?.date && (
-                  <p className="_p mt-2.5">
-                    {getTimeLeftOrAgo(com?.date).formatted}
-                  </p>
-                )}
+              <div className="flex items-center gap-2.5">
+                <h1 className="_subtitle">{com?.name ?? "Anonymous"}</h1>{" "}
+                <Dot className='text-muted-foreground'/>
+                <span className="_p mt-2.5 font-light">
+                  {getTimeLeftOrAgo(com?.date).formatted}
+                </span>
               </div>
             </div>
-            <div dangerouslySetInnerHTML={{ __html: com?.comment }} className="ml-4"/>
-            {com?.comment}
+            <div
+              dangerouslySetInnerHTML={{
+                __html: shortText(com?.comment ?? "Hi", 4500),
+              }}
+              className="ml-4 border border-border rounded-2xl p-5 mt-4 _p"
+            />
           </li>
         ))}
       </ul>
