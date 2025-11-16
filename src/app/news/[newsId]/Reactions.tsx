@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/buttons/Button";
 import { INewsProps } from "../page";
-import { Share, ThumbsUp, SendHorizontal } from "lucide-react";
+import { ThumbsUp, SendHorizontal } from "lucide-react";
 import { Input } from "@/components/input/Inputs";
 import { ActionButton } from "@/components/buttons/ActionButton";
 import { apiConfig } from "@/lib/configs";
@@ -13,12 +13,16 @@ import { FormEvent, useState } from "react";
 import { useSession } from "next-auth/react";
 import { staticImages } from "@/assets/images";
 import { LiaCommentSolid } from "react-icons/lia";
+import { IoShareSocial } from "react-icons/io5";
+import { AVATAR } from "@/components/ui/avatar";
+import { getTimeLeftOrAgo } from "@/lib/timeAndDate";
 
 export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
   const { handleAction: handleShare } = useAction();
   const { handleAction: handleComment, isLoading } = useAction();
   const [comment, setComment] = useState("");
   const session = useSession();
+  console.log(comment)
   return (
     <div>
       <ul className="flex items-center flex-wrap gap-4">
@@ -54,14 +58,15 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
                 className="p-0.5 h-14 w-14 rounded-full _hover _shrink _secondaryBtn"
                 style={{ borderRadius: "100%" }}
               >
-                <Share size={24} />
+                <IoShareSocial size={24} />
               </div>
             }
           >
             <div
               onClick={() =>
                 handleShare({
-                  method: "PUT",  uri:`${apiConfig.news}/${newsItem?._id}`,
+                  method: "PUT",
+                  uri: `${apiConfig.news}/${newsItem?._id}`,
                   body: {
                     shares: [
                       ...(newsItem?.shares ?? []),
@@ -102,7 +107,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
 
               handleComment({
                 method: "PUT",
-                uri:`${apiConfig.news}/${newsItem?._id}`,
+                uri: `${apiConfig.news}/${newsItem?._id}`,
                 body: {
                   comments: [
                     ...(newsItem?.comments ?? []),
@@ -111,7 +116,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
                       image:
                         session?.data?.user?.image ?? staticImages.avatar.src,
                       date: new Date().toLocaleDateString(),
-                      comment
+                      comment,
                     },
                   ],
                 },
@@ -131,12 +136,33 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
               className="_primaryBtn backdrop-blur-2xl text-white rounded-full p-1 h-14 w-14"
               styles={{ borderRadius: "100%" }}
               waiting={isLoading}
-              waitingText=''
+              waitingText=""
             >
               <SendHorizontal size={20} />
             </Button>
           </form>
         </li>
+      </ul>
+
+      <ul>
+        {newsItem?.comments?.map((com, i) => (
+          <li key={"com-" + i}>
+            <div className="flex items-center gap-6">
+              <AVATAR src={com?.image ?? staticImages.avatar?.src} />
+              <div>
+                {com?.name && <h1 className="_title">{com?.name ?? ""}</h1>}
+
+                {com?.date && (
+                  <p className="_p mt-2.5">
+                    {getTimeLeftOrAgo(com?.date).formatted}
+                  </p>
+                )}
+              </div>
+            </div>
+            <div dangerouslySetInnerHTML={{ __html: com?.comment }} className="ml-4"/>
+            {com?.comment}
+          </li>
+        ))}
       </ul>
     </div>
   );
