@@ -61,7 +61,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
             <div
               onClick={() =>
                 handleShare({
-                  method: "PUT",
+                  method: "PUT",  uri:`${apiConfig.news}/${newsItem?._id}`,
                   body: {
                     shares: [
                       ...(newsItem?.shares ?? []),
@@ -102,6 +102,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
 
               handleComment({
                 method: "PUT",
+                uri:`${apiConfig.news}/${newsItem?._id}`,
                 body: {
                   comments: [
                     ...(newsItem?.comments ?? []),
@@ -130,6 +131,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
               className="_primaryBtn backdrop-blur-2xl text-white rounded-full p-1 h-14 w-14"
               styles={{ borderRadius: "100%" }}
               waiting={isLoading}
+              waitingText=''
             >
               <SendHorizontal size={20} />
             </Button>
