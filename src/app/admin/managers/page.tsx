@@ -1,11 +1,13 @@
 import AdminManagers from "@/app/admin/managers/DisplayManagers";
 import { apiConfig } from "@/lib/configs";
-import { IQueryResponse } from "@/types";
+import { IQueryResponse, ISelectOptionLV } from "@/types";
 import React from "react";
 import TechnicalManagerForm from "./ManagerForm";
 import { PrimaryCollapsible } from "@/components/Collapsible";
 import { Plus } from "lucide-react";
 import Header from "../Header";
+import { getFeatureByName } from "../features/page";
+import { IFeature } from "../features/OptionsFeature";
 
 export const getManagers = async (query?: string) => {
   try {
@@ -21,14 +23,18 @@ export const getManagers = async (query?: string) => {
 };
 const TechnicalManagersPage = async () => {
   const managers: IQueryResponse<IManager[]> = await getManagers();
+  const roles: IFeature<ISelectOptionLV[]> = await getFeatureByName(
+    "manager_roles"
+  );
 
+  console.log({ roles });
   return (
-    <div className="_page">
+    <div className="_page pb-32">
       <Header
         title="Technical Management"
         subtitle="Staff and Managing Personnel"
       />
-      <AdminManagers managers={managers?.data} />
+      <AdminManagers managers={managers?.data} roles={roles} />
       <PrimaryCollapsible
         header={{
           label: (
@@ -42,10 +48,10 @@ const TechnicalManagersPage = async () => {
           className: "border",
         }}
       >
-        <TechnicalManagerForm
-          availableRoles={getAvailableManagerialRoles(managers?.data ?? [])}
-        />
+        <TechnicalManagerForm availableRoles={roles?.data} />
       </PrimaryCollapsible>
+      
+      <br />
     </div>
   );
 };
@@ -57,15 +63,7 @@ export interface IManager {
   dob: string;
   _id: string;
   avatar: string;
-  role:
-    | "Technical Manager"
-    | "Coach"
-    | "Assistant Coach"
-    | "Goalkeeper Coach"
-    | "Fitness Coach"
-    | "Analyst"
-    | "Founder"
-    | "Co-Founder";
+  role: string;
   fullname: string;
   dateSigned: string;
   phone: string;
@@ -74,17 +72,3 @@ export interface IManager {
   createdAt: string;
   updatedAt: string;
 }
-
-export const managerialRoles = [
-  "Technical Manager",
-  "Coach",
-  "Assistant Coach",
-  "Goalkeeper Coach",
-  "Fitness Coach",
-  "Analyst",
-  "Founder",
-  "Co-Founder",
-];
-
-export const getAvailableManagerialRoles = (managers?: IManager[]) =>
-  managerialRoles.filter((mr) => !managers?.find((r) => r.role == mr));

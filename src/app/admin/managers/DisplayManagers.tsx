@@ -2,22 +2,30 @@
 
 import Image from "next/image";
 import React from "react";
-import { getAvailableManagerialRoles, IManager } from "./page";
+import {  IManager } from "./page";
 import ManagerActionsPopper from "./Actions";
 import { useRouter } from "next/navigation";
 import { setSearchParams } from "@/lib/searchParams";
-import useGetParam from "@/components/Param";
 import { MdOutlineGridView } from "react-icons/md";
 import { CiBoxList } from "react-icons/ci";
 import { staticImages } from "@/assets/images";
 import { DisplayType } from "@/components/DisplayStyle";
 import { formatDate, getTimeLeftOrAgo } from "@/lib/timeAndDate";
+import { IFeature } from "../features/OptionsFeature";
+import { ISelectOptionLV } from "@/types";
+import useGetParam from "@/hooks/params";
 
-const AdminManagers = ({ managers }: { managers?: IManager[] }) => {
+const AdminManagers = ({
+  managers,
+  roles,
+}: {
+  managers?: IManager[];
+  roles: IFeature<ISelectOptionLV[]>;
+}) => {
   const viewStyle = useGetParam("display");
   const router = useRouter();
 
-  const availableRoles = getAvailableManagerialRoles(managers);
+ 
   return (
     <div className="px-[2vw] relative ">
       <section className="  rounded-3xl p-4 pb-36 ">
@@ -60,7 +68,7 @@ const AdminManagers = ({ managers }: { managers?: IManager[] }) => {
                     <td className="px-4 py-2">
                       <ManagerActionsPopper
                         manager={manager}
-                        availableRoles={availableRoles}
+                        availableRoles={roles?.data ?? []}
                       />
                     </td>
                   </tr>
@@ -105,7 +113,7 @@ const AdminManagers = ({ managers }: { managers?: IManager[] }) => {
                 >
                   <ManagerActionsPopper
                     manager={manager}
-                    availableRoles={availableRoles}
+                    availableRoles={roles?.data ?? []}
                   />
                 </div>
               </li>

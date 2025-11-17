@@ -2,9 +2,10 @@ import mongoose, { Schema } from "mongoose";
 
 const teamSchema = new Schema(
   {
-    name: { type: String, required: true ,unique:true},
+    name: { type: String, required: true, unique: true },
     alias: String,
     community: { type: String },
+    contactPerson: { type: String },
     contact: { type: String },
     logo: String,
     isHome: Boolean,
@@ -18,4 +19,4 @@ const TeamModel =
 
 export default TeamModel;
 
- 
+

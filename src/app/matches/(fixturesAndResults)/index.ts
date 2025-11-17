@@ -49,6 +49,8 @@ export interface ITeamProps {
   name: string;
   community: string;
   alias: string;
+  contact: string;
+  contactName: string;
   logo: string;
   currentPlayers: IPlayerStatsProps[];
   createdAt: string;

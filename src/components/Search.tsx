@@ -2,9 +2,8 @@
 
 import React from "react";
 
-import { useUpdateSearchParams } from "@/hooks/params";
+import useGetParam, { useUpdateSearchParams } from "@/hooks/params";
 import { CgSearch } from "react-icons/cg";
-import useGetParam from "./Param";
 import { TSearchKey } from "@/types";
 
 interface ISearchProps {

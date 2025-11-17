@@ -32,7 +32,7 @@ export function PrimaryCollapsible({
           isActiveLink(header?.path || "")
             ? "bg-primary/10 text-muted-foreground"
             : ""
-        } ${header?.className ?? ""}`}
+        } ${header?.className ?? ""} ${isOpen?'rounded-b-none':''}`}
        {...header?.others} 
       >
         <div className="flex items-center gap-3 grow">
@@ -77,7 +77,7 @@ export function PrimaryCollapsible({
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <div className="ml-3 space-y-1 border-l border-gray-200 pl-4 mb-8">
+            <div className=" space-y-1 border-l border-gray-200 pl-4 mb-8">
               {children}
             </div>
           </motion.div>

@@ -15,7 +15,7 @@ import { useActionOnEsc } from "@/hooks/Esc";
 export function PrimaryDropdown({
   children,
   className,
-  trigger = <MoreHorizontal className="w-4 h-4" />,
+  trigger = <MoreHorizontal className="" size={20}/>,
   triggerStyles = "hover:bg-background/50 p-2",
   id,
   hideAngle = true,
@@ -24,7 +24,7 @@ export function PrimaryDropdown({
   children: ReactNode;
   trigger?: ReactNode;
   className?: string;
-  id: string;
+  id?: string;
   triggerStyles?: string;
   hideAngle?: boolean;
   align?: "center" | "start" | "end";

@@ -1,119 +1,128 @@
-// "use client";
+"use client";
 
-// import * as React from "react";
+import * as React from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
 
-// import { useMediaQuery } from "@/hooks/use-media-query";
-// import { Button } from "@/components/ui/button";
-// import {
-//   Command,
-//   CommandEmpty,
-//   CommandGroup,
-//   CommandInput,
-//   CommandItem,
-//   CommandList,
-// } from "@/components/ui/command";
-// import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-// import {
-//   Popover,
-//   PopoverContent,
-//   PopoverTrigger,
-// } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
-// type Status = {
-//   value: string;
-//   label: string;
-// };
+import { ISelectOptionLV } from "@/types";
+import useGetParam, { useUpdateSearchParams } from "@/hooks/params";
 
-// const statuses: Status[] = [
-//   {
-//     value: "backlog",
-//     label: "Backlog",
-//   },
-//   {
-//     value: "todo",
-//     label: "Todo",
-//   },
-//   {
-//     value: "in progress",
-//     label: "In Progress",
-//   },
-//   {
-//     value: "done",
-//     label: "Done",
-//   },
-//   {
-//     value: "canceled",
-//     label: "Canceled",
-//   },
-// ];
+interface IComboProps {
+  options: ISelectOptionLV[];
+  placeholder?: string;
+  onChange?: (option: ISelectOptionLV) => void;
+  name?: string;
+  defaultOptionValue?: string;
+  className?: string;
+}
 
-// export function ComboBoxResponsive() {
-//   const [open, setOpen] = React.useState(false);
-//   const isDesktop = useMediaQuery("(min-width: 768px)");
-//   const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(
-//     null
-//   );
+export function COMBOBOX({
+  options=[],
+  placeholder = "Search…",
+  onChange,
+  name = "comboValue",
+  defaultOptionValue = "",className=''
+}: IComboProps) {
+  const [open, setOpen] = React.useState(false);
+  const { setParam } = useUpdateSearchParams();
 
-//   if (isDesktop) {
-//     return (
-//       <Popover open={open} onOpenChange={setOpen}>
-//         <PopoverTrigger asChild>
-//           <Button variant="outline" className="w-[150px] justify-start">
-//             {selectedStatus ? <>{selectedStatus.label}</> : <>+ Set status</>}
-//           </Button>
-//         </PopoverTrigger>
-//         <PopoverContent className="w-[200px] p-0" align="start">
-//           <StatusList setOpen={setOpen} setSelectedStatus={setSelectedStatus} />
-//         </PopoverContent>
-//       </Popover>
-//     );
-//   }
+  // URL parameter value
+  const paramValue = useGetParam(name) ?? "";
 
-//   return (
-//     <Drawer open={open} onOpenChange={setOpen}>
-//       <DrawerTrigger asChild>
-//         <Button variant="outline" className="w-[150px] justify-start">
-//           {selectedStatus ? <>{selectedStatus.label}</> : <>+ Set status</>}
-//         </Button>
-//       </DrawerTrigger>
-//       <DrawerContent>
-//         <div className="mt-4 border-t">
-//           <StatusList setOpen={setOpen} setSelectedStatus={setSelectedStatus} />
-//         </div>
-//       </DrawerContent>
-//     </Drawer>
-//   );
-// }
+  // internal state
+  const [value, setValue] = React.useState("");
 
-// function StatusList({
-//   setOpen,
-//   setSelectedStatus,
-// }: {
-//   setOpen: (open: boolean) => void;
-//   setSelectedStatus: (status: Status | null) => void;
-// }) {
-//   return (
-//     <Command>
-//       <CommandInput placeholder="Filter status..." />
-//       <CommandList>
-//         <CommandEmpty>No results found.</CommandEmpty>
-//         <CommandGroup>
-//           {statuses.map((status) => (
-//             <CommandItem
-//               key={status.value}
-//               value={status.value}
-//               onSelect={(value) => {
-//                 setSelectedStatus(
-//                   statuses.find((priority) => priority.value === value) || null
-//                 );
-//                 setOpen(false);
-//               }}
-//             >
-//               {status.label}
-//             </CommandItem>
-//           ))}
-//         </CommandGroup>
-//       </CommandList>
-//     </Command>
-//   );
-// }
+  /* ---------------------------
+      INITIALIZATION SYNC
+  ---------------------------- */
+  React.useEffect(() => {
+    const initial = defaultOptionValue || paramValue || "";
+
+    setValue(initial);
+  }, [defaultOptionValue, paramValue]);
+
+  /* ---------------------------
+        HANDLER
+  ---------------------------- */
+  const handleSelect = (currentValue: string) => {
+    const selectedOption =
+      options.find((o) => o.value === currentValue) ?? null;
+
+    // update internal state
+    setValue(currentValue);
+
+    // update URL param if no onChange provided
+    if (!onChange && selectedOption) {
+      setParam(name, currentValue);
+    }
+
+    // trigger external handler
+    if (onChange && selectedOption) {
+      onChange(selectedOption);
+    }
+
+    setOpen(false);
+  };
+
+  const selectedLabel =
+    options?.find((o) => o.value === value)?.label || placeholder;
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className={`w-[200px] justify-between ${className}`}
+        >
+          {selectedLabel}
+          <ChevronsUpDown className="opacity-50" />
+        </Button>
+      </PopoverTrigger>
+
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search option..." className="h-9" />
+
+          <CommandList>
+            <CommandEmpty>No item found.</CommandEmpty>
+            <CommandGroup>
+              {options?.map((option) => (
+                <CommandItem
+                  key={option.value}
+                  value={option.value}
+                  onSelect={handleSelect}
+                >
+                  {option.label}
+
+                  <Check
+                    className={cn(
+                      "ml-auto transition-opacity",
+                      value === option.value ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+}

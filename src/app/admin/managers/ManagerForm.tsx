@@ -13,6 +13,8 @@ import { IManager } from "./page";
 import { Button } from "@/components/buttons/Button";
 import ImageUploaderCldWidget from "@/components/cloudinary/AvatarUploadWidget";
 import { staticImages } from "@/assets/images";
+import { PrimarySelect } from "@/components/select/Select";
+import { COMBOBOX } from "@/components/ComboBox";
 
 export default function TechnicalManagerForm({
   existingManager,
@@ -20,7 +22,7 @@ export default function TechnicalManagerForm({
   className,
 }: {
   existingManager?: IManager;
-  availableRoles: string[];
+  availableRoles: ISelectOptionLV[];
   className?: string;
 }) {
   const router = useRouter();
@@ -107,7 +109,7 @@ export default function TechnicalManagerForm({
           )}
         </div>
 
-        <section className={`grid gap-8 lg:grid-cols-2 ${className}`}>
+        <section className={`grid gap-8 ${className}`}>
           <IconInputWithLabel
             label="Fullname"
             onChange={OnchangeManager}
@@ -162,22 +164,18 @@ export default function TechnicalManagerForm({
             <p className="_label mb-2">
               Assigned Role: <strong>{existingManager?.role ?? ""}</strong>
             </p>
-            <Select
-              options={availableRoles.map((r) => ({
-                label: r,
-                value: r,
-              }))}
+
+            <COMBOBOX
+              placeholder="Role"
               name="role"
-              placeholder="Available portofolios"
-              className="bg-background rounded"
-              styles={customStyles}
-              onChange={(newValue: unknown) => {
-                const e = newValue as ISelectOptionLV;
+              options={availableRoles}
+              onChange={(opt) => {
                 setFormData((p) => ({
                   ...p,
-                  role: e.value as IManager["role"],
+                  role: opt.value,
                 }));
               }}
+              className="w-full h-10 "
             />
           </div>
         </section>

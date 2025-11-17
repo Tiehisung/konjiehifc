@@ -13,21 +13,22 @@ import { Button } from "@/components/buttons/Button";
 import { useUpdateSearchParams } from "@/hooks/params";
 import { fireEscape } from "@/hooks/Esc";
 import { StackModal } from "@/components/modals/StackModal";
+import { ISelectOptionLV } from "@/types";
 
 const ManagerActionsPopper = ({
   manager,
   availableRoles,
 }: {
   manager: IManager;
-  availableRoles: string[];
+  availableRoles: ISelectOptionLV[];
 }) => {
   const { setParam } = useUpdateSearchParams();
   return (
     <>
       <POPOVER>
-        <div className="grid gap-4">
+        <div className="grid gap-1">
           <Button
-            className=" w-full _hover bg-transparent _shrink border _secondaryBtn"
+            className=" w-full _hover bg-transparent _shrink _secondaryBtn"
             onClick={() => {
               setParam("stackModal", manager._id);
               fireEscape();
@@ -42,10 +43,10 @@ const ManagerActionsPopper = ({
             loadingText="Finalizing..."
             uri={`${apiConfig.managers}/${manager?._id}`}
             body={{ isActive: false }}
-            variant="destructive"
-            className="w-full"
+            variant="secondary"
+            className="w-full _hover"
           >
-            <HiOutlineUserRemove />
+            <HiOutlineUserRemove  size={20}/>
           </ActionButton>
 
           <ActionButton
@@ -53,10 +54,10 @@ const ManagerActionsPopper = ({
             primaryText="Delete Manager"
             loadingText="Deleting..."
             uri={`${apiConfig.managers}/${manager?._id}`}
-            variant="destructive"
-            className="w-full"
+            variant="secondary"
+            className="w-full _hover"
           >
-            <RiDeleteBin6Line />
+            <RiDeleteBin6Line  size={20}/>
           </ActionButton>
         </div>
       </POPOVER>

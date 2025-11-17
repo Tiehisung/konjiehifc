@@ -1,16 +1,16 @@
-'use client'
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 export const useActionOnEsc = ({ onEscape }: { onEscape: () => void }) => {
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onEscape();
+      if (event.key === "Escape") onEscape();
     };
 
-    window.addEventListener('keydown', handleEsc);
+    window.addEventListener("keydown", handleEsc);
     return () => {
-      window.removeEventListener('keydown', handleEsc);
+      window.removeEventListener("keydown", handleEsc);
     };
   }, []);
 
@@ -25,4 +25,11 @@ export function fireEscape(target: HTMLElement | Document = document) {
       bubbles: true,
     })
   );
+}
+
+export function fireDoubleEscape() {
+  fireEscape();
+  setTimeout(() => {
+    fireEscape();
+  }, 1000);
 }

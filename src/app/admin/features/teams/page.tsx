@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { NewTeamForm } from "./CreateOrUpdateTeam";
+import { TeamForm } from "./TeamForm";
 import DisplayTeams from "./DisplayTeams";
 import { apiConfig } from "@/lib/configs";
 import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
@@ -28,6 +28,7 @@ export const getTeams = async (teamId?: string) => {
     return [];
   }
 };
+
 interface IPageProps {
   searchParams: Record<string, string | string[] | undefined>;
 }
@@ -38,14 +39,13 @@ const TeamsFeature = async ({ searchParams }: IPageProps) => {
   const teams: IQueryResponse<ITeamProps[]> = await getTeams(qs);
   return (
     <div className="space-y-12 p-4 md:px-10">
-      {/* Create */}
-      <NewTeamForm />
-
       {/* Display */}
-
       <Suspense fallback={<Loader />}>
         <DisplayTeams teams={teams} />
       </Suspense>
+
+      {/* Create */}
+      <TeamForm />
     </div>
   );
 };

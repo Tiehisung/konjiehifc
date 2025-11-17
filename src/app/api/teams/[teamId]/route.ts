@@ -1,64 +1,13 @@
-import { IUpdateTeam } from "@/app/admin/features/teams/CreateOrUpdateTeam";
-import { apiConfig } from "@/lib/configs";
+import { IUpdateTeam } from "@/app/admin/features/teams/TeamForm";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import TeamModel from "@/models/teams";
-import { IFileProps, IResultProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
-
-// export const revalidate = 0;
-// export const dynamic = "force-dynamic";
+import { logAction } from "../../logs/helper";
+import { IUser } from "@/types/user";
+import { formatDate } from "@/lib/timeAndDate";
+ 
 
 ConnectMongoDb();
-
-//Update team
-export async function PUT(request: NextRequest) {
-  try {
-    const team: IUpdateTeam = await request.json();
-
-    if (team.logo) {
-      const uploaded = await fetch(apiConfig.fileUpload, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(team.logo),
-      });
-
-      const uploadedImage: IResultProps<IFileProps> = await uploaded.json();
-
-      if (!uploadedImage.success) {
-        return NextResponse.json({
-          message: "Failed to upload image",
-          success: false,
-          data: uploadedImage.data,
-        });
-      }
-      const updated = await TeamModel.updateOne(
-        { _id: team._id },
-        { ...team, logo: uploadedImage.data }
-      );
-      if (updated.acknowledged) {
-        return NextResponse.json({
-          message: "Team updated successfully",
-          success: true,
-        });
-      }
-    } else {
-      const updated = await TeamModel.updateOne({ _id: team._id }, { ...team });
-      if (updated.acknowledged) {
-        return NextResponse.json({
-          message: "Team updated successfully",
-          success: true,
-        });
-      }
-    }
-  } catch (error) {
-    return NextResponse.json({
-      message: "Failed to update team",
-      success: false,
-      data: error,
-    });
-  }
-}
-
 //Get teams
 export async function GET(
   req: NextRequest,
@@ -79,3 +28,54 @@ export async function GET(
     });
   }
 }
+
+//Update team
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ teamId: string }> }) {
+  try {
+    const teamId = (await params).teamId
+    const team: IUpdateTeam = await request.json();
+    const updated = await TeamModel.findByIdAndUpdate(teamId, { $set: { ...team } });
+
+    if (!updated.acknowledged) throw Error('Failed to update team')
+
+    return NextResponse.json({
+      message: "Team updated successfully",
+      success: true, data: updated
+    });
+  } catch (error) {
+    return NextResponse.json({
+      message: "Failed to update team",
+      success: false,
+      data: error,
+    });
+  }
+}
+
+//Update team
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ teamId: string }> }) {
+  try {
+    const teamId = (await params).teamId
+    const body = await request.json();
+    const deleted = await TeamModel.findByIdAndDelete(teamId);
+
+   // log
+    await logAction({
+      title: "Team  deleted",
+      description: `A team(${body?.name}) deleted. on ${formatDate(new Date().toISOString()) ?? ''}.`,
+      severity: "critical",
+      user: body?.user as IUser,
+    });
+    return NextResponse.json({
+      message: "Team deleted successfully",
+      success: true, data: deleted
+    });
+  } catch (error) {
+    return NextResponse.json({
+      message: "Failed to update team",
+      success: false,
+      data: error,
+    });
+  }
+}
+
+

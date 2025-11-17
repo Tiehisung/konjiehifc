@@ -3,6 +3,7 @@
 import { fireEscape } from "@/hooks/Esc";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
+import { IQueryResponse } from "@/types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -14,6 +15,7 @@ interface IProps {
   body?: unknown;
   escapeOnEnd?: boolean;
   showLoader?: boolean;
+  showToast?: boolean;
 }
 
 export function useAction() {
@@ -21,9 +23,12 @@ export function useAction() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleAction = async ( {
-    method = "GET", body, uri, escapeOnEnd = false,
-}: IProps) => {
+  const handleAction = async ({
+    method = "GET",
+    body,
+    uri,
+    escapeOnEnd = false,
+  }: IProps) => {
     try {
       setIsLoading(true);
       const response = await fetch(
@@ -39,9 +44,10 @@ export function useAction() {
           body: JSON.stringify(body),
         }
       );
-      const results = await response.json();
-      toast.info(results.message);
-      setIsLoading(false);
+      const results: IQueryResponse = await response.json();
+      if (results.success) {
+        toast.success(results.message, { position: "bottom-center" });
+      } else toast.error(results.message);
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
