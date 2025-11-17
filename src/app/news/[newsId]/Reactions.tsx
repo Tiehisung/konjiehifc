@@ -19,13 +19,16 @@ import { getTimeLeftOrAgo } from "@/lib/timeAndDate";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { getErrorMessage, shortText } from "@/lib";
+import { BsDot } from "react-icons/bs";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { IUser } from "@/types/user";
 
 export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
   const router = useRouter();
   const { handleAction: handleShare } = useAction();
   const [comment, setComment] = useState("");
   const session = useSession();
-  console.log({ newsItem });
+ 
 
   const [waiting, setWaiting] = useState(false);
 
@@ -39,13 +42,13 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
         cache: "no-cache",
         body: JSON.stringify({
           comments: [
-            ...(newsItem?.comments ?? []),
             {
               name: session?.data?.user?.name ?? "unknown",
               image: session?.data?.user?.image ?? staticImages.avatar.src,
-              date: new Date().toLocaleDateString(),
+              date: new Date().toISOString(),
               comment,
             },
+            ...(newsItem?.comments ?? []),
           ],
         }),
       });
@@ -72,7 +75,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
                 ...(newsItem?.likes ?? []),
                 {
                   name: session?.data?.user?.name ?? "unknown",
-                  date: new Date().toLocaleDateString(),
+                  date: new Date().toISOString(),
                   device: "unknown",
                 },
               ],
@@ -110,7 +113,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
                       ...(newsItem?.shares ?? []),
                       {
                         name: session?.data?.user?.name ?? "unknown",
-                        date: new Date().toLocaleDateString(),
+                        date: new Date().toISOString(),
                         device: "unknown",
                       },
                     ],
@@ -173,23 +176,47 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
       {/* Comments */}
       <ul className="grid gap-6 divide-y-2">
         {newsItem?.comments?.map((com, i) => (
-          <li key={`com-${i}`} className=" pb-6">
-            <div className="flex items-center gap-6">
-              <AVATAR src={com?.image ?? staticImages.avatar?.src} />
-              <div className="flex items-center gap-2.5">
-                <h1 className="_subtitle">{com?.name ?? "Anonymous"}</h1>{" "}
-                <Dot className='text-muted-foreground'/>
-                <span className="_p mt-2.5 font-light">
-                  {getTimeLeftOrAgo(com?.date).formatted}
-                </span>
+          <li key={`com-${i}`} className="flex items-start gap-5 pb-6 relative">
+            <AVATAR src={com?.image ?? staticImages.avatar?.src} />
+            <section>
+              <div className="flex items-start gap-6">
+                <div className="flex items-baseline gap-0.5">
+                  <h1 className="_subtitle">{com?.name ?? "Anonymous"}</h1>
+                  <span>
+                    <BsDot size={15} className="text-muted-foreground" />
+                  </span>
+                  <span className="text-sm mt-2.5 font-light">
+                    {getTimeLeftOrAgo(com?.date).formatted}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: shortText(com?.comment ?? "Hi", 4500),
-              }}
-              className="ml-4 border border-border rounded-2xl p-5 mt-4 _p"
-            />
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: shortText(com?.comment ?? "Hi", 4500),
+                }}
+                className=" border border-border rounded-2xl p-5 mt-4 _p"
+              />
+            </section>
+
+            {(session?.data?.user as unknown as IUser)?.role?.includes('admin') && (
+              <ActionButton
+                method="PUT"
+                body={{
+                  likes: [
+                    ...(newsItem?.comments?.filter(
+                      (c) => c?.date !== com?.date
+                    ) ?? []),
+                  ],
+                }}
+                uri={`${apiConfig.news}/${newsItem?._id}`}
+                className="absolute right-2 top-1 p-0.5 _hover _shrink"
+                variant="secondary"
+                loadingText="Deleting..."
+                styles={{ padding: "6px" }}
+              >
+                <RiDeleteBin6Line size={24} />
+              </ActionButton>
+            )}
           </li>
         ))}
       </ul>

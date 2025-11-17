@@ -198,7 +198,7 @@
 }
 
 ._secondaryBtn {
-  @apply flex items-center flex-nowrap gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-70 disabled:pointer-events-none select-none active:opacity-80;
+  @apply flex items-center flex-nowrap gap-2 px-4 py-2 text-sm font-medium bg-secondary hover:bg-accent/90 rounded-lg transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-70 disabled:pointer-events-none select-none active:opacity-80;
 }
 
 ._deleteBtn {

@@ -1,78 +1,71 @@
 "use client";
 
-import { DeleteTeam } from "./(actions)/DeleteTeam";
-import Image from "next/image";
 import { teamLogos } from "@/assets/teams/logos/team-logos";
 import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { formatDate } from "@/lib/timeAndDate";
-import { POPOVER } from "@/components/ui/popover";
 import { Pagination } from "@/components/Pagination";
 import { IQueryResponse } from "@/types";
+import { PrimaryDropdown } from "@/components/Dropdown";
+import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
+import { AiTwotoneDelete } from "react-icons/ai";
+import { apiConfig } from "@/lib/configs";
+import Image from "next/image";
+import { DIALOG } from "@/components/Dialog";
+import { TeamForm } from "./TeamForm";
+import { LVOutPutTable } from "@/components/tables/VerticalTable";
 
 const DisplayTeams = ({ teams }: { teams?: IQueryResponse<ITeamProps[]> }) => {
- 
   if (!teams) return <div className="_label p-6 "> No teams available</div>;
   return (
-    <div className=" bg-card max-w-5xl overflow-x-auto mx-auto _card">
-      <h1 className="_label">Teams</h1>
-      <table className="table-auto w-full">
-        <tbody>
-          <tr className="text-muted-foreground text-left uppercase">
-            <th>#</th>
-            <th>Name</th>
-            <th>Alias</th>
-            <th>Created At</th>
-            <th>Actions</th>
-          </tr>
+    <div className=" bg-card mx-auto ">
+      <h1 className="_heading">Teams</h1>
 
-          {teams?.data?.map((team: ITeamProps, index: number) => (
-            <tr key={index} className=" border-b">
-              <td className="p-3">{index + 1}</td>
+      <ul className="divide-y-8 divide-border space-y-14">
+        {teams?.data?.map((team) => (
+          <li
+            key={team?._id}
+            className="grid md:grid-cols-2 gap-3.5 relative pb-6 px-4"
+          >
+            <Image
+              src={team?.logo ?? teamLogos?.[0]?.logo.src}
+              alt={team?.name ?? "logo"}
+              width={400}
+              height={400}
+              className="object-cover bg-accent  "
+            />
 
-              <td className="py-3 min-w-44">
-                <div className="flex items-center gap-3">
-                  <Image
-                    src={team?.logo ?? teamLogos?.[0]?.logo.src}
-                    alt="tlogo"
-                    width={100}
-                    height={100}
-                    className=" h-12 w-12 min-w-12 aspect-square object-cover"
-                  />
-                  {team.name}
-                </div>
-              </td>
+            <div>
+              <p className="_heading">{team?.name}</p>
+              <p className="_title">{team?.alias}</p>
 
-              <td className="py-3">{team.alias}</td>
+              <LVOutPutTable
+                body={[
+                  { label: "Alias", value: team?.alias },
+                  {
+                    label: "Last Match",
+                    value: formatDate(team?.updatedAt, "March 2, 2025"),
+                  },
+                  { label: "Encounters", value: "0" },
+                  { label: "Wins", value: "0" },
+                  { label: "Losses", value: "0" },
+                  { label: "Draws", value: "0" },
+                ]}
+                //  className="ring"
+                trStyles="grow w-full"
+                labelTDStyles="grow"
+                className="rounded-xl overflow-hidden w-fit border shadow-2xs"
+              />
+            </div>
+            <PrimaryDropdown triggerStyles="absolute right-4 top-1 bg-accent/40 rounded-full p-1 h-10 w-10 _hover flex items-center justify-center">
+              <TeamActians team={team} />
+            </PrimaryDropdown>
+          </li>
+        ))}
 
-              <td className="py-3">
-                {formatDate(team?.createdAt, "March 2, 2025")}
-              </td>
+        {teams?.data?.length === 0 && <li>No teams available.</li>}
+      </ul>
 
-              <td className="py-3">
-                <POPOVER>
-                  <TeamActians team={team} />
-                </POPOVER>
-              </td>
-            </tr>
-          ))}
-          {teams?.data?.length === 0 && (
-            <tr>
-              <td colSpan={6} className="text-center _label">
-                No teams available.
-              </td>
-            </tr>
-          )}
-        </tbody>
-
-        <tfoot>
-          <tr>
-            <td colSpan={5} className="py-3 text-muted-foreground">
-              {`Teams: ${teams?.data?.length}`}
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-        <Pagination pagination={teams?.pagination} />
+      <Pagination pagination={teams?.pagination} />
     </div>
   );
 };
@@ -81,14 +74,89 @@ export default DisplayTeams;
 
 export const TeamActians = ({ team }: { team: ITeamProps }) => {
   const className =
-    "w-full py-2 px-3 _hover select-none cursor-pointer _shrink";
+    "w-full py-2 px-3 _hover select-none cursor-pointer _shrink grow ";
 
   return (
     <ul>
-      <li className={className}>Update</li>
+      <li className=" mb-1.5">
+        <DIALOG trigger={<div className={className}>Update</div>}>
+          <TeamForm team={team} />
+        </DIALOG>
+      </li>
       <li>
-        <DeleteTeam team={team} className={className} />
+        <ConfirmActionButton
+          method={"DELETE"}
+          trigger={<span className={`flex ${className}`}>Delete Feature</span>}
+          primaryText=""
+          loadingText="Deleting..."
+          uri={`${apiConfig.teams}`}
+          body={team}
+          variant="destructive"
+          title={`Delete ${team?.name}`}
+          confirmText={`Are you sure you want to delete "${team?.name}"?`}
+          escapeOnEnd
+        >
+          <AiTwotoneDelete />
+        </ConfirmActionButton>
       </li>
     </ul>
   );
 };
+
+//  <div className="max-w-5xl overflow-x-auto ">
+//         <table className="table-auto w-full">
+//           <tbody>
+//             <tr className="text-muted-foreground text-left uppercase">
+//               <th></th>
+//               <th>Name</th>
+//               <th>Alias</th>
+//               <th>Created At</th>
+//               <th>Actions</th>
+//             </tr>
+
+//             {teams?.data?.map((team: ITeamProps, index: number) => (
+//               <tr key={index} className=" border-b">
+//                 <td className="p-3">{index + 1}</td>
+
+//                 <td className="py-3 min-w-44">
+//                   <div className="flex items-center gap-3">
+//                     <AVATAR
+//                       src={team?.logo ?? teamLogos?.[0]?.logo.src}
+//                       alt={team?.name ?? "logo"}
+//                       className="h-12 w-12 min-w-12 aspect-square object-cover rounded-2xl"
+//                     />
+//                     {team.name}
+//                   </div>
+//                 </td>
+
+//                 <td className="py-3">{team.alias}</td>
+
+//                 <td className="py-3">
+//                   {formatDate(team?.createdAt, "March 2, 2025")}
+//                 </td>
+
+//                 <td className="py-3">
+//                   <PrimaryDropdown>
+//                     <TeamActians team={team} />
+//                   </PrimaryDropdown>
+//                 </td>
+//               </tr>
+//             ))}
+//             {teams?.data?.length === 0 && (
+//               <tr>
+//                 <td colSpan={6} className="text-center _label">
+//                   No teams available.
+//                 </td>
+//               </tr>
+//             )}
+//           </tbody>
+
+//           <tfoot>
+//             <tr>
+//               <td colSpan={5} className="py-3 text-muted-foreground">
+//                 {`Teams: ${teams?.data?.length}`}
+//               </td>
+//             </tr>
+//           </tfoot>
+//         </table>
+//       </div>

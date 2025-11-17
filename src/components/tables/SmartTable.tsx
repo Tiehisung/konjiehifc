@@ -5,7 +5,7 @@ import { FaPlus } from "react-icons/fa";
 import { FcAddColumn, FcAddRow } from "react-icons/fc";
 import { RiDeleteColumn, RiDeleteRow } from "react-icons/ri";
 import { Button } from "../buttons/Button";
-import { CgRemove } from "react-icons/cg";
+import { AiTwotoneDelete } from "react-icons/ai";
 
 /**
  * @param {*} importTable Data variable that holds imported data to this table.
@@ -14,14 +14,14 @@ import { CgRemove } from "react-icons/cg";
  * @returns
  */
 
-interface TableData {
+export interface ITableData {
   headers: string[];
   body: string[][];
 }
 
 interface SmartTableProps {
-  importTable?: TableData;
-  setExportTable?: (data: TableData) => void;
+  importTable?: ITableData;
+  setExportTable?: (data: ITableData) => void;
 }
 
 export default function SmartTable({
@@ -31,7 +31,7 @@ export default function SmartTable({
   },
   setExportTable,
 }: SmartTableProps) {
-  const [tableData, setTableData] = useState<TableData>(importTable);
+  const [tableData, setTableData] = useState<ITableData>(importTable);
   const isTable = () => {
     return tableData?.headers?.length > 0;
   };
@@ -108,50 +108,47 @@ export default function SmartTable({
 
   return (
     <>
-      <button
-        type="button"
-        onClick={handleCreateTable}
-        title="Create new table"
-        className={`text-3xl font-extralight text-teal-300 flex gap-1 items-center ${
-          isTable() ? " hidden" : ""
-        }`}
-      >
-        <FaPlus className="max-sm:hidden" />
-        <span className="text-sm">Create Table</span>
-      </button>
-      <div className="max-w-full overflow-auto">
-        <div className="flex items-center justify-center gap-2 w-fit my-2 bg-[#7e7a7a] text-teal-100 px-2 drop-shadow-md">
-          <button
-            type="button"
+      {!isTable() && (
+        <Button
+          onClick={handleCreateTable}
+          title="Create new table"
+          className={` font-extralight _secondaryBtn flex gap-1 items-center `}
+        >
+          <FaPlus className="max-sm:hidden" />
+          <span className="text-sm">Create Table</span>
+        </Button>
+      )}
+      <div className="max-w-full overflow-auto  ">
+        <header className="flex items-center justify-center gap-2 w-fit my-2 bg-popover px-2 grow font-thin text-sm">
+          <Button
             onClick={handleAddCol}
             title="Add row"
-            className={` text-xs gap-2 rounded px-1 shadow hover:bg-gray-700 my-1 ${
+            className={` gap-2 rounded px-1 _hover my-1 ${
               isTable() ? " flex" : "hidden"
             }`}
           >
-            <FcAddColumn className="max-sm:hidden" /> Add col
-          </button>
-          <button
-            type="button"
+            <FcAddColumn className="max-sm:hidden" /> Add Col
+          </Button>
+          <Button
             onClick={handleAddRow}
-            title="Add row"
-            className={` text-xs gap-2 rounded px-1 shadow hover:bg-gray-700 my-1 ${
+            title="Add Row"
+            className={` gap-2 rounded px-1 _hover my-1 ${
               isTable() ? " flex" : "hidden"
             }`}
           >
-            <FcAddRow className="max-sm:hidden" /> Add row
-          </button>
-          
+            <FcAddRow className="max-sm:hidden" /> Add Row
+          </Button>
+
           <Button
             primaryText="Delete table"
             onClick={handleDeleteTable}
-            className={`_deleteBtn h-fit flex items-center gap-2 text-xs text-red-300 ${
+            className={` h-fit flex items-center gap-2  ${
               isTable() ? " " : "hidden"
             }`}
           >
-            <CgRemove />
+            <AiTwotoneDelete />
           </Button>
-        </div>
+        </header>
 
         <div
           className={`w-full overflow-auto ${isTable() ? "block" : "hidden"}`}
@@ -159,8 +156,8 @@ export default function SmartTable({
           {
             <table className="  text-sm">
               <tbody>
-                <tr className="relative bg-slate-100">
-                  <th className=" sticky left-0 z-10 bg-slate-50">S/N</th>
+                <tr className="relative bg-card">
+                  <th className=" sticky left-0 z-10 bg-card/80">S/N</th>
                   {tableData?.headers?.map((colName, colIndex) => (
                     <th
                       key={colIndex}
@@ -183,7 +180,7 @@ export default function SmartTable({
                 </tr>
                 {tableData?.body?.map((rowData, rowIndex) => (
                   <tr key={rowIndex}>
-                    <td className="shadow bg-gray-50 group text-xs min-w-[40px] p-1 sticky left-0">
+                    <td className="shadow bg-card/70 group text-xs min-w-[40px] p-1 sticky left-0">
                       {rowIndex + 1}
                       <DeleteRow
                         rowToRemoveIndex={rowIndex}
@@ -225,7 +222,7 @@ export function DeleteCol({
   setTableData,
 }: {
   colIndex: number;
-  setTableData: React.Dispatch<React.SetStateAction<TableData>>;
+  setTableData: React.Dispatch<React.SetStateAction<ITableData>>;
 }) {
   const handleDeleteCol = () => {
     setTableData((prev) => {
@@ -244,23 +241,23 @@ export function DeleteCol({
   return (
     <div className=" divide-x-2 text-lg group flex justify-around">
       <span className="flex text-xs">C {colIndex + 1}</span>
-      <button
-        type="button"
+      <Button
         onClick={handleDeleteCol}
         title="Delete column"
         className="hidden text-xs remove__btn  group-hover:block transition-transform delay-300 duration-300"
       >
         <RiDeleteColumn />
-      </button>
+      </Button>
     </div>
   );
 }
-export function DeleteRow({
+
+function DeleteRow({
   rowToRemoveIndex,
   setTableData,
 }: {
   rowToRemoveIndex: number;
-  setTableData: React.Dispatch<React.SetStateAction<TableData>>;
+  setTableData: React.Dispatch<React.SetStateAction<ITableData>>;
 }) {
   const handleDeleteCol = () => {
     setTableData((prev) => ({
@@ -270,12 +267,12 @@ export function DeleteRow({
   };
   return (
     <div className="divide-y-2 absolute right-[2px] top-0 text-lg hidden group-hover:block transition-transform delay-300 duration-300">
-      <button type="button" onClick={handleDeleteCol} title="Delete row">
+      <Button onClick={handleDeleteCol} title="Delete row" className="">
         <RiDeleteRow
-          size={14}
-          className="text-red-400 p-[2px] rounded shadow hover:bg-orange-300"
+          size={20}
+          className="text-red-400 p-1 rounded shadow _hover"
         />
-      </button>
+      </Button>
     </div>
   );
 }

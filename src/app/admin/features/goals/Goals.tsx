@@ -9,7 +9,7 @@ import Select from "react-select";
 const HomeTeamGoalForm = ({}) => {
   const [waiting, setWaiting] = useState(false);
   const [scorerId, setScorerId] = useState<string | null>(null);
-  console.log(scorerId, setWaiting);
+ 
 
   const onfieldPlayers = _players.map((p) => ({
     label: `${p.lastName} ${p.firstName}`,

@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { ImportTableProps } from "./PlainTable";
+import { ITableData } from "./SmartTable";
 
 /**
  * @param {*} importTable Data variable that holds imported data to this table.
@@ -15,7 +15,7 @@ export default function OutPutTable({
   },
   showNumbering = true,
 }: {
-  importTable: ImportTableProps;
+  importTable: ITableData;
   showNumbering: boolean;
 }) {
   return (

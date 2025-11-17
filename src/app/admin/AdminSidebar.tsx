@@ -18,6 +18,7 @@ import { GrDashboard, GrGallery } from "react-icons/gr";
 import { LiaDonateSolid, LiaRunningSolid } from "react-icons/lia";
 import { MdOutlineFeaturedPlayList, MdOutlineLiveTv } from "react-icons/md";
 import { PiNewspaperThin } from "react-icons/pi";
+import { RiHomeLine } from "react-icons/ri";
 
 const AdminSidebar = () => {
   return (
@@ -84,10 +85,23 @@ export function LeftPaneMobile() {
   const activeLink = (linkname: string) =>
     pathname == linkname ? true : false;
 
+  const mobileLinks = [
+    {
+      label: "Home",
+      path: "/",
+      icon: <RiHomeLine />,
+    },
+    ...sidebarLinks,
+  ];
+
   return (
-    <NavigationPopover align="start" triggerStyles="md:hidden" className="backdrop-blur-sm text-white">
+    <NavigationPopover
+      align="start"
+      triggerStyles="md:hidden"
+      className="backdrop-blur-sm text-white"
+    >
       <ul className="w-full">
-        {sidebarLinks.map((slink, index) => (
+        {mobileLinks.map((slink, index) => (
           <li
             key={index}
             className={`flex _hover px-2 rounded-md ${
@@ -98,7 +112,9 @@ export function LeftPaneMobile() {
               className="flex gap-1 w-full items-center h-10 hover:font-black "
               href={slink.path}
             >
-              <span className="text-xl bg-accent/30 rounded-full p-1.5">{slink.icon}</span>
+              <span className="text-xl bg-accent/30 rounded-full p-1.5">
+                {slink.icon}
+              </span>
               {slink.label}
             </Link>
           </li>
@@ -113,6 +129,7 @@ export function LeftPaneMobile() {
   );
 }
 const sidebarLinks = [
+ 
   {
     label: "Dashboard",
     path: "/admin",

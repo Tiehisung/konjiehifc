@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 ConnectMongoDb();
 
 
-export interface IUserSession {
+export interface SessionIUser {
   user: {
     name: string;
     image: string;
@@ -33,7 +33,7 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = (await getServerSession(authOptions)) as IUserSession
+    const session = (await getServerSession(authOptions)) as SessionIUser
     if (session?.user?.role !== "super_admin")
       return NextResponse.json({
         success: false,
@@ -87,7 +87,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = (await getServerSession(authOptions)) as IUserSession;
+    const session = (await getServerSession(authOptions)) as SessionIUser;
 
     if (session?.user?.role !== "super_admin")
       return NextResponse.json({
