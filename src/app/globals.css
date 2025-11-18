@@ -227,7 +227,7 @@
 }
 
 ._shrink {
-  @apply active:scale-[99%] transition-all _transition;
+  @apply active:scale-[99%] transition-all ;
 }
 
 ._card {
