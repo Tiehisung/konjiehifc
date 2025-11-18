@@ -5,7 +5,7 @@ import React from "react";
 import TechnicalManagerForm from "./ManagerForm";
 import { PrimaryCollapsible } from "@/components/Collapsible";
 import { Plus } from "lucide-react";
-import Header from "../Header";
+import Header from "../../../components/Header";
 import { getFeatureByName } from "../features/page";
 import { IFeature } from "../features/OptionsFeature";
 
@@ -50,7 +50,7 @@ const TechnicalManagersPage = async () => {
       >
         <TechnicalManagerForm availableRoles={roles?.data} />
       </PrimaryCollapsible>
-      
+
       <br />
     </div>
   );

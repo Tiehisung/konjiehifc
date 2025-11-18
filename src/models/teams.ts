@@ -9,7 +9,7 @@ const teamSchema = new Schema(
     contact: { type: String },
     logo: String,
     isHome: Boolean,
-    currentPlayers: [{ type: Schema.Types.ObjectId, ref: "players" }],
+    players: [{ name: String, number: String, avatar: String, },],
   },
   { timestamps: true }
 );

@@ -35,14 +35,12 @@ export async function GET(request: NextRequest) {
     }
     const cleaned = removeEmptyKeys(query)
 
-    const teams = await TeamModel.find(cleaned).populate({ path: "logo" })
+    const teams = await TeamModel.find(cleaned)
       .limit(limit)
       .skip(skip)
       .lean()
-      .sort({
-        createdAt: "desc",
-      });
-
+      .sort({createdAt: "desc",});
+      
     const total = await TeamModel.countDocuments(cleaned)
     return NextResponse.json({
       success: true,

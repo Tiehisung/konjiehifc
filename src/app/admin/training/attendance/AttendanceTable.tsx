@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { apiConfig } from "@/lib/configs";
 import ContentShowcaseWrapper from "@/components/ShowcaseWrapper";
 import { imageIcons } from "@/assets/icons/icons";
+import { Label } from "@/components/ui/label";
 
 export interface IPostTrainingSession {
   date: string;
@@ -134,77 +135,118 @@ export function AttendanceTable({
     }
   };
 
+  const selectedCount = Object.values(checked).filter(Boolean)?.length;
+
+  const onSelectAll = () => {
+    if (players?.every((p) => checked[p._id])) {
+      players?.forEach((player) =>
+        setChecked((prev) => ({
+          ...prev,
+          [player._id]: false,
+        }))
+      );
+      return;
+    }
+    players?.forEach((player) =>
+      setChecked((prev) => ({
+        ...prev,
+        [player._id]: true,
+      }))
+    );
+  };
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center flex-wrap gap-5">
-        <h2 className="text-lg font-semibold">Training Attendance</h2>
+        <h2 className="text-lg font-semibold _heading">Training Attendance</h2>
         {todaySession ? (
-          <>
-            <span className="text-sm text-green-500">
-              ✅ Attendance recorded today
-            </span>
-            <Button
-              onClick={() => setEditing(!editing)}
-              disabled={todaySession.updateCount >= 3}
-            >
-              {editing
-                ? "Cancel Edit"
-                : `Edit Attendance(${todaySession.updateCount}/3)`}
-            </Button>
-          </>
+          <p className="text-sm text-green-500">✅ Attendance recorded today</p>
         ) : (
-          <span className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             Record attendance for today
-          </span>
+          </p>
         )}
       </div>
       <ContentShowcaseWrapper
         images={[todaySession ? imageIcons.success : imageIcons.error]}
-        graphicsStyles="animate-pulse"
+        graphicsStyles="animate-pulse max-w-32 max-h-32 md:max-w-52 md:max-h-52 md:mt-20 mx-auto"
       >
-        <section>
-          <h1>Training Attendance List</h1>
+        <section className="grow ">
+          <h1 className="_label p-2">Training Attendance List</h1>
           <br />
-          <ul className="w-fit ring">
-            {players.map((player) => {
-              const name = `${player.firstName} ${player.lastName}`;
-              return (
-                <li
-                  key={player._id}
-                  className="flex items-center justify-start gap-6 font-medium uppercase ring p-1.5"
-                >
+          <form>
+            <div className="grow w-full">
+              <header className="flex items-center gap-6 ">
+                <Label className="flex items-center justify-start gap-6 font-medium uppercase p-1.5 _hover _shrink">
                   <Input
                     type="checkbox"
-                    checked={!!checked[player._id]}
-                    onChange={() => handleCheck(player)}
-                    className="accent-primary cursor-pointer w-8"
-                    disabled={!!todaySession && !editing} // 🔒 disable unless editing
+                    checked={players?.every((p) => checked[p._id])}
+                    onChange={onSelectAll}
+                    className="accent-primary cursor-pointer w-4"
+                    disabled={!!todaySession && !editing}
                   />
-                  <AVATAR
-                    src={player.avatar}
-                    fallbackText={getInitials(name)}
-                  />
-                  <span>
-                    {name} <b>({player.number})</b>
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
+                  <span>Select All</span>
+                </Label>
+                <span className="ml-auto">{selectedCount}/{players?.length}</span>
+              </header>
+              {players.map((player) => {
+                const name = `${player.firstName} ${player.lastName}(${player.number})`;
+                return (
+                  <Label
+                    key={player._id}
+                    className="flex items-center justify-start gap-6 font-medium uppercase p-1.5 _hover _shrink"
+                  >
+                    <Input
+                      type="checkbox"
+                      checked={!!checked[player._id]}
+                      onChange={() => handleCheck(player)}
+                      className="accent-primary cursor-pointer w-8"
+                      disabled={!!todaySession && !editing} // 🔒 disable unless editing
+                    />
+                    <AVATAR
+                      src={player.avatar}
+                      fallbackText={getInitials(name)}
+                    />
+                    <span>{name}</span>
+                  </Label>
+                );
+              })}
+              <div className="grid grid-cols-3 px-1.5 py-3.5 text-muted-foreground border-t font-light">
+                <span> Present: {selectedCount}</span>
+                <span>Absent: {(players?.length ?? 0) - selectedCount}</span>
+                <span> Total: {players?.length ?? 0}</span>
+              </div>
+            </div>
 
-          <div className="py-6 text-center">
-            {(!todaySession || editing) && (
+            <div className="py-6 flex justify-between gap-6 items-center">
+              {(!todaySession || editing) && (
+                <Button
+                  onClick={handleSubmit(onSubmit)}
+                  waiting={waiting}
+                  waitingText="Saving..."
+                  primaryText={
+                    todaySession ? "Update Attendance" : "Save Attendance"
+                  }
+                  className="_primaryBtn min-w-32 justify-center h-10"
+                />
+              )}
               <Button
-                onClick={handleSubmit(onSubmit)}
-                waiting={waiting}
-                waitingText="Saving..."
-                primaryText={
-                  todaySession ? "Update Attendance" : "Save Attendance"
-                }
-                className="_primaryBtn min-w-72 justify-center h-10"
-              />
-            )}
-          </div>
+                onClick={() => {
+                  if (editing) {
+                    todaySession?.attendance?.attendedBy?.forEach((p) => {
+                      checked[p._id] = true;
+                    });
+                  }
+                  setEditing(!editing);
+                }}
+                disabled={(todaySession?.updateCount ?? 0) >= 3}
+                className={`text-nowrap ${editing ? "_secondaryBtn _hover " : "_primaryBtn"}`}
+              >
+                {editing
+                  ? "Cancel Edit"
+                  : `Edit Attendance(${todaySession?.updateCount}/3)`}
+              </Button>
+            </div>
+          </form>
         </section>
       </ContentShowcaseWrapper>
     </div>

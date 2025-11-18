@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Header from "../Header";
+import Header from "../../../components/Header";
 
 export default async function TrainingSettingsAdm() {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();

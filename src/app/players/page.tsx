@@ -155,7 +155,7 @@ const PlayersPage = async () => {
                 key={player?._id}
                 href={`/players/details?playerId=${player?._id}`}
               >
-                <AnimateOnView index={index} delay={0.5} x={-20}>
+                <AnimateOnView x={-10}>
                   <PlayerFeatureStatsCard
                     name={`${player?.firstName} ${player?.lastName}`}
                     position={player.position}
@@ -181,4 +181,3 @@ const PlayersPage = async () => {
 };
 
 export default PlayersPage;
-

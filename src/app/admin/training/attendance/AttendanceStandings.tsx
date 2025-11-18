@@ -64,13 +64,14 @@ export function AttendanceStandingsTable({ trainingSessions }: IProps) {
             return (
               <TableRow key={player._id}>
                 <TableCell className="flex items-center gap-2.5 font-medium uppercase">
-                  <span className="text-xl">{i + 1}</span>
+                  <span className="text-xs text-muted-foreground">{i + 1}</span>
                   <AVATAR
                     src={player?.avatar as string}
                     fallbackText={getInitials(player?.name)}
                   />
-                  <span className="text-xl w-8">{player.number}</span>
-                  <span>{player?.name}</span>
+                  <span>
+                    {player?.name}({player.number})
+                  </span>
                 </TableCell>
                 <TableCell className="text-center">
                   {player?.attendancePercentage}

@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardHeader from "../../Header";
+import DashboardHeader from "../../../../components/Header";
 import SummaryCards from "./SummaryCards";
 import TransactionForm from "./TransactionForm";
 import TransactionList from "./TransactionList";
@@ -15,7 +15,6 @@ interface IProps {
 }
 
 export default function ClientFinance({ transactionsData }: IProps) {
- 
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader
