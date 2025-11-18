@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 export const featureSchema = new Schema({
 
-  role: { type: String, unique: true, trim: true, lowercase: true, required: [true, 'Role name must be specified'] },
+  name: { type: String, unique: true, trim: true, lowercase: true, required: [true, 'Name must be specified'] },
   data: {}
 },
   { timestamps: true });

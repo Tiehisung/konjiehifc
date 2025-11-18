@@ -30,9 +30,10 @@ export function FeatureForm({ feature }: IProps) {
   const session = useSession();
 
   const [waiting, setWaiting] = useState(false);
+  const [isEditing, setIsEditing] = useState(!feature);
 
   const [featureData, setFeatureData] = useState(feature?.data ?? []);
-  const [name, setName] = useState(feature?.name ?? "New Name");
+  const [name, setName] = useState(feature?.name ?? "");
 
   const onSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,7 +45,7 @@ export function FeatureForm({ feature }: IProps) {
         cache: "no-cache",
         body: JSON.stringify({
           user: session?.data?.user,
-          name: name.replaceAll(" ", "_"),
+          name: name,
           data: featureData,
           _id: feature?._id,
         }),
@@ -76,15 +77,30 @@ export function FeatureForm({ feature }: IProps) {
         className="  grow grid gap-2.5 _card bg-card w-full "
         onSubmit={onSave}
       >
-        {feature ? (
-          <p className="_label mb-3 text-muted-foreground">{feature?.name}</p>
-        ) : (
-          <Input
-            name={"new-name"}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        )}
+        <header className="flex items-center gap-6 justify-between">
+          {feature ? (
+            <p className="_label mb-3 text-muted-foreground">{feature?.name}</p>
+          ) : (
+            <Input
+              name={"new-name"}
+              placeholder="Feature Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)} required
+            />
+          )}
+          {feature && (
+            <Button
+              onClick={() => {
+                if (isEditing) {
+                  setFeatureData(feature?.data ?? []);
+                }
+                setIsEditing((p) => !p);
+              }}
+              primaryText={isEditing ? "Restore" : "Edit"}
+              className="text-primaryBlue _hover px-1"
+            />
+          )}
+        </header>
         {featureData?.map((fd, index) => (
           <div className="group grid grid-cols-2 gap-2.5 " key={`fd${index}`}>
             <Input
@@ -96,6 +112,7 @@ export function FeatureForm({ feature }: IProps) {
               className="grow "
               placeholder="Key"
               required
+              others={{ disabled: !isEditing }}
             />
             <div className="flex items-center gap-1.5 grow ">
               <Input
@@ -111,47 +128,54 @@ export function FeatureForm({ feature }: IProps) {
                 wrapperStyles="grow "
                 placeholder="Value"
                 required
+                others={{ disabled: !isEditing }}
               />
-              <IoMdRemove
-                size={32}
-                className="invisible group-hover:visible _slowTrans _hover h-fit p-0.5 rounded text-red-500 bg-accent/50"
-                onClick={() =>
-                  setFeatureData((p) => p.filter((_, i) => i !== index))
-                }
-              />
+              {isEditing && (
+                <IoMdRemove
+                  size={32}
+                  className="lg:invisible group-hover:visible _slowTrans _hover h-fit p-0.5 rounded text-red-500 bg-accent/50"
+                  onClick={() =>
+                    setFeatureData((p) => p.filter((_, i) => i !== index))
+                  }
+                />
+              )}
             </div>
           </div>
         ))}
 
-        <Button
-          onClick={() => {
-            if (featureData.find((f) => !f.label || !f.value))
-              return toast.error("Fill out all fields");
-            setFeatureData((p) => [...p, { label: "", value: "" }]);
-          }}
-          primaryText="Add Option"
-          disabled={
-            waiting ||
-            (featureData.find((f) => !f.label || !f.value) ? true : false)
-          }
-          className="w-fit px-1.5 py-0.5 justify-center"
-          variant="outline"
-        />
+        {isEditing && (
+          <Button
+            onClick={() => {
+              if (featureData.find((f) => !f.label || !f.value))
+                return toast.error("Fill out all fields");
+              setFeatureData((p) => [...p, { label: "", value: "" }]);
+            }}
+            primaryText="Add Option"
+            disabled={
+              waiting ||
+              (featureData.find((f) => !f.label || !f.value) ? true : false)
+            }
+            className="w-fit px-1.5 py-0.5 justify-center"
+            variant="outline"
+          />
+        )}
 
         <div className="flex items-center gap-3.5">
-          <Button
-            primaryText="SAVE"
-            waiting={waiting}
-            waitingText="Saving..."
-            className="grow justify-center"
-            variant="primary"
-            type="submit"
-          />
+          {isEditing && (
+            <Button
+              primaryText="SAVE"
+              waiting={waiting}
+              waitingText="Saving..."
+              className="grow justify-center"
+              variant="primary"
+              type="submit"
+            />
+          )}
           {feature && (
             <ConfirmActionButton
               method={"DELETE"}
               trigger={
-                <span className=" _deleteBtn text-xs">Delete Feature</span>
+                <span className=" _deleteBtn text-xs ml-auto">Delete</span>
               }
               primaryText=""
               loadingText="Deleting..."

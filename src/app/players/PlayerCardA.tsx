@@ -11,7 +11,7 @@ export const PlayerCardA = ({
   return (
     <div className="group after:h-1 after:w-full after:bg-primary after:mt-2 after:block">
       <Image
-        alt={player?.lastName ?? ""}
+        alt={player?.lastName ?? "img"}
         src={player?.avatar as string}
         width={400}
         height={400}

@@ -62,13 +62,13 @@ const FeaturesPage = async () => {
       </ul>
       <br />
 
-      <div className="w-fit ">
+      <div className=" ">
         <PrimaryCollapsible
           header={{
             icon: <GrAdd />,
             label: "Add Feature",
-            className: "text-primaryGreen text-lg font-medium",
-          }}
+            className: "text-primaryGreen text-lg font-medium ",
+          }} 
         >
           <FeatureForm />
         </PrimaryCollapsible>

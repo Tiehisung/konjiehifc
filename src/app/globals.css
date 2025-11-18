@@ -189,7 +189,7 @@
 }
 
 /* Buttons */
-.transition-all ease-linear duration-100 {
+._transition ease-linear duration-100 {
   transition: all 0.3s ease-in-out;
 }
 
@@ -227,7 +227,7 @@
 }
 
 ._shrink {
-  @apply active:scale-[99%] transition-transform;
+  @apply active:scale-[99%] transition-all ;
 }
 
 ._card {

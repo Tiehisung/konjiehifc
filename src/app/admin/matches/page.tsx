@@ -9,7 +9,7 @@ import {
 } from "@/app/matches/(fixturesAndResults)";
 import { IQueryResponse } from "@/types";
 import { buildQueryStringServer } from "@/lib";
-import Header from "../Header";
+import Header from "../../../components/Header";
 import { getPlayers } from "../players/page";
 import { getManagers, IManager } from "../managers/page";
 import { IPlayer } from "@/app/players/page";

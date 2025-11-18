@@ -30,7 +30,7 @@ const TrainingSessionCard = ({ trainingSession }: Props) => {
   if (!trainingSession)
     return <div className="_label text-center m-6">Session not found</div>;
   return (
-    <Card className="shadow-lg border-0 overflow-hidden rounded-none ml-2.5 mb-12">
+    <Card className="shadow-lg border-0 overflow-hidden rounded-none mb-12">
       <CardHeader className="bg-muted/40 py-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between">
           <div>
@@ -122,12 +122,12 @@ const TrainingSessionCard = ({ trainingSession }: Props) => {
 
       <CardFooter className="justify-between text-sm text-muted-foreground">
         <p>
-          Created on {formatDate(trainingSession?.createdAt)} (
+          Date: {formatDate(trainingSession?.createdAt)} (
           {getTimeAgo(trainingSession?.createdAt as string)})
         </p>
-        {/* <TrainingActionButtons trainingId={trainingSession?._id as string} /> */}
+    
         <ConfirmActionButton
-          primaryText="Delete Attendance"
+          primaryText="Delete"
           uri={`${apiConfig.trainingSession}/${trainingSession?._id}`}
           method={"DELETE"}
           escapeOnEnd

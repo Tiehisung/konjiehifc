@@ -77,7 +77,7 @@ const AttendancePage = async () => {
     value: tSession._id ?? "",
   }));
   return (
-    <div className="_page px-6 space-y-12">
+    <div className="_page px-3 space-y-12">
       <AttendanceTable
         players={players?.data}
         trainingSessions={trainingSessions?.data}
