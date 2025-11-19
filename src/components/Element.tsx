@@ -35,7 +35,7 @@ export default function HEADER({
   subtitle?: string;
   className?: string;
   children?: ReactNode;
-  isPage?: Boolean;
+  isPage?: boolean;
 }) {
   return (
     <header
