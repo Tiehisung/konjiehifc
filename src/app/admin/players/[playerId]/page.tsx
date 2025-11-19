@@ -13,7 +13,7 @@ import { IPlayer } from "@/app/players/page";
 import GalleryGrid from "@/components/Gallery/GallaryGrid";
 import { GalleryUpload } from "@/components/Gallery/GalleryUpload";
 import { IGalleryProps, IQueryResponse } from "@/types";
-import { getGalleries } from "@/app/players/details/page";
+import { getGallery } from "../../galleries/page";
 
 export default async function PlayerProfilePage({
   params,
@@ -23,9 +23,9 @@ export default async function PlayerProfilePage({
   const playerId = (await params).playerId;
   const player: IPlayer = await getPlayerById(playerId);
 
-   const galleries: IQueryResponse<IGalleryProps[]> = await getGalleries(
-      [playerId].filter(Boolean)
-    );
+  const galleries: IQueryResponse<IGalleryProps[]> = await getGallery(
+    `?tags=${[playerId].filter(Boolean).join(",")}`
+  );
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
   if (!player) return <Loader message="Loading player..." />;
 
@@ -95,7 +95,7 @@ export default async function PlayerProfilePage({
           <PlayerProfileForm player={player} />
         </section>
 
-        <section id='galleries'>
+        <section id="galleries">
           <h1 className="my-6 _title _gradient p-4">GALLERIES</h1>
           <GalleryGrid
             galleries={galleries?.data as IGalleryProps[]}

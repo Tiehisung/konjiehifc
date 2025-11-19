@@ -6,7 +6,8 @@ import Image from "next/image";
 import LightboxViewer from "@/components/viewer/LightBox";
 import { IGalleryProps, IQueryResponse } from "@/types";
 import { shortText } from "@/lib";
-import { Badge } from "@/components/ui/badge";
+import { PrimarySearch } from "@/components/Search";
+import { ClearFiltersBtn } from "@/components/buttons/ClearFilters";
 
 type Props = {
   galleries: IQueryResponse<IGalleryProps[]>;
@@ -16,7 +17,16 @@ type Props = {
 
 export default function GalleryClient({ galleries, className = "" }: Props) {
   return (
-    <div className={`gallery-root p-3 ${className}`}>
+    <div className={`p-3 ${className}`}>
+      <div className="flex items-center gap-2 justify-between my-6">
+        <PrimarySearch
+          placeholder="Search Gallery"
+          inputStyles="h-9"
+          className="bg-secondary w-fit focus-within:grow"
+          searchKey="gallery_search"
+        />
+        <ClearFiltersBtn className="border border-border/45 shadow p-1.5 rounded h-9 " />
+      </div>
       {/* Grid */}
       <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {galleries?.data?.map((gallery, i) => (
@@ -83,8 +93,8 @@ export function GalleryThumbnail({ gallery, className = "" }: GalleryProps) {
 
         {/* overlay */}
         <div className="absolute bottom-0 right-0 left-0 flex flex-wrap items-center justify-between gap-2 p-2 h-fit">
-          <div className="bg-modalOverlay text-white text-xs rounded px-2 py-1 backdrop-blur-sm">
-            {thumbnailImage?.title ?? `Image  `}
+          <div className="bg-modalOverlay text-white text-xs rounded px-2 py-1 backdrop-blur-sm line-clamp-1">
+            {shortText((gallery?.title as string) ?? thumbnailImage?.title, 32)}
           </div>
           {images.length > 1 && (
             <span className="backdrop-blur-sm text-white text-xs font-thin">

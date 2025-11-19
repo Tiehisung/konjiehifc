@@ -38,7 +38,7 @@ const Hero = async () => {
               <Updator
                 data={["Jerseys", "Boots", "Balls", "First Aid", "Cash", "Any"]}
                 random
-                className=" text-white rounded-full px-2 border bg-primaryGreen "
+                className=" text-white rounded-full px-2 border bg-Green "
               />
             </Button>
           </FancyMotion>

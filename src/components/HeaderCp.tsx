@@ -19,7 +19,7 @@ import logoDark from "@/assets/logo-dark.png";
 import { useTheme } from "next-themes";
 
 export default function HeaderCp() {
-  const {theme}=useTheme()
+  const { theme } = useTheme();
   const pathname = usePathname();
 
   if (pathname.startsWith("/admin")) return;
@@ -27,19 +27,21 @@ export default function HeaderCp() {
     <div
       className={`sticky top-1 flex gap-6 justify-between items-center w-fit p-1.5 z-40 bg-linear-to-tr from-primary/25 to-background/25 backdrop-blur-sm rounded-full border shadow`}
     >
-      <Link href={"/"} className="flex items-center">
-        <div className="animate-pulse ">
-          <GiSoccerBall size={44} />
-        </div>
+      <Link href={"/"}>
+        <div className="flex items-center w-fit">
+          <div className="animate-pulse ">
+            <GiSoccerBall size={42} />
+          </div>
 
-        <Image
-          src={theme=='dark'? logoWhite: logoDark}
-          width={200}
-          height={200}
-          alt="logo"
-          className="w-auto h-10 ring"
-        />
-{/* 
+          <Image
+            src={theme == "dark" ? logoWhite : logoDark}
+            width={200}
+            height={200}
+            alt="logo"
+            className="max-w-32 h-10 "
+          />
+        </div>
+        {/* 
         <h1 className="flex text-2xl md:text-3xl lg:text-4xl font-semibold dark:text-white ">
           <span className="">Konjiehi</span>{" "}
           <span className="text-Orange">FC</span>

@@ -8,14 +8,11 @@ import { ResponsiveSwiper } from "@/components/carousel/ResponsiveSwiper";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { generatePlayerAbout } from "@/data/about";
-// import { HomePlayersGallery } from "./PlayersGallery";
-import { getGalleries } from "../players/details/page";
 import { TbPlayFootball } from "react-icons/tb";
 import { TITLE } from "@/components/Element";
 
 const LandingPlayers = async () => {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
-  // const galleries: IQueryResponse<IGalleryProps[]> = await getGalleries();
   return (
     <div className="_page px-4">
       <TITLE text={`Players`} icon={<TbPlayFootball />} />
