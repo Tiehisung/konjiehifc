@@ -3,23 +3,13 @@ import { IPlayer } from "../page";
 import PlayerProfile from "./Profile";
 import { IGalleryProps, IQueryResponse } from "@/types";
 import { PlayerHeadList } from "./PlayerHeadList";
-import { apiConfig } from "@/lib/configs";
 import { getPlayersStats } from "@/app/admin/page";
 import { IPlayerStats } from "@/types/stats";
+import { getGallery } from "@/app/admin/galleries/page";
 
 interface PageProps {
   searchParams: Promise<{ playerId: string }>;
 }
-
-export const getGalleries = async (tagNames?: string[], query?: string) => {
-  const formatted =
-    tagNames && tagNames.length ? `?tags=${tagNames.join(",")}` : "";
-
-  const response = await fetch(apiConfig.galleries + formatted, {
-    cache: "no-cache",
-  });
-  return await response.json();
-};
 
 export async function generateMetadata({ searchParams }: PageProps) {
   const player: IPlayer | null = await getPlayerById(
@@ -37,7 +27,8 @@ export async function generateMetadata({ searchParams }: PageProps) {
       description: `Profile, stats, and performance overview for ${name}.`,
       images: [
         ...(player?.avatar ? [player.avatar] : []),
-        ...(player?.featureMedia?.map((m) => m.secure_url).filter(Boolean) ?? []),
+        ...(player?.featureMedia?.map((m) => m.secure_url).filter(Boolean) ??
+          []),
       ],
     },
   };
@@ -46,8 +37,8 @@ export async function generateMetadata({ searchParams }: PageProps) {
 export default async function PlayerProfilePage({ searchParams }: PageProps) {
   const playerId = (await searchParams).playerId;
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
-  const galleries: IQueryResponse<IGalleryProps[]> = await getGalleries(
-    [playerId].filter(Boolean)
+  const galleries: IQueryResponse<IGalleryProps[]> = await getGallery(
+    `?tags=${[playerId].filter(Boolean).join(",")}`
   );
 
   const playerStats: IQueryResponse<IPlayerStats> = await getPlayersStats(

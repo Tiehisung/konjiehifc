@@ -36,6 +36,7 @@ export default function GalleryClient({
 
   return (
     <div className={`gallery-root p-3 ${className}`}>
+      
       {/* Grid */}
       <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {images.map((img, i) => (
