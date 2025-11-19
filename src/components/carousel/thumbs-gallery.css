@@ -8,9 +8,10 @@
 .main-swiper .swiper-button-prev {
   width: 34px;
   height: 34px;
-  background: rgb(var(--color-accent) / 0.4);
+  background: rgb(var(--color-accent) / 0.7);
   border-radius: 4px;
   backdrop-filter: blur(4px);
+  border: solid 1px rgb(var(--color-border) / 0.5);
 }
 
 .main-swiper .swiper-button-next:after,

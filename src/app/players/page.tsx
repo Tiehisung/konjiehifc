@@ -12,6 +12,7 @@ import PlayerFeatureStatsCard from "./PlayerStatsCard";
 import { AnimateOnView } from "@/components/Animate/AnimateOnView";
 import { ICldFileUploadResult } from "@/components/cloudinary/FileUploadWidget";
 import { kfc } from "@/data/kfc";
+import HEADER from "@/components/Element";
 
 export type TPlayerGallery = {
   _id: string;
@@ -127,7 +128,7 @@ export interface IPostPlayer {
 }
 
 export const metadata = {
-  title: "Players",
+  title: "Konjiehi FC Players",
   description:
     "Meet the Konjiehi FC squad, including stats, bios, and profiles.",
   keywords: ["Konjiehi FC players", "squad", "football team", "player stats"],
@@ -143,10 +144,10 @@ const PlayersPage = async () => {
 
   return (
     <div className="">
-      <h1 className="_heading mt-3 text-center">Players</h1>
+      <HEADER title="Players" subtitle="Meet Our Gallant Players " />
 
-      <div className="bg-popover">
-        <div className="mx-auto max-w-2xl lg:max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+      <div className="bg-popover px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl lg:max-w-7xl py-16 sm:py-24">
           <h2 className="sr-only">Players</h2>
 
           <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3 xl:gap-x-8">
@@ -155,7 +156,7 @@ const PlayersPage = async () => {
                 key={player?._id}
                 href={`/players/details?playerId=${player?._id}`}
               >
-                <AnimateOnView x={-10}>
+                <AnimateOnView y={-10}>
                   <PlayerFeatureStatsCard
                     name={`${player?.firstName} ${player?.lastName}`}
                     position={player.position}

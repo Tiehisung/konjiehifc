@@ -36,15 +36,25 @@ export function PitchGallery() {
     <div className="_page px-4">
       <ThumbsGallery
         images={slides}
-        mainSlideStyles={{
+        swiperStyles={{ width: "100%" }}
+        slideStyles={{
           width: isMobile ? "100%" : "70%",
           maxHeight: "500px",
+          backgroundColor: "var(--background)",
         }}
-        enableBlur
         descriptionStyles="flex flex-col justify-center items-center"
-        thumbnailSwiperStyles={{  margin: "auto" ,height:'70px',}}
-        thumbnailSlideStyles={{width:'80px'}}
+        thumbnailSwiperStyles={{
+          margin: "auto",
+          height: "70px",
+          width: "100%",
+          maxWidth: isMobile ? "100%" : "600px",
+        }}
+        thumbnailSlideStyles={{
+          width: isMobile ? "20%" : "25%",
+          height: "60px",
+        }}
         className=""
+        enableBlur
       />
     </div>
   );

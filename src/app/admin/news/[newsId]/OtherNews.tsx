@@ -36,7 +36,7 @@ export default function OtherAdminNews({
                   <p className="_p line-clamp-3">{item?.headline?.text}</p>
                 </div>
                 {item?.headline?.hasVideo && (
-                  <RxVideo className="absolute bottom-1 right-1.5 text-primaryRed text-2xl" />
+                  <RxVideo className="absolute bottom-1 right-1.5 text-Red text-2xl" />
                 )}
               </div>
             </Link>

@@ -31,7 +31,7 @@ export function MatchEventsAdmin({ players, opponent, match }: IProps) {
       )
     : [];
 
-  const className = `whitespace-nowrap data-[state=active]:border-primaryGreen data-[state=active]:text-primaryGreen rounded-none`;
+  const className = `whitespace-nowrap data-[state=active]:border-Green data-[state=active]:text-Green rounded-none`;
   return (
     <div>
       <h1 className="_label my-3">EVENTS LOGGER</h1>

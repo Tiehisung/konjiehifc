@@ -3,20 +3,22 @@ import Image from "next/image";
 import PrimLink from "@/components/Link";
 import { IPlayer } from "../players/page";
 import { getPlayers } from "../admin/players/page";
-import { IGalleryProps, IQueryResponse } from "@/types";
+import {  IQueryResponse } from "@/types";
 import { ResponsiveSwiper } from "@/components/carousel/ResponsiveSwiper";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { generatePlayerAbout } from "@/data/about";
-import { HomePlayersGallery } from "./PlayersGallery";
+// import { HomePlayersGallery } from "./PlayersGallery";
 import { getGalleries } from "../players/details/page";
+import { TbPlayFootball } from "react-icons/tb";
+import { TITLE } from "@/components/Element";
 
 const LandingPlayers = async () => {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
-  const galleries: IQueryResponse<IGalleryProps[]> = await getGalleries();
+  // const galleries: IQueryResponse<IGalleryProps[]> = await getGalleries();
   return (
     <div className="_page px-4">
-      <h1 className="_title uppercase">PLAYERS</h1>
+      <TITLE text={`Players`} icon={<TbPlayFootball />} />
       <br />
       <ResponsiveSwiper
         swiperStyles={{ width: "100%", height: "fit-content" }}
@@ -48,7 +50,7 @@ const LandingPlayers = async () => {
 
                 <br />
                 <Link href={`/players/details?playerId=${player?._id}`}>
-                  <span className="bg-primaryRed p-2 px-4 ">DISCOVER</span>
+                  <span className="bg-Red p-2 px-4 ">DISCOVER</span>
                 </Link>
               </div>
             </div>
@@ -58,7 +60,7 @@ const LandingPlayers = async () => {
 
       <PrimLink href={"/players"} text="See more" className="ml-auto" />
 
-      <HomePlayersGallery galleries={galleries} />
+      {/* <HomePlayersGallery galleries={galleries} /> */}
     </div>
   );
 };

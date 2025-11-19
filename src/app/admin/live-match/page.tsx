@@ -8,7 +8,7 @@ import { getTeams } from "../features/teams/page";
 import { checkGoals, checkTeams } from "@/lib";
 import Image from "next/image";
 import { StartStopMatch } from "./StartStop";
-import Header from "../../../components/Header";
+import Header from "../../../components/Element";
 
 export const getLiveMatch = async () => {
   try {

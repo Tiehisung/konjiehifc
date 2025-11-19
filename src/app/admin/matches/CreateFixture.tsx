@@ -90,7 +90,7 @@ const CreateFixture = ({ teams }: { teams?: ITeamProps[] }) => {
     <ContentShowcaseWrapper
       images={[staticImages.team.src]}
       className="py-6 bg-card gap-y-10 items-start"
-      graphicsStyles="md:min-h-[80vh] bg-primaryRed md:rounded-l-2xl"
+      graphicsStyles="md:min-h-[80vh] bg-Red md:rounded-l-2xl"
     >
       <form onSubmit={handleSubmit} className=" max-sm:grow">
         <Card>

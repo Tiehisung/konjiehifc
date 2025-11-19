@@ -16,8 +16,8 @@ interface ThumbsGalleryProps {
   images: IFileProps[];
   title?: string;
   enableBlur?: boolean;
-  mainSlideStyles?: CSSProperties;
-  mainSwiperStyles?: CSSProperties;
+  slideStyles?: CSSProperties;
+  swiperStyles?: CSSProperties;
   thumbnailSlideStyles?: CSSProperties;
   thumbnailSwiperStyles?: CSSProperties;
   descriptionStyles?: string;
@@ -53,7 +53,7 @@ export function ThumbsGallery({
           navigation={true}
           thumbs={{ swiper: thumbsSwiper }}
           modules={[FreeMode, Navigation, Thumbs]}
-          style={{ height: "400px", ...props.mainSlideStyles }}
+          style={{ height: "400px", ...props.swiperStyles }}
           className="main-swiper w-full"
           onSlideChange={(swiper) => setActiveImageIndex(swiper.realIndex)}
         >
@@ -61,7 +61,7 @@ export function ThumbsGallery({
             <SwiperSlide
               key={image?._id}
               className="bg-muted flex items-center justify-center"
-              style={{ ...props.mainSlideStyles }}
+              style={{ ...props.slideStyles }}
             >
               <div
                 className="relative w-full h-full bg-cover"

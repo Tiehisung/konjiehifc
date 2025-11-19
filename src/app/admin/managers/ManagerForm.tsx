@@ -78,7 +78,7 @@ export default function TechnicalManagerForm({
     <div
       className={`container mx-auto w-full transition-all duration-300 p-2 `}
     >
-      <h1 className="_title text-primaryGreen text-center uppercase p-3">
+      <h1 className="_title text-Green text-center uppercase p-3">
         {existingManager
           ? `${existingManager.fullname} details`
           : "Manager registration"}

@@ -11,7 +11,7 @@ export default function FooterCP({}) {
   return (
     <main
       hidden={pathname.includes("/admin")}
-      className={`bg-pink-700 mt-5`}
+      className={`bg-Orange mt-5`}
     >
       <MegaSponsors />
 

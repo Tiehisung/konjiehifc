@@ -1,11 +1,11 @@
 "use client";
 
 import { signOut, useSession } from "next-auth/react";
-import { BiLogOut } from "react-icons/bi";
 import { Button } from "./buttons/Button";
 import Link from "next/link";
 import AdminLoginController from "./auth/Login";
 import Loader from "./loaders/Loader";
+import { BiLogOutCircle } from "react-icons/bi";
 
 interface UserLogButtonsProps {
   loginStyles?: string;
@@ -21,7 +21,6 @@ export default function UserLogButtons({
 
   function handleLogout() {
     signOut();
-    // router.replace(`${apiConfig.signout}?callbackUrl=/`);
   }
   if (status == "loading") return <Loader message="" />;
   if (session)
@@ -41,7 +40,7 @@ export default function UserLogButtons({
           className={`px-2 py-1 flex items-center gap-2 ${logoutStyles}`}
           title="Logout"
         >
-          <BiLogOut size={20} /> <span className="md:hidden">Logout</span>
+          <BiLogOutCircle size={20} /> <span className="md:hidden">Logout</span>
         </Button>
       </div>
     );
