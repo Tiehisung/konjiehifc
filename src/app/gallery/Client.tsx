@@ -93,8 +93,8 @@ export function GalleryThumbnail({ gallery, className = "" }: GalleryProps) {
 
         {/* overlay */}
         <div className="absolute bottom-0 right-0 left-0 flex flex-wrap items-center justify-between gap-2 p-2 h-fit">
-          <div className="bg-modalOverlay text-white text-xs rounded px-2 py-1 backdrop-blur-sm">
-            {thumbnailImage?.title ?? `Image  `}
+          <div className="bg-modalOverlay text-white text-xs rounded px-2 py-1 backdrop-blur-sm line-clamp-1">
+            {shortText((gallery?.title as string) ?? thumbnailImage?.title, 32)}
           </div>
           {images.length > 1 && (
             <span className="backdrop-blur-sm text-white text-xs font-thin">
