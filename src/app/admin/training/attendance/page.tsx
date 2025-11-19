@@ -10,7 +10,7 @@ import { formatDate } from "@/lib/timeAndDate";
 import TrainingSessionCard from "./SessionCard";
 import { PrimarySearch } from "@/components/Search";
 import { AttendanceStandingsTable } from "./AttendanceStandings";
-
+import TabbedComponents, {  PrimaryTabs } from "@/components/Tabs";
 export interface ITrainingSession {
   date: string;
   location: string;
@@ -63,14 +63,15 @@ const AttendancePage = async () => {
     await getTrainingSessions();
   const accordion = trainingSessions?.data?.map((tSession) => ({
     trigger: (
-      <div className="flex items-center gap-1 justify-between">
-        <span>{tSession?.location}</span>
-
-        {" - "}
-        <span>
-          {formatDate(tSession.createdAt, "March 2, 2025")},{" "}
-          {tSession?.createdAt?.split("T")?.[1]?.substring(0, 5)}
-        </span>
+      <div className="grid items-center gap-1">
+        <p>
+          <span>{tSession?.location}</span> -
+          <span>
+            {formatDate(tSession.createdAt, "March 2, 2025")},{" "}
+            {tSession?.createdAt?.split("T")?.[1]?.substring(0, 5)}
+          </span>
+        </p>
+        <p className="font-extralight ">~~ {tSession?.recordedBy?.name}</p>
       </div>
     ),
     content: <TrainingSessionCard trainingSession={tSession} />,
@@ -99,6 +100,24 @@ const AttendancePage = async () => {
       <hr className="h-8 my-16 _gradient" />
 
       <AttendanceStandingsTable trainingSessions={trainingSessions?.data} />
+
+      <TabbedComponents labels={["Standings", "Record New", "Search"]}>
+        <p>St</p>
+        <p>r</p>
+        <p>s</p>
+      </TabbedComponents>
+
+     
+
+      <PrimaryTabs
+        tabs={[
+          { label: "Table", value: "table" },
+          { label: "Record New", value: "new" },
+          { label: "View Passed", value: "passed" },
+        ]}
+        content={["t", "r", "v"]}
+        triggerStyles="_secondaryBtn"
+      />
     </div>
   );
 };

@@ -37,13 +37,13 @@ export const Pagination: FC<PaginationProps> = ({
   const { setParam } = useUpdateSearchParams();
 
   const handlePrevious = () => {
-    if (pagination?.page > 1) {
+    if ((pagination?.page??0) > 1) {
       setParam("page", (Number(pagination?.page ?? 2) - 1).toString());
     }
   };
 
   const handleNext = () => {
-    if (pagination?.page < pagination?.pages) {
+    if (Number(pagination?.page) < Number(pagination?.pages)) {
       setParam("page", (Number(pagination?.page ?? 0) + 1).toString());
     }
   };

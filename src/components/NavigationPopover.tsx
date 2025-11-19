@@ -23,7 +23,7 @@ export function NavigationPopover({
   }, [pathname]);
   return (
     <PrimaryDropdown
-      className={`rounded-3xl border border-border shadow bg-blue-500/40 backdrop-blur-xs max-w-[70vw] -ml-8 ${className}`}
+      className={`rounded-3xl shadow bg-gray-700/40 backdrop-blur-xs max-w-[70vw] -ml-8 ${className}`}
       trigger={<Menu />}
       triggerStyles={`rounded-full aspect-square h-10 w-10 shadow-lg p-1.5 cursor-pointer ${triggerStyles}`}
       id={""}

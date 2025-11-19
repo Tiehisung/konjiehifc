@@ -5,7 +5,7 @@ import React from "react";
 import TechnicalManagerForm from "./ManagerForm";
 import { PrimaryCollapsible } from "@/components/Collapsible";
 import { Plus } from "lucide-react";
-import Header from "../../../components/Header";
+import Header from "../../../components/Element";
 import { getFeatureByName } from "../features/page";
 import { IFeature } from "../features/OptionsFeature";
 

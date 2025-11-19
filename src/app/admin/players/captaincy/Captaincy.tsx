@@ -92,7 +92,7 @@ export default function CaptaincyAdm({
                 />
                 <p className="_label text-[grayText] first-letter:uppercase flex items-center gap-3 mt-1">
                   {captain.isActive && (
-                    <Verified className="text-primaryGreen" size={24} />
+                    <Verified className="text-Green" size={24} />
                   )}
 
                   <Badge
@@ -150,7 +150,7 @@ export const UpdateCaptaincy = ({
     <DIALOG
       title
       trigger={
-        <Button primaryText="Update Captaincy" className="text-primaryGreen" />
+        <Button primaryText="Update Captaincy" className="text-Green" />
       }
     >
       <OverlayLoader isLoading={isBusy} className="backdrop:blur-none" />

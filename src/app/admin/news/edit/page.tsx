@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import Header from "../../../../components/Header";
+import Header from "../../../../components/Element";
 import { getNewsById } from "../page";
 import { INewsProps } from "@/app/news/page";
 import { EditNewsForm } from "./EditNewsForm";

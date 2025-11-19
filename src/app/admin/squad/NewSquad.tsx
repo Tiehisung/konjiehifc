@@ -266,7 +266,7 @@ const NewSquad = ({
                           {isSelected ? (
                             <MdCheckBox
                               size={24}
-                              className="text-primaryGreen min-h-5 min-w-5"
+                              className="text-Green min-h-5 min-w-5"
                             />
                           ) : (
                             <MdCheckBoxOutlineBlank

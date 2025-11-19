@@ -12,6 +12,7 @@ import { GrDashboard } from "react-icons/gr";
 import { useSession } from "next-auth/react";
 import { ThemeModeToggle } from "./ThemeToggle";
 import { NavigationPopover } from "./NavigationPopover";
+import { GalleryThumbnails } from "lucide-react";
 
 export default function HeaderCp() {
   const pathname = usePathname();
@@ -26,9 +27,9 @@ export default function HeaderCp() {
           <GiSoccerBall size={44} />
         </div>
 
-        <h1 className="flex text-2xl md:text-3xl lg:text-4xl font-semibold text-black dark:text-white ">
+        <h1 className="flex text-2xl md:text-3xl lg:text-4xl font-semibold dark:text-white ">
           <span className="">Konjiehi</span>{" "}
-          <span className="text-yellow-700">FC</span>
+          <span className="text-Orange">FC</span>
         </h1>
       </Link>
       <div className=" container ml-auto flex justify-end items-center ">
@@ -94,6 +95,7 @@ const navLinks = [
   { title: "Matches", href: "/matches", icon: <BiTable size={24} /> },
   { title: "Live", href: "/live-match", icon: <TbTableRow size={24} /> },
   { title: "News", href: "/news", icon: <RiNewsLine size={24} /> },
+  { title: "Gallery", href: "/gallery", icon: <GalleryThumbnails size={24} /> },
 ];
 
 export const MobilePublicNuv = () => {

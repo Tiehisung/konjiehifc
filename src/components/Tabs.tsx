@@ -3,9 +3,9 @@
 import { setSearchParams } from "@/lib/searchParams";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { FC, ReactNode, useEffect, useState } from "react";
 import Loader from "./loaders/Loader";
-
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
 interface IProps {
   labels: string[];
   children: ReactNode[];
@@ -36,7 +36,7 @@ const TabbedComponents = ({
 
   useEffect(() => {
     const tab = sp?.get(queryName);
-    if (tab) setTabIndex(Number(tab));
+    if (tab) setTabIndex(Number(tab ?? "0"));
   }, [sp]);
 
   const handleSetTab = (index: number) => {
@@ -150,5 +150,40 @@ export const LinkTabs = ({
         ))}
       </div>
     </div>
+  );
+};
+
+interface ITabs {
+  className?: string;
+  triggerStyles?: string;
+  tabs: Array<{ value: string; label: ReactNode }>;
+  defaultValue?: string;
+  content: Array<ReactNode>;
+}
+export const PrimaryTabs: FC<ITabs> = (props) => {
+  const className = `whitespace-nowrap data-[state=active]:border-Green data-[state=active]:text-Green data-[state=active]:underline rounded-none`;
+  return (
+    <Tabs
+      defaultValue={props.defaultValue}
+      className={`w-[400px] ${props.className}`}
+    >
+      <TabsList className="flex items-center">
+        {props.tabs.map((tab) => (
+          <TabsTrigger
+            key={tab.value}
+            value={tab.value}
+            className={`${className} cursor-pointer ${props.triggerStyles}`}
+          >
+            {tab.label}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+
+      {props.content.map((cont, i) => (
+        <TabsContent key={i} value={props.tabs[i].value}>
+          {cont}
+        </TabsContent>
+      ))}
+    </Tabs>
   );
 };

@@ -10,39 +10,44 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { HiOutlineComputerDesktop } from "react-icons/hi2";
 import { MdOutlineWbSunny } from "react-icons/md";
 import { RiMoonClearLine } from "react-icons/ri";
 
-export function ThemeModeToggle({ dropdown }: { dropdown?: boolean }) {
+export function ThemeModeToggle({
+  dropdown,
+  className = "",
+}: {
+  dropdown?: boolean;
+  className?: string;
+}) {
   const { setTheme, theme } = useTheme();
 
   if (!dropdown)
     return (
-      <div className="flex items-center gap-0.5 rounded-full bg-secondary p-1 w-fit">
-        <HiOutlineComputerDesktop
+      <div
+        className={`flex items-center gap-0.5 rounded-full p-1 w-fit ${className}`}
+      >
+        {/* <HiOutlineComputerDesktop
           size={32}
           className={`rounded-full p-1.5 cursor-pointer _hover  ${
             theme == "system" ? "bg-popover text-pink-700" : ""
           }`}
           onClick={() => setTheme("system")}
-        />
+        /> */}
 
-        <MdOutlineWbSunny
-          size={32}
-          className={`rounded-full p-1.5 cursor-pointer _hover  ${
-            theme == "light" ? "bg-popover text-pink-700" : ""
-          }`}
-          onClick={() => setTheme("light")}
-        />
-       
-        <RiMoonClearLine
-          size={32}
-          className={`rounded-full p-1.5 cursor-pointer _hover  ${
-            theme == "dark" ? "bg-popover text-pink-700" : ""
-          }`}
-          onClick={() => setTheme("dark")}
-        />
+        {theme === "dark" ? (
+          <MdOutlineWbSunny
+            size={32}
+            className={`rounded-full p-1.5 cursor-pointer _hover bg-popover`}
+            onClick={() => setTheme("light")}
+          />
+        ) : (
+          <RiMoonClearLine
+            size={32}
+            className={`rounded-full p-1.5 cursor-pointer _hover bg-popover`}
+            onClick={() => setTheme("dark")}
+          />
+        )}
       </div>
     );
 

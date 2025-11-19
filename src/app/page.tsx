@@ -42,7 +42,6 @@ export default async function Home() {
        
       </Suspense>
 
-      <PitchGallery />
 
       <Suspense fallback={<LoadingSkeleton width={200} height={120} />}>
         <LandingSquad />
@@ -59,6 +58,8 @@ export default async function Home() {
       <Suspense fallback={<CardLoader className="h-36 w-40" />}>
         <LandingNewsHeadlines />
       </Suspense>
+
+      <PitchGallery />
 
       <Suspense fallback={<CardLoader className="h-36 w-40" />}>
         <PlayerStatistics />

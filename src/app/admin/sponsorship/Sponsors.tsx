@@ -6,7 +6,7 @@ import { AddNewSponsor } from "./AddSponsor";
 import { staticImages } from "@/assets/images";
 import { IQueryResponse } from "@/types";
 import { shortText } from "@/lib";
-import Header from "../../../components/Header";
+import Header from "../../../components/Element";
 
 const AdminSponsors = ({
   sponsors,

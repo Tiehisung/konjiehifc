@@ -1,4 +1,16 @@
 /* Swiper component styles moved from inline JSX */
+.swiper {
+  background: transparent;
+}
+
+.swiper-slide {
+  background-color: transparent;
+  border: none;
+}
+.swiper-slide img {
+  background-color: transparent;
+  border: none;
+}
 .swiper-button-next,
 .swiper-button-prev {
   color: var(--primary);

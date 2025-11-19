@@ -36,7 +36,7 @@ export default async function AdminSponsor({ params, searchParams }: IProps) {
 
       <DonorBadging sponsor={sponsor} />
 
-      <div className="flex items-center justify-center rounded-2xl gap-8 ring ring-primaryRed w-full">
+      <div className="flex items-center justify-center rounded-2xl gap-8 ring ring-Red w-full">
         <EditSponsor sponsor={sponsor} />
 
         {/* Delete */}

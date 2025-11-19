@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardHeader from "../../../../components/Header";
+import DashboardHeader from "../../../../components/Element";
 import SummaryCards from "./SummaryCards";
 import TransactionForm from "./TransactionForm";
 import TransactionList from "./TransactionList";

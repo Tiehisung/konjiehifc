@@ -4,7 +4,7 @@ import { Button } from "@/components/buttons/Button";
 import { NavigationPopover } from "@/components/NavigationPopover";
 import { ThemeModeToggle } from "@/components/ThemeToggle";
 import UserLogButtons from "@/components/UserLogger";
-import {  LogOut, Logs } from "lucide-react";
+import { LogOut, Logs } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -43,7 +43,11 @@ export function LeftPaneDesktop() {
       className={`max-md:hidden bg-accent w-[220px] max-h-screen overflow-y-auto py-6`}
     >
       <div className="p-6 flex items-center justify-between">
-        <Link href={"/"} className="text-2xl font-semibold grow flex" title="Home">
+        <Link
+          href={"/"}
+          className="text-2xl font-semibold grow flex"
+          title="Home"
+        >
           ⚽ KonFC
         </Link>
       </div>
@@ -104,12 +108,12 @@ export function LeftPaneMobile() {
         {mobileLinks.map((slink, index) => (
           <li
             key={index}
-            className={`flex _hover px-2 rounded-md ${
-              activeLink(slink.path) ? " text-muted-foreground  " : " "
+            className={`flex _hover _shrink px-2 rounded-md ${
+              activeLink(slink.path) ? " text-primary bg-popover/70 " : " "
             }`}
           >
             <Link
-              className="flex gap-1 w-full items-center h-10 hover:font-black "
+              className="flex gap-1 w-full items-center h-10 text-sm font-light "
               href={slink.path}
             >
               <span className="text-xl bg-accent/30 rounded-full p-1.5">
@@ -121,15 +125,14 @@ export function LeftPaneMobile() {
         ))}
 
         <li className="mt-12 px-3 flex gap-6 items-center flex-wrap">
-          <ThemeModeToggle />
-          <UserLogButtons logoutStyles="_deleteBtn border rounded flex items-center gap-1 text-sm justify-center w-fit py-1 px-2" />
+          <ThemeModeToggle className="w-full" />
+          <UserLogButtons logoutStyles="bg-popover border rounded flex items-center gap-1 text-sm justify-center w-full _secondaryBtn _hover py-1 px-2" />
         </li>
       </ul>
     </NavigationPopover>
   );
 }
 const sidebarLinks = [
- 
   {
     label: "Dashboard",
     path: "/admin",
@@ -207,38 +210,3 @@ const sidebarLinks = [
     icon: <Logs />,
   },
 ];
-// export const MobilePublicNuv = () => {
-//   const { status } = useSession();
-//   return (
-//     <NavigationPopover>
-//       <ul className="items-center w-full space-y-2">
-//         {navLinks.map((nlink, index) => (
-//           <li key={index} className="flex">
-//             <Link
-//               href={nlink.href}
-//               className="flex gap-1 w-full items-center h-10 hover:font-black"
-//             >
-//               <span className="p-2 ">{nlink.icon}</span>
-//               {nlink.title}
-//             </Link>
-//           </li>
-//         ))}
-//         {status == "authenticated" && (
-//           <li className={`flex`}>
-//             <Link
-//               href={"/admin"}
-//               className="flex gap-1 w-full items-center h-10 hover:font-semibold"
-//             >
-//               <span className="p-2 ">{<GrDashboard size={24} />}</span>
-//               Admin Dashboard
-//             </Link>
-//           </li>
-//         )}
-//         <li className="mt-12 px-3 flex gap-6 items-center flex-wrap">
-//           <ThemeModeToggle />
-//           <UserLogButtons logoutStyles="_deleteBtn border rounded flex items-center gap-1 text-sm justify-center w-fit py-1 px-2" />
-//         </li>
-//       </ul>
-//     </NavigationPopover>
-//   );
-// };

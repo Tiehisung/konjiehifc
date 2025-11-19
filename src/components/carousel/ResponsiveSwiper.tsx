@@ -18,6 +18,7 @@ interface ResponsiveSwiperProps {
   swiperStyles?: CSSProperties;
   slideStyles?: CSSProperties;
   doubleCount?: boolean;
+  countPerView?: { sm: number; md: number; lg: number; xl: number };
 }
 
 export function ResponsiveSwiper({
@@ -29,6 +30,7 @@ export function ResponsiveSwiper({
   swiperStyles = {},
   slideStyles = {},
   doubleCount,
+  countPerView = { sm: 1, md: 2, lg: 3, xl: 4 },
 }: ResponsiveSwiperProps) {
   const swiperRef = useRef<SwiperType | null>(null);
   const [slidesPerView, setSlidesPerView] = useState(1);
@@ -40,19 +42,19 @@ export function ResponsiveSwiper({
 
       if (width < 640) {
         // Mobile: sm
-        setSlidesPerView(1);
+        setSlidesPerView(countPerView.sm);
         setSpaceBetween(12);
       } else if (width < 768) {
         // Tablet: md
-        setSlidesPerView(2);
+        setSlidesPerView(countPerView.md);
         setSpaceBetween(16);
       } else if (width < 1024) {
         // Laptop: lg
-        setSlidesPerView(3);
+        setSlidesPerView(countPerView.lg);
         setSpaceBetween(20);
       } else {
         // Desktop: xl
-        setSlidesPerView(4);
+        setSlidesPerView(countPerView.xl);
         setSpaceBetween(24);
       }
     };
@@ -89,7 +91,7 @@ export function ResponsiveSwiper({
         {slides.map((slide, i) => (
           <SwiperSlide
             key={i}
-            className="flex items-center justify-center"
+            className="flex items-center justify-center bg-transparent border-none"
             style={slideStyles}
           >
             {slide}

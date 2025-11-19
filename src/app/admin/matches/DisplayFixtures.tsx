@@ -105,11 +105,11 @@ export function DisplayFixtures({
                       <span className="">
                         {fixture.status == "COMPLETED" ? (
                           <FaCheckCircle
-                            className="text-primaryGreen"
+                            className="text-Green"
                             size={10}
                           />
                         ) : fixture.status == "LIVE" ? (
-                          <MdLiveTv className="text-primaryRed" size={10} />
+                          <MdLiveTv className="text-Red" size={10} />
                         ) : (
                           <BsPatchCheck size={10} />
                         )}
