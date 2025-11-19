@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { LiaAngleUpSolid } from "react-icons/lia";
 
-const BackToTopButton = () => {
+const BackToTopButton = ({className='z-10'}:{className?:string}) => {
   const [isVisible, setIsVisible] = useState(false);
 
   // Handle scroll visibility
@@ -28,7 +28,7 @@ const BackToTopButton = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6">
+    <div className={`fixed bottom-6 right-6 ${className}`}>
       {isVisible && (
         <button
           title="Back to Top"

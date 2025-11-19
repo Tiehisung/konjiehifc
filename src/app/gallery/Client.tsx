@@ -1,0 +1,106 @@
+// components/gallery/Gallery.tsx
+"use client";
+
+import React, { useMemo, useState } from "react";
+import Image from "next/image";
+import LightboxViewer from "@/components/viewer/LightBox";
+import { IGalleryProps, IQueryResponse } from "@/types";
+import { shortText } from "@/lib";
+import { Badge } from "@/components/ui/badge";
+
+type Props = {
+  galleries: IQueryResponse<IGalleryProps[]>;
+  className?: string;
+  startIndex?: number;
+};
+
+export default function GalleryClient({ galleries, className = "" }: Props) {
+  return (
+    <div className={`gallery-root p-3 ${className}`}>
+      {/* Grid */}
+      <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        {galleries?.data?.map((gallery, i) => (
+          <GalleryThumbnail key={"gallery" + i} gallery={gallery} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export type GalleryImage = {
+  src: string;
+  width?: number;
+  height?: number;
+  title?: string;
+  description?: string;
+};
+
+type GalleryProps = {
+  gallery: IGalleryProps;
+  className?: string;
+};
+
+export function GalleryThumbnail({ gallery, className = "" }: GalleryProps) {
+  const [open, setOpen] = useState(false);
+
+  // Prepare slides for lightbox
+  const images = useMemo(
+    () =>
+      gallery?.files
+        ?.filter((f) => f.resource_type == "image")
+        ?.map((img) => ({
+          src: img.secure_url,
+          width: img.width ?? 1600,
+          height: img.height ?? 900,
+          title: shortText(img?.original_filename ?? img?.name ?? "Image", 20),
+          description: img.description,
+        })),
+    [gallery]
+  );
+
+  const thumbnailImage = images?.[0];
+
+  return (
+    <>
+      <button
+        onClick={() => {
+          setOpen(true);
+        }}
+        className={`relative overflow-hidden rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-primary w-full h-auto ${className}`}
+        aria-label={thumbnailImage?.title ?? `Open image`}
+        type="button"
+      >
+        <div className="relative w-full aspect-[4/3] bg-gray-100 flex items-start">
+          <Image
+            src={thumbnailImage?.src}
+            alt={thumbnailImage?.title ?? `Image `}
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+            className="object-cover transform transition-transform duration-300 hover:scale-105 grow"
+            priority={true} // preload a few for speed
+          />
+        </div>
+
+        {/* overlay */}
+        <div className="absolute bottom-0 right-0 left-0 flex flex-wrap items-center justify-between gap-2 p-2 h-fit">
+          <div className="bg-modalOverlay text-white text-xs rounded px-2 py-1 backdrop-blur-sm">
+            {thumbnailImage?.title ?? `Image  `}
+          </div>
+          {images.length > 1 && (
+            <span className="backdrop-blur-sm text-white text-xs font-thin">
+              +{images?.length - 1}
+            </span>
+          )}
+        </div>
+      </button>
+
+      {/* Lightbox */}
+      <LightboxViewer
+        open={open}
+        onClose={() => setOpen(false)}
+        images={images}
+        index={0}
+      />
+    </>
+  );
+}

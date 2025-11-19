@@ -29,20 +29,22 @@ export default function HEADER({
   title,
   children,
   className = "text-Orange",
+  isPage = true,
 }: {
   title?: string;
   subtitle?: string;
   className?: string;
   children?: ReactNode;
+  isPage?: boolean;
 }) {
   return (
     <header
       className={cn(
-        `border-b border-border bg-Blue grow py-5 md:py-10 px-4 ${className}`,
+        `border-b border-border bg-primary grow py-5 md:py-10 px-4 ${className}`,
         georgia.className
       )}
     >
-      <div className=" mx-auto _page">
+      <div className={` mx-auto ${isPage ? "_page" : ""}`}>
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
           {title}
         </h1>
@@ -62,8 +64,14 @@ interface IProps {
 export function TITLE({ text, icon }: IProps) {
   return (
     <div className="flex items-center gap-3.5 group">
-      {icon && <span className="text-2xl text-muted-foreground group-hover:text-foreground">{icon}</span>}
-      <h1 className={cn("font-bold text-[20px] leading-7 ", nova.className)}>{text}</h1>
+      {icon && (
+        <span className="text-2xl text-muted-foreground group-hover:text-foreground">
+          {icon}
+        </span>
+      )}
+      <h1 className={cn("font-bold text-[20px] leading-7 ", nova.className)}>
+        {text}
+      </h1>
     </div>
   );
 }

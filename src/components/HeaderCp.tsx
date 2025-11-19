@@ -13,8 +13,13 @@ import { useSession } from "next-auth/react";
 import { ThemeModeToggle } from "./ThemeToggle";
 import { NavigationPopover } from "./NavigationPopover";
 import { GalleryThumbnails } from "lucide-react";
+import Image from "next/image";
+import logoWhite from "@/assets/logo-white.png";
+import logoDark from "@/assets/logo-dark.png";
+import { useTheme } from "next-themes";
 
 export default function HeaderCp() {
+  const {theme}=useTheme()
   const pathname = usePathname();
 
   if (pathname.startsWith("/admin")) return;
@@ -27,10 +32,18 @@ export default function HeaderCp() {
           <GiSoccerBall size={44} />
         </div>
 
+        <Image
+          src={theme=='dark'? logoWhite: logoDark}
+          width={200}
+          height={200}
+          alt="logo"
+          className="w-auto h-10 ring"
+        />
+{/* 
         <h1 className="flex text-2xl md:text-3xl lg:text-4xl font-semibold dark:text-white ">
           <span className="">Konjiehi</span>{" "}
           <span className="text-Orange">FC</span>
-        </h1>
+        </h1> */}
       </Link>
       <div className=" container ml-auto flex justify-end items-center ">
         <DesktopNav />
