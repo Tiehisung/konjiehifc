@@ -1,23 +1,22 @@
 import HEADER from "@/components/Element";
 import React from "react";
 import GalleryClient from "./Client";
-import { getPlayers } from "../admin/players/page";
-import { IQueryResponse } from "@/types";
-import { IPlayer } from "../players/page";
+import { IGalleryProps, IQueryResponse } from "@/types";
+import { getGalleries } from "../players/details/page";
+import InfiniteLimitScroller from "@/components/InfiniteScroll";
 
 const GalleryPage = async () => {
-  const players: IQueryResponse<IPlayer[]> = await getPlayers();
-  const images =
-    players.data?.map((player) => ({
-      src: player.avatar,
-      width: 600,
-      description: player.lastName,
-      title: player.firstName,
-    })) || [];
+  const galleries: IQueryResponse<IGalleryProps[]> = await getGalleries();
+
   return (
     <div>
-      <HEADER title="Gallery" subtitle="Gallery " isPage={false} />
-      <GalleryClient images={images ?? []} />
+      <HEADER
+        title="Gallery"
+        subtitle="Explore our galleries "
+        isPage={false}
+      />
+      <GalleryClient galleries={galleries} />
+      <InfiniteLimitScroller pagination={galleries?.pagination} />
     </div>
   );
 };

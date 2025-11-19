@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import LogModel from "@/models/logs";
 import "@/models/user";
 import { ConnectMongoDb } from "@/lib/dbconfig";
+import { removeEmptyKeys } from "@/lib";
 export const dynamic = "force-dynamic";
 
 ConnectMongoDb();
@@ -14,26 +15,27 @@ export async function GET(request: NextRequest) {
   const search = searchParams.get("log_search") || "";
   const type = searchParams.get("type") || "";
 
-
   const skip = (page - 1) * limit;
 
   const regex = new RegExp(search, "i");
   const query = {
     $or: [
       { "title": regex },
-
       { "severity": regex },
-
+      { "user.name": regex },
       { "category": new RegExp(type, "i") },
     ],
-
   };
-  const logs = await LogModel.find(query).populate('user').sort({ createdAt: 'desc' })
+
+  const cleaned = removeEmptyKeys(query);
+
+  const logs = await LogModel.find(cleaned)
+    .sort({ createdAt: 'desc' })
     .skip(skip)
     .limit(limit)
     .lean();
 
-  const total = await LogModel.countDocuments(query);
+  const total = await LogModel.countDocuments(cleaned);
   return NextResponse.json({
     success: true,
     data: logs, pagination: {
@@ -45,5 +47,5 @@ export async function GET(request: NextRequest) {
   });
 }
 
- 
+
 

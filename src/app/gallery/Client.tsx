@@ -3,104 +3,104 @@
 
 import React, { useMemo, useState } from "react";
 import Image from "next/image";
-import Lightbox from "yet-another-react-lightbox";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import Download from "yet-another-react-lightbox/plugins/download";
-import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
-import "yet-another-react-lightbox/styles.css";
-import "yet-another-react-lightbox/plugins/thumbnails.css";
-
-export type GalleryImage = {
-  src: string; // absolute or application-root path e.g. '/images/1.jpg'
-  width?: number; // optional width for layout (helps lightbox)
-  height?: number; // optional height
-  title?: string;
-  description?: string;
-};
+import LightboxViewer from "@/components/viewer/LightBox";
+import { IGalleryProps, IQueryResponse } from "@/types";
+import { shortText } from "@/lib";
+import { Badge } from "@/components/ui/badge";
 
 type Props = {
-  images: GalleryImage[];
+  galleries: IQueryResponse<IGalleryProps[]>;
   className?: string;
   startIndex?: number;
 };
 
-export default function GalleryClient({
-  images,
-  className = "",
-  startIndex = 0,
-}: Props) {
-  const [open, setOpen] = useState(false);
-  const [index, setIndex] = useState(startIndex);
-
-  // Prepare slides for lightbox
-  const slides = useMemo(
-    () =>
-      images?.map((img) => ({
-        src: img.src,
-        width: img.width ?? 1600,
-        height: img.height ?? 900,
-        title: img.title,
-        description: img.description,
-      })),
-    [images]
-  );
-
+export default function GalleryClient({ galleries, className = "" }: Props) {
   return (
-    <div className={`gallery-root ${className}`}>
+    <div className={`gallery-root p-3 ${className}`}>
       {/* Grid */}
       <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-        {images.map((img, i) => (
-          <button
-            key={img.src + i}
-            onClick={() => {
-              setIndex(i);
-              setOpen(true);
-            }}
-            className="relative overflow-hidden rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-primary"
-            aria-label={img.title ?? `Open image ${i + 1}`}
-            type="button"
-          >
-            <div className="relative w-full aspect-[4/3] bg-gray-100">
-              <Image
-                src={img.src}
-                alt={img.title ?? `Image ${i + 1}`}
-                fill
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                className="object-cover transform transition-transform duration-300 hover:scale-105"
-                priority={i < 3} // preload a few for speed
-              />
-            </div>
-
-            {/* overlay */}
-            <div className="absolute inset-0 flex items-end p-2">
-              <div className="bg-modalOverlay text-white text-xs rounded px-2 py-1 backdrop-blur-sm">
-                {img.title ?? `Image ${i + 1}`}
-              </div>
-            </div>
-          </button>
+        {galleries?.data?.map((gallery, i) => (
+          <GalleryThumbnail key={"gallery" + i} gallery={gallery} />
         ))}
       </div>
+    </div>
+  );
+}
+
+export type GalleryImage = {
+  src: string;
+  width?: number;
+  height?: number;
+  title?: string;
+  description?: string;
+};
+
+type GalleryProps = {
+  gallery: IGalleryProps;
+  className?: string;
+};
+
+export function GalleryThumbnail({ gallery, className = "" }: GalleryProps) {
+  const [open, setOpen] = useState(false);
+
+  // Prepare slides for lightbox
+  const images = useMemo(
+    () =>
+      gallery?.files
+        ?.filter((f) => f.resource_type == "image")
+        ?.map((img) => ({
+          src: img.secure_url,
+          width: img.width ?? 1600,
+          height: img.height ?? 900,
+          title: shortText(img?.original_filename ?? img?.name ?? "Image", 20),
+          description: img.description,
+        })),
+    [gallery]
+  );
+
+  const thumbnailImage = images?.[0];
+
+  return (
+    <>
+      <button
+        onClick={() => {
+          setOpen(true);
+        }}
+        className={`relative overflow-hidden rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-primary w-full h-auto ${className}`}
+        aria-label={thumbnailImage?.title ?? `Open image`}
+        type="button"
+      >
+        <div className="relative w-full aspect-[4/3] bg-gray-100 flex items-start">
+          <Image
+            src={thumbnailImage?.src}
+            alt={thumbnailImage?.title ?? `Image `}
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+            className="object-cover transform transition-transform duration-300 hover:scale-105 grow"
+            priority={true} // preload a few for speed
+          />
+        </div>
+
+        {/* overlay */}
+        <div className="absolute bottom-0 right-0 left-0 flex flex-wrap items-center justify-between gap-2 p-2 h-fit">
+          <div className="bg-modalOverlay text-white text-xs rounded px-2 py-1 backdrop-blur-sm">
+            {thumbnailImage?.title ?? `Image  `}
+          </div>
+          {images.length > 1 && (
+            <span className="backdrop-blur-sm text-white text-xs font-thin">
+              +{images?.length - 1}
+            </span>
+          )}
+        </div>
+      </button>
 
       {/* Lightbox */}
-      <Lightbox
+      <LightboxViewer
         open={open}
-        close={() => setOpen(false)}
-        index={index}
-        slides={slides}
-        plugins={[Zoom, Download, Thumbnails]}
-        controller={{
-          // keyboard, swipe
-          closeOnBackdropClick: true,
-        }}
-        on={{
-          view: ({ index: i }) => setIndex(i),
-        }}
-        styles={{
-          // small visual customizations (optional)
-          container: { zIndex: 1400 },
-        }}
-        download={{download: ({saveAs,slide}) =>    saveAs(slide.src)}}
+        onClose={() => setOpen(false)}
+        images={images}
+        index={0}
       />
-    </div>
+    </>
   );
 }

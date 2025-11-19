@@ -19,7 +19,7 @@ export const ClearFiltersBtn = ({
       className={`_hover _active _shrink text-xs transform active:text-primaryRed p-2 w-fit select-none cursor-pointer ${className}`}
       onClick={() => clearParams()}
     >
-      {label ? <span>{label}</span> : <MdOutlineFilterAltOff />}
+      {label ? <span>{label}</span> : <MdOutlineFilterAltOff size={20} />}
     </button>
   );
 };

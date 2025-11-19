@@ -3,19 +3,30 @@
 import { IFileProps } from "@/types";
 import Image from "next/image";
 import { useState } from "react";
+import LightboxViewer from "../viewer/LightBox";
 
 interface MasonryGalleryProps {
   items: IFileProps[];
   useSize?: boolean;
+  enableLightboxViewer?: boolean;
 }
 
 export default function MasonryGallery({
   items,
   useSize,
+  enableLightboxViewer = true,
 }: MasonryGalleryProps) {
   const [hoveredId, setHoveredId] = useState<string | undefined>(undefined);
+  //For Lightbox
+  const images = items.map((item) => ({
+    src: item?.secure_url,
+    alt: item?.original_filename ?? (item?.asset_id as string),
+    width: item?.width,
+    height: item?.height,
+  }));
 
-  console.log({ items });
+  const [open, setOpen] = useState(false);
+  const [photoIndex, setPhotoIndex] = useState(0);
 
   function getAspectRatio(bytes: number): string {
     if (bytes > 500000) {
@@ -37,6 +48,10 @@ export default function MasonryGallery({
             className="mb-6 break-inside-avoid overflow-hidden rounded-lg"
             onMouseEnter={() => setHoveredId(item?.asset_id)}
             onMouseLeave={() => setHoveredId(undefined)}
+            onClick={() => {
+              setPhotoIndex(i);
+              enableLightboxViewer && setOpen(true);
+            }}
           >
             <div
               className={`group relative ${getAspectRatio(
@@ -67,6 +82,13 @@ export default function MasonryGallery({
             </div>
           </div>
         ))}
+
+        <LightboxViewer
+          open={open}
+          onClose={() => setOpen(false)}
+          images={images}
+          index={photoIndex}
+        />
       </div>
     );
 
@@ -76,6 +98,10 @@ export default function MasonryGallery({
         <div
           key={item?.asset_id + i}
           className="mb-6 break-inside-avoid overflow-hidden rounded-lg"
+          onClick={() => {
+            setPhotoIndex(i);
+            enableLightboxViewer && setOpen(true);
+          }}
         >
           <div className="group relative aspect-[3/4] w-full overflow-hidden bg-muted">
             <Image
@@ -98,6 +124,12 @@ export default function MasonryGallery({
           </div>
         </div>
       ))}
+      <LightboxViewer
+        open={open}
+        onClose={() => setOpen(false)}
+        images={images}
+        index={photoIndex}
+      />
     </div>
   );
 }

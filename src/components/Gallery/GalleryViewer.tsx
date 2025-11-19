@@ -31,7 +31,7 @@ export function GalleryViewer({ gallery ,title}: IProps) {
           width: isMobile ? "100%" : "80%",
         }}
         enableBlur
-        mainSlideStyles={{
+        slideStyles={{
           width: isMobile ? "100%" : "80%",
           aspectRatio: "auto",
           borderRadius: "0",
