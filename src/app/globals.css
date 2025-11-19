@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "./styles.extended.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -176,17 +177,6 @@
 }
 ._link {
   @apply hover:underline underline-offset-2 visited:text-purple-500 dark:visited:text-purple-300 hover:text-black dark:hover:text-white;
-}
-
-/* Scrollbar */
-._hideScrollbar::-webkit-scrollbar {
-  width: none;
-  display: none;
-  background-color: #f5f5f5; /* For Chrome, Safari, and Opera */
-}
-._hideScrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
 }
 
 /* Buttons */
