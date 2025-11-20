@@ -9,12 +9,12 @@ import { apiConfig } from "@/lib/configs";
 import { PrimaryDropdown } from "@/components/Dropdown";
 import { downloadFile } from "@/lib/downloadFile";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
-import { GalleryViewer } from "@/components/Gallery/GalleryViewer";
 import { useState } from "react";
 import { toggleClick } from "@/lib/DOM";
 import { formatDate } from "@/lib/timeAndDate";
 import { useSession } from "next-auth/react";
 import { IUser } from "@/types/user";
+import LightboxViewer from "@/components/viewer/LightBox";
 
 interface GalleryDisplayProps {
   galleries: IGalleryProps[];
@@ -27,6 +27,8 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
 
   const session = useSession();
   const isAdmin = (session?.data?.user as IUser)?.role?.includes("admin");
+
+  const [isOpen, setIsOpen] = useState(false);
 
   if (!galleries?.length)
     return (
@@ -44,6 +46,10 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25, delay: i * 0.05 }}
+          onClick={() => {
+            setSelectedGallery(gallery);
+            setIsOpen(true);
+          }}
         >
           {/* Cover Image */}
           {gallery.files?.[0]?.secure_url && (
@@ -77,7 +83,7 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
             </p>
           </div>
           {/* Dropdown Menu */}
-          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition">
+          <div onClick={e=>e.stopPropagation()} className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition">
             <PrimaryDropdown id={""} className="h-fit ">
               <DropdownMenuItem
                 onClick={() =>
@@ -107,7 +113,7 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
               <DropdownMenuItem
                 onClick={() => {
                   setSelectedGallery(gallery);
-                  toggleClick(gallery?._id);
+                  setIsOpen(true);
                 }}
                 hidden={!isAdmin}
               >
@@ -127,7 +133,21 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
           </div>
         </motion.div>
       ))}
-      <GalleryViewer gallery={selectedGallery} title={selectedGallery?.title} />
+      <LightboxViewer
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        images={
+          selectedGallery?.files
+            ?.filter((f) => f?.resource_type == "image")
+            ?.map((f) => ({
+              src: f.secure_url,
+              alt: f.original_filename,
+              height: f.height,
+              width: f.width,
+            })) ?? []
+        }
+        index={0}
+      />
     </div>
   );
 }

@@ -4,11 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IGalleryProps } from "@/types";
 import { useState } from "react";
-import { GalleryViewer } from "./GalleryViewer";
 import { toggleClick } from "@/lib/DOM";
 import { MediaPreview } from "../files/MediaView";
 import { isObjectId } from "@/lib";
 import { formatDate } from "@/lib/timeAndDate";
+import LightboxViewer from "../viewer/LightBox";
 
 interface GalleryGridProps {
   galleries: IGalleryProps[];
@@ -22,6 +22,7 @@ export default function GalleryGrid({
   name,
 }: GalleryGridProps) {
   const [selectedGallery, setSelectedGallery] = useState(galleries?.[0]);
+  const [isOpen, setIsOpen] = useState(false);
   if (!galleries?.length) {
     return (
       <div className="text-center py-10 text-muted-foreground">
@@ -85,7 +86,7 @@ export default function GalleryGrid({
 
               {/* Tags */}
               <div className="flex flex-wrap gap-1">
-                {gallery?.tags?.slice(0,10)?.map((tag) => (
+                {gallery?.tags?.slice(0, 10)?.map((tag) => (
                   <Badge key={tag} variant="outline" hidden={isObjectId(tag)}>
                     #{tag}
                   </Badge>
@@ -95,7 +96,21 @@ export default function GalleryGrid({
           </Card>
         ))}
       </div>
-      <GalleryViewer gallery={selectedGallery} title={name} />
+      <LightboxViewer
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        images={
+          selectedGallery?.files
+            ?.filter((f) => f?.resource_type == "image")
+            ?.map((f) => ({
+              src: f.secure_url,
+              alt: f.original_filename,
+              height: f.height,
+              width: f.width,
+            })) ?? []
+        }
+        index={0}
+      />
     </>
   );
 }

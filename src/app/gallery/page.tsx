@@ -1,4 +1,3 @@
-// import HEADER from "@/components/Element";
 import React from "react";
 import GalleryClient from "./Client";
 import { IGalleryProps, IQueryResponse, IRecord } from "@/types";
@@ -18,15 +17,14 @@ const GalleryPage = async ({ searchParams }: IProps) => {
   const qs = buildQueryStringServer(await searchParams);
   const galleries: IQueryResponse<IGalleryProps[]> = await getGallery(qs);
 
+  const featureImage =
+    galleries?.data?.[0]?.files?.find((f) => f.resource_type === "image")
+      ?.secure_url ?? staticImages.ronaldo;
+
   return (
     <div>
-      {/* <HEADER
-        title="Gallery"
-        subtitle="Explore our galleries "
-        isPage={false}
-      /> */}
       <IntroSection
-        image={staticImages.ronaldo}
+        image={featureImage}
         title="Gallery"
         subtitle="Capture and relive your best moments"
         icon={<GrGallery />}
