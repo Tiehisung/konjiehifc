@@ -16,8 +16,6 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const page = Number.parseInt(searchParams.get("page") || "1", 10);
 
-  // const isPlayed = searchParams.get("isPlayed") == "0" ? false : true
-
   const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
   const skip = (page - 1) * limit;
 
@@ -70,11 +68,6 @@ export async function POST(request: NextRequest) {
     //Update Match Squad field
     await MatchModel.findByIdAndUpdate(match._id, { $set: { squad: savedSquad._id } })
 
-    await postNews({
-      headline: { text: `New Squad Created: ${description}`, image: players[0].avatar as string, },
-      metaDetails: [{ text: `A new squad has been created for the match against ${match.opponent.name ?? ''}. Scheduled on ${match.date ?? ''} at ${match.time ?? ''}.` }],
-      type: 'squad'
-    });
     // log
     await logAction({
       title: "Squad Created",
@@ -82,7 +75,6 @@ export async function POST(request: NextRequest) {
       category: "db",
       severity: "info",
       user: session?.user as IUser,
-
     });
     return NextResponse.json({ message: "Squad created successfully!", success: true, data: savedSquad });
 

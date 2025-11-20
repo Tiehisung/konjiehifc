@@ -74,7 +74,6 @@ const playerSchema = new Schema(
     issues: [{ type: String, default: () => [] }],
     isActive: { type: Schema.Types.Boolean, default: () => true },
     isFit: { type: Boolean, default: () => true },
-    playRole: { type: String }, //revisit
     number: { type: String, required: true, unique: true },
     position: {
       type: String,

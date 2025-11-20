@@ -1,5 +1,4 @@
 import "@/models/teams";
-import "@/models/file";
 import "@/models/squad";
 import "@/models/player";
 import "@/models/goals";
@@ -8,7 +7,6 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import MatchModel from "@/models/match";
 import { NextRequest, NextResponse } from "next/server";
 import PlayerModel from "@/models/player";
-// export const revalidate = 0;
 
 ConnectMongoDb();
 
@@ -26,10 +24,10 @@ export async function POST(request: NextRequest) {
     for (const id of playerIds) {
       await PlayerModel.findByIdAndUpdate(id, { $push: { matches: id } })
     }
-    return NextResponse.json({ message: "Match updated", success: true });
+    return NextResponse.json({ message: "Match is live now", success: true });
   } catch (error) {
     return NextResponse.json({
-      message: getErrorMessage(error, "Scores update failed"),
+      message: getErrorMessage(error, "Match update failed"),
       success: false,
     });
   }
@@ -45,7 +43,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ message: "Match updated", success: true });
   } catch (error) {
     return NextResponse.json({
-      message: getErrorMessage(error, "Scores update failed"),
+      message: getErrorMessage(error, "Match update failed"),
       success: false,
     });
   }
@@ -60,7 +58,7 @@ export async function GET() {
       { date: new Date().toISOString() },
       { status: "LIVE" }
     ]
-  }).populate({ path: "opponent", populate: { path: "logo" } })
+  }).populate({ path: "opponent", })
     .populate({ path: "squad", })
     .populate({ path: "goals", })
     .lean()

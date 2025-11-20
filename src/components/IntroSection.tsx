@@ -18,7 +18,7 @@ export function IntroSection({
   return (
     <div
       style={{ backgroundImage: `url(${image})` }}
-      className={`w-full h-[40vw] max-h-[450px] relative flex flex-col items-center justify-center overflow-hidden bg-gray-200 text-white bg-no-repeat bg-center bg-cover ${className}`}
+      className={`w-full h-[40vw] min-h-56 max-h-[450px] relative flex flex-col items-center justify-center overflow-hidden bg-gray-200 text-white bg-no-repeat bg-center bg-cover ${className}`}
     >
       <div className="h-16 w-16 p-3 bg-secondary/50 text-3xl flex items-center rounded-full border border-border/60 z-10">
         {icon}
