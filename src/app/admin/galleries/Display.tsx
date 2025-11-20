@@ -46,6 +46,10 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25, delay: i * 0.05 }}
+          onClick={() => {
+            setSelectedGallery(gallery);
+            setIsOpen(true);
+          }}
         >
           {/* Cover Image */}
           {gallery.files?.[0]?.secure_url && (
@@ -79,7 +83,7 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
             </p>
           </div>
           {/* Dropdown Menu */}
-          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition">
+          <div onClick={e=>e.stopPropagation()} className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition">
             <PrimaryDropdown id={""} className="h-fit ">
               <DropdownMenuItem
                 onClick={() =>
@@ -109,7 +113,7 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
               <DropdownMenuItem
                 onClick={() => {
                   setSelectedGallery(gallery);
-                  toggleClick(gallery?._id);
+                  setIsOpen(true);
                 }}
                 hidden={!isAdmin}
               >
@@ -132,14 +136,16 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
       <LightboxViewer
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        images={selectedGallery?.files
-          ?.filter((f) => f?.resource_type == "image")
-          ?.map((f) => ({
-            src: f.secure_url,
-            alt: f.original_filename,
-            height: f.height,
-            width: f.width,
-          }))??[]}
+        images={
+          selectedGallery?.files
+            ?.filter((f) => f?.resource_type == "image")
+            ?.map((f) => ({
+              src: f.secure_url,
+              alt: f.original_filename,
+              height: f.height,
+              width: f.width,
+            })) ?? []
+        }
         index={0}
       />
     </div>
