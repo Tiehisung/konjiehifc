@@ -1,18 +1,56 @@
-import { Title } from "@/components/Elements";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { _playerStats } from "@/data/statistics";
 import Image from "next/image";
 import { FC } from "react";
-import { IPlayer } from "../players/page";
+import { IPlayer, TPlayerPosition } from "../players/page";
+import { getPlayers } from "../admin/players/page";
+import { IQueryResponse } from "@/types";
+import { computePlayerStandings } from "@/compute/player/standings";
+import HEADER from "@/components/Element";
 
-const PlayerStatistics = () => {
+const PlayerStatistics = async () => {
+  const players: IQueryResponse<IPlayer[]> = await getPlayers();
+  const standings = computePlayerStandings(players.data || []);
   return (
     <div className="_page px-5">
-      <Title>Statistics</Title>
-      <div className=" flex items-center flex-wrap justify-center gap-6  ">
-        {_playerStats.map((pstat, i) => (
-          <PlayerStatsCard key={i} {...pstat} />
-        ))}
+      <HEADER title="Player Statistics" subtitle="Top performers this season" />
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        <PlayerStatsCard
+          title="Goals"
+          alias="Goals"
+          featuredPlayer={{
+            ...standings.topScorers[0],
+            statsValue: standings.topScorers[0].goals.toString(),
+          }}
+          otherPlayers={standings.topScorers.slice(1, 6).map((p) => ({
+            ...p,
+            statsValue: p.goals.toString(),
+          }))}
+        />
+        <PlayerStatsCard
+          title="Assists"
+          alias="Assists"
+          featuredPlayer={{
+            ...standings.topAssists[0],
+            statsValue: standings.topAssists[0].goals.toString(),
+          }}
+          otherPlayers={standings.topAssists.slice(1, 6).map((p) => ({
+            ...p,
+            statsValue: p.goals.toString(),
+          }))}
+        />
+        <PlayerStatsCard
+          title="Appearances"
+          alias="Appearances"
+          featuredPlayer={{
+            ...standings.topAppearances[0],
+            statsValue: standings.topAppearances[0].goals.toString(),
+          }}
+          otherPlayers={standings.topAppearances.slice(1, 6).map((p) => ({
+            ...p,
+            statsValue: p.goals.toString(),
+          }))}
+        />
       </div>
     </div>
   );
@@ -23,8 +61,28 @@ export default PlayerStatistics;
 export interface IPlayerStatsProps {
   title: string;
   alias: string;
-  featuredPlayer: Partial<IPlayer> & { statsValue: string };
-  otherPlayers: Partial<IPlayer & { statsValue: string }>[];
+  featuredPlayer: {
+    _id: string;
+    name: string;
+    avatar: string;
+    position: TPlayerPosition;
+    goals: number;
+    assists: number;
+    appearances: number;
+    number: string;
+    statsValue: string;
+  };
+  otherPlayers: {
+    _id: string;
+    name: string;
+    avatar: string;
+    position: TPlayerPosition;
+    goals: number;
+    assists: number;
+    appearances: number;
+    number: string;
+    statsValue: string;
+  }[];
 }
 
 export const PlayerStatsCard: FC<IPlayerStatsProps> = ({
@@ -46,14 +104,12 @@ export const PlayerStatsCard: FC<IPlayerStatsProps> = ({
           width={300}
           height={300}
           src={featuredPlayer?.avatar as string}
-          alt={featuredPlayer?.lastName ?? ""}
+          alt={featuredPlayer?.name ?? ""}
           className="w-20 h-20 rounded-full mr-4"
         />
         <div>
-          <h4 className="text-xl font-bold">
-            {`${featuredPlayer?.lastName} ${featuredPlayer?.firstName}`}
-          </h4>
-          <p className="text-2xl font-semibold text-blue-600">
+          <h4 className="text-xl font-bold">{featuredPlayer?.name}</h4>
+          <p className="text-2xl font-semibold text-Blue">
             {`${featuredPlayer?.statsValue} ${alias}`}
           </p>
         </div>
@@ -64,19 +120,17 @@ export const PlayerStatsCard: FC<IPlayerStatsProps> = ({
         {otherPlayers?.map((player, index) => (
           <div
             key={index}
-            className="flex justify-between items-center border-b border-gray-200/70 pb-3"
+            className="flex justify-between items-center border-b border-border pb-3"
           >
             <div className="flex items-center space-x-3">
               <Image
                 width={300}
                 height={300}
                 src={player?.avatar as string}
-                alt={player?.lastName as string}
+                alt={player?.name as string}
                 className="w-10 h-10 rounded-full"
               />
-              <span className="text-sm font-medium">
-                {`${player?.lastName} ${featuredPlayer?.firstName}`}
-              </span>
+              <span className="text-sm font-medium">{player?.name}</span>
             </div>
             <span className="text-lg font-bold">{player?.statsValue}</span>
           </div>

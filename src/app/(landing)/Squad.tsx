@@ -18,6 +18,7 @@ const LandingSquad = async () => {
 
       <ResponsiveSwiper
         swiperStyles={{ width: "100%" }}
+        slideStyles={{ backgroundColor: "transparent" }}
         countPerView={{ sm: 2, md: 3, lg: 4, xl: 6 }}
         // noSpacing
         slides={
@@ -29,7 +30,9 @@ const LandingSquad = async () => {
                   caption={p?.name}
                   className="rounded-2xl h-48 w-48 object-cover "
                 />
-                <Badge className="absolute top-3 right-3">{p?.position}</Badge>
+                <Badge className="absolute top-3 right-3 uppercase text-xs">
+                  {p?.position}
+                </Badge>
               </div>
             );
           }) ?? []
