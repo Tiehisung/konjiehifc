@@ -9,12 +9,12 @@ import { apiConfig } from "@/lib/configs";
 import { PrimaryDropdown } from "@/components/Dropdown";
 import { downloadFile } from "@/lib/downloadFile";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
-import { GalleryViewer } from "@/components/Gallery/GalleryViewer";
 import { useState } from "react";
 import { toggleClick } from "@/lib/DOM";
 import { formatDate } from "@/lib/timeAndDate";
 import { useSession } from "next-auth/react";
 import { IUser } from "@/types/user";
+import LightboxViewer from "@/components/viewer/LightBox";
 
 interface GalleryDisplayProps {
   galleries: IGalleryProps[];
@@ -27,6 +27,8 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
 
   const session = useSession();
   const isAdmin = (session?.data?.user as IUser)?.role?.includes("admin");
+
+  const [isOpen, setIsOpen] = useState(false);
 
   if (!galleries?.length)
     return (
@@ -127,7 +129,19 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
           </div>
         </motion.div>
       ))}
-      <GalleryViewer gallery={selectedGallery} title={selectedGallery?.title} />
+      <LightboxViewer
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        images={selectedGallery?.files
+          ?.filter((f) => f?.resource_type == "image")
+          ?.map((f) => ({
+            src: f.secure_url,
+            alt: f.original_filename,
+            height: f.height,
+            width: f.width,
+          }))??[]}
+        index={0}
+      />
     </div>
   );
 }
