@@ -5,7 +5,7 @@ import { FC } from "react";
 import { IPlayer, TPlayerPosition } from "../players/page";
 import { getPlayers } from "../admin/players/page";
 import { IQueryResponse } from "@/types";
-import { computePlayerStandings } from "@/compute/player/standings";
+import { computePlayerStandings } from "@/lib/compute/player/standings";
 import HEADER from "@/components/Element";
 
 const PlayerStatistics = async () => {
