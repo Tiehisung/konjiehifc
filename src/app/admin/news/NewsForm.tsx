@@ -117,11 +117,10 @@ export const NewsForm = ({ newsItem = null }: INewsForm) => {
               setUploadedFiles={(fs) => field.onChange(fs?.[0]?.secure_url)}
               successMessage=""
               maxFiles={1}
-              className=" mr-auto _secondaryBtn "
               trigger={
-                <>
+                <span className=" mr-auto _secondaryBtn ">
                   <CgAttachment size={24} /> Upload Wall Image
-                </>
+                </span>
               }
               folder={`news/media-${new Date().getFullYear()}`}
               multiple={false}
@@ -159,18 +158,16 @@ export const NewsForm = ({ newsItem = null }: INewsForm) => {
                       setUploadedFiles={(fs) => field.onChange(fs)}
                       successMessage=""
                       maxFiles={30}
-                      className="hover:bg-accent p-1.5 rounded-md flex text-xs items-center font-light"
                       trigger={
-                        <>
+                        <span className="hover:bg-accent p-1.5 rounded-md flex text-xs items-center font-light">
                           <CgAttachment size={24} /> Attach Media
-                        </>
+                        </span>
                       }
                       folder={`news/media-${new Date().getFullYear()}`}
                     />
                   )}
                 />
 
-                 
                 <Button
                   primaryText="Remove"
                   onClick={async () => remove(index)}

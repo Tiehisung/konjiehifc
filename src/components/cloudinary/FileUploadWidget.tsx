@@ -44,7 +44,6 @@ export interface ICloudinaryUploaderProps {
   resourceType?: "image" | "video" | "raw" | "auto";
   deletable?: boolean;
   preview?: boolean;
-  className?: string;
   trigger?: ReactNode;
   triggerId?: string;
   dismissOnComplete?: boolean;
@@ -64,7 +63,6 @@ export default function CloudinaryUploader({
   resourceType = "auto",
   deletable = true,
   preview = true,
-  className = "bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-white ",
   trigger = "Upload Media",
   triggerId = "cloudinary-uploader",
   dismissOnComplete = true,
@@ -163,10 +161,10 @@ export default function CloudinaryUploader({
           <div
             id={triggerId}
             onClick={() => open()}
-            className={`font-semibold cursor-pointer transition-colors select-none ${className}`}
+            className={`font-semibold cursor-pointer transition-colors select-none `}
           >
-            {trigger}
-            {/* ({files.length}/{maxFiles}) */}
+            {trigger?? <span className={'bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-white '}>Upload Media</span>}
+    
           </div>
         )}
       </CldUploadWidget>

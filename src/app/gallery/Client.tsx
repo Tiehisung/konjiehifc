@@ -23,7 +23,7 @@ export default function GalleryClient({ galleries, className = "" }: Props) {
           placeholder="Search Gallery"
           inputStyles="h-9"
           className="bg-secondary w-fit focus-within:grow"
-          searchKey="gallery_search"
+          searchKey="gallery_search" 
         />
         <ClearFiltersBtn className="border border-border/45 shadow p-1.5 rounded h-9 " />
       </div>

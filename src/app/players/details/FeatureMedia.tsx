@@ -21,8 +21,7 @@ export function PlayerFeatureMedia({ player }: { player?: IPlayer }) {
           setUploadedFiles={(fs) => setUploadedFile(fs?.[0])}
           maxFiles={1}
           multiple={false}
-          trigger={<span>Add Feature Media</span>}
-          className="_secondaryBtn"
+          trigger={<span className="_secondaryBtn">Add Feature Media</span>}
           clearTrigger={player?.featureMedia?.length as number}
         />
 

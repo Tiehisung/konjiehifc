@@ -126,11 +126,10 @@ export default function DonationForm({ sponsor }: { sponsor?: ISponsorProps }) {
             setUploadedFiles={(fs) => setFormData({ ...formData, files: fs })}
             successMessage="Files uploaded"
             maxFiles={10}
-            className="hover:bg-accent p-1.5 rounded-md flex text-xs items-center font-light ml-auto _secondaryBtn"
             trigger={
-              <>
+              <span className="hover:bg-accent p-1.5 rounded-md flex text-xs items-center font-light ml-auto _secondaryBtn">
                 <CgAttachment size={24} /> Attach Media
-              </>
+              </span>
             }
             folder={`donations/${sponsor?.name ?? sponsorId}`}
             wrapperStyles="justify-start"
