@@ -18,13 +18,15 @@ export default function MasonryGallery({
 }: MasonryGalleryProps) {
   const [hoveredId, setHoveredId] = useState<string | undefined>(undefined);
   //For Lightbox
-  const images = items.map((item) => ({
-    src: item?.secure_url,
-    alt: item?.original_filename ?? (item?.asset_id as string),
-    width: item?.width,
-    height: item?.height,
-  }));
-
+  const files = items
+    .filter((f) => f.type === "image" || f.type === "video")
+    .map((item) => ({
+      src: item?.secure_url,
+      alt: item?.original_filename ?? (item?.asset_id as string),
+      width: item?.width,
+      height: item?.height,
+      type: item?.resource_type as "image" | "video",
+    }));
   const [open, setOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
 
@@ -86,7 +88,7 @@ export default function MasonryGallery({
         <LightboxViewer
           open={open}
           onClose={() => setOpen(false)}
-          images={images}
+          files={files}
           index={photoIndex}
         />
       </div>
@@ -127,7 +129,7 @@ export default function MasonryGallery({
       <LightboxViewer
         open={open}
         onClose={() => setOpen(false)}
-        images={images}
+        files={files}
         index={photoIndex}
       />
     </div>

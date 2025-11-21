@@ -23,7 +23,7 @@ export default function GalleryClient({ galleries, className = "" }: Props) {
           placeholder="Search Gallery"
           inputStyles="h-9"
           className="bg-secondary w-fit focus-within:grow"
-          searchKey="gallery_search" 
+          searchKey="gallery_search"
         />
         <ClearFiltersBtn className="border border-border/45 shadow p-1.5 rounded h-9 " />
       </div>
@@ -54,21 +54,27 @@ export function GalleryThumbnail({ gallery, className = "" }: GalleryProps) {
   const [open, setOpen] = useState(false);
 
   // Prepare slides for lightbox
-  const images = useMemo(
+  const files = useMemo(
     () =>
       gallery?.files
-        ?.filter((f) => f.resource_type == "image")
-        ?.map((img) => ({
-          src: img.secure_url,
-          width: img.width ?? 1600,
-          height: img.height ?? 900,
-          title: shortText(img?.original_filename ?? img?.name ?? "Image", 20),
-          description: img.description,
+        ?.filter(
+          (f) => f.resource_type == "image" || f.resource_type == "video"
+        )
+        ?.map((file) => ({
+          src: file.secure_url,
+          width: file.width ?? 1600,
+          height: file.height ?? 900,
+          title: shortText(
+            file?.original_filename ?? file?.name ?? "Image",
+            20
+          ),
+          description: file.description,
+          type: file.resource_type as "image" | "video",
         })),
     [gallery]
   );
 
-  const thumbnailImage = images?.[0];
+  const thumbnailImage = files?.find((f) => f.type == "image") || files?.[0];
 
   return (
     <>
@@ -96,9 +102,9 @@ export function GalleryThumbnail({ gallery, className = "" }: GalleryProps) {
           <div className="bg-modalOverlay text-white text-xs rounded px-2 py-1 backdrop-blur-sm line-clamp-1">
             {shortText((gallery?.title as string) ?? thumbnailImage?.title, 32)}
           </div>
-          {images.length > 1 && (
+          {files.length > 1 && (
             <span className="backdrop-blur-sm text-white text-xs font-thin">
-              +{images?.length - 1}
+              +{files?.length - 1}
             </span>
           )}
         </div>
@@ -108,7 +114,7 @@ export function GalleryThumbnail({ gallery, className = "" }: GalleryProps) {
       <LightboxViewer
         open={open}
         onClose={() => setOpen(false)}
-        images={images}
+        files={files ?? []}
         index={0}
       />
     </>

@@ -99,14 +99,17 @@ export default function GalleryGrid({
       <LightboxViewer
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        images={
+        files={
           selectedGallery?.files
-            ?.filter((f) => f?.resource_type == "image")
+            ?.filter(
+              (f) => f?.resource_type == "image" || f.resource_type == "video"
+            )
             ?.map((f) => ({
               src: f.secure_url,
               alt: f.original_filename,
               height: f.height,
               width: f.width,
+              type: f.resource_type as "image" | "video",
             })) ?? []
         }
         index={0}

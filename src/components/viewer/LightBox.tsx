@@ -5,63 +5,92 @@ import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Download from "yet-another-react-lightbox/plugins/download";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import Video from "yet-another-react-lightbox/plugins/video";
 
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 
-export interface ILightboxImage {
+import { getFileName } from "@/lib";
+
+export interface ILightboxMedia {
   src: string;
   alt?: string;
   width?: number;
   height?: number;
-}
-
-interface LightboxViewerProps {
-  open: boolean;
-  onClose: () => void;
-  images: ILightboxImage[];
-  index?: number;
-  controller?: ControllerProps;
+  type?: "image" | "video";
 }
 
 interface ControllerProps {
-  closeOnPullUp?: boolean | undefined;
-  closeOnPullDown?: boolean | undefined;
-  closeOnBackdropClick?: boolean | undefined;
-  disableSwipeNavigation?: boolean | undefined;
+  closeOnPullUp?: boolean;
+  closeOnPullDown?: boolean;
+  closeOnBackdropClick?: boolean;
+  disableSwipeNavigation?: boolean;
+}
+
+interface VideoSettings {
+  controls?: boolean;
+  preload?: "auto" | "metadata" | "none";
+  autoPlay?: boolean;
+}
+interface LightboxViewerProps {
+  open: boolean;
+  onClose: () => void;
+  files: ILightboxMedia[]; // now supports video
+  index?: number;
+  controller?: ControllerProps;
+  videoSettings?: VideoSettings;
 }
 
 /**
- * Custom Lightbox Viewer Component
- * - Zoom
- * - Download
- * - Thumbnails
- * - Navigation (built-in)
+ * Custom Lightbox Viewer Component (Image + Video)
  */
 export default function LightboxViewer({
   open,
   onClose,
-  images,
+  files,
   index = 0,
   controller,
+  videoSettings,
 }: LightboxViewerProps) {
   return (
     <Lightbox
       open={open}
       close={onClose}
-      slides={images.map((img) => ({
-        src: img.src,
-        alt: img.alt,
-        width: img.width,
-        height: img.height,
-      }))}
+      slides={files.map((item) =>
+        item?.type === "video"
+          ? {
+              type: "video",
+              sources: [{ src: item.src, type: "video/mp4" }],
+              poster: `${item.src}?poster=true`,
+              download: {
+                url: item.src,
+                filename: item?.alt || getFileName(item.src) || "video",
+              },
+            }
+          : {
+              src: item.src,
+              alt: item.alt,
+              width: item.width,
+              height: item.height,
+              download: {
+                url: item.src,
+                filename: item?.alt || getFileName(item.src) || "IMG",
+              },
+            }
+      )}
       index={index}
-      plugins={[Zoom, Download, Thumbnails]}
+      plugins={[Zoom, Download, Thumbnails, Video]}
       zoom={{
         maxZoomPixelRatio: 3,
         scrollToZoom: true,
       }}
       controller={{ closeOnBackdropClick: true, ...controller }}
+      video={{
+        controls: true,
+        preload: "metadata",
+        autoPlay: false,
+        ...videoSettings,
+      }}
     />
   );
 }
