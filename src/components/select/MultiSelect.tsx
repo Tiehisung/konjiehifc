@@ -3,7 +3,7 @@
 import { useUpdateSearchParams } from "@/hooks/params";
 import { ISelectOptionLV } from "@/types";
 import { ReactNode, useEffect, useState } from "react";
-import { MdOutlineDone } from "react-icons/md";
+import { MdCheckCircle } from "react-icons/md";
 import { Button } from "../buttons/Button";
 import { useSearchParams } from "next/navigation";
 
@@ -78,13 +78,11 @@ const MultiSelectionInput = ({
               key={index}
               onClick={() => handleChangeOption(option)}
               primaryText={option.label}
-              className={`${className} capitalize font-light text-sm w-fit px-2 py-1 grow text-center justify-center border border-border _slowTrans cursor-pointer select-none ${
-                isSelected
-                  ? " bg-primary/45 flex items-center gap-1"
-                  : " bg-popover hover:bg-popover/70"
+              className={`${className} rounded-full capitalize font-light text-sm w-fit px-2 py-1 text-center justify-center border _transition cursor-pointer select-none ${
+                isSelected ? " primary bg-primary/60 scale-105" : ""
               }`}
             >
-              {isSelected && <MdOutlineDone size={10} />}
+              {isSelected && <MdCheckCircle size={20} className="text-Red"/>}
             </Button>
           );
         })}

@@ -25,7 +25,7 @@ export default function HeaderCp() {
   if (pathname.startsWith("/admin")) return;
   return (
     <div
-      className={`sticky top-1 flex gap-6 justify-between items-center w-fit p-1.5 z-40 bg-linear-to-tr from-primary/25 to-background/25 backdrop-blur-sm rounded-full border shadow`}
+      className={`sticky top-1 flex gap-6 justify-between items-center w-fit p-1.5 z-40 from-primary/25 to-background/25 backdrop-blur-sm rounded-full border shadow`}
     >
       <Link href={"/"}>
         <div className="flex items-center w-fit">
