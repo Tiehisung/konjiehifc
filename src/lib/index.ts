@@ -30,6 +30,15 @@ export const getFilePath = (file: File): Promise<string> => {
     reader.onerror = (error) => reject(error);
   });
 };
+
+export function getFileName(url: string) {
+  try {
+    return url.split("/").pop()?.split("?")[0] ?? "file";
+  } catch {
+    return "file";
+  }
+}
+
 export const deleteEmptyKeys = (obj: AnyObject): AnyObject => {
   Object.keys(obj).forEach((key) => {
     if (typeof obj[key] === "undefined" || obj[key] === null || obj[key] === "")

@@ -76,7 +76,6 @@ export const EditNewsForm = ({ newsItem }: INewsForm) => {
   });
 
   const details = watch("details");
- 
 
   /** -------------------------
    *  SUBMIT HANDLER
@@ -164,11 +163,10 @@ export const EditNewsForm = ({ newsItem }: INewsForm) => {
                 successMessage=""
                 maxFiles={1}
                 trigger={
-                  <>
+                  <span className="_secondaryBtn text-sm">
                     <CgAttachment size={24} /> Upload Wall Image
-                  </>
+                  </span>
                 }
-                className="_secondaryBtn text-sm"
                 folder={`news/media-${new Date().getFullYear()}`}
                 preview={false}
               />
@@ -256,11 +254,11 @@ export const EditNewsForm = ({ newsItem }: INewsForm) => {
                     maxFiles={12}
                     folder={`news/media-${new Date().getFullYear()}`}
                     preview={(field?.value?.length ?? 0) === 0}
-                    className="mr-auto _secondaryBtn"
+                   
                     trigger={
-                      <>
+                      <span className="mr-auto _secondaryBtn">
                         <CgAttachment size={24} /> Add Media
-                      </>
+                      </span>
                     }
                   />
                 )}

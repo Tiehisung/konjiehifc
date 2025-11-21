@@ -83,7 +83,10 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
             </p>
           </div>
           {/* Dropdown Menu */}
-          <div onClick={e=>e.stopPropagation()} className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition">
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition"
+          >
             <PrimaryDropdown id={""} className="h-fit ">
               <DropdownMenuItem
                 onClick={() =>
@@ -136,14 +139,15 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
       <LightboxViewer
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        images={
+        files={
           selectedGallery?.files
-            ?.filter((f) => f?.resource_type == "image")
+            ?.filter((f) => f?.resource_type == "image" || f?.type == "video")
             ?.map((f) => ({
               src: f.secure_url,
               alt: f.original_filename,
               height: f.height,
               width: f.width,
+              type: f.resource_type as "image" | "video",
             })) ?? []
         }
         index={0}

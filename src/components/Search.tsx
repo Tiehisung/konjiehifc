@@ -24,7 +24,7 @@ interface ISearchProps {
 export const PrimarySearch = ({
   className,
   name,
-  type,
+  type = "search",
   onChange,
   placeholder,
   inputStyles,

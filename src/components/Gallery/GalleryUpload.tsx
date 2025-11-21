@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent, useCallback } from "react";
+import { useState, FormEvent, useCallback, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "@/components/buttons/Button";
@@ -17,9 +17,14 @@ import MultiSelectionInput from "../select/MultiSelect";
 interface GalleryUploadProps {
   tags?: string[];
   players?: IPlayer[];
+  trigger?: ReactNode;
 }
 
-export function GalleryUpload({ tags = [], players = [] }: GalleryUploadProps) {
+export function GalleryUpload({
+  tags = [],
+  players = [],
+  trigger = <span className="_primaryBtn">Create Gallery</span>,
+}: GalleryUploadProps) {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -85,13 +90,13 @@ export function GalleryUpload({ tags = [], players = [] }: GalleryUploadProps) {
   };
 
   return (
-    <div className="w-full border rounded-xl p-8 bg-card/30 shadow-sm space-y-8">
+    <div className="w-full border border-border rounded-xl bg-card/30 shadow-sm space-y-8 p-4 mb-4">
       <CloudinaryUploader
-        triggerId=""
         setUploadedFiles={setFiles}
         successMessage="Gallery updated"
         clearTrigger={clearTrigger}
         maxFiles={16}
+        trigger={trigger}
       />
 
       {files.length > 0 && (

@@ -69,20 +69,25 @@ const MultiSelectionInput = ({
       {label && <div className="_label mb-2.5">{label} </div>}
 
       <div className="flex flex-wrap gap-x-3 gap-y-1 p-3">
-        {options?.map((option, index) => (
-          <Button
-            key={index}
-            onClick={() => handleChangeOption(option)}
-            primaryText={option.label}
-            className={`${className} capitalize font-light text-sm w-fit px-2 py-1 grow text-center justify-center border border-border _slowTrans cursor-pointer select-none ${
-              selectedOptions?.find((op) => op.value == option.value)
-                ? " bg-primary/45 flex items-center gap-1"
-                : " bg-popover hover:bg-popover/70"
-            }`}
-          >
-            {selectedOptions?.includes(option) && <MdOutlineDone size={10} />}
-          </Button>
-        ))}
+        {options?.map((option, index) => {
+          const isSelected = selectedOptions?.find(
+            (op) => op.value == option.value
+          );
+          return (
+            <Button
+              key={index}
+              onClick={() => handleChangeOption(option)}
+              primaryText={option.label}
+              className={`${className} capitalize font-light text-sm w-fit px-2 py-1 grow text-center justify-center border border-border _slowTrans cursor-pointer select-none ${
+                isSelected
+                  ? " bg-primary/45 flex items-center gap-1"
+                  : " bg-popover hover:bg-popover/70"
+              }`}
+            >
+              {isSelected && <MdOutlineDone size={10} />}
+            </Button>
+          );
+        })}
       </div>
     </div>
   );

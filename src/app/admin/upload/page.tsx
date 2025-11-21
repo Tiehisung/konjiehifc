@@ -22,7 +22,6 @@ const UploadPage = () => {
         <CloudinaryUploader
           triggerId={"Upload-Files"}
           setUploadedFiles={(fs) => setFiles(fs)}
-          className="_primaryBtn"
           clearTrigger={clear}
           folder="/assets-storage"
           successMessage="Uploaded"
