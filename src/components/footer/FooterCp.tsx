@@ -16,7 +16,7 @@ export default function FooterCP({}) {
       <MegaSponsors />
 
       <br />
-      <div className=" flex gap-2 items-center">
+      <div className=" flex gap-2 items-center p-6">
         <Link href={"/"} className=" mr-3">
           <Image src={Logo} width={40} height={40} priority alt="logo" />
         </Link>

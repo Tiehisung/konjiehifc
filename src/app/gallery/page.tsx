@@ -22,7 +22,7 @@ const GalleryPage = async ({ searchParams }: IProps) => {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
   const featureImage =
     galleries?.data?.[0]?.files?.find((f) => f.resource_type === "image")
-      ?.secure_url ?? staticImages.ronaldo;
+      ?.secure_url ?? staticImages.ballOnGrass.src;
 
   return (
     <div>
@@ -31,7 +31,7 @@ const GalleryPage = async ({ searchParams }: IProps) => {
         title="Gallery"
         subtitle="Capture and relive your best moments"
         icon={<GrGallery />}
-        className="rounded-b-2xl"
+        className="rounded-b-2xl py-6"
       >
         <br />
         <GalleryUpload players={players?.data} />

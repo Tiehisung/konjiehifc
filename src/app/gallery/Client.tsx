@@ -18,7 +18,7 @@ type Props = {
 export default function GalleryClient({ galleries, className = "" }: Props) {
   return (
     <div className={`p-3 ${className}`}>
-      <div className="flex items-center gap-2 justify-between my-6">
+      <div className="flex items-center gap-2 justify-between my-6 _page">
         <PrimarySearch
           placeholder="Search Gallery"
           inputStyles="h-9"
@@ -74,7 +74,7 @@ export function GalleryThumbnail({ gallery, className = "" }: GalleryProps) {
     [gallery]
   );
 
-  const thumbnailImage = files?.find((f) => f.type == "image") || files?.[0];
+  const thumbnailFile = gallery?.files?.[0];
 
   return (
     <>
@@ -83,13 +83,17 @@ export function GalleryThumbnail({ gallery, className = "" }: GalleryProps) {
           setOpen(true);
         }}
         className={`relative overflow-hidden rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-primary w-full h-auto ${className}`}
-        aria-label={thumbnailImage?.title ?? `Open image`}
+        aria-label={thumbnailFile?.original_filename ?? `Open image`}
         type="button"
       >
         <div className="relative w-full aspect-[4/3] bg-gray-100 flex items-start">
           <Image
-            src={thumbnailImage?.src}
-            alt={thumbnailImage?.title ?? `Image `}
+            src={
+              (thumbnailFile?.resource_type == "video"
+                ? thumbnailFile?.thumbnail_url
+                : thumbnailFile?.secure_url) as string
+            }
+            alt={thumbnailFile?.original_filename ?? `Image `}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
             className="object-cover transform transition-transform duration-300 hover:scale-105 grow"
@@ -100,7 +104,7 @@ export function GalleryThumbnail({ gallery, className = "" }: GalleryProps) {
         {/* overlay */}
         <div className="absolute bottom-0 right-0 left-0 flex flex-wrap items-center justify-between gap-2 p-2 h-fit">
           <div className="bg-modalOverlay text-white text-xs rounded px-2 py-1 backdrop-blur-sm line-clamp-1">
-            {shortText((gallery?.title as string) ?? thumbnailImage?.title, 32)}
+            {shortText((gallery?.title as string) ?? gallery?.title, 32)}
           </div>
           {files.length > 1 && (
             <span className="backdrop-blur-sm text-white text-xs font-thin">
