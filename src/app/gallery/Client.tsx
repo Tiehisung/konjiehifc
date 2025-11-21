@@ -25,7 +25,7 @@ export default function GalleryClient({ galleries, className = "" }: Props) {
           className="bg-secondary w-fit focus-within:grow"
           searchKey="gallery_search"
         />
-        <ClearFiltersBtn className="border border-border/45 shadow p-1.5 rounded h-9 " />
+        <ClearFiltersBtn className="border border-border shadow p-1.5 rounded-md h-9 " />
       </div>
       {/* Grid */}
       <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">

@@ -132,8 +132,8 @@ export function GalleryUpload({
                   label: `${p.firstName} ${p.lastName}`,
                   value: `${p._id} ${p.firstName} ${p.lastName}`,
                 }))}
-                className="text-sm"
-                label="Select players to tag"
+                className="text-sm text-foreground"
+                label=""
                 name={"tags"}
               />
             </div>

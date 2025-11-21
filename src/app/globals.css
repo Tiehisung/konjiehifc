@@ -189,7 +189,17 @@
 }
 
 ._secondaryBtn {
-  @apply flex items-center flex-nowrap gap-2 px-4 py-2 text-sm font-medium bg-secondary hover:bg-accent/90 rounded-lg transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-70 disabled:pointer-events-none select-none active:opacity-80;
+  @apply flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg select-none cursor-pointer transition-all duration-150  
+         /* Light mode */
+         bg-secondary text-secondary-foreground hover:bg-accent/90
+         /* Focus */
+         focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background
+         /* Active */
+         active:opacity-80
+         /* Disabled */
+         disabled:opacity-60 disabled:cursor-not-allowed disabled:pointer-events-none
+         /* Dark mode */
+         dark:bg-secondary dark:text-secondary-foreground dark:hover:bg-muted/60 dark:focus:ring-ring;
 }
 
 ._deleteBtn {
@@ -236,4 +246,13 @@
 }
 ._after {
   @apply after:absolute after:-bottom-3 after:h-[1.5px] after:bg-border after:right-1 after:left-0;
+}
+._listItem {
+  @apply px-4 py-3 rounded-xl text-lg font-medium border cursor-pointer select-none transition-all duration-200  
+        /* light mode */
+         bg-popover text-foreground border-border/45 hover:bg-accent/60
+         /* focus */
+         focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background
+         /* dark mode */
+         dark:bg-popover dark:text-foreground dark:border-border/60 dark:hover:bg-secondary/40 dark:focus:ring-ring;
 }
