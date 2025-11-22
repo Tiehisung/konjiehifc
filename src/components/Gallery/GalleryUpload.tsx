@@ -90,7 +90,7 @@ export function GalleryUpload({
   };
 
   return (
-    <div className="w-full border border-border rounded-xl bg-card/30 shadow-sm space-y-8 p-4 mb-4">
+    <>
       <CloudinaryUploader
         setUploadedFiles={setFiles}
         successMessage="Gallery updated"
@@ -98,58 +98,59 @@ export function GalleryUpload({
         maxFiles={16}
         trigger={trigger}
       />
-
       {files.length > 0 && (
-        <form
-          onSubmit={handleSave}
-          className="flex flex-col gap-6 md:gap-8 max-w-2xl mx-auto"
-        >
-          <p className="text-sm text-muted-foreground text-center">
-            {files.length} file{files.length !== 1 ? "s" : ""} selected
-          </p>
+        <div className="w-full border border-border rounded-xl bg-card/30 shadow-sm space-y-8 p-4 mb-4">
+          <form
+            onSubmit={handleSave}
+            className="flex flex-col gap-6 md:gap-8 max-w-2xl mx-auto"
+          >
+            <p className="text-sm text-muted-foreground text-center">
+              {files.length} file{files.length !== 1 ? "s" : ""} selected
+            </p>
 
-          <div className="grid gap-4 md:grid-cols-2">
-            <Input
-              onChange={(e) => setTitle(e.target.value)}
-              name="title"
-              value={title}
-              placeholder="Gallery title"
-            />
-            <Input
-              onChange={(e) => setDescription(e.target.value)}
-              name="description"
-              value={description}
-              placeholder="Description"
-            />
-          </div>
-
-          {players?.length > 0 && (
-            <div className="w-full">
-              <p className="_label mb-2">Tag Players</p>
-              <MultiSelectionInput
-                onChange={(ts) => setTaggedPlayers(ts.map((t) => t.value))}
-                options={players?.map((p) => ({
-                  label: `${p.firstName} ${p.lastName}`,
-                  value: `${p._id} ${p.firstName} ${p.lastName}`,
-                }))}
-                className="text-sm text-foreground"
-                label=""
-                name={"tags"}
+            <div className="grid gap-4 md:grid-cols-2">
+              <Input
+                onChange={(e) => setTitle(e.target.value)}
+                name="title"
+                value={title}
+                placeholder="Gallery title"
+              />
+              <Input
+                onChange={(e) => setDescription(e.target.value)}
+                name="description"
+                value={description}
+                placeholder="Description"
               />
             </div>
-          )}
 
-          <div className="flex justify-center">
-            <Button
-              type="submit"
-              waiting={isLoading}
-              waitingText="Saving..."
-              primaryText="Save Gallery"
-              className="_primaryBtn w-48 h-10 justify-center"
-            />
-          </div>
-        </form>
+            {players?.length > 0 && (
+              <div className="w-full">
+                <p className="_label mb-2">Tag Players</p>
+                <MultiSelectionInput
+                  onChange={(ts) => setTaggedPlayers(ts.map((t) => t.value))}
+                  options={players?.map((p) => ({
+                    label: `${p.firstName} ${p.lastName}`,
+                    value: `${p._id} ${p.firstName} ${p.lastName}`,
+                  }))}
+                  className="text-sm text-foreground"
+                  label=""
+                  name={"tags"}
+                />
+              </div>
+            )}
+
+            <div className="flex justify-center">
+              <Button
+                type="submit"
+                waiting={isLoading}
+                waitingText="Saving..."
+                primaryText="Save Gallery"
+                className="_primaryBtn w-48 h-10 justify-center"
+              />
+            </div>
+          </form>
+        </div>
       )}
-    </div>
+    </>
   );
 }

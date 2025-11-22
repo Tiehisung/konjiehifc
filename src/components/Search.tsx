@@ -46,9 +46,9 @@ export const PrimarySearch = ({
   const defaultValue = useGetParam(searchKey);
   return (
     <div
-      className={`bg-card flex items-center border border-1.5 border-border focus-within:ring ring-teal-500 focus-within:border-teal-ring-teal-500 rounded-full grow px-2 text-sm ${className}`}
+      className={`group bg-card flex items-center border border-1.5 border-Red/30 focus-within:ring ring-Red focus-within:border-teal-ring-Red/80 rounded-full grow px-2 text-sm ${className}`}
     >
-      <CgSearch className="h-4 w-auto" />
+      <CgSearch className="h-4 w-auto text-Red/30 group-focus-within:text-Red" />
       <input
         onChange={handleOnChange}
         id={name}

@@ -156,8 +156,7 @@ export function AttendanceTable({
   };
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center flex-wrap gap-5">
-        <h2 className="text-lg font-semibold _heading">Training Attendance</h2>
+      <div className="flex justify-between items-center flex-wrap gap-5 mt-5">
         {todaySession ? (
           <p className="text-sm text-green-500">✅ Attendance recorded today</p>
         ) : (
@@ -171,7 +170,6 @@ export function AttendanceTable({
         graphicsStyles="animate-pulse max-w-32 max-h-32 md:max-w-52 md:max-h-52 md:mt-20 mx-auto"
       >
         <section className="grow ">
-          <h1 className="_label p-2">Training Attendance List</h1>
           <br />
           <form>
             <div className="grow w-full">
@@ -186,7 +184,9 @@ export function AttendanceTable({
                   />
                   <span>Select All</span>
                 </Label>
-                <span className="ml-auto">{selectedCount}/{players?.length}</span>
+                <span className="ml-auto">
+                  {selectedCount}/{players?.length}
+                </span>
               </header>
               {players.map((player) => {
                 const name = `${player.firstName} ${player.lastName}(${player.number})`;
@@ -229,22 +229,27 @@ export function AttendanceTable({
                   className="_primaryBtn min-w-32 justify-center h-10"
                 />
               )}
-              <Button
-                onClick={() => {
-                  if (editing) {
-                    todaySession?.attendance?.attendedBy?.forEach((p) => {
-                      checked[p._id] = true;
-                    });
-                  }
-                  setEditing(!editing);
-                }}
-                disabled={(todaySession?.updateCount ?? 0) >= 3}
-                className={`text-nowrap ${editing ? "_secondaryBtn _hover " : "_primaryBtn"}`}
-              >
-                {editing
-                  ? "Cancel Edit"
-                  : `Edit Attendance(${todaySession?.updateCount}/3)`}
-              </Button>
+
+              {todaySession && (
+                <Button
+                  onClick={() => {
+                    if (editing) {
+                      todaySession?.attendance?.attendedBy?.forEach((p) => {
+                        checked[p._id] = true;
+                      });
+                    }
+                    setEditing(!editing);
+                  }}
+                  disabled={(todaySession?.updateCount ?? 0) >= 3}
+                  className={`text-nowrap ${
+                    editing ? "_secondaryBtn _hover " : "_primaryBtn"
+                  }`}
+                >
+                  {editing
+                    ? "Cancel Edit"
+                    : `Edit Attendance(${todaySession?.updateCount ?? 0}/3)`}
+                </Button>
+              )}
             </div>
           </form>
         </section>
