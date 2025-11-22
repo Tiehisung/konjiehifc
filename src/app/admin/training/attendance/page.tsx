@@ -10,7 +10,8 @@ import { formatDate } from "@/lib/timeAndDate";
 import TrainingSessionCard from "./SessionCard";
 import { PrimarySearch } from "@/components/Search";
 import { AttendanceStandingsTable } from "./AttendanceStandings";
-import TabbedComponents, {  PrimaryTabs } from "@/components/Tabs";
+import { PrimaryTabs } from "@/components/Tabs";
+import HEADER from "@/components/Element";
 export interface ITrainingSession {
   date: string;
   location: string;
@@ -78,46 +79,39 @@ const AttendancePage = async () => {
     value: tSession._id ?? "",
   }));
   return (
-    <div className="_page px-3 space-y-12">
-      <AttendanceTable
-        players={players?.data}
-        trainingSessions={trainingSessions?.data}
-      />
-      <div className="mt-12 space-y-6">
-        <PrimarySearch
-          className="bg-popover"
-          inputStyles="h-9"
-          placeholder="Search Session"
-          searchKey="training_search"
-        />
-        <PrimaryAccordion
-          data={accordion}
+    <div>
+      <HEADER title=" Training Attendance " />
+      <main className="_page px-3 mt-6">
+        <PrimaryTabs
+          tabs={[
+            { label: "Standings", value: "standings" },
+            { label: "Record Attendance", value: "table" },
+            { label: "View Passed", value: "passed" },
+          ]}
+          defaultValue="standings"
           className=""
-          triggerStyles="cursor-pointer border-b"
-        />
-      </div>
+        >
+          <AttendanceStandingsTable trainingSessions={trainingSessions?.data} />
+          <AttendanceTable
+            players={players?.data}
+            trainingSessions={trainingSessions?.data}
+          />
 
-      <hr className="h-8 my-16 _gradient" />
-
-      <AttendanceStandingsTable trainingSessions={trainingSessions?.data} />
-
-      <TabbedComponents labels={["Standings", "Record New", "Search"]}>
-        <p>St</p>
-        <p>r</p>
-        <p>s</p>
-      </TabbedComponents>
-
-     
-
-      <PrimaryTabs
-        tabs={[
-          { label: "Table", value: "table" },
-          { label: "Record New", value: "new" },
-          { label: "View Passed", value: "passed" },
-        ]}
-        content={["t", "r", "v"]}
-        triggerStyles="_secondaryBtn"
-      />
+          <div className="mt-12 space-y-6">
+            <PrimarySearch
+              className="bg-popover"
+              inputStyles="h-9"
+              placeholder="Search Session"
+              searchKey="training_search"
+            />
+            <PrimaryAccordion
+              data={accordion}
+              className=""
+              triggerStyles="cursor-pointer border-b"
+            />
+          </div>
+        </PrimaryTabs>
+      </main>
     </div>
   );
 };

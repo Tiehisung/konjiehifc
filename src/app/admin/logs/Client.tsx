@@ -10,6 +10,7 @@ import { ILog, IQueryResponse } from "@/types";
 import { IUser } from "@/types/user";
 
 export function LogsClient({ logs }: { logs?: IQueryResponse<ILog[]> }) {
+  console.log(logs)
   const accordionData = logs?.data?.map((log) => ({
     trigger: (
       <div className="flex justify-between gap-5 items-center grow ">

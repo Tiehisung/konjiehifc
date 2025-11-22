@@ -6,6 +6,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { FC, ReactNode, useEffect, useState } from "react";
 import Loader from "./loaders/Loader";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
+import { AnimateOnView } from "./Animate/AnimateOnView";
 interface IProps {
   labels: string[];
   children: ReactNode[];
@@ -155,33 +156,28 @@ export const LinkTabs = ({
 
 interface ITabs {
   className?: string;
-  triggerStyles?: string;
   tabs: Array<{ value: string; label: ReactNode }>;
   defaultValue?: string;
-  content: Array<ReactNode>;
+  children: Array<ReactNode>;
 }
 export const PrimaryTabs: FC<ITabs> = (props) => {
-  const className = `whitespace-nowrap data-[state=active]:border-Green data-[state=active]:text-Green data-[state=active]:underline rounded-none`;
   return (
-    <Tabs
-      defaultValue={props.defaultValue}
-      className={`w-[400px] ${props.className}`}
-    >
-      <TabsList className="flex items-center">
+    <Tabs defaultValue={props.defaultValue} className={`  ${props.className}`}>
+      <TabsList className="flex items-center gap-1.5 p-1 rounded-full bg-accent dark:text-foreground border border-border w-fit">
         {props.tabs.map((tab) => (
           <TabsTrigger
             key={tab.value}
             value={tab.value}
-            className={`${className} cursor-pointer ${props.triggerStyles}`}
+            className={` cursor-pointer data-[state=active]:bg-card rounded-full px-3 py-2 _shrink `}
           >
             {tab.label}
           </TabsTrigger>
         ))}
       </TabsList>
 
-      {props.content.map((cont, i) => (
+      {props.children.map((cont, i) => (
         <TabsContent key={i} value={props.tabs[i].value}>
-          {cont}
+          <AnimateOnView x={12}>{cont}</AnimateOnView>
         </TabsContent>
       ))}
     </Tabs>

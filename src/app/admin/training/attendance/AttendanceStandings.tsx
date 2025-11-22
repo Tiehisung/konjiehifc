@@ -37,9 +37,7 @@ export function AttendanceStandingsTable({ trainingSessions }: IProps) {
   );
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center flex-wrap gap-5">
-        <h2 className="text-lg font-semibold">Training Attendance</h2>
-      </div>
+      <h2 className="text-lg font-semibold mt-6">Training Attendance</h2>
 
       <Table>
         <TableCaption>Training Attendance List</TableCaption>
