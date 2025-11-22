@@ -13,7 +13,6 @@ export async function GET(request: NextRequest) {
   const limit = Number.parseInt(searchParams.get("limit") || "20", 10);
 
   const search = searchParams.get("log_search") || "";
-  const type = searchParams.get("type") || "";
 
   const skip = (page - 1) * limit;
 
@@ -23,7 +22,8 @@ export async function GET(request: NextRequest) {
       { "title": regex },
       { "severity": regex },
       { "user.name": regex },
-      { "category": new RegExp(type, "i") },
+      { "user.email": regex },
+      { "category": regex },
     ],
   };
 

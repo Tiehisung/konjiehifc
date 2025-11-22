@@ -10,7 +10,7 @@ import { formatDate } from "@/lib/timeAndDate";
 import TrainingSessionCard from "./SessionCard";
 import { PrimarySearch } from "@/components/Search";
 import { AttendanceStandingsTable } from "./AttendanceStandings";
-import TabbedComponents, { PrimaryTabs } from "@/components/Tabs";
+import { PrimaryTabs } from "@/components/Tabs";
 import HEADER from "@/components/Element";
 export interface ITrainingSession {
   date: string;
