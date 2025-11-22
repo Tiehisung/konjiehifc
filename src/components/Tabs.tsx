@@ -162,13 +162,13 @@ interface ITabs {
 }
 export const PrimaryTabs: FC<ITabs> = (props) => {
   return (
-    <Tabs defaultValue={props.defaultValue} className={`  ${props.className}`}>
-      <TabsList className="flex items-center gap-1.5 p-1 rounded-full bg-accent dark:text-foreground border border-border w-fit">
+    <Tabs defaultValue={props.defaultValue} className={`pb-6 ${props.className}`}>
+      <TabsList className="flex items-center gap-1.5 p-1 mb-5 rounded-full bg-accent dark:text-foreground border border-border w-fit">
         {props.tabs.map((tab) => (
           <TabsTrigger
             key={tab.value}
             value={tab.value}
-            className={` cursor-pointer data-[state=active]:bg-card rounded-full px-3 py-2 _shrink `}
+            className={` cursor-pointer data-[state=active]:bg-card hover:bg-card rounded-full px-3 py-2 _shrink `}
           >
             {tab.label}
           </TabsTrigger>
@@ -176,7 +176,7 @@ export const PrimaryTabs: FC<ITabs> = (props) => {
       </TabsList>
 
       {props.children.map((cont, i) => (
-        <TabsContent key={i} value={props.tabs[i].value}>
+        <TabsContent key={i} value={props.tabs[i].value} >
           <AnimateOnView x={12}>{cont}</AnimateOnView>
         </TabsContent>
       ))}
