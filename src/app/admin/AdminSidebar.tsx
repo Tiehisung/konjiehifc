@@ -69,7 +69,7 @@ export function LeftPaneDesktop() {
         <li className="mt-10 flex gap-4 justify-center items-center"></li>
       </ul>
 
-      <footer className="p-4 border-t border-secondary-foreground/20">
+      <footer className="flex items-center gap-3.5 justify-betweenp-4 border-t border-secondary-foreground/20">
         <ThemeModeToggle />
 
         <Button
@@ -124,7 +124,7 @@ export function LeftPaneMobile() {
           </li>
         ))}
 
-        <li className="mt-12 px-3 flex gap-6 items-center flex-wrap">
+        <li className="mt-12 px-3 flex gap-6 items-center">
           <ThemeModeToggle className="w-full" />
           <UserLogButtons logoutStyles="bg-popover border rounded flex items-center gap-1 text-sm justify-center w-full _secondaryBtn _hover py-1 px-2" />
         </li>

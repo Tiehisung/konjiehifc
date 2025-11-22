@@ -11,6 +11,8 @@ import { formatDate } from "@/lib/timeAndDate";
 import { PrimarySearch } from "@/components/Search";
 import { getMatches } from "../matches/page";
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
+import HEADER from "@/components/Element";
+import { PrimaryTabs } from "@/components/Tabs";
 
 export interface ISquad {
   _id?: string;
@@ -70,7 +72,6 @@ const SquadPage = async ({ searchParams }: PageProps) => {
   const targetMatchId = (await searchParams).matchId;
   const targetMatch = matches?.data?.find((m) => m._id == targetMatchId); //In case to choose from matches page
 
-
   const squads: IQueryResponse<ISquad[]> | null = await getSquads(qs);
   const accordion = squads?.data?.map((squad) => ({
     trigger: (
@@ -90,27 +91,41 @@ const SquadPage = async ({ searchParams }: PageProps) => {
   }));
 
   return (
-    <div className="_page px-4">
-      <NewSquad
-        players={players?.data}
-        managers={managers?.data}
-        matches={matches?.data}
-        defaultMatch={targetMatch}
-      />
-
-      <div className="mt-12 space-y-6">
-        <PrimarySearch
-          className="bg-popover"
-          inputStyles="h-9"
-          placeholder="Search Squad"
-          searchKey="squad_search"
-        />
-        <PrimaryAccordion
-          data={accordion ?? []}
+    <div className=" px-4">
+      <HEADER title="SQUAD " />
+      <main className="_page px-3 mt-6">
+        <PrimaryTabs
+          tabs={[
+            { label: "New Squad", value: "new-squad" },
+            { label: "All Squads", value: "all-squads" },
+          ]}
+          defaultValue="new-squad"
           className=""
-          triggerStyles="cursor-pointer _card"
-        />
-      </div>
+        >
+          <section>
+            <NewSquad
+              players={players?.data}
+              managers={managers?.data}
+              matches={matches?.data}
+              defaultMatch={targetMatch}
+            />
+          </section>
+
+          <section className="mt-12 space-y-6">
+            <PrimarySearch
+              className="bg-popover"
+              inputStyles="h-9"
+              placeholder="Search Squad"
+              searchKey="squad_search"
+            />
+            <PrimaryAccordion
+              data={accordion ?? []}
+              className=""
+              triggerStyles="cursor-pointer _card"
+            />
+          </section>
+        </PrimaryTabs>
+      </main>
     </div>
   );
 };

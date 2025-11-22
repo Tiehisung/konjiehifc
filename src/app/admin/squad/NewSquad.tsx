@@ -286,7 +286,7 @@ const NewSquad = ({
                             value: pos,
                           }))}
                           placeholder="Position"
-                          triggerStyles="border border-border rounded text-primary font-bold capitalize"
+                          triggerStyles="border border-border rounded font-semibold capitalize"
                           className="capitalize"
                           onChange={(val) =>
                             setValue(`positions.${player._id}`, val)
