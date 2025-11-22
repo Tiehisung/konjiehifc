@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import { AiOutlineTeam } from "react-icons/ai";
 import { CgDatabase } from "react-icons/cg";
-import { FcManager } from "react-icons/fc";
+import { FcDocument, FcManager } from "react-icons/fc";
 import { FiUserCheck } from "react-icons/fi";
 import { GiBabyfootPlayers } from "react-icons/gi";
 import { GrDashboard, GrGallery } from "react-icons/gr";
@@ -137,6 +137,11 @@ const sidebarLinks = [
     label: "Dashboard",
     path: "/admin",
     icon: <GrDashboard />,
+  },
+  {
+    label: "Docs",
+    path: "/admin/docs",
+    icon: <FcDocument />,
   },
   {
     label: "Features",
