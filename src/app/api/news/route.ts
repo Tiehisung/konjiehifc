@@ -1,5 +1,5 @@
 import { IPostNews } from "@/app/admin/news/NewsForm";
-import { getErrorMessage, removeEmptyKeys } from "@/lib";
+import { getErrorMessage, removeEmptyKeys, slugify } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import NewsModel from "@/models/news";
 import { NextRequest, NextResponse } from "next/server";
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
 
   const cleaned = removeEmptyKeys(query)
 
-  console.log({ cleaned ,search,query})
+  console.log({ cleaned, search, query })
 
   const news = await NewsModel.find(cleaned).sort({ createdAt: "desc" }).skip(skip)
     .limit(limit)
@@ -81,12 +81,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const { headline, details, reporter, type, }: IPostNews = await request.json();
+    const slug = slugify(headline.text as string);
 
 
     const published = await NewsModel.create({
+      slug,
       headline,
       details,
-      reporter, type: type ?? 'general'
+      reporter, type: type ?? 'general',
     });
     const session = await getServerSession(authOptions)
     // log

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import Header from "../../../../components/Element";
-import { getNewsById } from "../page";
+import { getNewsItem } from "../page";
 import { INewsProps } from "@/app/news/page";
 import { EditNewsForm } from "./EditNewsForm";
 
@@ -9,7 +9,7 @@ interface IPageProps {
 }
 
 export async function generateMetadata({ searchParams }: IPageProps) {
-  const newsItem: INewsProps | null = await getNewsById(
+  const newsItem: INewsProps | null = await getNewsItem(
     (
       await searchParams
     ).newsId
@@ -28,7 +28,7 @@ export async function generateMetadata({ searchParams }: IPageProps) {
 
 const NewsEditingPage: FC<IPageProps> = async ({ searchParams }) => {
   const newsId = (await searchParams).newsId;
-  const newsItem: INewsProps = await getNewsById(newsId);
+  const newsItem: INewsProps = await getNewsItem(newsId);
 
   return (
     <div>

@@ -2,7 +2,6 @@
 
 import { IPlayer } from "@/app/players/page";
 import { ConsentForm } from "@/components/pdf/ConsentForm";
-import { DownloadPlayerForm } from "@/components/pdf/PlayerSigningForm";
 import { IQueryResponse } from "@/types";
 
 export function ClientDocuments({
@@ -12,8 +11,8 @@ export function ClientDocuments({
 }) {
   return (
     <div>
-      <DownloadPlayerForm player={players?.data?.[0]} />
-      <ConsentForm player={players?.data?.[0]} />
+ 
+      <ConsentForm players={players?.data} />
     </div>
   );
 }

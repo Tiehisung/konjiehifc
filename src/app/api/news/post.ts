@@ -1,4 +1,5 @@
 import { INewsProps } from "@/app/news/page";
+import { slugify } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import NewsModel from "@/models/news";
 
@@ -19,9 +20,10 @@ export async function postNews({ headline, metaDetails, type }: Partial<INewsPro
                 body = { headline, details: metaDetails, type }
 
         }
+        const slug = slugify(headline?.text as string);
 
         const saved = await NewsModel.create({
-            ...body
+            ...body, slug
         });
 
         return saved;

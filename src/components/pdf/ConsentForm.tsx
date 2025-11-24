@@ -9,6 +9,15 @@ import {
   StyleSheet,
   Image,
 } from "@react-pdf/renderer";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import { IPlayer } from "@/app/players/page";
+import { kfc } from "@/data/kfc";
+import { formatDate } from "@/lib/timeAndDate";
+import { COMBOBOX } from "../ComboBox";
+import { DIALOG } from "../Dialog";
+import { MdOutlineDownload, MdOutlinePreview } from "react-icons/md";
+import { VscLoading } from "react-icons/vsc";
+import { Card, CardContent, CardTitle } from "../ui/card";
 
 // Styles
 const styles = StyleSheet.create({
@@ -128,6 +137,10 @@ export default function PlayerConsentForm({ player }: PlayerConsentFormProps) {
             </Text>
           </View>
           <View style={styles.row}>
+            <Text style={styles.label}>Provisional Position:</Text>
+            <Text style={styles.value}>{player?.position ?? "N/A"}</Text>
+          </View>
+          <View style={styles.row}>
             <Text style={styles.label}>Jersey Number:</Text>
             <Text style={styles.value}>{player?.number}</Text>
           </View>
@@ -187,30 +200,84 @@ export default function PlayerConsentForm({ player }: PlayerConsentFormProps) {
     </Document>
   );
 }
-import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
-import { IPlayer } from "@/app/players/page";
-import { kfc } from "@/data/kfc";
-import { formatDate } from "@/lib/timeAndDate";
-import { PrimaryCollapsible } from "../Collapsible";
 
-export function ConsentForm({ player }: { player?: IPlayer }) {
-  if (!player) {
+export function ConsentForm({ players }: { players?: IPlayer[] }) {
+  const [selectedPlayer, setSelectedPlayer] = React.useState<
+    IPlayer | undefined
+  >(undefined);
+
+  if (!players || players.length === 0) {
     return <div>No player data available.</div>;
   }
   return (
     <div>
-      <PDFDownloadLink
-        document={<PlayerConsentForm player={player} />}
-        fileName={`${player?.firstName}-${player?.lastName}-consent.pdf`}
-        className="_primaryBtn"
-      >
-        Download Consent Form
-      </PDFDownloadLink>
-      <PrimaryCollapsible header={{ label: "Preview" }}>
-        <PDFViewer width="100%" height={800}>
-          <PlayerConsentForm player={player} />
-        </PDFViewer>
-      </PrimaryCollapsible>
+      <Card className="flex flex-col items-center justify-center gap-4 ">
+        <CardTitle className="_title uppercase">
+          Player/Guardian Consent Form{" "}
+        </CardTitle>
+        <CardContent>
+          <br />
+          <COMBOBOX
+            options={
+              players?.map((p) => ({
+                label: `${p.firstName} ${p?.lastName}`,
+                value: `${p.firstName} ${p?.lastName}`,
+              })) ?? []
+            }
+            onChange={(opt) =>
+              setSelectedPlayer(
+                players?.find(
+                  (p) => `${p.firstName} ${p?.lastName}` == opt.value
+                )
+              )
+            }
+            placeholder="Search Player"
+            className=" w-full max-w-[500px] text-center"
+          />
+
+          {selectedPlayer && (
+            <section className="flex items-center gap-6 mt-4">
+              <DIALOG
+                trigger={
+                  <div
+                    title="Preview Form"
+                    className="_hover p-1.5 rounded _shrink _secondaryBtn"
+                  >
+                    <MdOutlinePreview size={24} /> Preview
+                  </div>
+                }
+                className="min-w-[80vw]"
+              >
+                <PDFViewer width="100%" height={800}>
+                  <PlayerConsentForm player={selectedPlayer} />
+                </PDFViewer>
+              </DIALOG>
+
+              <PDFDownloadLink
+                document={<PlayerConsentForm player={selectedPlayer} />}
+                fileName={`${selectedPlayer?.firstName}-${selectedPlayer?.lastName}-consent.pdf`}
+              >
+                {({ loading, error }) => {
+                  if (error)
+                    return (
+                      <span className="text-destructive">
+                        Error: {error.message}
+                      </span>
+                    );
+                  return loading ? (
+                    <VscLoading className="animate-spin" />
+                  ) : (
+                    <div className=" p-1.5 rounded _shrink _primaryBtn">
+                      <MdOutlineDownload size={24} />
+                      Download
+                    </div>
+                  );
+                }}
+              </PDFDownloadLink>
+            </section>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

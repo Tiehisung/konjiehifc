@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import OtherAdminNews from "./OtherNews";
 import { SearchAndFilterNews } from "./SearchAndFilter";
 import NewsItemClient from "./ClientItem";
-import { getNews, getNewsById } from "../page";
+import { getNews, getNewsItem } from "../page";
 import { INewsProps } from "@/app/news/page";
 import { IQueryResponse, IRecord } from "@/types";
 import { buildQueryStringServer } from "@/lib";
@@ -14,12 +14,12 @@ const inter = Inter({
 });
 
 interface IProps {
-  params: Promise<{ newsId: string }>;
+  params: Promise<{ slug: string }>;
   searchParams: Promise<IRecord>;
 }
 
 export default async function NewsItemPage({ params, searchParams }: IProps) {
-  const newsItem: INewsProps = await getNewsById((await params).newsId);
+  const newsItem: INewsProps = await getNewsItem((await params).slug);
   const qs = buildQueryStringServer(await searchParams);
   const news: IQueryResponse<INewsProps[]> = await getNews(qs);
   return (

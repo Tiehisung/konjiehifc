@@ -174,7 +174,7 @@
   @apply text-sm font-medium;
 }
 ._title {
-  @apply block text-xl md:text-2xl font-bold pb-1 mb-2 mt-4;
+  @apply block text-xl font-black md:text-2xl pb-1 mb-2 mt-4;
 }
 
 ._subtitle {

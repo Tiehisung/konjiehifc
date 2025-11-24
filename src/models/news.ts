@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 const newsSchema = new Schema(
   {
+    slug: { type: String, required: [true, "Slug is required"], unique: true },
     headline: {
       text: { type: String, required: [true, "Headline text required"] },
       image: {

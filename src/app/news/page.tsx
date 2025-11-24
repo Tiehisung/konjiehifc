@@ -16,6 +16,7 @@ import { kfc } from "@/data/kfc";
 
 export interface INewsProps {
   _id: string;
+  slug: string;
   stats?: {
     isTrending: boolean;
     isLatest: boolean;

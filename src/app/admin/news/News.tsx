@@ -26,7 +26,7 @@ const AdminNews: FC<{ news: IQueryResponse<INewsProps[]> }> = ({ news }) => {
         />
 
         <SecondaryDropdown>
-          <NewsFilter  />
+          <NewsFilter />
         </SecondaryDropdown>
       </header>
       <ul className="grid md:grid-cols-2 gap-3 xl:grid-cols-3">
@@ -36,7 +36,10 @@ const AdminNews: FC<{ news: IQueryResponse<INewsProps[]> }> = ({ news }) => {
               key={index}
               className=" p-2 rounded border _borderColor flex relative"
             >
-              <Link href={`/admin/news/${item._id}`}>
+              <Link
+                href={`/admin/news/${item.slug ?? item._id}`}
+                className="w-full"
+              >
                 <Image
                   src={item?.headline?.image}
                   width={400}
@@ -62,9 +65,7 @@ const AdminNews: FC<{ news: IQueryResponse<INewsProps[]> }> = ({ news }) => {
           );
         })}
         {news?.data?.length == 0 && (
-          <li className="_label py-6 text-2xl">
-            No news items found
-          </li>
+          <li className="_label py-6 text-2xl">No news items found</li>
         )}
       </ul>
 
