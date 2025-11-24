@@ -6,7 +6,7 @@ import NewsItemClient from "./ClientItem";
 import { INewsProps } from "@/app/news/page";
 import { IQueryResponse, IRecord } from "@/types";
 import { buildQueryStringServer } from "@/lib";
-import { getNewsById, getNews } from "@/app/admin/news/page";
+import { getNewsItem, getNews } from "@/app/admin/news/page";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,7 +19,7 @@ interface IProps {
 }
 
 export default async function NewsItemPage({ params, searchParams }: IProps) {
-  const newsItem: INewsProps = await getNewsById((await params).newsId);
+  const newsItem: INewsProps = await getNewsItem((await params).newsId);
   const qs = buildQueryStringServer(await searchParams);
   const news: IQueryResponse<INewsProps[]> = await getNews(qs);
   return (

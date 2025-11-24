@@ -17,9 +17,9 @@ export const getNews = async (query?: string) => {
   }
 };
 
-export const getNewsById = async (id: string) => {
+export const getNewsItem = async (slug: string) => {
   try {
-    const response = await fetch(`${apiConfig.news}/${id}`, {
+    const response = await fetch(`${apiConfig.news}/${slug}`, {
       cache: "no-store",
     });
     const news = await response.json();

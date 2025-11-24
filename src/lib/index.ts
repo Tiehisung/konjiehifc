@@ -145,3 +145,29 @@ export function isObjectId(value?: string): boolean {
   );
 }
 export const getUrlToShare = () => window.location.href;
+
+export function slugify(text: string): string {
+  // Create slug
+  const base = text
+    .toString()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")   // remove accents
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")       // replace non-alphanumeric with dashes
+    .replace(/^-+|-+$/g, "");          // trim leading/trailing dashes
+
+  // Timestamp: YYYY-MM-DD-HHMMSS
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, "0");
+  const dd = String(now.getDate()).padStart(2, "0");
+
+  const hh = String(now.getHours()).padStart(2, "0");
+  const min = String(now.getMinutes()).padStart(2, "0");
+  const ss = String(now.getSeconds()).padStart(2, "0");
+
+  const timestamp = `${yyyy}-${mm}-${dd}-${hh}${min}${ss}`;
+
+  return `${base.substring(0,200)}-${timestamp}`;
+}
