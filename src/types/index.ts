@@ -26,6 +26,11 @@ export interface IFileProps extends ICldFileUploadResult {
   createdAt?: string;
   updatedAt?: string;
 }
+export interface IDeleteFile {
+  _id?: string; //Trace any saved file data on db
+  public_id: string;
+  resource_type?: string; 
+}
 
 export interface IFileUpload {
   name: string;
@@ -36,6 +41,7 @@ export interface IFileUpload {
   presetType?: TPresetType;
   description?: string;
 }
+
 
 export interface IGalleryProps {
   _id?: string;
@@ -120,3 +126,4 @@ export type TSearchKey =
   | 'training_search'
   | 'transaction_search'
   | 'log_search'
+  | 'doc_search'

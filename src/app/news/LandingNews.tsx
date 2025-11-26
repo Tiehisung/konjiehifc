@@ -1,7 +1,7 @@
 import { broadcasters } from "@/assets/broadcaster/broadcaster";
 import { Reveal } from "@/components/Animate/Reveal";
 import SimpleCarousel from "@/components/carousel/SimpleCarousel";
-import { Title } from "@/components/Elements";
+import { Title } from "@/components/Divider";
 import Image, { StaticImageData } from "next/image";
 import React from "react";
 import { INewsProps } from "./page";
@@ -13,7 +13,7 @@ import { IQueryResponse } from "@/types";
 const casters = Object.values(broadcasters);
 const LandingNewsHeadlines = async () => {
   const news: IQueryResponse<INewsProps[]> = await getNews();
- 
+
   return (
     <div className="_page">
       <Title className="uppercase">News</Title>

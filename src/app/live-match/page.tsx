@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Title } from "@/components/Elements";
+import { Title } from "@/components/Divider";
 import { IMatchProps } from "../matches/(fixturesAndResults)";
 import { getLiveMatch } from "../admin/live-match/page";
 import { LiveMatchEvents } from "./LiveEventsDisplay";

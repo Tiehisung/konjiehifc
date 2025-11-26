@@ -95,8 +95,6 @@ export async function POST(request: NextRequest) {
  */
 export async function DELETE(request: NextRequest) {
   const files: IFileProps[] = await request.json();
-
-  console.log({ filesAtCld: files.length });
   try {
     //Delete individually
 

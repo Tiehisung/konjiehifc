@@ -1,7 +1,7 @@
 import { MatchFixtureCard, PlayedMatchCard } from "./Cards";
 import { IMatchProps } from ".";
 import PrimLink from "@/components/Link";
-import { Title } from "@/components/Elements";
+import { Title } from "@/components/Divider";
 import { getMatches } from "@/app/admin/matches/page";
 import { IQueryResponse } from "@/types";
 

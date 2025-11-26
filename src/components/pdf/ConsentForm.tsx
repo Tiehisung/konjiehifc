@@ -17,7 +17,8 @@ import { COMBOBOX } from "../ComboBox";
 import { DIALOG } from "../Dialog";
 import { MdOutlineDownload, MdOutlinePreview } from "react-icons/md";
 import { VscLoading } from "react-icons/vsc";
-import { Card, CardContent, CardTitle } from "../ui/card";
+import { FaWpforms } from "react-icons/fa";
+import { TITLE } from "../Element";
 
 // Styles
 const styles = StyleSheet.create({
@@ -78,7 +79,7 @@ export default function PlayerConsentForm({ player }: PlayerConsentFormProps) {
   const fullName = `${player?.firstName} ${player?.lastName}`;
 
   return (
-    <Document>
+    <Document >
       <Page size="A4" style={styles.page}>
         <Text style={styles.header}>PLAYER PARTICIPATION & CONSENT FORM</Text>
         <View style={styles.sectionBorder}>
@@ -211,12 +212,11 @@ export function ConsentForm({ players }: { players?: IPlayer[] }) {
   }
   return (
     <div>
-      <Card className="flex flex-col items-center justify-center gap-4 ">
-        <CardTitle className="_title uppercase">
-          Player/Guardian Consent Form{" "}
-        </CardTitle>
-        <CardContent>
-          <br />
+      <div className=" gap-4 pb-20">
+        <TITLE icon={<FaWpforms />} text={"Player/Guardian Consent Form"} />
+        <br />
+        <p className="_p my-3"> Download Form Here</p>
+        <div>
           <COMBOBOX
             options={
               players?.map((p) => ({
@@ -232,52 +232,52 @@ export function ConsentForm({ players }: { players?: IPlayer[] }) {
               )
             }
             placeholder="Search Player"
-            className=" w-full max-w-[500px] text-center"
+            className=" w-full min-w-72 max-w-[500px] text-center"
           />
 
-          {selectedPlayer && (
-            <section className="flex items-center gap-6 mt-4">
-              <DIALOG
-                trigger={
-                  <div
-                    title="Preview Form"
-                    className="_hover p-1.5 rounded _shrink _secondaryBtn"
-                  >
-                    <MdOutlinePreview size={24} /> Preview
-                  </div>
-                }
-                className="min-w-[80vw]"
-              >
-                <PDFViewer width="100%" height={800}>
-                  <PlayerConsentForm player={selectedPlayer} />
-                </PDFViewer>
-              </DIALOG>
+          <section className="flex items-center gap-6 mt-4">
+            <DIALOG
+              trigger={
+                <div
+                  title="Preview Form"
+                  className="_hover p-1.5 rounded _shrink _secondaryBtn"
+                >
+                  <MdOutlinePreview size={24} /> Preview
+                </div>
+              }
+              className="min-w-[80vw]"
+            >
+              <PDFViewer width="100%" height={800}>
+                <PlayerConsentForm player={selectedPlayer} />
+              </PDFViewer>
+            </DIALOG>
 
-              <PDFDownloadLink
-                document={<PlayerConsentForm player={selectedPlayer} />}
-                fileName={`${selectedPlayer?.firstName}-${selectedPlayer?.lastName}-consent.pdf`}
-              >
-                {({ loading, error }) => {
-                  if (error)
-                    return (
-                      <span className="text-destructive">
-                        Error: {error.message}
-                      </span>
-                    );
-                  return loading ? (
-                    <VscLoading className="animate-spin" />
-                  ) : (
-                    <div className=" p-1.5 rounded _shrink _primaryBtn">
-                      <MdOutlineDownload size={24} />
-                      Download
-                    </div>
+            <PDFDownloadLink
+              document={<PlayerConsentForm player={selectedPlayer} />}
+              fileName={`${selectedPlayer?.firstName}-${selectedPlayer?.lastName}-consent.pdf`}
+            >
+              {({ loading, error }) => {
+                if (error)
+                  return (
+                    <span className="text-destructive">
+                      Error: {error.message}
+                    </span>
                   );
-                }}
-              </PDFDownloadLink>
-            </section>
-          )}
-        </CardContent>
-      </Card>
+                return loading ? (
+                  <VscLoading className="animate-spin" />
+                ) : (
+                  <div
+                    className={` p-1.5 rounded _shrink _primaryBtn`}
+                  >
+                    <MdOutlineDownload size={24} />
+                    Download
+                  </div>
+                );
+              }}
+            </PDFDownloadLink>
+          </section>
+        </div>
+      </div>
     </div>
   );
 }

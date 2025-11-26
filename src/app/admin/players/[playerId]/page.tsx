@@ -99,7 +99,7 @@ export default async function PlayerProfilePage({
           <h1 className="my-6 _title _gradient p-4">GALLERIES</h1>
           <GalleryGrid
             galleries={galleries?.data as IGalleryProps[]}
-            name={`${player?.firstName} ${player?.lastName}`}
+            // name={`${player?.firstName} ${player?.lastName}`}
           />
 
           <GalleryUpload

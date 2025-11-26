@@ -4,6 +4,7 @@ import { Button } from "@/components/buttons/Button";
 import { fireEscape } from "@/hooks/Esc";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { CSSProperties, ReactNode, useState } from "react";
 import { toast } from "sonner";
@@ -16,8 +17,9 @@ interface IProps {
   children?: ReactNode;
   uri?: string;
   method: "PUT" | "POST" | "DELETE" | "GET";
-  body?: unknown;
+  body?: object;
   escapeOnEnd?: boolean;
+  disabled?: boolean;
   styles?: CSSProperties;
 }
 
@@ -32,11 +34,13 @@ export function ActionButton({
   primaryText,
   escapeOnEnd = false,
   styles = {},
+  disabled = false,
 }: IProps) {
   const router = useRouter();
 
   const [waiting, setWaiting] = useState(false);
 
+  const session = useSession();
   const handleAction = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
@@ -51,7 +55,7 @@ export function ActionButton({
           method,
           headers: { "Content-Type": "application/json" },
           cache: "no-cache",
-          body: JSON.stringify(body),
+          body: JSON.stringify({ ...body, user: session?.data?.user }),
         }
       );
       const results = await response.json();
@@ -68,7 +72,7 @@ export function ActionButton({
   return (
     <Button
       waiting={waiting}
-      disabled={waiting}
+      disabled={disabled || waiting}
       primaryText={primaryText}
       waitingText={loadingText}
       onClick={handleAction}

@@ -27,13 +27,14 @@ export function PrimaryCollapsible({
   return (
     <div className="space-y-1 w-full ">
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
         className={`w-full flex items-center justify-between p-3 rounded-lg _hover _slowTrans ${
           isActiveLink(header?.path || "")
             ? "bg-primary/10 text-muted-foreground"
             : ""
-        } ${header?.className ?? ""} ${isOpen?'rounded-b-none':''}`}
-       {...header?.others} 
+        } ${header?.className ?? ""} ${isOpen ? "rounded-b-none" : ""}`}
+        {...header?.others}
       >
         <div className="flex items-center gap-3 grow">
           <span className="flex-shrink-0">{header?.icon}</span>

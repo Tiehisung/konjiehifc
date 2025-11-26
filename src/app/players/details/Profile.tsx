@@ -254,7 +254,7 @@ export default function PlayerProfile({
         <h1 className="my-6 _title _gradient p-4">GALLERIES</h1>
         <GalleryGrid
           galleries={galleries as IGalleryProps[]}
-          name={`${player?.firstName} ${player?.lastName}`}
+          // name={`${player?.firstName} ${player?.lastName}`}
         />
 
         <GalleryUpload

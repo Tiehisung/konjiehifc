@@ -52,7 +52,7 @@ export const DIALOG: FC<IDialog> = ({
           </DialogDescription>
         </DialogHeader>
 
-        <main className={` max-h-[80vh] overflow-y-auto`}>{children}</main>
+        <main className={` max-h-[80vh] pb-10 overflow-y-auto`}>{children}</main>
 
         <DialogFooter>
           <DialogClose asChild id={closeId}>

@@ -31,5 +31,5 @@ export function fireDoubleEscape() {
   fireEscape();
   setTimeout(() => {
     fireEscape();
-  }, 1000);
+  }, 200);
 }
