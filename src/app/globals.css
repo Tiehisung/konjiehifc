@@ -159,13 +159,14 @@
   --sidebar-ring: rgba(255, 255, 255, 0.28);
 }
 
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground p-0 m-0;
+    font-family: Segoe UI, SegoeUI, "Helvetica Neue", Helvetica, Arial,
+      sans-serif;
   }
 }
 

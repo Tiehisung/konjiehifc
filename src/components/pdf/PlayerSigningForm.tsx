@@ -250,11 +250,6 @@ export function DownloadPlayerForm({ player }: { player?: IPlayer }) {
         <PDFViewer width="100%" height="800">
           <PlayerSigningForm player={player as IPlayer} />
         </PDFViewer>
-        {/* {pdfUrl ? (
-          <iframe src={pdfUrl} className="w-full h-screen" />
-        ) : (
-          <p>Generating PDF preview...</p>
-        )} */}
       </PrimaryCollapsible>
     </div>
   );

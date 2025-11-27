@@ -1,6 +1,7 @@
 
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { teamKFC } from "@/data/teams";
+import { IFileProps } from "@/types";
 
 export function getErrorMessage(
   error: unknown,
@@ -124,7 +125,7 @@ export const bytesToMB = (bytes: number): number => {
 };
 
 export function buildQueryStringServer(
-  searchParams: Record<string, string | string[] |boolean | undefined>
+  searchParams: Record<string, string | string[] | boolean | undefined>
 ) {
   if (!searchParams) return "";
 
@@ -169,5 +170,8 @@ export function slugify(text: string): string {
 
   const timestamp = `${yyyy}-${mm}-${dd}-${hh}${min}${ss}`;
 
-  return `${base.substring(0,200)}-${timestamp}`;
+  return `${base.substring(0, 200)}-${timestamp}`;
 }
+
+
+// export const formatName = (fName: string, lName: string) => `${fName} ${lName}`

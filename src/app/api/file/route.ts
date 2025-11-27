@@ -1,7 +1,7 @@
 import { apiConfig } from "@/lib/configs";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import FileModel from "@/models/file";
-import { IFileProps } from "@/types";
+import { IFileProps, IQueryResponse } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export const revalidate = 0;
@@ -70,5 +70,21 @@ export async function GET() {
       success: false,
       data: error,
     });
+  }
+}
+
+
+export async function deleteCldAssets(files: { public_id: string, resource_type?: string }[],) {
+  try {
+    //Delete file from cloudinary
+    const response = await fetch(apiConfig.fileUpload, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(files),
+    });
+    const result: IQueryResponse = await response.json()
+    return result
+  } catch (error) {
+    return { data: error, success: false, } as IQueryResponse
   }
 }

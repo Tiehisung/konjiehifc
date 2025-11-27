@@ -22,6 +22,8 @@ interface FileUploaderProps {
   showName?: boolean;
   fileStyles?: string;
   maxSize?: number;
+  accept?: "image"| "video" | "pdf" | "auto" ;
+  hidePreview?: boolean;
 }
 
 const FileUploader = ({
@@ -34,6 +36,8 @@ const FileUploader = ({
   trigger = <FcCamera size={30} />,
   showName,
   fileStyles,
+  accept = "image",
+  hidePreview = false,
 }: FileUploaderProps) => {
   const [waiting, setWaiting] = useState(false);
 
@@ -41,10 +45,9 @@ const FileUploader = ({
     null
   );
   const currentSrc =
-    uploadedFile?.secure_url || initialFileUrl || staticImages.avatar.src;
-  console.log({ uploadedFile });
+    uploadedFile?.thumbnail_url || initialFileUrl || staticImages.avatar.src;
 
-  async function handleImageSelection(
+  async function handleFileSelection(
     event: React.ChangeEvent<HTMLInputElement>
   ) {
     try {
@@ -90,16 +93,19 @@ const FileUploader = ({
   }
   return (
     <div
-      className={`relative flex flex-col gap-1 justify-center items-center text-sm ${className}`}
+      className={`relative grid gap-1 justify-center items-center text-sm ${className}`}
     >
       <OverlayLoader isLoading={waiting} />
-      <Image
-        src={currentSrc}
-        width={300}
-        height={300}
-        alt="desc image"
-        className={`h-36 w-36 rounded-xl shadow ${fileStyles}`}
-      />
+      {hidePreview ? null : (
+        <Image
+          src={currentSrc}
+          width={300}
+          height={300}
+          alt="desc image"
+          className={`h-36 w-36 rounded-xl shadow ${fileStyles}`}
+        />
+      )}
+
       {showName && (
         <span className="text-sm line-clamp-1">
           {shortText(uploadedFile?.original_filename ?? "")}
@@ -107,7 +113,7 @@ const FileUploader = ({
       )}
       <label
         htmlFor={`id${name}`}
-        className="flex items-center shadow w-fit p-1 rounded mt-3 cursor-pointer"
+        className="flex items-center shadow rounded mt-3 cursor-pointer min-w-full grow ring"
         title="Choose file"
         aria-disabled={waiting}
       >
@@ -116,10 +122,18 @@ const FileUploader = ({
           id={`id${name}`}
           hidden
           type="file"
-          onChange={handleImageSelection}
+          onChange={handleFileSelection}
           name="image"
           className=""
-          accept="image/*"
+          accept={
+            accept === "image"
+              ? "image/*"
+              : accept === "pdf"
+              ? "application/pdf"
+              : accept === "video"
+              ? "video/*"
+              : "*/*"
+          }
           disabled={waiting}
         />
       </label>

@@ -16,6 +16,7 @@ export interface ICldFileUploadResult {
   format?: string;
   bytes?: number;
   type: string;
+  name?: string;
   original_filename?: string;
   tags: string[];
   width: number;

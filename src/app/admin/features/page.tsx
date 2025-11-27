@@ -22,7 +22,7 @@ export const getFeatures = async (query?: string) => {
   }
 };
 
-export const getFeatureByName = async (id: TFeatures) => {
+export const getFeatureByName = async (id: string) => {
   try {
     const response = await fetch(`${apiConfig.features}${id ? `/${id}` : ""}`, {
       cache: "no-cache",

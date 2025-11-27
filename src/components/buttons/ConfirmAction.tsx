@@ -8,7 +8,7 @@ import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import React, { ReactNode, useState } from "react";
 import { toast } from "sonner";
-import { fireEscape } from "@/hooks/Esc";
+import { fireDoubleEscape } from "@/hooks/Esc";
 import { useSession } from "next-auth/react";
 import { IUser } from "@/types/user";
 
@@ -94,7 +94,7 @@ export const ConfirmActionButton = ({
       setTimeout(() => {
         router.refresh();
       }, 1000);
-      if (escapeOnEnd) fireEscape();
+      if (escapeOnEnd) fireDoubleEscape();
     }
   };
 

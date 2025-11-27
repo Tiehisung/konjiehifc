@@ -11,12 +11,12 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import { AiOutlineTeam } from "react-icons/ai";
 import { CgDatabase } from "react-icons/cg";
-import { FcDocument, FcManager } from "react-icons/fc";
+import {  FcManager } from "react-icons/fc";
 import { FiUserCheck } from "react-icons/fi";
 import { GiBabyfootPlayers } from "react-icons/gi";
 import { GrDashboard, GrGallery } from "react-icons/gr";
 import { LiaDonateSolid, LiaRunningSolid } from "react-icons/lia";
-import { MdOutlineFeaturedPlayList, MdOutlineLiveTv } from "react-icons/md";
+import { MdOutlineDocumentScanner, MdOutlineFeaturedPlayList, MdOutlineLiveTv } from "react-icons/md";
 import { PiNewspaperThin } from "react-icons/pi";
 import { RiHomeLine } from "react-icons/ri";
 
@@ -141,7 +141,7 @@ const sidebarLinks = [
   {
     label: "Docs",
     path: "/admin/docs",
-    icon: <FcDocument />,
+    icon: <MdOutlineDocumentScanner />,
   },
   {
     label: "Features",

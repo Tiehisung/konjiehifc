@@ -1,9 +1,11 @@
 "use client";
 
-import { fireEscape } from "@/hooks/Esc";
+import { fireDoubleEscape } from "@/hooks/Esc";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { IQueryResponse } from "@/types";
+import { IUser } from "@/types/user";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -12,7 +14,7 @@ interface IProps {
   loadingText?: string;
   uri?: string;
   method: "PUT" | "POST" | "DELETE" | "GET";
-  body?: unknown;
+  body?: object;
   escapeOnEnd?: boolean;
   showLoader?: boolean;
   showToast?: boolean;
@@ -22,6 +24,8 @@ export function useAction() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const session = useSession();
 
   const handleAction = async ({
     method = "GET",
@@ -41,7 +45,7 @@ export function useAction() {
           method,
           headers: { "Content-Type": "application/json" },
           cache: "no-cache",
-          body: JSON.stringify(body),
+          body: JSON.stringify({ ...body, user: session?.data?.user as IUser }),
         }
       );
       const results: IQueryResponse = await response.json();
@@ -53,7 +57,7 @@ export function useAction() {
     } finally {
       setIsLoading(false);
       router.refresh();
-      if (escapeOnEnd) fireEscape();
+      if (escapeOnEnd) fireDoubleEscape();
     }
   };
 

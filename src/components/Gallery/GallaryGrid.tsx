@@ -13,13 +13,11 @@ import LightboxViewer from "../viewer/LightBox";
 interface GalleryGridProps {
   galleries: IGalleryProps[];
   showDate?: boolean;
-  name?: string;
 }
 
 export default function GalleryGrid({
   galleries,
   showDate = true,
-  name,
 }: GalleryGridProps) {
   const [selectedGallery, setSelectedGallery] = useState(galleries?.[0]);
   const [isOpen, setIsOpen] = useState(false);
@@ -62,6 +60,7 @@ export default function GalleryGrid({
                 // control modal
                 setSelectedGallery(gallery);
                 toggleClick(gallery?._id);
+                setIsOpen(true);
               }}
             >
               {/* Media grid */}

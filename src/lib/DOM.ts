@@ -58,4 +58,13 @@ export const markupToPlainText = (text: string): string => {
       .trim();
   }
 };
- 
+export function pathnameToLinks(
+  pathname: string
+): { path: string; text: string }[] {
+  const segments = pathname.split('/').filter(Boolean); // Split and remove empty segments
+  let path = '';
+  return segments.map((segment) => {
+    path += `/${segment}`;
+    return { path, text: segment };
+  });
+}

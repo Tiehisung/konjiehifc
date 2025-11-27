@@ -1,11 +1,12 @@
 import React from "react";
 
-import { Title } from "@/components/Elements";
 import { IMatchProps } from "../matches/(fixturesAndResults)";
 import { getLiveMatch } from "../admin/live-match/page";
 import { LiveMatchEvents } from "./LiveEventsDisplay";
 import Image from "next/image";
 import { checkTeams } from "@/lib";
+import { TITLE } from "@/components/Element";
+import { MdOutlineLiveTv } from "react-icons/md";
 
 export const metadata = {
   title: "Live Match",
@@ -30,7 +31,7 @@ export default async function LiveMatchPage() {
   };
   return (
     <div className="pt-4 container _page">
-      <Title>Live Match Page</Title>
+      <TITLE icon={<MdOutlineLiveTv />} text="Live Match Page" />
       <div className="container mx-auto p-4 _page">
         <h1 className="text-2xl font-bold mb-4 text-primaryRed">
           Live Match Update
