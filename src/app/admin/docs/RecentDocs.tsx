@@ -5,18 +5,12 @@ import { IFileProps, IQueryResponse } from "@/types";
 import Loader from "@/components/loaders/Loader";
 import { getDocs } from "./page";
 import { formatDate, getTimeAgo } from "@/lib/timeAndDate";
-import { DragAndDropUploader } from "./DragAndDrop";
-import { useState } from "react";
 
 export async function RecentDocs() {
   const recentDocs: IQueryResponse<IFileProps[]> = await getDocs("?limit=10");
 
-
-
   return (
     <div>
-    
-
       <header className=" items-center justify-between mb-4">
         <TextDivider
           text="RECENT DOCUMENTS"
