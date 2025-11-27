@@ -39,13 +39,13 @@ export function DocumentUploader({
     null
   );
 
-  const [tags, setTags] = useState<Record<string, string[]> | {}>({});
+  const [tags, setTags] = useState<Record<string, string[]> | object>({});
 
   const [selectedFolder, setSelectedFolder] = useState(defaultFolder);
 
-  useEffect(()=>{
-    if(defaultFolder)setSelectedFolder(defaultFolder)
-  },[defaultFolder])
+  useEffect(() => {
+    if (defaultFolder) setSelectedFolder(defaultFolder);
+  }, [defaultFolder]);
   const session = useSession();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

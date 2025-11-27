@@ -1,6 +1,6 @@
 "use client";
 
-import { fireEscape } from "@/hooks/Esc";
+import { fireDoubleEscape } from "@/hooks/Esc";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { IQueryResponse } from "@/types";
@@ -25,7 +25,7 @@ export function useAction() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const session =useSession()
+  const session = useSession();
 
   const handleAction = async ({
     method = "GET",
@@ -45,7 +45,7 @@ export function useAction() {
           method,
           headers: { "Content-Type": "application/json" },
           cache: "no-cache",
-          body: JSON.stringify({...body,user:session?.data?.user as IUser}),
+          body: JSON.stringify({ ...body, user: session?.data?.user as IUser }),
         }
       );
       const results: IQueryResponse = await response.json();
@@ -57,7 +57,7 @@ export function useAction() {
     } finally {
       setIsLoading(false);
       router.refresh();
-      if (escapeOnEnd) fireEscape();
+      if (escapeOnEnd) fireDoubleEscape();
     }
   };
 
