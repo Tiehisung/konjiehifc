@@ -24,6 +24,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
             { "original_filename": regex },
             { "folder": regex },
             { "description": regex },
+            { "tags": regex },
         ],
     } as FilterQuery<unknown>;
 

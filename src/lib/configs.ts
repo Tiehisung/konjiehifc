@@ -15,6 +15,7 @@ export const apiConfig = {
   logout: `${baseUrl}/api/auth/users/logout`,
   sponsors: `${baseUrl}/api/sponsors`,
   docs: `${baseUrl}/api/docs`,
+  moveCopyDoc: `${baseUrl}/api/docs/move-copy`,
 
   teams: `${baseUrl}/api/teams`,
 

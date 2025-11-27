@@ -3,10 +3,12 @@ import Image from "next/image";
 import { ICaptainProps } from "../admin/players/captaincy/Captaincy";
 import { getManagers, IManager } from "../admin/managers/page";
 import SimpleCarousel from "@/components/carousel/SimpleCarousel";
-import { Title } from "@/components/Divider";
+
 import { getCaptains } from "../admin/players/captaincy/page";
 import CardCarousel from "@/components/carousel/cards";
 import { CgShapeRhombus } from "react-icons/cg";
+import { TITLE } from "@/components/Element";
+import { GrUserManager } from "react-icons/gr";
 
 export const TechnicalManagement = async () => {
   const managers = (await getManagers("?isActive=true"))?.data as IManager[];
@@ -15,8 +17,7 @@ export const TechnicalManagement = async () => {
 
   return (
     <div id="technical-management" className="_page max-w-full overflow-hidden">
-      <Title>Technical Management</Title>
-
+      <TITLE icon={<GrUserManager />} text="Technical Management" />
       <div className="flex max-sm:flex-col flex-wrap items-center justify-center gap-8">
         <CardCarousel
           cards={
@@ -33,9 +34,7 @@ export const TechnicalManagement = async () => {
                   className="h-60 w-full object-cover rounded-xl shadow-md"
                 />
                 <p className=" capitalize">{captain?.role}</p>
-                <p className="uppercase">
-                  {captain?.player?.firstName} {captain?.player?.lastName}
-                </p>
+                <p className="uppercase">{captain?.player?.name}</p>
               </div>
             )) ?? []
           }
@@ -74,7 +73,7 @@ export const CaptaincySlides = async () => {
 
   return (
     <div id="captaincy" className="_page">
-      <Title>Captaincy</Title>
+      <TITLE text="Captaincy" />
 
       <SimpleCarousel
         wrapperStyles="grow w-fit "
@@ -96,10 +95,7 @@ export const CaptaincySlides = async () => {
             <p className=" text-[grayText] first-letter:uppercase">
               {captain?.role}
             </p>
-            <p>
-              {captain?.player?.firstName ?? "Firstname"}{" "}
-              {captain?.player?.lastName ?? "Lastname"}
-            </p>
+            <p>{captain?.player?.name ?? "Name"}</p>
           </div>
         ))}
       </SimpleCarousel>

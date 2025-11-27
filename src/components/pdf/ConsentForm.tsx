@@ -19,6 +19,7 @@ import { MdOutlineDownload, MdOutlinePreview } from "react-icons/md";
 import { VscLoading } from "react-icons/vsc";
 import { FaWpforms } from "react-icons/fa";
 import { TITLE } from "../Element";
+import { Card, CardContent } from "../ui/card";
 
 // Styles
 const styles = StyleSheet.create({
@@ -211,8 +212,8 @@ export function ConsentForm({ players }: { players?: IPlayer[] }) {
     return <div>No player data available.</div>;
   }
   return (
-    <div>
-      <div className=" gap-4 pb-20">
+    <Card>
+      <CardContent className=" gap-4 pb-20">
         <TITLE icon={<FaWpforms />} text={"Player/Guardian Consent Form"} />
         <br />
         <p className="_p my-3"> Download Form Here</p>
@@ -277,7 +278,7 @@ export function ConsentForm({ players }: { players?: IPlayer[] }) {
             </PDFDownloadLink>
           </section>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

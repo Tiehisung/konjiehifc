@@ -4,16 +4,17 @@ import { IFileProps, IQueryResponse, IRecord, ISelectOptionLV } from "@/types";
 import { IPlayer } from "@/app/players/page";
 import { apiConfig } from "@/lib/configs";
 import DocumentFolders from "./Folders";
-import { DocumentUploader } from "./UploadDoc";
+import { DocumentUploader } from "./DocUploader";
 import { ConsentForm } from "@/components/pdf/ConsentForm";
 import { RecentDocs } from "./RecentDocs";
+import { getFeatureByName } from "../features/page";
 interface IProps {
   searchParams: Promise<IRecord>;
 }
 export const getDocs = async (query?: string) => {
   const cleaned = query?.startsWith("?") ? query : `?${query}`;
 
-  const response = await fetch(`${apiConfig.docs}${cleaned.substring(1)}`, {
+  const response = await fetch(`${apiConfig.docs}${cleaned}`, {
     cache: "no-cache",
   });
   if (!response.ok) return null;
@@ -34,14 +35,29 @@ export const getDocsByFolder = async (
   return await response.json();
 };
 
+export const getDocsMetrics = async () => {
+  const response = await fetch(`${apiConfig.docs}/metrics`, {
+    cache: "no-cache",
+  });
+  if (!response.ok) return null;
+  return await response.json();
+};
+
 export default async function DocsPage({ searchParams }: IProps) {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
+
+  const folderMetrics: IQueryResponse<{
+    folders: { count: number; folder: string }[];
+    totalDocs: number;
+  }> = await getDocsMetrics();
+  const folders: IQueryResponse = await getFeatureByName("folders");
 
   return (
     <div className="px-4">
       <HEADER title="DOCUMENTATION " />
       <main className="_page px-3 mt-6 space-x-6 pb-6">
         <RecentDocs />
+     
         <section>
           <DocumentUploader
             className="w-fit my-2"
@@ -55,7 +71,7 @@ export default async function DocsPage({ searchParams }: IProps) {
               },
             ]}
           />
-          <DocumentFolders />
+          <DocumentFolders folderMetrics={folderMetrics} />
         </section>
 
         <br />

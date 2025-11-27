@@ -6,7 +6,7 @@ import { PrimaryCollapsible } from "@/components/Collapsible";
 import { DIALOG } from "@/components/Dialog";
 import { apiConfig } from "@/lib/configs";
 import { Upload } from "lucide-react";
-import { FormEvent, ReactNode, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { FaFilePdf } from "react-icons/fa";
 import { DocumentFolder, IPostDoc } from "./page";
 import { useRouter } from "next/navigation";
@@ -42,6 +42,10 @@ export function DocumentUploader({
   const [tags, setTags] = useState<Record<string, string[]> | {}>({});
 
   const [selectedFolder, setSelectedFolder] = useState(defaultFolder);
+
+  useEffect(()=>{
+    if(defaultFolder)setSelectedFolder(defaultFolder)
+  },[defaultFolder])
   const session = useSession();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -108,6 +112,7 @@ export function DocumentUploader({
             exportFileData={(file) => {
               setUploadedFile(file);
             }}
+            maxSize={10524000}
           />
 
           {uploadedFile && (
@@ -124,7 +129,7 @@ export function DocumentUploader({
           return (
             <PrimaryCollapsible
               header={{
-                label: <p className="_label mb-2">{tagGroup?.name}</p>,
+                label: <p className="_label mb-4">{tagGroup?.name}</p>,
               }}
               key={tIndex}
             >
@@ -144,9 +149,7 @@ export function DocumentUploader({
           );
         })}
 
-        <br />
-
-        {!selectedFolder && (
+        {!defaultFolder && (
           <div className="flex items-center gap-2">
             <PiFolderPlusLight
               className="text-primary dark:text-Orange"
@@ -164,6 +167,7 @@ export function DocumentUploader({
             />
           </div>
         )}
+        <br />
         <FancyMotion direction="left" preset="fade" className=" w-full">
           <Button
             type="submit"

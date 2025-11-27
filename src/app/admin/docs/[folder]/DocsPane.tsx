@@ -10,14 +10,21 @@ import { IDeleteFile, IFileProps, IQueryResponse } from "@/types";
 import { Copy, Download, Move } from "lucide-react";
 import { FaFilePdf } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
+import { DocMoveOrCopyTo } from "./MoveCopyTo";
+import { useState } from "react";
+import { DragAndDropUploader } from "../DragAndDrop";
 
 interface IProps {
   docs?: IQueryResponse<IFileProps[]>;
 }
 export default function FolderDocuments({ docs }: IProps) {
+  const [file, setFile] = useState<File | null>(null);
   return (
     <div>
       <main className="  pb-7">
+        <DragAndDropUploader onChange={(f) => setFile(f)} isUploading={false}>
+          <div className="min-w-20 h-20 border">{file?.name}</div>
+        </DragAndDropUploader>
         <ul className="flex items-start flex-wrap gap-3 border rounded-2xl p-5 grow">
           {docs?.data?.map((docFile, index) => (
             <li
@@ -74,11 +81,27 @@ export function DocumentActions({ document }: { document?: IFileProps }) {
           >
             <Download className="text-muted-foreground " /> Download
           </li>
-          <li className={className}>
-            <Copy className="text-muted-foreground " size={24} /> Copy To
+          <li>
+            <DocMoveOrCopyTo
+              trigger={
+                <div className={className}>
+                  <Copy className="text-muted-foreground " size={24} /> Copy To
+                </div>
+              }
+              actionType={"Copy"}
+              document={document}
+            />
           </li>
-          <li className={className}>
-            <Move className="text-muted-foreground " size={24} /> Move To
+          <li>
+            <DocMoveOrCopyTo
+              trigger={
+                <div className={className}>
+                  <Move className="text-muted-foreground " size={24} /> Move To
+                </div>
+              }
+              actionType={"Move"}
+              document={document}
+            />
           </li>
           <li>
             <ConfirmActionButton

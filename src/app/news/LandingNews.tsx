@@ -1,7 +1,7 @@
 import { broadcasters } from "@/assets/broadcaster/broadcaster";
 import { Reveal } from "@/components/Animate/Reveal";
 import SimpleCarousel from "@/components/carousel/SimpleCarousel";
-import { Title } from "@/components/Divider";
+ 
 import Image, { StaticImageData } from "next/image";
 import React from "react";
 import { INewsProps } from "./page";
@@ -9,6 +9,8 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { getNews } from "../admin/news/page";
 import { IQueryResponse } from "@/types";
+import { TITLE } from "@/components/Element";
+import { PiNewspaperLight } from "react-icons/pi";
 
 const casters = Object.values(broadcasters);
 const LandingNewsHeadlines = async () => {
@@ -16,7 +18,7 @@ const LandingNewsHeadlines = async () => {
 
   return (
     <div className="_page">
-      <Title className="uppercase">News</Title>
+      <TITLE icon={<PiNewspaperLight />} text="News" />
 
       <SimpleCarousel className="_hideScrollbar " scrollButtonStyles="top-1/3">
         {news?.data?.map((item, index) => (
