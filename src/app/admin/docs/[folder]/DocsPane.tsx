@@ -11,48 +11,69 @@ import { Copy, Download, Move } from "lucide-react";
 import { FaFilePdf } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
 import { DocMoveOrCopyTo } from "./MoveCopyTo";
-import { useState } from "react";
-import { DragAndDropUploader } from "../DragAndDrop";
+import { DragAndDropUpload } from "../../../../components/DragAndDrop";
+import { useAction } from "@/hooks/activityEvent";
+import { IPostDoc } from "../page";
+import { useParams } from "next/navigation";
 
 interface IProps {
   docs?: IQueryResponse<IFileProps[]>;
 }
 export default function FolderDocuments({ docs }: IProps) {
-  const [file, setFile] = useState<File | null>(null);
+  const docsFolder = useParams().folder;
+
+  const { handleAction } = useAction();
+
   return (
     <div>
-      <main className="  pb-7">
-        <DragAndDropUploader onChange={(f) => setFile(f)} isUploading={false}>
-          <div className="min-w-20 h-20 border">{file?.name}</div>
-        </DragAndDropUploader>
-        <ul className="flex items-start flex-wrap gap-3 border rounded-2xl p-5 grow">
-          {docs?.data?.map((docFile, index) => (
-            <li
-              key={index}
-              className="group p-2 overflow-hidden _hover relative select-auto "
-              onClick={() => console.log()}
-            >
-              <div className="w-32 flex flex-col justify-center items-center ">
-                <div className="relative pb-1">
-                  <FaFilePdf className="text-Red" size={50} />
-                </div>
-                <span className="text-sm capitalize font-semibold text line-clamp-2 text-center">
-                  {(docFile.name ?? docFile?.original_filename)
-                    ?.replaceAll("-", " ")
-                    ?.replaceAll("_", " ")}
-                </span>
-
-                <div className="text-muted-foreground flex flex-wrap items-center justify-center">
-                  <span> {formatDate(docFile.createdAt, "March 2, 2025")}</span>
-                  <span className="bg-secondary rounded-full px-1 text-xs">
-                    ({getTimeAgo(docFile.createdAt as string)})
+      <main className=" pb-7">
+        <DragAndDropUpload
+          onChange={(file) => {
+            if (file)
+              handleAction({
+                uri: apiConfig.docs,
+                method: "POST",
+                body: {
+                  file,
+                  format: "pdf",
+                  folder: docsFolder,
+                } as IPostDoc,
+              });
+          }}
+          fileType={"pdf"}
+        >
+          <ul className="flex items-start flex-wrap gap-3 border rounded-2xl p-5 grow">
+            {docs?.data?.map((docFile, index) => (
+              <li
+                key={index}
+                className="group p-2 overflow-hidden _hover relative select-auto "
+                onClick={() => console.log()}
+              >
+                <div className="w-32 flex flex-col justify-center items-center ">
+                  <div className="relative pb-1">
+                    <FaFilePdf className="text-Red" size={50} />
+                  </div>
+                  <span className="text-sm capitalize font-semibold text line-clamp-2 text-center">
+                    {(docFile.name ?? docFile?.original_filename)
+                      ?.replaceAll("-", " ")
+                      ?.replaceAll("_", " ")}
                   </span>
+
+                  <div className="text-muted-foreground flex flex-wrap items-center justify-center">
+                    <span>
+                      {" "}
+                      {formatDate(docFile.createdAt, "March 2, 2025")}
+                    </span>
+                    <span className="bg-secondary rounded-full px-1 text-xs">
+                      ({getTimeAgo(docFile.createdAt as string)})
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <DocumentActions document={docFile} />
-            </li>
-          ))}
-        </ul>
+                <DocumentActions document={docFile} />
+              </li>
+            ))}
+          </ul>{" "}
+        </DragAndDropUpload>
 
         <InfiniteLimitScroller
           pagination={docs?.pagination}
