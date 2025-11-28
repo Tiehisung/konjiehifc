@@ -6,7 +6,7 @@ export default async function AdminDashboard() {
   return (
     <div className="  ">
       {/* Main Content */}
-      <main className="flex-1 _page">
+      <main className="flex-1 _page px-4">
         {/* Header */}
         <div className="bg-gradient-to-r from-primary via-primary/90 to-accent text-primary-foreground p-8 border-b border-border">
           <div className="max-w-7xl mx-auto">

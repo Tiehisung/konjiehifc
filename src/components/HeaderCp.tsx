@@ -25,10 +25,10 @@ export default function HeaderCp() {
   if (pathname.startsWith("/admin")) return;
   return (
     <div
-      className={`sticky top-1 flex gap-6 justify-between items-center w-fit p-1.5 z-40 from-primary/25 to-background/25 backdrop-blur-sm rounded-full border shadow`}
+      className={`h-14 sticky top-1 flex gap-6 justify-between items-center w-fit px-2 z-40 from-primary/25 to-background/25 backdrop-blur-sm rounded-full border shadow`}
     >
       <Link href={"/"}>
-        <div className="flex items-center w-fit">
+        <div className="flex items-center w-fit ">
           <div className="animate-pulse ">
             <GiSoccerBall size={42} />
           </div>
@@ -38,7 +38,7 @@ export default function HeaderCp() {
             width={200}
             height={200}
             alt="logo"
-            className="max-w-32 h-10 "
+            className="max-w-32 h-full"
           />
         </div>
         {/* 
@@ -57,7 +57,7 @@ export default function HeaderCp() {
 
 export const DesktopNav = () => {
   return (
-    <ul className="hidden lg:flex items-center font-semibold cursor-auto text-sm overflow-x-auto">
+    <ul className="hidden lg:flex items-center font-semibold cursor-auto text-sm overflow-x-auto ">
       {navLinks.map((lk, index) => (
         <li
           key={index}
@@ -81,7 +81,7 @@ export const DesktopNav = () => {
       ))}
 
       <li className="ml-3">
-        <UserLogButtons logoutStyles="delete__btn border rounded flex items-center gap-1 text-sm justify-center w-fit py-1 px-2" />
+        <UserLogButtons logoutStyles="_deleteBtn border rounded flex items-center gap-1 text-sm justify-center w-fit py-1 px-2" />
       </li>
       <li className="ml-3">
         <ThemeModeToggle />
