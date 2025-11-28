@@ -3,6 +3,8 @@ import { getSponsors } from "../admin/sponsorship/page";
 import { ICldFileUploadResult } from "@/components/cloudinary/FileUploadWidget";
 import Image from "next/image";
 import { staticImages } from "@/assets/images";
+import HEADER from "@/components/Element";
+import { kfc } from "@/data/kfc";
 
 export const metadata = {
   title: "Sponsors",
@@ -14,19 +16,19 @@ export const metadata = {
     "donations",
   ],
   openGraph: {
-    title: "Konjiehi FC Sponsors",
-    description: "Meet the official sponsors and partners of Konjiehi FC.",
-    images: ["/kfc.png"],
+    title: "Konjiehi FC Support & Sponsors",
+    description: "Meet the official sponsors and supporters of Konjiehi FC.",
+    images: [kfc.logo],
   },
 };
 
 export default async function SponsorsPage({}) {
   const sponsors: IQueryResponse<ISponsorProps[]> = await getSponsors();
-  console.log({ sponsors });
+   
   return (
-    <div className="bg-sponsorsLite">
-      <HEADER />
-      <main className='_page'>
+    <div className="">
+      <HEADER title="SUPPORT & SPONSORS" />
+      <main className='_page pt-5'>
         <ul className="flex flex-wrap items-center gap-5 ">
           {sponsors?.data?.map((sponsor) => {
             return (
