@@ -1,11 +1,18 @@
 import { IQueryResponse } from "@/types";
 import { getSponsors } from "../admin/sponsorship/page";
 import { ICldFileUploadResult } from "@/components/cloudinary/FileUploadWidget";
- 
+import Image from "next/image";
+import { staticImages } from "@/assets/images";
+
 export const metadata = {
   title: "Sponsors",
   description: "Konjiehi FC official sponsors and partnership opportunities.",
-  keywords: ["Konjiehi FC sponsors", "football sponsors", "partnership",'donations'],
+  keywords: [
+    "Konjiehi FC sponsors",
+    "football sponsors",
+    "partnership",
+    "donations",
+  ],
   openGraph: {
     title: "Konjiehi FC Sponsors",
     description: "Meet the official sponsors and partners of Konjiehi FC.",
@@ -14,25 +21,35 @@ export const metadata = {
 };
 
 export default async function SponsorsPage({}) {
-  const sponsors:IQueryResponse<ISponsorProps[]> = await getSponsors();
-  console.log({sponsors})
+  const sponsors: IQueryResponse<ISponsorProps[]> = await getSponsors();
+  console.log({ sponsors });
   return (
-    <main className="bg-sponsorsLite">
-      <br />
-
-      <h2 className=" _title text-orange-400 px-2 text-center ">
-        Your support is our backbone
-      </h2>
-
-      <br />
-      <h1 className="bg-[#272626b5] text-white px-2">
-        Sponsors {new Date().getFullYear()}
-      </h1>
-      <hr />
-      <hr />
-      {/* <AllSponsors sponsors={sponsors?.data??[]} /> */}
-      <br />
-    </main>
+    <div className="bg-sponsorsLite">
+      <HEADER />
+      <main className='_page'>
+        <ul className="flex flex-wrap items-center gap-5 ">
+          {sponsors?.data?.map((sponsor) => {
+            return (
+              <li
+                className="border-t-4 border-Blue rounded-t h-32 w-32 bg-card flex items-center gap-1 flex-wrap justify-center shadow-xl"
+                key={sponsor?._id}
+              >
+                <div className="flex items-center gap-1 flex-wrap justify-center">
+                  <Image
+                    src={sponsor?.logo ?? staticImages.ball}
+                    alt={sponsor?.name}
+                    width={200}
+                    height={200}
+                    className="w-14 h-14"
+                  />
+                  <span>{sponsor?.name}</span>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </main>
+    </div>
   );
 }
 
@@ -44,7 +61,7 @@ export interface ISponsorProps {
   businessDescription: string;
   name: string;
   phone: string;
-  donations?:IDonation[]
+  donations?: IDonation[];
   createdAt?: string;
   updatedAt?: string;
 }

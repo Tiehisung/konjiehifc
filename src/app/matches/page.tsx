@@ -4,6 +4,7 @@ import { getMatches } from "../admin/matches/page";
 import { IMatchProps } from "./(fixturesAndResults)";
 import FixturesSection from "./Fixtures";
 import { buildQueryStringServer } from "@/lib";
+import HEADER from "@/components/Element";
 interface IPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
@@ -26,8 +27,11 @@ export default async function MatchesPage({ searchParams }: IPageProps) {
   const fixtures: IQueryResponse<IMatchProps[]> = await getMatches(qs);
   // const teams: IQueryResponse<ITeamProps[]> = await getTeams();
   return (
-    <section className="pb-6 pt-10 px-6 _page">
-      <FixturesSection fixtures={fixtures} />
-    </section>
+    <div>
+      <HEADER title="Scores & Fixtures" />
+      <section className="pb-6 pt-10 px-6 _page">
+        <FixturesSection fixtures={fixtures} />
+      </section>
+    </div>
   );
 }
