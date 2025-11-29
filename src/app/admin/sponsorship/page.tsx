@@ -11,8 +11,8 @@ export const getSponsors = async (query?: string) => {
     const response = await fetch(`${apiConfig.sponsors}${cleaned ?? ""}`, {
       cache: "no-store",
     });
-    const sponsors = await response.json();
-    return sponsors;
+    if (!response.ok) return null;
+    return await response.json();
   } catch {
     return null;
   }
@@ -33,11 +33,15 @@ export const getDonations = async (sponsorId?: string, query?: string) => {
     return null;
   }
 };
+
 export const getDonationsBySponsor = async (sponsorId: string) => {
   try {
-    const response = await fetch(`${apiConfig.sponsors}/${`${sponsorId}/donations`}`, {
-      cache: "no-store",
-    });
+    const response = await fetch(
+      `${apiConfig.sponsors}/${`${sponsorId}/donations`}`,
+      {
+        cache: "no-store",
+      }
+    );
     return await response.json();
   } catch {
     return null;

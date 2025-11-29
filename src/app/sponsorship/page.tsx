@@ -6,7 +6,6 @@ import { staticImages } from "@/assets/images";
 import HEADER from "@/components/Element";
 import { kfc } from "@/data/kfc";
 import SponsorUs from "./SponsorUs";
-import MasonryGallery from "@/components/Gallery/Masonry";
 import MarqueeCarousel from "@/components/carousel/marquee";
 import { ReactNode } from "react";
 

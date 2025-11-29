@@ -3,15 +3,19 @@
 import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
 import { ISponsorProps } from "./page";
-import { getSponsors } from "../admin/sponsorship/page";
 import { staticImages } from "@/assets/images";
+import { apiConfig } from "@/lib/configs";
+import { IQueryResponse } from "@/types";
 
 export function MegaSponsors() {
   const [sponsors, setSponsors] = useState<ISponsorProps[]>([]);
   useEffect(() => {
     async function getSponsorsData() {
-      const sponsors = await getSponsors();
-      setSponsors(sponsors?.data ?? []);
+      const response = await fetch(`${apiConfig.sponsors}`, {
+        cache: "no-store",
+      });
+      const result: IQueryResponse<ISponsorProps[]> = await response.json();
+      setSponsors(result?.data ?? []);
     }
     getSponsorsData();
   }, []);
@@ -25,7 +29,7 @@ export function MegaSponsors() {
       <br />
       <div className="flex items-center _marquee">
         {
-          (sponsors ?? [])?.map((sponsor, index) => (
+          (sponsors ?? [])?.slice(0, 10)?.map((sponsor, index) => (
             <div
               key={index}
               className=" p-4 w-fit h-fit rounded-2xl hover:bg-slate-400/30 "
