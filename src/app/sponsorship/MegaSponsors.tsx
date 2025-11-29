@@ -19,6 +19,8 @@ export function MegaSponsors() {
     }
     getSponsorsData();
   }, []);
+
+ 
   return (
     <div>
       <h1 className="bg-modalOverlay text-white px-2">

@@ -28,7 +28,7 @@ export default function MarqueeCarousel({
           className="flex items-center gap-14 _marquee"
           style={{ animationDuration: `${speed}s` }}
         >
-          {[...children, ...children].map((item, i) => (
+          {[...(children ?? []), ...(children ?? [])].map((item, i) => (
             <div key={i}>{item}</div>
           ))}
         </div>
