@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/buttons/Button";
 import { INewsProps } from "../page";
-import { ThumbsUp, SendHorizontal, Dot } from "lucide-react";
+import { ThumbsUp, SendHorizontal, Dot, ThumbsDown } from "lucide-react";
 import { ActionButton } from "@/components/buttons/ActionButton";
 import { apiConfig } from "@/lib/configs";
 import { POPOVER } from "@/components/ui/popover";
@@ -24,6 +24,8 @@ import { IUser } from "@/types/user";
 import { DIALOG } from "@/components/Dialog";
 import QuillEditor from "@/components/editor/Quill";
 import { markupToPlainText } from "../../../lib/DOM";
+import { fireEscape } from "@/hooks/Esc";
+import { getDeviceId } from "@/lib/device";
 
 export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
   const router = useRouter();
@@ -58,6 +60,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
       if (results.success) {
         toast.success("Comment sent");
         setComment("");
+        fireEscape();
       }
     } catch (error) {
       toast.error(getErrorMessage(error));
@@ -66,6 +69,19 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
       router.refresh();
     }
   };
+
+  // LIKES
+  const isLiked = newsItem?.likes?.find((l) => l.device == getDeviceId());
+  const likes = isLiked
+    ? newsItem?.likes?.filter((l) => l.device !== getDeviceId())
+    : [
+        ...(newsItem?.likes ?? []),
+        {
+          name: session?.data?.user?.name ?? "unknown",
+          date: new Date().toISOString(),
+          device: getDeviceId(),
+        },
+      ];
   return (
     <div>
       <ul className="flex items-center flex-wrap gap-4">
@@ -73,22 +89,16 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
           <ActionButton
             method="PUT"
             body={{
-              likes: [
-                ...(newsItem?.likes ?? []),
-                {
-                  name: session?.data?.user?.name ?? "unknown",
-                  date: new Date().toISOString(),
-                  device: "unknown",
-                },
-              ],
+              likes,
             }}
             uri={`${apiConfig.news}/${newsItem?._id}`}
-            className="p-0.5 h-14 w-14 _hover _shrink"
+            className={`p-0.5 h-14 w-14 _shrink ${isLiked ? "" : ""}`}
             styles={{ borderRadius: "100%" }}
-            variant="secondary"
+            variant={isLiked ? "primary" : "secondary"}
             loadingText=""
+            disableToast
           >
-            <ThumbsUp size={32} />
+            {isLiked ? <ThumbsDown size={32} /> : <ThumbsUp size={32} />}
           </ActionButton>
           <span className="font-lght text-sm ">
             {newsItem?.likes?.length ?? ""} Likes
@@ -197,7 +207,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
                 dangerouslySetInnerHTML={{
                   __html: shortText(com?.comment ?? "Hi", maxLength),
                 }}
-                className=" border border-border rounded-2xl p-5 mt-4 _p text-wrap break-words max-w-3/4"
+                className=" border border-border rounded-2xl p-3 -ml-6 mt-4 _p text-wrap break-words max-sm:max-w-60 max-w-3/4 overflow-x-auto"
               />
             </section>
 

@@ -25,7 +25,7 @@ export default async function NewsItemPage({ params, searchParams }: IProps) {
   return (
     <div
       className={cn(
-        "flex max-lg:flex-wrap items-start gap-4 relative pt-6 p-4 _page",
+        "flex max-lg:flex-wrap items-start gap-6 relative pt-6 p-4 md:pl-10",
         inter.className
       )}
     >
