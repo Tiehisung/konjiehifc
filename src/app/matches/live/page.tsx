@@ -5,7 +5,7 @@ import { getLiveMatch } from "../../admin/live-match/page";
 import { LiveMatchEvents } from "./LiveEventsDisplay";
 import Image from "next/image";
 import { checkTeams } from "@/lib";
-import { TITLE } from "@/components/Element";
+import HEADER from "@/components/Element";
 import { MdOutlineLiveTv } from "react-icons/md";
 
 export const metadata = {
@@ -30,13 +30,15 @@ export default async function LiveMatchPage() {
     away: away?.alias == "KFC" ? match?.goals?.length : match?.opponentGoals,
   };
   return (
-    <div className="p-4 container _page">
-      <TITLE icon={<MdOutlineLiveTv />} text="Live Match Page" />
+    <div className="">
+      <HEADER title="Live Match ">
+        <MdOutlineLiveTv className="text-Red" />
+      </HEADER>
       <div className="container mx-auto p-4 _page">
         <h1 className="text-2xl font-bold mb-4 text-primaryRed">
           Live Match Update
         </h1>
-        <div className="my-6 _card rounded-tl-3xl rounded-br-3xl flex items-center justify-between gap-6">
+        <div className="my-6 _card rounded-tl-3xl rounded-br-3xl sm:flex items-center justify-between gap-6">
           <Image
             src={home?.logo as string}
             width={400}
