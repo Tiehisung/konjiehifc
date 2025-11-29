@@ -13,6 +13,7 @@ import { AnimateOnView } from "@/components/Animate/AnimateOnView";
 import { ICldFileUploadResult } from "@/components/cloudinary/FileUploadWidget";
 import { kfc } from "@/data/kfc";
 import HEADER from "@/components/Element";
+import { MotionWrapper } from "@/components/Animate/MotionWrapper";
 
 export type TPlayerGallery = {
   _id: string;
@@ -156,20 +157,26 @@ const PlayersPage = async () => {
                 key={player?._id}
                 href={`/players/details?playerId=${player?._id}`}
               >
-                <AnimateOnView y={-10}>
-                  <PlayerFeatureStatsCard
-                    name={`${player?.firstName} ${player?.lastName}`}
-                    position={player.position}
-                    avatar={player.avatar}
-                    playerImage={player.avatar}
-                    goals={player.goals?.length}
-                    matches={player.matches?.length}
-                    assists={player.assists?.length}
-                    passAccuracy={player.passAcc?.length}
-                    trophies={player.trophies}
-                    className="grow ring w-full"
-                  />
-                </AnimateOnView>
+                <MotionWrapper>
+                  <AnimateOnView
+                    index={index}
+                    x={index % 2 == 0 ? -10 : 10}
+                    once={false}
+                  >
+                    <PlayerFeatureStatsCard
+                      name={`${player?.firstName} ${player?.lastName}`}
+                      position={player.position}
+                      avatar={player.avatar}
+                      playerImage={player.avatar}
+                      goals={player.goals?.length}
+                      matches={player.matches?.length}
+                      assists={player.assists?.length}
+                      passAccuracy={player.passAcc?.length}
+                      trophies={player.trophies}
+                      className="grow w-full"
+                    />
+                  </AnimateOnView>
+                </MotionWrapper>
               </Link>
             ))}
           </div>
