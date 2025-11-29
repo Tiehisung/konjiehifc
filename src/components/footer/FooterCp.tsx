@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Logo from "@/app/favicon.ico";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { MegaSponsors } from "@/app/sponsorship/Sponsors";
+import { MegaSponsors } from "@/app/sponsorship/MegaSponsors";
+import { kfc } from "@/data/kfc";
 
 export default function FooterCP({}) {
   const pathname = usePathname()
@@ -16,9 +16,9 @@ export default function FooterCP({}) {
       <MegaSponsors />
 
       <br />
-      <div className=" flex gap-2 items-center p-6">
+      <div className=" flex gap-2 items-center p-6 mx-auto justify-center">
         <Link href={"/"} className=" mr-3">
-          <Image src={Logo} width={40} height={40} priority alt="logo" />
+          <Image src={kfc.logo} width={40} height={40} priority alt="logo" />
         </Link>
 
         <cite>&copy; {new Date().getFullYear()}</cite>

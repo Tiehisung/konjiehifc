@@ -1,10 +1,14 @@
-import { IQueryResponse } from "@/types";
+import { IFileProps, IQueryResponse } from "@/types";
 import { getSponsors } from "../admin/sponsorship/page";
 import { ICldFileUploadResult } from "@/components/cloudinary/FileUploadWidget";
 import Image from "next/image";
 import { staticImages } from "@/assets/images";
 import HEADER from "@/components/Element";
 import { kfc } from "@/data/kfc";
+import SponsorUs from "./SponsorUs";
+import MasonryGallery from "@/components/Gallery/Masonry";
+import MarqueeCarousel from "@/components/carousel/marquee";
+import { ReactNode } from "react";
 
 export const metadata = {
   title: "Sponsors",
@@ -24,11 +28,11 @@ export const metadata = {
 
 export default async function SponsorsPage({}) {
   const sponsors: IQueryResponse<ISponsorProps[]> = await getSponsors();
-   
+
   return (
     <div className="">
       <HEADER title="SUPPORT & SPONSORS" />
-      <main className='_page pt-5'>
+      <main className="_page p-5">
         <ul className="flex flex-wrap items-center gap-5 ">
           {sponsors?.data?.map((sponsor) => {
             return (
@@ -50,6 +54,31 @@ export default async function SponsorsPage({}) {
             );
           })}
         </ul>
+        <MarqueeCarousel>
+          {
+            sponsors?.data?.map((sponsor) => (
+              <div
+                className="border-t-4 border-Blue rounded-t h-32 w-fit px-5 bg-card flex items-center gap-1 flex-wrap justify-center shadow-xl"
+                key={sponsor?._id}
+              >
+                <div className="flex items-center gap-1 flex-wrap justify-center">
+                  <Image
+                    src={sponsor?.logo ?? staticImages.ball}
+                    alt={sponsor?.name}
+                    width={200}
+                    height={200}
+                    className="w-14 h-14"
+                  />
+                  <span>{sponsor?.name}</span>
+                </div>
+              </div>
+            )) as ReactNode[]
+          }
+        </MarqueeCarousel>
+
+        <br />
+
+        <SponsorUs />
       </main>
     </div>
   );

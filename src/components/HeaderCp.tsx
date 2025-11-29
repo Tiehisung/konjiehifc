@@ -108,7 +108,7 @@ const navLinks = [
   },
   { title: "Players", href: "/players", icon: <TbPlayFootball size={24} /> },
   { title: "Matches", href: "/matches", icon: <BiTable size={24} /> },
-  { title: "Live", href: "/live-match", icon: <TbTableRow size={24} /> },
+  { title: "Live", href: "/matches/live", icon: <TbTableRow size={24} /> },
   { title: "News", href: "/news", icon: <RiNewsLine size={24} /> },
   { title: "Gallery", href: "/gallery", icon: <GalleryThumbnails size={24} /> },
 ];

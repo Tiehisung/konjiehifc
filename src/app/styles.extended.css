@@ -13,12 +13,28 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-primary)/20;
+  background: var(--color-primary) / 20;
 }
 ::-webkit-scrollbar-thumb {
-  background:  var(--color-Arsh);
+  background: var(--color-Arsh);
   border-radius: 8px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background:  var(--color-Red);
+  background: var(--color-Red);
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+._marquee {
+  animation: marquee linear infinite;
+  white-space: nowrap;
+}
+._marquee:hover {
+  animation-play-state: paused;
 }

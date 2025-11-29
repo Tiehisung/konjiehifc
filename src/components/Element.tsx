@@ -40,7 +40,7 @@ export default function HEADER({
   return (
     <header
       className={cn(
-        `border-b border-border bg-primary grow py-5 md:py-10 px-4 ${className}`,
+        `border-b border-border bg-linear-to-r from-primary via-primary/60 to-primary/90 grow py-5 md:py-10 px-4 ${className}`,
         georgia.className
       )}
     >

@@ -2,7 +2,7 @@ import React from "react";
 import { getNews } from "../admin/news/page";
 import { IQueryResponse } from "@/types";
 import { INewsProps } from "./page";
-import NewsCard from "./NewsItemCard";
+import NewsCard from "./NewsCard";
 import { markupToPlainText } from "@/lib/DOM";
 
 const BestOfUs = async () => {
@@ -10,7 +10,7 @@ const BestOfUs = async () => {
 
   return (
     <div>
-      <h1 className="_heading mb-6">BEST OF US</h1>
+      <h1 className="_heading mb-6 max-sm:text-center">BEST OF US</h1>
       <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-6">
         {news?.data?.slice(0, 5)?.map((item) => (
           <NewsCard

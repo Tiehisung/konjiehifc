@@ -9,7 +9,7 @@ import Link from "next/link";
 
 import { RxVideo } from "react-icons/rx";
 import TableLoader from "@/components/loaders/Table";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 
 export default function OtherAdminNews({
   news,
@@ -18,6 +18,7 @@ export default function OtherAdminNews({
 }) {
   const newsId = useParams().newsId;
   const others = news?.data?.filter((d) => d._id !== newsId);
+  const isAdmin = usePathname().includes("/admin");
   return (
     <div className="grid gap-5 gap-y-10 mt-5 sticky top-0">
       {!news ? (
@@ -25,7 +26,7 @@ export default function OtherAdminNews({
       ) : (
         others?.map((item, index) => (
           <AnimateOnView key={item._id} index={index}>
-            <Link href={`/admin/news/${item?._id}`}>
+            <Link href={`${isAdmin ? "/admin" : ""}/news/${item?._id}`}>
               <div className="w-full overflow-hidden group relative">
                 <Image
                   src={item?.headline?.image as string}

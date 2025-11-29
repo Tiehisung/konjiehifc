@@ -186,7 +186,7 @@
 }
 
 ._p {
-  @apply text-[14px] lg:text-[16px] md:text-lg;
+  @apply text-sm opacity-80;
 }
 ._small {
   @apply text-[10px] font-light;

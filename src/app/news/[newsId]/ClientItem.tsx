@@ -16,7 +16,7 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
           height={500}
           alt={newsItem?.headline?.text}
           src={newsItem?.headline?.image as string}
-          className={`w-full min-w-64 h-auto bg-cover object-cover aspect-5/3 rounded-2xl `}
+          className={`w-full min-w-60 h-auto bg-cover object-cover aspect-5/3 rounded-2xl `}
         />
         <div
           dangerouslySetInnerHTML={{
@@ -26,7 +26,7 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
         />
       </header>
 
-      <div className="grid lg:flex items-start mt-15 gap-x-6">
+      <div className=" mt-15 gap-x-6">
         <main className="_p grow my-6">
           <ul>
             {newsItem?.details?.map((detail, index) => {
