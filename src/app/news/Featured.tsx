@@ -6,7 +6,7 @@ import SimpleCarousel from "@/components/carousel/SimpleCarousel";
 const FeaturedNews = ({ news }: { news: INewsProps[] }) => {
   return (
     <div className="space-y-2">
-      <h1 className="_subtitle">FeaturedNews</h1>
+      <h1 className="_subtitle max-sm:text-center">FeaturedNews</h1>
       <SimpleCarousel className="_hideScrollbar max-md:w-full">
         {news?.map((item, i) => (
           <div key={i}>

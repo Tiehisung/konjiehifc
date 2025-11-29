@@ -6,7 +6,7 @@ import LandingNewsHeadlines from "./news/LandingNews";
 import LandingFixtures from "./matches/(fixturesAndResults)/LandingFixtures";
 import Hero from "./(landing)/Hero";
 import Loader from "@/components/loaders/Loader";
-import { LiveMatchCard } from "./live-match/Live";
+import { LiveMatchCard } from "./matches/live/Live";
 import LandingSquad from "./(landing)/Squad";
 import { PitchGallery } from "./(landing)/Pitch";
 import LoadingSkeleton from "react-loading-skeleton";
@@ -15,7 +15,16 @@ import CardLoader from "@/components/loaders/CardLoader";
 export const metadata = {
   title: "Konjiehi FC – Official Website",
   description: "Latest news, fixtures, player stats and match highlights.",
-  keywords: ["Konjiehi FC", "football", "fixtures", "news", "players",'Wa', 'Konjiehi','konfc'],
+  keywords: [
+    "Konjiehi FC",
+    "football",
+    "fixtures",
+    "news",
+    "players",
+    "Wa",
+    "Konjiehi",
+    "konfc",
+  ],
   openGraph: {
     title: "Konjiehi FC",
     description: "Official football club website.",
@@ -39,9 +48,7 @@ export default async function Home() {
 
       <Suspense fallback={<CardLoader className="h-36 w-40" />}>
         <LandingPlayers />
-       
       </Suspense>
-
 
       <Suspense fallback={<LoadingSkeleton width={200} height={120} />}>
         <LandingSquad />

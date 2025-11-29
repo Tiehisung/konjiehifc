@@ -2,15 +2,11 @@ import { IFileProps, IFileUpload, IQueryResponse } from "@/types";
 import React, { Suspense } from "react";
 
 import { getNews } from "../admin/news/page";
-import { Reveal } from "@/components/Animate/Reveal";
-import Image from "next/image";
-import { formatDate } from "@/lib/timeAndDate";
-import Link from "next/link";
 import BestOfUs from "./BestOfUs";
 import { LatestNews } from "./Latest";
 import Skeleton from "react-loading-skeleton";
 import YouMayLike from "./YouMayLike";
-import NewsCard from "./NewsItemCard";
+import NewsCard from "./NewsCard";
 import { markupToPlainText } from "@/lib/DOM";
 import { kfc } from "@/data/kfc";
 
@@ -41,8 +37,8 @@ export interface INewsProps {
   type?: "squad" | "signing" | "match" | "training" | "general";
   summary?: string;
   tags?: string[];
-  likes?:{name:string,date:string,device?:string}[]
-  shares?:{name:string,date:string,device?:string}[]
+  likes?: { name: string; date: string; device?: string }[];
+  shares?: { name: string; date: string; device?: string }[];
   comments?: { image?: string; name?: string; comment: string; date: string }[];
   createdAt: string;
   updatedAt: string;
@@ -160,5 +156,3 @@ const NewsPage = async () => {
 };
 
 export default NewsPage;
-
- 

@@ -28,7 +28,7 @@ export default function NewsCard({
     <motion.div
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.2 }}
-      className="group cursor-pointer rounded-xl overflow-hidden shadow-md bg-card border hover:shadow-xl transition-shadow"
+      className="group cursor-pointer overflow-hidden shadow-md bg-card md:border hover:shadow-xl transition-shadow"
     >
       <Link href={href}>
         {/* Image */}

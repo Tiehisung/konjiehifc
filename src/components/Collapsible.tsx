@@ -14,12 +14,14 @@ interface ICollapsible {
   };
   children: ReactNode;
   isMinimize?: boolean;
+  onChange?: (arg: boolean) => void;
 }
 
 export function PrimaryCollapsible({
   children,
   header,
   isMinimize,
+  onChange,
 }: ICollapsible) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
@@ -28,8 +30,11 @@ export function PrimaryCollapsible({
     <div className="space-y-1 w-full ">
       <button
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between p-3 rounded-lg _hover _slowTrans ${
+        onClick={() => {
+          setIsOpen(!isOpen);
+          if (typeof onChange == "function") onChange(!isOpen);
+        }}
+        className={`w-full flex items-center justify-between p-3 rounded-lg _hover _transition ${
           isActiveLink(header?.path || "")
             ? "bg-primary/10 text-muted-foreground"
             : ""

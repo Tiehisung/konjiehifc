@@ -19,7 +19,7 @@ export default function MasonryGallery({
   const [hoveredId, setHoveredId] = useState<string | undefined>(undefined);
   //For Lightbox
   const files = items
-    .filter((f) => f.type === "image" || f.type === "video")
+    .filter((f) => f.resource_type === "image" || f.type === "video")
     .map((item) => ({
       src: item?.secure_url,
       alt: item?.original_filename ?? (item?.asset_id as string),
@@ -52,7 +52,7 @@ export default function MasonryGallery({
             onMouseLeave={() => setHoveredId(undefined)}
             onClick={() => {
               setPhotoIndex(i);
-              enableLightboxViewer && setOpen(true);
+              if (enableLightboxViewer) setOpen(true);
             }}
           >
             <div

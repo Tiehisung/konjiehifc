@@ -21,6 +21,7 @@ interface IProps {
   escapeOnEnd?: boolean;
   disabled?: boolean;
   styles?: CSSProperties;
+  disableToast?: boolean;
 }
 
 export function ActionButton({
@@ -35,6 +36,7 @@ export function ActionButton({
   escapeOnEnd = false,
   styles = {},
   disabled = false,
+  disableToast,
 }: IProps) {
   const router = useRouter();
 
@@ -59,7 +61,7 @@ export function ActionButton({
         }
       );
       const results = await response.json();
-      toast.info(results.message);
+      if (!disableToast) toast.success(results.message);
       setWaiting(false);
     } catch (error) {
       toast.error(getErrorMessage(error));

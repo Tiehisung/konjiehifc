@@ -1,4 +1,4 @@
-import { IMatchProps } from "../matches/(fixturesAndResults)";
+import { IMatchProps } from "../(fixturesAndResults)";
 import { checkTeams } from "@/lib";
 import Image from "next/image";
 import { LuDot } from "react-icons/lu";
@@ -8,12 +8,11 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import { getLiveMatch } from "../admin/live-match/page";
+import { getLiveMatch } from "../../admin/live-match/page";
 import { Updator } from "@/components/Updator";
- 
 
 export const LiveMatchCard = async () => {
-  const match: IMatchProps|null = (await getLiveMatch())?.data;
+  const match: IMatchProps | null = (await getLiveMatch())?.data;
 
   const { home, away } = checkTeams(match as IMatchProps);
 
@@ -23,14 +22,14 @@ export const LiveMatchCard = async () => {
       <h1 className="uppercase rounded-full p-2 w-fit bg-primaryGreen px-3 shadow-2xl _title">
         Live Match Update
       </h1>
-      <Card >
+      <Card>
         <CardHeader className="flex items-center gap-1.5 mb-2 ">
           <span className=" bg-primaryRed my-0.5 ">LIVE</span>
           <span className="_p">Konjieh JHS park</span>
           <span className="text-xl font-thin text-emerald-400">{`56'`}</span>
         </CardHeader>
 
-        <CardContent >
+        <CardContent>
           <div className="flex items-center justify-between gap-5 ">
             <section className="flex flex-col items-center space-y-2">
               <Image
@@ -62,7 +61,7 @@ export const LiveMatchCard = async () => {
         <CardFooter className="h-10">
           <Updator random />
         </CardFooter>
-      </Card> 
+      </Card>
     </div>
   );
 };
