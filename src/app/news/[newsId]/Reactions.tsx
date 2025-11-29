@@ -156,6 +156,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
                 className="_primaryBtn backdrop-blur-2xl text-white p-1 h-14 w-full mt-5 justify-center"
                 waiting={waiting}
                 waitingText=""
+                primaryText="Send"
               >
                 <SendHorizontal size={20} />
               </Button>
