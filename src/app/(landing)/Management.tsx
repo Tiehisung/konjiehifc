@@ -3,7 +3,6 @@ import Image from "next/image";
 import { ICaptainProps } from "../admin/players/captaincy/Captaincy";
 import { getManagers, IManager } from "../admin/managers/page";
 import SimpleCarousel from "@/components/carousel/SimpleCarousel";
-
 import { getCaptains } from "../admin/players/captaincy/page";
 import CardCarousel from "@/components/carousel/cards";
 import { CgShapeRhombus } from "react-icons/cg";
