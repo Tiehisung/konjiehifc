@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-
+import path from 'path';
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
@@ -15,8 +15,9 @@ const nextConfig: NextConfig = {
     // your project has type errors.
     // !! WARN !!
     ignoreBuildErrors: true,
-  }, turbopack: {
-    root:'./'
+  },
+  turbopack: {
+    root: '',
   }
 };
 
