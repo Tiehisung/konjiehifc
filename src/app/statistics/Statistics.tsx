@@ -10,7 +10,7 @@ import HEADER from "@/components/Element";
 
 const PlayerStatistics = async () => {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
-  const standings = computePlayerStandings(players.data || []);
+  const standings = computePlayerStandings(players?.data || []);
   return (
     <div className="_page px-5">
       <HEADER title="Player Statistics" subtitle="Top performers this season" />
@@ -20,11 +20,11 @@ const PlayerStatistics = async () => {
           alias="Goals"
           featuredPlayer={{
             ...standings.topScorers[0],
-            statsValue: standings.topScorers[0].goals.toString(),
+            statsValue: standings.topScorers[0]?.goals.toString(),
           }}
-          otherPlayers={standings.topScorers.slice(1, 6).map((p) => ({
+          otherPlayers={standings.topScorers?.slice(1, 6).map((p) => ({
             ...p,
-            statsValue: p.goals.toString(),
+            statsValue: p?.goals?.toString(),
           }))}
         />
         <PlayerStatsCard
@@ -32,11 +32,11 @@ const PlayerStatistics = async () => {
           alias="Assists"
           featuredPlayer={{
             ...standings.topAssists[0],
-            statsValue: standings.topAssists[0].goals.toString(),
+            statsValue: standings.topAssists?.[0]?.goals?.toString(),
           }}
-          otherPlayers={standings.topAssists.slice(1, 6).map((p) => ({
+          otherPlayers={standings.topAssists?.slice(1, 6)?.map((p) => ({
             ...p,
-            statsValue: p.goals.toString(),
+            statsValue: p?.goals?.toString(),
           }))}
         />
         <PlayerStatsCard
@@ -44,11 +44,11 @@ const PlayerStatistics = async () => {
           alias="Appearances"
           featuredPlayer={{
             ...standings.topAppearances[0],
-            statsValue: standings.topAppearances[0].goals.toString(),
+            statsValue: standings.topAppearances?.[0]?.goals?.toString(),
           }}
-          otherPlayers={standings.topAppearances.slice(1, 6).map((p) => ({
+          otherPlayers={standings.topAppearances?.slice(1, 6)?.map((p) => ({
             ...p,
-            statsValue: p.goals.toString(),
+            statsValue: p?.goals?.toString(),
           }))}
         />
       </div>

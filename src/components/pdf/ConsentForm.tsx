@@ -13,7 +13,7 @@ import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { IPlayer } from "@/app/players/page";
 import { kfc } from "@/data/kfc";
 import { formatDate } from "@/lib/timeAndDate";
-import { COMBOBOX } from "../ComboBox";
+// import { COMBOBOX } from "../ComboBox";
 import { DIALOG } from "../Dialog";
 import { MdOutlineDownload, MdOutlinePreview } from "react-icons/md";
 import { VscLoading } from "react-icons/vsc";
@@ -218,7 +218,7 @@ export function ConsentForm({ players }: { players?: IPlayer[] }) {
         <br />
         <p className="_p my-3"> Download Form Here</p>
         <div>
-          <COMBOBOX
+          {/* <COMBOBOX
             options={
               players?.map((p) => ({
                 label: `${p.firstName} ${p?.lastName}`,
@@ -234,7 +234,7 @@ export function ConsentForm({ players }: { players?: IPlayer[] }) {
             }
             placeholder="Search Player"
             className=" w-full min-w-72 max-w-[500px] text-center"
-          />
+          /> */}
 
           <section className="flex items-center gap-6 mt-4">
             <DIALOG

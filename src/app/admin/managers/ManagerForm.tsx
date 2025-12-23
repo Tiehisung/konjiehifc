@@ -14,7 +14,7 @@ import { Button } from "@/components/buttons/Button";
 import ImageUploaderCldWidget from "@/components/cloudinary/AvatarUploadWidget";
 import { staticImages } from "@/assets/images";
 import { PrimarySelect } from "@/components/select/Select";
-import { COMBOBOX } from "@/components/ComboBox";
+// import { COMBOBOX } from "@/components/ComboBox";
 
 export default function TechnicalManagerForm({
   existingManager,
@@ -165,7 +165,7 @@ export default function TechnicalManagerForm({
               Assigned Role: <strong>{existingManager?.role ?? ""}</strong>
             </p>
 
-            <COMBOBOX
+            {/* <COMBOBOX
               placeholder="Role"
               name="role"
               options={availableRoles}
@@ -176,7 +176,7 @@ export default function TechnicalManagerForm({
                 }));
               }}
               className="w-full h-10 "
-            />
+            /> */}
           </div>
         </section>
 

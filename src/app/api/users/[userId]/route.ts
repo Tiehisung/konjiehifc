@@ -2,11 +2,7 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import UserModel from "@/models/user";
  
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../../auth/[...nextauth]/options";
-import { IAdminSession } from "@/app/admin/authorization/Actions";
 
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
 
 ConnectMongoDb();
 
@@ -23,12 +19,7 @@ export async function PUT(
   { params }: { params: { userId: string } }
 ) {
   try {
- 
-    // if (session?.user?.role !== "super_admin")
-    //   return NextResponse.json({
-    //     success: false,
-    //     message: "You are not authorized to perform this action.",
-    //   });
+
 
     const data = await req.json();
    
@@ -79,13 +70,7 @@ export async function DELETE(
   { params }: { params: { userId: string } }
 ) {
   try {
- 
 
-    // if (session?.user?.role !== "super_admin")
-    //   return NextResponse.json({
-    //     success: false,
-    //     message: "You are not authorized to perform this action.",
-    //   });
     const deleted = await UserModel.findByIdAndDelete(params.userId);
 
     return NextResponse.json({

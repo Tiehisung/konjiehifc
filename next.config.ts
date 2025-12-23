@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
-import path from 'path';
+const path = require('path')
+
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
@@ -16,9 +17,11 @@ const nextConfig: NextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
-  turbopack: {
-    root: '',
+   turbopack: {
+    root:'',
   }
 };
 
 export default nextConfig;
+
+

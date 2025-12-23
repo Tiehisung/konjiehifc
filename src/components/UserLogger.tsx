@@ -6,34 +6,34 @@ import Link from "next/link";
 import AdminLoginController from "./auth/Login";
 import Loader from "./loaders/Loader";
 import { BiLogOutCircle } from "react-icons/bi";
+import { LoginBtn, LogoutBtn } from "./auth/Auth";
+import { ISession } from "@/types/user";
 
 interface UserLogButtonsProps {
   loginStyles?: string;
   logoutStyles?: string;
 }
 
-export default function UserLogButtons({
-  logoutStyles,
-  loginStyles,
-}: UserLogButtonsProps) {
-  const { data: session, status } = useSession();
-  const isDisabled = status === "loading" ? true : false;
+export default function UserLogButtons({ loginStyles }: UserLogButtonsProps) {
+  const { data: session  , status } = useSession();
 
-  function handleLogout() {
-    signOut();
-  }
+
   if (status == "loading") return <Loader message="" />;
   if (session)
     return (
       <div className="grid md:flex items-center gap-6 md:gap-2">
-        <Link
-          href="/admin"
-          className="hidden md:block border _borderColor hover:ring rounded px-2 py-1 h-full "
-        >
-          Admin
-        </Link>
+        {(session?.user as ISession['user'])?.role?.includes("admin") ? (
+          <Link
+            href="/admin"
+            className="hidden md:block border _borderColor hover:ring rounded px-2 py-1 h-full "
+          >
+            Admin
+          </Link>
+        ) : (
+          <span> {(session?.user as ISession['user'])?.role ?? "Guest"}</span>
+        )}
 
-        <Button
+        {/* <Button
           disabled={isDisabled}
           onClick={handleLogout}
           primaryText=""
@@ -41,7 +41,9 @@ export default function UserLogButtons({
           title="Logout"
         >
           <BiLogOutCircle size={20} /> <span className="md:hidden">Logout</span>
-        </Button>
+        </Button> */}
+
+        <LogoutBtn />
       </div>
     );
   return <AdminLoginController className={loginStyles} />;

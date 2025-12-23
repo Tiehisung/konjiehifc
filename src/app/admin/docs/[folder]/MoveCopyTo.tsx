@@ -1,6 +1,6 @@
 "use client";
 
-import { COMBOBOX } from "@/components/ComboBox";
+// import { COMBOBOX } from "@/components/ComboBox";
 import { DIALOG } from "@/components/Dialog";
 import { IFileProps } from "@/types";
 import { Badge } from "@/components/ui/badge";
@@ -27,14 +27,14 @@ export function DocMoveOrCopyTo({ document, actionType, trigger }: IProps) {
           </Badge>
           to{" "}
         </div>
-        <COMBOBOX
+        {/* <COMBOBOX
           options={Object.values(DocumentFolder).map((f) => ({
             label: f,
             value: f,
           }))}
           onChange={(op) => setDestinationFolder(op.value)}
           className="min-w-60 "
-        />
+        /> */}
 
         <ActionButton
           method="PUT"

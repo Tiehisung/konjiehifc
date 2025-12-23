@@ -1,11 +1,9 @@
-import { getErrorMessage, isObjectId } from "@/lib";
+import { getErrorMessage,   } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import ArchivesModel from "@/models/archive";
 import NewsModel from "@/models/news";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../../auth/[...nextauth]/options";
-import { FilterQuery } from "mongoose";
+import { QueryFilter } from "mongoose";
 
 
 ConnectMongoDb();
@@ -28,7 +26,7 @@ export async function DELETE(
 ) {
     try {
         const slug = (await params).slug;
-        const query = { $or: [{ slug }, { _id: slug }] } as FilterQuery<string>
+        const query = { $or: [{ slug }, { _id: slug }] } as QueryFilter<string>
 
         //First retrieve item
         const foundNewsItem = await NewsModel.findOne(query);
@@ -59,7 +57,7 @@ export async function PUT(
 ) {
     try {
         const slug = (await params).slug;
-        const query = { $or: [{ slug }, { _id: slug }] } as FilterQuery<string>
+        const query = { $or: [{ slug }, { _id: slug }] } as QueryFilter<string>
 
         const body = await request.json();
 

@@ -18,18 +18,14 @@ const AdminLoginController = ({ className }: { className?: string }) => {
   const handleSignIn = async () => {
     try {
       setWaiting(true);
-      const result = await signIn("credentials", {
+       await signIn("credentials", {
         redirect: true,
         callbackUrl: "/admin",
         email: email,
         password: password,
       });
 
-      if (result?.error) {
-        toast.error("Error signing in: " + result.error);
-      } else {
-        toast.info("Successfully signed in");
-      }
+     
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
@@ -46,9 +42,9 @@ const AdminLoginController = ({ className }: { className?: string }) => {
           />
         }
       
-        title={undefined}
+        title={undefined} 
       >
-        <div className="bg-white grid gap-8 border p-5 rounded-2xl container shadow-xl">
+        <div className=" grid gap-8  p-5 rounded-2xl">
           <IconInputWithLabel
             label="Email"
             labelStyles="text-gray-700"
@@ -71,21 +67,23 @@ const AdminLoginController = ({ className }: { className?: string }) => {
             waiting={waiting}
             waitingText="Signing in..."
             onClick={handleSignIn}
-            className="_primaryBtn p-2 grow w-full justify-center"
+            className="  p-2 grow w-full justify-center"
+            variant='default'
           >
             <RiLoginBoxLine />
           </Button>
           <div className="flex items-center text-teal-900 text-xl">
             <hr className="border-gray-400 grow" />
-            or
+            OR
             <hr className="border-gray-400 grow" />
           </div>
-          <button
+          <Button
             onClick={() => signIn("google", { callbackUrl: "/admin" })}
-            className="shadow border rounded p-2 bg-blue-400 px-4 py-2 w-full flex items-center gap-2"
+            className="shadow border rounded p-2 px-4 py-2 w-full flex items-center justify-center gap-2"
+            variant="outline"
           >
             <FcGoogle size={24} /> Sign In with Google
-          </button>
+          </Button>
         </div>
       </DIALOG>
     </>

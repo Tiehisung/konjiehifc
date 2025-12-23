@@ -15,6 +15,8 @@ export const TechnicalManagement = async () => {
   const captains = (await getCaptains("?isActive=true"))
     ?.data as ICaptainProps[];
 
+    console.log("managers", managers);
+
   return (
     <div id="technical-management" className="_page max-w-full overflow-hidden">
       <TITLE icon={<GrUserManager />} text="Technical Management" />

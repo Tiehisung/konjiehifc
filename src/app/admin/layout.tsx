@@ -2,10 +2,9 @@ import { ReactNode } from "react";
 import AdminFooter from "./Footer";
 import { LeftPaneDesktop, LeftPaneMobile } from "./AdminSidebar";
 import { Metadata } from "next";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/options";
 import Image from "next/image";
 import { staticImages } from "@/assets/images";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -28,10 +27,11 @@ export default function Layout({ children }: { children: ReactNode }) {
 }
 
 const Header = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await auth( );
   const alias =
     session?.user?.name?.split(" ")?.[0] ??
     session?.user?.email?.split("@")?.[0];
+    console.log({session})
   return (
     <header className="flex justify-between px-6 pt-2 sticky top-1 bg-accent z-20 items-center border-b border-border pb-3">
       <LeftPaneMobile />

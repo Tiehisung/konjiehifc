@@ -4,12 +4,7 @@ import TrainingSessionModel from "@/models/training";
 import { NextRequest, NextResponse } from "next/server";
 import { logAction } from "../../logs/helper";
 import { formatDate } from "@/lib/timeAndDate";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/options";
-import { IUser } from "@/types/user";
 
-// export const revalidate = 0;
-// export const dynamic = "force-dynamic";
 
 ConnectMongoDb();
 
@@ -40,12 +35,10 @@ export async function PUT(
       { $set: { ...formData }, $inc: { updateCount: 1 } }
     );
     if (updated.acknowledged) {
-      const session = await getServerSession(authOptions)
       await logAction({
         title: "Training session updated",
         description: `A training session was updated on ${formatDate(new Date().toISOString()) ?? ''}.`,
-        severity: "info",
-        user: session?.user as IUser,
+     
         meta: { ...formData }
       });
       return NextResponse.json({ message: "Updated", success: true });
@@ -66,12 +59,10 @@ export async function DELETE(
   try {
     await TrainingSessionModel.findByIdAndDelete((await params).sessionId);
     // log
-    const session = await getServerSession(authOptions)
     await logAction({
       title: "Training session deleted",
       description: `A training session was deleted on ${formatDate(new Date().toISOString()) ?? ''}.`,
-      severity: "info",
-      user: session?.user as IUser,
+   
 
     });
     return NextResponse.json({ message: "Session deleted", success: true });
