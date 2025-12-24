@@ -20,7 +20,7 @@ const userSchema = new Schema(
       trim: true,
       lowercase: true,
     },
-    password: { type: String, required: true },
+    password: { type: String, },
     isActive: { type: Boolean, default: true },
     role: {
       type: String,

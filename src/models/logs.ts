@@ -1,4 +1,4 @@
-import { ILog } from "@/types";
+import { ILog } from "@/types/log";
 import mongoose, { Schema } from "mongoose";
 
 const logSchema = new Schema(

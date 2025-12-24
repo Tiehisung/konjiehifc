@@ -21,6 +21,7 @@ import { UserActions } from "./Actions";
 import { PrimarySelect } from "@/components/select/Select";
 import { enumToOptions } from "@/lib/select";
 import { ClearFiltersBtn } from "@/components/buttons/ClearFilters";
+import { Separator } from "@/components/ui/separator";
 
 interface UserTableProps {
   users?: IQueryResponse<IUser[]>;
@@ -55,8 +56,8 @@ export default function UserTable({ users }: UserTableProps) {
           bValue = b.role as string;
           break;
         case "dateJoined":
-          aValue = new Date(a.dateEngaged as string).getTime();
-          bValue = new Date(b.dateEngaged as string).getTime();
+          aValue = new Date((a.dateEngaged ?? a.createdAt) as string).getTime();
+          bValue = new Date((b.dateEngaged ?? b.createdAt) as string).getTime();
           break;
         default:
           return 0;
@@ -171,16 +172,6 @@ export default function UserTable({ users }: UserTableProps) {
           />
 
           <div className="flex flex-wrap gap-2">
-            {/* <button
-              onClick={() => setFilter("all")}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                filter === "all"
-                  ? "bg-primary-500 "
-                  : "bg-gray-100 text-muted-foreground hover:bg-gray-200"
-              }`}
-            >
-              All Users
-            </button> */}
             <PrimarySelect
               paramKey="role"
               options={enumToOptions(EUserRole)}
@@ -257,7 +248,7 @@ export default function UserTable({ users }: UserTableProps) {
                         ))}
                     </div>
                   </th>
-                  <th className="py-4 px-6 text-left">Login Method</th>
+                  <th className="py-4 px-6 text-left">Account</th>
                   <th
                     className="py-4 px-6 text-left cursor-pointer hover:bg-popover/50"
                     onClick={() => handleSort("dateJoined")}
@@ -272,14 +263,14 @@ export default function UserTable({ users }: UserTableProps) {
                         ))}
                     </div>
                   </th>
-                  <th></th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 text-sm">
                 {filteredAndSortedUsers?.map((user) => (
                   <tr
                     key={user?._id}
-                    className="hover:bg-popover transition-colors"
+                    className="hover:bg-popover transition-colors group relative"
                   >
                     <td className="py-4 px-6">
                       <div className="flex items-center gap-3">
@@ -327,11 +318,7 @@ export default function UserTable({ users }: UserTableProps) {
                     <td className="py-4 px-6 text-muted-foreground">
                       <p>{formatDate(user?.dateEngaged ?? user?.createdAt)}</p>
                       <p>
-                        (
-                        {getTimeAgo(
-                          user?.dateEngaged ?? (user?.createdAt)
-                        )}
-                        )
+                        ({getTimeAgo(user?.dateEngaged ?? user?.createdAt)})
                       </p>
                     </td>
 
@@ -348,13 +335,15 @@ export default function UserTable({ users }: UserTableProps) {
                 <div className="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
                   <Search className="w-8 h-8 text-gray-400" />
                 </div>
-                <h3 className="text-lg font-medium  mb-2">No users found</h3>
-                <p className="text-muted-foreground">
+                <h3 className="text-lg font-medium mb-2">No users found</h3>
+                <p className="text-muted-foreground text-xs">
                   Try adjusting your search or filter criteria
                 </p>
               </div>
             )}
           </div>
+
+          <Separator />
 
           <Pagination pagination={users?.pagination} />
         </CardContent>

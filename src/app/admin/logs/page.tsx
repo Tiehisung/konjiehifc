@@ -2,9 +2,10 @@ import HEADER from "@/components/Element";
 import React from "react";
 import { buildQueryStringServer } from "@/lib";
 import { apiConfig } from "@/lib/configs";
-import { ILog, IQueryResponse } from "@/types";
+import { ILog,   } from "@/types/log";
 import { LogsClient } from "./Client";
 import BackToTopButton from "@/components/scroll/ToTop";
+import { IQueryResponse } from "@/types";
 
 export const getLogs = async (queryString?: string) => {
   try {

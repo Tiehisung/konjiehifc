@@ -1,13 +1,13 @@
 import { auth } from "@/auth";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import LogModel from "@/models/logs";
-import { ILog } from "@/types";
+import { ELogSeverity, ILog } from "@/types/log";
 
 ConnectMongoDb();
 export async function logAction({
     title,
     description,
-    severity = "info",
+    severity = ELogSeverity.INFO,
     meta = {},
 }: Omit<ILog, "_id" | "createdAt">) {
     try {

@@ -1,9 +1,10 @@
-import { getErrorMessage,   } from "@/lib";
+import { getErrorMessage, } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
-import ArchivesModel from "@/models/archive";
 import NewsModel from "@/models/news";
 import { NextRequest, NextResponse } from "next/server";
 import { QueryFilter } from "mongoose";
+import ArchiveModel from "@/models/Archives";
+import { EArchivesCollection } from "@/types/archive.interface";
 
 
 ConnectMongoDb();
@@ -30,11 +31,13 @@ export async function DELETE(
 
         //First retrieve item
         const foundNewsItem = await NewsModel.findOne(query);
+
         //Then archive
-        await ArchivesModel.updateOne(
-            { category: "deleted_news" },
+        await ArchiveModel.updateOne(
+            { sourceCollection: EArchivesCollection.NEWS, originalId: foundNewsItem?._id },
             { $push: { data: { ...foundNewsItem, isLatest: false } } }
         );
+        
         //Then delete from main collection
         const deleted = await NewsModel.deleteOne(query);
         if (deleted.acknowledged)

@@ -15,8 +15,8 @@ import { useActionOnEsc } from "@/hooks/Esc";
 export function PrimaryDropdown({
   children,
   className,
-  trigger = <MoreHorizontal className="" size={20}/>,
-  triggerStyles = "hover:bg-background/50 p-2",
+  trigger = <MoreHorizontal  size={20} />,
+  triggerStyles = "hover:bg-background/50 p-2 _hover _shrink rounded-full ",
   id,
   hideAngle = true,
   align = "end",
@@ -35,6 +35,7 @@ export function PrimaryDropdown({
         <button
           className={` gap-1 flex items-center cursor-pointer ${triggerStyles}`}
           id={id}
+          type="button"
         >
           {trigger}
           {!hideAngle && <ChevronDown size={16} />}
@@ -114,13 +115,12 @@ export const SecondaryDropdown: FC<{
         <main
           className={`absolute bg-card right-0 left-auto rounded-2xl ${
             isOpen
-              ? " visible _slowTrans min-w-[200px] sm:w-80 border top-full shadow-2xl"
+              ? " visible _slowTrans min-w-50 sm:w-80 border top-full shadow-2xl"
               : "invisible h-0 top-6"
           } ${className}`}
         >
           {children}
         </main>
-
       </HideOnClickOutside>
     </div>
   );

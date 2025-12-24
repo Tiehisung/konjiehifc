@@ -39,7 +39,7 @@ export function Button({
   return (
     <Btn
       disabled={waiting || disabled}
-      className={`flex items-center gap-2 font-semibold disabled:pointer-events-none disabled:hover:bg-transparent disabled:text-muted-foreground/60 active:scale-95 overflow-hidden ${className} ${
+      className={`flex items-center gap-2 font-semibold disabled:pointer-events-none disabled:hover:bg-transparent disabled:opacity-60 active:scale-95 overflow-hidden ${className} ${
         waiting ? "cursor-wait" : "cursor-pointer"
       }  `}
       variant={variant}

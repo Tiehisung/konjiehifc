@@ -9,6 +9,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { removeEmptyKeys } from "@/lib";
 import { logAction } from "../logs/helper";
 import { formatDate } from "@/lib/timeAndDate";
+import ArchiveModel from "@/models/Archives";
+import { EArchivesCollection } from "@/types/archive.interface";
+import { ELogSeverity } from "@/types/log";
 
 ConnectMongoDb()
 
@@ -38,8 +41,8 @@ export async function GET(request: NextRequest) {
       .limit(limit)
       .skip(skip)
       .lean()
-      .sort({createdAt: "desc",});
-      
+      .sort({ createdAt: "desc", });
+
     const total = await TeamModel.countDocuments(cleaned)
     return NextResponse.json({
       success: true,
@@ -51,7 +54,6 @@ export async function GET(request: NextRequest) {
         pages: Math.ceil(total / limit),
       },
     });
-
 
   } catch {
 
@@ -67,11 +69,9 @@ export async function POST(request: NextRequest) {
   try {
     const team: IPostTeam = await request.json();
 
-
     //Save team to database
     const createdTeam = await TeamModel.create({
       ...team,
-
     });
     if (createdTeam) {
       return NextResponse.json({
@@ -127,12 +127,18 @@ export async function DELETE(req: NextRequest) {
 
     const body = await req.json();
     const deleted = await TeamModel.findByIdAndDelete(body?._id);
+    
+    //Archive
+    await ArchiveModel.updateOne(
+      { sourceCollection: EArchivesCollection.TEAMS, originalId: body?._id },
+      { $push: { data: deleted } }
+    );
 
     // log
     await logAction({
-      title: "Team  deleted",
+      title: `Team deleted - [${body?.name}]`,
       description: `A team(${body?.name}) deleted. on ${formatDate(new Date().toISOString()) ?? ''}.`,
-     
+      severity: ELogSeverity.CRITICAL,
     });
     return NextResponse.json({
       message: "Team deleted successfully",
