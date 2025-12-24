@@ -1,8 +1,6 @@
 import { getErrorMessage } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/options";
 import { logAction } from "../logs/helper";
 import { IGoal } from "@/app/matches/(fixturesAndResults)";
 import GoalModel from "@/models/goals";
@@ -10,6 +8,7 @@ import { updateMatchEvent } from "../matches/live/events/route";
 import MatchModel from "@/models/match";
 import PlayerModel from "@/models/player";
 import { IUser } from "@/types/user";
+import { auth } from "@/auth";
 // export const revalidate = 0;
 // export const dynamic = "force-dynamic";
 
@@ -57,7 +56,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
     const { match, description, minute, opponent, scorer, assist, modeOfScore, } = await request.json() as IGoal;
 
     const savedGoal = await GoalModel.create({
@@ -87,9 +86,7 @@ export async function POST(request: NextRequest) {
     await logAction({
       title: "Goal Created",
       description: description as string,
-      category: "db",
-      severity: "info",
-      user: session?.user as IUser,
+     
     });
 
     return NextResponse.json({ message: "Goal created successfully!", success: true, data: savedGoal });

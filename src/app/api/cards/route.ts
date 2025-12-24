@@ -1,16 +1,14 @@
 import { getErrorMessage } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/options";
 import { logAction } from "../logs/helper";
 import { IMatchCard } from "@/app/matches/(fixturesAndResults)";
 import CardModel from "@/models/card";
 import { updateMatchEvent } from "../matches/live/events/route";
 import PlayerModel from "@/models/player";
 import { IUser } from "@/types/user";
-// export const revalidate = 0;
-// export const dynamic = "force-dynamic";
+import { auth } from "@/auth";
+
 
 ConnectMongoDb();
 export async function GET(request: NextRequest) {
@@ -54,7 +52,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
     const { match, minute, player, type, description, } = await request.json() as IMatchCard;
 
     const savedCard = await CardModel.create({
@@ -80,9 +78,6 @@ export async function POST(request: NextRequest) {
     await logAction({
       title: "Card Created",
       description: `${type == 'red' ? '🟥' : '🟨'} ${type} card recorded. ${description || ''}`,
-      category: "db",
-      severity: "info",
-      user: session?.user as IUser
     });
 
     return NextResponse.json({ message: "Card created successfully!", success: true, data: savedCard });

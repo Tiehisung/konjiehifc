@@ -1,8 +1,6 @@
 import { getErrorMessage } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/options";
 import { logAction } from "../logs/helper";
 import { updateMatchEvent } from "../matches/live/events/route";
 import InjuryModel from "@/models/injury";
@@ -50,7 +48,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
+
     const { match, minute, player, description, severity } = await request.json() as IInjury
 
     const savedInjury = await InjuryModel.create({
@@ -77,9 +75,7 @@ export async function POST(request: NextRequest) {
     await logAction({
       title: "🤕 Injury Created",
       description: description as string,
-      category: "db",
-      severity: "info",
-      user : session?.user  as IUser,
+  
 
     });
     return NextResponse.json({ message: "Injury created successfully!", success: true, data: savedInjury });

@@ -68,8 +68,7 @@ export async function POST(request: NextRequest) {
     await logAction({
       title: "Training session recorded",
       description: `A new training session recorded. on ${formatDate(new Date().toISOString()) ?? ''}.`,
-      severity: "info",
-      user: recordedBy as IUser,
+    
 
     });
     return NextResponse.json({ message: "Session recorded successfully!", success: true, data: savedSession });

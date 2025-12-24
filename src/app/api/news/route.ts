@@ -3,11 +3,8 @@ import { getErrorMessage, removeEmptyKeys, slugify } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import NewsModel from "@/models/news";
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/options";
 import { logAction } from "../logs/helper";
-import { IUser } from "@/types/user";
-import { FilterQuery } from "mongoose";
+import { QueryFilter } from "mongoose";
 import { TSearchKey } from "@/types";
 
 ConnectMongoDb();
@@ -31,7 +28,7 @@ export async function GET(request: NextRequest) {
 
   const regex = new RegExp(search, "i");
 
-  const query = {} as FilterQuery<unknown>;
+  const query = {} as QueryFilter<unknown>;
 
   if (isTrending) {
     query["stats.isTrending"] = true
@@ -59,8 +56,6 @@ export async function GET(request: NextRequest) {
 
 
   const cleaned = removeEmptyKeys(query)
-
-  console.log({ cleaned, search, query })
 
   const news = await NewsModel.find(cleaned).sort({ createdAt: "desc" }).skip(skip)
     .limit(limit)
@@ -90,16 +85,11 @@ export async function POST(request: NextRequest) {
       details,
       reporter, type: type ?? 'general',
     });
-    const session = await getServerSession(authOptions)
     // log
     await logAction({
       title: "News Created",
       description: headline.text as string,
-      category: "db",
-      severity: "info",
-      user: (session?.user as IUser) ?? reporter,
       meta: reporter
-
     });
     if (published)
       return NextResponse.json({

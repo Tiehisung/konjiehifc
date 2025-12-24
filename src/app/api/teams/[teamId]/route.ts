@@ -3,7 +3,6 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import TeamModel from "@/models/teams";
 import { NextRequest, NextResponse } from "next/server";
 import { logAction } from "../../logs/helper";
-import { IUser } from "@/types/user";
 import { formatDate } from "@/lib/timeAndDate";
  
 
@@ -63,7 +62,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
       title: "Team  deleted",
       description: `A team(${body?.name}) deleted. on ${formatDate(new Date().toISOString()) ?? ''}.`,
       severity: "critical",
-      user: body?.user as IUser,
+   
     });
     return NextResponse.json({
       message: "Team deleted successfully",

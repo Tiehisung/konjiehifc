@@ -1,11 +1,9 @@
-import React from "react";
 import AdminDashboard from "./Dashboard";
 import { apiConfig } from "@/lib/configs";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/options";
+import { auth } from "@/auth";
 
 export async function getSessionUser() {
-  const session = await getServerSession(authOptions); // works in server context
+  const session = await auth(); // works in server context
   if (!session?.user) return null;
 
   return session.user; // contains id, name, email, image, etc.

@@ -3,7 +3,6 @@ import Image from "next/image";
 import { ICaptainProps } from "../admin/players/captaincy/Captaincy";
 import { getManagers, IManager } from "../admin/managers/page";
 import SimpleCarousel from "@/components/carousel/SimpleCarousel";
-
 import { getCaptains } from "../admin/players/captaincy/page";
 import CardCarousel from "@/components/carousel/cards";
 import { CgShapeRhombus } from "react-icons/cg";
@@ -14,6 +13,8 @@ export const TechnicalManagement = async () => {
   const managers = (await getManagers("?isActive=true"))?.data as IManager[];
   const captains = (await getCaptains("?isActive=true"))
     ?.data as ICaptainProps[];
+
+    console.log("managers", managers);
 
   return (
     <div id="technical-management" className="_page max-w-full overflow-hidden">

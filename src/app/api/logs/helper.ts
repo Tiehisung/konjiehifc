@@ -1,4 +1,4 @@
-import { getSessionUser } from "@/app/admin/page";
+import { auth } from "@/auth";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import LogModel from "@/models/logs";
 import { ILog } from "@/types";
@@ -7,17 +7,15 @@ ConnectMongoDb();
 export async function logAction({
     title,
     description,
-    category = "api",
-    severity = "info", user,
+    severity = "info",
     meta = {},
 }: Omit<ILog, "_id" | "createdAt">) {
     try {
-        const _user = await getSessionUser();
+        const session = await auth()
         const log = await LogModel.create({
             title,
             description,
-            user: _user ?? user,
-            category,
+            user: (session?.user),
             severity,
             meta,
             createdAt: new Date(),

@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+const path = require('path')
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -15,9 +16,12 @@ const nextConfig: NextConfig = {
     // your project has type errors.
     // !! WARN !!
     ignoreBuildErrors: true,
-  }, turbopack: {
-    root:'./'
+  },
+   turbopack: {
+    root:'',
   }
 };
 
 export default nextConfig;
+
+

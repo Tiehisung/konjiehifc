@@ -9,7 +9,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { removeEmptyKeys } from "@/lib";
 import { logAction } from "../logs/helper";
 import { formatDate } from "@/lib/timeAndDate";
-import { IUser } from "@/types/user";
 
 ConnectMongoDb()
 
@@ -133,8 +132,7 @@ export async function DELETE(req: NextRequest) {
     await logAction({
       title: "Team  deleted",
       description: `A team(${body?.name}) deleted. on ${formatDate(new Date().toISOString()) ?? ''}.`,
-      severity: "critical",
-      user: body?.user as IUser,
+     
     });
     return NextResponse.json({
       message: "Team deleted successfully",

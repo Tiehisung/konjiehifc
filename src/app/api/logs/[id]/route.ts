@@ -1,17 +1,14 @@
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import UserModel from "@/models/user";
-import { authOptions } from "../../auth/[...nextauth]/options";
-import { IUser } from "@/types/user";
+import { ISession, IUser } from "@/types/user";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import { getErrorMessage } from "@/lib";
+import { auth } from "@/auth";
 
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
 
 ConnectMongoDb();
-
-
 export interface SessionIUser {
   user: {
     name: string;
@@ -33,8 +30,8 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = (await getServerSession(authOptions)) as SessionIUser
-    if (session?.user?.role !== "super_admin")
+    const session = (await auth())
+    if ((session?.user as ISession['user'])?.role !== "super_admin")
       return NextResponse.json({
         success: false,
         message: "You are not authorized to perform this action.",
@@ -87,9 +84,8 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = (await getServerSession(authOptions)) as SessionIUser;
-
-    if (session?.user?.role !== "super_admin")
+    const session = (await auth())
+    if ((session?.user as ISession['user'])?.role !== "super_admin")
       return NextResponse.json({
         success: false,
         message: "You are not authorized to perform this action.",

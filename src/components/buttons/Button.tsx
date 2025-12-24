@@ -1,5 +1,8 @@
+"use client";
+
 import { CSSProperties, MouseEventHandler } from "react";
 import { VscLoading } from "react-icons/vsc";
+import { TButtonSize, TButtonVariant, Button as Btn } from "../ui/button";
 
 interface ButtonProps {
   primaryText?: string;
@@ -10,7 +13,8 @@ interface ButtonProps {
   children?: React.ReactNode;
   type?: "submit" | "button" | "reset";
   styles?: CSSProperties;
-  variant?: "destructive" | "primary" | "secondary" | "outline";
+  variant?: TButtonVariant;
+  size?: TButtonSize;
 }
 
 interface ClickButtonProps extends ButtonProps {
@@ -29,24 +33,16 @@ export function Button({
   children,
   title = "",
   styles = {},
-  variant,
+  variant,size
 }: ClickButtonProps) {
   return (
-    <button
+    <Btn
       disabled={waiting || disabled}
       className={`flex items-center gap-2 font-semibold ${className} ${
         waiting ? "cursor-wait" : "cursor-pointer"
-      } ${
-        variant == "destructive"
-          ? "_deleteBtn"
-          : variant == "primary"
-          ? "_primaryBtn"
-          : variant == "secondary"
-          ? "_secondaryBtn"
-          : variant == "outline"
-          ? "border rounded-md "
-          : ""
-      }`}
+      }  `}
+      variant={variant}
+      size={size}
       type={type}
       onClick={onClick}
       title={title}
@@ -63,6 +59,6 @@ export function Button({
       ) : (
         <span hidden={!primaryText}>{primaryText}</span>
       )}
-    </button>
+    </Btn>
   );
 }

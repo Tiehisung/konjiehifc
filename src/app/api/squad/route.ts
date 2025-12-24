@@ -3,9 +3,6 @@ import { getErrorMessage, removeEmptyKeys } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import SquadModel from "@/models/squad";
 import { NextRequest, NextResponse } from "next/server";
-import { postNews } from "../news/post";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/options";
 import { logAction } from "../logs/helper";
 import MatchModel from "@/models/match";
 import { IUser } from "@/types/user";
@@ -52,7 +49,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
+   
     const { match, players, assistant, coach, description, } = await request.json() as ISquad;
 
     const savedSquad = await SquadModel.create({
@@ -72,9 +69,6 @@ export async function POST(request: NextRequest) {
     await logAction({
       title: "Squad Created",
       description: description || `${match.title} on ${match.date}` as string,
-      category: "db",
-      severity: "info",
-      user: session?.user as IUser,
     });
     return NextResponse.json({ message: "Squad created successfully!", success: true, data: savedSquad });
 

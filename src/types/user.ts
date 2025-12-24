@@ -5,14 +5,30 @@ export interface IUser {
   email: string;
   password?: string;
   dateEngaged?: string;
-  role?: TUserRole;
+  role?: EUserRole;
   account?: 'credentials' | 'google'
   isActive?: boolean
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export type TUserRole = 'super_admin' | "admin" | "player" | "guest"
+
+export enum EUserRole {
+  ADMIN = 'admin',
+  SUPER_ADMIN = 'super_admin',
+  PLAYER = 'player',
+  GUEST = 'guest',
+}
+export interface ISession  {
+  user: {
+    name: string;
+    image: string;
+    role?: EUserRole
+    email: string;
+  };
+  expires:string
+}
+
 
 
 

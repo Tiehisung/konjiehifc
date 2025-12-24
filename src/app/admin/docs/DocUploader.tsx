@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import MultiSelectionInput from "@/components/select/MultiSelect";
 import { IQueryResponse, ISelectOptionLV } from "@/types";
 import { FancyMotion } from "@/components/Animate/MotionWrapper";
-import { COMBOBOX } from "@/components/ComboBox";
+// import { COMBOBOX } from "@/components/ComboBox";
 import { PiFolderPlusLight } from "react-icons/pi";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/lib";
@@ -155,7 +155,7 @@ export function DocumentUploader({
               className="text-primary dark:text-Orange"
               size={30}
             />
-            <COMBOBOX
+            {/* <COMBOBOX
               options={Object.values(DocumentFolder).map((f) => ({
                 label: f,
                 value: f,
@@ -164,7 +164,7 @@ export function DocumentUploader({
               placeholder="Select Folder"
               className="capitalize"
               defaultOptionValue={defaultFolder}
-            />
+            /> */}
           </div>
         )}
         <br />
