@@ -6,7 +6,8 @@ export interface IUser {
   password?: string;
   dateEngaged?: string;
   role?: EUserRole;
-  account?: EUserAccount
+  signupMode?: EUserAccount
+  lastLoginAccount?: EUserAccount
   isActive?: boolean
   createdAt?: Date;
   updatedAt?: Date;
@@ -23,14 +24,14 @@ export enum EUserAccount {
   CREDENTIALS = 'credentials',
   GOOGLE = 'google',
 }
-export interface ISession  {
+export interface ISession {
   user: {
     name: string;
     image: string;
     role?: EUserRole
     email: string;
   };
-  expires:string
+  expires: string
 }
 
 

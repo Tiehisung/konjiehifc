@@ -25,7 +25,7 @@ export default function UserTable({
   users: initialUsers = [],
 }: UserTableProps) {
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState<"all" | "admin" | IUser["account"]>(
+  const [filter, setFilter] = useState<"all" | "admin" | IUser["signupMode"]>(
     "all"
   );
   const [sortField, setSortField] = useState<SortField>("dateJoined");
@@ -110,10 +110,10 @@ export default function UserTable({
 
   const stats = useMemo(() => {
     const googleUsers = initialUsers.filter(
-      (u) => u.account === "google"
+      (u) => u.signupMode === "google"
     ).length;
     const credentialsUsers = initialUsers.filter(
-      (u) => u.account === "credentials"
+      (u) => u.signupMode === "credentials"
     ).length;
 
     return {
@@ -155,10 +155,10 @@ export default function UserTable({
         <div className="bg-card rounded-xl shadow-card p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Credentials Sign-ins</p>
-              <p className="text-2xl font-bold ">
-                {stats.credentials}
+              <p className="text-sm text-muted-foreground">
+                Credentials Sign-ins
               </p>
+              <p className="text-2xl font-bold ">{stats.credentials}</p>
             </div>
             <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center">
               <Key className="w-6 h-6 text-purple-600" />
@@ -170,9 +170,7 @@ export default function UserTable({
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Showing</p>
-              <p className="text-2xl font-bold ">
-                {stats.showing} users
-              </p>
+              <p className="text-2xl font-bold ">{stats.showing} users</p>
             </div>
             <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
               <Filter className="w-6 h-6 text-green-600" />
@@ -322,13 +320,13 @@ export default function UserTable({
                           className="w-10 h-10 rounded-full"
                         />
                         <div>
-                          <p className="font-medium ">
-                            {user?.name}
-                          </p>
+                          <p className="font-medium ">{user?.name}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="py-4 px-6 text-muted-foreground">{user?.email}</td>
+                    <td className="py-4 px-6 text-muted-foreground">
+                      {user?.email}
+                    </td>
                     <td className="py-4 px-6">
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-medium ${getRoleColor(
@@ -340,15 +338,19 @@ export default function UserTable({
                     </td>
                     <td className="py-4 px-6">
                       <div className="flex items-center gap-2">
-                        {user?.account === "google" ? (
+                        {user?.signupMode === "google" ? (
                           <>
                             <Globe className="w-4 h-4 text-red-500" />
-                            <span className="text-muted-foreground">Google</span>
+                            <span className="text-muted-foreground">
+                              Google
+                            </span>
                           </>
                         ) : (
                           <>
                             <Key className="w-4 h-4 text-purple-500" />
-                            <span className="text-muted-foreground">Credentials</span>
+                            <span className="text-muted-foreground">
+                              Credentials
+                            </span>
                           </>
                         )}
                       </div>
@@ -366,9 +368,7 @@ export default function UserTable({
                 <div className="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
                   <Search className="w-8 h-8 text-gray-400" />
                 </div>
-                <h3 className="text-lg font-medium  mb-2">
-                  No users found
-                </h3>
+                <h3 className="text-lg font-medium  mb-2">No users found</h3>
                 <p className="text-muted-foreground">
                   Try adjusting your search or filter criteria
                 </p>

@@ -27,7 +27,7 @@ const userSchema = new Schema(
       default: "guest",
       enum: [...Object.values(EUserRole)],
     },
-    account: {
+    signupMode: {
       type: String,
       default: "google",
       enum: [...Object.values(EUserAccount)],
