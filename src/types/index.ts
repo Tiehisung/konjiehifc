@@ -29,7 +29,7 @@ export interface IFileProps extends ICldFileUploadResult {
 export interface IDeleteFile {
   _id?: string; //Trace any saved file data on db
   public_id: string;
-  resource_type?: string; 
+  resource_type?: string;
 }
 
 export interface IFileUpload {
@@ -70,6 +70,10 @@ export interface IQueryResponse<T = unknown> {
   error?: string;
   data?: T;
   pagination?: IPagination
+}
+export interface IPageProps {
+  searchParams: Promise<Record<string, string | undefined>>;
+  params: Promise<Record<string, string | undefined>>;
 }
 
 export interface IPagination {
@@ -127,3 +131,4 @@ export type TSearchKey =
   | 'transaction_search'
   | 'log_search'
   | 'doc_search'
+  | 'user_search'

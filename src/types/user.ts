@@ -6,11 +6,11 @@ export interface IUser {
   password?: string;
   dateEngaged?: string;
   role?: EUserRole;
-  signupMode?: EUserAccount
+  account?: EUserAccount
   lastLoginAccount?: EUserAccount
   isActive?: boolean
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 

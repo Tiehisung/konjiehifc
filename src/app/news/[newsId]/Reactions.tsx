@@ -7,7 +7,7 @@ import { ActionButton } from "@/components/buttons/ActionButton";
 import { apiConfig } from "@/lib/configs";
 import { POPOVER } from "@/components/ui/popover";
 import SocialShare from "@/components/SocialShare";
-import { useAction } from "@/hooks/activityEvent";
+import { useAction } from "@/hooks/action";
 import { FormEvent, useState } from "react";
 import { useSession } from "next-auth/react";
 import { staticImages } from "@/assets/images";

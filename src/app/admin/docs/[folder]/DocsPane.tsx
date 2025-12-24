@@ -12,7 +12,7 @@ import { FaFilePdf } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
 import { DocMoveOrCopyTo } from "./MoveCopyTo";
 import { DragAndDropUpload } from "../../../../components/DragAndDrop";
-import { useAction } from "@/hooks/activityEvent";
+import { useAction } from "@/hooks/action";
 import { IPostDoc } from "../page";
 import { useParams } from "next/navigation";
 
@@ -61,7 +61,6 @@ export default function FolderDocuments({ docs }: IProps) {
 
                   <div className="text-muted-foreground flex flex-wrap items-center justify-center">
                     <span>
-                      {" "}
                       {formatDate(docFile.createdAt, "March 2, 2025")}
                     </span>
                     <span className="bg-secondary rounded-full px-1 text-xs">
@@ -72,7 +71,7 @@ export default function FolderDocuments({ docs }: IProps) {
                 <DocumentActions document={docFile} />
               </li>
             ))}
-          </ul>{" "}
+          </ul>
         </DragAndDropUpload>
 
         <InfiniteLimitScroller

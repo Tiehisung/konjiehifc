@@ -77,17 +77,19 @@ export const Pagination: FC<PaginationProps> = ({
         <Button
           aria-label="Go to previous page"
           disabled={pagination.page < 2}
-          className={`bg-background border px-2 py-1 text-sm disabled:bg-transparent disabled:text-muted-foreground/60 ${buttonStyles}`}
+          className={` border px-2 py-1 text-sm ${buttonStyles}`}
           onClick={handlePrevious}
+          variant={"secondary"}
         >
-          {useAngles ? <FaAngleLeft className="" /> : "Previous"}
+          {useAngles ? <FaAngleLeft className="" /> : "Prev"}
         </Button>
 
         <Button
           aria-label="Go to next page"
           disabled={pagination.page === pagination.pages}
-          className={`bg-background border px-2 py-1 text-sm disabled:bg-transparent disabled:text-muted-foreground/60 ${buttonStyles}`}
+          className={` border px-2 py-1 text-sm ${buttonStyles}`}
           onClick={handleNext}
+          variant={"secondary"}
         >
           {useAngles ? <FaAngleRight /> : "Next"}
         </Button>

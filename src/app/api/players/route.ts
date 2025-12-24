@@ -5,7 +5,9 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import PlayerModel from "@/models/player";
 import { NextRequest, NextResponse } from "next/server";
 import { getErrorMessage, removeEmptyKeys } from "@/lib";
- 
+import UserModel from "@/models/user";
+import bcrypt from "bcryptjs";
+
 
 ConnectMongoDb();
 
@@ -57,6 +59,24 @@ export async function POST(request: NextRequest) {
   const formData = await request.json();
   try {
     const saved = await PlayerModel.create({ ...formData });
+
+    // Create User
+    if (formData.email) {
+      const existingUser = await UserModel.findOne({ email: formData.email });
+
+      if (!existingUser) {
+        const password = await bcrypt.hash(formData.firstName.toLowerCase(), 10);
+
+        await UserModel.create({
+          email: formData.email,
+          name: `${formData.firstName} ${formData.lastName}`,
+          image: formData.image,
+          lastLoginAccount: 'credentials',
+          signupMode: 'credentials',
+          password
+        });
+      }
+    }
     if (saved) return NextResponse.json({ message: "Success", success: true });
     return NextResponse.json({ message: "Player Added", success: true });
   } catch (error) {

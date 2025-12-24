@@ -1,9 +1,13 @@
 "use client";
 
+import { Pagination } from "@/components/Pagination";
+import { PrimarySearch } from "@/components/Search";
+import { AVATAR } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { getInitials } from "@/lib";
-import { formatDate } from "@/lib/timeAndDate";
-import { EUserRole, IUser } from "@/types/user";
+import { formatDate, getTimeAgo } from "@/lib/timeAndDate";
+import { IQueryResponse } from "@/types";
+import { EUserAccount, EUserRole, IUser } from "@/types/user";
 import {
   Globe,
   Key,
@@ -13,45 +17,24 @@ import {
   Filter,
 } from "lucide-react";
 import { useState, useMemo } from "react";
+import { UserActions } from "./Actions";
+import { PrimarySelect } from "@/components/select/Select";
+import { enumToOptions } from "@/lib/select";
+import { ClearFiltersBtn } from "@/components/buttons/ClearFilters";
 
 interface UserTableProps {
-  users?: IUser[];
+  users?: IQueryResponse<IUser[]>;
 }
 
 type SortField = "name" | "email" | "role" | "dateJoined";
 type SortDirection = "asc" | "desc";
 
-export default function UserTable({
-  users: initialUsers = [],
-}: UserTableProps) {
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState<"all" | "admin" | IUser["signupMode"]>(
-    "all"
-  );
+export default function UserTable({ users }: UserTableProps) {
   const [sortField, setSortField] = useState<SortField>("dateJoined");
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
 
   const filteredAndSortedUsers = useMemo(() => {
-    let result = [...initialUsers];
-
-    // Apply search filter
-    if (search) {
-      const searchLower = search.toLowerCase();
-      result = result.filter(
-        (user) =>
-          user?.name.toLowerCase().includes(searchLower) ||
-          user?.email.toLowerCase().includes(searchLower)
-      );
-    }
-
-    // Apply auth method/role filter
-    if (filter !== "all") {
-      if (filter === "google" || filter === "credentials") {
-        result = result.filter((user) => user?.account === filter);
-      } else {
-        result = result.filter((user) => user?.role === filter);
-      }
-    }
+    let result = [...(users?.data || [])];
 
     // Apply sorting
     result.sort((a, b) => {
@@ -85,7 +68,7 @@ export default function UserTable({
     });
 
     return result;
-  }, [initialUsers, search, filter, sortField, sortDirection]);
+  }, [users, sortField, sortDirection]);
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -109,20 +92,20 @@ export default function UserTable({
   };
 
   const stats = useMemo(() => {
-    const googleUsers = initialUsers.filter(
-      (u) => u.signupMode === "google"
+    const googleUsers = users?.data?.filter(
+      (u) => u.account === "google"
     ).length;
-    const credentialsUsers = initialUsers.filter(
-      (u) => u.signupMode === "credentials"
+    const credentialsUsers = users?.data?.filter(
+      (u) => u.account === "credentials"
     ).length;
 
     return {
       google: googleUsers,
       credentials: credentialsUsers,
-      total: initialUsers.length,
+      total: users?.data?.length,
       showing: filteredAndSortedUsers.length,
     };
-  }, [initialUsers, filteredAndSortedUsers]);
+  }, [users, filteredAndSortedUsers]);
 
   return (
     <div className="space-y-6">
@@ -182,8 +165,13 @@ export default function UserTable({
       {/* Controls */}
       <div className="bg-card rounded-xl shadow-card p-6">
         <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between">
+          <PrimarySearch
+            placeholder="Search users..."
+            searchKey="user_search"
+          />
+
           <div className="flex flex-wrap gap-2">
-            <button
+            {/* <button
               onClick={() => setFilter("all")}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 filter === "all"
@@ -192,50 +180,30 @@ export default function UserTable({
               }`}
             >
               All Users
-            </button>
-            <button
-              onClick={() => setFilter("google")}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center gap-2 ${
-                filter === "google"
-                  ? "bg-red-500 "
-                  : "bg-gray-100 text-muted-foreground hover:bg-gray-200"
-              }`}
-            >
-              <Globe className="w-4 h-4" />
-              Google Only
-            </button>
-            <button
-              onClick={() => setFilter("credentials")}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center gap-2 ${
-                filter === "credentials"
-                  ? "bg-purple-500 "
-                  : "bg-gray-100 text-muted-foreground hover:bg-gray-200"
-              }`}
-            >
-              <Key className="w-4 h-4" />
-              Credentials Only
-            </button>
-            <button
-              onClick={() => setFilter("admin")}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                filter === "admin"
-                  ? "bg-red-500 "
-                  : "bg-gray-100 text-muted-foreground hover:bg-gray-200"
-              }`}
-            >
-              Admins
-            </button>
-          </div>
-
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="text"
-              placeholder="Search users..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent w-full md:w-64"
+            </button> */}
+            <PrimarySelect
+              paramKey="role"
+              options={enumToOptions(EUserRole)}
+              className="border p-2 w-full "
+              triggerStyles="grow w-full py-2 rounded-none"
+              label={
+                <p className="text-muted-foreground font-normal text-xs">
+                  Role:
+                </p>
+              }
             />
+            <PrimarySelect
+              paramKey="account"
+              options={enumToOptions(EUserAccount)}
+              className="border p-2 w-full "
+              triggerStyles="grow w-full py-2 rounded-none"
+              label={
+                <p className="text-muted-foreground font-normal text-xs">
+                  Signup Type:
+                </p>
+              }
+            />
+            <ClearFiltersBtn label="Clear All" />
           </div>
         </div>
       </div>
@@ -304,28 +272,29 @@ export default function UserTable({
                         ))}
                     </div>
                   </th>
+                  <th></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
-                {filteredAndSortedUsers.map((user) => (
+              <tbody className="divide-y divide-gray-200 text-sm">
+                {filteredAndSortedUsers?.map((user) => (
                   <tr
                     key={user?._id}
                     className="hover:bg-popover transition-colors"
                   >
                     <td className="py-4 px-6">
                       <div className="flex items-center gap-3">
-                        <img
+                        <AVATAR
                           src={user?.image}
-                          alt={user?.name}
-                          className="w-10 h-10 rounded-full"
+                          fallbackText={getInitials(user?.name?.split(" "), 2)}
+                          className="uppercase"
                         />
                         <div>
-                          <p className="font-medium ">{user?.name}</p>
+                          <p className="font-medium uppercase">{user?.name}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="py-4 px-6 text-muted-foreground">
-                      {user?.email}
+                    <td className="py-4 px-6 text-muted-foreground italic">
+                      <a href={`mailto:${user?.email}`}>{user?.email}</a>
                     </td>
                     <td className="py-4 px-6">
                       <span
@@ -338,7 +307,7 @@ export default function UserTable({
                     </td>
                     <td className="py-4 px-6">
                       <div className="flex items-center gap-2">
-                        {user?.signupMode === "google" ? (
+                        {user?.account === "google" ? (
                           <>
                             <Globe className="w-4 h-4 text-red-500" />
                             <span className="text-muted-foreground">
@@ -356,7 +325,18 @@ export default function UserTable({
                       </div>
                     </td>
                     <td className="py-4 px-6 text-muted-foreground">
-                      {formatDate(user?.dateEngaged)}
+                      <p>{formatDate(user?.dateEngaged ?? user?.createdAt)}</p>
+                      <p>
+                        (
+                        {getTimeAgo(
+                          user?.dateEngaged ?? (user?.createdAt)
+                        )}
+                        )
+                      </p>
+                    </td>
+
+                    <td>
+                      <UserActions user={user} />
                     </td>
                   </tr>
                 ))}
@@ -375,6 +355,8 @@ export default function UserTable({
               </div>
             )}
           </div>
+
+          <Pagination pagination={users?.pagination} />
         </CardContent>
       </Card>
     </div>
