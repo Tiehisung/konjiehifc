@@ -26,14 +26,15 @@ export function Button({
   primaryText,
   waiting = false,
   waitingText = "Processing...",
-  className = "_primaryBtn flex items-baseline gap-1",
+  className = "",
   disabled = false,
   type = "button",
   onClick,
   children,
   title = "",
   styles = {},
-  variant,size
+  variant,
+  size,
 }: ClickButtonProps) {
   return (
     <Btn
