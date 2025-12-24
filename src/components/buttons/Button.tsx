@@ -39,7 +39,7 @@ export function Button({
   return (
     <Btn
       disabled={waiting || disabled}
-      className={`flex items-center gap-2 font-semibold ${className} ${
+      className={`flex items-center gap-2 font-semibold disabled:pointer-events-none disabled:hover:bg-transparent disabled:text-muted-foreground/60 active:scale-95 overflow-hidden ${className} ${
         waiting ? "cursor-wait" : "cursor-pointer"
       }  `}
       variant={variant}
@@ -52,7 +52,7 @@ export function Button({
       {children}
       {waiting ? (
         <span
-          className={`flex items-center gap-2 w-fit min-w-max justify-between whitespace-nowrap disabled:pointer-events-none disabled:hover:bg-transparent overflow-hidden active:scale-95 transition-all`}
+          className={`flex items-center gap-2 w-fit min-w-max justify-between whitespace-nowrap transition-all`}
         >
           <VscLoading className={` animate-spin `} />
           {waitingText}

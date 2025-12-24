@@ -4,8 +4,6 @@ import { fireDoubleEscape } from "@/hooks/Esc";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { IQueryResponse } from "@/types";
-import { IUser } from "@/types/user";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -25,8 +23,6 @@ export function useAction() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const session = useSession();
-
   const handleAction = async ({
     method = "GET",
     body,
@@ -45,7 +41,10 @@ export function useAction() {
           method,
           headers: { "Content-Type": "application/json" },
           cache: "no-cache",
-          body: JSON.stringify({ ...body, user: session?.data?.user as IUser }),
+          body: JSON.stringify({
+            ...body,
+            // user: session?.data?.user as IUser
+          }),
         }
       );
       const results: IQueryResponse = await response.json();

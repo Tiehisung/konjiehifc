@@ -8,15 +8,16 @@ import { IconInputWithLabel } from "@/components/input/Inputs";
 import { Button } from "@/components/buttons/Button";
 import { PrimarySelect } from "@/components/select/Select";
 import { enumToOptions } from "../../../lib/select";
-import { EUserRole } from "../../../types/user";
+import { EUserRole, IUser } from "../../../types/user";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/lib";
 import { fireEscape } from "@/hooks/Esc";
 import { apiConfig } from "@/lib/configs";
+import { useRouter } from "next/navigation";
 
-export default function AddUser() {
+export default function UserForm({ user }: { user?: IUser }) {
   const [serverError, setServerError] = useState("");
-  const [success, setSuccess] = useState(false);
+  const router = useRouter();
 
   const {
     control,
@@ -25,17 +26,18 @@ export default function AddUser() {
     formState: { errors, isSubmitting },
   } = useForm<CreateUserInput>({
     resolver: zodResolver(createUserSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      role: EUserRole.ADMIN,
-    },
+    defaultValues: user
+      ? { ...user, password: "" }
+      : {
+          name: "",
+          email: "",
+          password: "",
+          role: EUserRole.ADMIN,
+        },
   });
 
   const onSubmit = async (data: CreateUserInput) => {
     setServerError("");
-    setSuccess(false);
 
     try {
       const res = await fetch(apiConfig.users, {
@@ -45,15 +47,15 @@ export default function AddUser() {
       });
 
       const result = await res.json();
+      console.log(result);
 
-      if (!res.ok) {
-        setServerError(result.error);
-        return;
-      }
+      if (!result.success)
+        return toast.warning(result.message || "Failed to create user");
 
-      setSuccess(true);
-      reset();
-      toast.success("User created successfully");
+      router.refresh();
+      reset({ name: "", email: "", password: "", role: EUserRole.ADMIN });
+
+      toast.success(result.message || "User created successfully");
       fireEscape();
     } catch (e) {
       toast.error(getErrorMessage(e));
@@ -61,7 +63,7 @@ export default function AddUser() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-md space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="max-w-md space-y-6 pt-5">
       {serverError && <p className="text-red-500 text-sm">{serverError}</p>}
 
       <Controller
@@ -109,19 +111,20 @@ export default function AddUser() {
             options={enumToOptions(EUserRole)}
             {...field}
             className="border p-2 w-full "
+            triggerStyles="grow w-full py-2"
+            label={<p className="text-muted-foreground">Role</p>}
             error={fieldState.error?.message}
-            triggerStyles="grow w-full justify-center"
           />
         )}
       />
 
+      
       <Button
         primaryText="Create User "
         waiting={isSubmitting}
         waitingText="Creating ..."
         type="submit"
-        className=" _primaryBtn p-2 grow w-full justify-center"
-        variant="secondary"
+        className=" p-2 grow w-full justify-center"
       />
     </form>
   );

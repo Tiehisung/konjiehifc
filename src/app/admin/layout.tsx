@@ -31,7 +31,6 @@ const Header = async () => {
   const alias =
     session?.user?.name?.split(" ")?.[0] ??
     session?.user?.email?.split("@")?.[0];
-    console.log({session})
   return (
     <header className="flex justify-between px-6 pt-2 sticky top-1 bg-accent z-20 items-center border-b border-border pb-3">
       <LeftPaneMobile />

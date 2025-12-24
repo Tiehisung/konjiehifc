@@ -1,12 +1,13 @@
 import { apiConfig } from "@/lib/configs";
 import { Users, Shield, Download } from "lucide-react";
 import UserTable from "./UserTable";
-import { IQueryResponse } from "@/types";
+import { IPageProps, IQueryResponse } from "@/types";
 import { IUser } from "@/types/user";
 import HEADER from "@/components/Element";
 import { DIALOG } from "@/components/Dialog";
-import AddUser from "./NewUserForm";
+import UserForm from "./UserForm";
 import { Button } from "@/components/buttons/Button";
+import { buildQueryStringServer } from "@/lib";
 
 export const getUsers = async (queryString?: string) => {
   try {
@@ -24,11 +25,12 @@ export const getUsers = async (queryString?: string) => {
   }
 };
 
-export default async function UsersPage() {
-  const users: IQueryResponse<IUser[]> = await getUsers();
+export default async function UsersPage({ searchParams }: IPageProps) {
+  const qs = buildQueryStringServer(await searchParams).toString();
 
-  console.log("UsersPage users:", users);
+  const users: IQueryResponse<IUser[]> = await getUsers(qs);
 
+console.log(users);
   return (
     <div className="min-h-screen ">
       <HEADER
@@ -66,11 +68,11 @@ export default async function UsersPage() {
             trigger={<Button primaryText="Add New User" />}
             title="Add New User"
           >
-            <AddUser />
+            <UserForm />
           </DIALOG>
         </section>
 
-        <UserTable users={users?.data as IUser[]} />
+        <UserTable users={users} />
 
         {/* Footer */}
         <footer className="mt-12 pt-8 border-t">

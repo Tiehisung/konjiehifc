@@ -19,10 +19,10 @@ export const getAgeFromDOB = (birthdate: string): number => {
 };
 
 export const formatDate = (
-  dateString?: string,
+  dateString?: string | Date,
   format?: "dd/mm/yyyy" | "March 2, 2025" | "Sunday, March 2, 2025",
 ) => {
-  if (!dateString) return "N/A";
+  if (!dateString) return "";
 
   const createdAt = new Date(dateString);
 
@@ -31,6 +31,8 @@ export const formatDate = (
       return new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(
         createdAt
       );
+    case "dd/mm/yyyy":
+      return moment(dateString).format("DD/MM/YYYY");
 
     case "Sunday, March 2, 2025":
       return createdAt.toLocaleDateString("en-US", {
@@ -41,7 +43,9 @@ export const formatDate = (
       });
 
     default:
-      return moment(dateString).format("DD/MM/YYYY");
+      return new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(
+        createdAt
+      );
   }
 };
 
@@ -59,7 +63,7 @@ export function formatTimeToAmPm(time: string, separator: ':' | '.' = '.') {
   return `${hour}${separator}${minute}${ampm}`;
 }
 
-export const getTimeAgo = (dateString: string) => moment(dateString).fromNow();
+export const getTimeAgo = (dateString?: string | Date) => moment(dateString).fromNow();
 /**
  * Checks whether the given date (MongoDB date, ISO string, or JS Date)
  * represents "today" (local timezone).

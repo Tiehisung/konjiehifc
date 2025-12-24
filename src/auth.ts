@@ -26,20 +26,23 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
                 let user = await UserModel.findOne({ email: profile.email });
 
-                if (user) {
-                    // Update user info
-                    user.name = profile.name;
-                    user.image = profile.picture;
-                    user.lastLoginAccount = 'google';
-                    await user.save();
-                }
-
                 if (!user) {
                     user = await UserModel.create({
                         email: profile.email,
                         name: profile.name,
                         image: profile.picture,
+                        lastLoginAccount: 'google',
+                        signupMode: 'google',
                     });
+                }
+                else {
+                    if (user?.image !== profile.picture || user?.name !== profile.name) {
+                        // Update user info
+                        user.name = profile.name;
+                        user.image = profile.picture;
+                        user.lastLoginAccount = 'google';
+                        await user.save();
+                    }
                 }
 
                 return {
