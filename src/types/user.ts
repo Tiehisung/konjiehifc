@@ -6,7 +6,7 @@ export interface IUser {
   password?: string;
   dateEngaged?: string;
   role?: EUserRole;
-  account?: 'credentials' | 'google'
+  account?: EUserAccount
   isActive?: boolean
   createdAt?: Date;
   updatedAt?: Date;
@@ -18,6 +18,10 @@ export enum EUserRole {
   SUPER_ADMIN = 'super_admin',
   PLAYER = 'player',
   GUEST = 'guest',
+}
+export enum EUserAccount {
+  CREDENTIALS = 'credentials',
+  GOOGLE = 'google',
 }
 export interface ISession  {
   user: {

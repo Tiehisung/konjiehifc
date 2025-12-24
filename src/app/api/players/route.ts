@@ -5,8 +5,7 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import PlayerModel from "@/models/player";
 import { NextRequest, NextResponse } from "next/server";
 import { getErrorMessage, removeEmptyKeys } from "@/lib";
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+ 
 
 ConnectMongoDb();
 

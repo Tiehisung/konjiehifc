@@ -31,7 +31,7 @@ export default function HEADER({
   className = "text-Orange",
   isPage = true,
 }: {
-  title?: string;
+  title?: ReactNode;
   subtitle?: string;
   className?: string;
   children?: ReactNode;
@@ -40,14 +40,14 @@ export default function HEADER({
   return (
     <header
       className={cn(
-        `border-b border-border bg-linear-to-r from-primary via-primary/60 to-primary/90 grow py-5 md:py-10 px-4 ${className}`,
+        `border-b border-border bg-linear-to-r from-primary dark:from-Blue/45 via-primary/60  to-primary/90 dark:to-Blue/20 grow py-5 md:py-10 px-4 ${className}`,
         georgia.className
       )}
     >
       <div className={` mx-auto ${isPage ? "_page" : ""}`}>
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+        <div className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
           {title}
-        </h1>
+        </div>
 
         <p className={` font-light ${titillium.className}`}>{subtitle}</p>
       </div>

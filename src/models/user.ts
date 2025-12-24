@@ -1,3 +1,4 @@
+import { EUserAccount, EUserRole } from "@/types/user";
 import mongoose, { Schema } from "mongoose";
 
 // mongoose.connect(process.env.MDB_URI!);
@@ -24,12 +25,16 @@ const userSchema = new Schema(
     role: {
       type: String,
       default: "guest",
-      enum: ["super_admin", "admin", 'guest', 'player',],
+      enum: [...Object.values(EUserRole)],
     },
     account: {
       type: String,
       default: "google",
-      enum: ["google", "credentials",],
+      enum: [...Object.values(EUserAccount)],
+    },
+    lastLoginAccount: {
+      type: String,
+      enum: [...Object.values(EUserAccount)],
     },
   },
   { timestamps: true }

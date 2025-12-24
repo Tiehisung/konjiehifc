@@ -1,48 +1,109 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
-import { EUserRole, ISession } from './types/user';
+import CredentialsProvider from "next-auth/providers/credentials"
+import { EUserRole, ISession, IUser } from './types/user';
 import { ConnectMongoDb } from "./lib/dbconfig";
 import UserModel from "./models/user";
+import bcrypt from "bcryptjs";
+import { toast } from "sonner";
+import { getErrorMessage } from "./lib";
 
+ConnectMongoDb();
 export const { auth, handlers, signIn, signOut } = NextAuth({
     providers: [
         Google({
             clientId: process.env.AUTH_GOOGLE_ID!,
             clientSecret: process.env.AUTH_GOOGLE_SECRET!,
-            authorization: {
-                params: {
-                    prompt: "consent",
-                    access_type: "offline",
-                    response_type: "code",
-                },
-            },
+            // authorization: {
+            //     params: {
+            //         prompt: "consent",
+            //         access_type: "offline",
+            //         response_type: "code",
+            //     },
+            // },
             async profile(profile) {
-                const role = allowedUsers.includes(profile.email)
-                    ? EUserRole.ADMIN
-                    : EUserRole.GUEST;
 
-                ConnectMongoDb();
 
                 let user = await UserModel.findOne({ email: profile.email });
+
+                if (user) {
+                    // Update user info
+                    user.name = profile.name;
+                    user.image = profile.picture;
+                    user.lastLoginAccount = 'google';
+                    await user.save();
+                }
 
                 if (!user) {
                     user = await UserModel.create({
                         email: profile.email,
                         name: profile.name,
                         image: profile.picture,
-                        role,
                     });
                 }
 
                 return {
-                    id: profile.sub,
+                    id: user._id?.toString(),
                     email: user.email,
                     name: user.name,
                     image: user.image,
-                    role,
+                    role: user?.role
                 };
             },
-        })],
+        }), //Credentials
+        CredentialsProvider({
+            name: "Credentials",
+            credentials: {
+                email: {
+                    label: "Email",
+                    type: "email",
+                    placeholder: "Enter valid email",
+                },
+                password: {
+                    label: "Password",
+                    type: "password",
+                    placeholder: "Enter your password",
+                },
+            },
+            async authorize(credentials) {
+                try {
+                    const foundAdmin = (await UserModel.findOne({
+                        email: credentials?.email,
+                    })
+                        .lean()
+                        .exec()) as IUser | null;
+                    console.log("Found admin:", foundAdmin);
+                    if (foundAdmin) {
+                        const matched = await bcrypt.compare(
+                            credentials?.password as string,
+                            foundAdmin.password as string
+                        ); //Compare passwords
+
+                        if (matched) {
+                            const { _id, name, image, role, email } = foundAdmin; //Eliminate pass
+                            const safeUser = {
+                                name,
+                                image,
+                                role,//Assign role
+                                email,
+                                id: _id,
+                            };
+
+                            //Normal user
+                            return { ...safeUser };
+                        } else { toast.error("Credentials mismatch!."); }
+                    } else {
+                        toast.error("No admin found with that email.");
+
+                    }
+                } catch (error) {
+                    console.log('Credentials error:', error);
+                    toast.error(`Credentials error: ${getErrorMessage(error as unknown)}`);
+                }
+                return null;
+            },
+        }),
+    ],
 
 
     callbacks: {
@@ -60,6 +121,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             }
             return session;
         },
+    },
+    pages: {
+        error: "/auth/error",
+        signIn: "/auth/login",
     },
 });
 

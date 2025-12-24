@@ -2,7 +2,7 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import UserModel from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { getErrorMessage } from "@/lib";
+import { getErrorMessage, removeEmptyKeys } from "@/lib";
 
 export const dynamic = "force-dynamic";
 
@@ -41,7 +41,44 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
-  const users = await UserModel.find().select("-password");
-  return NextResponse.json(users);
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const page = Number.parseInt(searchParams.get("page") || "1", 10);
+
+  const limit = Number.parseInt(searchParams.get("limit") || "30", 10);
+  const skip = (page - 1) * limit;
+
+  const search = searchParams.get("player_search") || "";
+
+  const regex = new RegExp(search, "i");
+
+  const query = {
+    $or: [
+      { "name": regex },
+      { "email": regex },
+      { "role": regex },
+    ],
+  }
+
+  const cleaned = removeEmptyKeys(query)
+  const users = await UserModel.find()
+    .select("-password")
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .lean();
+
+  const total = await UserModel.countDocuments(cleaned)
+
+  return NextResponse.json({
+    success: true,
+    data: users,
+    pagination: {
+      page,
+      limit,
+      total,
+      pages: Math.ceil(total / limit),
+    },
+  });
+
 }

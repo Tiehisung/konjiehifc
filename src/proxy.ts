@@ -5,7 +5,7 @@ import { EUserRole, ISession } from "./types/user";
 export async function proxy(request: NextRequest) {
     const session = (await auth()) as ISession | null;
 
-    console.log({ session });
+    // console.log({ session });
 
     // 1️⃣ Not signed in → redirect to login
     if (!session) {
@@ -15,9 +15,9 @@ export async function proxy(request: NextRequest) {
     }
 
     // 2️⃣ Signed in but not authorized
-    if (session.user.role !== EUserRole.ADMIN) {
+    if (!session.user.role?.includes(EUserRole.ADMIN)) {
         return NextResponse.redirect(
-            new URL("/not-authorized", request.url)
+            new URL("/auth/not-authorized", request.url)
         );
     }
 

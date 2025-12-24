@@ -6,8 +6,8 @@ import { LoginBtn } from "@/components/auth/Auth";
 
 export default function NotAuthorizedPage() {
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 flex flex-col items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4">
+      <div className="max-w-md w-full bg-white rounded-2xl p-8 text-center">
         {/* Icon */}
         <div className="mb-6 flex justify-center">
           <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center">

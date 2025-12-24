@@ -1,22 +1,27 @@
 "use client";
 
+import { LogoutBtn } from "@/components/auth/Auth";
 import { Button } from "@/components/buttons/Button";
 import { NavigationPopover } from "@/components/NavigationPopover";
 import { ThemeModeToggle } from "@/components/ThemeToggle";
 import UserLogButtons from "@/components/UserLogger";
-import { LogOut, Logs } from "lucide-react";
+import { LogOut, Logs, Users } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { AiOutlineTeam } from "react-icons/ai";
 import { CgDatabase } from "react-icons/cg";
-import {  FcManager } from "react-icons/fc";
+import { FcManager } from "react-icons/fc";
 import { FiUserCheck } from "react-icons/fi";
 import { GiBabyfootPlayers } from "react-icons/gi";
 import { GrDashboard, GrGallery } from "react-icons/gr";
 import { LiaDonateSolid, LiaRunningSolid } from "react-icons/lia";
-import { MdOutlineDocumentScanner, MdOutlineFeaturedPlayList, MdOutlineLiveTv } from "react-icons/md";
+import {
+  MdOutlineDocumentScanner,
+  MdOutlineFeaturedPlayList,
+  MdOutlineLiveTv,
+} from "react-icons/md";
 import { PiNewspaperThin } from "react-icons/pi";
 import { RiHomeLine } from "react-icons/ri";
 
@@ -40,7 +45,7 @@ export function LeftPaneDesktop() {
   };
   return (
     <div
-      className={`max-md:hidden bg-accent w-[220px] max-h-screen overflow-y-auto py-6`}
+      className={`max-md:hidden bg-accent w-55 max-h-screen overflow-y-auto py-6`}
     >
       <div className="p-6 flex items-center justify-between">
         <Link
@@ -69,16 +74,18 @@ export function LeftPaneDesktop() {
         <li className="mt-10 flex gap-4 justify-center items-center"></li>
       </ul>
 
-      <footer className="flex items-center gap-3.5 justify-betweenp-4 border-t border-secondary-foreground/20">
+      <footer className="flex flex-wrap p-3 items-center gap-3.5 justify-betweenp-4 border-t border-secondary-foreground/20">
         <ThemeModeToggle />
 
-        <Button
+        {/* <Button
           onClick={() => signOut()}
           primaryText="Logout"
           className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary-foreground/10 transition-colors"
         >
           <LogOut size={20} />
-        </Button>
+        </Button> */}
+
+        <LogoutBtn text='Logout'/>
       </footer>
     </div>
   );
@@ -208,6 +215,11 @@ const sidebarLinks = [
     label: "Attendance",
     path: "/admin/training/attendance",
     icon: <FiUserCheck />,
+  },
+  {
+    label: "Users",
+    path: "/admin/users",
+    icon: <Users />,
   },
   {
     label: "Logs",

@@ -1,7 +1,6 @@
 "use client";
 
 import { signIn, signOut } from "next-auth/react";
-
 import { Button } from "../buttons/Button";
 import { LogIn, LogOut } from "lucide-react";
 import { useState } from "react";
@@ -12,6 +11,9 @@ interface IProps {
   variant?: TButtonVariant;
   size?: TButtonSize;
   text?: string;
+  children?: React.ReactNode;
+  redirectTo?: string;
+  stayOnPage?: boolean;
 }
 
 export const LoginBtn = ({
@@ -19,13 +21,20 @@ export const LoginBtn = ({
   size,
   variant,
   text = "Login",
+  children,
+  redirectTo = "/admin",
+  stayOnPage = false,
 }: IProps) => {
   const [loading, setLoading] = useState(false);
   const handleLogin = async () => {
     setLoading(true);
-    await signIn("google", { redirect: true });
-    setLoading(false);
+    await signIn("google", stayOnPage ? { redirect: true } : { redirectTo });
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 4000);
   };
+
   return (
     <Button
       onClick={handleLogin}
@@ -36,7 +45,7 @@ export const LoginBtn = ({
       primaryText={text}
       waitingText="Logging in"
     >
-      <LogIn className="w-4 h-4 mr-2" />
+      {children ?? <LogIn className="w-4 h-4 " />}
     </Button>
   );
 };
@@ -44,14 +53,19 @@ export const LoginBtn = ({
 export const LogoutBtn = ({
   className,
   size,
-  variant,
-  text = "Logout",
+  variant = "destructive",
+  text = "",
+  children,
+  redirectTo = "/",
+  stayOnPage = false,
 }: IProps) => {
   const [loading, setLoading] = useState(false);
   const handleLogout = async () => {
     setLoading(true);
-    await signOut({ redirectTo: "/" });
-    setLoading(false);
+    await signOut(stayOnPage ? { redirect: true } : { redirectTo });
+    setTimeout(() => {
+      setLoading(false);
+    }, 4000);
   };
   return (
     <Button
@@ -63,7 +77,7 @@ export const LogoutBtn = ({
       primaryText={text}
       waitingText="Logging out"
     >
-      <LogOut className="w-4 h-4 mr-2" />
+      {children ?? <LogOut className="w-4 h-4 " />}
     </Button>
   );
 };

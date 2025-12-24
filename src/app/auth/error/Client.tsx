@@ -40,7 +40,7 @@ export default function AuthErrorClient() {
 
         <div className="flex justify-center gap-3">
           <Link
-            href="/api/auth/signin"
+            href="/auth/login"
             className="rounded-md bg-primary px-4 py-2 text-primary-foreground"
           >
             Try Again

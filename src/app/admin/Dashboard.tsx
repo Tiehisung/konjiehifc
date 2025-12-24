@@ -8,7 +8,7 @@ export default async function AdminDashboard() {
       {/* Main Content */}
       <main className="flex-1 _page px-4">
         {/* Header */}
-        <div className="bg-gradient-to-r from-primary via-primary/90 to-accent text-primary-foreground p-8 border-b border-border">
+        <div className="bg-linear-to-r from-primary via-primary/90 to-accent text-primary-foreground p-8 border-b border-border">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-4xl font-black mb-2">
               CLUB MANAGEMENT & CONTROL ADMIN
