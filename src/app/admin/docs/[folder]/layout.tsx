@@ -1,13 +1,10 @@
-import React, { ReactNode } from "react";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import { ReactNode } from "react";
 interface IProps {
   children: ReactNode;
 }
 const DocsLayout = ({ children }: IProps) => {
-  
   return (
     <div className="_page">
-      <Breadcrumbs />
       <main>{children}</main>
     </div>
   );

@@ -35,7 +35,7 @@ export default function BackBtn({
         if (link) return router.replace(link);
         router.back();
       }}
-      className={`${className} _shrink flex items-center gap-2 ml-6 group w-fit bg-muted px-3 rounded`}
+      className={`${className} _shrink _hover flex items-center gap-2 ml-6 group w-fit bg-muted text-muted-foreground px-3 rounded-full`}
     >
       <FaArrowLeft className=" group-hover:scale-105 group-hover:-translate-x-1 transition-all duration-300" />{" "}
       {label}

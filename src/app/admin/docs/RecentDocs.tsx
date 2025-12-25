@@ -5,9 +5,11 @@ import { IFileProps, IQueryResponse } from "@/types";
 import Loader from "@/components/loaders/Loader";
 import { formatDate, getTimeAgo } from "@/lib/timeAndDate";
 import { getDocs } from "./page";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 
 export async function RecentDocs() {
-  const recentDocs: IQueryResponse<IFileProps[]> = await getDocs("?limit=10");
+  const recentDocs: IQueryResponse<IFileProps[]> = await getDocs("?limit=5");
 
   return (
     <div>
@@ -41,6 +43,14 @@ export async function RecentDocs() {
                 </li>
               ))
             )}
+            <li className="py-6">
+              <Link
+                href={"/admin/docs/files"}
+                className="_link border rounded-full py-2 px-5 flex items-center gap-3"
+              >
+                View More <ChevronRight />
+              </Link>
+            </li>
           </ul>
         )}
       </main>

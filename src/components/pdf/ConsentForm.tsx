@@ -212,8 +212,8 @@ export function ConsentForm({ players }: { players?: IPlayer[] }) {
     return <div>No player data available.</div>;
   }
   return (
-    <Card>
-      <CardContent className=" gap-4 pb-20">
+   
+      <section className="_card gap-4 pb-20">
         <TITLE icon={<FaWpforms />} text={"Player/Guardian Consent Form"} />
         <br />
         <p className="_p my-3"> Download Form Here</p>
@@ -233,7 +233,7 @@ export function ConsentForm({ players }: { players?: IPlayer[] }) {
               )
             }
             placeholder="Search Player"
-            className=" w-full min-w-72 max-w-125 text-center"
+            className=" w-full min-w-72 text-center"
           />
 
           <section className="flex items-center gap-6 mt-4">
@@ -276,7 +276,7 @@ export function ConsentForm({ players }: { players?: IPlayer[] }) {
             </PDFDownloadLink>
           </section>
         </div>
-      </CardContent>
-    </Card>
+      </section>
+    
   );
 }
