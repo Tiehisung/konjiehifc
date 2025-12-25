@@ -1,6 +1,6 @@
 "use client";
 
-// import { COMBOBOX } from "@/components/ComboBox";
+import { COMBOBOX } from "@/components/ComboBox";
 import { DIALOG } from "@/components/Dialog";
 import { IFileProps } from "@/types";
 import { Badge } from "@/components/ui/badge";
@@ -8,7 +8,7 @@ import { ActionButton } from "@/components/buttons/ActionButton";
 import { apiConfig } from "@/lib/configs";
 import { IDocMoveCopy } from "@/app/api/docs/move-copy/route";
 import { ReactNode, useState } from "react";
-import { DocumentFolder } from "../page";
+import { useFetch } from "@/hooks/fetch";
 
 interface IProps {
   document?: IFileProps;
@@ -16,7 +16,15 @@ interface IProps {
   trigger: ReactNode;
 }
 export function DocMoveOrCopyTo({ document, actionType, trigger }: IProps) {
+  
+  const { loading: fetchingFolders, results: folderMetrics } = useFetch<{
+    folders: { name: string; _id: string }[];
+  }>({
+    uri: `${apiConfig.docs}/metrics`,
+  });
+
   const [destinationFolder, setDestinationFolder] = useState("");
+
   return (
     <DIALOG trigger={trigger}>
       <div className="flex flex-col gap-3 justify-center items-center">
@@ -27,14 +35,17 @@ export function DocMoveOrCopyTo({ document, actionType, trigger }: IProps) {
           </Badge>
           to{" "}
         </div>
-        {/* <COMBOBOX
-          options={Object.values(DocumentFolder).map((f) => ({
-            label: f,
-            value: f,
-          }))}
+        <COMBOBOX
+          options={
+            folderMetrics?.data?.folders?.map((f) => ({
+              label: f.name,
+              value: f.name,
+            })) ?? []
+          }
           onChange={(op) => setDestinationFolder(op.value)}
           className="min-w-60 "
-        /> */}
+          isLoading={fetchingFolders}
+        />
 
         <ActionButton
           method="PUT"

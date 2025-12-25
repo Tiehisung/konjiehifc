@@ -78,11 +78,10 @@ const MultiSelectionInput = ({
               key={index}
               onClick={() => handleChangeOption(option)}
               primaryText={option.label}
-              className={`${className} rounded-full capitalize font-light text-sm w-fit px-2 py-1 text-center justify-center border _transition cursor-pointer select-none ${
-                isSelected ? " primary bg-primary/60 scale-105" : ""
-              }`}
+              className={`${className} rounded-full capitalize font-light text-sm w-fit px-2 py-1 text-center justify-center border _transition cursor-pointer select-none `}
+              variant={isSelected ? "default" : "ghost"}
             >
-              {isSelected && <MdCheckCircle size={20} className="text-Red"/>}
+              {isSelected && <MdCheckCircle size={20} className="text-Red" />}
             </Button>
           );
         })}

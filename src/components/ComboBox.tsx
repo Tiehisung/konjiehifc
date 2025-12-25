@@ -21,6 +21,7 @@ import {
 
 import { ISelectOptionLV } from "@/types";
 import useGetParam, { useUpdateSearchParams } from "@/hooks/params";
+import Loader from "./loaders/Loader";
 
 interface IComboProps {
   options: ISelectOptionLV[];
@@ -29,14 +30,17 @@ interface IComboProps {
   name?: string;
   defaultOptionValue?: string;
   className?: string;
+  isLoading?: boolean;
 }
 
 export function COMBOBOX({
-  options=[],
+  options = [],
   placeholder = "Search…",
   onChange,
   name = "comboValue",
-  defaultOptionValue = "",className=''
+  defaultOptionValue = "",
+  className = "",
+  isLoading,
 }: IComboProps) {
   const [open, setOpen] = React.useState(false);
   const { setParam } = useUpdateSearchParams();
@@ -81,6 +85,8 @@ export function COMBOBOX({
 
   const selectedLabel =
     options?.find((o) => o.value === value)?.label || placeholder;
+
+  if (isLoading) return <Loader />;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

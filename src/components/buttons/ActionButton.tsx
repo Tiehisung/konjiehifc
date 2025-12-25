@@ -8,10 +8,12 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { CSSProperties, ReactNode, useState } from "react";
 import { toast } from "sonner";
+import { TButtonSize, TButtonVariant } from "../ui/button";
 
 interface IProps {
   className?: string;
-  variant?: "outline" | "destructive" | "secondary" | "primary";
+  variant?: TButtonVariant;
+  size?: TButtonSize;
   primaryText?: string;
   loadingText?: string;
   children?: ReactNode;
@@ -25,7 +27,7 @@ interface IProps {
 }
 
 export function ActionButton({
-  variant = "primary",
+  variant,
   className,
   method = "GET",
   body,
@@ -37,6 +39,7 @@ export function ActionButton({
   styles = {},
   disabled = false,
   disableToast,
+  size,
 }: IProps) {
   const router = useRouter();
 
@@ -81,6 +84,7 @@ export function ActionButton({
       className={`${className} `}
       styles={styles}
       variant={variant}
+      size={size}
     >
       {children}
     </Button>

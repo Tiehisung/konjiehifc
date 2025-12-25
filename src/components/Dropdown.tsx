@@ -15,8 +15,8 @@ import { useActionOnEsc } from "@/hooks/Esc";
 export function PrimaryDropdown({
   children,
   className,
-  trigger = <MoreHorizontal  size={20} />,
-  triggerStyles = "hover:bg-background/50 p-2 _hover _shrink rounded-full ",
+  trigger = <MoreHorizontal size={20} />,
+  triggerStyles = " ",
   id,
   hideAngle = true,
   align = "end",
@@ -31,10 +31,9 @@ export function PrimaryDropdown({
 }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild id={id}>
         <button
-          className={` gap-1 flex items-center cursor-pointer ${triggerStyles}`}
-          id={id}
+          className={` gap-1 flex items-center cursor-pointer bg-muted hover:bg-background/70 hover:backdrop-blur-xl p-2 _hover _shrink rounded-full ${triggerStyles}`}
           type="button"
         >
           {trigger}

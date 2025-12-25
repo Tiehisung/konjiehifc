@@ -19,6 +19,7 @@ import { getErrorMessage } from "@/lib";
 import { Button } from "@/components/buttons/Button";
 import { fireDoubleEscape } from "@/hooks/Esc";
 import { useFetch } from "@/hooks/fetch";
+import { Separator } from "@/components/ui/separator";
 
 interface IProps {
   defaultFolder?: string;
@@ -75,7 +76,6 @@ export function DocumentUploader({
       });
 
       const result: IQueryResponse = await response.json();
-      console.log(result);
       if (result.success) {
         setUploadedFile(null);
         toast.success(result.message);
@@ -95,27 +95,26 @@ export function DocumentUploader({
     <DIALOG
       trigger={
         trigger ?? (
-          <div
+          <Button
             title="Upload Document"
-            className={`_hover p-1.5 rounded _shrink _secondaryBtn ${className}`}
+            className={` p-1.5 _shrink ${className}`}
+            variant={"outline"}
           >
             <Upload size={24} /> Upload Document
-          </div>
+          </Button>
         )
       }
       className="min-w-57.5"
     >
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-4 items-center justify-center _card rounded-xl max-w-xs mx-auto"
+        className="flex flex-col gap-4 items-center justify-center _card rounded-xl mx-auto"
       >
-        <div className="flex flex-col gap-4 items-center justify-center border-b grow w-full pb-3">
+        <div className=" flex flex-col gap-4 items-center justify-center grow w-full pb-3">
           <FileUploader
             hidePreview
             trigger={
-              <span className="_secondaryBtn grow w-full ">
-                Choose Document
-              </span>
+              <div className="_secondaryBtn grow w-full  ">Choose Document</div>
             }
             name="consentForm"
             accept="pdf"
@@ -135,11 +134,14 @@ export function DocumentUploader({
           )}
         </div>
 
+        <Separator />
+
         {tagsData?.map((tagGroup, tIndex) => {
           return (
             <PrimaryCollapsible
               header={{
-                label: <p className="_label mb-4">{tagGroup?.name}</p>,
+                label: tagGroup?.name,
+                className: "_label",
               }}
               key={tIndex}
             >
@@ -151,7 +153,7 @@ export function DocumentUploader({
                   }));
                 }}
                 options={tagGroup?.options}
-                className="text-sm text-foreground"
+                className="text-sm "
                 label={tagGroup?.name}
                 name={tagGroup?.name}
               />
@@ -176,7 +178,7 @@ export function DocumentUploader({
               placeholder="Select Folder"
               className="capitalize"
               defaultOptionValue={defaultFolder}
-
+              isLoading={fetchingFolders}
             />
           </div>
         )}

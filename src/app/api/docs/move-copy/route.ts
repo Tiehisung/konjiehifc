@@ -4,13 +4,12 @@ import DocModel from "@/models/doc";
 import { IUser } from "@/types/user";
 import { getErrorMessage } from "@/lib";
 import { IFileProps } from "@/types";
-import { DocumentFolder } from "@/app/admin/docs/page";
 import FolderModel from "@/models/folder";
 
 export interface IDocMoveCopy {
     file: IFileProps,
     actionType: 'Move' | 'Copy',
-    destinationFolder: DocumentFolder
+    destinationFolder: string
     user?: IUser,
 }
 export async function PUT(req: NextRequest) {
@@ -24,7 +23,7 @@ export async function PUT(req: NextRequest) {
             //Push to folder
             await FolderModel.findOneAndUpdate({
                 name: destinationFolder,
-            }, { $push: { documents: file?._id } });
+            }, { $addToSet: { documents: file?._id } });
         } else {
             const { _id, ...docWithoutId } = file
             await DocModel.create({
@@ -33,7 +32,7 @@ export async function PUT(req: NextRequest) {
             //Push to folder
             await FolderModel.findOneAndUpdate({
                 name: destinationFolder,
-            }, { $push: { documents: file?._id } });
+            }, { $addToSet: { documents: file?._id } });
         }
 
         // log

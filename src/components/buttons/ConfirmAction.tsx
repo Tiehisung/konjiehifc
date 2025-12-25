@@ -94,7 +94,7 @@ export const ConfirmActionButton = ({
       setTimeout(() => {
         router.refresh();
       }, 1000);
-      if (escapeOnEnd) fireDoubleEscape();
+      if (escapeOnEnd) fireDoubleEscape(400);
     }
   };
 
