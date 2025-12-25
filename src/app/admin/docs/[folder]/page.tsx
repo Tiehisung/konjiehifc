@@ -1,5 +1,4 @@
 import { IFileProps, IQueryResponse, IRecord, ISelectOptionLV } from "@/types";
-import { DocumentFolder, getDocsByFolder } from "../page";
 import { buildQueryStringServer } from "@/lib";
 import FolderDocuments from "./DocsPane";
 import { DocumentUploader } from "../DocUploader";
@@ -7,21 +6,35 @@ import { Badge } from "@/components/ui/badge";
 import { getPlayers } from "../../players/page";
 import { IPlayer } from "@/app/players/page";
 import { PrimarySearch } from "@/components/Search";
+import { apiConfig } from "@/lib/configs";
 
 interface IProps {
   params: Promise<{ folder: string }>;
   searchParams: Promise<IRecord>;
 }
+
+export const getDocsByFolderName = async (
+  folderName: string,
+  query?: string
+) => {
+  const response = await fetch(`${apiConfig.docs}/${folderName}${query}`, {
+    cache: "no-cache",
+  });
+  if (!response.ok) return null;
+  return await response.json();
+};
+
 export default async function FolderPage({ searchParams, params }: IProps) {
   const qs = buildQueryStringServer(await searchParams);
-  const docs: IQueryResponse<IFileProps[]> = await getDocsByFolder(
-    (
-      await params
-    ).folder as DocumentFolder,
+  const folderName = (await params).folder;
+
+  const docs: IQueryResponse<IFileProps[]> = await getDocsByFolderName(
+    folderName,
     qs
   );
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
-  const folder = (await params).folder;
+
+  console.log({ folderName, docs });
 
   return (
     <div className="_page px-4">
@@ -37,7 +50,8 @@ export default async function FolderPage({ searchParams, params }: IProps) {
               })) as ISelectOptionLV[],
             },
           ]}
-          defaultFolder={folder}
+          defaultFolder={folderName}
+          
         />
         <div className="flex items-center text-sm gap-0.5">
           <span>{docs?.pagination?.page}</span> of
@@ -52,7 +66,7 @@ export default async function FolderPage({ searchParams, params }: IProps) {
         )}
         listId="docs-search"
         searchKey="doc_search"
-        placeholder={`Search ${folder.replaceAll("-", " ")}`}
+        placeholder={`Search ${folderName?.replaceAll("-", " ")}`}
         inputStyles="h-8 placeholder:capitalize"
         className="mb-4"
       />

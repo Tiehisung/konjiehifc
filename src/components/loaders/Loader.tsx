@@ -22,7 +22,7 @@ const Loader: React.FC<{
   className,
 
   messages = [],
-  size = "md",
+  size = "sm",
   icon = "ring",
 }) => {
   const [msgIndex, setMsgIndex] = useState(0);
