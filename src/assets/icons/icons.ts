@@ -1,9 +1,83 @@
-import error from '@/assets/icons/error.png'
-import success from '@/assets/icons/success.png'
-import circleCheckMark from '@/assets/icons/circle-checkmark.png'
+import { GoEye, GoEyeClosed } from "react-icons/go";
+import { CgClose } from "react-icons/cg";
+import { FaCediSign } from "react-icons/fa6";
+import {
+  MdOutlineKeyboardBackspace,
+  MdCheckBox,
+  MdCheckBoxOutlineBlank,
+} from "react-icons/md";
+import { VscLoading } from "react-icons/vsc";
+import { BsTriangle } from "react-icons/bs";
+import { HiOutlineUserGroup } from "react-icons/hi2";
+import {
+  CheckCircle,
+  Clock,
+  AlertTriangle,
+  Search,
+  AlertCircle,
+  Camera,
+  Upload,
+  X,
+  ChevronDown,
+  Menu,
+  Printer,
+  PersonStanding,
+  User, Users,
+  LayoutDashboard,
+  Home, FileText,
+  Dot,
+  ExternalLink,
+  Delete,
+  Trash2,
+  MoreHorizontal,
+  Edit,
+  Edit3,
+  DownloadIcon,
+  Loader,
+  Loader2, 
+  RefreshCcw,
+  Plus
+} from "lucide-react";
 
-export const imageIcons = {
-    error: error.src,
-    success: success.src,
-    circleCheckMark: circleCheckMark.src
-}
+export const icons = {
+  new: Plus,
+  refresh: RefreshCcw,
+  loader: Loader2,
+  loaderSpiral: Loader,
+  download: DownloadIcon,
+  edit: Edit,
+  editPen: Edit3,
+  delete: Delete,
+  trash: Trash2,
+  externalLink: ExternalLink,
+  dot: Dot,
+  group: HiOutlineUserGroup,
+  user: User,
+  users: Users,
+  person: PersonStanding,
+  printer: Printer,
+  menu: Menu,
+  more: MoreHorizontal,
+  triangle: BsTriangle,
+  chevron: ChevronDown,
+  checked: MdCheckBox,
+  unchecked: MdCheckBoxOutlineBlank,
+  eyeOpen: GoEye,
+  eyeClosed: GoEyeClosed,
+  close: CgClose,
+  loading: VscLoading,
+  back: MdOutlineKeyboardBackspace,
+  search: Search,
+  checkCircle: CheckCircle,
+  clockTime: Clock,
+  alertTriange: AlertTriangle,
+  alertCircle: AlertCircle,
+  currency: FaCediSign,
+  x: X,
+  camera: Camera,
+  upload: Upload,
+  dashboard: LayoutDashboard,
+  home: Home,
+  fileText: FileText,
+  tracking: FileText,
+};

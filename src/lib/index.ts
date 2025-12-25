@@ -1,26 +1,59 @@
 
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { teamKFC } from "@/data/teams";
-import { IFileProps } from "@/types";
 
 export function getErrorMessage(
   error: unknown,
   customMessage?: string
 ): string {
-  if (error instanceof Error) {
-    return error.message;
+  if (!error) return "Unknown error occurred";
+
+  const err = error as Record<string, unknown>;
+
+  // 1. Fetch-based API errors
+  if (error instanceof Response) {
+    return `Request failed: ${error.status} ${error.statusText}`;
   }
 
-  if (typeof error === "string") {
-    return error;
+  // 2. Server returned structured JSON { error, message }
+  if (err.error && typeof err.error === "string") return err.error;
+
+  if (err.message && typeof err.message === "string") return err.message;
+
+  // 3. Axios errors
+  if (err.response && typeof err.response === "object") {
+    const response = err.response as Record<string, unknown>;
+    if (response.data && typeof response.data === "object") {
+      const data = response.data as Record<string, unknown>;
+      if (data.message && typeof data.message === "string") return data.message;
+      if (data.error && typeof data.error === "string") return data.error;
+    }
   }
 
-  if (error && typeof error === "object" && "message" in error) {
-    return (error as { message: string }).message;
+  // 4. Zod/Joi/Mongoose validation errors
+  if (err.details && Array.isArray(err.details) && err.details.length) {
+    return err.details.map((d: {message:string}) => d.message).join(", ");
   }
 
-  return customMessage ?? "Error occurred!";
+  // Mongoose validation error
+  if (err.name === "ValidationError" && err.errors && typeof err.errors === "object") {
+    return Object.values(err.errors)
+      .map((e: { message: string }) => e.message)
+      .join(", ");
+  }
+
+  // 5. Network errors
+  if (err.name === "NetworkError") {
+    return "Network error — please check your connection.";
+  }
+
+  // 6. String errors
+  if (typeof error === "string") return error;
+
+  // 7. Default fallback
+  return customMessage ?? "Something went wrong. Please try again.";
 }
+
 export const createFileUrl = (file: File) => URL.createObjectURL(file);
 
 export const getFilePath = (file: File): Promise<string> => {

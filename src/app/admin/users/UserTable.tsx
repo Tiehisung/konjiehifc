@@ -22,6 +22,8 @@ import { PrimarySelect } from "@/components/select/Select";
 import { enumToOptions } from "@/lib/select";
 import { ClearFiltersBtn } from "@/components/buttons/ClearFilters";
 import { Separator } from "@/components/ui/separator";
+import { useFetch } from "@/hooks/fetch";
+import { MetricCard } from "@/components/Metrics";
 
 interface UserTableProps {
   users?: IQueryResponse<IUser[]>;
@@ -92,75 +94,58 @@ export default function UserTable({ users }: UserTableProps) {
     }
   };
 
+  const { loading, results } = useFetch<IUser[]>({ uri: "/users" });
+  console.log("Fetched users:", results);
   const stats = useMemo(() => {
-    const googleUsers = users?.data?.filter(
+    const googleUsers = results?.data?.filter(
       (u) => u.account === "google"
     ).length;
-    const credentialsUsers = users?.data?.filter(
+    const credentialsUsers = results?.data?.filter(
       (u) => u.account === "credentials"
     ).length;
 
     return {
       google: googleUsers,
       credentials: credentialsUsers,
-      total: users?.data?.length,
+      total: results?.data?.length,
       showing: filteredAndSortedUsers.length,
     };
-  }, [users, filteredAndSortedUsers]);
+  }, [results, filteredAndSortedUsers]);
+
 
   return (
     <div className="space-y-6">
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-card rounded-xl shadow-card p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Total Users</p>
-              <p className="text-2xl font-bold ">{stats.total}</p>
-            </div>
-            <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
-              <Globe className="w-6 h-6 text-blue-600" />
-            </div>
-          </div>
-        </div>
+        <MetricCard
+          icon={<Globe className="w-6 h-6 " />}
+          title="Total Users"
+          value={stats.total}
+          isLoading={loading}
+          color="blue"
+        />
+        <MetricCard
+          icon={<Globe className="w-6 h-6 " />}
+          title="Google Sign-ins"
+          value={stats.google}
+          isLoading={loading}
+          color="red"
+        />
+        <MetricCard
+          icon={<Key className="w-6 h-6 " />}
+          title="Credentials Sign-ins"
+          value={stats.credentials}
+          isLoading={loading}
+          color="purple"
+        />
 
-        <div className="bg-card rounded-xl shadow-card p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Google Sign-ins</p>
-              <p className="text-2xl font-bold ">{stats.google}</p>
-            </div>
-            <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center">
-              <Globe className="w-6 h-6 text-red-600" />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-card rounded-xl shadow-card p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">
-                Credentials Sign-ins
-              </p>
-              <p className="text-2xl font-bold ">{stats.credentials}</p>
-            </div>
-            <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center">
-              <Key className="w-6 h-6 text-purple-600" />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-card rounded-xl shadow-card p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Showing</p>
-              <p className="text-2xl font-bold ">{stats.showing} users</p>
-            </div>
-            <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
-              <Filter className="w-6 h-6 text-green-600" />
-            </div>
-          </div>
-        </div>
+        <MetricCard
+          icon={<Filter className="w-6 h-6 " />}
+          title="Showing"
+          value={stats.showing}
+          isLoading={loading}
+          color="orange"
+        />
       </div>
 
       {/* Controls */}
@@ -204,7 +189,7 @@ export default function UserTable({ users }: UserTableProps) {
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-secondary">
+              <thead className="bg-secondary uppercase">
                 <tr>
                   <th
                     className="py-4 px-6 text-left cursor-pointer hover:bg-popover/50"
