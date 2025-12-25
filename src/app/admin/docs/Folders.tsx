@@ -25,12 +25,12 @@ export default function DocumentFolders({
   return (
     <div>
       <main className="flex items-start gap-4 ">
-        <ul className="flex flex-wrap items-center justify-start ring grow gap-3 rounded-2xl">
+        <ul className="grid grid-cols-2 sm:flex flex-wrap items-center justify-start grow gap-3 rounded-2xl ring overflow-hidden">
           {folderMetrics?.data?.folders?.map((f, index) => {
             return (
               <li
                 key={index}
-                className="flex _hover relative select-auto w-32 "
+                className="flex _hover relative select-auto sm:w-32 ring "
               >
                 <Link href={`${pathname}/${f.name}`} className="flex grow p-2">
                   <div className=" flex flex-col justify-center items-center grow ">

@@ -20,11 +20,6 @@ export default function Layout({ children }: { children: ReactNode }) {
       <section className="flex-1 md:h-screen md:overflow-y-auto">
         <Header />
 
-        <div className="flex items-center gap-4 flex-wrap">
-          <BackBtn />
-          <Breadcrumbs />
-        </div>
-
         <div className="pt-4 md:pt-2 bg-accent">{children}</div>
 
         <AdminFooter />
@@ -41,7 +36,10 @@ const Header = async () => {
   return (
     <header className="flex justify-between px-6 pt-2 sticky top-1 bg-accent z-20 items-center border-b border-border pb-3">
       <LeftPaneMobile />
-
+      <div className="hidden sm:flex items-center gap-4 flex-wrap">
+        <BackBtn />
+        <Breadcrumbs />
+      </div>
       <div className="flex items-center gap-3 text-sm ml-auto divide-x">
         <div className="_label">
           <p className="text-xs italic font-light ">Admin</p>

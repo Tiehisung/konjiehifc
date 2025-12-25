@@ -1,6 +1,6 @@
 import HEADER from "@/components/Element";
 import { getPlayers } from "../players/page";
-import {  IQueryResponse, IRecord, ISelectOptionLV } from "@/types";
+import { IQueryResponse, IRecord, ISelectOptionLV } from "@/types";
 import { IPlayer } from "@/app/players/page";
 import { apiConfig } from "@/lib/configs";
 import DocumentFolders from "./Folders";
@@ -8,6 +8,7 @@ import { DocumentUploader } from "./DocUploader";
 import { ConsentForm } from "@/components/pdf/ConsentForm";
 import { RecentDocs } from "./RecentDocs";
 import { IFolder } from "@/types/doc";
+import TextDivider from "@/components/Divider";
 interface IProps {
   searchParams: Promise<IRecord>;
 }
@@ -19,7 +20,6 @@ export const getDocs = async (query?: string) => {
   if (!response.ok) return null;
   return await response.json();
 };
-
 
 export const getFolderMetrics = async () => {
   const response = await fetch(`${apiConfig.docs}/metrics`, {
@@ -54,17 +54,17 @@ export default async function DocsPage({ searchParams }: IProps) {
 
   const folders: IQueryResponse<IFolder[]> = await getFolders();
 
-  console.log({ folderMetrics ,folders});
+  console.log({ folderMetrics, folders });
 
   return (
-    <div className="">
+    <div>
       <HEADER title="DOCUMENTATION " />
       <main className="_page px-3 mt-6 space-x-6 pb-6">
         <RecentDocs />
 
         <section>
           <DocumentUploader
-            className="w-fit my-2"
+            className="w-full my-2"
             tagsData={[
               {
                 name: "Tag Players",
@@ -74,17 +74,16 @@ export default async function DocsPage({ searchParams }: IProps) {
                 })) as ISelectOptionLV[],
               },
             ]}
-        
           />
           <DocumentFolders folderMetrics={folderMetrics} />
         </section>
 
         <br />
-        <section>
-          <ConsentForm players={players?.data} />
-        </section>
+
+        <TextDivider text="GENERATE CONSENT FORMS" className="text-Orange my-6" />
+
+        <ConsentForm players={players?.data} />
       </main>
     </div>
   );
 }
-
