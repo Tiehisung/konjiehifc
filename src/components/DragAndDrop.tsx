@@ -2,15 +2,13 @@
 
 import { useState, ReactNode, useEffect } from "react";
 import { toast } from "sonner";
-import { bytesToMB, getErrorMessage, getFilePath } from "@/lib";
-import { OverlayLoader } from "@/components/loaders/OverlayLoader";
+import { getErrorMessage, getFilePath } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import { IQueryResponse } from "@/types";
 import { ICldFileUploadResult } from "./cloudinary/FileUploadWidget";
 import { fireDoubleEscape } from "@/hooks/Esc";
 import { validateFile } from "@/lib/file";
-import { Upload } from "lucide-react";
 
 export const DragAndDropUpload = ({
   onChange,
@@ -34,7 +32,7 @@ export const DragAndDropUpload = ({
 }) => {
   const [file, setFile] = useState<File | null | undefined>(null);
   const router = useRouter();
-  const [waiting, setWaiting] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleUpload = async () => {
     try {
@@ -49,7 +47,7 @@ export const DragAndDropUpload = ({
         return;
       }
 
-      setWaiting(true);
+      setIsUploading(true);
 
       const response = await fetch(apiConfig.fileUpload, {
         method: "POST",
@@ -71,14 +69,14 @@ export const DragAndDropUpload = ({
         toast.success(result.message);
         router.refresh();
         onChange(result?.data as ICldFileUploadResult);
-        if (escapeOnEnd) fireDoubleEscape();
+        if (escapeOnEnd) fireDoubleEscape(500);
       } else {
         toast.error(result.message);
       }
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
-      setWaiting(false);
+      setIsUploading(false);
     }
   };
 
@@ -101,16 +99,11 @@ export const DragAndDropUpload = ({
     if (exportRaw) exportRaw(file as File);
     else {
       if (file) handleUpload();
-      toast.loading("Uploading...", {
-        description: file?.name,
-        position: "bottom-right",
-        dismissible: !waiting,
-      });
     }
   }, [file, exportRaw]);
   return (
     <div
-      className={`border-2 ${waiting && " pointer-events-none"} ${
+      className={`border-2 ${isUploading && " pointer-events-none"} ${
         isDragOver ? " border-dotted border-Green" : "border-transparent"
       } ${className}`}
       onDragOver={(e) => {
@@ -120,7 +113,7 @@ export const DragAndDropUpload = ({
       onDrop={handleDrop}
     >
       {children}
-      {/* <OverlayLoader isLoading={waiting} /> */}
+      {/* <OverlayLoader isLoading={isUploading} /> */}
     </div>
   );
 };

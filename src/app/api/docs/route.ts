@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
         //Push to folder
         await FolderModel.findOneAndUpdate({
             name: folder,
-        }, { $push: { documents: (doc as Document)?._id } });
+        }, { $addToSet: { documents: (doc as Document)?._id } });
 
         // log
         await logAction({

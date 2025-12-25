@@ -25,15 +25,15 @@ export default function DocumentFolders({
   return (
     <div>
       <main className="flex items-start gap-4 ">
-        <ul className="grid grid-cols-2 sm:flex items-start flex-wrap gap-3 border rounded-2xl p-5">
+        <ul className="flex flex-wrap items-center justify-start ring grow gap-3 rounded-2xl">
           {folderMetrics?.data?.folders?.map((f, index) => {
             return (
               <li
                 key={index}
-                className="flex _hover relative select-auto w-32"
+                className="flex _hover relative select-auto w-32 "
               >
                 <Link href={`${pathname}/${f.name}`} className="flex grow p-2">
-                  <div className=" flex flex-col justify-center items-center ">
+                  <div className=" flex flex-col justify-center items-center grow ">
                     <Folder
                       className="text-Orange/80 text-7xl lg:text-8xl dark:text-Orange"
                       size={44}
@@ -42,7 +42,7 @@ export default function DocumentFolders({
                       {f?.docsCount ?? 0} items
                     </span>
 
-                    <span className="text-sm capitalize font-semibold text line-clamp-2 text-center">
+                    <span className="text-sm capitalize font-semibold text line-clamp-2 text-center h-10 ">
                       {f?.name}
                     </span>
                   </div>

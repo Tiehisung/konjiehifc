@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ReactNode, useState } from "react";
 import { usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
+import { TButtonSize, TButtonVariant } from "./ui/button";
+import { Button } from "./buttons/Button";
 interface ICollapsible {
   header: {
     icon?: ReactNode;
@@ -15,6 +17,8 @@ interface ICollapsible {
   children: ReactNode;
   isMinimize?: boolean;
   onChange?: (arg: boolean) => void;
+  variant?: TButtonVariant;
+  size?: TButtonSize;
 }
 
 export function PrimaryCollapsible({
@@ -22,13 +26,15 @@ export function PrimaryCollapsible({
   header,
   isMinimize,
   onChange,
+  variant = "ghost",
+  size,
 }: ICollapsible) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const isActiveLink = (path: string) => pathname === path;
   return (
     <div className="space-y-1 w-full ">
-      <button
+      <Button
         type="button"
         onClick={() => {
           setIsOpen(!isOpen);
@@ -38,11 +44,13 @@ export function PrimaryCollapsible({
           isActiveLink(header?.path || "")
             ? "bg-primary/10 text-muted-foreground"
             : ""
-        } ${header?.className ?? ""} ${isOpen ? "rounded-b-none" : ""}`}
+        } ${header?.className ?? ""} ${isOpen ? "rounded-b-none ring" : ""}`}
         {...header?.others}
+        variant={variant}
+        size={size}
       >
         <div className="flex items-center gap-3 grow">
-          <span className="flex-shrink-0">{header?.icon}</span>
+          <span className="shrink-0">{header?.icon}</span>
           <AnimatePresence>
             {!isMinimize && (
               <motion.div
@@ -72,7 +80,7 @@ export function PrimaryCollapsible({
             </motion.div>
           )}
         </AnimatePresence>
-      </button>
+      </Button>
 
       <AnimatePresence>
         {!isMinimize && isOpen && (

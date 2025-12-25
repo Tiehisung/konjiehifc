@@ -13,7 +13,7 @@ import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { IPlayer } from "@/app/players/page";
 import { kfc } from "@/data/kfc";
 import { formatDate } from "@/lib/timeAndDate";
-// import { COMBOBOX } from "../ComboBox";
+import { COMBOBOX } from "../ComboBox";
 import { DIALOG } from "../Dialog";
 import { MdOutlineDownload, MdOutlinePreview } from "react-icons/md";
 import { VscLoading } from "react-icons/vsc";
@@ -80,7 +80,7 @@ export default function PlayerConsentForm({ player }: PlayerConsentFormProps) {
   const fullName = `${player?.firstName} ${player?.lastName}`;
 
   return (
-    <Document >
+    <Document>
       <Page size="A4" style={styles.page}>
         <Text style={styles.header}>PLAYER PARTICIPATION & CONSENT FORM</Text>
         <View style={styles.sectionBorder}>
@@ -218,7 +218,7 @@ export function ConsentForm({ players }: { players?: IPlayer[] }) {
         <br />
         <p className="_p my-3"> Download Form Here</p>
         <div>
-          {/* <COMBOBOX
+          <COMBOBOX
             options={
               players?.map((p) => ({
                 label: `${p.firstName} ${p?.lastName}`,
@@ -233,8 +233,8 @@ export function ConsentForm({ players }: { players?: IPlayer[] }) {
               )
             }
             placeholder="Search Player"
-            className=" w-full min-w-72 max-w-[500px] text-center"
-          /> */}
+            className=" w-full min-w-72 max-w-125 text-center"
+          />
 
           <section className="flex items-center gap-6 mt-4">
             <DIALOG
@@ -267,9 +267,7 @@ export function ConsentForm({ players }: { players?: IPlayer[] }) {
                 return loading ? (
                   <VscLoading className="animate-spin" />
                 ) : (
-                  <div
-                    className={` p-1.5 rounded _shrink _primaryBtn`}
-                  >
+                  <div className={` p-1.5 rounded _shrink _primaryBtn`}>
                     <MdOutlineDownload size={24} />
                     Download
                   </div>

@@ -8,7 +8,7 @@ import { FaAngleRight } from "react-icons/fa";
 
 const Breadcrumbs = ({
   _links,
-  className = "z-[1] relative max-sm:hidden",
+  className = "z-1 relative max-sm:hidden",
 }: {
   _links?: Array<{ path: string; text: string }>;
   className?: string;

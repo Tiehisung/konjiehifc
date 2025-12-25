@@ -5,6 +5,8 @@ import { Metadata } from "next";
 import Image from "next/image";
 import { staticImages } from "@/assets/images";
 import { auth } from "@/auth";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import BackBtn from "@/components/buttons/BackBtn";
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -18,6 +20,11 @@ export default function Layout({ children }: { children: ReactNode }) {
       <section className="flex-1 md:h-screen md:overflow-y-auto">
         <Header />
 
+        <div className="flex items-center gap-4 flex-wrap">
+          <BackBtn />
+          <Breadcrumbs />
+        </div>
+
         <div className="pt-4 md:pt-2 bg-accent">{children}</div>
 
         <AdminFooter />
@@ -27,7 +34,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 }
 
 const Header = async () => {
-  const session = await auth( );
+  const session = await auth();
   const alias =
     session?.user?.name?.split(" ")?.[0] ??
     session?.user?.email?.split("@")?.[0];

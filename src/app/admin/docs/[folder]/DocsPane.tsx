@@ -14,7 +14,7 @@ import { DocMoveOrCopyTo } from "./MoveCopyTo";
 import { DragAndDropUpload } from "../../../../components/DragAndDrop";
 import { useAction } from "@/hooks/action";
 import { useParams } from "next/navigation";
-import { IPostDoc } from "@/models/doc";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface IProps {
   docs?: IQueryResponse<IFileProps[]>;
@@ -23,6 +23,8 @@ export default function FolderDocuments({ docs }: IProps) {
   const docsFolder = useParams().folder;
 
   const { handleAction } = useAction();
+
+  const isMobile=useIsMobile('sm')
 
   return (
     <div>
@@ -37,17 +39,48 @@ export default function FolderDocuments({ docs }: IProps) {
                   file,
                   format: "pdf",
                   folder: docsFolder,
-                } as IPostDoc,
+                },
               });
           }}
           fileType={"pdf"}
         >
-          <ul className="flex items-start flex-wrap gap-3 border rounded-2xl p-5 grow">
-            {docs?.data?.map((docFile, index) => (
+          <ul className="flex items-start flex-wrap gap-3 border border-border/60 rounded-2xl p-5 grow">
+            {docs?.data?.map((docFile, index) => {
+              if(isMobile) return (
+                <li
+                  key={index}
+                  className="group p-2 overflow-hidden hover:ring relative select-auto grow"
+                >
+                  <div className="flex items-center ">
+                    <div className="relative pb-1">
+                      <FaFilePdf className="text-Red" size={50} />
+                    </div>
+
+                    <div>
+                      <p className="text-sm capitalize font-semibold line-clamp-2 ">
+                        {(docFile.name ?? docFile?.original_filename)
+                          ?.replaceAll("-", " ")
+                          ?.replaceAll("_", " ")}
+                      </p>
+
+                      <div className="text-muted-foreground flex flex-wrap items-center ">
+                        <span>
+                          {formatDate(docFile.createdAt, "March 2, 2025")}
+                        </span>
+                        <span className="bg-secondary rounded-full px-1 text-xs">
+                          ({getTimeAgo(docFile.createdAt as string)})
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <DocumentActions document={docFile} />
+                </li>
+              );
+
+              return(
               <li
                 key={index}
-                className="group p-2 overflow-hidden _hover relative select-auto "
-                onClick={() => console.log()}
+                className="group p-2 overflow-hidden hover:ring relative select-auto "
               >
                 <div className="w-32 flex flex-col justify-center items-center ">
                   <div className="relative pb-1">
@@ -70,7 +103,7 @@ export default function FolderDocuments({ docs }: IProps) {
                 </div>
                 <DocumentActions document={docFile} />
               </li>
-            ))}
+            )})}
           </ul>
         </DragAndDropUpload>
 
@@ -90,7 +123,7 @@ export function DocumentActions({ document }: { document?: IFileProps }) {
     <div className=" right-0.5 top-1">
       <PrimaryDropdown
         id={document?._id}
-        triggerStyles="absolute top-1 right-1 invisible group-hover:visible"
+        triggerStyles="absolute top-1 right-2 md:invisible group-hover:visible"
       >
         <ul>
           <li

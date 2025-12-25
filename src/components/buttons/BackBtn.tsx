@@ -2,6 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
+import { Button } from "./Button";
+import { TButtonSize, TButtonVariant } from "../ui/button";
 /**
  *
  * @param {*} className  [Optional] Apply custom styles
@@ -12,22 +14,31 @@ interface BackBtnProps {
   className?: string;
   link?: string;
   label?: string;
+  variant?: TButtonVariant;
+  size?: TButtonSize;
 }
 
-export default function BackBtn({ className = "", link = "", label = "" }: BackBtnProps) {
+export default function BackBtn({
+  className = "",
+  link = "",
+  label = "",
+  variant,
+  size,
+}: BackBtnProps) {
   const router = useRouter();
 
   return (
-    <button
-      type="button"
+    <Button
+      variant={variant}
+      size={size}
       onClick={() => {
         if (link) return router.replace(link);
         router.back();
       }}
-      className={`${className} text-gray-800 flex items-center gap-2 ml-6 group w-fit bg-neutral-400 px-3 rounded`}
+      className={`${className} _shrink flex items-center gap-2 ml-6 group w-fit bg-muted px-3 rounded`}
     >
       <FaArrowLeft className=" group-hover:scale-105 group-hover:-translate-x-1 transition-all duration-300" />{" "}
       {label}
-    </button>
+    </Button>
   );
 }
