@@ -1,4 +1,4 @@
-import { DocumentFolder } from "@/app/admin/docs/page";
+
 import mongoose from "mongoose";
 
 export const docSchema = new mongoose.Schema(
@@ -17,9 +17,9 @@ export const docSchema = new mongoose.Schema(
         width: Number,
         height: Number,
         tags: { type: [String], default: () => [] },
-        
+
         //Essential
-        folder: { type: String, required: true, enum: Object.values(DocumentFolder) },
+        folder: { type: String, required: true, default: 'others' },
     },
     { timestamps: true }
 );
@@ -29,3 +29,4 @@ const DocModel = mongoose.models.documents || mongoose.model("documents", docSch
 export default DocModel;
 
 
+export type IPostDoc = mongoose.InferSchemaType<typeof docSchema>;

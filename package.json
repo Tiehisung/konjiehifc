@@ -1,5 +1,5 @@
 {
-  "name": "kfc",
+  "name": "konjiehifc",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -26,6 +26,7 @@
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.8.0",
     "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
     "dompurify": "^3.3.1",
     "framer-motion": "^12.23.26",
     "joi": "^18.0.2",

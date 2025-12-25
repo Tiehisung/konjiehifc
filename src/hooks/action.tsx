@@ -22,6 +22,7 @@ export function useAction() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleAction = async ({
     method = "GET",
@@ -43,16 +44,20 @@ export function useAction() {
           cache: "no-cache",
           body: JSON.stringify({
             ...body,
-            // user: session?.data?.user as IUser
           }),
         }
       );
       const results: IQueryResponse = await response.json();
       if (results.success) {
         toast.success(results.message, { position: "bottom-center" });
-      } else toast.error(results.message);
+        setError("");
+      } else {
+        toast.error(results.message);
+        setError(getErrorMessage(error));
+      }
     } catch (error) {
       toast.error(getErrorMessage(error));
+      setError(getErrorMessage(error));
     } finally {
       setIsLoading(false);
       router.refresh();
@@ -60,5 +65,5 @@ export function useAction() {
     }
   };
 
-  return { handleAction, isLoading };
+  return { handleAction, isLoading, error };
 }

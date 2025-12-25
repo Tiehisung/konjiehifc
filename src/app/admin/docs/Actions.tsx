@@ -3,22 +3,22 @@
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { PrimaryDropdown } from "@/components/Dropdown";
 import { apiConfig } from "@/lib/configs";
-import { IUser } from "@/types/user";
 import { Edit } from "lucide-react";
 import { MdOutlineDelete } from "react-icons/md";
-import UserForm from "./UserForm";
 import { Button } from "@/components/buttons/Button";
 import { DIALOG } from "@/components/Dialog";
+import { FolderForm } from "./FolderForm";
+import { IFolder } from "@/types/doc";
 
 interface IProps {
-  user?: IUser;
+  folder?: IFolder;
 }
 
-export function UserActions({ user }: IProps) {
+export function FolderActions({ folder }: IProps) {
   const className = `flex items-center gap-2 grow _hover _shrink p-2 text-sm`;
 
   return (
-    <PrimaryDropdown id={user?._id}>
+    <PrimaryDropdown id={folder?._id}>
       <ul>
         <li>
           <DIALOG
@@ -30,9 +30,9 @@ export function UserActions({ user }: IProps) {
                 <Edit className="text-muted-foreground" /> Edit
               </Button>
             }
-            title={<p>Edit User - {user?.name}</p>}
+            title={<p>Edit folder - {folder?.name}</p>}
           >
-            <UserForm user={user} />
+            <FolderForm existingFolder={folder} />
           </DIALOG>
         </li>
 
@@ -44,13 +44,13 @@ export function UserActions({ user }: IProps) {
                 <MdOutlineDelete size={24} /> Delete
               </div>
             }
-            uri={`${apiConfig.users}/${user?._id}`}
+            uri={`${apiConfig.docs}/folders/${folder?._id}`}
             body={{}}
             method={"DELETE"}
             escapeOnEnd
             variant="destructive"
-            title="Delete User"
-            confirmText={`Are you sure you want to delete ${user?.name}?`}
+            title="Delete Folder"
+            confirmText={`Are you sure you want to delete ${folder?.name}?`}
           />
         </li>
       </ul>

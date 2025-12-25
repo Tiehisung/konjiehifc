@@ -1,42 +1,38 @@
 import HEADER from "@/components/Element";
 import { getPlayers } from "../players/page";
-import { IFileProps, IQueryResponse, IRecord, ISelectOptionLV } from "@/types";
+import {  IQueryResponse, IRecord, ISelectOptionLV } from "@/types";
 import { IPlayer } from "@/app/players/page";
 import { apiConfig } from "@/lib/configs";
 import DocumentFolders from "./Folders";
 import { DocumentUploader } from "./DocUploader";
 import { ConsentForm } from "@/components/pdf/ConsentForm";
 import { RecentDocs } from "./RecentDocs";
-import { getFeatureByName } from "../features/page";
+import { IFolder } from "@/types/doc";
 interface IProps {
   searchParams: Promise<IRecord>;
 }
+
 export const getDocs = async (query?: string) => {
+  const response = await fetch(`${apiConfig.docs}${query}`, {
+    cache: "no-cache",
+  });
+  if (!response.ok) return null;
+  return await response.json();
+};
+
+
+export const getFolderMetrics = async () => {
+  const response = await fetch(`${apiConfig.docs}/metrics`, {
+    cache: "no-cache",
+  });
+  if (!response.ok) return null;
+  return await response.json();
+};
+
+export const getFolders = async (query?: string) => {
   const cleaned = query?.startsWith("?") ? query : `?${query}`;
 
-  const response = await fetch(`${apiConfig.docs}${cleaned}`, {
-    cache: "no-cache",
-  });
-  if (!response.ok) return null;
-  return await response.json();
-};
-
-export const getDocsByFolder = async (
-  folder: DocumentFolder,
-  query?: string
-) => {
-  let cleaned = "";
-  if (query) cleaned = query?.startsWith("?") ? query : `?${query}`;
-
-  const response = await fetch(`${apiConfig.docs}/${folder}${cleaned}`, {
-    cache: "no-cache",
-  });
-  if (!response.ok) return null;
-  return await response.json();
-};
-
-export const getDocsMetrics = async () => {
-  const response = await fetch(`${apiConfig.docs}/metrics`, {
+  const response = await fetch(`${apiConfig.docs}/folders${cleaned}`, {
     cache: "no-cache",
   });
   if (!response.ok) return null;
@@ -47,17 +43,25 @@ export default async function DocsPage({ searchParams }: IProps) {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
 
   const folderMetrics: IQueryResponse<{
-    folders: { count: number; folder: string }[];
+    folders: {
+      docsCount: number;
+      name: string;
+      createdAt: string | Date;
+      _id: string;
+    }[];
     totalDocs: number;
-  }> = await getDocsMetrics();
-  const folders: IQueryResponse = await getFeatureByName("folders");
+  }> = await getFolderMetrics();
+
+  const folders: IQueryResponse<IFolder[]> = await getFolders();
+
+  console.log({ folderMetrics ,folders});
 
   return (
     <div className="px-4">
       <HEADER title="DOCUMENTATION " />
       <main className="_page px-3 mt-6 space-x-6 pb-6">
         <RecentDocs />
-     
+
         <section>
           <DocumentUploader
             className="w-fit my-2"
@@ -70,6 +74,7 @@ export default async function DocsPage({ searchParams }: IProps) {
                 })) as ISelectOptionLV[],
               },
             ]}
+        
           />
           <DocumentFolders folderMetrics={folderMetrics} />
         </section>
@@ -81,17 +86,6 @@ export default async function DocsPage({ searchParams }: IProps) {
       </main>
     </div>
   );
-}
-export interface IPostDoc {
-  file: IFileProps;
-  tags: string[];
-  format: "pdf" | "image";
-  folder: DocumentFolder;
-}
-
-export interface IDocFile extends IFileProps {
-  format: "pdf" | "image";
-  folder: DocumentFolder;
 }
 
 export enum DocumentFolder {

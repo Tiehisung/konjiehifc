@@ -8,31 +8,35 @@ import { apiConfig } from "@/lib/configs";
 import { Upload } from "lucide-react";
 import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { FaFilePdf } from "react-icons/fa";
-import { DocumentFolder, IPostDoc } from "./page";
 import { useRouter } from "next/navigation";
 import MultiSelectionInput from "@/components/select/MultiSelect";
 import { IQueryResponse, ISelectOptionLV } from "@/types";
 import { FancyMotion } from "@/components/Animate/MotionWrapper";
-// import { COMBOBOX } from "@/components/ComboBox";
+import { COMBOBOX } from "@/components/ComboBox";
 import { PiFolderPlusLight } from "react-icons/pi";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/lib";
-import { useSession } from "next-auth/react";
-import { IUser } from "@/types/user";
 import { Button } from "@/components/buttons/Button";
 import { fireDoubleEscape } from "@/hooks/Esc";
+import { useFetch } from "@/hooks/fetch";
+
+interface IProps {
+  defaultFolder?: string;
+  tagsData?: {
+    name: string;
+    options: ISelectOptionLV[];
+  }[];
+  trigger?: ReactNode;
+  className?: string;
+  folders?: { name: string; _id: string }[];
+}
 
 export function DocumentUploader({
   defaultFolder = "",
   tagsData = [],
   trigger,
   className,
-}: {
-  defaultFolder?: string;
-  tagsData?: { name: string; options: ISelectOptionLV[] }[];
-  trigger?: ReactNode;
-  className?: string;
-}) {
+}: IProps) {
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<ICldFileUploadResult | null>(
@@ -43,10 +47,17 @@ export function DocumentUploader({
 
   const [selectedFolder, setSelectedFolder] = useState(defaultFolder);
 
-  useEffect(() => {
-    if (defaultFolder) setSelectedFolder(defaultFolder);
-  }, [defaultFolder]);
-  const session = useSession();
+  const { loading: fetchingFolders, results: folderMetrics } = useFetch<{
+    folders: { name: string; _id: string }[];
+  }>({
+    uri: `${apiConfig.docs}/metrics`,
+  });
+
+  console.log({ folderMetrics });
+
+  // useEffect(() => {
+  //   if (defaultFolder) setSelectedFolder(defaultFolder);
+  // }, [defaultFolder]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
@@ -59,8 +70,7 @@ export function DocumentUploader({
           tags: Object.values(tags).flat(1).filter(Boolean),
           format: "pdf",
           folder: selectedFolder,
-          user: session?.data?.user,
-        } as IPostDoc & { user: IUser }),
+        }),
         headers: { "content-type": "application/json" },
       });
 
@@ -93,7 +103,7 @@ export function DocumentUploader({
           </div>
         )
       }
-      className="min-w-[230px]"
+      className="min-w-57.5"
     >
       <form
         onSubmit={handleSubmit}
@@ -118,7 +128,7 @@ export function DocumentUploader({
           {uploadedFile && (
             <div className="flex flex-col justify-center items-center">
               <FaFilePdf className="text-Red" size={40} />
-              <p className="line-clamp-2 break-words">
+              <p className="line-clamp-2 wrap-break-word">
                 {uploadedFile?.name ?? uploadedFile?.original_filename}
               </p>
             </div>
@@ -155,16 +165,19 @@ export function DocumentUploader({
               className="text-primary dark:text-Orange"
               size={30}
             />
-            {/* <COMBOBOX
-              options={Object.values(DocumentFolder).map((f) => ({
-                label: f,
-                value: f,
-              }))}
+            <COMBOBOX
+              options={
+                folderMetrics?.data?.folders?.map((f) => ({
+                  label: f?.name,
+                  value: f?.name,
+                })) ?? []
+              }
               onChange={(op) => setSelectedFolder(op.value)}
               placeholder="Select Folder"
               className="capitalize"
               defaultOptionValue={defaultFolder}
-            /> */}
+
+            />
           </div>
         )}
         <br />
@@ -173,7 +186,6 @@ export function DocumentUploader({
             type="submit"
             primaryText="Save Form"
             waitingText="Saving..."
-            variant="primary"
             className="w-full justify-center max-w-md mx-auto py-3"
             disabled={!uploadedFile || !selectedFolder}
             waiting={waiting}

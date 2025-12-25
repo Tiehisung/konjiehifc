@@ -13,8 +13,8 @@ import { MdOutlineDelete } from "react-icons/md";
 import { DocMoveOrCopyTo } from "./MoveCopyTo";
 import { DragAndDropUpload } from "../../../../components/DragAndDrop";
 import { useAction } from "@/hooks/action";
-import { IPostDoc } from "../page";
 import { useParams } from "next/navigation";
+import { IPostDoc } from "@/models/doc";
 
 interface IProps {
   docs?: IQueryResponse<IFileProps[]>;

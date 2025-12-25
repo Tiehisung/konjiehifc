@@ -3,8 +3,8 @@ import { Color } from "@/styles";
 import { FaFilePdf } from "react-icons/fa";
 import { IFileProps, IQueryResponse } from "@/types";
 import Loader from "@/components/loaders/Loader";
-import { getDocs } from "./page";
 import { formatDate, getTimeAgo } from "@/lib/timeAndDate";
+import { getDocs } from "./page";
 
 export async function RecentDocs() {
   const recentDocs: IQueryResponse<IFileProps[]> = await getDocs("?limit=10");

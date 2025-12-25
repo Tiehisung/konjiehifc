@@ -1,16 +1,21 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { DocumentFolder } from "./page";
-import { PiFolderPlusLight } from "react-icons/pi";
 import { IQueryResponse } from "@/types";
-import { Badge } from "@/components/ui/badge";
+import { FolderForm } from "./FolderForm";
+import { Folder } from "lucide-react";
+import Link from "next/link";
 
 export default function DocumentFolders({
   folderMetrics,
 }: {
   folderMetrics?: IQueryResponse<{
-    folders: { count: number; folder: string }[];
+    folders: {
+      docsCount: number;
+      name: string;
+      createdAt: string | Date;
+      _id: string;
+    }[];
     totalDocs: number;
   }>;
 }) {
@@ -21,33 +26,33 @@ export default function DocumentFolders({
     <div>
       <main className="flex items-start gap-4 ">
         <ul className="grid grid-cols-2 sm:flex items-start flex-wrap gap-3 border rounded-2xl p-5">
-          {Object.values(DocumentFolder).map((f, index) => {
-            const folder = folderMetrics?.data?.folders?.find(
-              (d) => d.folder == f
-            );
+          {folderMetrics?.data?.folders?.map((f, index) => {
             return (
               <li
                 key={index}
-                className="p-2 _hover relative select-auto w-32"
-                onClick={() => router.push(`${pathname}/${f}`)}
+                className="flex _hover relative select-auto w-32"
               >
-                <div className=" flex flex-col justify-center items-center ">
-                  <div className="relative pb-1">
-                    <PiFolderPlusLight className="text-primary text-7xl lg:text-8xl dark:text-Orange" />
-                    <Badge
-                      variant={"secondary"}
-                      className="absolute bottom-4 left-2 text-muted-foreground"
-                    >
-                      {folder?.count ?? 0}
-                    </Badge>
+                <Link href={`${pathname}/${f.name}`} className="flex grow p-2">
+                  <div className=" flex flex-col justify-center items-center ">
+                    <Folder
+                      className="text-Orange/80 text-7xl lg:text-8xl dark:text-Orange"
+                      size={44}
+                    />
+                    <span className="font-light text-sm text-muted-foreground mx-auto">
+                      {f?.docsCount ?? 0} items
+                    </span>
+
+                    <span className="text-sm capitalize font-semibold text line-clamp-2 text-center">
+                      {f?.name}
+                    </span>
                   </div>
-                  <span className="text-sm capitalize font-semibold text line-clamp-2 text-center">
-                    {f?.replaceAll("-", " ")}
-                  </span>
-                </div>
+                </Link>
               </li>
             );
           })}
+          <li>
+            <FolderForm />
+          </li>
         </ul>
       </main>
     </div>

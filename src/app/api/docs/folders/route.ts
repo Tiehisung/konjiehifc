@@ -1,14 +1,15 @@
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import { NextRequest, NextResponse } from "next/server";
 import { getErrorMessage, removeEmptyKeys } from "@/lib";
-import DocModel, { IPostDoc } from "@/models/doc";
-import { IDeleteFile, TSearchKey } from "@/types";
-import { logAction } from "../logs/helper";
-import { IUser } from "@/types/user";
-import { deleteCldAssets } from "../file/route";
+import { TSearchKey } from "@/types";
+import { logAction } from "../../logs/helper";
+import { deleteCldAssets } from "../../file/route";
 import { ELogSeverity } from "@/types/log";
-import FolderModel from "@/models/folder";
-import { Document } from "mongoose";
+import FolderModel, { IPostFolder } from "@/models/folder";
+import { auth } from "@/auth";
+import { EUserRole, IUser } from "@/types/user";
+import DocModel from "@/models/doc";
+import { IDocFile, IFolder } from "@/types/doc";
 
 ConnectMongoDb();
 
@@ -34,13 +35,13 @@ export async function GET(request: NextRequest) {
 
     const cleaned = removeEmptyKeys(query);
 
-    const logs = await DocModel.find(cleaned)
+    const logs = await FolderModel.find(cleaned)
         .sort({ createdAt: 'desc' })
         .skip(skip)
         .limit(limit)
         .lean();
 
-    const total = await DocModel.countDocuments(cleaned);
+    const total = await FolderModel.countDocuments(cleaned);
     return NextResponse.json({
         success: true,
         data: logs, pagination: {
@@ -54,34 +55,28 @@ export async function GET(request: NextRequest) {
 
 export async function POST(req: NextRequest) {
     try {
-        const { file, folder, format, tags, } = await req.json()
+        const { name, description, tags, } = await req.json() as IPostFolder
 
-        const doc = await DocModel.insertOne({
-            ...file,
+        const doc = await FolderModel.create({
+            name,
+            description,
             tags,
-            folder,
-            format,
         });
-
-        //Push to folder
-        await FolderModel.findOneAndUpdate({
-            name: folder,
-        }, { $push: { documents: (doc as Document)?._id } });
 
         // log
         await logAction({
-            title: `Document uploaded to - ${folder}`,
-            description: `${file.name ?? file.original_filename} uploaded on ${Date.now()}` as string,
+            title: `Folder created - ${name}`,
+            description: `${name} created on ${Date.now()}` as string,
         });
         return NextResponse.json({
             success: true,
-            message: "New Document Uploaded",
+            message: "New Folder Created",
             data: doc,
         });
     } catch (error) {
         return NextResponse.json({
             success: false,
-            message: getErrorMessage(error, "Failed to upload document"),
+            message: getErrorMessage(error, "Failed to create folder"),
         });
     }
 }
@@ -89,21 +84,33 @@ export async function POST(req: NextRequest) {
 //Delete from Cloud then pull id from collection files field
 export async function DELETE(req: NextRequest) {
     try {
-        const { files, } = await req.json() as { user: IUser, files: IDeleteFile[] };
+        const session = await auth();
+        if ((session?.user as IUser)?.role !== EUserRole.SUPER_ADMIN) {
+            return NextResponse.json({
+                message: "Unauthorized",
+                success: false,
+            });
+        }
+
+        const folderId = await req.json()
+
+        const deletedFolder: IFolder = await FolderModel.findById(folderId).populate('documents');
+        
         //Delete file from cloudinary
-        await deleteCldAssets(files)
+        await deleteCldAssets(deletedFolder?.documents
+            ?.map((doc) => ({ public_id: doc.public_id })) ?? []);
 
         //Delete file data from database
         const deleteFromDb = await DocModel.deleteMany({
             _id: {
-                $in: files.map(f => f._id).filter(Boolean) ?? [],
+                $in: deletedFolder?.documents?.map(doc => doc._id).filter(Boolean) ?? [],
             }
         });
         // log
+        const logDesc = deletedFolder?.documents?.length ? `${deletedFolder?.documents?.length} docs deleted. [${deletedFolder?.documents?.map(dd => dd.name)?.join(', ')}].` : 'No documents to delete.';
         await logAction({
-            title: "Document deleted",
-            description: `${files.length} documents deleted [${files.map(f => f.public_id).toString()}]`,
-
+            title: "Folder deleted",
+            description: logDesc,
             severity: ELogSeverity.CRITICAL,
         });
         return NextResponse.json({
