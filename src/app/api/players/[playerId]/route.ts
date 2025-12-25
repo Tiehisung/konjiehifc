@@ -90,7 +90,7 @@ export async function DELETE(
       title: "Player Deleted",
       description: `Player with id [${playerId}] deleted on ${new Date().toLocaleString()}`,
       severity: ELogSeverity.CRITICAL,
-      meta: { ...deleted }
+      meta: deleted?.toString(),
     });
     return NextResponse.json({
       message: "Deleted successful",

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { removeEmptyKeys } from "@/lib";
 import DocModel from "@/models/doc";
 import { TSearchKey } from "@/types";
-import { FilterQuery } from "mongoose";
+import { QueryFilter } from "mongoose";
 
 ConnectMongoDb();
 
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
             { "description": regex },
             { "tags": regex },
         ],
-    } as FilterQuery<unknown>;
+    } as QueryFilter<unknown>;
 
 
     query.folder = folder

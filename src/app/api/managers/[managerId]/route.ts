@@ -2,16 +2,18 @@ import { getErrorMessage } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import ManagerModel from "@/models/manager";
 import { NextRequest, NextResponse } from "next/server";
-
-// export const revalidate = 0;
-// export const dynamic = "force-dynamic";
+import { saveToArchive } from "../../archives/helper";
+import { logAction } from "../../logs/helper";
+import { EArchivesCollection } from "@/types/archive.interface";
+import { ELogSeverity } from "@/types/log";
+import { formatDate } from "@/lib/timeAndDate";
 
 ConnectMongoDb();
 
 // GET
 export async function GET(
   request: NextRequest,
-  { params }: { params:Promise< { managerId: string }> }
+  { params }: { params: Promise<{ managerId: string }> }
 ) {
   const manager = await ManagerModel.findById((await params).managerId);
   return NextResponse.json(manager);
@@ -46,7 +48,22 @@ export async function DELETE(
   { params }: { params: Promise<{ managerId: string }> }
 ) {
   try {
-    await ManagerModel.findByIdAndDelete((await params).managerId);
+
+    const managerId = (await params).managerId;
+    const deleted = await ManagerModel.findByIdAndDelete(managerId);
+
+    saveToArchive({
+      sourceCollection: EArchivesCollection.MANAGERS,
+      originalId: deleted?._id,
+      data: { ...deleted, isLatest: false },
+    });
+
+    await logAction({
+      title: `Manager deleted - [${deleted?.fullname}]`,
+      description: `Manager (${deleted?.fullname}) deleted on ${formatDate(new Date().toISOString()) ?? ''}.`,
+      severity: ELogSeverity.CRITICAL,
+      meta: deleted?.toString(),
+    });
     return NextResponse.json({ message: "Staff deleted", success: true });
   } catch (error) {
     return NextResponse.json({

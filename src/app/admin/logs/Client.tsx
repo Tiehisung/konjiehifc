@@ -6,12 +6,12 @@ import InfiniteLimitScroller from "@/components/InfiniteScroll";
 import { PrimarySearch } from "@/components/Search";
 import { shortText } from "@/lib";
 import { formatDate, getTimeAgo } from "@/lib/timeAndDate";
-import {   IQueryResponse } from "@/types";
+import { IQueryResponse } from "@/types";
 import { ILog } from "@/types/log";
 import { IUser } from "@/types/user";
 
 export function LogsClient({ logs }: { logs?: IQueryResponse<ILog[]> }) {
-  console.log(logs)
+  console.log(logs);
   const accordionData = logs?.data?.map((log) => ({
     trigger: (
       <div className="flex justify-between gap-5 items-center grow ">
@@ -45,10 +45,8 @@ export function LogsClient({ logs }: { logs?: IQueryResponse<ILog[]> }) {
         </p>
 
         <p>
-          <span className="_label mr-1.5 text-muted-foreground ">
-            Category:
-          </span>
-          {log.category}
+          <span className="_label mr-1.5 text-muted-foreground ">Meta:</span>
+          <pre>{log.meta ? JSON.stringify(log.meta, null, 2) : "N/A"}</pre>
         </p>
 
         <p>
@@ -88,7 +86,7 @@ export function LogsClient({ logs }: { logs?: IQueryResponse<ILog[]> }) {
             className="bg-secondary grow"
             searchKey="log_search"
           />
-          <ClearFiltersBtn className="border border-border/45 shadow p-1.5 rounded h-9 "/>
+          <ClearFiltersBtn className="border border-border/45 shadow p-1.5 rounded h-9 " />
         </div>
       </header>
 

@@ -1,13 +1,11 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { apiConfig } from "@/lib/configs";
 import Image from "next/image";
-import React from "react";
-import AdminsActionsPopper, { IAdminSession } from "./Actions";
-import CreateAdmin from "./CreateAdmin";
+import AdminsActionsPopper from "./Actions";
 import { formatDate } from "@/lib/timeAndDate";
 import { DIALOG } from "@/components/Dialog";
 import { Button } from "@/components/buttons/Button";
 import { IUser } from "@/types/user";
+import CreateAdmin from "./CreateAdmin";
 
 export const getUsers = async (q?: string) => {
   const resp = await fetch(

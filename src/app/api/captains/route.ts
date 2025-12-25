@@ -5,10 +5,9 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import CaptaincyModel from "@/models/captain";
 import { NextRequest, NextResponse } from "next/server";
 import { getErrorMessage, removeEmptyKeys } from "@/lib";
-import { FilterQuery } from "mongoose";
+import { QueryFilter } from "mongoose";
 import { IPlayerMini } from "@/app/players/page";
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+ 
 
 ConnectMongoDb();
 
@@ -31,7 +30,7 @@ export async function GET(request: NextRequest) {
 
     const regex = new RegExp(search, "i"); // case-insensitive partial match
 
-    const query = {} as FilterQuery<unknown>
+    const query = {} as QueryFilter<unknown>
 
     if (search) {
       query.$or = [
