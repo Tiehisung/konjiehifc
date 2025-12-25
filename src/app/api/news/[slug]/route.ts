@@ -5,6 +5,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { QueryFilter } from "mongoose";
 import ArchiveModel from "@/models/Archives";
 import { EArchivesCollection } from "@/types/archive.interface";
+import { logAction } from "../../logs/helper";
+import { ELogSeverity } from "@/types/log";
+import { formatDate } from "@/lib/timeAndDate";
 
 
 ConnectMongoDb();
@@ -37,14 +40,20 @@ export async function DELETE(
             { sourceCollection: EArchivesCollection.NEWS, originalId: foundNewsItem?._id },
             { $push: { data: { ...foundNewsItem, isLatest: false } } }
         );
-        
+
         //Then delete from main collection
-        const deleted = await NewsModel.deleteOne(query);
-        if (deleted.acknowledged)
-            return NextResponse.json({
-                message: "News deleted",
-                success: true,
-            });
+        const deleted = await NewsModel.findOneAndDelete(query);
+
+        await logAction({
+            title: `News deleted - [${deleted?.headline?.text}]`,
+            description: `A news item(${deleted?.headline?.text}) deleted. on ${formatDate(new Date().toISOString()) ?? ''}.`,
+            severity: ELogSeverity.CRITICAL,
+            meta: deleted?.toString(),
+        });
+        return NextResponse.json({
+            message: "News deleted",
+            success: true,
+        });
     } catch (error) {
         return NextResponse.json({
             message: getErrorMessage(error, "Failed to delete! "),

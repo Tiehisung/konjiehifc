@@ -71,6 +71,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
       title: `Team deleted - [${body?.name}]`,
       description: `A team(${body?.name}) deleted. on ${formatDate(new Date().toISOString()) ?? ''}.`,
       severity: ELogSeverity.CRITICAL,
+      meta: deleted?.toString(),
     });
     return NextResponse.json({
       message: "Team deleted successfully",

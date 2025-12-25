@@ -7,7 +7,7 @@ export interface ILog {
     // userEmail?: string;
     user?: IUser
     severity?: ELogSeverity
-    meta?: Record<string, string | number | boolean | null>;
+    meta?: Record<string, string | number | boolean | null> | string;
     source?: 'admin' | 'user' | 'system' | 'other';
     url?: string
     createdAt: Date;
@@ -15,7 +15,7 @@ export interface ILog {
 }
 
 export enum ELogSeverity {
-    INFO = 'info', 
+    INFO = 'info',
     WARNING = 'warning',
     CRITICAL = 'critical'
 }

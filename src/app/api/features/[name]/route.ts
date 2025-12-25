@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { logAction } from "../../logs/helper";
 import { IUser } from "@/types/user";
 import FeatureModel from "@/models/feature";
+import { ELogSeverity } from "@/types/log";
 
 ConnectMongoDb();
 export async function GET(_: NextRequest, { params }: { params: Promise<{ name: string }> }) {
@@ -26,9 +27,6 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     await logAction({
         title: "Feature Updated",
         description: `Feature updated by ${user?.name ?? 'Admin'}`,
-        category: "db",
-        severity: "info",
-        user: user as IUser,
     });
     return NextResponse.json({
         success: true,
@@ -46,9 +44,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     await logAction({
         title: "Feature deleted",
         description: `Feature deleted by ${user?.name ?? 'Admin'}`,
-        category: "db",
-        severity: "info",
-        user: user as IUser,
+        severity:ELogSeverity.WARNING,
     });
     return NextResponse.json({
         success: true,

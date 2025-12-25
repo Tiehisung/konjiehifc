@@ -6,7 +6,6 @@ import { updateMatchEvent } from "../matches/live/events/route";
 import InjuryModel from "@/models/injury";
 import { IInjury } from "@/app/admin/live-match/(events)/Injury";
 import PlayerModel from "@/models/player";
-import { IUser } from "@/types/user";
 
 ConnectMongoDb();
 export async function GET(request: NextRequest) {
@@ -75,8 +74,6 @@ export async function POST(request: NextRequest) {
     await logAction({
       title: "🤕 Injury Created",
       description: description as string,
-  
-
     });
     return NextResponse.json({ message: "Injury created successfully!", success: true, data: savedInjury });
 

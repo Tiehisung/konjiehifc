@@ -7,6 +7,7 @@ import { logAction } from "../../logs/helper";
 import { ELogSeverity } from "@/types/log";
 import { EArchivesCollection } from "@/types/archive.interface";
 import { formatDate } from "@/lib/timeAndDate";
+import { saveToArchive } from "../../archives/helper";
 
 // export const revalidate = 0;
 // export const dynamic = "force-dynamic";
@@ -56,17 +57,21 @@ export async function DELETE(
   try {
     const squad = await SquadModel.findByIdAndDelete((await params).squadId);
 
+
     //Archive
-    await ArchiveModel.updateOne(
-      { sourceCollection: EArchivesCollection.SQUADS, originalId: squad?._id },
-      { $push: { data: squad } }
-    );
+    saveToArchive({
+      data: squad,
+      originalId: (await params).squadId,
+      sourceCollection: EArchivesCollection.SQUADS,
+      reason: 'Sanitizing...',
+    })
 
     // log
     await logAction({
       title: `Squad deleted - [${squad?.name}]`,
       description: `A squad(${squad?.name}) deleted. on ${formatDate(new Date().toISOString()) ?? ''}.`,
       severity: ELogSeverity.CRITICAL,
+      meta: squad?.toString(),
     });
     return NextResponse.json({ message: "Squad deleted", success: true });
   } catch (error) {

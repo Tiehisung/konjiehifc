@@ -70,8 +70,9 @@ export async function DELETE(
 
     // Log
     logAction({
-      title: ` User [${deleted?.name}] deleted.`,
-      description: deleted?.toString(),
+      title: ` User [${deleted?.name}] deleted.`, 
+      description: deleted?.name ,
+      meta: deleted?.toString(),
       severity: ELogSeverity.CRITICAL,
     })
     return NextResponse.json({
