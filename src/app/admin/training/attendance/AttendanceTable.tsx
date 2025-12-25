@@ -15,7 +15,7 @@ import { isToday } from "@/lib/timeAndDate";
 import { toast } from "sonner";
 import { apiConfig } from "@/lib/configs";
 import ContentShowcaseWrapper from "@/components/ShowcaseWrapper";
-import { imageIcons } from "@/assets/icons/icons";
+import { imageIcons } from "@/assets/icons/image-icons";
 import { Label } from "@/components/ui/label";
 
 export interface IPostTrainingSession {

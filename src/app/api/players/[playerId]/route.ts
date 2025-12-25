@@ -2,10 +2,11 @@ import "@/models/file";
 import "@/models/galleries";
 import { getErrorMessage } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
-import ArchivesModel from "@/models/archive";
 import PlayerModel from "@/models/player";
 import { NextRequest, NextResponse } from "next/server";
 import { logAction } from "../../logs/helper";
+import ArchiveModel from "@/models/Archives";
+import { ELogSeverity } from "@/types/log";
 
 ConnectMongoDb();
 export async function GET(
@@ -77,8 +78,8 @@ export async function DELETE(
     //Update issues
     const player = await PlayerModel.findById(playerId);
 
-    await ArchivesModel.updateOne(
-      { category: "deleted_players" },
+    await ArchiveModel.updateOne(
+      { sourceCollection: "players" },
       { $push: { data: player } }
     );
 
@@ -88,8 +89,7 @@ export async function DELETE(
     await logAction({
       title: "Player Deleted",
       description: `Player with id [${playerId}] deleted on ${new Date().toLocaleString()}`,
-      category: "db",
-      severity: "critical",
+      severity: ELogSeverity.CRITICAL,
       meta: { ...deleted }
     });
     return NextResponse.json({

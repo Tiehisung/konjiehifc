@@ -1,7 +1,12 @@
 import { getErrorMessage } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
+import ArchiveModel from "@/models/Archives";
 import SquadModel from "@/models/squad";
 import { NextRequest, NextResponse } from "next/server";
+import { logAction } from "../../logs/helper";
+import { ELogSeverity } from "@/types/log";
+import { EArchivesCollection } from "@/types/archive.interface";
+import { formatDate } from "@/lib/timeAndDate";
 
 // export const revalidate = 0;
 // export const dynamic = "force-dynamic";
@@ -49,7 +54,20 @@ export async function DELETE(
   { params }: { params: Promise<{ squadId: string }> }
 ) {
   try {
-    await SquadModel.findByIdAndDelete((await params).squadId);
+    const squad = await SquadModel.findByIdAndDelete((await params).squadId);
+
+    //Archive
+    await ArchiveModel.updateOne(
+      { sourceCollection: EArchivesCollection.SQUADS, originalId: squad?._id },
+      { $push: { data: squad } }
+    );
+
+    // log
+    await logAction({
+      title: `Squad deleted - [${squad?.name}]`,
+      description: `A squad(${squad?.name}) deleted. on ${formatDate(new Date().toISOString()) ?? ''}.`,
+      severity: ELogSeverity.CRITICAL,
+    });
     return NextResponse.json({ message: "Squad deleted", success: true });
   } catch (error) {
     return NextResponse.json({

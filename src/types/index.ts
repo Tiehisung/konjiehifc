@@ -97,22 +97,6 @@ export interface IQueryRecords {
 
 }
 
-
-export interface ILog {
-  _id: string;
-  title: string;
-  description: string;
-  // userEmail?: string;
-  user?: IUser
-  category?: 'auth' | 'api' | 'db' | 'system' | 'ui' | 'other';
-  severity?: 'info' | 'warning' | 'error' | 'critical';
-  meta?: Record<string, string | number | boolean | null>;
-  source?: 'admin' | 'user' | 'system' | 'other';
-  url?: string
-  createdAt: Date;
-  updatedAt?: Date;
-}
-
 export type TSearchKey =
   'search'
   | 'captain_search'

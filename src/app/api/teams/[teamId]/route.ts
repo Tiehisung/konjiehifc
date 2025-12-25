@@ -4,7 +4,10 @@ import TeamModel from "@/models/teams";
 import { NextRequest, NextResponse } from "next/server";
 import { logAction } from "../../logs/helper";
 import { formatDate } from "@/lib/timeAndDate";
- 
+import ArchiveModel from "@/models/Archives";
+import { ELogSeverity } from "@/types/log";
+import { EArchivesCollection } from "@/types/archive.interface";
+
 
 ConnectMongoDb();
 //Get teams
@@ -56,13 +59,18 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     const teamId = (await params).teamId
     const body = await request.json();
     const deleted = await TeamModel.findByIdAndDelete(teamId);
+    
+    //Archive
+    await ArchiveModel.updateOne(
+      { sourceCollection: EArchivesCollection.TEAMS, originalId: body?._id },
+      { $push: { data: deleted } }
+    );
 
-   // log
+    // log
     await logAction({
-      title: "Team  deleted",
+      title: `Team deleted - [${body?.name}]`,
       description: `A team(${body?.name}) deleted. on ${formatDate(new Date().toISOString()) ?? ''}.`,
-      severity: "critical",
-   
+      severity: ELogSeverity.CRITICAL,
     });
     return NextResponse.json({
       message: "Team deleted successfully",

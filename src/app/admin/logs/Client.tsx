@@ -6,7 +6,8 @@ import InfiniteLimitScroller from "@/components/InfiniteScroll";
 import { PrimarySearch } from "@/components/Search";
 import { shortText } from "@/lib";
 import { formatDate, getTimeAgo } from "@/lib/timeAndDate";
-import { ILog, IQueryResponse } from "@/types";
+import {   IQueryResponse } from "@/types";
+import { ILog } from "@/types/log";
 import { IUser } from "@/types/user";
 
 export function LogsClient({ logs }: { logs?: IQueryResponse<ILog[]> }) {

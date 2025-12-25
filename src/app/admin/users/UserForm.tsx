@@ -11,7 +11,7 @@ import { enumToOptions } from "../../../lib/select";
 import { EUserRole, IUser } from "../../../types/user";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/lib";
-import { fireEscape } from "@/hooks/Esc";
+import { fireDoubleEscape } from "@/hooks/Esc";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 
@@ -40,14 +40,16 @@ export default function UserForm({ user }: { user?: IUser }) {
     setServerError("");
 
     try {
-      const res = await fetch(apiConfig.users, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const res = await fetch(
+        user ? `${apiConfig.users}/${user._id}` : apiConfig.users,
+        {
+          method: user ? "PUT" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
 
       const result = await res.json();
-      console.log(result);
 
       if (!result.success)
         return toast.warning(result.message || "Failed to create user");
@@ -56,7 +58,7 @@ export default function UserForm({ user }: { user?: IUser }) {
       reset({ name: "", email: "", password: "", role: EUserRole.ADMIN });
 
       toast.success(result.message || "User created successfully");
-      fireEscape();
+      fireDoubleEscape();
     } catch (e) {
       toast.error(getErrorMessage(e));
     }
@@ -118,11 +120,10 @@ export default function UserForm({ user }: { user?: IUser }) {
         )}
       />
 
-      
       <Button
-        primaryText="Create User "
+        primaryText={user ? "Update User" : "Create User"}
         waiting={isSubmitting}
-        waitingText="Creating ..."
+        waitingText={user ? "Updating..." : "Creating ..."}
         type="submit"
         className=" p-2 grow w-full justify-center"
       />

@@ -30,7 +30,6 @@ export default async function UsersPage({ searchParams }: IPageProps) {
 
   const users: IQueryResponse<IUser[]> = await getUsers(qs);
 
-console.log(users);
   return (
     <div className="min-h-screen ">
       <HEADER

@@ -4,9 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { getErrorMessage, removeEmptyKeys } from "@/lib";
 import { QueryFilter } from "mongoose";
+import { saveToArchive } from "../archives/helper";
+import { logAction } from "../logs/helper";
 
 ConnectMongoDb();
-
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -60,7 +61,7 @@ export async function POST(req: NextRequest) {
   try {
     const salt = await bcrypt.genSalt(10);
 
-    const { email, password, image, name } = await req.json();
+    const { email, password, image, name, role } = await req.json();
     const hashedPass = await bcrypt.hash(password, salt);
 
     const alreadyExists = await UserModel.findOne({ email });
@@ -74,8 +75,15 @@ export async function POST(req: NextRequest) {
       email,
       password: hashedPass,
       image,
-      name,
+      name, 
+      role
     });
+
+    // Log
+    logAction({
+      title: ` User [${name}] added.`,
+      description: `User added - ${name}`,
+    })
     return NextResponse.json({
       success: true,
       message: "New user created",

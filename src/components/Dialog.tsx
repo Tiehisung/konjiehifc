@@ -35,13 +35,8 @@ export const DIALOG: FC<IDialog> = ({
 }) => {
   return (
     <Dialog modal={modal}>
-      <DialogTrigger asChild>
-        <div
-          className={`cursor-pointer`}
-          id={id}
-        >
-          {trigger}
-        </div>
+      <DialogTrigger asChild className={`cursor-pointer`} id={id}>
+        {trigger}
       </DialogTrigger>
 
       <DialogContent className={` ${className}`}>
@@ -52,7 +47,7 @@ export const DIALOG: FC<IDialog> = ({
           </DialogDescription>
         </DialogHeader>
 
-        <main className={` max-h-[80vh] pb-10 overflow-y-auto`}>{children}</main>
+        <main className={` max-h-[80vh] pb-4 overflow-y-auto`}>{children}</main>
 
         <DialogFooter>
           <DialogClose asChild id={closeId}>
