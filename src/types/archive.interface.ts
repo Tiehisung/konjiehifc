@@ -29,6 +29,7 @@ export enum EArchivesCollection {
   USERS = 'users',
   GALLERIES = 'galleries', 
   NEWS = 'news',
+  SPONSORS = 'sponsors',
   TEAMS = 'teams',
   MATCHES = 'matches',
   SQUADS = "squads",
