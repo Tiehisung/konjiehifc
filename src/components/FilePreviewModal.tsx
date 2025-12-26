@@ -65,7 +65,7 @@ const FilePreviewModal = ({
         <>
           <iframe
             src={url}
-            className={`min-h-[80vh] h-fit min-w-[75vw] w-fit aspect-square z-[1] ${fileClassName}`}
+            className={`min-h-[80vh] h-fit min-w-[75vw] w-fit aspect-square z-1 ${fileClassName}`}
           />
         </>
       )}

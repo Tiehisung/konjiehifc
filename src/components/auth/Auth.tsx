@@ -26,7 +26,8 @@ export const LoginBtn = ({
   stayOnPage = false,
 }: IProps) => {
   const [loading, setLoading] = useState(false);
-  const handleLogin = async () => {
+  const handleLogin = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     setLoading(true);
     await signIn("google", stayOnPage ? { redirect: true } : { redirectTo });
 
@@ -43,7 +44,7 @@ export const LoginBtn = ({
       variant={variant ?? "default"}
       waiting={loading}
       primaryText={text}
-      waitingText="Logging in"
+      waitingText=""
     >
       {children ?? <LogIn className="w-4 h-4 " />}
     </Button>
@@ -75,7 +76,7 @@ export const LogoutBtn = ({
       size={size}
       waiting={loading}
       primaryText={text}
-      waitingText="Logging out"
+      waitingText=""
     >
       {children ?? <LogOut className="w-4 h-4 " />}
     </Button>

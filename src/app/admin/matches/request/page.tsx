@@ -17,18 +17,8 @@ const MatchRequestPage = async () => {
 
   return (
     <div>
-      <MatchRequestForm
-        match={matches?.data?.[0] as IMatchProps}
-        official={{
-          requester: {
-            fullname: "Soskode",
-            role: "Coach",
-            phone: "0209282928",
-          } as IManager,
-        }}
-      />
-      <BottomSheetModal trigger="Choose Template">
-        <TemplatesSelector
+      <main className="_page py-12 space-y-10">
+        <MatchRequestForm
           match={matches?.data?.[0] as IMatchProps}
           official={{
             requester: {
@@ -38,20 +28,31 @@ const MatchRequestPage = async () => {
             } as IManager,
           }}
         />
-      </BottomSheetModal>
-
-      <DIALOG trigger={"Choose Template"}>
-        <TemplatesSelector
-          match={matches?.data?.[0] as IMatchProps}
-          official={{
-            requester: {
-              fullname: "Soskode",
-              role: "Coach",
-              phone: "0209282928",
-            } as IManager,
-          }}
-        />
-      </DIALOG>
+        <BottomSheetModal trigger="Choose Template" className="p-[2vw]">
+          <TemplatesSelector
+            match={matches?.data?.[0] as IMatchProps}
+            official={{
+              requester: {
+                fullname: "Soskode",
+                role: "Coach",
+                phone: "0209282928",
+              } as IManager,
+            }}
+          />
+        </BottomSheetModal>
+        <DIALOG trigger={"Choose Template"} className="min-w-[90vw]">
+          <TemplatesSelector
+            match={matches?.data?.[0] as IMatchProps}
+            official={{
+              requester: {
+                fullname: "Soskode",
+                role: "Coach",
+                phone: "0209282928",
+              } as IManager,
+            }}
+          />
+        </DIALOG>{" "}
+      </main>
     </div>
   );
 };

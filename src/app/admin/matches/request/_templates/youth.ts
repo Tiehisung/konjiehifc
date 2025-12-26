@@ -9,7 +9,7 @@ export const youthTemplates = (match: IMatchProps, official: { requester: IManag
     const homeName = home?.name ?? "Home Team";
     const awayName = away?.name ?? "Away Team";
     const opponentName = match?.opponent?.name ?? "Opponent Club";
-    const venue = match?.venue ?? "{{venue_name}}";
+    const venue = match?.venue?.name
     const date = formatDate(match?.date);
 
     return [
@@ -18,21 +18,17 @@ export const youthTemplates = (match: IMatchProps, official: { requester: IManag
             title: "Youth Friendly Request",
             tag: "youth",
             body: `
-<p>Dear <b>${opponentName}</b>,</p>
-
-<p>We would like to arrange a youth match between <b>${homeName}</b> and <b>${awayName}</b> as part of our academy development program.</p>
-
-<ul>
-<li><b>Date:</b> ${date}</li>
-<li><b>Venue:</b> ${venue}</li>
-</ul>
-
-<p>We look forward to your confirmation.</p>
-
-<p>Kind regards,<br/>
-<b>${official?.requester?.fullname}</b><br/>
-${kfc.name}</p>
-            `.trim(),
+                <p>Dear <b>${opponentName}</b>,</p>
+                <p>We would like to arrange a youth match between <b>${homeName}</b> and <b>${awayName}</b> as part of our academy development program.</p>
+                <ul>
+                <li><b>Date:</b> ${date}</li>
+                <li><b>Venue:</b> ${venue}</li>
+                </ul>
+                <p>We look forward to your confirmation.</p>
+                <p>Kind regards,<br/>
+                <b>${official?.requester?.fullname}</b><br/>
+                ${kfc.name}</p>
+                            `.trim(),
         },
         {
             id: "youth_2",

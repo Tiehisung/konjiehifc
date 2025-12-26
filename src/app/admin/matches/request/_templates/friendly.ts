@@ -11,7 +11,7 @@ export const friendlyTemplates = (match: IMatchProps, official: { requester: IMa
     const homeName = home?.name ?? "Home Team";
     const awayName = away?.name ?? "Away Team";
     const opponentName = match?.opponent?.name ?? "Opponent Club";
-    const venue = match?.venue ?? "{{venue_name}}";
+    const venue = match?.venue?.name
     const date = formatDate(match?.date);
 
     return [

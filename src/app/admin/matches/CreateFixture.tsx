@@ -62,6 +62,10 @@ const CreateFixture = ({ teams }: { teams?: ITeamProps[] }) => {
           matchType === "home"
             ? `${teamKFC.name} VS ${opponent?.label}`
             : `${opponent?.label} VS ${teamKFC.name}`,
+        venue: {
+          files: [],
+          name: matchType === "home" ? teamKFC.name : opponent?.label,
+        },
       };
       const response = await fetch(apiConfig.matches, {
         method: "POST",

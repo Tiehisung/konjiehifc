@@ -22,7 +22,7 @@ export const DisplayType = ({
     setParam("display", display);
   };
 
-  const [display, setDisplay] = useState(defaultDisplay);
+  const [display, setDisplay] = useState(defaultDisplay ?? "grid");
   useEffect(() => {
     const str = searchParams.get("display");
     if (str || defaultDisplay)

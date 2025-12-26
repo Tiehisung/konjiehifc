@@ -20,7 +20,7 @@ const matchSchema = new Schema(
     opponentGoals: { type: Number, default: 0 },
     sponsor: [{ type: Schema.Types.ObjectId, ref: "sponsors" }],
     broadcaster: {},
-    venue: { name: String, files: [{}] },
+    venue: { name: {type:String,default:()=>'Home Park'}, files: [{}] },
     isHome: Boolean,
     events: [{ description: String, title: String, minute: String, modeOfScore: String }],
   },
