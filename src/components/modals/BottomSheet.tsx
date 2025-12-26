@@ -5,8 +5,8 @@ import { SideDrawer } from "../ShadSideDrawer";
 interface Props {
   children: ReactNode;
   className?: string;
-  id: string;
-  trigger?: ReactNode;
+  id?: string;
+  trigger: ReactNode;
   isPreparing?: boolean;
 }
 
@@ -19,7 +19,7 @@ const BottomSheetModal: React.FC<Props> = ({
   return (
     <SideDrawer
       className={` ${className}`}
-      triggerId={id}
+      id={id}
       trigger={trigger}
       side="bottom"
     >

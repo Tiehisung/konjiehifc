@@ -11,11 +11,12 @@ import { toast } from "sonner";
 import { fireDoubleEscape } from "@/hooks/Esc";
 import { useSession } from "next-auth/react";
 import { IUser } from "@/types/user";
+import { TButtonVariant } from "../ui/button";
 
 interface IProps {
   className?: string;
-  variant?: "outline" | "destructive" | "secondary" | "primary";
-  primaryText: string;
+  variant?: TButtonVariant;
+  primaryText?: string;
   loadingText?: string;
   children?: ReactNode;
   uri?: string;
@@ -30,7 +31,7 @@ interface IProps {
 }
 
 export const ConfirmActionButton = ({
-  variant = "primary",
+  variant,
   className,
   method = "GET",
   body,
@@ -52,15 +53,6 @@ export const ConfirmActionButton = ({
   const session = useSession();
   const isAdmin = (session?.data?.user as IUser)?.role?.includes("admin");
 
-  const triggerClassName =
-    variant == "primary"
-      ? "text-primaryGreen"
-      : variant == "secondary"
-      ? "text-primary"
-      : variant == "destructive"
-      ? "text-red-500"
-      : "";
-
   const handleAction = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
@@ -75,10 +67,7 @@ export const ConfirmActionButton = ({
           method,
           headers: { "Content-Type": "application/json" },
           cache: "no-cache",
-          body: JSON.stringify({
-            ...(body as object),
-            user: session?.data?.user,
-          }),
+          body: JSON.stringify(body),
         }
       );
       const results = await response.json();
@@ -103,12 +92,7 @@ export const ConfirmActionButton = ({
   }
 
   return (
-    <DIALOG
-      trigger={
-        <span className={triggerClassName}>{trigger ?? primaryText}</span>
-      }
-      title={title}
-    >
+    <DIALOG trigger={trigger ?? primaryText} title={title} variant={variant}>
       <Card>
         <CardContent className="flex flex-col items-center justify-center">
           {confirmText && (
@@ -123,17 +107,8 @@ export const ConfirmActionButton = ({
             primaryText={`Confirm ${primaryText}`}
             waitingText={loadingText}
             onClick={handleAction}
-            className={`${className} ${
-              variant == "destructive"
-                ? "_deleteBtn"
-                : variant == "primary"
-                ? "_primaryBtn"
-                : variant == "secondary"
-                ? "_secondaryBtn"
-                : variant == "outline"
-                ? "border rounded-md "
-                : ""
-            }`}
+            className={className}
+            variant={variant}
           >
             {children}
           </Button>

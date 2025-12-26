@@ -16,7 +16,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { teamKFC } from "@/data/teams";
-import { fireEscape } from "@/hooks/Esc";
+import { fireDoubleEscape, fireEscape } from "@/hooks/Esc";
 import { getErrorMessage, checkTeams } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { customStyles } from "@/styles";
@@ -89,13 +89,13 @@ const CreateFixture = ({ teams }: { teams?: ITeamProps[] }) => {
   return (
     <ContentShowcaseWrapper
       images={[staticImages.team.src]}
-      className="py-6 bg-card gap-y-10 items-start"
-      graphicsStyles="md:min-h-[80vh] bg-Red md:rounded-l-2xl"
+      className="py-6 gap-y-10 items-start gap-5"
+      graphicsStyles="md:min-h-[80vh] bg-Red "
     >
-      <form onSubmit={handleSubmit} className=" max-sm:grow">
+      <form onSubmit={handleSubmit} className=" grow">
         <Card>
           <CardHeader>
-            <CardTitle>NEW FIXTURE</CardTitle>
+            <CardTitle className="font-bold text-2xl">NEW FIXTURE</CardTitle>
             <CardDescription>Fill Out To Create Fixture</CardDescription>
           </CardHeader>
 
@@ -207,7 +207,7 @@ export const UpdateFixtureMatch = ({
     const results = await response.json();
     if (results.success) {
       toast.success(results.message);
-      fireEscape();
+      fireDoubleEscape();
     } else toast.error(results.message);
 
     setWaiting(false);
@@ -221,8 +221,8 @@ export const UpdateFixtureMatch = ({
 
   return (
     <DIALOG
-      closeId={fx._id}
-      trigger={<Button className="text-teal-600" primaryText="Edit" />}
+      id={fx._id}
+      trigger={"Edit"}
       title={"UPDATE FIXTURE"}
       className="bg-popover"
       description={` ${home?.name} vs ${away?.name}`.toUpperCase()}

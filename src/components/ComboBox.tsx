@@ -95,14 +95,14 @@ export function COMBOBOX({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={`w-50 justify-between ${className}`}
+          className={` justify-between grow ${className}`}
         >
           {selectedLabel}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-50 p-0">
+      <PopoverContent className=" p-0">
         <Command>
           <CommandInput placeholder="Search option..." className="h-9" />
 

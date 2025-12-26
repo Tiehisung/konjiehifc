@@ -33,16 +33,6 @@ const managerSchema = new Schema(
     role: {
       type: String,
       required: true,
-      enum: [
-        "Technical Manager",
-        "Coach",
-        "Assistant Coach",
-        "Goalkeeper Coach",
-        "Fitness Coach",
-        "Analyst",
-        "Founder",
-        "Co-Founder"
-      ],
     },
     isActive: { type: Boolean, default: true },
   },

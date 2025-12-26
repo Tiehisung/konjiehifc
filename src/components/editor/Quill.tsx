@@ -4,10 +4,7 @@ import type React from "react";
 import { useEffect, useRef, useState } from "react";
 // If you installed quill@1.3.7, this import should work:
 import "quill/dist/quill.snow.css";
-// If you still have problems importing the css with Turbopack,
-// copy node_modules/quill/dist/quill.snow.css -> styles/quill.snow.css
-// and replace the import above with:
-// import "@/styles/quill.snow.css";
+ 
 
 import type Quill from "quill";
 
@@ -259,7 +256,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
       // Clean up Quill instance and any attached listeners
       try {
         if (quillRef.current) {
-          //@ts-expect-error off is showing ts error
+        
           quillRef.current.off && quillRef.current.off("text-change");
           // attempt to remove DOM toolbar if it exists
           const tb = toolbarRef.current;
@@ -302,7 +299,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
       )}
       <div className="border border-gray-300 rounded-xl overflow-hidden bg-white">
         {/* Placeholder div: we replaced this node with Quill's DOM during init */}
-        <div ref={editorRef} className="min-h-[120px] min-w-[500px] px-2" />
+        <div ref={editorRef} className="min-h-30 min-w-125 px-2" />
       </div>
     </div>
   );

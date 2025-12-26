@@ -7,14 +7,11 @@ import { useState } from "react";
 import { getErrorMessage } from "@/lib";
 import { ISelectOptionLV } from "@/types";
 import { DateTimeInput, IconInputWithLabel } from "@/components/input/Inputs";
-import Select from "react-select";
-import { customStyles } from "@/styles";
 import { IManager } from "./page";
 import { Button } from "@/components/buttons/Button";
 import ImageUploaderCldWidget from "@/components/cloudinary/AvatarUploadWidget";
 import { staticImages } from "@/assets/images";
-import { PrimarySelect } from "@/components/select/Select";
-// import { COMBOBOX } from "@/components/ComboBox";
+import { COMBOBOX } from "@/components/ComboBox";
 
 export default function TechnicalManagerForm({
   existingManager,
@@ -165,7 +162,7 @@ export default function TechnicalManagerForm({
               Assigned Role: <strong>{existingManager?.role ?? ""}</strong>
             </p>
 
-            {/* <COMBOBOX
+            <COMBOBOX
               placeholder="Role"
               name="role"
               options={availableRoles}
@@ -176,21 +173,18 @@ export default function TechnicalManagerForm({
                 }));
               }}
               className="w-full h-10 "
-            /> */}
+            />
           </div>
         </section>
 
-        <section>
-          <br />
-          <Button
-            type="submit"
-            waiting={waiting}
-            waitingText={"Please wait..."}
-            disabled={waiting}
-            primaryText={"Submit"}
-            className="_primaryBtn px-12 h-10 py-1 w-full justify-center mt-12"
-          />
-        </section>
+        <Button
+          type="submit"
+          waiting={waiting}
+          waitingText={"Please wait..."}
+          disabled={waiting}
+          primaryText={"Submit"}
+          className=" px-12 h-10 py-1 w-full justify-center mt-12"
+        />
       </form>
     </div>
   );

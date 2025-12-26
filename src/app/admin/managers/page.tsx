@@ -24,7 +24,7 @@ export const getManagers = async (query?: string) => {
 const TechnicalManagersPage = async () => {
   const managers: IQueryResponse<IManager[]> = await getManagers();
   const roles: IFeature<ISelectOptionLV[]> = await getFeatureByName(
-    "manager_roles"
+    "technical management"
   );
 
   console.log({ roles });
