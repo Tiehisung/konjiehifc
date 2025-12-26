@@ -2,9 +2,9 @@ import { getErrorMessage, removeEmptyKeys } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import { NextRequest, NextResponse } from "next/server";
 import { logAction } from "../logs/helper";
-import { IUser } from "@/types/user";
 import FeatureModel from "@/models/feature";
-import { FilterQuery } from "mongoose";
+import { QueryFilter } from "mongoose";
+import { ELogSeverity } from "@/types/log";
 
 
 ConnectMongoDb();
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 
     const regex = new RegExp(search, "i");
 
-    const query = { } as FilterQuery<unknown>
+    const query = {} as QueryFilter<unknown>
 
     if (search) query.$or = [{ "name": regex },]
 
@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
     try {
-        const { name, data, user } = await request.json();
+        const { name, data, } = await request.json();
 
         const exists = await FeatureModel.findOne({ name: new RegExp(name, 'i') })
 
@@ -59,12 +59,9 @@ export async function POST(request: NextRequest) {
 
         // log
         await logAction({
-            title: "Feature Created",
-            description: `New data feature created by ${user?.name ?? 'Admin'}`,
-            category: "db",
-            severity: "info",
-            user: user as IUser,
-
+            title: `Feature Created - ${name}`,
+            description: `New data feature created  `,
+            meta: data
         });
         return NextResponse.json({ message: "Feature created successfully!", success: true, data: savedFeature });
 
@@ -77,16 +74,14 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest,) {
-    const { user, _id, data } = await request.json()
+    const { _id, data } = await request.json()
 
     const updated = await FeatureModel.findByIdAndUpdate(_id, { $set: { data } })
 
     await logAction({
         title: "Feature Updated",
-        description: `Feature updated by ${user?.name ?? 'Admin'}`,
-        category: "db",
-        severity: "info",
-        user: user as IUser,
+        description: JSON.stringify(data),
+        meta: data
     });
     return NextResponse.json({
         success: true,
@@ -97,21 +92,19 @@ export async function PUT(request: NextRequest,) {
 
 export async function DELETE(request: NextRequest) {
 
-    const { user, _id: featureId } = await request.json()
+    const { _id: featureId } = await request.json()
 
-    console.log({ featureId })
-    const updated = await FeatureModel.findByIdAndDelete(featureId)
+
+    const deleted = await FeatureModel.findByIdAndDelete(featureId)
 
     await logAction({
-        title: "Feature deleted",
-        description: `Feature deleted by ${user?.name ?? 'Admin'}`,
-        category: "db",
-        severity: "info",
-        user: user as IUser,
+        title: "Feature deleted - " + deleted?.name,
+        description: JSON.stringify(deleted),
+        severity: ELogSeverity.CRITICAL, meta: deleted
     });
     return NextResponse.json({
         success: true,
-        data: updated,
+        data: deleted,
         message: 'Feature Deleted'
     });
 }

@@ -6,7 +6,6 @@ import { FormEvent, useState } from "react";
 import { apiConfig } from "@/lib/configs";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { getErrorMessage } from "@/lib";
 import { fireEscape } from "@/hooks/Esc";
 import { ISelectOptionLV } from "@/types";
@@ -27,7 +26,6 @@ interface IProps {
 
 export function FeatureForm({ feature }: IProps) {
   const router = useRouter();
-  const session = useSession();
 
   const [waiting, setWaiting] = useState(false);
   const [isEditing, setIsEditing] = useState(!feature);
@@ -44,7 +42,6 @@ export function FeatureForm({ feature }: IProps) {
         headers: { "Content-Type": "application/json" },
         cache: "no-cache",
         body: JSON.stringify({
-          user: session?.data?.user,
           name: name,
           data: featureData,
           _id: feature?._id,
@@ -85,7 +82,8 @@ export function FeatureForm({ feature }: IProps) {
               name={"new-name"}
               placeholder="Feature Name"
               value={name}
-              onChange={(e) => setName(e.target.value)} required
+              onChange={(e) => setName(e.target.value)}
+              required
             />
           )}
           {feature && (
@@ -97,7 +95,8 @@ export function FeatureForm({ feature }: IProps) {
                 setIsEditing((p) => !p);
               }}
               primaryText={isEditing ? "Restore" : "Edit"}
-              className="text-primaryBlue _hover px-1"
+              className="  _hover px-1"
+              variant={"outline"}
             />
           )}
         </header>
@@ -167,7 +166,6 @@ export function FeatureForm({ feature }: IProps) {
               waiting={waiting}
               waitingText="Saving..."
               className="grow justify-center"
-              variant="primary"
               type="submit"
             />
           )}

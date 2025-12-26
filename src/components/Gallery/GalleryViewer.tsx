@@ -16,7 +16,7 @@ export function GalleryViewer({ gallery ,title}: IProps) {
   const isMobile = useIsMobile("md");
   return (
     <SideDrawer
-      triggerId={gallery?._id as string}
+      id={gallery?._id as string}
       trigger={undefined}
       side="bottom"
       triggerStyles="hidden"

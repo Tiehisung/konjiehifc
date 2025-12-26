@@ -34,7 +34,7 @@ export default async function FolderPage({ searchParams, params }: IProps) {
   );
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
 
-  console.log({ folderName, docs });
+ 
 
   return (
     <div className="_page px-4">

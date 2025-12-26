@@ -53,12 +53,7 @@ export function DocumentUploader({
   }>({
     uri: `${apiConfig.docs}/metrics`,
   });
-
-  console.log({ folderMetrics });
-
-  // useEffect(() => {
-  //   if (defaultFolder) setSelectedFolder(defaultFolder);
-  // }, [defaultFolder]);
+ 
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {

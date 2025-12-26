@@ -6,11 +6,7 @@ import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import Loader from "@/components/loaders/Loader";
 import { IQueryResponse } from "@/types";
 import { buildQueryStringServer } from "@/lib";
-
-export const metadata = {
-  title: "Teams | KFC",
-  description: "KFC Teams page to manage teams",
-};
+ 
 
 export const getTeams = async (teamId?: string) => {
   try {

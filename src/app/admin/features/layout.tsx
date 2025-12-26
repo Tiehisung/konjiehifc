@@ -1,6 +1,6 @@
 import { LinkTabs } from "@/components/Tabs";
 import { Metadata } from "next";
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "Features | KFC",

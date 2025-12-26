@@ -27,7 +27,7 @@ export function fireEscape(target: HTMLElement | Document = document) {
   );
 }
 
-export function fireDoubleEscape(time: number = 200) {
+export function fireDoubleEscape(time: number = 400) {
   fireEscape();
   setTimeout(() => {
     fireEscape();

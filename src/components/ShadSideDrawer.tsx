@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Button } from "./ui/button";
+import { Button, TButtonSize, TButtonVariant } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "./ui/sheet";
 import { Menu } from "lucide-react";
 
@@ -9,7 +9,9 @@ interface IDrawer {
   triggerStyles?: string;
   className?: string;
   side?: "top" | "right" | "bottom" | "left";
-  triggerId?: string;
+  id?: string;
+  variant?: TButtonVariant;
+  size?: TButtonSize;
 }
 
 export function SideDrawer({
@@ -18,14 +20,17 @@ export function SideDrawer({
   triggerStyles = "",
   children,
   className = "",
-  triggerId,
+  id,
+  size,
+  variant,
 }: IDrawer) {
   return (
     <Sheet>
-      <SheetTrigger asChild id={triggerId}>
+      <SheetTrigger asChild id={id} className={` ${!trigger ? "sr-only" : ""}`}>
         <Button
-          variant="outline"
-          className={` ${triggerStyles} cursor-pointer `}
+          variant={variant}
+          size={size}
+          className={` ${triggerStyles} cursor-pointer`}
         >
           {trigger}
         </Button>
@@ -34,7 +39,7 @@ export function SideDrawer({
         side={side}
         className={` overflow-y-auto max-h-[85vh] ${className}`}
       >
-        <SheetTitle className="h-[1px] invisible"></SheetTitle>
+        <SheetTitle className="h-px invisible"></SheetTitle>
         {children}
       </SheetContent>
     </Sheet>

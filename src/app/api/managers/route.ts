@@ -2,9 +2,9 @@ import { getErrorMessage, removeEmptyKeys } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import ManagerModel from "@/models/manager";
 import { IRecord } from "@/types";
+import { QueryFilter } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
-// export const revalidate = 0;
-// export const dynamic = "force-dynamic";
+ 
 
 ConnectMongoDb();
 export async function GET(request: NextRequest) {
@@ -19,9 +19,9 @@ export async function GET(request: NextRequest) {
 
   const regex = new RegExp(search, "i");
 
-  let query: IRecord = {}
+  let query: QueryFilter<unknown> = {}
 
-  if (isActive) query.isActive = true
+  if (isActive) query['isActive'] = true
 
   if (search) query = {
     $or: [

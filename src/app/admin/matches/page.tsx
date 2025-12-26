@@ -1,6 +1,5 @@
 import { apiConfig } from "@/lib/configs";
 import { DisplayFixtures } from "./DisplayFixtures";
-import CreateMatch from "./CreateFixture";
 import { getTeams } from "../features/teams/page";
 import {
   IMatchProps,
@@ -13,6 +12,8 @@ import Header from "../../../components/Element";
 import { getPlayers } from "../players/page";
 import { getManagers, IManager } from "../managers/page";
 import { IPlayer } from "@/app/players/page";
+import { QuickLinks } from "@/components/QuickLinks/LinkOrSectionId";
+import { Separator } from "@/components/ui/separator";
 
 export interface IGetMatchesProps {
   status?: MatchStatus;
@@ -59,19 +60,49 @@ export default async function AdminFixtures({ searchParams }: IPageProps) {
   const managers: IQueryResponse<IManager[]> = await getManagers();
 
   return (
-    <section className="pb-6 pt-10 px-3 _page">
+    <section className="">
       <Header title="FIXTURES & SCORES" subtitle="Manage Fixtures" />
-      <DisplayFixtures
-        fixtures={fixtures}
-        teams={teams?.data}
-        managers={managers?.data}
-        players={players?.data}
-      />
+      <main className="_page pb-6 pt-10 ">
+        <DisplayFixtures
+          fixtures={fixtures}
+          teams={teams?.data}
+          managers={managers?.data}
+          players={players?.data}
+        />
 
-      <div className=" py-14 ">
-        <h1 className="_title">Create Fixture</h1>
-        <CreateMatch teams={teams?.data} />
-      </div>
+        <Separator />
+        
+        <h2 className="mt-8 mb-4">Quick Links</h2>
+
+        <QuickLinks
+          links={[
+            {
+              title: "Match Request ",
+              href: "/admin/matches/request",
+              description: "Generate match request letter",
+            },
+            {
+              title: "Create Fixture ",
+              href: "/admin/matches/create-fixture",
+              description: "Add new match fixture",
+            },
+            {
+              title: "Friendly Templates",
+              sectionId: "friendly",
+              description: "Jump to friendly templates section",
+            },
+            {
+              title: "Competition Templates",
+              sectionId: "competition",
+            },
+          ]}
+          className="my-5"
+        />
+
+        {/* Example sections in the page */}
+        <section id="friendly">Friendly Templates Section</section>
+        <section id="competition">Competition Templates Section</section>
+      </main>
     </section>
   );
 }
