@@ -2,10 +2,12 @@
 
 import QuillEditor from "@/components/editor/Quill";
 import { useEffect, useState } from "react";
-import { generateMatchRequestTemplates, ITemplate } from "./_templates";
+import { generateMatchRequestTemplates } from "./_templates";
 import useGetParam from "@/hooks/params";
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { IManager } from "../../managers/page";
+import { TemplatesSelector } from "./TemplatesSelectorModal";
+
 interface IProps {
   match: IMatchProps;
   official: { requester: IManager };
@@ -25,15 +27,24 @@ export function MatchRequestForm({ match, official }: IProps) {
       if (template) setLetterForm({ ...template });
     }
   }, [templateId]);
+
   return (
     <div>
-      <h1 className="_title">Write Request Letter</h1>
+      <header className="flex items-center justify-between gap-4">
+        <h1 className="_title">Write Request Letter</h1>
+        <TemplatesSelector
+          match={match}
+          official={official}
+          modal
+          modalVariant={"outline"}
+        />
+      </header>
       <QuillEditor
         value={letterForm.body || ""}
         onChange={(text) => {
           setLetterForm((p) => ({ ...p, body: text }));
         }}
-        className="w-full"
+        className="w-full "
         placeholder="Type request letter here..."
       />
     </div>

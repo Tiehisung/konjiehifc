@@ -4,6 +4,7 @@ import { ITemplate } from "./_templates";
 import { Button } from "@/components/buttons/Button";
 import { CgArrowLongRight } from "react-icons/cg";
 
+
 interface TemplateItemProps {
   template?: ITemplate;
   className?: string;
@@ -28,13 +29,13 @@ const TemplateCard: React.FC<TemplateItemProps> = ({
 
         <div className="p-6">
           <div className="text-center mb-8">
-            <h2 className="text-xl font-bold mb-2 capitalize">
-              {template?.title}
-            </h2>
-            <p className="text-muted-foreground text-sm mb-4">{template?.tag}</p>
+            <h2 className="text-xl font-bold mb-2">{template?.title}</h2>
+            <p className="text-muted-foreground text-sm mb-4 capitalize">
+              {template?.tag}
+            </p>
           </div>
 
-          <div dangerouslySetInnerHTML={{ __html: template?.body ?? "" }} className="grow"/>
+          <div dangerouslySetInnerHTML={{ __html: template?.body ?? "" }} />
 
           <Button
             onClick={() => onClick(template as ITemplate)}

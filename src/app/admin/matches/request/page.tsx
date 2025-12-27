@@ -2,18 +2,27 @@ import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { IQueryResponse } from "@/types";
 import { getMatches } from "../page";
 import { getManagers, IManager } from "../../managers/page";
-import { TemplatesSelector } from "./TemplatesSelectorModal";
 import { MatchRequestForm } from "./LetterForm";
-import { PrimarySearch } from "@/components/Search";
-import { SideDrawer } from "@/components/ShadSideDrawer";
+import { auth } from "@/auth";
+import { teamKFC } from "@/data/teams";
 
 const MatchRequestPage = async () => {
+  const session = await auth();
   const matches: IQueryResponse<IMatchProps[]> = await getMatches(
     "?status=UPCOMING"
   );
-  const managers: IQueryResponse<IManager[]> = await getManagers();
 
-  console.log({ matches, managers });
+  const managers: IQueryResponse<IManager[]> = await getManagers(
+    "?manager_search=" + session?.user?.email
+  );
+
+  const requester =
+    managers?.data?.[0] ??
+    ({
+      fullname: session?.user?.name,
+      role: "KonFC Official",
+      phone: teamKFC?.contact,
+    } as IManager);
 
   return (
     <div>
@@ -21,31 +30,9 @@ const MatchRequestPage = async () => {
         <MatchRequestForm
           match={matches?.data?.[0] as IMatchProps}
           official={{
-            requester: {
-              fullname: "Soskode",
-              role: "Coach",
-              phone: "0209282928",
-            } as IManager,
+            requester,
           }}
         />
-        <SideDrawer
-          trigger="Choose Template"
-          className="p-[2vw]"
-          header={<PrimarySearch />}
-          side="bottom"
-          roundedTop
-        >
-          <TemplatesSelector
-            match={matches?.data?.[0] as IMatchProps}
-            official={{
-              requester: {
-                fullname: "Soskode",
-                role: "Coach",
-                phone: "0209282928",
-              } as IManager,
-            }}
-          />
-        </SideDrawer>
       </main>
     </div>
   );
