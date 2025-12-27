@@ -2,10 +2,10 @@ import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { IQueryResponse } from "@/types";
 import { getMatches } from "../page";
 import { getManagers, IManager } from "../../managers/page";
-import { DIALOG } from "@/components/Dialog";
-import BottomSheetModal from "@/components/modals/BottomSheet";
 import { TemplatesSelector } from "./TemplatesSelectorModal";
 import { MatchRequestForm } from "./LetterForm";
+import { PrimarySearch } from "@/components/Search";
+import { SideDrawer } from "@/components/ShadSideDrawer";
 
 const MatchRequestPage = async () => {
   const matches: IQueryResponse<IMatchProps[]> = await getMatches(
@@ -28,7 +28,13 @@ const MatchRequestPage = async () => {
             } as IManager,
           }}
         />
-        <BottomSheetModal trigger="Choose Template" className="p-[2vw]">
+        {/* <SideDrawer
+          trigger="Choose Template"
+          className="p-[2vw]"
+          header={<PrimarySearch />}
+          side="bottom"
+          roundedTop
+        >
           <TemplatesSelector
             match={matches?.data?.[0] as IMatchProps}
             official={{
@@ -39,19 +45,7 @@ const MatchRequestPage = async () => {
               } as IManager,
             }}
           />
-        </BottomSheetModal>
-        <DIALOG trigger={"Choose Template"} className="min-w-[90vw]">
-          <TemplatesSelector
-            match={matches?.data?.[0] as IMatchProps}
-            official={{
-              requester: {
-                fullname: "Soskode",
-                role: "Coach",
-                phone: "0209282928",
-              } as IManager,
-            }}
-          />
-        </DIALOG>{" "}
+        </SideDrawer> */}
       </main>
     </div>
   );

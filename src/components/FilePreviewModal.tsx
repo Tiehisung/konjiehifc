@@ -1,10 +1,10 @@
 "use client";
 
-import BottomSheetModal from "./modals/BottomSheet";
 import { ReactNode } from "react";
 import Image from "next/image";
 import { useGetViewportWidth } from "@/hooks/windowXY";
 import { getFileExtension, openFileInTab } from "@/lib/file";
+import { SideDrawer } from "./ShadSideDrawer";
 
 const FilePreviewModal = ({
   url,
@@ -39,7 +39,7 @@ const FilePreviewModal = ({
     );
   }
   return (
-    <BottomSheetModal
+    <SideDrawer
       id={`${url}`}
       trigger={
         <span
@@ -50,6 +50,7 @@ const FilePreviewModal = ({
         </span>
       }
       className={`relative ${modalClassName}`}
+      side="bottom"
     >
       {type == "image" && (
         <Image
@@ -69,7 +70,7 @@ const FilePreviewModal = ({
           />
         </>
       )}
-    </BottomSheetModal>
+    </SideDrawer>
   );
 };
 

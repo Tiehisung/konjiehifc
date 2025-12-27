@@ -21,23 +21,23 @@ export const friendlyTemplates = (match: IMatchProps, official: { requester: IMa
             title: "Standard Friendly Request",
             tag: "friendly",
             body: `
-<p>Dear <b>${opponentName}</b>,</p>
+            <div>Dear <b>${opponentName}</b>,</div>
 
-<p>We would like to request a friendly match between <b>${homeName}</b> and <b>${awayName}</b>.</p>
+            <div>We would like to request a friendly match between <b>${homeName}</b> and <b>${awayName}</b>.</div>
 
-<ul>
-<li><b>Fixture:</b> ${homeName} vs ${awayName}</li>
-<li><b>Date:</b> ${date}</li>
-<li><b>Venue:</b> ${venue}</li>
-</ul>
+            <ul>
+            <li><b>Fixture:</b> ${homeName} vs ${awayName}</li>
+            <li><b>Date:</b> ${date}</li>
+            <li><b>Venue:</b> ${venue}</li>
+            </ul>
 
-<p>We believe this fixture would be beneficial for both teams in terms of preparation and development.</p>
+            <div>We believe this fixture would be beneficial for both teams in terms of preparation and development.</div>
 
-<p>Kind regards,<br/>
-<b>${official?.requester?.fullname}</b><br/>
-${official?.requester?.phone}<br/>
-${kfc.name}</p>
-            `.trim(),
+            <div>Kind regards,<br/>
+            <b>${official?.requester?.fullname}</b><br/>
+            ${official?.requester?.phone}<br/>
+            ${kfc.name}</div>
+                        `.trim(),
         },
 
         {
@@ -45,21 +45,21 @@ ${kfc.name}</p>
             title: "Pre-Season Friendly",
             tag: "friendly",
             body: `
-<p>Dear <b>${opponentName}</b>,</p>
+            <div>Dear <b>${opponentName}</b>,</div>
 
-<p>As part of our pre-season preparations, <b>${homeName}</b> would like to arrange a friendly match against <b>${awayName}</b>.</p>
+            <div>As part of our pre-season preparations, <b>${homeName}</b> would like to arrange a friendly match against <b>${awayName}</b>.</div>
 
-<ul>
-<li><b>Fixture:</b> ${homeName} vs ${awayName}</li>
-<li><b>Preferred Date:</b> ${date}</li>
-<li><b>Venue:</b> ${venue}</li>
-</ul>
+            <ul>
+            <li><b>Fixture:</b> ${homeName} vs ${awayName}</li>
+            <li><b>Preferred Date:</b> ${date}</li>
+            <li><b>Venue:</b> ${venue}</li>
+            </ul>
 
-<p>Please let us know if your team is available.</p>
+            <div>Please let us know if your team is available.</div>
 
-<p>Best regards,<br/>
-${kfc.name}</p>
-            `.trim(),
+            <div>Best regards,<br/>
+            ${kfc.name}</div>
+                        `.trim(),
         },
 
         {
@@ -67,21 +67,21 @@ ${kfc.name}</p>
             title: "Mid-Season Friendly",
             tag: "friendly",
             body: `
-<p>Dear <b>${opponentName}</b>,</p>
+<div>Dear <b>${opponentName}</b>,</div>
 
-<p>We are interested in scheduling a mid-season friendly between <b>${homeName}</b> and <b>${awayName}</b>.</p>
+<div>We are interested in scheduling a mid-season friendly between <b>${homeName}</b> and <b>${awayName}</b>.</div>
 
 <ul>
 <li><b>Fixture:</b> ${homeName} vs ${awayName}</li>
 <li><b>Date:</b> ${date}</li>
 </ul>
 
-<p>This would be a valuable opportunity for squad rotation and tactical testing.</p>
+<div>This would be a valuable opportunity for squad rotation and tactical testing.</div>
 
-<p>Sincerely,<br/>
+<div>Sincerely,<br/>
 <b>${official?.requester?.fullname}</b><br/>
 ${official?.requester?.phone}<br/>
-${kfc.name}</p>
+${kfc.name}</div>
             `.trim(),
         },
 
@@ -90,9 +90,9 @@ ${kfc.name}</p>
             title: "Home Friendly Invitation",
             tag: "friendly",
             body: `
-<p>Dear <b>${opponentName}</b>,</p>
+<div>Dear <b>${opponentName}</b>,</div>
 
-<p>We would like to invite <b>${awayName}</b> to play a friendly match against <b>${homeName}</b> at our home ground.</p>
+<div>We would like to invite <b>${awayName}</b> to play a friendly match against <b>${homeName}</b> at our home ground.</div>
 
 <ul>
 <li><b>Fixture:</b> ${homeName} vs ${awayName}</li>
@@ -100,12 +100,12 @@ ${kfc.name}</p>
 <li><b>Venue:</b> ${venue}</li>
 </ul>
 
-<p>We look forward to your response.</p>
+<div>We look forward to your response.</div>
 
-<p>Warm regards,<br/>
+<div>Warm regards,<br/>
 <b>${official?.requester?.fullname}</b><br/>
 ${official?.requester?.phone}<br/>
-${kfc.name}</p>
+${kfc.name}</div>
             `.trim(),
         },
 
@@ -114,21 +114,21 @@ ${kfc.name}</p>
             title: "Away Friendly Request",
             tag: "friendly",
             body: `
-<p>Dear <b>${opponentName}</b>,</p>
+<div>Dear <b>${opponentName}</b>,</div>
 
-<p><b>${homeName}</b> would like to request an away friendly match against <b>${awayName}</b> at your venue.</p>
+<div><b>${homeName}</b> would like to request an away friendly match against <b>${awayName}</b> at your venue.</div>
 
 <ul>
 <li><b>Proposed Date:</b> ${date}</li>
 <li><b>Venue:</b> ${venue}</li>
 </ul>
 
-<p>Please let us know if you are able to host this fixture.</p>
+<div>Please let us know if you are able to host this fixture.</div>
 
-<p>Best wishes,<br/>
+<div>Best wishes,<br/>
 <b>${official?.requester?.fullname}</b><br/>
 ${official?.requester?.phone}<br/>
-${kfc.name}</p>
+${kfc.name}</div>
             `.trim(),
         },
 
@@ -137,21 +137,21 @@ ${kfc.name}</p>
             title: "Development Friendly",
             tag: "friendly",
             body: `
-<p>Dear <b>${opponentName}</b>,</p>
+<div>Dear <b>${opponentName}</b>,</div>
 
-<p>We would like to organize a development-focused friendly match between <b>${homeName}</b> and <b>${awayName}</b>.</p>
+<div>We would like to organize a development-focused friendly match between <b>${homeName}</b> and <b>${awayName}</b>.</div>
 
 <ul>
 <li><b>Date:</b> ${date}</li>
 <li><b>Venue:</b> ${venue}</li>
 </ul>
 
-<p>This will support player development and squad depth.</p>
+<div>This will support player development and squad depth.</div>
 
-<p>Kind regards,<br/>
+<div>Kind regards,<br/>
 <b>${official?.requester?.fullname}</b><br/>
 ${official?.requester?.phone}<br/>
-${kfc.name}</p>
+${kfc.name}</div>
             `.trim(),
         },
 
@@ -160,21 +160,21 @@ ${kfc.name}</p>
             title: "Training Friendly",
             tag: "friendly",
             body: `
-<p>Dear <b>${opponentName}</b>,</p>
+<div>Dear <b>${opponentName}</b>,</div>
 
-<p>As part of our training schedule, <b>${homeName}</b> would like to play a friendly match against <b>${awayName}</b>.</p>
+<div>As part of our training schedule, <b>${homeName}</b> would like to play a friendly match against <b>${awayName}</b>.</div>
 
 <ul>
 <li><b>Date:</b> ${date}</li>
 <li><b>Venue:</b> ${venue}</li>
 </ul>
 
-<p>Please advise if your team is available.</p>
+<div>Please advise if your team is available.</div>
 
-<p>Best regards,<br/>
+<div>Best regards,<br/>
 <b>${official?.requester?.fullname}</b><br/>
 ${official?.requester?.phone}<br/>
-${kfc.name}</p>
+${kfc.name}</div>
             `.trim(),
         },
 
@@ -183,21 +183,21 @@ ${kfc.name}</p>
             title: "Friendly Match Confirmation Request",
             tag: "friendly",
             body: `
-<p>Dear <b>${opponentName}</b>,</p>
+<div>Dear <b>${opponentName}</b>,</div>
 
-<p>We would like to confirm your availability for a friendly match between <b>${homeName}</b> and <b>${awayName}</b>.</p>
+<div>We would like to confirm your availability for a friendly match between <b>${homeName}</b> and <b>${awayName}</b>.</div>
 
 <ul>
 <li><b>Date:</b> ${date}</li>
 <li><b>Venue:</b> ${venue}</li>
 </ul>
 
-<p>We appreciate your reply at your earliest convenience.</p>
+<div>We appreciate your reply at your earliest convenience.</div>
 
-<p>Sincerely,<br/>
+<div>Sincerely,<br/>
 <b>${official?.requester?.fullname}</b><br/>
 ${official?.requester?.phone}<br/>
-${kfc.name}</p>
+${kfc.name}</div>
             `.trim(),
         },
 
@@ -206,21 +206,21 @@ ${kfc.name}</p>
             title: "Community Friendly",
             tag: "friendly",
             body: `
-<p>Dear <b>${opponentName}</b>,</p>
+<div>Dear <b>${opponentName}</b>,</div>
 
-<p>We would love to arrange a friendly match between <b>${homeName}</b> and <b>${awayName}</b> as a community-focused fixture.</p>
+<div>We would love to arrange a friendly match between <b>${homeName}</b> and <b>${awayName}</b> as a community-focused fixture.</div>
 
 <ul>
 <li><b>Date:</b> ${date}</li>
 <li><b>Venue:</b> ${venue}</li>
 </ul>
 
-<p>This will be a great opportunity to engage supporters and promote local football.</p>
+<div>This will be a great opportunity to engage supporters and promote local football.</div>
 
-<p>Warm regards,<br/>
+<div>Warm regards,<br/>
 <b>${official?.requester?.fullname}</b><br/>
 ${official?.requester?.phone}<br/>
-${kfc.name}</p>
+${kfc.name}</div>
             `.trim(),
         },
 
@@ -229,21 +229,21 @@ ${kfc.name}</p>
             title: "Friendly Match Proposal",
             tag: "friendly",
             body: `
-<p>Dear <b>${opponentName}</b>,</p>
+<div>Dear <b>${opponentName}</b>,</div>
 
-<p>On behalf of <b>${homeName}</b>, we propose a friendly match against <b>${awayName}</b>.</p>
+<div>On behalf of <b>${homeName}</b>, we propose a friendly match against <b>${awayName}</b>.</div>
 
 <ul>
 <li><b>Proposed Date:</b> ${date}</li>
 <li><b>Preferred Venue:</b> ${venue}</li>
 </ul>
 
-<p>Please let us know if this works for your club.</p>
+<div>Please let us know if this works for your club.</div>
 
-<p>Yours sincerely,<br/>
+<div>Yours sincerely,<br/>
 <b>${official?.requester?.fullname}</b><br/>
 ${official?.requester?.phone}<br/>
-${kfc.name}</p>
+${kfc.name}</div>
             `.trim(),
         },
     ];

@@ -18,12 +18,10 @@ const TemplateCard: React.FC<TemplateItemProps> = ({
   return (
     <>
       <div
-        className={`group relative bg-card rounded-2xl shadow-lg overflow-hidden flex flex-col justify-between ${
-          template?.isPopular ? "ring-2 ring-ring" : ""
-        } ${className}`}
+        className={`group relative bg-card rounded-2xl shadow-lg overflow-hidden flex flex-col justify-between ${className}`}
       >
         {template?.isPopular && (
-          <div className="absolute top-0 right-0 bg-primary px-4 py-1 rounded-bl-lg text-sm font-medium">
+          <div className="absolute top-0 right-0 bg-primary text-Orange px-4 py-1 rounded-bl-lg text-sm font-medium">
             Popular
           </div>
         )}

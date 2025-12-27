@@ -11,10 +11,20 @@ import { replayTemplates } from "./replay"
 export interface ITemplate {
     id: string;
     title: string;
-    tag: string;
+    tag?: ETemplateTag | string;
     body: string;
-    isPopular?:boolean
+    isPopular?: boolean
 }
+
+export enum ETemplateTag {
+    FRIENDLY = 'friendly',
+    COMPETITION = 'competition',
+    TRAINING = 'training',
+    YOUTH = 'youth',
+    TOURNAMENT = 'tournament',
+    REPLAY = 'replay',
+}
+
 export function generateMatchRequestTemplates(
     match: IMatchProps, official: { requester: IManager }
 ): ITemplate[] {
