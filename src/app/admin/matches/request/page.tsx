@@ -28,7 +28,7 @@ const MatchRequestPage = async () => {
             } as IManager,
           }}
         />
-        {/* <SideDrawer
+        <SideDrawer
           trigger="Choose Template"
           className="p-[2vw]"
           header={<PrimarySearch />}
@@ -45,7 +45,7 @@ const MatchRequestPage = async () => {
               } as IManager,
             }}
           />
-        </SideDrawer> */}
+        </SideDrawer>
       </main>
     </div>
   );
