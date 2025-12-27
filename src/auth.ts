@@ -8,7 +8,6 @@ import bcrypt from "bcryptjs";
 import { toast } from "sonner";
 import { getErrorMessage } from "./lib";
 
-ConnectMongoDb();
 export const { auth, handlers, signIn, signOut } = NextAuth({
     providers: [
         Google({
@@ -22,8 +21,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             //     },
             // },
             async profile(profile) {
-
-
+                ConnectMongoDb();
                 let user = await UserModel.findOne({ email: profile.email });
 
                 if (!user) {
@@ -70,6 +68,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             },
             async authorize(credentials) {
                 try {
+                    ConnectMongoDb();
                     const foundAdmin = (await UserModel.findOne({
                         email: credentials?.email,
                     })
@@ -129,13 +128,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         error: "/auth/error",
         signIn: "/auth/login",
     },
+    session: {
+        maxAge: 86400
+    }
 });
 
-export const allowedUsers = [
-    'isoskode@gmail.com',
-    'soskode.ai@gmail.com',
-    'tiehisungai@gmail.com',
-    '20021992ai@gmail.com',
-    'konjiehifc@gmail.com',
-
-]

@@ -34,6 +34,7 @@ import { ISquad } from "./page";
 import { formatDate, getTimeLeftOrAgo } from "@/lib/timeAndDate";
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { playerPositions } from "@/data/players";
+
 interface IProps {
   players?: IPlayer[];
   managers?: IManager[];
@@ -249,7 +250,7 @@ const NewSquad = ({
                     <tr
                       key={player._id}
                       className={`border-b border-border transition-colors ${
-                        isSelected ? "bg-green-50 dark:bg-green-950/20" : ""
+                        isSelected ? "bg-popover" : ""
                       }`}
                     >
                       <td className="py-3 px-4 font-semibold uppercase">
@@ -261,7 +262,10 @@ const NewSquad = ({
                               !isSelected
                             )
                           }
-                          className="bg-transparent hover:opacity-90"
+
+                          className="bg-transparent hover:opacity-90 rounded-none"
+
+                          variant={isSelected ? "default" : "ghost"}
                         >
                           {isSelected ? (
                             <MdCheckBox

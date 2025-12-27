@@ -1,6 +1,12 @@
 import type { ReactNode } from "react";
 import { Button, TButtonSize, TButtonVariant } from "./ui/button";
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "./ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+  SheetHeader,
+} from "./ui/sheet";
 import { Menu } from "lucide-react";
 
 interface IDrawer {
@@ -12,6 +18,8 @@ interface IDrawer {
   id?: string;
   variant?: TButtonVariant;
   size?: TButtonSize;
+  header?: ReactNode;
+  roundedTop?: boolean;
 }
 
 export function SideDrawer({
@@ -23,6 +31,8 @@ export function SideDrawer({
   id,
   size,
   variant,
+  header,
+  roundedTop,
 }: IDrawer) {
   return (
     <Sheet>
@@ -35,12 +45,13 @@ export function SideDrawer({
           {trigger}
         </Button>
       </SheetTrigger>
-      <SheetContent
-        side={side}
-        className={` overflow-y-auto max-h-[85vh] ${className}`}
-      >
-        <SheetTitle className="h-px invisible"></SheetTitle>
-        {children}
+      <SheetContent side={side} className={roundedTop ? "rounded-t-2xl" : ""}>
+        <SheetHeader>
+          <SheetTitle>{header}</SheetTitle>
+        </SheetHeader>
+        <div className={` overflow-y-auto max-h-[85vh] ${className}`}>
+          {children}
+        </div>
       </SheetContent>
     </Sheet>
   );

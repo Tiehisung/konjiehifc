@@ -50,7 +50,7 @@ export function DisplayFixtures({
       <DisplayType defaultDisplay="grid" className="w-fit ml-auto" />
       <br />
 
-      {displayType == "grid" ? (
+      {displayType !== "list" ? (
         <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-5">
           {fixtures?.data?.map((fx) => (
             <AdminMatchCard
@@ -64,7 +64,7 @@ export function DisplayFixtures({
           ))}
         </div>
       ) : (
-        <div className="overflow-x-auto " hidden={displayType !== "list"}>
+        <div className="overflow-x-auto ">
           <table className="table table-auto bg-popover w-full">
             <tbody>
               <tr className="border p-2 _label h-12 text-left">

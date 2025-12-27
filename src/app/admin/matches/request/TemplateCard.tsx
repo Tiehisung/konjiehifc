@@ -18,32 +18,30 @@ const TemplateCard: React.FC<TemplateItemProps> = ({
   return (
     <>
       <div
-        className={`relative bg-white rounded-2xl shadow-lg overflow-hidden transition-transform hover:scale-105 ${
-          template?.isPopular ? "ring-2 ring-ring" : ""
-        } ${className}`}
+        className={`group relative bg-card rounded-2xl shadow-lg overflow-hidden flex flex-col justify-between ${className}`}
       >
         {template?.isPopular && (
-          <div className="absolute top-0 right-0 bg-primary text-white px-4 py-1 rounded-bl-lg text-sm font-medium">
+          <div className="absolute top-0 right-0 bg-primary text-Orange px-4 py-1 rounded-bl-lg text-sm font-medium">
             Popular
           </div>
         )}
 
         <div className="p-6">
           <div className="text-center mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+            <h2 className="text-xl font-bold mb-2 capitalize">
               {template?.title}
             </h2>
-            <p className="text-gray-600 text-sm mb-4">{template?.tag}</p>
+            <p className="text-muted-foreground text-sm mb-4">{template?.tag}</p>
           </div>
 
-          <div dangerouslySetInnerHTML={{ __html: template?.body ?? "" }} />
+          <div dangerouslySetInnerHTML={{ __html: template?.body ?? "" }} className="grow"/>
 
           <Button
             onClick={() => onClick(template as ITemplate)}
-            className={`w-full flex items-center justify-center gap-2 rounded-lg py-3 px-6 transition-colors duration-200  `}
+            className={`group-hover:scale-105 transition-transform w-full flex items-center justify-center gap-2 rounded-lg mt-6 py-3 px-6 duration-200  `}
             variant={template?.isPopular ? "default" : "outline"}
           >
-            <span>Select Template</span>
+            <span className="text-Orange">Select Template</span>
             <CgArrowLongRight className="w-5 h-5" />
           </Button>
         </div>
