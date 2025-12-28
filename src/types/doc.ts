@@ -9,10 +9,15 @@ export interface IFolder {
     _id: string;
     name: string
     description?: string
-    tags?: string[]
     documents?: IDocFile[]
+    isDefault?: boolean
     createdAt?: string
     updatedAt?: string
+}
+
+export interface IFolderMetrics extends Omit<IFolder, 'documents'> {
+    docsCount: number;
+    documents: string[]
 }
 
 // suggested folders

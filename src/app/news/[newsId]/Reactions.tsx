@@ -94,7 +94,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
             uri={`${apiConfig.news}/${newsItem?._id}`}
             className={`p-0.5 h-14 w-14 _shrink ${isLiked ? "" : ""}`}
             styles={{ borderRadius: "100%" }}
-            variant={isLiked ? "primary" : "secondary"}
+            variant={isLiked ? "default" : "secondary"}
             loadingText=""
             disableToast
           >
@@ -105,16 +105,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
           </span>
         </li>
         <li>
-          <POPOVER
-            trigger={
-              <div
-                className="p-0.5 h-14 w-14 rounded-full _hover _shrink _secondaryBtn"
-                style={{ borderRadius: "100%" }}
-              >
-                <IoShareSocial size={24} />
-              </div>
-            }
-          >
+          <POPOVER trigger={<IoShareSocial size={24} />}>
             <div
               onClick={() =>
                 handleShare({
@@ -207,7 +198,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
                 dangerouslySetInnerHTML={{
                   __html: shortText(com?.comment ?? "Hi", maxLength),
                 }}
-                className=" border border-border rounded-2xl p-3 -ml-6 mt-4 _p text-wrap break-words max-sm:max-w-60 max-w-3/4 overflow-x-auto"
+                className=" border border-border rounded-2xl p-3 -ml-6 mt-4 _p text-wrap wrap-break-word max-sm:max-w-60 max-w-3/4 overflow-x-auto"
               />
             </section>
 

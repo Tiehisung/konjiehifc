@@ -1,40 +1,38 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { IQueryResponse } from "@/types";
 import { FolderForm } from "./FolderForm";
-import { Folder } from "lucide-react";
 import Link from "next/link";
+import { FolderActions } from "./Actions";
+import { Button } from "@/components/buttons/Button";
+import { DIALOG } from "@/components/Dialog";
+import { icons } from "@/assets/icons/icons";
+import { IFolderMetrics } from "@/types/doc";
+import { PiFolderThin } from "react-icons/pi";
 
 export default function DocumentFolders({
   folderMetrics,
 }: {
   folderMetrics?: IQueryResponse<{
-    folders: {
-      docsCount: number;
-      name: string;
-      createdAt: string | Date;
-      _id: string;
-    }[];
+    folders: IFolderMetrics[];
     totalDocs: number;
   }>;
 }) {
-  const router = useRouter();
   const pathname = usePathname();
-
   return (
     <div>
       <main className="flex items-start gap-4 ">
-        <ul className="grid grid-cols-2 sm:flex flex-wrap items-center justify-start grow gap-3 rounded-2xl ring overflow-hidden">
+        <ul className="grid grid-cols-2 sm:flex flex-wrap items-center justify-start gap-3 rounded-2xl overflow-hidden w-fit">
           {folderMetrics?.data?.folders?.map((f, index) => {
             return (
               <li
                 key={index}
-                className="flex _hover relative select-auto sm:w-32 ring "
+                className="flex _hover relative group select-auto sm:w-32 ring grow"
               >
-                <Link href={`${pathname}/${f.name}`} className="flex grow p-2">
+                <Link href={`${pathname}/${f?.name}`} className="flex grow p-2">
                   <div className=" flex flex-col justify-center items-center grow ">
-                    <Folder
+                    <PiFolderThin
                       className="text-Orange/80 text-7xl lg:text-8xl dark:text-Orange"
                       size={44}
                     />
@@ -47,11 +45,33 @@ export default function DocumentFolders({
                     </span>
                   </div>
                 </Link>
+                <div className="absolute right-1 top-1 md:invisible group-hover:visible">
+                  <FolderActions folder={f} />
+                </div>
               </li>
             );
           })}
+
           <li>
-            <FolderForm />
+            <DIALOG
+              title={
+                <p className="text-2xl font-semibold uppercase text-center">
+                  Create New Folder
+                </p>
+              }
+              trigger={
+                <Button
+                  variant="outline"
+                  className="p-2 select-auto h-24 w-24 text-2xl"
+                  size="lg"
+                >
+                  {<icons.new size={32} />}
+                </Button>
+              }
+              variant={"ghost"}
+            >
+              <FolderForm />
+            </DIALOG>
           </li>
         </ul>
       </main>

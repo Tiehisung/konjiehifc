@@ -7,6 +7,10 @@ import useGetParam from "@/hooks/params";
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { IManager } from "../../managers/page";
 import { TemplatesSelector } from "./TemplatesSelectorModal";
+import { POPOVER } from "@/components/ui/popover";
+import { ActionButton } from "@/components/buttons/ActionButton";
+import { Button } from "@/components/buttons/Button";
+import { printMatchRequestLetter } from "./Print";
 
 interface IProps {
   match: IMatchProps;
@@ -17,6 +21,7 @@ export function MatchRequestForm({ match, official }: IProps) {
     body: "",
     title: "",
   });
+
   const templateId = useGetParam("templateId");
 
   useEffect(() => {
@@ -47,6 +52,40 @@ export function MatchRequestForm({ match, official }: IProps) {
         className="w-full "
         placeholder="Type request letter here..."
       />
+      <br />
+      <POPOVER
+        trigger={<span className="_primaryBtn justify-center">Share</span>}
+        align="start"
+      >
+        <Button
+          primaryText="Print"
+          waitingText="Generating..."
+          className="grow w-full justify-start font-normal"
+          variant={"ghost"}
+          onClick={() => printMatchRequestLetter(letterForm, match, official)}
+        />
+        <ActionButton
+          primaryText="Save"
+          loadingText="Saving..."
+          method="POST"
+          className="grow w-full justify-start font-normal"
+          variant={"ghost"}
+        />
+        <ActionButton
+          primaryText="Save & Share"
+          loadingText="Saving..."
+          method="POST"
+          className="grow w-full justify-start font-normal"
+          variant={"ghost"}
+        />
+        <ActionButton
+          primaryText="Download"
+          loadingText="Saving..."
+          method="POST"
+          className="grow w-full justify-start font-normal"
+          variant={"ghost"}
+        />
+      </POPOVER>
     </div>
   );
 }

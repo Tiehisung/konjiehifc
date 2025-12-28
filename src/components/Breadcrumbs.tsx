@@ -27,7 +27,7 @@ const Breadcrumbs = ({
         <li key={i} className="flex items-center ">
           {i > 0 && <FaAngleRight className="mx-1.5 text-muted-foreground" />}
           {i == links.length - 1 ? (
-            linkOb.text
+            decodeURIComponent(linkOb.text)
           ) : (
             <Link
               href={linkOb.path}
@@ -35,7 +35,7 @@ const Breadcrumbs = ({
                 pathname == linkOb.path ? "text-muted-foreground" : ""
               } `}
             >
-              {linkOb.text}
+              {decodeURIComponent(linkOb.text)}
             </Link>
           )}
         </li>

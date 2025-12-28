@@ -55,12 +55,12 @@ export async function GET(request: NextRequest) {
 
 export async function POST(req: NextRequest) {
     try {
-        const { name, description, tags, } = await req.json() as IPostFolder
+        const { name, description, isDefault, } = await req.json() as IPostFolder
 
         const doc = await FolderModel.create({
             name,
             description,
-            tags,
+            isDefault,
         });
 
         // log
@@ -95,7 +95,7 @@ export async function DELETE(req: NextRequest) {
         const folderId = await req.json()
 
         const deletedFolder: IFolder = await FolderModel.findById(folderId).populate('documents');
-        
+
         //Delete file from cloudinary
         await deleteCldAssets(deletedFolder?.documents
             ?.map((doc) => ({ public_id: doc.public_id })) ?? []);

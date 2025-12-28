@@ -12,17 +12,20 @@ import { IFolder } from "@/types/doc";
 
 ConnectMongoDb();
 
-export async function GET(_: NextRequest, { params }: { params: Promise<{ folderName: string }> }) {
-    const folderName = (await params).folderName;
-    const folder = await FolderModel.findOne({ name: folderName })
+export async function GET(request: NextRequest) {
+    const folderId = request.nextUrl.searchParams.get('folderId');
+    const folder = await FolderModel.findById(folderId)
         .populate('documents').lean();
     return NextResponse.json(folder);
 }
 
-export async function PUT(req: NextRequest, { params }: { params: Promise<{ folderName: string }> }) {
+export async function PUT(req: NextRequest) {
     try {
-        const folderName = (await params).folderName;
-        const foundFolder: (IPostFolder & { _id: string }) | null = await FolderModel.findOne({ name: folderName });
+        const folderId = req.nextUrl.searchParams.get('folderId');
+
+        console.log({ folderId })
+
+        const foundFolder: (IPostFolder & { _id: string }) | null = await FolderModel.findById(folderId);
         if (!foundFolder) {
             return NextResponse.json({
                 success: false,
@@ -31,9 +34,9 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ fold
         }
 
         const { ...data } = await req.json() as IPostFolder
-        const { name, description, tags } = data;
+        const { name, description, isDefault } = data;
 
-        await FolderModel.findOneAndUpdate({ name: folderName }, {
+        await FolderModel.findByIdAndUpdate(folderId, {
             $set: {
                 ...data
             },
@@ -55,7 +58,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ fold
 
         let title = ''
         let desc = ''
-        let tagsChangedMsg = ' '
+        let defaultChangedMsg = ' '
 
         if (name && foundFolder.name !== name) {
             title += `Name changed from ${foundFolder.name} to ${name}. `
@@ -64,14 +67,14 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ fold
         if (description && foundFolder.description !== description) {
             desc += `Description changed from ${foundFolder.description} to ${description}. `
         }
-        if (name && foundFolder.tags !== tags) {
-            tagsChangedMsg = `Tags changed from ${foundFolder.tags} to ${tags}. `;
+        if (foundFolder.isDefault !== isDefault) {
+            defaultChangedMsg = isDefault ? `Folder made default  ` : 'Folder changed from being system default';
         }
 
         // log
         await logAction({
             title: title || ` Folder [${name}] updated.`,
-            description: desc + tagsChangedMsg,
+            description: desc + defaultChangedMsg,
         });
         return NextResponse.json({
             success: true,
@@ -87,10 +90,10 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ fold
 }
 
 //Delete from Cloud then pull id from collection files field
-export async function DELETE(_: NextRequest, { params }: { params: Promise<{ folderName: string }> }) {
+export async function DELETE(request: NextRequest) {
     try {
         const session = await auth();
-        const folderName = (await params).folderName;
+        const folderId = request.nextUrl.searchParams.get('folderId');
 
         if ((session?.user as IUser)?.role !== EUserRole.SUPER_ADMIN) {
             return NextResponse.json({
@@ -99,7 +102,8 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ fol
             });
         }
 
-        const deletedFolder: IFolder = await FolderModel.findOne({ name: folderName }).populate('documents');
+        console.log({ folderId })
+        const deletedFolder: IFolder = await FolderModel.findByIdAndDelete(folderId).populate('documents');
 
         //Delete file from cloudinary
         await deleteCldAssets(deletedFolder?.documents
@@ -119,7 +123,7 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ fol
             severity: ELogSeverity.CRITICAL,
         });
         return NextResponse.json({
-            message: "Delete  successful ",
+            message: "Folder deleted ",
             success: true,
             data: deleteFromDb,
         });

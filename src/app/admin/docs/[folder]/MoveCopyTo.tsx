@@ -9,16 +9,16 @@ import { apiConfig } from "@/lib/configs";
 import { IDocMoveCopy } from "@/app/api/docs/move-copy/route";
 import { ReactNode, useState } from "react";
 import { useFetch } from "@/hooks/fetch";
+import { IDocFile, IFolderMetrics } from "@/types/doc";
 
 interface IProps {
-  document?: IFileProps;
+  document?: IDocFile;
   actionType: "Move" | "Copy";
   trigger: ReactNode;
 }
 export function DocMoveOrCopyTo({ document, actionType, trigger }: IProps) {
-  
   const { loading: fetchingFolders, results: folderMetrics } = useFetch<{
-    folders: { name: string; _id: string }[];
+    folders: IFolderMetrics[];
   }>({
     uri: `${apiConfig.docs}/metrics`,
   });
@@ -26,7 +26,11 @@ export function DocMoveOrCopyTo({ document, actionType, trigger }: IProps) {
   const [destinationFolder, setDestinationFolder] = useState("");
 
   return (
-    <DIALOG trigger={trigger}>
+    <DIALOG
+      trigger={trigger}
+      variant={"ghost"}
+      triggerStyles="w-full justify-start font-normal"
+    >
       <div className="flex flex-col gap-3 justify-center items-center">
         <div>
           {actionType}
@@ -37,10 +41,12 @@ export function DocMoveOrCopyTo({ document, actionType, trigger }: IProps) {
         </div>
         <COMBOBOX
           options={
-            folderMetrics?.data?.folders?.map((f) => ({
-              label: f.name,
-              value: f.name,
-            })) ?? []
+            folderMetrics?.data?.folders
+              ?.filter((f) => f?.name !== document?.folder) //Exclude the source folder
+              ?.map((f) => ({
+                label: f.name,
+                value: f.name,
+              })) ?? []
           }
           onChange={(op) => setDestinationFolder(op.value)}
           className="min-w-60 "
