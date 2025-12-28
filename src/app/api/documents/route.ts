@@ -9,6 +9,7 @@ import { deleteCldAssets } from "../file/route";
 import { ELogSeverity } from "@/types/log";
 import FolderModel from "@/models/folder";
 import { Document } from "mongoose";
+import { IDocFile } from "@/types/doc";
 
 ConnectMongoDb();
 
@@ -89,21 +90,27 @@ export async function POST(req: NextRequest) {
 //Delete from Cloud then pull id from collection files field
 export async function DELETE(req: NextRequest) {
     try {
-        const { files, } = await req.json() as { user: IUser, files: IDeleteFile[] };
+        const documentFile = await req.json() as IDocFile;
         //Delete file from cloudinary
-        await deleteCldAssets(files)
+        await deleteCldAssets([{ ...documentFile }])
 
         //Delete file data from database
-        const deleteFromDb = await DocModel.deleteMany({
-            _id: {
-                $in: files.map(f => f._id).filter(Boolean) ?? [],
-            }
+        const deleteFromDb = await DocModel.findOneAndDelete({
+            _id: documentFile?._id
         });
+
+        // Remove from folder
+        await FolderModel
+            .updateMany(
+                { documents: documentFile?._id },   // only folders that contain it
+                {
+                    $pull: { documents: documentFile?._id }
+                })
+
         // log
         await logAction({
-            title: "Document deleted",
-            description: `${files.length} documents deleted [${files.map(f => f.public_id).toString()}]`,
-
+            title: `Document deleted - ${documentFile?.name ?? documentFile?.original_filename}`,
+            description: `${documentFile?.original_filename} deleted from  ${documentFile?.folder}`,
             severity: ELogSeverity.CRITICAL,
         });
         return NextResponse.json({

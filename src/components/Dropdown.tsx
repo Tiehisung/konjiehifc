@@ -41,7 +41,7 @@ export function PrimaryDropdown({
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className={`w-56 ${className}`} align={align}>
-        <>{children}</>
+        {children}
       </DropdownMenuContent>
     </DropdownMenu>
   );

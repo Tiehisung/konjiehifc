@@ -53,7 +53,6 @@ export function DocumentUploader({
   }>({
     uri: `${apiConfig.docs}/metrics`,
   });
- 
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
@@ -89,27 +88,24 @@ export function DocumentUploader({
   return (
     <DIALOG
       trigger={
-        trigger ?? (
-          <Button
-            title="Upload Document"
-            className={` p-1.5 _shrink ${className}`}
-            variant={"outline"}
-          >
-            <Upload size={24} /> Upload Document
-          </Button>
-        )
+        <>
+          <Upload size={24} /> Upload Document
+        </>
       }
+      triggerStyles="justify-start"
       className="min-w-57.5"
+      title="Upload Document"
+      variant={"outline"}
     >
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-4 items-center justify-center _card rounded-xl mx-auto"
       >
-        <div className=" flex flex-col gap-4 items-center justify-center grow w-full pb-3">
+        <div className="flex flex-col gap-4 items-center justify-center grow w-full pb-3">
           <FileUploader
             hidePreview
             trigger={
-              <div className="_secondaryBtn grow w-full  ">Choose Document</div>
+              <div className="_secondaryBtn grow w-full ">Choose Document</div>
             }
             name="consentForm"
             accept="pdf"

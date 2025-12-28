@@ -11,7 +11,7 @@ export const docFolderSchema = new mongoose.Schema(
 
         description: { type: String },
 
-        tags: { type: [String], default: () => [] },
+        isDefault: { type: Boolean, default: () => false },
 
         documents: {
             type: [mongoose.Schema.Types.ObjectId],

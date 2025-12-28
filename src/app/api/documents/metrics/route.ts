@@ -6,17 +6,15 @@ import DocModel from "@/models/doc";
 ConnectMongoDb();
 
 export async function GET(_: NextRequest) {
-    const folders  = await FolderModel.find().lean()
+    const folders = await FolderModel.find().lean()
 
     const totalDocs = await DocModel.countDocuments()
 
     const metrics = {
         totalDocs,
         folders: folders.map(f => ({
-            name: f.name,
+            ...f,
             docsCount: f.documents.length,
-            createdAt: f.createdAt,
-            _id: f?._id
         }))
     };
 

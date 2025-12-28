@@ -16,6 +16,7 @@ import { TButtonVariant } from "../ui/button";
 interface IProps {
   className?: string;
   variant?: TButtonVariant;
+  confirmVariant?: TButtonVariant;
   primaryText?: string;
   loadingText?: string;
   children?: ReactNode;
@@ -27,7 +28,9 @@ interface IProps {
   confirmText?: string;
   gobackAfter?: boolean;
   trigger?: ReactNode;
+  triggerStyles?: string;
   hidden?: boolean;
+  disabled?: boolean;
 }
 
 export const ConfirmActionButton = ({
@@ -45,6 +48,9 @@ export const ConfirmActionButton = ({
   gobackAfter,
   hidden = true,
   trigger,
+  triggerStyles = "",
+  confirmVariant,
+  disabled,
 }: IProps) => {
   const router = useRouter();
 
@@ -92,28 +98,33 @@ export const ConfirmActionButton = ({
   }
 
   return (
-    <DIALOG trigger={trigger ?? primaryText} title={title} variant={variant}>
-      <Card>
-        <CardContent className="flex flex-col items-center justify-center">
-          {confirmText && (
-            <div
-              className="_label mb-6"
-              dangerouslySetInnerHTML={{ __html: confirmText }}
-            />
-          )}
-          <Button
-            waiting={waiting}
-            disabled={waiting}
-            primaryText={`Confirm ${primaryText}`}
-            waitingText={loadingText}
-            onClick={handleAction}
-            className={className}
-            variant={variant}
-          >
-            {children}
-          </Button>
-        </CardContent>
-      </Card>
+    <DIALOG
+      trigger={trigger ?? primaryText}
+      title={title}
+      variant={variant}
+      triggerStyles={triggerStyles}
+      disabled={disabled}
+    >
+      <div className="flex flex-col items-center justify-center py-6 ">
+        {confirmText && (
+          <div
+            className="_label mb-6"
+            dangerouslySetInnerHTML={{ __html: confirmText }}
+          />
+        )}
+
+        <Button
+          waiting={waiting}
+          disabled={waiting}
+          primaryText={`Confirm ${primaryText}`}
+          waitingText={loadingText}
+          onClick={handleAction}
+          className={className}
+          variant={confirmVariant ?? variant}
+        >
+          {children}
+        </Button>
+      </div>
     </DIALOG>
   );
 };

@@ -7,7 +7,7 @@ import DocumentFolders from "./Folders";
 import { DocumentUploader } from "./DocUploader";
 import { ConsentForm } from "@/components/pdf/ConsentForm";
 import { RecentDocs } from "./RecentDocs";
-import { IFolder } from "@/types/doc";
+import { IFolder, IFolderMetrics } from "@/types/doc";
 import TextDivider from "@/components/Divider";
 interface IProps {
   searchParams: Promise<IRecord>;
@@ -43,18 +43,11 @@ export default async function DocsPage({ searchParams }: IProps) {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
 
   const folderMetrics: IQueryResponse<{
-    folders: {
-      docsCount: number;
-      name: string;
-      createdAt: string | Date;
-      _id: string;
-    }[];
+    folders: IFolderMetrics[];
     totalDocs: number;
   }> = await getFolderMetrics();
 
   const folders: IQueryResponse<IFolder[]> = await getFolders();
-
-  console.log({ folderMetrics, folders });
 
   return (
     <div>
@@ -62,7 +55,7 @@ export default async function DocsPage({ searchParams }: IProps) {
       <main className="_page px-3 mt-6 space-x-6 pb-6">
         <RecentDocs />
 
-        <section>
+        <section className="space-y-6">
           <DocumentUploader
             className="w-full my-2"
             tagsData={[
@@ -80,7 +73,10 @@ export default async function DocsPage({ searchParams }: IProps) {
 
         <br />
 
-        <TextDivider text="GENERATE CONSENT FORMS" className="text-Orange my-6" />
+        <TextDivider
+          text="GENERATE CONSENT FORMS"
+          className="text-Orange my-6"
+        />
 
         <ConsentForm players={players?.data} />
       </main>

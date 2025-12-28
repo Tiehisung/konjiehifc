@@ -255,17 +255,14 @@ const NewSquad = ({
                     >
                       <td className="py-3 px-4 font-semibold uppercase">
                         <Button
-                          type="button"
                           onClick={() =>
                             setValue(
                               `selectedPlayers.${player._id}`,
                               !isSelected
                             )
                           }
-
-                          className="bg-transparent hover:opacity-90 rounded-none"
-
-                          variant={isSelected ? "default" : "ghost"}
+                          className=" hover:opacity-90 rounded-none"
+                          variant={"ghost"}
                         >
                           {isSelected ? (
                             <MdCheckBox

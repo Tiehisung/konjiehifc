@@ -7,6 +7,7 @@ import { getPlayers } from "../../players/page";
 import { IPlayer } from "@/app/players/page";
 import { PrimarySearch } from "@/components/Search";
 import { apiConfig } from "@/lib/configs";
+import { IDocFile } from "@/types/doc";
 
 interface IProps {
   params: Promise<{ folder: string }>;
@@ -26,19 +27,17 @@ export const getDocsByFolderName = async (
 
 export default async function FolderPage({ searchParams, params }: IProps) {
   const qs = buildQueryStringServer(await searchParams);
-  const folderName = (await params).folder;
+  const folderName = decodeURIComponent((await params).folder);
 
-  const docs: IQueryResponse<IFileProps[]> = await getDocsByFolderName(
+  const docs: IQueryResponse<IDocFile[]> = await getDocsByFolderName(
     folderName,
     qs
   );
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
 
- 
-
   return (
     <div className="_page px-4">
-      <header className="flex items-center justify-between gap-4">
+      <header className="flex items-center justify-between gap-4 my-3.5">
         <DocumentUploader
           className="w-fit my-2"
           tagsData={[
@@ -51,7 +50,6 @@ export default async function FolderPage({ searchParams, params }: IProps) {
             },
           ]}
           defaultFolder={folderName}
-          
         />
         <div className="flex items-center text-sm gap-0.5">
           <span>{docs?.pagination?.page}</span> of
