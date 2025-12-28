@@ -5,6 +5,7 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 
 import { cn } from "@/lib/utils";
 import { CgMoreAlt } from "react-icons/cg";
+import { TButtonSize, TButtonVariant } from "./button";
 
 function Popover({
   ...props
@@ -48,6 +49,14 @@ function PopoverAnchor({
 
 export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor };
 
+interface IProps {
+  trigger?: React.ReactNode;
+  triggerClassNames?: string;
+  children: React.ReactNode;
+  className?: string;
+  align?: "center" | "start" | "end" | undefined;
+}
+
 export function POPOVER({
   trigger = (
     <CgMoreAlt className="p-1.5 cursor-pointer shadow-xs hover:bg-border rounded-full text-4xl hover:scale-105 " />
@@ -55,21 +64,18 @@ export function POPOVER({
   children,
   triggerClassNames,
   className,
-}: {
-  trigger?: React.ReactNode;
-  triggerClassNames?: string;
-  children: React.ReactNode;
-  className?: string;
-}) {
+  align,
+}: IProps) {
   return (
-    <Popover >
+    <Popover>
       <PopoverTrigger
         asChild
-        className={`${triggerClassNames} transition-all _shrink select-none `}
+        className={`${triggerClassNames} cursor-pointer transition-all _shrink select-none `}
       >
         {trigger}
       </PopoverTrigger>
       <PopoverContent
+        align={align}
         className={`w-80 max-h-[80vh] overflow-y-auto _hideScrollbar  ${className}`}
       >
         {children}
