@@ -7,6 +7,7 @@ import { getPlayers } from "../admin/players/page";
 import { IQueryResponse } from "@/types";
 import { computePlayerStandings } from "@/lib/compute/player/standings";
 import HEADER from "@/components/Element";
+import { AVATAR } from "@/components/ui/avatar";
 
 const PlayerStatistics = async () => {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
@@ -92,7 +93,7 @@ export const PlayerStatsCard: FC<IPlayerStatsProps> = ({
   title,
 }) => {
   return (
-    <Card className="min-w-72 w-96 border _borderColor rounded-lg p-4 container">
+    <Card className="min-w-60 border _borderColor rounded-lg p-4 container">
       {/* Header */}
       <CardHeader className="text-lg font-bold mb-4 text-yellow-500 uppercase">
         {title}
@@ -100,15 +101,14 @@ export const PlayerStatsCard: FC<IPlayerStatsProps> = ({
 
       {/* Featured Player */}
       <CardHeader className="flex items-center mb-6">
-        <Image
-          width={300}
-          height={300}
+        <AVATAR
           src={featuredPlayer?.avatar as string}
           alt={featuredPlayer?.name ?? ""}
+          fallbackText={featuredPlayer?.name ?? ""}
           className="w-20 h-20 rounded-full mr-4"
         />
         <div>
-          <h4 className="text-xl font-bold">{featuredPlayer?.name}</h4>
+          <h4 className="text-lg font-bold">{featuredPlayer?.name}</h4>
           <p className="text-2xl font-semibold text-Blue">
             {`${featuredPlayer?.statsValue} ${alias}`}
           </p>
@@ -123,11 +123,10 @@ export const PlayerStatsCard: FC<IPlayerStatsProps> = ({
             className="flex justify-between items-center border-b border-border pb-3"
           >
             <div className="flex items-center space-x-3">
-              <Image
-                width={300}
-                height={300}
+              <AVATAR
                 src={player?.avatar as string}
                 alt={player?.name as string}
+                fallbackText={player?.name as string}
                 className="w-10 h-10 rounded-full"
               />
               <span className="text-sm font-medium">{player?.name}</span>
