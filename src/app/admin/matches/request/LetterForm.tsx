@@ -31,14 +31,16 @@ export function MatchRequestForm({ match, official }: IProps) {
       const template = generateMatchRequestTemplates(match, official)?.find(
         (t) => t?.id == templateId
       );
-      if (template) setLetterForm({ ...template });
+      console.log(template?.body);
+      if (template)
+        setLetterForm({ body: template.body, title: template.title });
     }
   }, [templateId]);
 
   return (
     <div>
       <h1 className="font-light text-xl mb-3.5 text-Orange">{match?.title}</h1>
-      <Separator className="bg-Orange"/>
+      <Separator className="bg-Orange" />
       <header className="flex flex-wrap items-center justify-between gap-4 py-4">
         <h1 className="_title">Match Request Letter</h1>
         <TemplatesSelector
