@@ -11,6 +11,8 @@ import { POPOVER } from "@/components/ui/popover";
 import { ActionButton } from "@/components/buttons/ActionButton";
 import { Button } from "@/components/buttons/Button";
 import { printMatchRequestLetter } from "./Print";
+import { icons } from "@/assets/icons/icons";
+import { Separator } from "@/components/ui/separator";
 
 interface IProps {
   match: IMatchProps;
@@ -35,8 +37,10 @@ export function MatchRequestForm({ match, official }: IProps) {
 
   return (
     <div>
-      <header className="flex items-center justify-between gap-4">
-        <h1 className="_title">Write Request Letter</h1>
+      <h1 className="font-light text-xl mb-3.5 text-Orange">{match?.title}</h1>
+      <Separator className="bg-Orange"/>
+      <header className="flex flex-wrap items-center justify-between gap-4 py-4">
+        <h1 className="_title">Match Request Letter</h1>
         <TemplatesSelector
           match={match}
           official={official}
@@ -53,39 +57,27 @@ export function MatchRequestForm({ match, official }: IProps) {
         placeholder="Type request letter here..."
       />
       <br />
-      <POPOVER
-        trigger={<span className="_primaryBtn justify-center">Share</span>}
-        align="start"
-      >
+      <section className="grid sm:grid-cols-2 md:grid-cols-3 items-center gap-3.5 flex-wrap">
         <Button
           primaryText="Print"
           waitingText="Generating..."
-          className="grow w-full justify-start font-normal"
-          variant={"ghost"}
+          className=" w-full justify-start font-normal"
+          variant={"default"}
+          disabled={!letterForm.body}
           onClick={() => printMatchRequestLetter(letterForm, match, official)}
-        />
+        >
+          {<icons.printer />}
+        </Button>
         <ActionButton
-          primaryText="Save"
+          primaryText="Save as draft"
           loadingText="Saving..."
           method="POST"
-          className="grow w-full justify-start font-normal"
-          variant={"ghost"}
-        />
-        <ActionButton
-          primaryText="Save & Share"
-          loadingText="Saving..."
-          method="POST"
-          className="grow w-full justify-start font-normal"
-          variant={"ghost"}
-        />
-        <ActionButton
-          primaryText="Download"
-          loadingText="Saving..."
-          method="POST"
-          className="grow w-full justify-start font-normal"
-          variant={"ghost"}
-        />
-      </POPOVER>
+          className=" w-full justify-start font-normal"
+          variant={"secondary"}
+        >
+          {<icons.save />}
+        </ActionButton>
+      </section>
     </div>
   );
 }

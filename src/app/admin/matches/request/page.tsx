@@ -1,19 +1,21 @@
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
-import { IQueryResponse } from "@/types";
+import { IPageProps, IQueryResponse } from "@/types";
 import { getMatches } from "../page";
 import { getManagers, IManager } from "../../managers/page";
 import { MatchRequestForm } from "./LetterForm";
 import { auth } from "@/auth";
 import { teamKFC } from "@/data/teams";
+import FixtureSelector from "./FixtureSelector";
 
-const MatchRequestPage = async () => {
+const MatchRequestPage = async ({ searchParams }: IPageProps) => {
   const session = await auth();
-  const matches: IQueryResponse<IMatchProps[]> = await getMatches(
+  const fixtureId = (await searchParams).fixtureId;
+  const fixtures: IQueryResponse<IMatchProps[]> = await getMatches(
     "?status=UPCOMING"
   );
 
   const managers: IQueryResponse<IManager[]> = await getManagers(
-    "?manager_search=" + session?.user?.email
+    `?manager_search=${session?.user?.email}`
   );
 
   const requester =
@@ -24,15 +26,21 @@ const MatchRequestPage = async () => {
       phone: teamKFC?.contact,
     } as IManager);
 
+  const selectedFixture = fixtures?.data?.find((f) => f?._id == fixtureId);
+
   return (
     <div>
       <main className="_page py-12 space-y-10">
-        <MatchRequestForm
-          match={matches?.data?.[0] as IMatchProps}
-          official={{
-            requester,
-          }}
-        />
+        {!fixtureId ? (
+          <FixtureSelector fixtures={fixtures} />
+        ) : (
+          <MatchRequestForm
+            match={selectedFixture as IMatchProps}
+            official={{
+              requester,
+            }}
+          />
+        )}
       </main>
     </div>
   );

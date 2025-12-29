@@ -6,7 +6,7 @@ import {
   MdCheckBoxOutlineBlank,
 } from "react-icons/md";
 import { VscLoading } from "react-icons/vsc";
- 
+
 import {
   CheckCircle,
   Clock,
@@ -34,12 +34,15 @@ import {
   Loader,
   Loader2,
   RefreshCcw,
-  Plus, Copy, Move,Users2,Triangle,
-  XIcon,
+  Plus, Copy, Move, Users2, Triangle,
+  XIcon, Save, Share2
 } from "lucide-react";
 
 export const icons = {
-  copy: Copy, move: Move,
+  save: Save,
+  share: Share2,
+  copy: Copy,
+  move: Move,
   new: Plus,
   refresh: RefreshCcw,
   loader: Loader2,
