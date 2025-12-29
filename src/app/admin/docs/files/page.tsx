@@ -1,12 +1,14 @@
 import { getDocs } from "../page";
 import { IPageProps, IQueryResponse } from "@/types";
 import { IDocFile } from "@/types/doc";
-import { buildQueryStringServer } from "@/lib";
+import { buildQueryStringServer, shortText } from "@/lib";
 import InfiniteLimitScroller from "@/components/InfiniteScroll";
 import { FaFilePdf } from "react-icons/fa6";
 import { Color } from "@/styles";
 import { formatDate, getTimeAgo } from "@/lib/timeAndDate";
 import { PrimarySearch } from "@/components/Search";
+import { DocumentActions } from "../[folder]/Actions";
+import FileViewer from "@/components/FilePreviewModal";
 
 const AllDocsPage = async ({ searchParams }: IPageProps) => {
   const qs = buildQueryStringServer(await searchParams);
@@ -34,14 +36,40 @@ const AllDocsPage = async ({ searchParams }: IPageProps) => {
                 docs?.data?.map((doc, index) => (
                   <li
                     key={index}
-                    className={`_card flex flex-wrap items-center gap-2 px-6 py-3 cursor-pointer active:bg-opacity-50 border-y border-border w-full before:h-6 before:w-1 before:-ml-5 hover:before:bg-primary active:before:scale-y-90 before:transition-all`}
+                    className={`group relative flex justify-between items-center gap-2 px-3 py-3 cursor-pointer active:bg-opacity-50 w-full before:h-6 before:w-1 before:-ml-5 hover:before:bg-primary active:before:scale-y-90 before:transition-all`}
                   >
-                    <FaFilePdf color={Color.red} />
-                    <span>{doc?.name ?? doc?.original_filename}</span>
-                    <div className="flex flex-wrap gap-1 items-center justify-end ml-auto text-xs text-muted-foreground">
-                      <span>{formatDate(doc?.createdAt, "March 2, 2025")}</span>
-                      <span>{getTimeAgo(doc?.createdAt as string)}</span>
-                    </div>
+                    <FileViewer
+                      url={doc?.secure_url}
+                      title={doc?.description as string}
+                      trigger={
+                        <div className="grid">
+                          <p className="flex items-center gap-2.5 line-clamp-1 grow _wordBreak ">
+                            <FaFilePdf color={Color.red} />
+                            <span className="sm:hidden">
+                              {shortText(
+                                doc?.name ?? (doc?.original_filename as string),
+                                30
+                              )}
+                            </span>
+                            <span className="max-sm:hidden">
+                              {shortText(
+                                doc?.name ?? (doc?.original_filename as string),
+                                50
+                              )}
+                            </span>
+                          </p>
+                          <p className="font-light text-sm text-left ml-3 ">
+                            {getTimeAgo(doc?.createdAt as string)}
+                          </p>
+                        </div>
+                      }
+                      className="px-1"
+                    />
+
+                    <DocumentActions
+                      document={doc}
+                      className="md:visible relative"
+                    />
                   </li>
                 ))
               )}

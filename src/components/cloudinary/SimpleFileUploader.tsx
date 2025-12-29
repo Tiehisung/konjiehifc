@@ -3,7 +3,7 @@
 import { staticImages } from "@/assets/images";
 import { bytesToMB, getErrorMessage, getFilePath, shortText } from "@/lib";
 import { apiConfig } from "@/lib/configs";
-import { IQueryResponse } from "@/types";
+import { EPreset, EPresetType, IQueryResponse } from "@/types";
 import Image from "next/image";
 import React, { ReactNode, useState } from "react";
 import { FcCamera } from "react-icons/fc";
@@ -22,7 +22,7 @@ interface FileUploaderProps {
   showName?: boolean;
   fileStyles?: string;
   maxSize?: number;
-  accept?: "image"| "video" | "pdf" | "auto" ;
+  accept?: "image" | "video" | "pdf" | "auto";
   hidePreview?: boolean;
 }
 
@@ -44,6 +44,7 @@ const FileUploader = ({
   const [uploadedFile, setUploadedFile] = useState<ICldFileUploadResult | null>(
     null
   );
+  console.log({ uploadedFile });
   const currentSrc =
     uploadedFile?.thumbnail_url || initialFileUrl || staticImages.avatar.src;
 
@@ -70,13 +71,15 @@ const FileUploader = ({
             name: selectedFile.name,
             path: fileString,
             type: "image",
-            preset: "konjiehifc",
+            preset: EPreset.KFC_SIGNED,
             folder: folder ?? "files",
-            presetType: "authenticated",
+            presetType: EPresetType.AUTHENTICATED,
           }),
         });
         const uploadRsp: IQueryResponse<ICldFileUploadResult> =
           await upload.json();
+
+        console.log(uploadRsp);
         if (!uploadRsp.success) {
           toast.error(uploadRsp.message, { position: "bottom-center" });
           setUploadedFile(null);
@@ -96,13 +99,13 @@ const FileUploader = ({
       className={`relative grid gap-1 justify-center items-center text-sm ${className}`}
     >
       <OverlayLoader isLoading={waiting} />
-      {hidePreview ? null : (
+      {!hidePreview && (
         <Image
           src={currentSrc}
           width={300}
           height={300}
           alt="desc image"
-          className={`h-36 w-36 rounded-xl shadow ${fileStyles}`}
+          className={`h-36 w-36 rounded-xl ${fileStyles}`}
         />
       )}
 
@@ -113,7 +116,7 @@ const FileUploader = ({
       )}
       <label
         htmlFor={`id${name}`}
-        className="flex items-center shadow rounded mt-3 cursor-pointer min-w-full grow ring"
+        className="flex items-center rounded mt-3 cursor-pointer min-w-full grow "
         title="Choose file"
         aria-disabled={waiting}
       >

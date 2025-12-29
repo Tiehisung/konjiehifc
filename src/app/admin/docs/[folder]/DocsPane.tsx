@@ -1,22 +1,16 @@
 "use client";
 
-import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
-import { PrimaryDropdown } from "@/components/Dropdown";
 import InfiniteLimitScroller from "@/components/InfiniteScroll";
 import { apiConfig } from "@/lib/configs";
-import { downloadFile } from "@/lib/downloadFile";
 import { formatDate, getTimeAgo } from "@/lib/timeAndDate";
-import { IDeleteFile, IQueryResponse } from "@/types";
-import { Copy, Download, Move } from "lucide-react";
+import { IQueryResponse } from "@/types";
 import { FaFilePdf } from "react-icons/fa";
-import { MdOutlineDelete } from "react-icons/md";
-import { DocMoveOrCopyTo } from "./MoveCopyTo";
 import { DragAndDropUpload } from "../../../../components/DragAndDrop";
 import { useAction } from "@/hooks/action";
 import { useParams } from "next/navigation";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Button } from "@/components/ui/button";
 import { IDocFile } from "@/types/doc";
+import { DocumentActions } from "./Actions";
 
 interface IProps {
   docs?: IQueryResponse<IDocFile[]>;
@@ -120,69 +114,4 @@ export default function FolderDocuments({ docs }: IProps) {
   );
 }
 
-export function DocumentActions({ document }: { document?: IDocFile }) {
-  const docName = document?.name ?? document?.original_filename;
-  return (
-    <div className=" right-0.5 top-1">
-      <PrimaryDropdown
-        id={document?._id}
-        triggerStyles="absolute top-1 right-2 md:invisible group-hover:visible"
-      >
-        <ul>
-          <li tabIndex={0}>
-            <Button
-              onClick={() => {
-                downloadFile(document?.secure_url as string, docName as string);
-              }}
-              className="justify-start w-full font-normal"
-              variant={"ghost"}
-            >
-              <Download className="text-muted-foreground " /> Download
-            </Button>
-          </li>
-          <li tabIndex={0}>
-            <DocMoveOrCopyTo
-              trigger={
-                <>
-                  <Copy className="text-muted-foreground " size={24} /> Copy To
-                </>
-              }
-              actionType={"Copy"}
-              document={document}
-            />
-          </li>
-          <li tabIndex={0}>
-            <DocMoveOrCopyTo
-              trigger={
-                <>
-                  <Move className="text-muted-foreground " size={24} /> Move To
-                </>
-              }
-              actionType={"Move"}
-              document={document}
-            />
-          </li>
-          <li tabIndex={0}>
-            <ConfirmActionButton
-              primaryText="Delete"
-              trigger={
-                <>
-                  <MdOutlineDelete size={24} /> Delete
-                </>
-              }
-              triggerStyles="justify-start w-full"
-              uri={`${apiConfig.docs}`}
-              body={document}
-              method={"DELETE"}
-              escapeOnEnd
-              variant="destructive"
-              confirmVariant={"delete"}
-              title="Delete Document"
-              confirmText={`Are you sure you want to delete <b>"${docName}"</b>?`}
-            />
-          </li>
-        </ul>
-      </PrimaryDropdown>
-    </div>
-  );
-}
+

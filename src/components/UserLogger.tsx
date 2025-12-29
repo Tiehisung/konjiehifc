@@ -9,7 +9,7 @@ import { ISession } from "@/types/user";
 
 interface UserLogButtonsProps {
   loginStyles?: string;
-  logoutStyles?: string;
+ 
 }
 
 export default function UserLogButtons({ loginStyles }: UserLogButtonsProps) {

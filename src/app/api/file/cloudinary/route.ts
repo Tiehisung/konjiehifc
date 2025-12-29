@@ -1,4 +1,4 @@
-import { IFileProps, IFileUpload } from "@/types";
+import { EPreset, EPresetType, IFileProps, IFileUpload } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 import cld from "cloudinary";
@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
     description,
   }: IFileUpload = await request.json();
 
+  
   try {
     if (!path)
       return new Response(
@@ -33,20 +34,20 @@ export async function POST(request: NextRequest) {
         resource_type: type?.includes("video")
           ? "video"
           : type?.includes("audio")
-          ? "video"
-          : type?.includes("image")
-          ? "image"
-          : "auto",
+            ? "video"
+            : type?.includes("image")
+              ? "image"
+              : "auto",
         public_id:
           name?.split(".")[0] +
           new Date().getMilliseconds() +
           new Date().getSeconds(),
 
         unique_filename: true,
-        upload_preset: preset ?? "konjiehifc",
+        upload_preset: preset ?? EPreset.KFC_SIGNED,
         folder: folder,
         use_asset_folder_as_public_id_prefix: true,
-        type: presetType || "authenticated",
+        type: presetType ?? EPresetType.AUTHENTICATED,
       })
       .then(async (result) => {
         //Now save to database(MDB)
@@ -71,7 +72,7 @@ export async function POST(request: NextRequest) {
       name,
     });
 
-  
+
     //Return response
     return NextResponse.json({
       data: savedFile,

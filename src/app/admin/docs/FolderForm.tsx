@@ -50,7 +50,7 @@ export function FolderForm({ folder }: { folder?: IFolderMetrics }) {
         onCheckedChange={(b) => setFormdata((p) => ({ ...p, isDefault: b }))}
         disabled={!isSuperAdmin}
         checked={formdata.isDefault}
-        label="Make default"
+        label="System default"
       />
 
       <Button

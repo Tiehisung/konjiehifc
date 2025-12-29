@@ -5,6 +5,7 @@ import { Button } from "@/components/buttons/Button";
 import { NavigationPopover } from "@/components/NavigationPopover";
 import { ThemeModeToggle } from "@/components/ThemeToggle";
 import UserLogButtons from "@/components/UserLogger";
+import { toggleClick } from "@/lib/DOM";
 import { LogOut, Logs, Users } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
@@ -85,7 +86,7 @@ export function LeftPaneDesktop() {
           <LogOut size={20} />
         </Button> */}
 
-        <LogoutBtn text='Logout'/>
+        <LogoutBtn text="Logout" />
       </footer>
     </div>
   );
@@ -111,17 +112,18 @@ export function LeftPaneMobile() {
       triggerStyles="md:hidden"
       className="backdrop-blur-sm text-white"
     >
-      <ul className="w-full">
+      <ul className="w-full max-h-[80vh] overflow-y-auto relative px-2.5">
         {mobileLinks.map((slink, index) => (
           <li
             key={index}
             className={`flex _hover _shrink px-2 rounded-md ${
-              activeLink(slink.path) ? " text-primary bg-popover/70 " : " "
+              activeLink(slink.path) ? "   bg-popover/70 " : " "
             }`}
           >
             <Link
               className="flex gap-1 w-full items-center h-10 text-sm font-light "
               href={slink.path}
+              onClick={() => toggleClick()}
             >
               <span className="text-xl bg-accent/30 rounded-full p-1.5">
                 {slink.icon}
@@ -131,9 +133,9 @@ export function LeftPaneMobile() {
           </li>
         ))}
 
-        <li className="mt-12 px-3 flex gap-6 items-center">
+        <li className="mt-12 px-3 flex gap-6 items-center sticky bottom-0 backdrop-blur-md bg-muted/30">
           <ThemeModeToggle className="w-full" />
-          <UserLogButtons logoutStyles="bg-popover border rounded flex items-center gap-1 text-sm justify-center w-full _secondaryBtn _hover py-1 px-2" />
+          <UserLogButtons />
         </li>
       </ul>
     </NavigationPopover>

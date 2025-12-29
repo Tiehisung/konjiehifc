@@ -1,5 +1,4 @@
 import { GoEye, GoEyeClosed } from "react-icons/go";
-import { CgClose } from "react-icons/cg";
 import { FaCediSign } from "react-icons/fa6";
 import {
   MdOutlineKeyboardBackspace,
@@ -7,8 +6,7 @@ import {
   MdCheckBoxOutlineBlank,
 } from "react-icons/md";
 import { VscLoading } from "react-icons/vsc";
-import { BsTriangle } from "react-icons/bs";
-import { HiOutlineUserGroup } from "react-icons/hi2";
+ 
 import {
   CheckCircle,
   Clock,
@@ -34,12 +32,14 @@ import {
   Edit3,
   DownloadIcon,
   Loader,
-  Loader2, 
+  Loader2,
   RefreshCcw,
-  Plus
+  Plus, Copy, Move,Users2,Triangle,
+  XIcon,
 } from "lucide-react";
 
 export const icons = {
+  copy: Copy, move: Move,
   new: Plus,
   refresh: RefreshCcw,
   loader: Loader2,
@@ -51,20 +51,20 @@ export const icons = {
   trash: Trash2,
   externalLink: ExternalLink,
   dot: Dot,
-  group: HiOutlineUserGroup,
+  group: Users2,
   user: User,
   users: Users,
   person: PersonStanding,
   printer: Printer,
   menu: Menu,
   more: MoreHorizontal,
-  triangle: BsTriangle,
+  triangle: Triangle,
   chevron: ChevronDown,
   checked: MdCheckBox,
   unchecked: MdCheckBoxOutlineBlank,
   eyeOpen: GoEye,
   eyeClosed: GoEyeClosed,
-  close: CgClose,
+  close: XIcon,
   loading: VscLoading,
   back: MdOutlineKeyboardBackspace,
   search: Search,

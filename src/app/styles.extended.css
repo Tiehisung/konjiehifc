@@ -38,3 +38,9 @@
 ._marquee:hover {
   animation-play-state: paused;
 }
+
+._wordBreak {
+  overflow-wrap: break-word;
+  word-break: break-word; /* For legacy browser support */
+  hyphens: auto;
+}

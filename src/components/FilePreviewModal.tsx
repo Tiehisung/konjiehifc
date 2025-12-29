@@ -5,15 +5,9 @@ import Image from "next/image";
 import { useGetViewportWidth } from "@/hooks/windowXY";
 import { getFileExtension, openFileInTab } from "@/lib/file";
 import { SideDrawer } from "./ShadSideDrawer";
+import { Button, TButtonVariant } from "./ui/button";
 
-const FilePreviewModal = ({
-  url,
-  trigger = "Preview",
-  className = " _label _secondaryBtn",
-  type = "any",
-  fileClassName,
-  modalClassName = "z-[100]",
-}: {
+interface IProps {
   url: string;
   title: string;
   trigger?: ReactNode;
@@ -21,36 +15,42 @@ const FilePreviewModal = ({
   type?: "image" | "video" | "pdf" | "any";
   fileClassName?: string;
   modalClassName?: string;
-}) => {
+  variant?: TButtonVariant;
+}
+
+const FileViewer = ({
+  url,
+  trigger = "Preview",
+  className = " ",
+  type = "any",
+  fileClassName,
+  modalClassName = "z-[100]",
+  variant = "ghost",
+}: IProps) => {
   //Open all pdf in new tab for small screen
   const extension = getFileExtension(url);
 
-  const viewport = useGetViewportWidth();
+  if (!url) return <p className="text-destructive italic font-light text-sm line-through">File not available</p> 
 
-  if (extension.includes("pdf") && viewport <= 768) {
+  if (extension.includes("pdf")) {
     return (
-      <span
+      <Button
         onClick={() => openFileInTab(url)}
         className={`flex items-center gap-1 cursor-pointer ${className}`}
         title="Open file"
+        variant={variant}
       >
-        <span>{trigger}</span>
-      </span>
+        {trigger}
+      </Button>
     );
   }
   return (
     <SideDrawer
       id={`${url}`}
-      trigger={
-        <span
-          className={`flex items-center gap-1 ${className}`}
-          title="Open file"
-        >
-          <span>{trigger}</span>
-        </span>
-      }
+      trigger={trigger}
       className={`relative ${modalClassName}`}
       side="bottom"
+      variant={variant}
     >
       {type == "image" && (
         <Image
@@ -74,4 +74,4 @@ const FilePreviewModal = ({
   );
 };
 
-export default FilePreviewModal;
+export default FileViewer;

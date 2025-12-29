@@ -27,24 +27,18 @@ export function ThemeModeToggle({
       <div
         className={`flex items-center gap-0.5 rounded-full p-1 w-fit ${className}`}
       >
-        {/* <HiOutlineComputerDesktop
-          size={32}
-          className={`rounded-full p-1.5 cursor-pointer _hover  ${
-            theme == "system" ? "bg-popover text-pink-700" : ""
-          }`}
-          onClick={() => setTheme("system")}
-        /> */}
+     
 
         {theme === "dark" ? (
           <MdOutlineWbSunny
             size={32}
-            className={`rounded-full p-1.5 cursor-pointer _hover bg-popover`}
+            className={`rounded-full p-1.5 cursor-pointer _hover bg-muted text-muted-foreground`}
             onClick={() => setTheme("light")}
           />
         ) : (
           <RiMoonClearLine
             size={32}
-            className={`rounded-full p-1.5 cursor-pointer _hover bg-popover`}
+            className={`rounded-full p-1.5 cursor-pointer _hover bg-muted text-muted-foreground`}
             onClick={() => setTheme("dark")}
           />
         )}
