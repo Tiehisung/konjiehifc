@@ -23,12 +23,8 @@ export const MatchFixtureCard: React.FC<IMatchFixtureCardProps> = ({
   return (
     <Card className={`w-96 border _borderColor${className}`}>
       {/* Header */}
-      <CardHeader className="flex justify-between items-center mb-4">
+      <CardHeader className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-bold">{match?.title}</h3>
-        <Button
-          primaryText="More"
-          className="text-sm text-gray-500 hover:text-gray-700"
-        />
       </CardHeader>
 
       {/* Match Details */}
@@ -53,15 +49,7 @@ export const MatchFixtureCard: React.FC<IMatchFixtureCardProps> = ({
             <div className="bg-gray-100 text-gray-800 rounded-lg px-4 py-1 font-medium">
               {match?.time}
             </div>
-            <div className="flex items-center space-x-1">
-              <Image
-                src={broadcasters.bbc_sports}
-                alt={"broadcaster"}
-                className="w-auto h-6 object-contain"
-                width={100}
-                height={100}
-              />
-            </div>
+            
           </div>
 
           {/* Away Team */}

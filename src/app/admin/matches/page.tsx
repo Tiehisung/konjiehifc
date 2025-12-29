@@ -86,22 +86,12 @@ export default async function AdminFixtures({ searchParams }: IPageProps) {
               href: "/admin/matches/create-fixture",
               description: "Add new match fixture",
             },
-            {
-              title: "Friendly Templates",
-              sectionId: "friendly",
-              description: "Jump to friendly templates section",
-            },
-            {
-              title: "Competition Templates",
-              sectionId: "competition",
-            },
+            
           ]}
           className="my-5"
         />
 
-        {/* Example sections in the page */}
-        <section id="friendly">Friendly Templates Section</section>
-        <section id="competition">Competition Templates Section</section>
+       
       </main>
     </section>
   );
