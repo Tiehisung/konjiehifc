@@ -51,6 +51,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                     role: user?.role
                 };
             },
+            authorization: {
+                params: {
+                    prompt: "select_account",   // 👈 always show account picker
+                },
+            }
         }), //Credentials
         CredentialsProvider({
             name: "Credentials",

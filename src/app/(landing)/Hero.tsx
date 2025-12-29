@@ -16,7 +16,7 @@ const Hero = async () => {
             Born to Play. Built to Win.
           </p>
 
-          <div className="rounded-full p-2 bg-background/20 backdrop-blur-xs">
+          <div className="rounded-full p-2  backdrop-blur-xs">
             <p className="text-4xl md:text-6xl font-semibold text-amber-600 text-center">
               YOUR PASSION
             </p>
