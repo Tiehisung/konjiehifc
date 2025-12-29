@@ -1,15 +1,14 @@
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import { NextRequest, NextResponse } from "next/server";
 import { getErrorMessage, removeEmptyKeys } from "@/lib";
-import DocModel, { IPostDoc } from "@/models/doc";
-import { IDeleteFile, TSearchKey } from "@/types";
+import DocModel from "@/models/doc";
 import { logAction } from "../logs/helper";
-import { IUser } from "@/types/user";
-import { deleteCldAssets } from "../file/route";
 import { ELogSeverity } from "@/types/log";
 import FolderModel from "@/models/folder";
 import { Document } from "mongoose";
 import { IDocFile } from "@/types/doc";
+import { TSearchKey } from "@/types";
+import { deleteCldAssets } from "../file/route";
 
 ConnectMongoDb();
 

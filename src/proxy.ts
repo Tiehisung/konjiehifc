@@ -5,7 +5,7 @@ import { EUserRole, ISession } from "./types/user";
 export async function proxy(request: NextRequest) {
     const session = (await auth()) as ISession | null;
 
-    console.log({ session });
+    // console.log({ session });
 
     // 1️⃣ Not signed in → redirect to login
     if (!session) {

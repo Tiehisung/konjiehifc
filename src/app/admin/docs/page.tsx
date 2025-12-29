@@ -52,7 +52,7 @@ export default async function DocsPage({ searchParams }: IProps) {
   return (
     <div>
       <HEADER title="DOCUMENTATION " />
-      <main className="_page px-3 mt-6 space-x-6 pb-6">
+      <main className="_page mt-6 pb-6">
         <RecentDocs />
 
         <section className="space-y-6">

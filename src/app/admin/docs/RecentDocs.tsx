@@ -1,15 +1,19 @@
 import TextDivider from "@/components/Divider";
 import { Color } from "@/styles";
 import { FaFilePdf } from "react-icons/fa";
-import { IFileProps, IQueryResponse } from "@/types";
+import { IQueryResponse } from "@/types";
 import Loader from "@/components/loaders/Loader";
-import { formatDate, getTimeAgo } from "@/lib/timeAndDate";
+import { getTimeAgo } from "@/lib/timeAndDate";
 import { getDocs } from "./page";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import FileViewer from "@/components/FilePreviewModal";
+import { DocumentActions } from "./[folder]/Actions";
+import { IDocFile } from "@/types/doc";
+import { shortText } from "@/lib";
 
 export async function RecentDocs() {
-  const recentDocs: IQueryResponse<IFileProps[]> = await getDocs("?limit=5");
+  const recentDocs: IQueryResponse<IDocFile[]> = await getDocs("?limit=5");
 
   return (
     <div>
@@ -20,33 +24,54 @@ export async function RecentDocs() {
         />
       </header>
       <main>
-        <br />
-
         {!recentDocs ? (
           <Loader />
         ) : (
-          <ul className="mb-6 space-y-2">
+          <ul className="mb-6 space-y-2 divide-y">
             {!recentDocs?.data || (recentDocs?.data?.length ?? 0) == 0 ? (
               <li className="_label"> No Documents available</li>
             ) : (
               recentDocs?.data?.map((doc, index) => (
                 <li
                   key={index}
-                  className={`_card flex flex-wrap items-center gap-2 px-6 py-3 cursor-pointer active:bg-opacity-50 border-y border-border w-full before:h-6 before:w-1 before:-ml-5 hover:before:bg-primary active:before:scale-y-90 before:transition-all`}
+                  className={`group relative flex justify-between items-center gap-2 px-3 py-3 cursor-pointer active:bg-opacity-50 w-full before:h-6 before:w-1 before:-ml-5 hover:before:bg-primary active:before:scale-y-90 before:transition-all`}
                 >
-                  <FaFilePdf color={Color.red} />
-                  <span>{doc?.name ?? doc?.original_filename}</span>
-                  <div className="flex flex-wrap gap-1 items-center justify-end ml-auto text-xs text-muted-foreground">
-                    <span>{formatDate(doc?.createdAt, "March 2, 2025")}</span>
-                    <span>{getTimeAgo(doc?.createdAt as string)}</span>
-                  </div>
+                  <FileViewer
+                    url={doc?.secure_url}
+                    title={doc?.description as string}
+                    trigger={
+                      <div className="grid">
+                        <p className="flex items-center gap-2.5 line-clamp-1 grow _wordBreak ">
+                          <FaFilePdf color={Color.red} />
+                          <span className="sm:hidden">
+                            {shortText(
+                              doc?.name ?? (doc?.original_filename as string),
+                              30
+                            )}
+                          </span>
+                          <span className="max-sm:hidden">
+                            {shortText(
+                              doc?.name ?? (doc?.original_filename as string),
+                              50
+                            )}
+                          </span>
+                        </p>
+                        <p className="font-light text-sm text-left ml-3 ">
+                          {getTimeAgo(doc?.createdAt as string)}
+                        </p>
+                      </div>
+                    }
+                    className="px-1"
+                  />
+
+                  <DocumentActions document={doc} className="md:visible relative" />
                 </li>
               ))
             )}
             <li className="py-6">
               <Link
                 href={"/admin/docs/files"}
-                className="_link border rounded-full py-2 px-5 flex items-center gap-3"
+                className="_link border rounded-full py-2 px-5 flex items-center justify-between gap-3"
               >
                 View More <ChevronRight />
               </Link>

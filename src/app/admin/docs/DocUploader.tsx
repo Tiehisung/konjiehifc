@@ -20,6 +20,7 @@ import { Button } from "@/components/buttons/Button";
 import { fireDoubleEscape } from "@/hooks/Esc";
 import { useFetch } from "@/hooks/fetch";
 import { Separator } from "@/components/ui/separator";
+import { IFolderMetrics } from "@/types/doc";
 
 interface IProps {
   defaultFolder?: string;
@@ -49,7 +50,7 @@ export function DocumentUploader({
   const [selectedFolder, setSelectedFolder] = useState(defaultFolder);
 
   const { loading: fetchingFolders, results: folderMetrics } = useFetch<{
-    folders: { name: string; _id: string }[];
+    folders: IFolderMetrics[];
   }>({
     uri: `${apiConfig.docs}/metrics`,
   });

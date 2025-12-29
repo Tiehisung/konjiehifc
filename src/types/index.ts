@@ -36,9 +36,9 @@ export interface IFileUpload {
   name: string;
   path: string;
   type?: string;
-  preset?: TPreset;
+  preset?: EPreset;
   folder?: string; //eg. logos, images, videos, audios/qiraa
-  presetType?: TPresetType;
+  presetType?: EPresetType;
   description?: string;
 }
 
@@ -57,8 +57,16 @@ export interface IGalleryProps {
 
 //Cloudinary
 
-export type TPresetType = "authenticated" | "unauthenticated";
-export type TPreset = "konjiehifc";
+export enum EPresetType {
+  AUTHENTICATED = "authenticated",
+  UNAUTHENTICATED = "unauthenticated"
+}
+
+
+export enum EPreset {
+  KFC_SIGNED = "kfc-signed",
+  KFC_UNSIGNED = 'kfc-unsigned'
+};
 export type TResourceType = "image" | "video" | "audio" | "auto";
 // export type TFolders = "images/logos" | "images" | "videos" | "audios";
 
