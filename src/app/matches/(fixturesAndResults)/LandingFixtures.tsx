@@ -16,7 +16,14 @@ const LandingFixtures = async () => {
   return (
     <div className="px-4 space-y-10 _page">
       <section>
-        <TITLE text="UPCOMING FIXTURES" />
+        <header className="flex justify-between items-center gap-6">
+          <TITLE text="UPCOMING FIXTURES" />
+          <PrimLink
+            href={"/matches#fixtures"}
+            text="More"
+            className="_link flex items-center"
+          />
+        </header>
 
         <div className="flex flex-wrap lg:grid lg:grid-cols-3 gap-[3vw] justify-center px-2 mt-5">
           {upcomingMatches?.data?.slice(0, 3)?.map((match, index) => (
@@ -26,17 +33,18 @@ const LandingFixtures = async () => {
               key={index}
             />
           ))}
-          <PrimLink
-            href={"/matches#fixtures"}
-            text="More"
-            className="_link flex items-center"
-          />
         </div>
       </section>
 
       <section>
-        <TITLE text="PLAYED FIXTURES" />
-
+        <header className="flex justify-between items-center gap-6">
+          <TITLE text="PLAYED FIXTURES" />{" "}
+          <PrimLink
+            href={"/matches#matches"}
+            text="More"
+            className="_link flex items-center"
+          />
+        </header>
         <div className="flex flex-wrap lg:grid-cols-2 xl:grid-cols-3 gap-[3vw]">
           {completedMatches?.data?.slice(0, 3)?.map((match, index) => (
             <PlayedMatchCard
@@ -47,11 +55,7 @@ const LandingFixtures = async () => {
             />
           ))}
         </div>
-        <PrimLink
-          href={"/matches#matches"}
-          text="More"
-          className="_link flex items-center"
-        />
+
         {completedMatches?.data?.length == 0 && (
           <p className="_label ml-3">No matches played yet</p>
         )}
