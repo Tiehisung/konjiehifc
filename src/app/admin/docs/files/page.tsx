@@ -36,39 +36,32 @@ const AllDocsPage = async ({ searchParams }: IPageProps) => {
                 docs?.data?.map((doc, index) => (
                   <li
                     key={index}
-                    className={`group relative flex justify-between items-center gap-2 px-3 py-3 cursor-pointer active:bg-opacity-50 w-full before:h-6 before:w-1 before:-ml-5 hover:before:bg-primary active:before:scale-y-90 before:transition-all`}
+                    className={`group relative flex items-center gap-2 px-3 py-3 cursor-pointer active:bg-opacity-50 w-full before:h-6 before:w-1 before:-ml-5 hover:before:bg-primary active:before:scale-y-90 before:transition-all`}
                   >
                     <FileViewer
                       url={doc?.secure_url}
                       title={doc?.description as string}
                       trigger={
-                        <div className="grid">
+                        <div className="flex items-center justify-between flex-wrap grow gap-x-3.5">
                           <p className="flex items-center gap-2.5 line-clamp-1 grow _wordBreak ">
                             <FaFilePdf color={Color.red} />
-                            <span className="sm:hidden">
+                            <span className="">
                               {shortText(
-                                doc?.name ?? (doc?.original_filename as string),
-                                30
-                              )}
-                            </span>
-                            <span className="max-sm:hidden">
-                              {shortText(
-                                doc?.name ?? (doc?.original_filename as string),
-                                50
+                                doc?.name ?? (doc?.original_filename as string)
                               )}
                             </span>
                           </p>
-                          <p className="font-light text-sm text-left ml-3 ">
+                          <p className="font-light text-sm text-left ml-3  ">
                             {getTimeAgo(doc?.createdAt as string)}
                           </p>
                         </div>
                       }
-                      className="px-1"
+                      className="px-1 grow max-w-[70vw]"
                     />
 
                     <DocumentActions
                       document={doc}
-                      className="md:visible relative"
+                      className="md:visible relative ml-auto"
                     />
                   </li>
                 ))

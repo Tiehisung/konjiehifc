@@ -1,16 +1,13 @@
 "use client";
 
 import { LogoutBtn } from "@/components/auth/Auth";
-import { Button } from "@/components/buttons/Button";
 import { NavigationPopover } from "@/components/NavigationPopover";
 import { ThemeModeToggle } from "@/components/ThemeToggle";
 import UserLogButtons from "@/components/UserLogger";
-import { toggleClick } from "@/lib/DOM";
-import { LogOut, Logs, Users } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { fireEscape } from "@/hooks/Esc";
+import { Logs, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
 import { AiOutlineTeam } from "react-icons/ai";
 import { CgDatabase } from "react-icons/cg";
 import { FcManager } from "react-icons/fc";
@@ -123,7 +120,7 @@ export function LeftPaneMobile() {
             <Link
               className="flex gap-1 w-full items-center h-10 text-sm font-light "
               href={slink.path}
-              onClick={() => toggleClick()}
+              onClick={() => fireEscape()}
             >
               <span className="text-xl bg-accent/30 rounded-full p-1.5">
                 {slink.icon}
