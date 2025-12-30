@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Button } from "@/components/buttons/Button";
 import { IconInputWithLabel } from "@/components/input/Inputs";
@@ -6,7 +6,7 @@ import { getErrorMessage } from "@/lib";
 import { LogIn } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { signIn,   } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 export const CredentialsLoginForm = ({ className }: { className?: string }) => {
   const [waiting, setWaiting] = useState(false);
@@ -30,8 +30,8 @@ export const CredentialsLoginForm = ({ className }: { className?: string }) => {
       await signIn("credentials", {
         redirect: true,
         callbackUrl: "/admin",
-        email: email,
-        password: password,
+        email,
+        password,
       });
     } catch (err) {
       console.log("SignIn error:", err);

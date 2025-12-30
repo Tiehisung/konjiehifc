@@ -1,12 +1,10 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
-import CredentialsProvider from "next-auth/providers/credentials"
-import { EUserRole, ISession, IUser } from './types/user';
+import { EUserRole, ISession } from './types/user';
 import { ConnectMongoDb } from "./lib/dbconfig";
 import UserModel from "./models/user";
-import bcrypt from "bcryptjs";
 import { toast } from "sonner";
-import { getErrorMessage } from "./lib";
+// import CredentialsProvider from "next-auth/providers/credentials"
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
     providers: [
@@ -42,7 +40,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                         await user.save();
                     }
                 }
-
+                toast.success(`You signed in as "${user?.role?.replace('_', ' ')}"`)
                 return {
                     id: user._id?.toString(),
                     email: user.email,
@@ -57,59 +55,62 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                 },
             }
         }), //Credentials
-        CredentialsProvider({
-            name: "Credentials",
-            credentials: {
-                email: {
-                    label: "Email",
-                    type: "email",
-                    placeholder: "Enter valid email",
-                },
-                password: {
-                    label: "Password",
-                    type: "password",
-                    placeholder: "Enter your password",
-                },
-            },
-            async authorize(credentials) {
-                try {
-                    ConnectMongoDb();
-                    const foundAdmin = (await UserModel.findOne({
-                        email: credentials?.email,
-                    })
-                        .lean()
-                        .exec()) as IUser | null;
-                    console.log("Found admin:", foundAdmin);
-                    if (foundAdmin) {
-                        const matched = await bcrypt.compare(
-                            credentials?.password as string,
-                            foundAdmin.password as string
-                        ); //Compare passwords
+        // CredentialsProvider({
+        //     name: "Credentials",
+        //     credentials: {
+        //         email: {
+        //             label: "Email",
+        //             type: "email",
+        //             placeholder: "Enter valid email",
+        //         },
+        //         password: {
+        //             label: "Password",
+        //             type: "password",
+        //             placeholder: "Enter your password",
+        //         },
+        //     },
+        //     async authorize(credentials) {
+        //         try {
+        //             ConnectMongoDb();
+        //             const foundAdmin = (await UserModel.findOne({
+        //                 email: credentials?.email,
+        //             })
+        //                 .lean()
+        //                 .exec()) as IUser | null;
+        //             console.log("Found admin:", foundAdmin);
+        //             if (foundAdmin) {
+        //                 const matched = await bcrypt.compare(
+        //                     credentials?.password as string,
+        //                     foundAdmin.password as string
+        //                 ); //Compare passwords
 
-                        if (matched) {
-                            const { _id, name, image, role, email } = foundAdmin; //Eliminate pass
-                            const safeUser = {
-                                name,
-                                image,
-                                role,//Assign role
-                                email,
-                                id: _id,
-                            };
+        //                 if (matched) {
+        //                     const { _id, name, image, role, email } = foundAdmin; //Eliminate pass
+        //                     const safeUser = {
+        //                         name,
+        //                         image,
+        //                         role,//Assign role
+        //                         email,
+        //                         id: _id,
+        //                     };
 
-                            //Normal user
-                            return { ...safeUser };
-                        } else { toast.error("Credentials mismatch!."); }
-                    } else {
-                        toast.error("No admin found with that email.");
-
-                    }
-                } catch (error) {
-                    console.log('Credentials error:', error);
-                    toast.error(`Credentials error: ${getErrorMessage(error as unknown)}`);
-                }
-                return null;
-            },
-        }),
+        //                     //Normal user
+        //                     return { ...safeUser };
+        //                 } else {
+        //                     toast.error("Credentials mismatch!.");
+        //                     return null;
+        //                 }
+        //             } else {
+        //                 toast.error("No admin found with that email.");
+        //                 return null;
+        //             }
+        //         } catch (error) {
+        //             console.log('Credentials error:', error);
+        //             toast.error(`Credentials error: ${getErrorMessage(error as unknown)}`);
+        //         }
+        //         return null;
+        //     },
+        // }),
     ],
 
 
@@ -134,7 +135,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         signIn: "/auth/login",
     },
     session: {
-        maxAge: 86400
+        strategy: "jwt",
+        maxAge: 60 * 60, // 1 hour
     }
 });
 

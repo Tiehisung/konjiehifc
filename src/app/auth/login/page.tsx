@@ -1,11 +1,11 @@
 "use client";
 
-import TextDivider from "@/components/Divider";
+// import TextDivider from "@/components/Divider";
 import { LoginBtn } from "@/components/auth/Auth";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { useSession } from "next-auth/react";
-import { CredentialsLoginForm } from "./Credentials";
+// import { CredentialsLoginForm } from "./Credentials";
 
 const LoginPage = () => {
   const { data: session } = useSession();
@@ -35,9 +35,9 @@ const LoginPage = () => {
           <FcGoogle size={24} />
         </LoginBtn>
 
-        <TextDivider text="OR" className="px-4 mt-5" />
+        {/* <TextDivider text="OR" className="px-4 mt-5" /> */}
 
-        <CredentialsLoginForm />
+        {/* <CredentialsLoginForm /> */}
       </div>
     </div>
   );

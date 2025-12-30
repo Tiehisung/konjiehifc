@@ -2,17 +2,11 @@
 
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import AdminLoginController from "./auth/Login";
 import Loader from "./loaders/Loader";
-import { LogoutBtn } from "./auth/Auth";
+import { LoginBtn, LogoutBtn } from "./auth/Auth";
 import { ISession } from "@/types/user";
 
-interface UserLogButtonsProps {
-  loginStyles?: string;
- 
-}
-
-export default function UserLogButtons({ loginStyles }: UserLogButtonsProps) {
+export default function UserLogButtons() {
   const { data: session, status } = useSession();
 
   if (status == "loading") return <Loader message="" />;
@@ -33,5 +27,5 @@ export default function UserLogButtons({ loginStyles }: UserLogButtonsProps) {
         <LogoutBtn variant={"destructive"} size={"sm"} />
       </div>
     );
-  return <AdminLoginController className={loginStyles} />;
+  return <LoginBtn text="Sign In" variant={"outline"} className=" w-full " />;
 }
