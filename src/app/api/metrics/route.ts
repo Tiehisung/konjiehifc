@@ -3,7 +3,7 @@ import { checkMatchMetrics } from "@/lib/compute/match";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import MatchModel from "@/models/match";
 import PlayerModel from "@/models/player";
-import { IGoal, IMatch, IMatchMetrics, ITeam } from "@/types/match.interface";
+import { IMatch, } from "@/types/match.interface";
 import { NextRequest, NextResponse } from "next/server";
 
 
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
       matchStats: {
         ...matchStats,
         metrics: matchMetrics,
-        winRate 
+        winRate
       },
     },
 

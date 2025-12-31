@@ -19,7 +19,6 @@ interface StatsProps {
 export default function HERO() {
   const [isHovered, setIsHovered] = useState(false);
   const { results, loading } = useFetch<StatsProps>({ uri: "/metrics" });
-  console.log({ results });
 
   const stats = [
     {

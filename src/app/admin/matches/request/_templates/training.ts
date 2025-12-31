@@ -1,6 +1,6 @@
 import { IManager } from "@/app/admin/managers/page";
 import { kfc } from "@/data/kfc";
-import { checkTeams } from "@/lib";
+import { checkTeams } from "@/lib/compute/match";
 import { formatDate } from "@/lib/timeAndDate";
 import { IMatch } from "@/types/match.interface";
 
