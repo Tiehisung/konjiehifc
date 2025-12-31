@@ -1,6 +1,5 @@
 "use client";
 
-import { ITeamProps, IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { staticImages } from "@/assets/images";
 import { Button } from "@/components/buttons/Button";
 import { DIALOG } from "@/components/Dialog";
@@ -17,7 +16,7 @@ import {
 } from "@/components/ui/card";
 import { teamKFC } from "@/data/teams";
 import { fireDoubleEscape, fireEscape } from "@/hooks/Esc";
-import { getErrorMessage, checkTeams } from "@/lib";
+import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { customStyles } from "@/styles";
 import { ISelectOptionLV } from "@/types";
@@ -25,7 +24,8 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Select from "react-select";
 import { toast } from "sonner";
-
+import { checkTeams } from "@/lib/compute/match";
+import { IMatch, ITeam } from "@/types/match.interface";
 export interface IPostMatch {
   date: string;
   time: string;
@@ -33,7 +33,7 @@ export interface IPostMatch {
   opponentId: string;
 }
 
-const CreateFixture = ({ teams }: { teams?: ITeamProps[] }) => {
+const CreateFixture = ({ teams }: { teams?: ITeam[] }) => {
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
 
@@ -163,8 +163,8 @@ export const UpdateFixtureMatch = ({
   fixture: fx,
   teams,
 }: {
-  fixture?: IMatchProps;
-  teams?: ITeamProps[];
+  fixture?: IMatch;
+  teams?: ITeam[];
 }) => {
   const router = useRouter();
 

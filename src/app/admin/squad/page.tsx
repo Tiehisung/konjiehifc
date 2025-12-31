@@ -10,7 +10,6 @@ import SquadCard from "./SquadCard";
 import { formatDate } from "@/lib/timeAndDate";
 import { PrimarySearch } from "@/components/Search";
 import { getMatches } from "../matches/page";
-import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import HEADER from "@/components/Element";
 import { PrimaryTabs } from "@/components/Tabs";
 
@@ -21,7 +20,7 @@ export interface ISquad {
   players: { _id?: string; name: string; position: string; avatar?: string }[];
   coach?: { _id?: string; name: string; avatar?: string };
   assistant?: { _id?: string; name: string; avatar?: string };
-  match: IMatchProps;
+  match: IMatch;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -65,7 +64,7 @@ const SquadPage = async ({ searchParams }: PageProps) => {
 
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
   const managers: IQueryResponse<IManager[]> = await getManagers();
-  const matches: IQueryResponse<IMatchProps[]> = await getMatches(
+  const matches: IQueryResponse<IMatch[]> = await getMatches(
     "?status=UPCOMING"
   );
 

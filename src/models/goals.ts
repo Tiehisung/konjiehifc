@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 export const goalSchema = new Schema(
   {
-    opponent: { type: Schema.Types.ObjectId, ref: "teams", required: true },
+    match: { type: Schema.Types.ObjectId, ref: "matches", required: true },
     minute: String,
     scorer: {
       _id: {
@@ -11,7 +11,8 @@ export const goalSchema = new Schema(
         required: true
       },
       name: String,
-      avatar: String
+      avatar: String,
+      number:Number
     },
     assist: {
       _id: {
@@ -19,10 +20,13 @@ export const goalSchema = new Schema(
         ref: "players",
       },
       name: String,
-      avatar: String
+      avatar: String,
+      number:Number
     },
     type: String,
     description: String,
+    modeOfScore: String,
+    forKFC: { type: Boolean, default: () => false }
   },
   { timestamps: true }
 );
@@ -31,3 +35,4 @@ const GoalModel = mongoose.models.goals || mongoose.model("goals", goalSchema);
 
 export default GoalModel;
 
+export type IPostGoal = mongoose.InferSchemaType<typeof goalSchema>;

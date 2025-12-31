@@ -1,17 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { IMatchProps } from ".";
 import { getTimeAgo } from "@/lib/timeAndDate";
-import { broadcasters } from "@/assets/broadcaster/broadcaster";
 import { teamLogos } from "@/assets/teams/logos/team-logos";
-import { checkTeams } from "@/lib";
-import { Button } from "@/components/buttons/Button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { IMatch } from "@/types/match.interface";
+import { checkTeams } from "@/lib/compute/match";
 
 interface IMatchFixtureCardProps {
-  match: IMatchProps;
+  match: IMatch;
   className?: string;
 }
 
@@ -70,7 +68,7 @@ export const MatchFixtureCard: React.FC<IMatchFixtureCardProps> = ({
 };
 
 export const PlayedMatchCard: React.FC<{
-  match: IMatchProps;
+  match: IMatch;
   league: string;
   className?: string;
 }> = ({ league, match, className }) => {
@@ -118,7 +116,7 @@ export const PlayedMatchCard: React.FC<{
 };
 
 export const CanceledMatchCard: React.FC<{
-  match: IMatchProps;
+  match: IMatch;
   league: string;
   className?: string;
 }> = ({ league, match, className }) => {

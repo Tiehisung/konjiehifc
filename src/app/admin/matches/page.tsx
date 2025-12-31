@@ -4,7 +4,7 @@ import { getTeams } from "../features/teams/page";
 import {
   IMatchProps,
   ITeamProps,
-  MatchStatus,
+ 
 } from "@/app/matches/(fixturesAndResults)";
 import { IQueryResponse } from "@/types";
 import { buildQueryStringServer } from "@/lib";
@@ -14,9 +14,10 @@ import { getManagers, IManager } from "../managers/page";
 import { IPlayer } from "@/types/player.interface";
 import { QuickLinks } from "@/components/QuickLinks/LinkOrSectionId";
 import { Separator } from "@/components/ui/separator";
+import { EMatchStatus } from "@/types/match.interface";
 
 export interface IGetMatchesProps {
-  status?: MatchStatus;
+  status?: EMatchStatus;
   isHome?: boolean;
 
   sort?: "desc" | "asc";

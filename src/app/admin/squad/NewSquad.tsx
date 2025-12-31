@@ -31,14 +31,14 @@ import { getErrorMessage } from "@/lib";
 import { useRouter } from "next/navigation";
 import { ISquad } from "./page";
 import { formatDate, getTimeLeftOrAgo } from "@/lib/timeAndDate";
-import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { enumToOptions } from "@/lib/select";
+import { IMatch } from "@/types/match.interface";
 
 interface IProps {
   players?: IPlayer[];
   managers?: IManager[];
-  matches?: IMatchProps[];
-  defaultMatch?: IMatchProps;
+  matches?: IMatch[];
+  defaultMatch?: IMatch;
 }
 
 interface IPostSquad {
@@ -47,12 +47,12 @@ interface IPostSquad {
   positions: Record<string, string>;
   coach?: string;
   assistant?: string;
-  match: IMatchProps;
+  match: IMatch;
 }
 
 // Joi Validation Schema
 const squadSchema = Joi.object<IPostSquad>({
-  match: Joi.object<IMatchProps>().required().label("Fixture"),
+  match: Joi.object<IMatch>().required().label("Fixture"),
 
   description: Joi.string().allow("").max(500).label("Description"),
 

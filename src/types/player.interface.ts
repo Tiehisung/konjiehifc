@@ -1,8 +1,9 @@
 import { IManager } from "@/app/admin/managers/page";
-import { IGoal, IMatchProps, IMatchCard } from "@/app/matches/(fixturesAndResults)";
+import { IMatchCard } from "@/app/matches/(fixturesAndResults)";
 import { ICldFileUploadResult } from "@/components/cloudinary/FileUploadWidget";
 import { IFileProps } from ".";
 import { EColor } from "./log";
+import { IGoal, IMatch } from "./match.interface";
 
 export enum EPlayerStatus {
     PENDING = 'pending',
@@ -65,10 +66,10 @@ export interface IPlayer {
     favColor?: EColor
     //Stats
     goals: IGoal[];
-    matches: IMatchProps[];
+    matches: IMatch[];
     ratings: { rating: number; match: string }[];
     assists: IGoal[];
-    mvp: { _id: string; match: IMatchProps }[];
+    mvp: { _id: string; match: IMatch }[];
     passAcc: string;
     trophies: number;
     cards: IMatchCard[];

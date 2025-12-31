@@ -8,8 +8,8 @@ import "@/models/goals";
 import "@/models/player";
 import "@/models/squad";
 import { removeEmptyKeys } from "@/lib";
-import { MatchStatus } from "@/app/matches/(fixturesAndResults)";
 import { getSessionUser } from "@/app/admin/page";
+import { EMatchStatus } from "@/types/match.interface";
 
 ConnectMongoDb();
 
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const page = Number.parseInt(searchParams.get("page") || "1", 10);
 
-  const status = searchParams.get('status') as MatchStatus
+  const status = searchParams.get('status') as EMatchStatus
 
   const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
 

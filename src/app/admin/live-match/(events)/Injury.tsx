@@ -14,10 +14,10 @@ import { Plus } from "lucide-react";
 import { IPlayer } from "@/types/player.interface";
 import { toast } from "sonner";
 import { apiConfig } from "@/lib/configs";
-import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { getErrorMessage } from "@/lib";
 import { Button } from "@/components/buttons/Button";
 import { useRouter } from "next/navigation";
+import { IMatch } from "@/types/match.interface";
 
 export interface IInjury {
   _id?: string;
@@ -35,7 +35,7 @@ export interface IInjury {
 
 interface InjuryEventsTabProps {
   players: IPlayer[];
-  match: IMatchProps;
+  match: IMatch;
 }
 
 export function InjuryEventsTab({ players, match }: InjuryEventsTabProps) {

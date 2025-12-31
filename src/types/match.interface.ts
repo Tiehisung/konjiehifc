@@ -1,30 +1,47 @@
 import { ISquad } from "@/app/admin/squad/page";
+import { IFileProps } from ".";
+import { IPlayerMini } from "./player.interface";
 import { IPlayerStatsProps } from "@/app/statistics/Statistics";
-import { IFileProps } from "@/types";
-import { EMatchStatus } from "@/types/match.interface";
-import { IPlayerMini } from "@/types/player.interface";
 
+export enum EMatchStatus {
+  FT = 'FT',
+  LIVE = 'LIVE',
+  UPCOMING = 'UPCOMING'
+}
 
+export type TMatchType = "home" | "away";
 
-export interface IMatchProps {
+export interface IMatch {
   _id: string;
   comment?: string;
   title: string;
   date: string;
   time: string;
-  opponent: ITeamProps;
+  opponent: ITeam;
   broadcaster?: IFileProps;
   status: EMatchStatus;
   score: { kfc: number; opponent: number };
   isHome: boolean;
   venue?: { name: string; files: IFileProps[] };
-  goals: Array<IGoal>;
+  goals: Array<IGoal>
   opponentGoals: number
   events: Array<IMatchEvent>;
   cards: Array<IMatchCard>;
   squad?: ISquad
 }
-
+export interface IMatchMetrics {
+  goals: {
+    home: number;
+    away: number;
+    kfc: IGoal[];
+    opponent: IGoal[];
+  };
+  winStatus: string;
+  teams: {
+    home: ITeam | undefined;
+    away: ITeam ;
+  }
+}
 export interface IMatchCard {
   type: 'red' | 'yellow';
   minute: string | number
@@ -41,7 +58,7 @@ export interface IMatchEvent {
 }
 
 
-export interface ITeamProps {
+export interface ITeam {
   _id: string;
   name: string;
   community: string;
@@ -72,6 +89,7 @@ export interface IGoal {
   | "Long-Range Goal"
   description?: string
   match: string
+  forKFC:boolean
 }
 
 

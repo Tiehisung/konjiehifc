@@ -1,5 +1,5 @@
-import { IMatchProps } from "../(fixturesAndResults)";
-import { checkTeams } from "@/lib";
+
+import { checkTeams } from "@/lib/compute/match";
 import Image from "next/image";
 import { LuDot } from "react-icons/lu";
 import {
@@ -10,11 +10,12 @@ import {
 } from "@/components/ui/card";
 import { getLiveMatch } from "../../admin/live-match/page";
 import { Updator } from "@/components/Updator";
+import { IMatch } from "@/types/match.interface";
 
 export const LiveMatchCard = async () => {
-  const match: IMatchProps | null = (await getLiveMatch())?.data;
+  const match: IMatch | null = (await getLiveMatch())?.data;
 
-  const { home, away } = checkTeams(match as IMatchProps);
+  const { home, away } = checkTeams(match as IMatch);
 
   if (!match) return null;
   return (

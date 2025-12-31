@@ -1,6 +1,7 @@
-import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
+import { IMatch } from "@/types/match.interface";
 
-export async function LiveMatchEvents({ match }: { match?: IMatchProps }) {
+
+export async function LiveMatchEvents({ match }: { match?: IMatch }) {
   const sortedEvents = match?.events
     ? [...match?.events]?.sort(
         (a, b) => Number(b.minute ?? 0) - Number(a.minute ?? 0)

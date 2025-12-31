@@ -1,10 +1,11 @@
 import { IQueryResponse } from "@/types";
 import React from "react";
 import { getMatches } from "../admin/matches/page";
-import { IMatchProps } from "./(fixturesAndResults)";
 import FixturesSection from "./Fixtures";
 import { buildQueryStringServer } from "@/lib";
 import HEADER from "@/components/Element";
+import { IMatch } from "@/types/match.interface";
+
 interface IPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
@@ -24,7 +25,7 @@ export const metadata = {
 export default async function MatchesPage({ searchParams }: IPageProps) {
   const qs = buildQueryStringServer(await searchParams);
 
-  const fixtures: IQueryResponse<IMatchProps[]> = await getMatches(qs);
+  const fixtures: IQueryResponse<IMatch[]> = await getMatches(qs);
   // const teams: IQueryResponse<ITeamProps[]> = await getTeams();
   return (
     <div>

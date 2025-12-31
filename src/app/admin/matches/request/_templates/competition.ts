@@ -1,7 +1,7 @@
 import { IManager } from "@/app/admin/managers/page";
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { kfc } from "@/data/kfc";
-import { checkTeams } from "@/lib";
+import { checkTeams } from "@/lib/compute/match";
 import { formatDate } from "@/lib/timeAndDate";
 
 export const competitionTemplates = (

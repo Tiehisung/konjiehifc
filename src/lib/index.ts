@@ -1,6 +1,6 @@
+import { IMatch } from "@/types/match.interface";
 
-import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
-import { teamKFC } from "@/data/teams";
+
 
 export function getErrorMessage(
   error: unknown,
@@ -32,7 +32,7 @@ export function getErrorMessage(
 
   // 4. Zod/Joi/Mongoose validation errors
   if (err.details && Array.isArray(err.details) && err.details.length) {
-    return err.details.map((d: {message:string}) => d.message).join(", ");
+    return err.details.map((d: { message: string }) => d.message).join(", ");
   }
 
   // Mongoose validation error
@@ -91,30 +91,6 @@ export function removeEmptyKeys(obj: AnyObject): AnyObject {
     return acc;
   }, {});
 }
-
-export const checkTeams = (match?: IMatchProps) => {
-
-  if (match?.isHome) {
-    return { home: teamKFC, away: match?.opponent }
-  }
-  return {
-    home: match?.opponent,
-    away: teamKFC,
-  }
-};
-
-export const checkGoals = (match?: IMatchProps) => {
-  return {
-    home:
-      match?.opponent?.alias == "KFC"
-        ? match?.goals?.length
-        : match?.opponentGoals,
-    away:
-      match?.opponent?.alias == "KFC"
-        ? match?.goals?.length
-        : match?.opponentGoals,
-  }
-};
 
 export function roundToNearest(num: number, nearest?: 10 | 100 | 1000) {
   if (nearest == 10) return Math.round(num / 10) * 10;

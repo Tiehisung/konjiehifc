@@ -1,13 +1,13 @@
 import React from "react";
 import { SearchQueryUpdator } from "./Headers";
-import { IMatchProps } from "./(fixturesAndResults)";
 import { IQueryResponse } from "@/types";
 import { MotionWrapper } from "@/components/Animate/MotionWrapper";
 import { MatchFixtureCard } from "./MatchCard";
 import InfiniteLimitScroller from "@/components/InfiniteScroll";
+import { IMatch } from "@/types/match.interface";
 
 interface IProps {
-  fixtures: IQueryResponse<IMatchProps[]>;
+  fixtures: IQueryResponse<IMatch[]>;
 }
 
 const FixturesSection = ({ fixtures }: IProps) => {

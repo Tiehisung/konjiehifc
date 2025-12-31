@@ -11,11 +11,6 @@ import {
 } from "@/components/ui/select";
 import { Plus, Minus } from "lucide-react";
 import { Input } from "@/components/input/Inputs";
-import {
-  IGoal,
-  IMatchProps,
-  ITeamProps,
-} from "@/app/matches/(fixturesAndResults)";
 import { apiConfig } from "@/lib/configs";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/lib";
@@ -23,11 +18,14 @@ import { IPlayer } from "@/types/player.interface";
 import { Button } from "@/components/buttons/Button";
 import { useRouter } from "next/navigation";
 import { PrimaryAccordion } from "@/components/Accordion";
+import { IGoal, IMatch, ITeam } from "@/types/match.interface";
+import { IPostGoal } from "@/models/goals";
+import { SWITCH } from "@/components/ui/switch";
 
 interface ScoreEventsTabProps {
   players: IPlayer[];
-  opponent?: ITeamProps;
-  match: IMatchProps;
+  opponent?: ITeam;
+  match: IMatch;
 }
 
 export function ScoreEventsTab({
@@ -41,6 +39,7 @@ export function ScoreEventsTab({
     assist: "",
     minute: "",
     description: "",
+    forKFC: true,
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -50,8 +49,8 @@ export function ScoreEventsTab({
     try {
       e.preventDefault();
       setIsLoading(true);
-      if (!form.scorer || !form.minute || !form.description) {
-        toast.warning("Please fill in scorer, minute, and description");
+      if (!form.minute) {
+        toast.warning("Please specify the time in minutes, and description");
         return;
       }
 
@@ -71,25 +70,27 @@ export function ScoreEventsTab({
           }
         : undefined;
 
-      if (!scorer || !opponent) return;
-
-      const newGoal: IGoal = {
-        opponent: opponent?._id,
-        scorer: {
-          _id: scorer._id,
-          name: `${scorer.lastName} ${scorer.firstName}`,
-          avatar: scorer?.avatar,
-          number: scorer?.number,
-        },
-        assist,
+      let newGoal: any = {
         minute: Number.parseInt(form.minute),
         description: `⚽ ${form.description}`,
         modeOfScore: "Open Play Goal",
         match: match?._id,
       };
 
+      if (form.forKFC)
+        newGoal = {
+          ...newGoal,
+          scorer: {
+            _id: scorer?._id,
+            name: `${scorer?.lastName} ${scorer?.firstName}`,
+            avatar: scorer?.avatar,
+            number: scorer?.number,
+          },
+          assist,
+        };
+
       const response = await fetch(apiConfig.goals, {
-        headers: { "content-type": "application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newGoal),
         method: "POST",
       });
@@ -98,7 +99,13 @@ export function ScoreEventsTab({
       toast.success(results.message);
 
       // onAddGoal(newGoal);
-      setForm({ scorer: "", assist: "", minute: "", description: "" });
+      setForm({
+        scorer: "",
+        assist: "",
+        minute: "",
+        description: "",
+        forKFC: true,
+      });
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
@@ -107,7 +114,6 @@ export function ScoreEventsTab({
     }
   };
 
-  //Increment Opponent goals
   const handleRemoveGoal = async () => {
     try {
       setIsLoadingOG(true);
@@ -116,7 +122,7 @@ export function ScoreEventsTab({
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           _id: match?._id,
-          goals: [...match?.goals].slice(0, -1),
+          goals: [...(match?.goals ?? [])].slice(0, -1),
         }),
         method: "PUT",
       });
@@ -139,57 +145,68 @@ export function ScoreEventsTab({
         }`}
       >
         <form onSubmit={handleAddGoal}>
-          <h2 className="mb-6 text-2xl font-bold">Add Goal</h2>
+          <h2 className="mb-6 text-2xl font-bold flex items-center gap-6 justify-between">
+            Add Goal{" "}
+            <SWITCH
+              label="For KFC"
+              name="forkfc"
+              onCheckedChange={(ch) => setForm((p) => ({ ...p, forKFC: ch }))}
+            />
+          </h2>
 
           <div className="space-y-4">
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <label className="mb-2 block text-sm font-medium">Scorer</label>
-                <Select
-                  value={form.scorer}
-                  onValueChange={(value) =>
-                    setForm((prev) => ({ ...prev, scorer: value }))
-                  }
-                >
-                  <SelectTrigger className="grow w-full ">
-                    <SelectValue placeholder="Select scorer" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {players?.map((player) => (
-                      <SelectItem key={player._id} value={player._id}>
-                        {`${player?.number ?? player?.number} - ${
-                          player.lastName
-                        } ${player?.firstName}`}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+            {!form.forKFC && (
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <label className="mb-2 block text-sm font-medium">
+                    Scorer
+                  </label>
+                  <Select
+                    value={form.scorer}
+                    onValueChange={(value) =>
+                      setForm((prev) => ({ ...prev, scorer: value }))
+                    }
+                  >
+                    <SelectTrigger className="grow w-full ">
+                      <SelectValue placeholder="Select scorer" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {players?.map((player) => (
+                        <SelectItem key={player._id} value={player._id}>
+                          {`${player?.number ?? player?.number} - ${
+                            player.lastName
+                          } ${player?.firstName}`}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <label className="mb-2 block text-sm font-medium">
+                    Assist (Optional)
+                  </label>
+                  <Select
+                    value={form.assist}
+                    onValueChange={(value) =>
+                      setForm((prev) => ({ ...prev, assist: value }))
+                    }
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select assist player" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {players?.map((player) => (
+                        <SelectItem key={player._id} value={player._id}>
+                          {`${player?.number ?? player?.number} - ${
+                            player.lastName
+                          } ${player?.firstName}`}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-              <div>
-                <label className="mb-2 block text-sm font-medium">
-                  Assist (Optional)
-                </label>
-                <Select
-                  value={form.assist}
-                  onValueChange={(value) =>
-                    setForm((prev) => ({ ...prev, assist: value }))
-                  }
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select assist player" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {players?.map((player) => (
-                      <SelectItem key={player._id} value={player._id}>
-                        {`${player?.number ?? player?.number} - ${
-                          player.lastName
-                        } ${player?.firstName}`}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
+            )}
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
@@ -199,6 +216,7 @@ export function ScoreEventsTab({
                   others={{ min: "0", max: "120" }}
                   placeholder="e.g., 45"
                   value={form.minute}
+                  required
                   onChange={(e) =>
                     setForm((prev) => ({ ...prev, minute: e.target.value }))
                   }
@@ -246,13 +264,13 @@ export function ScoreEventsTab({
           </div>
         </form>
 
-        <OppoentGoalsUpdate match={match} />
+        {/* <OppoentGoalsUpdate match={match} /> */}
       </Card>
     </div>
   );
 }
 
-function OppoentGoalsUpdate({ match }: { match: IMatchProps }) {
+function OppoentGoalsUpdate({ match }: { match: IMatch }) {
   const router = useRouter();
   const [isLoadingOG, setIsLoadingOG] = useState(false);
   const [type, setType] = useState("");
@@ -267,8 +285,7 @@ function OppoentGoalsUpdate({ match }: { match: IMatchProps }) {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           _id: match?._id,
-          opponentGoals:
-            type == "inc" ? match.opponentGoals + 1 : match.opponentGoals - 1,
+           
         }),
         method: "PUT",
       });

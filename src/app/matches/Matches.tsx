@@ -4,11 +4,11 @@ import { _pagination, Pagination } from "@/components/Pagination";
 import React, { useState } from "react";
 import { SearchQueryUpdator } from "./Headers";
 import { ISelectOptionLV } from "@/types";
-import { PlayedMatchCard } from "./(fixturesAndResults)/Cards";
-import { IMatchProps } from "./(fixturesAndResults)";
+import { PlayedMatchCard } from "./(fixturesAndResults)/Cards";;
 import { PrimarySelect } from "@/components/select/Select";
+import { IMatch } from "@/types/match.interface";
 
-const MatchesSection = ({ matches }: { matches: IMatchProps[] }) => {
+const MatchesSection = ({ matches }: { matches: IMatch[] }) => {
    const filters = [
      { label: "All", value: "" },
      { label: "Home", value: "home" },
@@ -35,7 +35,7 @@ const MatchesSection = ({ matches }: { matches: IMatchProps[] }) => {
         {matches?.map((match, index) => (
           <PlayedMatchCard
             key={index}
-            match={match as IMatchProps}
+            match={match as IMatch}
             league="Circuit Galla"
             className="max-sm:grow "
           />

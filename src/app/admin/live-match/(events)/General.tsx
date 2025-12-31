@@ -9,12 +9,13 @@ import { Button } from "@/components/buttons/Button";
 import { toast } from "sonner";
 import { getErrorMessage, shortText } from "@/lib";
 import { apiConfig } from "@/lib/configs";
-import { IMatchEvent, IMatchProps } from "@/app/matches/(fixturesAndResults)";
+import { IMatchEvent,   } from "@/app/matches/(fixturesAndResults)";
 import { useRouter } from "next/navigation";
 import { EmojiPicker } from "@/components/input/EmojiPicker";
+import { IMatch } from "@/types/match.interface";
 
 interface GeneralEventsTabProps {
-  match: IMatchProps;
+  match: IMatch;
 }
 
 export function GeneralEventsTab({ match }: GeneralEventsTabProps) {

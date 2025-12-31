@@ -16,15 +16,15 @@ import { Badge } from "@/components/ui/badge";
 import { Users, CalendarDays, MapPin, Clock, UserCog } from "lucide-react";
 import { ISquad } from "./page";
 import { formatDate, getTimeAgo } from "@/lib/timeAndDate";
-import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { useSession } from "next-auth/react";
 import { apiConfig } from "@/lib/configs";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { IUser } from "@/types/user";
+import { IMatch } from "@/types/match.interface";
 
 interface SquadDisplayProps {
   squad?: ISquad;
-  match?: IMatchProps;
+  match?: IMatch;
 }
 
 const SquadCard = ({ squad, match }: SquadDisplayProps) => {

@@ -3,14 +3,13 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import { NextRequest, NextResponse } from "next/server";
 import { logAction } from "../logs/helper";
 import { IGoal } from "@/app/matches/(fixturesAndResults)";
-import GoalModel from "@/models/goals";
+import GoalModel, { IPostGoal } from "@/models/goals";
 import { updateMatchEvent } from "../matches/live/events/route";
 import MatchModel from "@/models/match";
 import PlayerModel from "@/models/player";
 import { IUser } from "@/types/user";
 import { auth } from "@/auth";
-// export const revalidate = 0;
-// export const dynamic = "force-dynamic";
+
 
 ConnectMongoDb();
 export async function GET(request: NextRequest) {
@@ -56,37 +55,38 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth()
-    const { match, description, minute, opponent, scorer, assist, modeOfScore, } = await request.json() as IGoal;
+
+    const { match, description, minute, scorer, assist, modeOfScore, forKFC } = await request.json() as IPostGoal;
 
     const savedGoal = await GoalModel.create({
-      match, description, minute, opponent, scorer, assist, modeOfScore,
+      match, description, minute, scorer, assist, modeOfScore, forKFC
     });
 
     if (!savedGoal) {
       return NextResponse.json({ message: "Failed to create goal.", success: false });
     }
     //Update Match
-    await MatchModel.findByIdAndUpdate(match, { $push: { goals: savedGoal._id } })
+    const updatedMatech = await MatchModel.findByIdAndUpdate(match, { $push: { 'goals': savedGoal._id } })
 
     //Update Player
-    await PlayerModel.findByIdAndUpdate(scorer?._id, { $push: { goals: savedGoal._id } })
+    if (forKFC)
+      await PlayerModel.findByIdAndUpdate(scorer?._id, { $push: { goals: savedGoal._id } })
 
     //Update events
-    const assistance = assist ? `Assist: ${assist.number ?? ''} ${assist.name} ` : ''
-    await updateMatchEvent(match, {
+    const assistance = assist ? `Assist: ${assist?.number ?? ''} ${assist.name} ` : ''
+    await updateMatchEvent(match?.toString(), {
       type: 'goal',
-      minute: minute,
-      title: `⚽ ${minute}' - ${scorer.number ?? ''}  ${scorer.name} `,
+      minute: String(minute),
+      title: `⚽ ${minute}' - ${scorer?.number ?? 'Goal scored by '}  ${scorer?.name ?? 'unknown player'} `,
       description: `${assistance} ${description} Mode of Score: ${modeOfScore ?? ''}`
 
     })
 
     // log
     await logAction({
-      title: "Goal Created",
+      title: "Goal Created " + updatedMatech?.title,
       description: description as string,
-     
+      meta: savedGoal
     });
 
     return NextResponse.json({ message: "Goal created successfully!", success: true, data: savedGoal });
