@@ -25,7 +25,7 @@ export default function HeaderCp() {
   if (pathname.startsWith("/admin")) return;
   return (
     <div
-      className={`h-14 sticky top-1 flex gap-6 justify-between items-center w-fit px-2 z-40 from-primary/25 to-background/25 backdrop-blur-sm rounded-full border shadow`}
+      className={`h-14 sticky flex gap-6 justify-between items-center w-fit px-2 z-40 from-primary/25 to-background/25 backdrop-blur-sm rounded-full border shadow`}
     >
       <Link href={"/"}>
         <div className="flex items-center w-fit ">
@@ -41,11 +41,6 @@ export default function HeaderCp() {
             className="max-w-32 h-full"
           />
         </div>
-        {/* 
-        <h1 className="flex text-2xl md:text-3xl lg:text-4xl font-semibold dark:text-white ">
-          <span className="">Konjiehi</span>{" "}
-          <span className="text-Orange">FC</span>
-        </h1> */}
       </Link>
       <div className=" container ml-auto flex justify-end items-center ">
         <DesktopNav />
@@ -81,7 +76,7 @@ export const DesktopNav = () => {
       ))}
 
       <li className="ml-3">
-        <UserLogButtons logoutStyles="_deleteBtn border rounded flex items-center gap-1 text-sm justify-center w-fit py-1 px-2" />
+        <UserLogButtons />
       </li>
       <li className="ml-3">
         <ThemeModeToggle />
@@ -146,50 +141,9 @@ export const MobilePublicNuv = () => {
         )}
         <li className="mt-12 px-3 flex gap-6 items-center flex-wrap">
           <ThemeModeToggle />
-          <UserLogButtons logoutStyles="_deleteBtn border rounded flex items-center gap-1 text-sm justify-center w-fit py-1 px-2" />
+          <UserLogButtons />
         </li>
       </ul>
     </NavigationPopover>
   );
 };
-
-// export function MobilieNavCp() {
-//   const { status } = useSession();
-
-//   return (
-//     <SideDrawer
-//       className="pt-8 "
-//       triggerStyles="lg:hidden rounded-full aspect-square h-12 shadow-lg"
-//       side="bottom"
-//     >
-//       <ul className="items-center w-full min-h-full text-base cursor-pointer shadow-md space-y-2">
-//         {navLinks.map((nlink, index) => (
-//           <li key={index} className="flex">
-//             <Link
-//               href={nlink.href}
-//               className="hover:bg-blue-400 hover:text-white flex gap-1 w-full items-center h-10"
-//             >
-//               <span className="p-2 ">{nlink.icon}</span>
-//               {nlink.title}
-//             </Link>
-//           </li>
-//         ))}
-//         {status == "authenticated" && (
-//           <li className={`flex`}>
-//             <Link
-//               href={"/admin"}
-//               className="hover:bg-blue-400 hover:text-white flex gap-1 w-full items-center h-10"
-//             >
-//               <span className="p-2 ">{<GrDashboard size={24} />}</span>
-//               Admin Dashboard
-//             </Link>
-//           </li>
-//         )}
-//         <li className="mt-12 px-3 flex gap-6 items-center flex-wrap">
-//           <ThemeModeToggle />
-//           <UserLogButtons logoutStyles="_deleteBtn border rounded flex items-center gap-1 text-sm justify-center w-fit py-1 px-2" />
-//         </li>
-//       </ul>
-//     </SideDrawer>
-//   );
-// }

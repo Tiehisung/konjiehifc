@@ -1,7 +1,7 @@
 import { ISquad } from "@/app/admin/squad/page";
-import { IPlayerMini } from "@/app/players/page";
 import { IPlayerStatsProps } from "@/app/statistics/Statistics";
 import { IFileProps } from "@/types";
+import { IPlayerMini } from "@/types/player.interface";
 
 export type TMatchType = "home" | "away";
 export type MatchStatus =

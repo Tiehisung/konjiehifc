@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import PrimLink from "@/components/Link";
-import { IPlayer } from "../players/page";
 import { getPlayers } from "../admin/players/page";
 import {  IQueryResponse } from "@/types";
 import { ResponsiveSwiper } from "@/components/carousel/ResponsiveSwiper";
@@ -10,6 +9,7 @@ import Link from "next/link";
 import { generatePlayerAbout } from "@/data/about";
 import { TbPlayFootball } from "react-icons/tb";
 import { TITLE } from "@/components/Element";
+import { IPlayer } from "@/types/player.interface";
 
 const LandingPlayers = async () => {
   const players: IQueryResponse<IPlayer[]> = await getPlayers();

@@ -28,7 +28,7 @@ const BackToTopButton = ({className='z-10'}:{className?:string}) => {
   };
 
   return (
-    <div className={`fixed bottom-6 right-6 ${className}`}>
+    <div className={` ${className}`}>
       {isVisible && (
         <button
           title="Back to Top"

@@ -19,3 +19,15 @@ export enum ELogSeverity {
     WARNING = 'warning',
     CRITICAL = 'critical'
 }
+
+export enum EColor {
+    RED = "red"
+    , TEAL = "teal"
+    , YELLOW = "yellow"
+    , GREEN = "green"
+    , BLUE = "blue"
+    , BLACK = "black"
+    , GRAY = "gray"
+    , WHITE = "white"
+    , GOLD = "gold"
+}

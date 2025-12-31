@@ -6,7 +6,7 @@ import CaptaincyModel from "@/models/captain";
 import { NextRequest, NextResponse } from "next/server";
 import { getErrorMessage, removeEmptyKeys } from "@/lib";
 import { QueryFilter } from "mongoose";
-import { IPlayerMini } from "@/app/players/page";
+import { IPlayerMini } from "@/types/player.interface";
  
 
 ConnectMongoDb();

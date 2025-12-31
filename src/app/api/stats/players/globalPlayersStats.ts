@@ -1,4 +1,4 @@
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import PlayerModel from "@/models/player";
 
 export async function getGlobalPlayersStats() {

@@ -10,15 +10,15 @@ import { DateTimeInput, IconInputWithLabel } from "@/components/input/Inputs";
 import { useForm, Controller } from "react-hook-form";
 import DiveUpwards from "@/components/Animate";
 import ImageUploaderCldWidget from "@/components/cloudinary/AvatarUploadWidget";
-import type { IPlayer, TPlayerPosition } from "@/app/players/page";
+import { EPlayerPosition, IPlayer } from "@/types/player.interface";
 import type { IManager } from "../managers/page";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
 import { staticImages } from "@/assets/images";
 import ContentShowcaseWrapper from "@/components/ShowcaseWrapper";
-import { playerPositions } from "@/data/players";
 import { PrimarySelect } from "@/components/select/Select";
 import { Label } from "@/components/ui/label";
+import { enumToOptions } from "@/lib/select";
 
 interface IFormData {
   firstName: string;
@@ -31,7 +31,7 @@ interface IFormData {
   email: string;
   dob: string;
   avatar: string;
-  position: TPlayerPosition;
+  position: EPlayerPosition;
   manager: IManager;
 }
 
@@ -189,10 +189,7 @@ export default function PlayerProfileForm({
                       <div>
                         <Label className="mb-2 _label">Player Position</Label>
                         <PrimarySelect
-                          options={playerPositions.map((pp) => ({
-                            label: pp,
-                            value: pp,
-                          }))}
+                          options={enumToOptions(EPlayerPosition)}
                           {...field}
                           error={fieldState.error?.message}
                           triggerStyles="w-full capitalize"
@@ -384,10 +381,12 @@ export const playerJoiSchema = Joi.object({
     "string.empty": "About is required",
   }),
   position: Joi.string()
-    .valid(...playerPositions)
+    .valid(...Object.values(EPlayerPosition))
     .required()
     .messages({
-      "any.only": `Position must be one of ${playerPositions.toString()}`,
+      "any.only": `Position must be one of ${Object.values(
+        EPlayerPosition
+      ).toString()}`,
       "string.empty": "Position is required",
     }),
   number: Joi.alternatives()

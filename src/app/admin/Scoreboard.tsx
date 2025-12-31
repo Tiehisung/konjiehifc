@@ -8,7 +8,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
-import { IPlayer } from "../players/page";
+import { IPlayer } from "@/types/player.interface";
 
 export interface IGoalEvent {
   scorer: string;

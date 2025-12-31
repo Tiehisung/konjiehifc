@@ -35,10 +35,14 @@ import {
   Loader2,
   RefreshCcw,
   Plus, Copy, Move, Users2, Triangle,
-  XIcon, Save, Share2
+  XIcon,
+  Save,
+  Share2,
+  Smile
 } from "lucide-react";
 
 export const icons = {
+  smile: Smile,
   save: Save,
   share: Share2,
   copy: Copy,

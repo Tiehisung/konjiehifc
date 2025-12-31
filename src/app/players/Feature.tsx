@@ -1,6 +1,6 @@
 import { IQueryResponse } from "@/types";
 import { getPlayers } from "../admin/players/page";
-import { IPlayer } from "./page";
+import { IPlayer } from "@/types/player.interface";
 import PlayerFeatureStatsCard from "./PlayerStatsCard";
 import { AnimateOnView } from "@/components/Animate/AnimateOnView";
 

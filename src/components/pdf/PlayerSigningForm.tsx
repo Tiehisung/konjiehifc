@@ -1,6 +1,8 @@
 "use client";
-
-import React from "react";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import { IPlayer } from "@/types/player.interface";
+import { PrimaryCollapsible } from "../Collapsible";
+import { formatDate } from "@/lib/timeAndDate";
 import {
   Document,
   Page,
@@ -8,8 +10,6 @@ import {
   View,
   StyleSheet,
   Image,
-
-  // Font,
 } from "@react-pdf/renderer";
 
 // Optional: Register custom fonts
@@ -87,7 +87,9 @@ interface PlayerSigningFormProps {
   player?: IPlayer;
 }
 
-export default function PlayerSigningForm({ player }: PlayerSigningFormProps) {
+export default function PlayerSigningDocument({
+  player,
+}: PlayerSigningFormProps) {
   const fullName = `${player?.firstName} ${player?.lastName}`;
 
   return (
@@ -220,11 +222,6 @@ export default function PlayerSigningForm({ player }: PlayerSigningFormProps) {
   );
 }
 
-import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
-import { IPlayer } from "@/app/players/page";
-import { PrimaryCollapsible } from "../Collapsible";
-import { formatDate } from "@/lib/timeAndDate";
-
 export function DownloadPlayerForm({ player }: { player?: IPlayer }) {
   if (!player) {
     return <div>No player data available.</div>;
@@ -233,7 +230,7 @@ export function DownloadPlayerForm({ player }: { player?: IPlayer }) {
   return (
     <div className="">
       <PDFDownloadLink
-        document={<PlayerSigningForm player={player as IPlayer} />}
+        document={<PlayerSigningDocument player={player as IPlayer} />}
         fileName={`${player?.firstName}-${player?.lastName}-signing-form.pdf`}
         className="_primaryBtn w-fit"
       >
@@ -248,7 +245,7 @@ export function DownloadPlayerForm({ player }: { player?: IPlayer }) {
 
       <PrimaryCollapsible header={{ label: "Preview" }}>
         <PDFViewer width="100%" height="800">
-          <PlayerSigningForm player={player as IPlayer} />
+          <PlayerSigningDocument player={player as IPlayer} />
         </PDFViewer>
       </PrimaryCollapsible>
     </div>

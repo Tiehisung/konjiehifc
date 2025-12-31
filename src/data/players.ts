@@ -1,18 +1,4 @@
-import { IPlayer } from "@/app/players/page";
-
-export const playerPositions = [
-  "goal keeper",
-  "defender",
-  "midfielder",
-  "forward",
-  "striker",
-  "wing back",
-  "center back",
-  "attacking midfielder",
-  "defensive midfielder",
-  "winger",
-  "sweeper",
-];
+import { IPlayer } from "@/types/player.interface";
 
 const _players: Partial<IPlayer>[] = [
   {

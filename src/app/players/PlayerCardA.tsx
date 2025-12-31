@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { IPlayer } from "./page";
+import { IPlayer } from "@/types/player.interface";
 
 export const PlayerCardA = ({
   player,

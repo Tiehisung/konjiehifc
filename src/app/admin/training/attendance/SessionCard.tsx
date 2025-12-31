@@ -16,7 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Users, CalendarDays, MapPin, Clock, UserCog } from "lucide-react";
 import { formatDate, getTimeAgo } from "@/lib/timeAndDate";
 import { ITrainingSession } from "./page";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { getInitials } from "@/lib";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { apiConfig } from "@/lib/configs";

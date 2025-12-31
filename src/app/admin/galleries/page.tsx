@@ -1,4 +1,4 @@
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { GalleryUpload } from "@/components/Gallery/GalleryUpload";
 import { StackModal } from "@/components/modals/StackModal";
 import { IGalleryProps, IQueryResponse, IRecord } from "@/types";

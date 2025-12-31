@@ -1,7 +1,7 @@
 import HEADER from "@/components/Element";
 import { getPlayers } from "../players/page";
 import { IQueryResponse, IRecord, ISelectOptionLV } from "@/types";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { apiConfig } from "@/lib/configs";
 import DocumentFolders from "./Folders";
 import { DocumentUploader } from "./DocUploader";

@@ -7,18 +7,11 @@ import { LoginBtn } from "./Auth";
 import { FcGoogle } from "react-icons/fc";
 import TextDivider from "../Divider";
 
-const AdminLoginController = ({ className }: { className?: string }) => {
+const AdminLoginController = ({}: { className?: string }) => {
   return (
     <>
       <DIALOG
-        trigger={
-          <Button
-            primaryText="Login"
-            className={
-              "_secondaryBtn justify-center px-2 py-1 h-full " + className
-            }
-          />
-        }
+        trigger={<Button primaryText="Login" size="sm" variant={"secondary"} />}
         title={undefined}
       >
         <div className="text-center px-4">

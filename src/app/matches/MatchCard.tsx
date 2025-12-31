@@ -11,7 +11,7 @@ import {
 import { DIALOG } from "@/components/Dialog";
 import { Eye, View } from "lucide-react";
 
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 
 import { Button } from "@/components/buttons/Button";
 import { IManager } from "../admin/managers/page";

@@ -23,7 +23,7 @@ import { IQueryResponse } from "@/types";
 import { AdminMatchCard } from "./MatchCard";
 import { DisplayType } from "@/components/DisplayStyle";
 import useGetParam from "@/hooks/params";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { IManager } from "../managers/page";
 import NewSquad from "../squad/NewSquad";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";

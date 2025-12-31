@@ -11,7 +11,7 @@ import { buildQueryStringServer } from "@/lib";
 import Header from "../../../components/Element";
 import { getPlayers } from "../players/page";
 import { getManagers, IManager } from "../managers/page";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { QuickLinks } from "@/components/QuickLinks/LinkOrSectionId";
 import { Separator } from "@/components/ui/separator";
 

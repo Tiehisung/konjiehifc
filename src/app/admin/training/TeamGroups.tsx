@@ -1,4 +1,4 @@
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { AVATAR } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 

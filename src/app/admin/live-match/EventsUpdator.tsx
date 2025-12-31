@@ -5,7 +5,7 @@ import { CardEventsTab } from "./(events)/Card";
 import { GeneralEventsTab } from "./(events)/General";
 import { ScoreEventsTab } from "./(events)/Goals";
 import { InjuryEventsTab } from "./(events)/Injury";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import {
   IMatchEvent,
   IMatchProps,

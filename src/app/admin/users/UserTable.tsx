@@ -23,7 +23,7 @@ import { enumToOptions } from "@/lib/select";
 import { ClearFiltersBtn } from "@/components/buttons/ClearFilters";
 import { Separator } from "@/components/ui/separator";
 import { useFetch } from "@/hooks/fetch";
-import { MetricCard } from "@/components/Metrics";
+import { MetricCard } from "@/components/MetricsCards";
 
 interface UserTableProps {
   users?: IQueryResponse<IUser[]>;

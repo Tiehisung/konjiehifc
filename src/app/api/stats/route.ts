@@ -3,7 +3,7 @@ import "@/models/galleries";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import PlayerModel from "@/models/player";
 import { NextResponse } from "next/server";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 
 ConnectMongoDb();
 

@@ -1,4 +1,4 @@
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 
 export const computePlayerStandings = (players: IPlayer[]) => {
   const formatPlayer = (p:IPlayer) => ({
