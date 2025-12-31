@@ -1,8 +1,8 @@
-import { IPlayer, TPlayerPosition } from "@/app/players/page";
+
+import { EPlayerPosition, IPlayer } from "@/types/player.interface";
 
 
-
-const positionDescriptions: Record<TPlayerPosition, string> = {
+const positionDescriptions: Record<EPlayerPosition, string> = {
     "goal keeper":
         "is a commanding presence between the posts, known for sharp reflexes, anticipation, and calmness under pressure. Their leadership from the back keeps the defense well-organized and confident.",
     defender:
@@ -31,7 +31,7 @@ export function generatePlayerAbout(player: Partial<IPlayer>): string {
     const { firstName, lastName, position, } = player;
 
     const baseDescription =
-        positionDescriptions[position as TPlayerPosition] ||
+        positionDescriptions[position as EPlayerPosition] ||
         "is a talented and dedicated player known for versatility, hard work, and consistency on the field.";
 
     return `<b>${lastName?.toUpperCase()}</b> ${firstName?.toUpperCase()} ${baseDescription} for KFC. ${firstName} continues to grow as a player, showing professionalism, discipline, and a love for the game.`;

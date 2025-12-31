@@ -1,6 +1,6 @@
 "use client";
 
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { getRandomIndex } from "@/lib";
 import Image from "next/image";
 

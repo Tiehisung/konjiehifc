@@ -1,6 +1,6 @@
 "use client";
 
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { ClearFiltersBtn } from "@/components/buttons/ClearFilters";
 import { PrimaryCollapsible } from "@/components/Collapsible";
 import { PrimarySearch } from "@/components/Search";

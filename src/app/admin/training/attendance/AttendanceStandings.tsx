@@ -1,6 +1,6 @@
 "use client";
 
-import { IPlayer, IPlayerMini } from "@/app/players/page";
+ import { IPlayer,IPlayerMini } from "@/types/player.interface";
 import { AVATAR } from "@/components/ui/avatar";
 import {
   Table,

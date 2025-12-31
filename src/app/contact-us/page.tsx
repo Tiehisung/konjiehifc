@@ -69,7 +69,7 @@ export default function Contact() {
         </h2>
         <form
           onSubmit={handleSubmit}
-          className="min-w-[300px] w-1/3 font-light"
+          className="min-w-75 w-1/3 font-light"
         >
           <div className="mb-4">
             <label className="block text-sm text-gray-700">Message</label>
@@ -79,7 +79,7 @@ export default function Contact() {
               required
               value={formData.text}
               onChange={handleOnchange}
-              className="mt-1 p-2 border font-semibold  w-full rounded min-h-[100px] max-h-32"
+              className="mt-1 p-2 border font-semibold  w-full rounded min-h-25 max-h-32"
             />
           </div>
 

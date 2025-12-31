@@ -1,6 +1,6 @@
 "use client";
 
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { IAccordionProps, PrimaryAccordion } from "@/components/Accordion";
 import { Button } from "@/components/buttons/Button";
 import { PrimaryCollapsible } from "@/components/Collapsible";

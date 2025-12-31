@@ -6,7 +6,7 @@ import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import { getErrorMessage } from "@/lib";
 import { IQueryResponse } from "@/types";
-import { IPlayer, IPlayerMini } from "@/app/players/page";
+import { IPlayer, IPlayerMini } from "@/types/player.interface";
 import RadioButtons from "@/components/input/Radio";
 import Image from "next/image";
 import useGetParam from "@/hooks/params";

@@ -1,5 +1,5 @@
 import FilterPlayers from "./FilterPlayers";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { apiConfig } from "@/lib/configs";
 import CaptaincyAdm from "./captaincy/Captaincy";
 import { getCaptains } from "./captaincy/page";

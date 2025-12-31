@@ -11,7 +11,7 @@ import { Input } from "@/components/input/Inputs";
 import { apiConfig } from "@/lib/configs";
 import { getErrorMessage } from "@/lib";
 import { IGalleryProps, IQueryResponse } from "@/types";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import MultiSelectionInput from "../select/MultiSelect";
 
 interface GalleryUploadProps {
@@ -91,15 +91,15 @@ export function GalleryUpload({
 
   return (
     <>
-      <CloudinaryUploader
-        setUploadedFiles={setFiles}
-        successMessage="Gallery updated"
-        clearTrigger={clearTrigger}
-        maxFiles={16}
-        trigger={trigger}
-      />
-      {files.length > 0 && (
-        <div className="w-full border border-border rounded-xl bg-card/30 shadow-sm space-y-8 p-4 mb-4">
+      <div className="w-full border border-border rounded-xl bg-card/30 shadow-sm space-y-8 p-4 mb-4">
+        <CloudinaryUploader
+          setUploadedFiles={setFiles}
+          successMessage="Gallery updated"
+          clearTrigger={clearTrigger}
+          maxFiles={16}
+          trigger={trigger}
+        />
+        {files.length > 0 && (
           <form
             onSubmit={handleSave}
             className="flex flex-col gap-6 md:gap-8 max-w-2xl mx-auto"
@@ -149,8 +149,8 @@ export function GalleryUpload({
               />
             </div>
           </form>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 }

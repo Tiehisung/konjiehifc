@@ -1,8 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { _playerStats } from "@/data/statistics";
-import Image from "next/image";
 import { FC } from "react";
-import { IPlayer, TPlayerPosition } from "../players/page";
+ import { EPlayerPosition, IPlayer } from "@/types/player.interface";
 import { getPlayers } from "../admin/players/page";
 import { IQueryResponse } from "@/types";
 import { computePlayerStandings } from "@/lib/compute/player/standings";
@@ -66,7 +65,7 @@ export interface IPlayerStatsProps {
     _id: string;
     name: string;
     avatar: string;
-    position: TPlayerPosition;
+    position: EPlayerPosition;
     goals: number;
     assists: number;
     appearances: number;
@@ -77,7 +76,7 @@ export interface IPlayerStatsProps {
     _id: string;
     name: string;
     avatar: string;
-    position: TPlayerPosition;
+    position: EPlayerPosition;
     goals: number;
     assists: number;
     appearances: number;

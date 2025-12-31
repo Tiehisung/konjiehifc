@@ -1,6 +1,6 @@
 "use client";
 
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import Link from "next/link";
 import { PlayerCard } from "./PlayerCard";
 import { Pagination } from "@/components/Pagination";

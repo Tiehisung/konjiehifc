@@ -1,31 +1,41 @@
 "use client";
 
 import { Button } from "@/components/buttons/Button";
+import { CountupMetricCard } from "@/components/MetricsCards";
+import { useFetch } from "@/hooks/fetch";
 import { motion } from "framer-motion";
 import { ChevronRight, Trophy, Users, Target, Shield } from "lucide-react";
 import { useState } from "react";
 
 export default function TestHero() {
   const [isHovered, setIsHovered] = useState(false);
+  const { results, loading } = useFetch({ uri: "/metrics" });
+  console.log({results})
 
   const stats = [
     {
       value: "24",
-      label: "Trophies Won",
+      label: "Win Rate",
       icon: <Trophy className="w-5 h-5" />,
+      suffix: "%",
+      isCountup: true,
     },
     {
-      value: "50+",
+      value: "50",
       label: "Active Players",
       icon: <Users className="w-5 h-5" />,
+      suffix: "+",
+      isCountup: true,
     },
     {
-      value: "100%",
+      value: "100",
       label: "Fan Dedication",
       icon: <Target className="w-5 h-5" />,
+      suffix: "%",
+      isCountup: true,
     },
     {
-      value: "Est. 1985",
+      value: "Est. 2024",
       label: "Legacy Years",
       icon: <Shield className="w-5 h-5" />,
     },
@@ -99,7 +109,7 @@ export default function TestHero() {
                 <div className="text-yellow-500 font-bold text-sm uppercase tracking-[0.3em]">
                   Professional Football Club
                 </div>
-                <div className="text-white/80 text-sm">Since 1985</div>
+                <div className="text-white/80 text-sm">Since 2024</div>
               </div>
             </motion.div>
 
@@ -166,18 +176,14 @@ export default function TestHero() {
               className="grid grid-cols-2 sm:grid-cols-4 gap-6"
             >
               {stats.map((stat, index) => (
-                <div
+                <CountupMetricCard
+                  icon={stat.icon}
+                  value={stat.value}
+                  countupSuffix={stat.suffix}
+                  isCountUp
+                  description={stat.label}
                   key={index}
-                  className="text-center p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-colors"
-                >
-                  <div className="flex justify-center mb-2 text-yellow-500">
-                    {stat.icon}
-                  </div>
-                  <div className="text-3xl font-bold text-white mb-1">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-white/70">{stat.label}</div>
-                </div>
+                />
               ))}
             </motion.div>
           </motion.div>
@@ -193,7 +199,7 @@ export default function TestHero() {
             <div className="relative">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                 {/* Background Image with Overlay */}
-                <div className="aspect-[4/5] bg-linear-to-br from-gray-800 to-black relative">
+                <div className="aspect-4/5 bg-linear-to-br from-gray-800 to-black relative">
                   <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-80"></div>
 
                   {/* Team Photo Placeholder */}
@@ -205,7 +211,7 @@ export default function TestHero() {
                         </div>
                       </div>
                       <div className="text-white font-bold text-2xl mb-2">
-                        THE SQUAD 2024
+                        THE SQUAD {new Date().getFullYear()}
                       </div>
                       <div className="text-yellow-400 text-lg">
                         Champions in the Making
@@ -253,20 +259,6 @@ export default function TestHero() {
             </div>
           </motion.div>
         </div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        >
-          <div className="text-white/60 text-sm flex flex-col items-center">
-            <span className="mb-2">SCROLL</span>
-            <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-              <div className="w-1 h-3 bg-white/60 rounded-full mt-2"></div>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </div>
   );

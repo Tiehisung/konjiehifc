@@ -1,6 +1,6 @@
 "use client";
 
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { Input } from "@/components/ui/input";
 import { apiConfig } from "@/lib/configs";
 import { IResultProps } from "@/types";

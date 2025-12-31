@@ -1,6 +1,6 @@
 import { apiConfig } from "@/lib/configs";
 import { IMatchProps, ITeamProps } from "@/app/matches/(fixturesAndResults)";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { getPlayers } from "../players/page";
 import { IQueryResponse } from "@/types";
 import { MatchEventsAdmin } from "./EventsUpdator";

@@ -1,4 +1,4 @@
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import _players from "@/data/players";
 import Image from "next/image";
 import React from "react";

@@ -4,7 +4,7 @@ import FolderDocuments from "./DocsPane";
 import { DocumentUploader } from "../DocUploader";
 import { Badge } from "@/components/ui/badge";
 import { getPlayers } from "../../players/page";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { PrimarySearch } from "@/components/Search";
 import { apiConfig } from "@/lib/configs";
 import { IDocFile } from "@/types/doc";

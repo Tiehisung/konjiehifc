@@ -1,6 +1,8 @@
 "use client";
 
+import { ReactNode } from "react";
 import Loader from "./loaders/Loader";
+import CountUp from "react-countup";
 
 interface IProps {
   title?: string;
@@ -28,9 +30,13 @@ export function MetricCard({ title, icon, value, color, isLoading }: IProps) {
   return (
     <div className="bg-card rounded-xl shadow-card p-6">
       <div className="flex items-center justify-between">
-        <div className='grow'>
+        <div className="grow">
           <p className="text-sm text-muted-foreground grow">
-            {isLoading ? <div className="animate-pulse bg-muted h-4 w-full" /> : title}
+            {isLoading ? (
+              <div className="animate-pulse bg-muted h-4 w-full" />
+            ) : (
+              title
+            )}
           </p>
           <p
             className={`text-2xl font-bold ${
@@ -48,6 +54,41 @@ export function MetricCard({ title, icon, value, color, isLoading }: IProps) {
           {icon}
         </div>
       </div>
+    </div>
+  );
+}
+
+interface ICountupProps {
+  icon: ReactNode;
+  value: string | number;
+  isCountUp?: boolean;
+  description?: string;
+  countupSuffix?: string;
+  countupPrefix?: string;
+}
+export function CountupMetricCard({
+  icon,
+  value,
+  countupPrefix,
+  countupSuffix,
+  description,
+  isCountUp,
+}: ICountupProps) {
+  return (
+    <div className="text-center p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-colors">
+      <div className="flex justify-center mb-2 text-yellow-500">{icon}</div>
+      <div className="text-3xl font-bold text-white mb-1">
+        {isCountUp ? (
+          <CountUp
+            end={Number(value ?? 0)}
+            prefix={countupPrefix ?? ""}
+            suffix={countupSuffix ?? ""}
+          />
+        ) : (
+          value
+        )} 
+      </div>
+      <div className="text-sm text-white/70">{description}</div>
     </div>
   );
 }

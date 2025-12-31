@@ -1,4 +1,5 @@
-import { IPlayerMini } from "@/app/players/page";
+ 
+import { IPlayerMini } from "@/types/player.interface";
 import { ITrainingSession } from "./page";
 
 

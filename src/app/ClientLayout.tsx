@@ -1,18 +1,15 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { usePathname } from "next/navigation";
 import { Toaster } from "sonner";
 import FooterCP from "@/components/footer/FooterCp";
 import HeaderCp from "@/components/HeaderCp";
 import BackToTopButton from "@/components/scroll/ToTop";
 import AuthProvider from "@/providers/AuthProvider";
 import { ThemeProvider } from "next-themes";
+import { Swinger } from "@/components/Animate/Swing";
 
 export default function ClientLayout({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
-  const className = pathname.includes("/admin") ? "" : "";
-
   return (
     <AuthProvider>
       <ThemeProvider
@@ -22,9 +19,11 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
         disableTransitionOnChange
       >
         <HeaderCp />
-        <div className={`min-h-screen overflow-x-hidden ${className}`}>
+        <div className={`min-h-screen overflow-x-hidden  `}>
           {children}
-          <BackToTopButton />
+          <Swinger className='fixed bottom-6 right-6'>
+            <BackToTopButton />
+          </Swinger>
           <Toaster position="top-right" richColors />
         </div>
         <FooterCP />

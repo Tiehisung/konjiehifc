@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Plus } from "lucide-react";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { toast } from "sonner";
 import { apiConfig } from "@/lib/configs";
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";

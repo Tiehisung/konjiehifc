@@ -9,7 +9,7 @@ import { buildQueryStringServer } from "@/lib";
 import { getGallery } from "../admin/galleries/page";
 import { GalleryUpload } from "@/components/Gallery/GalleryUpload";
 import { getPlayers } from "../admin/players/page";
-import { IPlayer } from "../players/page";
+import { IPlayer } from "@/types/player.interface";
 
 interface IProps {
   params: Promise<{ newsId: string }>;

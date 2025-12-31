@@ -1,4 +1,4 @@
-import { IPlayer, IPlayerMini } from "@/app/players/page";
+ import { IPlayer ,IPlayerMini} from "@/types/player.interface";
 import { IQueryResponse } from "@/types";
 import React from "react";
 import { getPlayers } from "../../players/page";

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Plus } from "lucide-react";
 import { Input } from "@/components/input/Inputs";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { Button } from "@/components/buttons/Button";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";

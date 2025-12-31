@@ -10,7 +10,7 @@ import {
   PolarRadiusAxis,
   ResponsiveContainer,
 } from "recharts";
-import { IPlayer } from "../page";
+import { IPlayer } from "@/types/player.interface";
 import { teamKFC } from "@/data/teams";
 import { useSearchParams } from "next/navigation";
 import { PrimarySelect } from "@/components/select/Select";

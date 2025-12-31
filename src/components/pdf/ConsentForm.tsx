@@ -10,7 +10,7 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { kfc } from "@/data/kfc";
 import { formatDate } from "@/lib/timeAndDate";
 import { COMBOBOX } from "../ComboBox";

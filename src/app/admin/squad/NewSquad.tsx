@@ -4,8 +4,7 @@ import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
-
-import { IPlayer } from "../../players/page";
+import { EPlayerPosition, IPlayer } from "@/types/player.interface";
 import {
   Card,
   CardHeader,
@@ -33,7 +32,7 @@ import { useRouter } from "next/navigation";
 import { ISquad } from "./page";
 import { formatDate, getTimeLeftOrAgo } from "@/lib/timeAndDate";
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
-import { playerPositions } from "@/data/players";
+import { enumToOptions } from "@/lib/select";
 
 interface IProps {
   players?: IPlayer[];
@@ -282,10 +281,7 @@ const NewSquad = ({
 
                       <td className="text-center py-3 px-4">
                         <PrimarySelect
-                          options={playerPositions.map((pos) => ({
-                            label: pos,
-                            value: pos,
-                          }))}
+                          options={enumToOptions(EPlayerPosition)}
                           placeholder="Position"
                           triggerStyles="border border-border rounded font-semibold capitalize"
                           className="capitalize"

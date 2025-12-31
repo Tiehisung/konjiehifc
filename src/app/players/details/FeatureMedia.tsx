@@ -1,7 +1,7 @@
 "use client";
 
 import MasonryGallery from "@/components/Gallery/Masonry";
-import { IPlayer } from "../page";
+import { IPlayer } from "@/types/player.interface";
 import CloudinaryUploader, {
   ICldFileUploadResult,
 } from "@/components/cloudinary/FileUploadWidget";

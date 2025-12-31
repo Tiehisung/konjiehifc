@@ -1,5 +1,5 @@
 import { getPlayerById, getPlayers } from "@/app/admin/players/page";
-import { IPlayer } from "../page";
+import { IPlayer } from "@/types/player.interface";
 import PlayerProfile from "./Profile";
 import { IGalleryProps, IQueryResponse } from "@/types";
 import { PlayerHeadList } from "./PlayerHeadList";

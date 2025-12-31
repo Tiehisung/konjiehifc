@@ -5,7 +5,7 @@ import React from "react";
 import { getMatchesStats } from "../page";
 import { IQueryResponse } from "@/types";
 import { IMatchStats } from "@/types/stats";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { getPlayers } from "../players/page";
 
 export const KeyTopStatsCards = async () => {

@@ -1,7 +1,7 @@
 "use client";
 
 import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import { Button } from "@/components/buttons/Button";
 import { DIALOG } from "@/components/Dialog";
 import { fireEscape } from "@/hooks/Esc";

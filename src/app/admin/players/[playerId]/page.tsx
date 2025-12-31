@@ -9,7 +9,7 @@ import PlayerProfileForm from "../NewSigningForms";
 import Loader from "@/components/loaders/Loader";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { apiConfig } from "@/lib/configs";
-import { IPlayer } from "@/app/players/page";
+import { IPlayer } from "@/types/player.interface";
 import GalleryGrid from "@/components/Gallery/GallaryGrid";
 import { GalleryUpload } from "@/components/Gallery/GalleryUpload";
 import { IGalleryProps, IQueryResponse } from "@/types";
