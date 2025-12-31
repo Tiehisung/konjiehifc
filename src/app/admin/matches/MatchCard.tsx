@@ -1,8 +1,8 @@
-import { IMatchProps, ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { AVATAR } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { checkGoals, checkTeams, shortText } from "@/lib";
+import {    shortText } from "@/lib";
+import {  checkMatchMetrics,checkTeams } from "@/lib/compute/match";
 import { apiConfig } from "@/lib/configs";
 import {
   formatDate,
@@ -18,6 +18,7 @@ import NewSquad from "../squad/NewSquad";
 import { IPlayer } from "@/types/player.interface";
 import { IManager } from "../managers/page";
 import { Button } from "@/components/buttons/Button";
+import { IMatch, ITeam } from "@/types/match.interface";
 
 export function AdminMatchCard({
   match,
@@ -26,14 +27,14 @@ export function AdminMatchCard({
   matches,
   players,
 }: {
-  match?: IMatchProps;
-  teams?: ITeamProps[];
+  match?: IMatch;
+  teams?: ITeam [];
   players?: IPlayer[];
   managers?: IManager[];
-  matches?: IMatchProps[];
+  matches?: IMatch[];
 }) {
   const { away, home } = checkTeams(match);
-  const scores = checkGoals(match);
+  const scores = checkMatchMetrics(match);
   const status = match?.status;
   return (
     <div className="bg-card border p-4 space-y-2.5">
@@ -42,7 +43,7 @@ export function AdminMatchCard({
           variant={
             status == "LIVE"
               ? "destructive"
-              : status == "COMPLETED"
+              : status == "FT"
               ? "secondary"
               : "outline"
           }
@@ -75,10 +76,10 @@ export function AdminMatchCard({
         </ul>
 
         <div className="font-semibold">
-          {status == "COMPLETED" ? (
+          {status == "FT" ? (
             <div className="grid">
-              <span className="px-3 text-lg">{scores?.home}</span>
-              <span className="px-3 text-lg">{scores?.away}</span>
+              <span className="px-3 text-lg">{scores?.goals?.home}</span>
+              <span className="px-3 text-lg">{scores?.goals?.away}</span>
             </div>
           ) : status == "LIVE" ? (
             <span className="text-destructive "> Live</span>
@@ -108,7 +109,7 @@ export function AdminMatchCard({
           <ToggleMatchStatus
             fixtureId={match?._id as string}
             matchDate={match?.date as string}
-            status={match?.status as IMatchProps["status"]}
+            status={match?.status as IMatch["status"]}
           />
 
           {match?.squad ? (

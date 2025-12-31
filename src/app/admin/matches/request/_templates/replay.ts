@@ -1,10 +1,10 @@
 import { IManager } from "@/app/admin/managers/page";
-import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { kfc } from "@/data/kfc";
-import { checkTeams } from "@/lib";
+import { checkTeams } from "@/lib/compute/match";
 import { formatDate } from "@/lib/timeAndDate";
+import { IMatch } from "@/types/match.interface";
 
-export const replayTemplates = (match: IMatchProps, official: { requester: IManager }) => {
+export const replayTemplates = (match: IMatch, official: { requester: IManager }) => {
     const { home, away } = checkTeams(match);
     const homeName = home?.name ?? "Home Team";
     const awayName = away?.name ?? "Away Team";

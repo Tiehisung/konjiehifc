@@ -1,8 +1,7 @@
-import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
-import _players from "./players";
 import { kfc } from "./kfc";
+import { ITeam } from "@/types/match.interface";
 
-export const teamKFC: ITeamProps = {
+export const teamKFC: ITeam = {
     _id: kfc.alias,
     name: kfc.name,
     alias: kfc.alias,

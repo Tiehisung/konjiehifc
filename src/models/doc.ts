@@ -17,7 +17,6 @@ export const docSchema = new mongoose.Schema(
         width: Number,
         height: Number,
         tags: { type: [String], default: () => [] },
-
         //Essential
         folder: { type: String, required: true, default: 'others' },
     },

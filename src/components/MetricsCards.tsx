@@ -65,6 +65,7 @@ interface ICountupProps {
   description?: string;
   countupSuffix?: string;
   countupPrefix?: string;
+  isLoading?: boolean;
 }
 export function CountupMetricCard({
   icon,
@@ -73,22 +74,35 @@ export function CountupMetricCard({
   countupSuffix,
   description,
   isCountUp,
+  isLoading,
 }: ICountupProps) {
   return (
-    <div className="text-center p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-colors">
+    <div className="text-center p-4 rounded-2xl bg-card/5 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-colors">
       <div className="flex justify-center mb-2 text-yellow-500">{icon}</div>
       <div className="text-3xl font-bold text-white mb-1">
-        {isCountUp ? (
-          <CountUp
-            end={Number(value ?? 0)}
-            prefix={countupPrefix ?? ""}
-            suffix={countupSuffix ?? ""}
-          />
+        {isLoading ? (
+          <div className="animate-pulse bg-secondary h-4 w-full" />
         ) : (
-          value
-        )} 
+          <div>
+            {isCountUp ? (
+              <CountUp
+                end={Number(value ?? 0)}
+                prefix={countupPrefix ?? ""}
+                suffix={countupSuffix ?? ""}
+              />
+            ) : (
+              value
+            )}
+          </div>
+        )}
       </div>
-      <div className="text-sm text-white/70">{description}</div>
+      <div className="text-sm text-white/60 grow">
+        {isLoading ? (
+          <div className="animate-pulse bg-secondary h-4 w-full" />
+        ) : (
+          description
+        )}
+      </div>
     </div>
   );
 }

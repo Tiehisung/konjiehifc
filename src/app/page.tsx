@@ -11,7 +11,7 @@ import LandingSquad from "./(landing)/Squad";
 import { PitchGallery } from "./(landing)/Pitch";
 import LoadingSkeleton from "react-loading-skeleton";
 import CardLoader from "@/components/loaders/CardLoader";
-import TestHero from "./(landing)/H";
+import HERO from "./(landing)/H";
 
 export const metadata = {
   title: "Konjiehi FC – Official Website",
@@ -43,7 +43,7 @@ export const metadata = {
 export default async function Home() {
   return (
     <main className=" relative md:block space-y-10">
-      <TestHero/>
+      <HERO/>
       <Suspense fallback={<Loader message="Loading players.." />}>
         {/* <Hero /> */}
       </Suspense>

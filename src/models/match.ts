@@ -1,3 +1,4 @@
+import { EMatchStatus } from "@/types/match.interface";
 import mongoose, { Schema } from "mongoose";
 
 const matchSchema = new Schema(
@@ -8,7 +9,7 @@ const matchSchema = new Schema(
     time: { type: String, required: true },
     status: {
       type: String,
-      enum: ["LIVE", "UPCOMING", "COMPLETED"],
+      enum: [...Object.values(EMatchStatus)],
       default: () => "UPCOMING",
     },
     goals: [{ type: Schema.Types.ObjectId, ref: "goals" }],
@@ -20,7 +21,7 @@ const matchSchema = new Schema(
     opponentGoals: { type: Number, default: 0 },
     sponsor: [{ type: Schema.Types.ObjectId, ref: "sponsors" }],
     broadcaster: {},
-    venue: { name: {type:String,default:()=>'Home Park'}, files: [{}] },
+    venue: { name: { type: String, default: () => 'Home Park' }, files: [{}] },
     isHome: Boolean,
     events: [{ description: String, title: String, minute: String, modeOfScore: String }],
   },

@@ -8,7 +8,6 @@ import { InjuryEventsTab } from "./(events)/Injury";
 import { IPlayer } from "@/types/player.interface";
 import {
   IMatchEvent,
-  IMatchProps,
   ITeamProps,
 } from "@/app/matches/(fixturesAndResults)";
 import { Button } from "@/components/buttons/Button";
@@ -18,11 +17,12 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { getErrorMessage } from "@/lib";
+import { IMatch } from "@/types/match.interface";
 
 interface IProps {
   players?: IPlayer[];
   opponent?: ITeamProps;
-  match: IMatchProps;
+  match: IMatch;
 }
 export function MatchEventsAdmin({ players, opponent, match }: IProps) {
   const sortedEvents = match?.events
@@ -91,7 +91,7 @@ function MatchEventCard({
   match,
   event,
 }: {
-  match: IMatchProps;
+  match: IMatch;
   event: IMatchEvent;
 }) {
   const router = useRouter();

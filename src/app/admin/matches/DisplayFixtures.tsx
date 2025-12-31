@@ -4,10 +4,8 @@ import { Button } from "@/components/buttons/Button";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "sonner";
 import { UpdateFixtureMatch } from "./CreateFixture";
-import { checkTeams } from "@/lib";
 import { formatDate, isToday } from "@/lib/timeAndDate";
 import { IMatchProps, ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { BsPatchCheck } from "react-icons/bs";
@@ -28,6 +26,7 @@ import { IManager } from "../managers/page";
 import NewSquad from "../squad/NewSquad";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { icons } from "@/assets/icons/icons";
+import { checkTeams } from "@/lib/compute/match";
 
 interface DisplayFixturesProps {
   fixtures: IQueryResponse<IMatchProps[]>;
@@ -118,7 +117,7 @@ export function DisplayFixtures({
                         }
                       >
                         <span className="">
-                          {fixture.status == "COMPLETED" ? (
+                          {fixture.status == "FT" ? (
                             <FaCheckCircle className="text-Green" size={10} />
                           ) : fixture.status == "LIVE" ? (
                             <MdLiveTv className="text-Red" size={10} />
@@ -238,7 +237,7 @@ export function ToggleMatchStatus({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         _id: fixtureId,
-        status: status == "LIVE" ? "COMPLETED" : "LIVE",
+        status: status == "LIVE" ? "FT" : "LIVE",
       }),
       cache: "no-cache",
     });
@@ -249,7 +248,7 @@ export function ToggleMatchStatus({
     router.refresh();
   };
 
-  if (status == "COMPLETED")
+  if (status == "FT")
     return (
       <Badge className="w-20 py-2 font-black" variant={"outline"}>
         FT

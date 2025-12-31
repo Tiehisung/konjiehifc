@@ -1,4 +1,4 @@
-import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
+ 
 import { IPageProps, IQueryResponse } from "@/types";
 import { getMatches } from "../page";
 import { getManagers, IManager } from "../../managers/page";
@@ -10,7 +10,7 @@ import FixtureSelector from "./FixtureSelector";
 const MatchRequestPage = async ({ searchParams }: IPageProps) => {
   const session = await auth();
   const fixtureId = (await searchParams).fixtureId;
-  const fixtures: IQueryResponse<IMatchProps[]> = await getMatches(
+  const fixtures: IQueryResponse<IMatch[]> = await getMatches(
     "?status=UPCOMING"
   );
 

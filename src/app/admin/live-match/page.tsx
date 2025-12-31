@@ -1,14 +1,15 @@
 import { apiConfig } from "@/lib/configs";
-import { IMatchProps, ITeamProps } from "@/app/matches/(fixturesAndResults)";
+import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { IPlayer } from "@/types/player.interface";
 import { getPlayers } from "../players/page";
 import { IQueryResponse } from "@/types";
 import { MatchEventsAdmin } from "./EventsUpdator";
 import { getTeams } from "../features/teams/page";
-import { checkGoals, checkTeams } from "@/lib";
 import Image from "next/image";
 import { StartStopMatch } from "./StartStop";
 import Header from "../../../components/Element";
+import { checkMatchMetrics, checkTeams } from "@/lib/compute/match";
+import { IMatch } from "@/types/match.interface";
 
 export const getLiveMatch = async () => {
   try {
@@ -23,12 +24,12 @@ export const getLiveMatch = async () => {
 };
 
 export default async function LiveMatchPage() {
-  const match: IQueryResponse<IMatchProps> = await getLiveMatch();
+  const match: IQueryResponse<IMatch> = await getLiveMatch();
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
   const teams: IQueryResponse<ITeamProps[]> = await getTeams();
 
   const { home, away } = checkTeams(match?.data);
-  const goals = checkGoals(match?.data);
+  const matchMetrics = checkMatchMetrics(match?.data);
 
   if (!match?.data)
     return (
@@ -37,7 +38,7 @@ export default async function LiveMatchPage() {
       </div>
     );
 
-  if (match?.data.status == "COMPLETED")
+  if (match?.data.status == "FT")
     return (
       <div className="_page p-4">
         <h1 className="text-2xl font-bold mb-4 text-primaryRed">
@@ -56,7 +57,8 @@ export default async function LiveMatchPage() {
               {home?.name}
             </div>
             <div className="mx-auto text-2xl text-center">
-              {goals?.home ?? 0} - {goals?.away ?? 0}
+              {matchMetrics?.goals?.home ?? 0} -{" "}
+              {matchMetrics?.goals?.away ?? 0}
             </div>
             <div className="text-xl md:text-2xl font-black uppercase">
               {away?.name}
@@ -128,7 +130,7 @@ export default async function LiveMatchPage() {
             {home?.name}
           </div>
           <div className="mx-auto text-2xl text-center">
-            {goals?.home ?? 0} - {goals?.away ?? 0}
+            {matchMetrics?.goals?.home ?? 0} - {matchMetrics?.goals?.away ?? 0}
           </div>
           <div className="text-xl md:text-2xl font-black uppercase">
             {away?.name}
@@ -150,7 +152,7 @@ export default async function LiveMatchPage() {
         <MatchEventsAdmin
           players={players?.data}
           opponent={teams?.data?.[0] as ITeamProps}
-          match={match?.data as IMatchProps}
+          match={match?.data as IMatch}
         />
       )}
     </div>

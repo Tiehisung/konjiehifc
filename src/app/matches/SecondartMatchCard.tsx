@@ -1,19 +1,19 @@
-import { IMatchProps } from "./(fixturesAndResults)";
-import { checkGoals, checkTeams } from "@/lib";
+import { checkMatchMetrics, checkTeams } from "@/lib/compute/match";
 import { AVATAR } from "@/components/ui/avatar";
 import { formatDate, formatTimeToAmPm, getTimeAgo } from "@/lib/timeAndDate";
 import { Clock } from "lucide-react";
+import { IMatch } from "@/types/match.interface";
 
 export const SecondaryFixtureCard = ({
   fixture,
   className,
 }: {
-  fixture: IMatchProps;
+  fixture: IMatch;
   className?: string;
 }) => {
   const { home, away } = checkTeams(fixture);
-  const goals = checkGoals(fixture);
-  if (fixture?.status == "COMPLETED")
+  const metrics = checkMatchMetrics(fixture);
+  if (fixture?.status == "FT")
     return (
       <main
         className={`_hover rounded-md w-fit grow group _hoverBefore relative _after p-2 ${className}`}
@@ -45,10 +45,10 @@ export const SecondaryFixtureCard = ({
             <span>FT</span>
             <div className="space-y-1">
               <div className="w-7 h-7 border border-border p-0.5 flex items-center justify-center ">
-                {goals.home}
+                {metrics?.goals.home}
               </div>
               <div className="w-7 h-7 border border-border p-0.5 flex items-center justify-center ">
-                {goals.away}
+                {metrics?.goals.away}
               </div>
             </div>
           </section>

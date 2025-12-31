@@ -1,12 +1,11 @@
-import React from "react";
-
-import { IMatchProps } from "../(fixturesAndResults)";
+ 
 import { getLiveMatch } from "../../admin/live-match/page";
 import { LiveMatchEvents } from "./LiveEventsDisplay";
 import Image from "next/image";
-import { checkTeams } from "@/lib";
+import { checkMatchMetrics } from "@/lib/compute/match";
 import HEADER from "@/components/Element";
 import { MdOutlineLiveTv } from "react-icons/md";
+import { IMatch } from "@/types/match.interface";
 
 export const metadata = {
   title: "Live Match",
@@ -21,14 +20,13 @@ export const metadata = {
 };
 
 export default async function LiveMatchPage() {
-  const match: IMatchProps = (await getLiveMatch())?.data;
+  const match: IMatch = (await getLiveMatch())?.data;
 
-  const { home, away } = checkTeams(match);
+  const {
+    goals,
+    teams: { home, away },
+  } = checkMatchMetrics(match);
 
-  const goals = {
-    home: home?.alias == "KFC" ? match?.goals?.length : match?.opponentGoals,
-    away: away?.alias == "KFC" ? match?.goals?.length : match?.opponentGoals,
-  };
   return (
     <div className="">
       <HEADER title="Live Match ">

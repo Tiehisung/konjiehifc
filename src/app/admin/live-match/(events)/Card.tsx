@@ -17,7 +17,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
-import { IMatchCard, IMatchProps } from "@/app/matches/(fixturesAndResults)";
+import { IMatchCard,  } from "@/app/matches/(fixturesAndResults)";
 
 interface EventsTabProps {
   players: IPlayer[];

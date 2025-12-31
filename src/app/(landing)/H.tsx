@@ -1,27 +1,36 @@
 "use client";
 
-import { Button } from "@/components/buttons/Button";
 import { CountupMetricCard } from "@/components/MetricsCards";
 import { useFetch } from "@/hooks/fetch";
+import { IMatchMetrics } from "@/types/match.interface";
 import { motion } from "framer-motion";
 import { ChevronRight, Trophy, Users, Target, Shield } from "lucide-react";
 import { useState } from "react";
 
-export default function TestHero() {
+interface StatsProps {
+  activePlayers: number;
+  matchesStats: {
+    wins: IMatchMetrics[];
+    draws: IMatchMetrics[];
+    losses: IMatchMetrics[];
+    winRate:number
+  };
+}
+export default function HERO() {
   const [isHovered, setIsHovered] = useState(false);
-  const { results, loading } = useFetch({ uri: "/metrics" });
-  console.log({results})
+  const { results, loading } = useFetch<StatsProps>({ uri: "/metrics" });
+  console.log({ results });
 
   const stats = [
     {
-      value: "24",
+      value: results?.data?.matchesStats?.winRate,
       label: "Win Rate",
       icon: <Trophy className="w-5 h-5" />,
       suffix: "%",
       isCountup: true,
     },
     {
-      value: "50",
+      value: results?.data?.activePlayers ?? 0,
       label: "Active Players",
       icon: <Users className="w-5 h-5" />,
       suffix: "+",
@@ -48,7 +57,7 @@ export default function TestHero() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-linear-to-br from-gray-900 via-black to-gray-900">
+    <div className="relative min-h-screen overflow-hidden bg-linear-to-br from-primary via-primary/80 to-primary">
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
@@ -178,10 +187,11 @@ export default function TestHero() {
               {stats.map((stat, index) => (
                 <CountupMetricCard
                   icon={stat.icon}
-                  value={stat.value}
+                  value={stat?.value??''}
                   countupSuffix={stat.suffix}
-                  isCountUp
+                  isCountUp={stat.isCountup}
                   description={stat.label}
+                  isLoading={loading}
                   key={index}
                 />
               ))}
@@ -243,7 +253,7 @@ export default function TestHero() {
                 initial={{ x: 50, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
-                className="absolute -bottom-6 -right-6 bg-linear-to-r from-gray-900 to-black p-6 rounded-2xl shadow-2xl border border-white/10 max-w-xs"
+                className="absolute -bottom-6 -right-6 bg-linear-to-r from-primary to-black p-6 rounded-2xl shadow-2xl border border-white/10 max-w-xs"
               >
                 <div className="text-yellow-400 font-bold text-lg mb-2">
                   YOUR PASSION

@@ -1,6 +1,6 @@
 "use client";
 
-import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
+ 
 import { IPlayer } from "@/types/player.interface";
 import { Button } from "@/components/buttons/Button";
 import { DIALOG } from "@/components/Dialog";
@@ -12,9 +12,10 @@ import { useState } from "react";
 import { BiStop } from "react-icons/bi";
 import { FcStart } from "react-icons/fc";
 import { toast } from "sonner";
+import { IMatch } from "@/types/match.interface";
 
 interface IProps {
-  match?: IMatchProps;
+  match?: IMatch;
   players?: IPlayer[];
 }
 export function StartStopMatch({ match, players }: IProps) {

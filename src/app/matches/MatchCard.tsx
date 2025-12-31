@@ -1,7 +1,7 @@
-import { IMatchProps, ITeamProps } from "@/app/matches/(fixturesAndResults)";
+import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { AVATAR } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { checkGoals, checkTeams } from "@/lib";
+import { checkMatchMetrics, checkTeams } from "@/lib/compute/match";
 import {
   formatDate,
   formatTimeToAmPm,
@@ -17,6 +17,7 @@ import { Button } from "@/components/buttons/Button";
 import { IManager } from "../admin/managers/page";
 import NewSquad from "../admin/squad/NewSquad";
 import SquadCard from "../admin/squad/SquadCard";
+import { IMatch } from "@/types/match.interface";
 
 export function MatchFixtureCard({
   match,
@@ -24,14 +25,14 @@ export function MatchFixtureCard({
   matches,
   players,
 }: {
-  match?: IMatchProps;
+  match?: IMatch;
   teams?: ITeamProps[];
   players?: IPlayer[];
   managers?: IManager[];
-  matches?: IMatchProps[];
+  matches?: IMatch[];
 }) {
   const { away, home } = checkTeams(match);
-  const scores = checkGoals(match);
+  const scores = checkMatchMetrics(match);
   const status = match?.status;
   return (
     <div className="bg-card border p-4 space-y-2.5">
@@ -40,7 +41,7 @@ export function MatchFixtureCard({
           variant={
             status == "LIVE"
               ? "destructive"
-              : status == "COMPLETED"
+              : status == "FT"
               ? "secondary"
               : "outline"
           }
@@ -73,10 +74,10 @@ export function MatchFixtureCard({
         </ul>
 
         <div className="font-semibold">
-          {status == "COMPLETED" ? (
+          {status == "FT" ? (
             <div className="grid">
-              <span className="px-3 text-lg">{scores?.home}</span>
-              <span className="px-3 text-lg">{scores?.away}</span>
+              <span className="px-3 text-lg">{scores?.goals?.home}</span>
+              <span className="px-3 text-lg">{scores?.goals?.away}</span>
             </div>
           ) : status == "LIVE" ? (
             <span className="text-destructive "> Live</span>
@@ -88,9 +89,7 @@ export function MatchFixtureCard({
       <hr />
       <div>
         <div className="flex items-center text-sm gap-5">
-          <span className="w-20 py-2 font-semibold">
-            {match?.status == "COMPLETED" ? "FT" : match?.status}
-          </span>
+          <span className="w-20 py-2 font-semibold">{match?.status}</span>
           {match?.squad ? (
             <DIALOG
               trigger={
