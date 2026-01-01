@@ -25,7 +25,7 @@ export default function HeaderCp() {
   if (pathname.startsWith("/admin")) return;
   return (
     <div
-      className={`h-14 sticky flex gap-6 justify-between items-center w-fit px-2 z-40 from-primary/25 to-background/25 backdrop-blur-sm rounded-full border shadow`}
+      className={`h-14 fixed z-50 top-1 left-1 flex gap-6 justify-between items-center w-fit px-2 from-primary/25 to-background/25 backdrop-blur-sm rounded-full border shadow`}
     >
       <Link href={"/"}>
         <div className="flex items-center w-fit ">
@@ -44,7 +44,7 @@ export default function HeaderCp() {
       </Link>
       <div className=" container ml-auto flex justify-end items-center ">
         <DesktopNav />
-        <MobilePublicNuv />
+        <MobilePublicNav />
       </div>
     </div>
   );
@@ -108,7 +108,7 @@ const navLinks = [
   { title: "Gallery", href: "/gallery", icon: <GalleryThumbnails size={24} /> },
 ];
 
-export const MobilePublicNuv = () => {
+export const MobilePublicNav = () => {
   const { status } = useSession();
   return (
     <NavigationPopover>
@@ -139,7 +139,7 @@ export const MobilePublicNuv = () => {
             </Link>
           </li>
         )}
-        <li className="mt-12 px-3 flex gap-6 items-center flex-wrap">
+        <li className="mt-12 px-3 flex gap-3 items-center ">
           <ThemeModeToggle />
           <UserLogButtons />
         </li>

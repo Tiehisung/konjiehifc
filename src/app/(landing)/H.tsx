@@ -136,7 +136,7 @@ export default function HERO() {
                 WIN
               </span>
             </motion.h1>
-
+ 
             {/* Subheading */}
             <motion.p
               variants={fadeInUp}

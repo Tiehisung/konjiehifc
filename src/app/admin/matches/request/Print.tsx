@@ -1,14 +1,14 @@
 "use client";
 
-import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { kfc } from "@/data/kfc";
 import { teamKFC } from "@/data/teams";
 import { IManager } from "../../managers/page";
 import { checkTeams } from "@/lib/compute/match";
+import { IMatch } from "@/types/match.interface";
 
 export const printMatchRequestLetter = (
   template: { title: string; body: string },
-  match: IMatchProps,
+  match: IMatch ,
   official: { requester: IManager },
   options?:{}
 ) => {
