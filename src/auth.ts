@@ -3,8 +3,6 @@ import Google from "next-auth/providers/google"
 import { EUserRole, ISession } from './types/user';
 import { ConnectMongoDb } from "./lib/dbconfig";
 import UserModel from "./models/user";
-import { toast } from "sonner";
-// import CredentialsProvider from "next-auth/providers/credentials"
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
     providers: [
@@ -40,7 +38,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                         await user.save();
                     }
                 }
-                toast.success(`You signed in as "${user?.role?.replace('_', ' ')}"`)
+                console.log("Profile callback called:", profile.email);
+                console.log("User found/created:", user?._id);
                 return {
                     id: user._id?.toString(),
                     email: user.email,

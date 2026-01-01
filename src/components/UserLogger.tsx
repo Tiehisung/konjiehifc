@@ -27,5 +27,5 @@ export default function UserLogButtons() {
         <LogoutBtn variant={"destructive"} size={"sm"} />
       </div>
     );
-  return <LoginBtn text="Sign In" variant={"outline"} className=" w-full " />;
+  return <LoginBtn text="Sign In" variant={"outline"} className="grow text-foreground" />;
 }

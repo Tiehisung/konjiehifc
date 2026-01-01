@@ -10,8 +10,9 @@ export async function proxy(request: NextRequest) {
     // 1️⃣ Not signed in → redirect to login
     if (!session) {
         return NextResponse.redirect(
-            new URL("/api/auth/signin", request.url)
+            new URL("/auth/login", request.url)
         );
+
     }
 
     // 2️⃣ Signed in but not authorized
@@ -25,5 +26,10 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-    matcher: "/admin/:path*",
+    matcher: [
+        "/admin/:path*",
+        // NEVER intercept auth routes
+        "/((?!api/auth|_next|favicon.ico).*)",
+    ],
 };
+
