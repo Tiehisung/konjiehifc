@@ -1,7 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 
 import { Users, Calendar, Trophy, TrendingUp } from "lucide-react";
-import React from "react";
 import { getMatchesStats } from "../page";
 import { IQueryResponse } from "@/types";
 import { IMatchStats } from "@/types/stats";
