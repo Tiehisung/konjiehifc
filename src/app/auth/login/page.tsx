@@ -35,9 +35,7 @@ const LoginPage = () => {
           <FcGoogle size={24} />
         </LoginBtn>
 
-        {/* <TextDivider text="OR" className="px-4 mt-5" /> */}
-
-        {/* <CredentialsLoginForm /> */}
+         <br />
       </div>
     </div>
   );
