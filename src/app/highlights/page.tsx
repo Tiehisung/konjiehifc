@@ -1,24 +1,11 @@
-import { apiConfig } from "@/lib/configs";
-import { HighlightUpload } from "./Uploader";
-import { MatchHighlights } from "./Client";
 import { IPageProps, IQueryResponse } from "@/types";
 import { IMatch, IMatchHighlight } from "@/types/match.interface";
 import { buildQueryStringServer } from "@/lib";
-import { SearchHighlights } from "./Search";
 import InfiniteLimitScroller from "@/components/InfiniteScroll";
-import { getMatches } from "../page";
-export const getHighlights = async (query?: string) => {
-  try {
-    const cleaned = query?.startsWith("?") ? query : "?" + query;
-    const response = await fetch(`${apiConfig.highlights}${cleaned ?? ""}`, {
-      cache: "no-store",
-    });
-    const fixtures = await response.json();
-    return fixtures;
-  } catch {
-    return null;
-  }
-};
+import { SearchHighlights } from "../admin/matches/highlights/Search";
+import { getMatches } from "../admin/matches/page";
+import { getHighlights } from "../admin/matches/highlights/page";
+import { MatchHighlights } from "../admin/matches/highlights/Client";
 
 export default async function MatchHighlightsPage({
   searchParams,
@@ -30,7 +17,6 @@ export default async function MatchHighlightsPage({
 
   return (
     <div className="_page min-h-96">
-      <HighlightUpload matches={matches?.data} />
       <SearchHighlights matches={matches?.data} />
       <MatchHighlights highlights={highlights} />
       <InfiniteLimitScroller

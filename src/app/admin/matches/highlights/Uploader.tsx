@@ -59,6 +59,8 @@ export function HighlightUpload({
   const { results, loading: fetchingPlayers } = useFetch<IPlayer[]>({
     uri: "/players",
   });
+  
+  console.log(matches);
 
   const players = results?.data ?? [];
 
