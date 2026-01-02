@@ -14,7 +14,7 @@ interface IProps {
   label?: ReactNode;
   className?: string;
   wrapperStyles?: string;
-  initialOptions?: Array<ISelectOptionLV>;
+  initialOptions?: Array<string>;
 }
 
 const MultiSelectionInput = ({
@@ -48,7 +48,9 @@ const MultiSelectionInput = ({
         .filter(Boolean);
       setSelectedOptions(values);
     } else if (initialOptions) {
-      setSelectedOptions(initialOptions);
+      setSelectedOptions(
+        options?.filter((o) => initialOptions.includes(o.value)) ?? []
+      );
     }
   }, [sp, initialOptions]);
 

@@ -65,7 +65,7 @@ export function PrimarySelect({ clearable = true, ...props }: ISelect) {
 
   return (
     <div>
-      {props.label && <Label htmlFor={props.name}>{props.label}</Label>}
+      {props.label && <Label htmlFor={props.name} className="_label mb-1">{props.label}</Label>}
 
       <Select
         value={normalizedValue}

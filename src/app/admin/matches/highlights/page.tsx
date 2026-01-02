@@ -27,10 +27,10 @@ export default async function MatchHighlightsPage({
 
   const highlights: IQueryResponse<IMatchHighlight[]> = await getHighlights(qs);
   const matches: IQueryResponse<IMatch[]> = await getMatches(qs);
-  // console.log(qs);
+  console.log(matches);
   return (
     <div className="_page min-h-96">
-      <HighlightUpload matches={matches?.data}/>
+      <HighlightUpload matches={matches?.data} />
       <SearchHighlights />
       <MatchHighlights highlights={highlights} />
       <InfiniteLimitScroller
