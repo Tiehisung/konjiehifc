@@ -7,7 +7,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { UpdateFixtureMatch } from "./CreateFixture";
 import { formatDate, isToday } from "@/lib/timeAndDate";
-import { IMatchProps, ITeamProps } from "@/app/matches/(fixturesAndResults)";
+import { IMatchProps } from "@/app/matches/(fixturesAndResults)";
 import { BsPatchCheck } from "react-icons/bs";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdLiveTv } from "react-icons/md";
@@ -23,14 +23,16 @@ import { DisplayType } from "@/components/DisplayStyle";
 import useGetParam from "@/hooks/params";
 import { IPlayer } from "@/types/player.interface";
 import { IManager } from "../managers/page";
-import NewSquad from "../squad/NewSquad";
+import SquadForm from "../squad/SquadForm";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { icons } from "@/assets/icons/icons";
 import { checkTeams } from "@/lib/compute/match";
+import { IMatch, ITeam } from "@/types/match.interface";
+import { shortText } from "@/lib";
 
 interface DisplayFixturesProps {
-  fixtures: IQueryResponse<IMatchProps[]>;
-  teams?: ITeamProps[];
+  fixtures: IQueryResponse<IMatch[]>;
+  teams?: ITeam[];
   players?: IPlayer[];
   managers?: IManager[];
 }
@@ -149,16 +151,11 @@ export function DisplayFixtures({
                         </DIALOG>
                       ) : (
                         <DIALOG
-                          trigger={
-                            <Button
-                              primaryText="Choose Squad"
-                              className="text-xs font-thin _secondaryBtn"
-                            />
-                          }
+                          trigger={"Choose Squad"}
                           title={`Select Squad for ${fixture?.title}`}
                           className="min-w-[80vw]"
                         >
-                          <NewSquad
+                          <SquadForm
                             players={players}
                             managers={managers}
                             matches={fixtures?.data}
@@ -176,14 +173,18 @@ export function DisplayFixtures({
                         />
                         <UpdateFixtureMatch teams={teams} fixture={fixture} />
                         <ConfirmActionButton
-                          method="DELETE"
-                          uri={apiConfig.matches}
-                          body={{
-                            matchId: fixture._id,
-                          }}
-                          trigger={<icons.trash />}
-                          className=" px-2 flex items-center text-red-600 _deleteBtn h-9"
-                          confirmText="Delete"
+                          primaryText="Delete"
+                          trigger={" Delete"}
+                          uri={`${apiConfig.matches}/${fixture?._id}`}
+                          method={"DELETE"}
+                          variant="destructive"
+                          confirmVariant={"delete"}
+                          title={`Delete ${fixture?.title}`}
+                          confirmText={`Are you sure you want to delete "<b>${shortText(
+                            fixture?.title ?? "Match",
+                            40
+                          )}</b>"?`}
+                          escapeOnEnd
                         />
                       </div>
                     </td>

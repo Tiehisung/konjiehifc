@@ -1,5 +1,5 @@
 import { staticImages } from "@/assets/images";
-import { IFileProps } from "@/types";
+import { IFileProps } from "@/types/file.interface";
 import Image from "next/image";
 interface IProps {
   file: Partial<IFileProps>;

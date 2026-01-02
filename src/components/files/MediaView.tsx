@@ -1,4 +1,4 @@
-import { IFileProps } from "@/types";
+import { IFileProps } from "@/types/file.interface";
 import Image from "next/image";
 
 export function MediaPreview({ file,className }: { file: IFileProps,className?:string }) {

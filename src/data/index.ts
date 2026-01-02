@@ -14,3 +14,10 @@ export const lorem = `Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                   consectetur omnis sapiente quidem quia labore nisi maiores
                   enim repellendus maxime aliquam hic neque esse exercitationem!`
 
+
+export const symbols = {
+    cedi: '₵',
+    dot: '●',
+    'dot-sm': '•',
+    longDash: '–'
+}

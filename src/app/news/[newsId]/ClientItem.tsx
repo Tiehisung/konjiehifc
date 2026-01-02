@@ -3,7 +3,7 @@
 import React, { FC } from "react";
 import FileRenderer from "@/components/files/FileRender";
 import Image from "next/image";
-import { IFileProps } from "@/types";
+import { IFileProps } from "@/types/file.interface";
 import { INewsProps } from "@/app/news/page";
 import { NewsReactions } from "./Reactions";
 

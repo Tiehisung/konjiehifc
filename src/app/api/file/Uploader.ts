@@ -1,7 +1,8 @@
 import cld from "cloudinary";
 const cloudinary = cld.v2;
 import { ConnectMongoDb } from "@/lib/dbconfig";
-import { IFileUpload } from "@/types";
+import { IFileUpload } from "@/types/file.interface";
+ 
 
 ConnectMongoDb();
 //Post to cloudinary

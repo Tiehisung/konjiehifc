@@ -10,15 +10,15 @@ import { Button } from "@/components/buttons/Button";
 
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
-import { IFileProps, IResultProps } from "@/types";
+import { IResultProps } from "@/types";
+import { IFileProps } from "@/types/file.interface";
 import { Plus } from "lucide-react";
-import CloudinaryUploader, {
-  ICldFileUploadResult,
-} from "@/components/cloudinary/FileUploadWidget";
+import CloudinaryUploader from "@/components/cloudinary/FileUploadWidget";
 import { useSession } from "next-auth/react";
 import { CgAttachment, CgRemove } from "react-icons/cg";
 import QuillEditor from "@/components/editor/Quill";
 import { INewsProps } from "@/app/news/page";
+import { ICldFileUploadResult } from "@/types/file.interface";
 
 export interface IPostNews {
   details: {

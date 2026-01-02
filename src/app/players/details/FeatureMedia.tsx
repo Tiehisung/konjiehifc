@@ -2,12 +2,11 @@
 
 import MasonryGallery from "@/components/Gallery/Masonry";
 import { IPlayer } from "@/types/player.interface";
-import CloudinaryUploader, {
-  ICldFileUploadResult,
-} from "@/components/cloudinary/FileUploadWidget";
+import CloudinaryUploader from "@/components/cloudinary/FileUploadWidget";
 import { useState } from "react";
 import { ActionButton } from "@/components/buttons/ActionButton";
 import { apiConfig } from "@/lib/configs";
+import { ICldFileUploadResult } from "@/types/file.interface";
 
 export function PlayerFeatureMedia({ player }: { player?: IPlayer }) {
   const [uploadedFile, setUploadedFile] = useState<ICldFileUploadResult | null>(

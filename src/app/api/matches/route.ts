@@ -10,6 +10,8 @@ import "@/models/squad";
 import { removeEmptyKeys } from "@/lib";
 import { getSessionUser } from "@/app/admin/page";
 import { EMatchStatus } from "@/types/match.interface";
+import { logAction } from "../logs/helper";
+import { formatDate } from "@/lib/timeAndDate";
 
 ConnectMongoDb();
 
@@ -74,13 +76,19 @@ export async function POST(request: NextRequest) {
 
   const saved = await MatchModel.create({ ...formdata });
 
-  if (saved) return NextResponse.json({ message: "Success", success: true });
-  return NextResponse.json({ message: "Not saved", success: false });
+  // log
+  await logAction({
+    title: `Match created - [${saved?.title}]`,
+    description: `A match item(${saved?.title}) created on ${formatDate(new Date().toISOString()) ?? ''}.`,
+    meta: saved?.toString(),
+  });
+
+  return NextResponse.json({ message: "Fixture created", success: true });
+
 }
 
 export async function PUT(request: NextRequest) {
   const user = await getSessionUser()
-  console.log({ user })
 
   const { _id, ...others } = await request.json();
 

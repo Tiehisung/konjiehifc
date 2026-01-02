@@ -54,7 +54,7 @@ export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
           {/* Cover Image */}
           {gallery.files?.[0]?.secure_url && (
             <div
-              className="relative w-full aspect-[4/3]"
+              className="relative w-full aspect-4/3"
               onClick={() => {
                 setSelectedGallery(gallery);
                 toggleClick(gallery?._id);

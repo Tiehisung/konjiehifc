@@ -1,4 +1,3 @@
-import React from "react";
 import GalleryClient from "./Client";
 import { IGalleryProps, IQueryResponse, IRecord } from "@/types";
 import InfiniteLimitScroller from "@/components/InfiniteScroll";
@@ -10,6 +9,8 @@ import { getGallery } from "../admin/galleries/page";
 import { GalleryUpload } from "@/components/Gallery/GalleryUpload";
 import { getPlayers } from "../admin/players/page";
 import { IPlayer } from "@/types/player.interface";
+import { auth } from "@/auth";
+import { ISession } from "@/types/user";
 
 interface IProps {
   params: Promise<{ newsId: string }>;
@@ -24,6 +25,10 @@ const GalleryPage = async ({ searchParams }: IProps) => {
     galleries?.data?.[0]?.files?.find((f) => f.resource_type === "image")
       ?.secure_url ?? staticImages.ballOnGrass.src;
 
+  const session = (await auth()) as ISession | null;
+
+  const isAdmin = session?.user?.role?.includes("admin");
+
   return (
     <div>
       <IntroSection
@@ -34,7 +39,7 @@ const GalleryPage = async ({ searchParams }: IProps) => {
         className="rounded-b-2xl py-6"
       >
         <br />
-        <GalleryUpload players={players?.data} />
+        {isAdmin && <GalleryUpload players={players?.data} />}
       </IntroSection>
       <GalleryClient galleries={galleries} />
       <InfiniteLimitScroller pagination={galleries?.pagination} />

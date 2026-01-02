@@ -1,6 +1,6 @@
 import { ISquad } from "@/app/admin/squad/page";
 import { IPlayerStatsProps } from "@/app/statistics/Statistics";
-import { IFileProps } from "@/types";
+import { IFileProps } from "@/types/file.interface";
 import { EMatchStatus } from "@/types/match.interface";
 import { IPlayerMini } from "@/types/player.interface";
 

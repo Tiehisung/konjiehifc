@@ -1,6 +1,5 @@
-import { IFileProps, IQueryResponse } from "@/types";
+import {   IQueryResponse } from "@/types";
 import { getSponsors } from "../admin/sponsorship/page";
-import { ICldFileUploadResult } from "@/components/cloudinary/FileUploadWidget";
 import Image from "next/image";
 import { staticImages } from "@/assets/images";
 import HEADER from "@/components/Element";
@@ -8,6 +7,8 @@ import { kfc } from "@/data/kfc";
 import SponsorUs from "./SponsorUs";
 import MarqueeCarousel from "@/components/carousel/marquee";
 import { ReactNode } from "react";
+import { ICldFileUploadResult } from "@/types/file.interface";
+import { IFileProps } from "@/types/file.interface";
 
 export const metadata = {
   title: "Sponsors",

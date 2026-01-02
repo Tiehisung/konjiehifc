@@ -1,4 +1,4 @@
-import { IFileProps, IFileUpload, IQueryResponse } from "@/types";
+import { IQueryResponse } from "@/types";
 import React, { Suspense } from "react";
 
 import { getNews } from "../admin/news/page";
@@ -9,6 +9,7 @@ import YouMayLike from "./YouMayLike";
 import NewsCard from "./NewsCard";
 import { markupToPlainText } from "@/lib/DOM";
 import { kfc } from "@/data/kfc";
+import { IFileProps ,IFileUpload} from "@/types/file.interface";
 
 export interface INewsProps {
   _id: string;

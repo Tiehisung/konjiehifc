@@ -160,6 +160,11 @@ const sidebarLinks = [
     icon: <CgDatabase />,
   },
   {
+    label: "Highlights",
+    path: "/admin/matches/highlights",
+    icon: <CgDatabase />,
+  },
+  {
     label: "Live match",
     path: "/admin/live-match",
     icon: <MdOutlineLiveTv />,

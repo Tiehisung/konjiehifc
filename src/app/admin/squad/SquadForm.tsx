@@ -64,7 +64,7 @@ const squadSchema = Joi.object<IPostSquad>({
   assistant: Joi.string().required().label("Assistant"),
 });
 
-const NewSquad = ({
+const SquadForm = ({
   defaultMatch,
   players = [],
   managers = [],
@@ -166,7 +166,7 @@ const NewSquad = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="grow space-y-4">
-      <Card className="border-0 shadow-lg">
+      <Card className="border-0 ">
         <CardHeader>
           <CardTitle className="text-xl font-black">NEW MATCH SQUAD</CardTitle>
           <CardDescription className="flex gap-4 justify-between items-center flex-wrap border-b pb-5">
@@ -374,4 +374,4 @@ const NewSquad = ({
   );
 };
 
-export default NewSquad;
+export default SquadForm;

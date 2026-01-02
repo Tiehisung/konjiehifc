@@ -3,7 +3,7 @@ import { logAction } from "../../logs/helper";
 import DocModel from "@/models/doc";
 import { IUser } from "@/types/user";
 import { getErrorMessage } from "@/lib";
-import { IFileProps } from "@/types";
+import { IFileProps } from "@/types/file.interface";
 import FolderModel from "@/models/folder";
 
 export interface IDocMoveCopy {

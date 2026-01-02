@@ -1,50 +1,21 @@
 "use client";
 
 import { fireEscape } from "@/hooks/Esc";
+import { ICldFileUploadResult } from "@/types/file.interface";
 import { X } from "lucide-react";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import { ReactNode, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-export interface ICldFileUploadResult {
-  secure_url: string;
-  url: string;
-  thumbnail_url?: string;
-  public_id: string;
-  resource_type: "image" | "video" | "raw" | string;
-  format?: string;
-  bytes?: number;
-  type: string;
-  name?: string;
-  original_filename?: string;
-  tags: string[];
-  width: number;
-  height: number;
-
-  id: string;
-  batchId: string;
-  asset_id: string;
-  version: number;
-  version_id: string;
-  signature: string;
-  created_at?: string;
-  etag: string;
-  placeholder: boolean;
-  folder?: string;
-  access_mode: string;
-  existing: boolean;
-  path?: string;
-}
-
-export interface ICloudinaryUploaderProps {
+interface ICloudinaryUploaderProps {
   uploadPreset?: string;
   multiple?: boolean;
   maxFiles?: number;
   folder?: string;
   resourceType?: "image" | "video" | "raw" | "auto";
   deletable?: boolean;
-  preview?: boolean;
+  hidePreview?: boolean;
   trigger?: ReactNode;
   triggerId?: string;
   dismissOnComplete?: boolean;
@@ -53,6 +24,16 @@ export interface ICloudinaryUploaderProps {
   clearTrigger?: number;
   wrapperStyles?: string;
   setUploadedFiles: (files: ICldFileUploadResult[]) => void;
+  mediaDisplayStyles?: string;
+  maxFileSize?:
+    | "2_000_000"
+    | "5_000_000"
+    | "10_000_000"
+    | "20_000_000"
+    | "40_000_000"
+    | "60_000_000"
+    | "80_000_000"
+    | "100_000_000";
 }
 
 export default function CloudinaryUploader({
@@ -63,13 +44,15 @@ export default function CloudinaryUploader({
   setUploadedFiles,
   resourceType = "auto",
   deletable = true,
-  preview = true,
+  hidePreview = false,
   trigger = "Upload Media",
   triggerId = "cloudinary-uploader",
   dismissOnComplete = true,
   cropping = false,
   successMessage,
   wrapperStyles,
+  mediaDisplayStyles,
+  maxFileSize = "20_000_000",
 }: ICloudinaryUploaderProps) {
   const [files, setFiles] = useState<ICldFileUploadResult[]>([]);
 
@@ -134,7 +117,7 @@ export default function CloudinaryUploader({
           folder,
           resourceType: resourceType ?? "auto",
           clientAllowedFormats: allowedFormats,
-          maxFileSize: 20_000_000, // 20MB
+          maxFileSize: Number(maxFileSize), // 20MB
           theme: "minimal",
           showPoweredBy: false,
           cropping: cropping,
@@ -150,11 +133,9 @@ export default function CloudinaryUploader({
             });
           }
         }}
-        onQueuesEnd={() => {
+        onQueuesEnd={({ info }) => {
           // Fires when all uploads are done
-        
-          if (successMessage)
-            toast.success(successMessage ?? `Uploads complete`);
+          if (info) toast.success(successMessage ?? `Finished`);
           if (dismissOnComplete) fireEscape();
         }}
       >
@@ -164,25 +145,34 @@ export default function CloudinaryUploader({
             onClick={() => open()}
             className={`font-semibold cursor-pointer transition-colors select-none `}
           >
-            {trigger?? <span className={'bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-white '}>Upload Media</span>}
-    
+            {trigger ?? (
+              <span
+                className={
+                  "bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-white "
+                }
+              >
+                Upload Media
+              </span>
+            )}
           </div>
         )}
       </CldUploadWidget>
 
       {/* Uploaded previews */}
-      {preview && files?.length > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+      {!hidePreview && files?.length > 0 && (
+        <div
+          className={`flex items-center flex-wrap justify-center gap-3 mt-4 ${mediaDisplayStyles}`}
+        >
           {files.map((f) => (
             <div
               key={f.public_id}
-              className="relative rounded-lg overflow-hidden shadow-md group"
+              className="relative rounded-lg overflow-hidden group max-h-80"
             >
               {f.resource_type === "video" ? (
                 <video
                   src={f.secure_url}
                   controls
-                  className="rounded-lg shadow-md object-cover"
+                  className="rounded-lg object-cover"
                 />
               ) : (
                 <Image
@@ -190,7 +180,7 @@ export default function CloudinaryUploader({
                   height={400}
                   src={f.secure_url}
                   alt={f.original_filename ?? ""}
-                  className="rounded-lg shadow-md object-cover"
+                  className="rounded-lg object-cover"
                 />
               )}
 

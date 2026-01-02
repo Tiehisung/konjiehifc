@@ -4,15 +4,14 @@ import { useState, FormEvent, useCallback, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "@/components/buttons/Button";
-import CloudinaryUploader, {
-  ICldFileUploadResult,
-} from "@/components/cloudinary/FileUploadWidget";
+import CloudinaryUploader from "@/components/cloudinary/FileUploadWidget";
 import { Input } from "@/components/input/Inputs";
 import { apiConfig } from "@/lib/configs";
 import { getErrorMessage } from "@/lib";
 import { IGalleryProps, IQueryResponse } from "@/types";
 import { IPlayer } from "@/types/player.interface";
 import MultiSelectionInput from "../select/MultiSelect";
+import { ICldFileUploadResult } from "@/types/file.interface";
 
 interface GalleryUploadProps {
   tags?: string[];
@@ -108,7 +107,7 @@ export function GalleryUpload({
               {files.length} file{files.length !== 1 ? "s" : ""} selected
             </p>
 
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="flex flex-col gap-4">
               <Input
                 onChange={(e) => setTitle(e.target.value)}
                 name="title"

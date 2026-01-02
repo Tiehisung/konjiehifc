@@ -1,6 +1,6 @@
-import { EPreset, EPresetType, IFileProps, IFileUpload } from "@/types";
+import { EPreset, EPresetType } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
-
+import { IFileProps ,IFileUpload} from "@/types/file.interface";
 import cld from "cloudinary";
 import FileModel from "@/models/file";
 import { ConnectMongoDb } from "@/lib/dbconfig";

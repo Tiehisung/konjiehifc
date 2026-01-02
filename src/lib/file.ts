@@ -1,4 +1,4 @@
-import { IFileProps } from "@/types";
+import { IFileProps } from "@/types/file.interface";
 import { bytesToMB } from ".";
 
 export const getFileExtension = (mediaOrUrl: IFileProps | string): string => {
@@ -19,7 +19,7 @@ export const validateFile = (
     maxSize: number = 10000000
 ) => {
 
-    console.log({ file, fileType, size: file?.size})
+
     if (bytesToMB(file?.size ?? 0) > bytesToMB(maxSize)) {
         return { status: false, message: `File too large. Accepts less than ${bytesToMB(maxSize)} MB` };
     }
@@ -49,3 +49,32 @@ export const validateFile = (
 
     return { status: true, message: '' };
 };
+
+export const getVideoThumbnail = (
+    publicId: string,
+    options?: {
+        width?: number
+        height?: number
+        second?: number
+        crop?: "fill" | "fit" | "limit"
+    }
+) => {
+    const {
+        width = 1200,
+        height = 680,
+        second = 4,
+        crop = "fill",
+    } = options || {}
+
+    const transformations = [
+        `so_${second}`,            // seek to timestamp
+        "f_auto",                  // WebP/AVIF
+        "q_auto:good",             // quality
+        "fl_progressive",          // faster load
+        `c_${crop}`,
+        `w_${width}`,
+        `h_${height}`,
+    ].join(",")
+
+    return `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/video/upload/${transformations}/${publicId}.jpg`
+}

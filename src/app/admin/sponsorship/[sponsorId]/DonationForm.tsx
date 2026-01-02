@@ -12,10 +12,9 @@ import {
   IconInputWithLabel,
   TextArea,
 } from "@/components/input/Inputs";
-import CloudinaryUploader, {
-  ICldFileUploadResult,
-} from "@/components/cloudinary/FileUploadWidget";
+import CloudinaryUploader  from "@/components/cloudinary/FileUploadWidget";
 import { CgAttachment } from "react-icons/cg";
+import { ICldFileUploadResult } from "@/types/file.interface";
 
 const initialForm = {
   item: "",

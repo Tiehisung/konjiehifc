@@ -1,5 +1,5 @@
 import { ISquad } from "@/app/admin/squad/page";
-import { IFileProps } from ".";
+import { IFileProps } from "@/types/file.interface";
 import { IPlayerMini } from "./player.interface";
 import { IPlayerStatsProps } from "@/app/statistics/Statistics";
 
@@ -39,7 +39,7 @@ export interface IMatchMetrics {
   winStatus: string;
   teams: {
     home: ITeam | undefined;
-    away: ITeam ;
+    away: ITeam;
   }
 }
 export interface IMatchCard {
@@ -89,7 +89,11 @@ export interface IGoal {
   | "Long-Range Goal"
   description?: string
   match: string
-  forKFC:boolean
+  forKFC: boolean
 }
 
 
+export interface IMatchHighlight extends IFileProps {
+  title: string
+  match: IMatch
+}

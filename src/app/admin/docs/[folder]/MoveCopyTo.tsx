@@ -2,7 +2,7 @@
 
 import { COMBOBOX } from "@/components/ComboBox";
 import { DIALOG } from "@/components/Dialog";
-import { IFileProps } from "@/types";
+import { IFileProps } from "@/types/file.interface";
 import { Badge } from "@/components/ui/badge";
 import { ActionButton } from "@/components/buttons/ActionButton";
 import { apiConfig } from "@/lib/configs";

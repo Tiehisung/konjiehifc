@@ -8,8 +8,8 @@ import Image from "next/image";
 import React, { ReactNode, useState } from "react";
 import { FcCamera } from "react-icons/fc";
 import { toast } from "sonner";
-import { ICldFileUploadResult } from "./FileUploadWidget";
 import { OverlayLoader } from "../loaders/OverlayLoader";
+import { ICldFileUploadResult } from "@/types/file.interface";
 
 interface FileUploaderProps {
   initialFileUrl?: string;

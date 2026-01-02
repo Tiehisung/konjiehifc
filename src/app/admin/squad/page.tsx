@@ -3,7 +3,7 @@ import { IQueryResponse } from "@/types";
 import React from "react";
 import { getPlayers } from "../players/page";
 import { PrimaryAccordion } from "@/components/Accordion";
-import NewSquad from "./NewSquad";
+import SquadForm from "./SquadForm";
 import { getManagers, IManager } from "../managers/page";
 import { apiConfig } from "@/lib/configs";
 import SquadCard from "./SquadCard";
@@ -102,7 +102,7 @@ const SquadPage = async ({ searchParams }: PageProps) => {
           className=""
         >
           <section>
-            <NewSquad
+            <SquadForm
               players={players?.data}
               managers={managers?.data}
               matches={matches?.data}

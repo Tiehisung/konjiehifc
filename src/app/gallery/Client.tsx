@@ -85,7 +85,7 @@ export function GalleryThumbnail({ gallery, className = "" }: GalleryProps) {
         aria-label={thumbnailFile?.original_filename ?? `Open image`}
         type="button"
       >
-        <div className="relative w-full aspect-[4/3] bg-gray-100 flex items-start">
+        <div className="relative w-full aspect-4/3 bg-gray-100 flex items-start">
           <Image
             src={
               (thumbnailFile?.resource_type == "video"

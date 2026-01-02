@@ -6,9 +6,10 @@ import { getErrorMessage, getFilePath } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import { IQueryResponse } from "@/types";
-import { ICldFileUploadResult } from "./cloudinary/FileUploadWidget";
 import { fireDoubleEscape } from "@/hooks/Esc";
 import { validateFile } from "@/lib/file";
+import { ICldFileUploadResult } from "@/types/file.interface";
+ 
 
 export const DragAndDropUpload = ({
   onChange,

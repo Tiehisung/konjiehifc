@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import { TButtonSize, TButtonVariant } from "./ui/button";
 import { Button } from "./buttons/Button";
+import Loader from "./loaders/Loader";
 interface ICollapsible {
   header: {
     icon?: ReactNode;
@@ -19,6 +20,7 @@ interface ICollapsible {
   onChange?: (arg: boolean) => void;
   variant?: TButtonVariant;
   size?: TButtonSize;
+  loading?: boolean;
 }
 
 export function PrimaryCollapsible({
@@ -28,10 +30,12 @@ export function PrimaryCollapsible({
   onChange,
   variant = "ghost",
   size,
+  loading,
 }: ICollapsible) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const isActiveLink = (path: string) => pathname === path;
+  if (loading) return <Loader />;
   return (
     <div className="space-y-1 w-full ">
       <Button
