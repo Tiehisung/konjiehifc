@@ -1,17 +1,15 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import PlayerStatistics from "./statistics/Statistics";
 import LandingPlayers from "./(landing)/Players";
 import { TechnicalManagement } from "./(landing)/Management";
 import LandingNewsHeadlines from "./news/LandingNews";
 import LandingFixtures from "./matches/(fixturesAndResults)/LandingFixtures";
-import Hero from "./(landing)/Hero";
-import Loader from "@/components/loaders/Loader";
 import { LiveMatchCard } from "./matches/live/Live";
 import LandingSquad from "./(landing)/Squad";
 import { PitchGallery } from "./(landing)/Pitch";
 import LoadingSkeleton from "react-loading-skeleton";
 import CardLoader from "@/components/loaders/CardLoader";
-import HERO from "./(landing)/H";
+import { ServerHero } from "./(landing)/HeroServer";
 
 export const metadata = {
   title: "Konjiehi FC – Official Website",
@@ -43,7 +41,7 @@ export const metadata = {
 export default async function Home() {
   return (
     <main className=" relative md:block space-y-10">
-      <HERO/>
+      <ServerHero />
 
       <Suspense fallback={<CardLoader className="h-36 w-40" />}>
         <LandingPlayers />

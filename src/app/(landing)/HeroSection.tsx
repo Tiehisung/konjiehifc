@@ -1,27 +1,21 @@
+"use client";
+
 import { CountupMetricCard } from "@/components/MetricsCards";
-import { IMatchMetrics } from "@/types/match.interface";
 import { motion } from "framer-motion";
 import { ChevronRight, Trophy, Users, Target, Shield } from "lucide-react";
-import { getMetrics } from "../admin/page";
 import { IQueryResponse } from "@/types";
+import { IMetrics } from "../api/metrics/route";
 
-interface Metrics {
-  activePlayers: number;
-  matchesStats: {
-    wins: IMatchMetrics[];
-    draws: IMatchMetrics[];
-    losses: IMatchMetrics[];
-    winRate: number;
-  };
+interface IProps {
+  metrics?: IQueryResponse<IMetrics>;
 }
-export default async function HERO() {
-  const metrics: IQueryResponse<Metrics> = await getMetrics();
 
+export default function HERO({ metrics }: IProps) {
   console.log({ metrics });
 
   const stats = [
     {
-      value: metrics?.data?.matchesStats?.winRate,
+      value: metrics?.data?.matchStats?.winRate,
       label: "Win Rate",
       icon: <Trophy className="w-5 h-5" />,
       suffix: "%",

@@ -14,11 +14,7 @@ const matchSchema = new Schema(
     },
     goals: [{ type: Schema.Types.ObjectId, ref: "goals" }],
     squad: { type: Schema.Types.ObjectId, ref: "squad" },
-    score: {
-      kfc: { type: Number, default: 0 },
-      opponent: { type: Number, default: 0 },
-    },
-    opponentGoals: { type: Number, default: 0 },
+   
     sponsor: [{ type: Schema.Types.ObjectId, ref: "sponsors" }],
     broadcaster: {},
     venue: { name: { type: String, default: () => 'Home Park' }, files: [{}] },
