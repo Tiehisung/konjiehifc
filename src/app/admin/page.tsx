@@ -24,9 +24,10 @@ export const getPlayersStats = async (playerId?: string) => {
   }
 };
 
-export const getMatchesStats = async () => {
+
+export const getMetrics = async () => {
   try {
-    const response = await fetch(`${apiConfig.base}/stats/matches`, {
+    const response = await fetch(`${apiConfig.base}/metrics`, {
       cache: "no-cache",
     });
 
@@ -37,7 +38,6 @@ export const getMatchesStats = async () => {
     return null;
   }
 };
-
 const AdminDashboardPage = async () => {
   return (
     <div>
