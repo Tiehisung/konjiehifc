@@ -1,40 +1,36 @@
 import { Card, CardContent } from "@/components/ui/card";
-
 import { Users, Calendar, Trophy, TrendingUp } from "lucide-react";
-import { getMatchesStats } from "../page";
 import { IQueryResponse } from "@/types";
-import { IMatchStats } from "@/types/stats";
-import { IPlayer } from "@/types/player.interface";
-import { getPlayers } from "../players/page";
+import { getMetrics } from "../page";
+import { IMetrics } from "@/app/api/metrics/route";
 
 export const KeyTopStatsCards = async () => {
-  const matchesStats: IQueryResponse<IMatchStats> = await getMatchesStats();
-  const players: IQueryResponse<IPlayer[]> = await getPlayers();
-  
+  const metrics: IQueryResponse<IMetrics> = await getMetrics();
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
       {[
         {
           label: "Total Players",
-          value: players?.data?.length ?? 0,
+          value: metrics?.data?.activePlayers ?? 0,
           icon: Users,
           color: "from-blue-500 to-blue-600",
         },
         {
           label: "Matches Played",
-          value: matchesStats?.data?.totalMatches,
+          value: metrics?.data?.matchStats?.totalMatches ?? 0,
           icon: Calendar,
           color: "from-red-500 to-red-600",
         },
         {
           label: "Win Rate",
-          value: matchesStats?.data?.winRate,
+          value: metrics?.data?.matchStats?.winRate,
           icon: Trophy,
           color: "from-green-500 to-green-600",
         },
         {
           label: "Goals",
-          value: matchesStats?.data?.goalsFor,
+          value: metrics?.data?.matchStats?.goals,
           icon: TrendingUp,
           color: "from-yellow-500 to-yellow-600",
         },

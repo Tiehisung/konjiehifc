@@ -3,7 +3,7 @@ import { checkMatchMetrics } from "@/lib/compute/match";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import MatchModel from "@/models/match";
 import PlayerModel from "@/models/player";
-import { IMatch, } from "@/types/match.interface";
+import { IMatch, IMatchMetrics, } from "@/types/match.interface";
 import { NextRequest, NextResponse } from "next/server";
 
 
@@ -11,7 +11,7 @@ ConnectMongoDb();
 
 export async function GET(request: NextRequest) {
   ConnectMongoDb();
-  const matches = await MatchModel.find({ status: 'FT' }).populate('opponent') as IMatch[];
+  const matches = await MatchModel.find({ status: 'FT' }).populate('opponent').populate('goals') as IMatch[];
 
   const matchMetrics = matches?.map(m => checkMatchMetrics(m));
 
@@ -22,6 +22,8 @@ export async function GET(request: NextRequest) {
   }
   const winRate = ((matchStats?.wins?.length / matchMetrics?.length) * 100)?.toFixed(1)
 
+  const goals = matchMetrics?.map(mm => mm.goals.kfc).flat().length ?? 0
+
   const total = await PlayerModel.countDocuments({ isActive: true })
 
   return NextResponse.json({
@@ -30,10 +32,25 @@ export async function GET(request: NextRequest) {
       activePlayers: total,
       matchStats: {
         ...matchStats,
+        winRate,
         metrics: matchMetrics,
-        winRate
+        totalMatches: matchMetrics.length ?? 0,
+        goals
       },
     },
 
   });
+}
+
+export interface IMetrics {
+  activePlayers: number;
+  matchStats: {
+    winRate: string;
+    metrics: IMatchMetrics[];
+    totalMatches: number;
+    goals: number;
+    wins: IMatchMetrics[];
+    draws: IMatchMetrics[];
+    losses: IMatchMetrics[];
+  };
 }

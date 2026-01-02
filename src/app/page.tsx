@@ -4,14 +4,14 @@ import LandingPlayers from "./(landing)/Players";
 import { TechnicalManagement } from "./(landing)/Management";
 import LandingNewsHeadlines from "./news/LandingNews";
 import LandingFixtures from "./matches/(fixturesAndResults)/LandingFixtures";
-import Hero from "./(landing)/Hero";
+import Hero from "./(landing)/HeroLegacy";
 import Loader from "@/components/loaders/Loader";
 import { LiveMatchCard } from "./matches/live/Live";
 import LandingSquad from "./(landing)/Squad";
 import { PitchGallery } from "./(landing)/Pitch";
 import LoadingSkeleton from "react-loading-skeleton";
 import CardLoader from "@/components/loaders/CardLoader";
-import HERO from "./(landing)/H";
+import HERO from "./(landing)/HeroSection";
 
 export const metadata = {
   title: "Konjiehi FC – Official Website",
