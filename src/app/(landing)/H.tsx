@@ -5,7 +5,6 @@ import { useFetch } from "@/hooks/fetch";
 import { IMatchMetrics } from "@/types/match.interface";
 import { motion } from "framer-motion";
 import { ChevronRight, Trophy, Users, Target, Shield } from "lucide-react";
-import { useState } from "react";
 
 interface StatsProps {
   activePlayers: number;
@@ -17,7 +16,7 @@ interface StatsProps {
   };
 }
 export default function HERO() {
-  const [isHovered, setIsHovered] = useState(false);
+
   const { results, loading } = useFetch<StatsProps>({ uri: "/metrics" });
 
   const stats = [
@@ -150,19 +149,16 @@ export default function HERO() {
             {/* CTA Buttons */}
             <motion.div
               variants={fadeInUp}
-              className="flex flex-col sm:flex-row gap-4 mb-12"
+              className="flex flex-col sm:flex-row gap-4 mb-12 justify-center"
             >
               <button
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
+                
                 className="group relative px-8 py-4 bg-linear-to-r from-red-600 to-red-700 text-white font-bold rounded-full text-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-red-600/30"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   Join Our Legacy
                   <ChevronRight
-                    className={`w-5 h-5 transition-transform ${
-                      isHovered ? "translate-x-2" : ""
-                    }`}
+                    className={`w-5 h-5 transition-transform group-hover:translate-x-2  `}
                   />
                 </span>
                 <div className="absolute inset-0 bg-linear-to-r from-yellow-500 to-yellow-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

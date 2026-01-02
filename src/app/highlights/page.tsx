@@ -16,13 +16,15 @@ export default async function MatchHighlightsPage({
   const matches: IQueryResponse<IMatch[]> = await getMatches(qs);
 
   return (
-    <div className="_page min-h-96">
+    <div className="_page min-h-96 pt-12">
+      
+      <h1 className="_label">Match Highlights</h1>
       <SearchHighlights matches={matches?.data} />
       <MatchHighlights highlights={highlights} />
       <InfiniteLimitScroller
         pagination={highlights?.pagination}
         endDataText="The End"
       />
-    </div>
+    </div> 
   );
 }

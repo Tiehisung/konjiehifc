@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { LiaAngleUpSolid } from "react-icons/lia";
 
-const BackToTopButton = ({className='z-10'}:{className?:string}) => {
+const BackToTopButton = ({ className = "z-10" }: { className?: string }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   // Handle scroll visibility
@@ -33,8 +33,9 @@ const BackToTopButton = ({className='z-10'}:{className?:string}) => {
         <button
           title="Back to Top"
           onClick={scrollToTop}
-          className="flex items-center justify-center w-12 h-12 bg-accent text-accent-foreground rounded-full shadow-lg hover:bg-base-100 _slowTrans"
+          className="flex items-center justify-center w-12 h-12 bg-accent text-accent-foreground rounded-full shadow-lg hover:bg-base-100 cursor-pointer _slowTrans"
           aria-label="Back to Top"
+          type="button"
         >
           <LiaAngleUpSolid />
         </button>
