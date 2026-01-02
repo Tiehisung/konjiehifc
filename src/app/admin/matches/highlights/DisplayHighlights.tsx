@@ -23,6 +23,11 @@ interface Props {
 export const MatchHighlights = ({ highlights }: Props) => {
   const [activeVideo, setActiveVideo] = useState<IMatchHighlight | null>(null);
 
+  console.log(
+    "thumbnail",
+    getVideoThumbnail(highlights?.data?.[0]?.public_id as string, { second: 4 })
+  );
+
   if (!((highlights?.data?.length ?? 0) > 0)) {
     return (
       <div className="text-center text-gray-500 py-10">
@@ -80,7 +85,8 @@ export const MatchHighlights = ({ highlights }: Props) => {
           onClose={() => setActiveVideo(null)}
           files={[
             activeVideo,
-            ...(highlights?.data?.filter((h) => h._id !== activeVideo?._id) ?? []),
+            ...(highlights?.data?.filter((h) => h._id !== activeVideo?._id) ??
+              []),
           ]?.map((v) => ({
             type: "video",
             src: v.secure_url,

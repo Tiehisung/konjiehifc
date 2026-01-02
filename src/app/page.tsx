@@ -44,9 +44,6 @@ export default async function Home() {
   return (
     <main className=" relative md:block space-y-10">
       <HERO/>
-      <Suspense fallback={<Loader message="Loading players.." />}>
-        {/* <Hero /> */}
-      </Suspense>
 
       <Suspense fallback={<CardLoader className="h-36 w-40" />}>
         <LandingPlayers />
