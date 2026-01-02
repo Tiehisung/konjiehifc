@@ -1,12 +1,11 @@
-"use client";
-
 import { CountupMetricCard } from "@/components/MetricsCards";
-import { useFetch } from "@/hooks/fetch";
 import { IMatchMetrics } from "@/types/match.interface";
 import { motion } from "framer-motion";
 import { ChevronRight, Trophy, Users, Target, Shield } from "lucide-react";
+import { getMetrics } from "../admin/page";
+import { IQueryResponse } from "@/types";
 
-interface StatsProps {
+interface Metrics {
   activePlayers: number;
   matchesStats: {
     wins: IMatchMetrics[];
@@ -15,20 +14,21 @@ interface StatsProps {
     winRate: number;
   };
 }
-export default function HERO() {
+export default async function HERO() {
+  const metrics: IQueryResponse<Metrics> = await getMetrics();
 
-  const { results, loading } = useFetch<StatsProps>({ uri: "/metrics" });
+  console.log({ metrics });
 
   const stats = [
     {
-      value: results?.data?.matchesStats?.winRate,
+      value: metrics?.data?.matchesStats?.winRate,
       label: "Win Rate",
       icon: <Trophy className="w-5 h-5" />,
       suffix: "%",
       isCountup: true,
     },
     {
-      value: results?.data?.activePlayers ?? 0,
+      value: metrics?.data?.activePlayers ?? 0,
       label: "Active Players",
       icon: <Users className="w-5 h-5" />,
       suffix: "+",
@@ -151,10 +151,7 @@ export default function HERO() {
               variants={fadeInUp}
               className="flex flex-col sm:flex-row gap-4 mb-12 justify-center"
             >
-              <button
-                
-                className="group relative px-8 py-4 bg-linear-to-r from-red-600 to-red-700 text-white font-bold rounded-full text-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-red-600/30"
-              >
+              <button className="group relative px-8 py-4 bg-linear-to-r from-red-600 to-red-700 text-white font-bold rounded-full text-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-red-600/30">
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   Join Our Legacy
                   <ChevronRight
@@ -186,7 +183,7 @@ export default function HERO() {
                   countupSuffix={stat.suffix}
                   isCountUp={stat.isCountup}
                   description={stat.label}
-                  isLoading={loading}
+                  isLoading={!metrics?.data}
                   key={index}
                 />
               ))}
