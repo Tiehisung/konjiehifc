@@ -1,10 +1,18 @@
 "use client";
 
+import { icons } from "@/assets/icons/icons";
+import { Button } from "@/components/buttons/Button";
+import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
+import { PrimaryDropdown } from "@/components/Dropdown";
+import { POPOVER } from "@/components/ui/popover";
 import LightboxViewer from "@/components/viewer/LightBox";
+import { apiConfig } from "@/lib/configs";
+import { downloadFile } from "@/lib/downloadFile";
 import { getVideoThumbnail } from "@/lib/file";
 import { IQueryResponse } from "@/types";
 import { IMatchHighlight } from "@/types/match.interface";
-import { Play } from "lucide-react";
+import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
+import { Download, Play } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -15,7 +23,7 @@ interface Props {
 export const MatchHighlights = ({ highlights }: Props) => {
   const [activeVideo, setActiveVideo] = useState<IMatchHighlight | null>(null);
 
-  if (!highlights?.data?.length) {
+  if (!((highlights?.data?.length ?? 0) > 0)) {
     return (
       <div className="text-center text-gray-500 py-10">
         No match highlights yet.
@@ -31,7 +39,7 @@ export const MatchHighlights = ({ highlights }: Props) => {
           <div
             key={video?._id ?? "" + i}
             onClick={() => setActiveVideo(video)}
-            className="group relative cursor-pointer rounded-xl overflow-hidden bg-modalOverlay shadow-lg hover:scale-[1.02] transition"
+            className="group relative cursor-pointer rounded-xl overflow-hidden bg-modalOverlay shadow-lg hover:scale-[1.01] transition"
           >
             <Image
               src={
@@ -59,6 +67,8 @@ export const MatchHighlights = ({ highlights }: Props) => {
                 {video?.title}
               </p>
             </div>
+
+            <HighlightMediaActions highlight={video} />
           </div>
         ))}
       </div>
@@ -70,7 +80,7 @@ export const MatchHighlights = ({ highlights }: Props) => {
           onClose={() => setActiveVideo(null)}
           files={[
             activeVideo,
-            ...highlights?.data?.filter((h) => h._id !== activeVideo?._id),
+            ...(highlights?.data?.filter((h) => h._id !== activeVideo?._id) ?? []),
           ]?.map((v) => ({
             type: "video",
             src: v.secure_url,
@@ -82,5 +92,56 @@ export const MatchHighlights = ({ highlights }: Props) => {
         />
       )}
     </>
+  );
+};
+
+export const HighlightMediaActions = ({
+  highlight,
+}: {
+  highlight?: IMatchHighlight;
+}) => {
+  return (
+    <div
+      onClick={(e) => e.stopPropagation()}
+      className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition"
+    >
+      <POPOVER
+        variant={"secondary"}
+        className="h-fit "
+        triggerClassNames="rounded-full w-7 h-7"
+      >
+        <Button
+          onClick={() =>
+            downloadFile(
+              highlight?.secure_url || "",
+              highlight?.original_filename as string
+            )
+          }
+          className="flex items-center gap-1 _hover p-1.5 px-3.5 w-full justify-start"
+          variant={"ghost"}
+        >
+          <Download className="w-4 h-4 mr-2" />
+          Download
+        </Button>
+
+        <ConfirmActionButton
+          title={`Delete - ${highlight?.title}`}
+          primaryText={"Delete"}
+          method={"DELETE"}
+          confirmText="Do you want to delete this highlight?"
+          uri={`${apiConfig.highlights}/${highlight?._id}`}
+          className="h-fit w-full"
+          variant="destructive"
+          confirmVariant={"delete"}
+          trigger={
+            <>
+              <icons.trash /> Delete
+            </>
+          }
+          triggerStyles="px-6 w-full justify-start"
+          escapeOnEnd
+        />
+      </POPOVER>
+    </div>
   );
 };

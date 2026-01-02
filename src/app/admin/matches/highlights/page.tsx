@@ -1,6 +1,6 @@
 import { apiConfig } from "@/lib/configs";
 import { HighlightUpload } from "./Uploader";
-import { MatchHighlights } from "./Client";
+import { MatchHighlights } from "./DisplayHighlights";
 import { IPageProps, IQueryResponse } from "@/types";
 import { IMatch, IMatchHighlight } from "@/types/match.interface";
 import { buildQueryStringServer } from "@/lib";

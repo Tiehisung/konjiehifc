@@ -61,7 +61,7 @@ interface IProps {
 
 export function POPOVER({
   trigger = (
-    <CgMoreAlt className="p-1.5 cursor-pointer shadow-xs hover:bg-border rounded-full text-4xl hover:scale-105 " />
+    <CgMoreAlt className=" cursor-pointer shadow-xs hover:bg-border rounded-full text-4xl hover:scale-105 " />
   ),
   children,
   triggerClassNames,
@@ -72,11 +72,12 @@ export function POPOVER({
 }: IProps) {
   return (
     <Popover>
-      <PopoverTrigger
-        asChild
-        className={`${triggerClassNames} cursor-pointer transition-all _shrink select-none `}
-      >
-        <Button variant={variant} size={size}>
+      <PopoverTrigger asChild>
+        <Button
+          variant={variant}
+          size={size}
+          className={`${triggerClassNames} cursor-pointer transition-all _shrink select-none `}
+        >
           {trigger}
         </Button>
       </PopoverTrigger>

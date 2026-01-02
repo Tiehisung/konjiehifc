@@ -10,7 +10,7 @@ import { NextRequest, NextResponse } from "next/server";
 ConnectMongoDb();
 
 export async function GET(request: NextRequest) {
-
+  ConnectMongoDb();
   const matches = await MatchModel.find({ status: 'FT' }).populate('opponent') as IMatch[];
 
   const matchMetrics = matches?.map(m => checkMatchMetrics(m));
