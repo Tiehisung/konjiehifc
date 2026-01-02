@@ -1,14 +1,16 @@
+"use client";
+
 import { CountupMetricCard } from "@/components/MetricsCards";
 import { motion } from "framer-motion";
 import { ChevronRight, Trophy, Users, Target, Shield } from "lucide-react";
-import { getMetrics } from "../admin/page";
 import { IQueryResponse } from "@/types";
 import { IMetrics } from "../api/metrics/route";
 
- 
-export default async function HERO() {
-  const metrics: IQueryResponse<IMetrics> = await getMetrics();
+interface IProps {
+  metrics?: IQueryResponse<IMetrics>;
+}
 
+export default function HERO({ metrics }: IProps) {
   console.log({ metrics });
 
   const stats = [
