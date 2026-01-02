@@ -28,11 +28,11 @@ export default function HeaderCp() {
       className={`h-14 fixed z-50 top-1 left-1 flex gap-6 justify-between items-center w-fit px-2 from-primary/25 to-background/25 backdrop-blur-sm rounded-full border shadow`}
     >
       <Link href={"/"}>
-        <div className="flex items-center w-fit ">
+        <div className="flex items-center gap-2 w-fit ">
           <div className="animate-pulse ">
-            <GiSoccerBall size={42} /> KonFC
+            <GiSoccerBall size={42} />
           </div>
-
+          KonFC
           {/* <Image
             src={theme == "dark" ? logoWhite : logoDark}
             width={200}
