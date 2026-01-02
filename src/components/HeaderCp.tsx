@@ -30,16 +30,16 @@ export default function HeaderCp() {
       <Link href={"/"}>
         <div className="flex items-center w-fit ">
           <div className="animate-pulse ">
-            <GiSoccerBall size={42} />
+            <GiSoccerBall size={42} /> KonFC
           </div>
 
-          <Image
+          {/* <Image
             src={theme == "dark" ? logoWhite : logoDark}
             width={200}
             height={200}
             alt="logo"
             className="max-w-32 h-full"
-          />
+          /> */}
         </div>
       </Link>
       <div className=" container ml-auto flex justify-end items-center ">
