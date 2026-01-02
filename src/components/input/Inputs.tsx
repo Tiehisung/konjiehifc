@@ -111,7 +111,7 @@ export function Input({
   className = "",
   name,
   label = "",
-  labelStyles = "_label",
+  labelStyles = "_label mb-1",
   placeholder = "",
   onChange,
   value,
@@ -144,7 +144,7 @@ export function Input({
             ? placeholder.substring(0, 27) + "..."
             : placeholder
         }
-        className={`bg-secondary text-secondary-foreground outline-none border border-border focus:border-teal-500 shadow-teal-100/50 h-9 rounded px-2 w-full placeholder:line-clamp-1 _slowTrans ${className}`}
+        className={`bg-background text-secondary-foreground outline-none border border-border focus:border-teal-500 shadow-teal-100/50 h-9 rounded px-2 w-full placeholder:line-clamp-1 _slowTrans ${className}`}
         {...others}
         required={required}
       />

@@ -1,8 +1,8 @@
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { AVATAR } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import {    shortText } from "@/lib";
-import {  checkMatchMetrics,checkTeams } from "@/lib/compute/match";
+import { shortText } from "@/lib";
+import { checkMatchMetrics, checkTeams } from "@/lib/compute/match";
 import { apiConfig } from "@/lib/configs";
 import {
   formatDate,
@@ -14,7 +14,7 @@ import { DIALOG } from "@/components/Dialog";
 import { Eye } from "lucide-react";
 import SquadCard from "../squad/SquadCard";
 import { UpdateFixtureMatch } from "./CreateFixture";
-import NewSquad from "../squad/NewSquad";
+import SquadForm from "../squad/SquadForm";
 import { IPlayer } from "@/types/player.interface";
 import { IManager } from "../managers/page";
 import { Button } from "@/components/buttons/Button";
@@ -28,7 +28,7 @@ export function AdminMatchCard({
   players,
 }: {
   match?: IMatch;
-  teams?: ITeam [];
+  teams?: ITeam[];
   players?: IPlayer[];
   managers?: IManager[];
   matches?: IMatch[];
@@ -90,21 +90,8 @@ export function AdminMatchCard({
       </div>
       <hr />
       <div>
-        <div className="flex items-center gap-5">
+        <div className="flex items-center overflow-x-auto gap-5 _hideScrollbar">
           <UpdateFixtureMatch teams={teams} fixture={match} />
-          <ConfirmActionButton
-            primaryText="Delete"
-            trigger={" Delete"}
-            uri={`${apiConfig.matches}/${match?._id}`}
-            method={"DELETE"}
-            variant="destructive"
-            title={shortText(match?.title ?? "Match")}
-            confirmText={`Are you sure you want to delete "<b>${shortText(
-              match?.title ?? "Match",
-              40
-            )}</b>"?`}
-            escapeOnEnd
-          />
 
           <ToggleMatchStatus
             fixtureId={match?._id as string}
@@ -118,16 +105,12 @@ export function AdminMatchCard({
             </DIALOG>
           ) : (
             <DIALOG
-              trigger={
-                <Button
-                  primaryText="Choose Squad"
-                  className="text-xs font-thin _secondaryBtn "
-                />
-              }
+              trigger={"Choose Squad"}
+              variant={"ghost"}
               title={`Select Squad for ${match?.title}`}
               className="min-w-[80vw]"
             >
-              <NewSquad
+              <SquadForm
                 players={players}
                 managers={managers}
                 matches={matches}
@@ -135,6 +118,20 @@ export function AdminMatchCard({
               />
             </DIALOG>
           )}
+          <ConfirmActionButton
+            primaryText="Delete"
+            trigger={" Delete"}
+            uri={`${apiConfig.matches}/${match?._id}`}
+            method={"DELETE"}
+            variant="destructive"
+            confirmVariant={'delete'}
+            title={shortText(match?.title ?? "Match")}
+            confirmText={`Are you sure you want to delete "<b>${shortText(
+              match?.title ?? "Match",
+              40
+            )}</b>"?`}
+            escapeOnEnd
+          />
         </div>
       </div>
     </div>

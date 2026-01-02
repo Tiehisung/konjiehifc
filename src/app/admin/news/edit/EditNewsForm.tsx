@@ -13,16 +13,16 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/input/Inputs";
 import { Button } from "@/components/buttons/Button";
 import { apiConfig } from "@/lib/configs";
-import { IFileProps, IResultProps } from "@/types";
+import { IResultProps } from "@/types";
+import { IFileProps } from "@/types/file.interface";
 import { Plus, X } from "lucide-react";
-import CloudinaryUploader, {
-  ICldFileUploadResult,
-} from "@/components/cloudinary/FileUploadWidget";
+import CloudinaryUploader from "@/components/cloudinary/FileUploadWidget";
 import { CgAttachment, CgRemove } from "react-icons/cg";
 import QuillEditor from "@/components/editor/Quill";
 import { INewsProps } from "@/app/news/page";
 import Image from "next/image";
 import FileRenderer from "@/components/files/FileRender";
+import { ICldFileUploadResult } from "@/types/file.interface";
 
 interface IPostNews {
   details: {
@@ -168,7 +168,7 @@ export const EditNewsForm = ({ newsItem }: INewsForm) => {
                   </span>
                 }
                 folder={`news/media-${new Date().getFullYear()}`}
-                preview={false}
+                hidePreview={true}
               />
 
               <br />
@@ -253,8 +253,7 @@ export const EditNewsForm = ({ newsItem }: INewsForm) => {
                     successMessage=""
                     maxFiles={12}
                     folder={`news/media-${new Date().getFullYear()}`}
-                    preview={(field?.value?.length ?? 0) === 0}
-                   
+                    hidePreview={(field?.value?.length ?? 0) === 0}
                     trigger={
                       <span className="mr-auto _secondaryBtn">
                         <CgAttachment size={24} /> Add Media

@@ -13,7 +13,7 @@ interface StatsProps {
     wins: IMatchMetrics[];
     draws: IMatchMetrics[];
     losses: IMatchMetrics[];
-    winRate:number
+    winRate: number;
   };
 }
 export default function HERO() {
@@ -136,7 +136,7 @@ export default function HERO() {
                 WIN
               </span>
             </motion.h1>
- 
+
             {/* Subheading */}
             <motion.p
               variants={fadeInUp}
@@ -170,7 +170,7 @@ export default function HERO() {
 
               <button
                 onClick={() => {
-                  window.location.href = "/gallery";
+                  window.location.href = "/highlights";
                 }}
                 className="px-8 py-4 border-2 border-white/30 text-white font-bold rounded-full text-lg transition-all duration-300 hover:bg-white/10 hover:border-white/60 backdrop-blur-sm"
               >
@@ -186,7 +186,7 @@ export default function HERO() {
               {stats.map((stat, index) => (
                 <CountupMetricCard
                   icon={stat.icon}
-                  value={stat?.value??''}
+                  value={stat?.value ?? ""}
                   countupSuffix={stat.suffix}
                   isCountUp={stat.isCountup}
                   description={stat.label}

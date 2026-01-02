@@ -68,7 +68,7 @@ export const DIALOG: FC<IDialog> = ({
 
       <DialogContent className={` ${className}`}>
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle className="text-center">{title}</DialogTitle>
           <DialogDescription hidden={!description}>
             {description}
           </DialogDescription>

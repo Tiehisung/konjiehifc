@@ -10,7 +10,7 @@ import { getPlayers } from "../players/page";
 export const KeyTopStatsCards = async () => {
   const matchesStats: IQueryResponse<IMatchStats> = await getMatchesStats();
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
-  console.log({ matchesStats });
+  
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
       {[

@@ -3,6 +3,7 @@ import Google from "next-auth/providers/google"
 import { EUserRole, ISession } from './types/user';
 import { ConnectMongoDb } from "./lib/dbconfig";
 import UserModel from "./models/user";
+import { logAction } from "./app/api/logs/helper";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
     providers: [
@@ -28,6 +29,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                         lastLoginAccount: 'google',
                         signupMode: 'google',
                     });
+                    // Log
+                    logAction({
+                        title: ` Signup - [${profile?.name}].`,
+                        description: `User with email ${profile.email} signed up.`,
+                    })
                 }
                 else {
                     if (user?.image !== profile.picture || user?.name !== profile.name) {
@@ -37,9 +43,13 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                         user.lastLoginAccount = 'google';
                         await user.save();
                     }
+                    // Log
+                    logAction({
+                        title: ` Login - [${profile?.name}].`,
+                        description: `User with email ${profile.email} logged in.`,
+                    })
                 }
-                console.log("Profile callback called:", profile.email);
-                console.log("User found/created:", user?._id);
+
                 return {
                     id: user._id?.toString(),
                     email: user.email,

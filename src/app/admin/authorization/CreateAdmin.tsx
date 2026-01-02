@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
 import Select from "react-select";
 import { customStyles } from "@/styles";
-import { IFileProps, IResultProps, ISelectOptionLV } from "@/types";
+import { IResultProps, ISelectOptionLV } from "@/types";
 import Image from "next/image";
 import { FcCamera } from "react-icons/fc";
 import { staticImages } from "@/assets/images";
@@ -14,13 +14,12 @@ import { toast } from "sonner";
 import { apiConfig } from "@/lib/configs";
 import { Button } from "@/components/buttons/Button";
 import { IUser } from "@/types/user";
+import { IFileProps } from "@/types/file.interface";
 
 const CreateAdmin = ({ existingUser }: { existingUser?: IUser }) => {
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
-  const [formData, setFormData] = useState<Partial<IUser>>(
-    existingUser ?? {}
-  );
+  const [formData, setFormData] = useState<Partial<IUser>>(existingUser ?? {});
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

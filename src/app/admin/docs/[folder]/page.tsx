@@ -1,4 +1,4 @@
-import { IFileProps, IQueryResponse, IRecord, ISelectOptionLV } from "@/types";
+import {   IQueryResponse, IRecord, ISelectOptionLV } from "@/types";
 import { buildQueryStringServer } from "@/lib";
 import FolderDocuments from "./DocsPane";
 import { DocumentUploader } from "../DocUploader";
@@ -8,7 +8,7 @@ import { IPlayer } from "@/types/player.interface";
 import { PrimarySearch } from "@/components/Search";
 import { apiConfig } from "@/lib/configs";
 import { IDocFile } from "@/types/doc";
-
+import { IFileProps } from "@/types/file.interface";
 interface IProps {
   params: Promise<{ folder: string }>;
   searchParams: Promise<IRecord>;

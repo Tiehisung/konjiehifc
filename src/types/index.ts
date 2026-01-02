@@ -1,5 +1,4 @@
-import { ICldFileUploadResult } from "@/components/cloudinary/FileUploadWidget";
-import { IUser } from "./user";
+import { ICldFileUploadResult, IFileProps } from "./file.interface";
 
 export interface ISelectOptionLV {
   value: string;
@@ -19,28 +18,13 @@ export type TConvertedFile = {
   bytes?: number;
 };
 
-export interface IFileProps extends ICldFileUploadResult {
-  _id?: string; //Trace any saved file data on db
-  name?: string;
-  description?: string; //Optional field to save with file on db
-  createdAt?: string;
-  updatedAt?: string;
-}
+
 export interface IDeleteFile {
   _id?: string; //Trace any saved file data on db
   public_id: string;
   resource_type?: string;
 }
 
-export interface IFileUpload {
-  name: string;
-  path: string;
-  type?: string;
-  preset?: EPreset;
-  folder?: string; //eg. logos, images, videos, audios/qiraa
-  presetType?: EPresetType;
-  description?: string;
-}
 
 
 export interface IGalleryProps {
@@ -56,12 +40,10 @@ export interface IGalleryProps {
 }
 
 //Cloudinary
-
 export enum EPresetType {
   AUTHENTICATED = "authenticated",
   UNAUTHENTICATED = "unauthenticated"
 }
-
 
 export enum EPreset {
   KFC_SIGNED = "kfc-signed",
@@ -71,7 +53,6 @@ export type TResourceType = "image" | "video" | "audio" | "auto";
 // export type TFolders = "images/logos" | "images" | "videos" | "audios";
 
 export type IRecord = Record<string, string | string[] | undefined>
-
 export interface IQueryResponse<T = unknown> {
   success: boolean;
   message?: string;
@@ -123,4 +104,4 @@ export type TSearchKey =
   | 'transaction_search'
   | 'log_search'
   | 'doc_search'
-  | 'user_search'
+  | 'highlight_search'

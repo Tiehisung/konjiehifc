@@ -1,6 +1,6 @@
 "use client";
 
-import { IFileProps } from "@/types";
+import { IFileProps } from "@/types/file.interface";
 import Image from "next/image";
 import { useState } from "react";
 import LightboxViewer from "../viewer/LightBox";
@@ -75,7 +75,7 @@ export default function MasonryGallery({
               />
 
               {item?.description && (
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/60 to-transparent px-4 py-6">
+                <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black via-black/60 to-transparent px-4 py-6">
                   <p className="mt-1 text-sm text-gray-200 line-clamp-1">
                     {item?.description}
                   </p>
@@ -105,7 +105,7 @@ export default function MasonryGallery({
             enableLightboxViewer && setOpen(true);
           }}
         >
-          <div className="group relative aspect-[3/4] w-full overflow-hidden bg-muted">
+          <div className="group relative aspect-3/4 w-full overflow-hidden bg-muted">
             <Image
               src={item?.secure_url}
               alt={item?.original_filename ?? (item?.asset_id as string)}
@@ -117,7 +117,7 @@ export default function MasonryGallery({
             <div className="absolute inset-0 bg-black transition-opacity duration-300 group-hover:opacity-40 opacity-20" />
 
             {item?.description && (
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/60 to-transparent px-4 py-6">
+              <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black via-black/60 to-transparent px-4 py-6">
                 <p className="mt-1 text-sm text-gray-200 line-clamp-1">
                   {item?.description}
                 </p>

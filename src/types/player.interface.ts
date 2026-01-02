@@ -1,9 +1,9 @@
 import { IManager } from "@/app/admin/managers/page";
 import { IMatchCard } from "@/app/matches/(fixturesAndResults)";
-import { ICldFileUploadResult } from "@/components/cloudinary/FileUploadWidget";
-import { IFileProps } from ".";
+import { IFileProps } from "@/types/file.interface";
 import { EColor } from "./log";
 import { IGoal, IMatch } from "./match.interface";
+import { ICldFileUploadResult } from "./file.interface";
 
 export enum EPlayerStatus {
     PENDING = 'pending',

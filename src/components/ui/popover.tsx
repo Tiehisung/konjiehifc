@@ -5,7 +5,7 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 
 import { cn } from "@/lib/utils";
 import { CgMoreAlt } from "react-icons/cg";
-import { TButtonSize, TButtonVariant } from "./button";
+import { Button, TButtonSize, TButtonVariant } from "./button";
 
 function Popover({
   ...props
@@ -55,6 +55,8 @@ interface IProps {
   children: React.ReactNode;
   className?: string;
   align?: "center" | "start" | "end" | undefined;
+  variant?: TButtonVariant;
+  size?: TButtonSize;
 }
 
 export function POPOVER({
@@ -65,6 +67,8 @@ export function POPOVER({
   triggerClassNames,
   className,
   align,
+  variant,
+  size,
 }: IProps) {
   return (
     <Popover>
@@ -72,7 +76,9 @@ export function POPOVER({
         asChild
         className={`${triggerClassNames} cursor-pointer transition-all _shrink select-none `}
       >
-        {trigger}
+        <Button variant={variant} size={size}>
+          {trigger}
+        </Button>
       </PopoverTrigger>
       <PopoverContent
         align={align}

@@ -1,6 +1,5 @@
 "use client";
 
-import { ICldFileUploadResult } from "@/components/cloudinary/FileUploadWidget";
 import FileUploader from "@/components/cloudinary/SimpleFileUploader";
 import { PrimaryCollapsible } from "@/components/Collapsible";
 import { DIALOG } from "@/components/Dialog";
@@ -21,6 +20,7 @@ import { fireDoubleEscape } from "@/hooks/Esc";
 import { useFetch } from "@/hooks/fetch";
 import { Separator } from "@/components/ui/separator";
 import { IFolderMetrics } from "@/types/doc";
+import { ICldFileUploadResult } from "@/types/file.interface";
 
 interface IProps {
   defaultFolder?: string;

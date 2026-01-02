@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo } from "react";
-import { IFileProps, IGalleryProps } from "@/types";
-
+import {  IGalleryProps } from "@/types";
+import { IFileProps } from "@/types/file.interface";
 import { staticImages } from "@/assets/images";
 /**
  * Hook for managing a player's gallery content.

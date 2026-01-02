@@ -2,11 +2,10 @@
 
 import React, { useState } from "react";
 import Header from "../../../components/Element";
-import CloudinaryUploader, {
-  ICldFileUploadResult,
-} from "@/components/cloudinary/FileUploadWidget";
+import CloudinaryUploader  from "@/components/cloudinary/FileUploadWidget";
 import { CopyButton } from "@/components/buttons/CopyBtn";
 import { Button } from "@/components/buttons/Button";
+import { ICldFileUploadResult } from "@/types/file.interface";
 
 const UploadPage = () => {
   const [files, setFiles] = useState<ICldFileUploadResult[]>([]);

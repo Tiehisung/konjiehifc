@@ -6,12 +6,12 @@ import { Button } from "@/components/buttons/Button";
 import { IconInputWithLabel } from "@/components/input/Inputs";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { apiConfig } from "@/lib/configs";
-import { IFileUpload } from "@/types";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/lib";
 import { fireDoubleEscape } from "@/hooks/Esc";
+import { IFileUpload } from "@/types/file.interface";
 
 export interface IPostTeam {
   name: string;

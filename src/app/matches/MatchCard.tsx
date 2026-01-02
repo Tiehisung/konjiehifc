@@ -15,7 +15,7 @@ import { IPlayer } from "@/types/player.interface";
 
 import { Button } from "@/components/buttons/Button";
 import { IManager } from "../admin/managers/page";
-import NewSquad from "../admin/squad/NewSquad";
+import SquadForm from "../admin/squad/SquadForm";
 import SquadCard from "../admin/squad/SquadCard";
 import { IMatch } from "@/types/match.interface";
 
@@ -114,7 +114,7 @@ export function MatchFixtureCard({
               title={`Select Squad for ${match?.title}`}
               className="min-w-[80vw]"
             >
-              <NewSquad
+              <SquadForm
                 players={players}
                 managers={managers}
                 matches={matches}

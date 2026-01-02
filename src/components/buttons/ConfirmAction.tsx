@@ -2,15 +2,12 @@
 
 import { Button } from "@/components/buttons/Button";
 import { DIALOG } from "@/components/Dialog";
-import { Card, CardContent } from "@/components/ui/card";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import React, { ReactNode, useState } from "react";
 import { toast } from "sonner";
 import { fireDoubleEscape } from "@/hooks/Esc";
-import { useSession } from "next-auth/react";
-import { IUser } from "@/types/user";
 import { TButtonVariant } from "../ui/button";
 
 interface IProps {
@@ -46,7 +43,7 @@ export const ConfirmActionButton = ({
   confirmText,
   title,
   gobackAfter,
-  hidden = true,
+  hidden,
   trigger,
   triggerStyles = "",
   confirmVariant,
@@ -55,9 +52,6 @@ export const ConfirmActionButton = ({
   const router = useRouter();
 
   const [waiting, setWaiting] = useState(false);
-
-  const session = useSession();
-  const isAdmin = (session?.data?.user as IUser)?.role?.includes("admin");
 
   const handleAction = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -93,7 +87,7 @@ export const ConfirmActionButton = ({
     }
   };
 
-  if (!isAdmin && hidden) {
+  if (hidden) {
     return null;
   }
 

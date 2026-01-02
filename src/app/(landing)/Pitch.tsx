@@ -2,7 +2,8 @@
 import { pitch } from "@/assets/images/pitch";
 import { ThumbsGallery } from "@/components/carousel/ThumbsGallery";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { IFileProps } from "@/types";
+import { IFileProps } from "@/types/file.interface";
+ 
 
 export function PitchGallery() {
   const isMobile = useIsMobile("md");

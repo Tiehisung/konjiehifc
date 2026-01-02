@@ -10,7 +10,7 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import Image from "next/image";
 import "./thumbs-gallery.css";
-import { IFileProps } from "@/types";
+import { IFileProps } from "@/types/file.interface";
 
 interface ThumbsGalleryProps {
   images: IFileProps[];

@@ -230,6 +230,7 @@ export const UpdateFixtureMatch = ({
       title={"UPDATE FIXTURE"}
       className="bg-popover"
       description={` ${home?.name} vs ${away?.name}`.toUpperCase()}
+      variant={'ghost'}
     >
       <div className=" ">
         <form

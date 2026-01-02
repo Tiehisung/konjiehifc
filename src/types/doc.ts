@@ -1,5 +1,4 @@
-
-import { IFileProps } from ".";
+import { IFileProps } from "@/types/file.interface";
 
 export interface IDocFile extends IFileProps {
     format: "pdf" | "image";
