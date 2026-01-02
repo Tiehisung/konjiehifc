@@ -13,7 +13,7 @@ interface IFetchProps {
 
 export function useFetch<T = unknown>({
   uri,
-  filters = { limit: "50000" },
+  filters = { limit: "100000" },
 }: IFetchProps) {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<IQueryResponse<T> | null>(null);
@@ -36,6 +36,7 @@ export function useFetch<T = unknown>({
           setResults({
             message: getErrorMessage(response.statusText),
             success: false,
+            data:undefined
           });
         } else {
           const results = await response.json();
@@ -45,6 +46,7 @@ export function useFetch<T = unknown>({
         setResults({
           message: getErrorMessage(error),
           success: false,
+          data: undefined,
         });
       } finally {
         setLoading(false);
