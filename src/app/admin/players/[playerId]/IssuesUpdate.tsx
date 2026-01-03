@@ -12,6 +12,7 @@ import { FormEvent, useState } from "react";
 import { CgAdd } from "react-icons/cg";
 import { TbRibbonHealth } from "react-icons/tb";
 import { toast } from "sonner";
+import { icons } from "@/assets/icons/icons";
 
 export default function UpdatePlayerIssuesAndFitness({
   player,
@@ -54,7 +55,7 @@ export default function UpdatePlayerIssuesAndFitness({
     })
   );
   return (
-    <div id="fitness-update" className=" bg-card">
+    <div id="fitness-update" className="">
       <header className="flex items-center gap-3 mt-6">
         <TbRibbonHealth size={36} /> <span>FITNESS & ISSUES UPDATES</span>
       </header>
@@ -63,20 +64,18 @@ export default function UpdatePlayerIssuesAndFitness({
 
       <PrimaryAccordion
         data={accordionData}
-        className="_card backdrop-blur-[1px] overflow-x-hidden"
+        className="_card backdrop-blur-[1px] overflow-x-hidden mx-2"
       />
 
       <br />
-      
+
       <PrimaryCollapsible
         header={{
-          label: (
-            <div className="w-full">
-              <CgAdd size={24} />
-            </div>
-          ),
+          label:'Update Status',
           others: { title: "Add Issue" },
-        }}
+          icon: <icons.new size={32} />,className:'m-2'
+        }} 
+        variant={"outline"}
       >
         <h1 className="text-left mr-auto mb-2.5 _label">Add Issue</h1>
 

@@ -14,6 +14,8 @@ import GalleryGrid from "@/components/Gallery/GallaryGrid";
 import { GalleryUpload } from "@/components/Gallery/GalleryUpload";
 import { IGalleryProps, IQueryResponse } from "@/types";
 import { getGallery } from "../../galleries/page";
+import { PrimaryCollapsible } from "@/components/Collapsible";
+import { icons } from "@/assets/icons/icons";
 
 export default async function PlayerProfilePage({
   params,
@@ -27,6 +29,7 @@ export default async function PlayerProfilePage({
     `?tags=${[playerId].filter(Boolean).join(",")}`
   );
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
+
   if (!player) return <Loader message="Loading player..." />;
 
   return (
@@ -88,19 +91,25 @@ export default async function PlayerProfilePage({
       {/* Sections */}
       <main className="space-y-36 px-[2vw] pb-24 pt-7 ">
         <h1 className="_heading backdrop-blur-xs p-0 ">{`${player?.firstName} ${player?.lastName}`}</h1>
-
         <UpdatePlayerIssuesAndFitness player={player} />
 
         <section id="edit-player">
-          <PlayerProfileForm player={player} />
+          <PrimaryCollapsible
+            header={{
+              label: "Edit Player",
+              icon: <icons.edit />,
+              className: "ring",
+            }}
+          >
+            <PlayerProfileForm player={player} />
+          </PrimaryCollapsible>
         </section>
 
         <section id="galleries">
-          <h1 className="my-6 _title _gradient p-4">GALLERIES</h1>
-          <GalleryGrid
-            galleries={galleries?.data as IGalleryProps[]}
-            // name={`${player?.firstName} ${player?.lastName}`}
-          />
+          <header className="my-6 _title _gradient p-4 flex items-center justify-between gap-6">
+            GALLERIES{" "}
+            <GalleryGrid galleries={galleries?.data as IGalleryProps[]} />
+          </header>
 
           <GalleryUpload
             tags={

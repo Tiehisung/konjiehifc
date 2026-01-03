@@ -337,7 +337,7 @@ export default function PlayerProfileForm({
                     waiting={waiting}
                     waitingText="Please wait..."
                     primaryText="Submit"
-                    className="_primaryBtn justify-center px-12 h-10 py-1 w-full flex-wrap-reverse"
+                    className=" justify-center px-12 h-10 py-1 w-full flex-wrap-reverse"
                   />
                 </div>
               </DiveUpwards>
