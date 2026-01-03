@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getErrorMessage, removeEmptyKeys } from "@/lib";
 import UserModel from "@/models/user";
 import bcrypt from "bcryptjs";
+import { EPlayerStatus,   } from "@/types/player.interface";
 
 
 ConnectMongoDb();
@@ -22,6 +23,8 @@ export async function GET(request: NextRequest) {
 
   const search = searchParams.get("player_search") || "";
 
+  const status = searchParams.get("status")
+
   const regex = new RegExp(search, "i");
 
   const query = {
@@ -34,6 +37,7 @@ export async function GET(request: NextRequest) {
       { "email": regex },
     ],
     isActive: isActive,
+    status
   }
   const cleaned = removeEmptyKeys(query)
 
