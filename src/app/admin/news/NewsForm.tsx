@@ -17,7 +17,7 @@ import CloudinaryUploader from "@/components/cloudinary/FileUploadWidget";
 import { useSession } from "next-auth/react";
 import { CgAttachment, CgRemove } from "react-icons/cg";
 import QuillEditor from "@/components/editor/Quill";
-import { INewsProps } from "@/app/news/page";
+import { INewsProps } from "@/types/news.interface";
 import { ICldFileUploadResult } from "@/types/file.interface";
 
 export interface IPostNews {

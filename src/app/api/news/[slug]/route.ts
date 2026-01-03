@@ -8,19 +8,17 @@ import { EArchivesCollection } from "@/types/archive.interface";
 import { logAction } from "../../logs/helper";
 import { ELogSeverity } from "@/types/log";
 import { formatDate } from "@/lib/timeAndDate";
-
+import { slugIdFilters } from "@/lib/api";
 
 ConnectMongoDb();
+
 export async function GET(
     _: NextRequest,
     { params }: { params: Promise<{ slug: string }> }
 ) {
-
     const slug = (await params).slug;
 
-    const query = { $or: [{ slug }, { _id: slug }] }
-
-    const news = await NewsModel.findOne(query);
+    const news = await NewsModel.findOne(slugIdFilters(slug));
     return NextResponse.json(news);
 }
 
@@ -69,16 +67,16 @@ export async function PUT(
 ) {
     try {
         const slug = (await params).slug;
-        const query = { $or: [{ slug }, { _id: slug }] } as QueryFilter<string>
+        const query: QueryFilter<string> = slugIdFilters(slug)
 
         const body = await request.json();
 
         //update field
-        const updated = await NewsModel.updateOne(
+        const updated = await NewsModel.findOneAndUpdate(
             query,
             { $set: { ...body } }
         );
-        if (updated.acknowledged)
+        if (updated)
             return NextResponse.json({
                 message: "News updated",
                 success: true,

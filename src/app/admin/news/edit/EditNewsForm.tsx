@@ -19,7 +19,7 @@ import { Plus, X } from "lucide-react";
 import CloudinaryUploader from "@/components/cloudinary/FileUploadWidget";
 import { CgAttachment, CgRemove } from "react-icons/cg";
 import QuillEditor from "@/components/editor/Quill";
-import { INewsProps } from "@/app/news/page";
+import { INewsProps } from "@/types/news.interface";
 import Image from "next/image";
 import FileRenderer from "@/components/files/FileRender";
 import { ICldFileUploadResult } from "@/types/file.interface";

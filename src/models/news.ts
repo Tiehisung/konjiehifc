@@ -42,6 +42,7 @@ const newsSchema = new Schema(
       type: Schema.Types.Mixed,
       default: () => [],
     },
+    views: Number,
 
     isPublished: {
       type: Schema.Types.Boolean,

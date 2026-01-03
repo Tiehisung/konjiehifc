@@ -11,7 +11,7 @@ interface IProps {
 }
 
 export default function HERO({ metrics }: IProps) {
-  console.log({ metrics });
+  // console.log({ metrics });
 
   const stats = [
     {

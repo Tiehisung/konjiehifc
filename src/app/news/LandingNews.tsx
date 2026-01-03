@@ -4,7 +4,7 @@ import SimpleCarousel from "@/components/carousel/SimpleCarousel";
  
 import Image, { StaticImageData } from "next/image";
 import React from "react";
-import { INewsProps } from "./page";
+import { INewsProps } from "@/types/news.interface";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { getNews } from "../admin/news/page";

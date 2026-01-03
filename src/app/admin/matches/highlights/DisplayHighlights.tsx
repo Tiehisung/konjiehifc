@@ -1,6 +1,7 @@
 "use client";
 
 import { icons } from "@/assets/icons/icons";
+import { auth } from "@/auth";
 import { Button } from "@/components/buttons/Button";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { PrimaryDropdown } from "@/components/Dropdown";
@@ -11,8 +12,9 @@ import { downloadFile } from "@/lib/downloadFile";
 import { getVideoThumbnail } from "@/lib/file";
 import { IQueryResponse } from "@/types";
 import { IMatchHighlight } from "@/types/match.interface";
-import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
+import { ISession } from "@/types/user";
 import { Download, Play } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -22,11 +24,6 @@ interface Props {
 
 export const MatchHighlights = ({ highlights }: Props) => {
   const [activeVideo, setActiveVideo] = useState<IMatchHighlight | null>(null);
-
-  console.log(
-    "thumbnail",
-    getVideoThumbnail(highlights?.data?.[0]?.public_id as string, { second: 4 })
-  );
 
   if (!((highlights?.data?.length ?? 0) > 0)) {
     return (
@@ -106,6 +103,8 @@ export const HighlightMediaActions = ({
 }: {
   highlight?: IMatchHighlight;
 }) => {
+  const { data: session } = useSession();
+  if (!(session as ISession)?.user?.role?.includes("admin")) return null;
   return (
     <div
       onClick={(e) => e.stopPropagation()}

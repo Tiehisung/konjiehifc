@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import Header from "../../../../components/Element";
 import { getNewsItem } from "../page";
-import { INewsProps } from "@/app/news/page";
+import { INewsProps } from "@/types/news.interface";
 import { EditNewsForm } from "./EditNewsForm";
 
 interface IPageProps {

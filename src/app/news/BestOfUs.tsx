@@ -1,7 +1,7 @@
 import React from "react";
 import { getNews } from "../admin/news/page";
 import { IQueryResponse } from "@/types";
-import { INewsProps } from "./page";
+import { INewsProps } from "@/types/news.interface";
 import NewsCard from "./NewsCard";
 import { markupToPlainText } from "@/lib/DOM";
 
@@ -15,14 +15,14 @@ const BestOfUs = async () => {
         {news?.data?.slice(0, 5)?.map((item) => (
           <NewsCard
             key={item?._id}
-            id={item?._id}
+            id={item?.slug}
             title={item?.headline?.text}
             summary={markupToPlainText(
               item?.details?.find((d) => d.text)?.text as string
             )}
             image={item?.headline?.image}
             date={item?.createdAt}
-            tags={["transfer", "midfielder"]}
+            tags={item?.tags}
           />
         ))}
       </section>

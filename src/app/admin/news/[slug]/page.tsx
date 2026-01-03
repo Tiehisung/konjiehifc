@@ -4,7 +4,7 @@ import OtherAdminNews from "./OtherNews";
 import { SearchAndFilterNews } from "./SearchAndFilter";
 import NewsItemClient from "./ClientItem";
 import { getNews, getNewsItem } from "../page";
-import { INewsProps } from "@/app/news/page";
+import { INewsProps } from "@/types/news.interface";
 import { IQueryResponse, IRecord } from "@/types";
 import { buildQueryStringServer } from "@/lib";
 

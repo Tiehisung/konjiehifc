@@ -102,7 +102,8 @@ export default function MasonryGallery({
           className="mb-6 break-inside-avoid overflow-hidden rounded-lg"
           onClick={() => {
             setPhotoIndex(i);
-            enableLightboxViewer && setOpen(true);
+            if(enableLightboxViewer) setOpen(true);
+              
           }}
         >
           <div className="group relative aspect-3/4 w-full overflow-hidden bg-muted">

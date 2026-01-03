@@ -1,6 +1,6 @@
 "use client";
 
-import { INewsProps } from "@/app/news/page";
+import { INewsProps } from "@/types/news.interface";
 import { AnimateOnView } from "@/components/Animate/AnimateOnView";
 import { IQueryResponse } from "@/types";
 import Image from "next/image";

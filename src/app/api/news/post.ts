@@ -1,4 +1,4 @@
-import { INewsProps } from "@/app/news/page";
+import { INewsProps } from "@/types/news.interface";
 import { slugify } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import NewsModel from "@/models/news";

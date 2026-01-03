@@ -1,6 +1,6 @@
 "use client";
 
-import { INewsProps } from "@/app/news/page";
+import { INewsProps } from "@/types/news.interface";
 import { Pagination } from "@/components/Pagination";
 import { PrimarySearch } from "@/components/Search";
 import { Badge } from "@/components/ui/badge";

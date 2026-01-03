@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/buttons/Button";
-import { INewsProps } from "../page";
+import { INewsProps } from "@/types/news.interface";
 import { ThumbsUp, SendHorizontal, Dot, ThumbsDown } from "lucide-react";
 import { ActionButton } from "@/components/buttons/ActionButton";
 import { apiConfig } from "@/lib/configs";

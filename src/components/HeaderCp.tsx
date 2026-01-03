@@ -13,10 +13,10 @@ import { useSession } from "next-auth/react";
 import { ThemeModeToggle } from "./ThemeToggle";
 import { NavigationPopover } from "./NavigationPopover";
 import { GalleryThumbnails } from "lucide-react";
-import Image from "next/image";
-import logoWhite from "@/assets/logo-white.png";
-import logoDark from "@/assets/logo-dark.png";
 import { useTheme } from "next-themes";
+// import Image from "next/image";
+// import logoWhite from "@/assets/logo-white.png";
+// import logoDark from "@/assets/logo-dark.png";
 
 export default function HeaderCp() {
   const { theme } = useTheme();
@@ -32,7 +32,7 @@ export default function HeaderCp() {
           <div className="animate-pulse ">
             <GiSoccerBall size={42} />
           </div>
-          KonFC
+          <span className="text-Orange">KonFC</span>
           {/* <Image
             src={theme == "dark" ? logoWhite : logoDark}
             width={200}
