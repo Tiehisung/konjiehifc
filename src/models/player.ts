@@ -73,7 +73,7 @@ const playerSchema = new Schema(
 
     issues: [{ type: String, default: () => [] }],
     isActive: { type: Schema.Types.Boolean, default: () => true },
-    status: { type: String, default: () => 'approved', enum: ['pending', 'approved'] },
+    status: { type: String, default: () => 'pending', enum: ['pending', 'approved'] },
     isFit: { type: Boolean, default: () => true },
     number: { type: String, required: true, unique: true },
     position: {

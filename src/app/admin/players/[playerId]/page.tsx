@@ -9,7 +9,7 @@ import PlayerProfileForm from "../NewSigningForms";
 import Loader from "@/components/loaders/Loader";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { apiConfig } from "@/lib/configs";
-import { IPlayer } from "@/types/player.interface";
+import { EPlayerStatus, IPlayer } from "@/types/player.interface";
 import GalleryGrid from "@/components/Gallery/GallaryGrid";
 import { GalleryUpload } from "@/components/Gallery/GalleryUpload";
 import { IGalleryProps, IQueryResponse } from "@/types";
@@ -117,6 +117,17 @@ export default async function PlayerProfilePage({
             DANGER ZONE
           </h3>
           <div className="flex gap-10 max-sm:flex-col flex-wrap justify-center items-center bg-card py-6">
+            {player?.status !== EPlayerStatus.APPROVED && (
+              <ConfirmActionButton
+                uri={`${apiConfig.players}/${playerId}`}
+                method="PUT"
+                body={{ status: EPlayerStatus.APPROVED }}
+                primaryText="CONFIRM PLAYER"
+                loadingText="Approving..."
+                confirmText={`Do you want to confirm ${player?.firstName}?`}
+                title="Confirm Player"
+              />
+            )}
             <ConfirmActionButton
               uri={`${apiConfig.players}/${playerId}`}
               method="PUT"
