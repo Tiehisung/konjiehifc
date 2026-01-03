@@ -52,7 +52,7 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
           </ul>
 
           {/* Comments and reactions */}
-          <section className=" mt-32 border-t-2">
+          <section className=" mt-32 border-t-2 pt-4">
             <NewsReactions newsItem={newsItem} />
           </section>
         </main>

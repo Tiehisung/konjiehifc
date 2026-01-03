@@ -18,7 +18,9 @@ const NewsLayout: FC<{ children: ReactNode }> = async ({ children }) => {
   return (
     <div className="pt-10 md:pt-20 ">
       <main className=" relative grow">
-        <Breadcrumbs className="_page"/>
+        <div className="">
+          <Breadcrumbs />
+        </div> 
         {children}
       </main>
     </div>

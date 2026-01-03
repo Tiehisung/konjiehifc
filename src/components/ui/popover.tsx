@@ -76,7 +76,7 @@ export function POPOVER({
         <Button
           variant={variant}
           size={size}
-          className={`${triggerClassNames} cursor-pointer transition-all _shrink select-none `}
+          className={`${triggerClassNames} cursor-pointer transition-all select-none `}
         >
           {trigger}
         </Button>
