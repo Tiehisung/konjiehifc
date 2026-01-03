@@ -1,5 +1,5 @@
 import React from "react";
-import { INewsProps } from "./page";
+import { INewsProps } from "@/types/news.interface";
 import Link from "next/link";
 import SimpleCarousel from "@/components/carousel/SimpleCarousel";
 

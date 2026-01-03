@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { pathnameToLinks } from "@/lib/DOM";
 import Link from "next/link";
 import { FaAngleRight } from "react-icons/fa";
+import { shortText } from "@/lib";
 
 const Breadcrumbs = ({
   _links,
@@ -27,7 +28,7 @@ const Breadcrumbs = ({
         <li key={i} className="flex items-center ">
           {i > 0 && <FaAngleRight className="mx-1.5 text-muted-foreground" />}
           {i == links.length - 1 ? (
-            decodeURIComponent(linkOb.text)
+            shortText(decodeURIComponent(linkOb.text),70)
           ) : (
             <Link
               href={linkOb.path}
@@ -35,7 +36,7 @@ const Breadcrumbs = ({
                 pathname == linkOb.path ? "text-muted-foreground" : ""
               } `}
             >
-              {decodeURIComponent(linkOb.text)}
+              {shortText(decodeURIComponent(linkOb.text),70)}
             </Link>
           )}
         </li>

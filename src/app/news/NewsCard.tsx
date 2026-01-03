@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Calendar, Tag } from "lucide-react";
 import { motion } from "framer-motion";
+import { Separator } from "@/components/ui/separator";
 
 interface NewsCardProps {
   id: string;
@@ -37,7 +38,7 @@ export default function NewsCard({
             src={image}
             alt={title}
             fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
+            className="object-cover group-hover:scale-105 transition-transform duration-700"
           />
         </div>
 
@@ -68,8 +69,9 @@ export default function NewsCard({
             </div>
           )}
 
+
           {/* Footer */}
-          <div className="flex items-center gap-2 text-xs text-muted-foreground mt-3">
+          <div className="flex items-center gap-2 text-xs text-muted-foreground mt-3 pt-2 border-t ">
             <Calendar size={14} />
             {new Date(date).toLocaleDateString()}
           </div>

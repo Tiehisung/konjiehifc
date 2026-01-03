@@ -2,7 +2,7 @@ import React from "react";
 import { apiConfig } from "@/lib/configs";
 import AdminNews from "./News";
 import { IQueryResponse } from "@/types";
-import { INewsProps } from "@/app/news/page";
+import { INewsProps } from "@/types/news.interface";
 import { buildQueryStringServer } from "@/lib";
 import { NewsForm } from "./NewsForm";
 

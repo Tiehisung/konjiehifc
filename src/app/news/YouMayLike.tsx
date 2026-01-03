@@ -1,7 +1,7 @@
 import React from "react";
 import { getNews } from "../admin/news/page";
 import { IQueryResponse } from "@/types";
-import { INewsProps } from "./page";
+import { INewsProps } from "@/types/news.interface";
 import Image from "next/image";
 import Link from "next/link";
 import { RxVideo } from "react-icons/rx";
@@ -12,11 +12,11 @@ const YouMayLike = async () => {
 
   return (
     <div>
-      <h1 className="_heading text-center">YOU MAY LIKE</h1>
+      <h1 className="_heading ">YOU MAY LIKE</h1>
       <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-5 gap-y-10 mt-5">
         {news?.data?.slice(0, 6)?.map((item,index) => (
           <AnimateOnView key={item._id } index={index}>
-            <Link href={`/news/${item?._id}`}>
+            <Link href={`/news/${item?.slug}`}>
               <div className="w-full overflow-hidden group relative">
                 <Image
                   src={item?.headline?.image as string}

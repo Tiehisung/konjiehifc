@@ -1,6 +1,5 @@
 import { IQueryResponse } from "@/types";
-import React, { Suspense } from "react";
-
+import { Suspense } from "react";
 import { getNews } from "../admin/news/page";
 import BestOfUs from "./BestOfUs";
 import { LatestNews } from "./Latest";
@@ -9,62 +8,7 @@ import YouMayLike from "./YouMayLike";
 import NewsCard from "./NewsCard";
 import { markupToPlainText } from "@/lib/DOM";
 import { kfc } from "@/data/kfc";
-import { IFileProps ,IFileUpload} from "@/types/file.interface";
-
-export interface INewsProps {
-  _id: string;
-  slug: string;
-  stats?: {
-    isTrending: boolean;
-    isLatest: boolean;
-  };
-  headline: {
-    text: string;
-    image: string;
-    hasVideo?: boolean;
-    sponsor?: Partial<IFileProps>;
-  };
-  details: {
-    _id?: string;
-    text?: string;
-    media?: Partial<IFileProps>[];
-  }[];
-  metaDetails?: unknown; //ISquad etc
-  reporter?: {
-    name: string;
-    avatar: string;
-  };
-  isPublished?: boolean;
-  type?: "squad" | "signing" | "match" | "training" | "general";
-  summary?: string;
-  tags?: string[];
-  likes?: { name: string; date: string; device?: string }[];
-  shares?: { name: string; date: string; device?: string }[];
-  comments?: { image?: string; name?: string; comment: string; date: string }[];
-  createdAt: string;
-  updatedAt: string;
-}
-export interface IPostNews {
-  stats?: {
-    isTrending: boolean;
-    isLatest: boolean;
-  };
-  headline: {
-    text: string;
-    image: Partial<IFileUpload>;
-    hasVideo?: boolean;
-    sponsor?: Partial<IFileUpload>;
-  };
-  details: {
-    _id?: string;
-    text?: string;
-    media?: IFileUpload[];
-  }[];
-  reporter?: {
-    name: string;
-    avatar: Partial<IFileProps>;
-  };
-}
+import { INewsProps } from "@/types/news.interface";
 
 export const metadata = {
   title: "Club News | Konjiehi FC",
@@ -85,8 +29,11 @@ export const metadata = {
   },
 };
 
+
+
 const NewsPage = async () => {
   const news: IQueryResponse<INewsProps[]> = await getNews();
+  // console.log(news);
   return (
     <>
       <script
@@ -104,16 +51,6 @@ const NewsPage = async () => {
 
       <main className="my-5 container _page ">
         <section className="space-y-10">
-          <Suspense
-            fallback={
-              <div>
-                <Skeleton width={300} height={"200px"} className="" />
-              </div>
-            }
-          >
-            <BestOfUs />
-          </Suspense>
-
           <Suspense
             fallback={
               <div>
@@ -140,14 +77,14 @@ const NewsPage = async () => {
           {news?.data?.slice(0, 5)?.map((item) => (
             <NewsCard
               key={item?._id}
-              id={item?._id}
+              id={item?.slug}
               title={item?.headline?.text}
               summary={markupToPlainText(
                 item?.details?.find((d) => d.text)?.text as string
               )}
               image={item?.headline?.image}
               date={item?.createdAt}
-              tags={["transfer", "midfielder"]}
+              tags={item?.tags}
             />
           ))}
         </section>

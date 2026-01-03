@@ -4,7 +4,7 @@ import React, { FC } from "react";
 import FileRenderer from "@/components/files/FileRender";
 import Image from "next/image";
 import { IFileProps } from "@/types/file.interface";
-import { INewsProps } from "@/app/news/page";
+import { INewsProps } from "@/types/news.interface";
 import { NewsReactions } from "./Reactions";
 
 const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
@@ -53,7 +53,6 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
 
           {/* Comments and reactions */}
           <section className=" mt-32 border-t-2">
-            <h1 className="_title text-muted-foreground">Reactions</h1>
             <NewsReactions newsItem={newsItem} />
           </section>
         </main>

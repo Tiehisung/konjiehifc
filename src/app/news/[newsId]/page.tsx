@@ -3,25 +3,75 @@ import { cn } from "@/lib/utils";
 import OtherAdminNews from "./OtherNews";
 import { SearchAndFilterNews } from "./SearchAndFilter";
 import NewsItemClient from "./ClientItem";
-import { INewsProps } from "@/app/news/page";
-import { IQueryResponse, IRecord } from "@/types";
+import { INewsProps } from "@/types/news.interface";
+import { IPageProps, IQueryResponse } from "@/types";
 import { buildQueryStringServer } from "@/lib";
 import { getNewsItem, getNews } from "@/app/admin/news/page";
+import { Metadata } from "next";
+import { kfc } from "@/data/kfc";
 
 const inter = Inter({
   subsets: ["latin"],
   weight: ["200", "400", "500", "600", "700"],
 });
 
-interface IProps {
-  params: Promise<{ newsId: string }>;
-  searchParams: Promise<IRecord>;
+export async function generateMetadata({
+  params,
+}: IPageProps): Promise<Metadata> {
+   const slug = (await params).newsId as string;
+  const article: INewsProps = await getNewsItem(slug);
+
+  if (!article) {
+    return {
+      title: "News | Konjiehi FC",
+      description: "Latest updates from Konjiehi FC",
+    };
+  }
+
+  const title = `${article?.headline?.text} | Konjiehi FC`;
+  const description =
+    article?.details?.find(d=>d.text)?.text || "Read the latest news and updates from Konjiehi FC.";
+
+  const image = article?.headline?.image || kfc.logo;
+  const url = `${kfc.url}/news/${slug}`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: kfc.name,
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: article?.headline?.text,
+        },
+      ],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+  };
 }
 
-export default async function NewsItemPage({ params, searchParams }: IProps) {
-  const newsItem: INewsProps = await getNewsItem((await params).newsId);
+export default async function NewsItemPage({
+  params,
+  searchParams,
+}: IPageProps) {
+  const slug = (await params).newsId as string
+  const newsItem: INewsProps = await getNewsItem(slug);
   const qs = buildQueryStringServer(await searchParams);
   const news: IQueryResponse<INewsProps[]> = await getNews(qs);
+
+  console.log({ news });
   return (
     <div
       className={cn(
@@ -36,7 +86,7 @@ export default async function NewsItemPage({ params, searchParams }: IProps) {
         <SearchAndFilterNews />
         <br />
 
-        <OtherAdminNews news={news}/>
+        <OtherAdminNews news={news} />
       </section>
     </div>
   );

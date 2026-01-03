@@ -1,4 +1,5 @@
-import React, { FC, ReactNode } from "react";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import { FC, ReactNode } from "react";
 
 export const metadata = {
   title: "News",
@@ -15,8 +16,11 @@ export const metadata = {
 
 const NewsLayout: FC<{ children: ReactNode }> = async ({ children }) => {
   return (
-    <div className="md:flex items-start gap-3 relative">
-      <main className="grow">{children}</main>
+    <div className="pt-10 md:pt-20 ">
+      <main className=" relative grow">
+        <Breadcrumbs className="_page"/>
+        {children}
+      </main>
     </div>
   );
 };
