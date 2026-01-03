@@ -133,7 +133,8 @@ const SocialShare: React.FC = ({ className }: { className?: string }) => {
     <div className={`flex gap-2 mt-2 ${className}`}>
       <CopyButton
         textToCopy={url}
-        className="text-nowrap flex items-center px-2 _secondaryBtn"
+        
+
       />
       <FBShareBtn url={url} openInNewTab />
       <LinkedInShareBtn url={url} openInNewTab />

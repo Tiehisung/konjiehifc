@@ -29,7 +29,7 @@ interface IDialog {
   modal?: boolean; //Turn to 'false' when using another modal within e.g cloudinary upload widget
   onOpen?: (b: boolean) => void;
   escapeOnClose?: boolean;
-  disabled?:boolean
+  disabled?: boolean;
 }
 
 export const DIALOG: FC<IDialog> = ({
@@ -44,7 +44,8 @@ export const DIALOG: FC<IDialog> = ({
   size,
   onOpen,
   modal = true,
-  escapeOnClose = true,disabled
+  escapeOnClose = true,
+  disabled,
 }) => {
   return (
     <Dialog
@@ -54,13 +55,13 @@ export const DIALOG: FC<IDialog> = ({
         if (escapeOnClose && !s) fireDoubleEscape(); //May be useful in closing parent modal/popovers
       }}
     >
-      <DialogTrigger asChild className={!trigger ? "sr-only" : ""}>
+      <DialogTrigger asChild className={!trigger ? "sr-only" : ""} id={id}>
         <Button
           variant={variant}
           size={size}
           title={typeof title == "string" ? title : ""}
-          id={id}
-          className={`h-fit ${triggerStyles}`} disabled={disabled}
+          className={`h-fit ${triggerStyles}`}
+          disabled={disabled}
         >
           {trigger}
         </Button>

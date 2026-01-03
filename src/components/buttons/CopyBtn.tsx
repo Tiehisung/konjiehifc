@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { BiCopy } from "react-icons/bi";
+import { Button } from "./Button";
+import { TButtonSize, TButtonVariant } from "../ui/button";
 
 interface CopyButtonProps {
   buttonText?: string;
@@ -9,14 +11,16 @@ interface CopyButtonProps {
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
   textToCopy: string;
+  variant?:TButtonVariant
+  size?:TButtonSize
 }
 
 export const CopyButton = ({
   buttonText = "Copy url",
-  className = "_secondaryBtn",
+  className = "",
   disabled = false,
   type = "button",
-  textToCopy,
+  textToCopy,variant='ghost',size
 }: CopyButtonProps) => {
   const [copyButtonText, setCopyButtonText] = useState(buttonText);
   const handleClick = () => {
@@ -28,15 +32,17 @@ export const CopyButton = ({
   };
 
   return (
-    <button
+    <Button
       onClick={handleClick}
       type={type}
       disabled={disabled}
       style={{ color: copyButtonText === "Copied!" ? "green" : "" }}
       className={`${className} `}
+      variant={variant}
+      size={size}
     >
       <BiCopy size={20}/>
       {copyButtonText}
-    </button>
+    </Button>
   );
 };

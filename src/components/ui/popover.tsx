@@ -57,6 +57,7 @@ interface IProps {
   align?: "center" | "start" | "end" | undefined;
   variant?: TButtonVariant;
   size?: TButtonSize;
+  id?:string
 }
 
 export function POPOVER({
@@ -68,11 +69,11 @@ export function POPOVER({
   className,
   align,
   variant,
-  size,
+  size,id
 }: IProps) {
   return (
     <Popover>
-      <PopoverTrigger asChild>
+      <PopoverTrigger asChild id={id}>
         <Button
           variant={variant}
           size={size}

@@ -24,6 +24,7 @@ interface IProps {
   disabled?: boolean;
   styles?: CSSProperties;
   disableToast?: boolean;
+  id?:string
 }
 
 export function ActionButton({
@@ -39,7 +40,7 @@ export function ActionButton({
   styles = {},
   disabled = false,
   disableToast,
-  size,
+  size,id
 }: IProps) {
   const router = useRouter();
 
@@ -85,6 +86,7 @@ export function ActionButton({
       styles={styles}
       variant={variant}
       size={size}
+      id={id}
     >
       {children}
     </Button>
