@@ -6,7 +6,7 @@ import {
   MdCheckBoxOutlineBlank,
 } from "react-icons/md";
 import { VscLoading } from "react-icons/vsc";
-
+import { LiaComment } from "react-icons/lia";
 import {
   CheckCircle,
   Clock,
@@ -34,16 +34,22 @@ import {
   Loader,
   Loader2,
   RefreshCcw,
-  Plus, Copy, Move, Users2, Triangle,
+  Plus,
+  Copy,
+  Move,
+  Users2,
+  Triangle,
   XIcon,
   Save,
   Share2,
   Smile,
-  Eye
+  Eye,
+   
 } from "lucide-react";
 
 export const icons = {
-  view:Eye,
+  comment: LiaComment,
+  view: Eye,
   smile: Smile,
   save: Save,
   share: Share2,

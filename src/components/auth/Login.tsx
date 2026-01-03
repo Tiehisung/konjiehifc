@@ -1,33 +1,54 @@
 "use client";
 
-import { CredentialsLoginForm } from "@/app/auth/login/Credentials";
-import { Button } from "../buttons/Button";
 import { DIALOG } from "../Dialog";
 import { LoginBtn } from "./Auth";
 import { FcGoogle } from "react-icons/fc";
 import TextDivider from "../Divider";
+import { ReactNode } from "react";
+import { TButtonVariant } from "../ui/button";
 
-const AdminLoginController = ({}: { className?: string }) => {
+/**
+ * id - login-controller
+ * Access modal by programmatically clicking the trigger via id [login-controller]
+ * @returns A button to trigger google account selector.
+ */
+const LoginController = ({
+  text = "Sign In with Google",
+  description,
+  trigger,
+  variant = "ghost",
+}: {
+  className?: string;
+  text?: string;
+  trigger?: ReactNode;
+  description?: ReactNode;
+  variant?: TButtonVariant;
+}) => {
   return (
-    <>
-      <DIALOG
-        trigger={<Button primaryText="Login" size="sm" variant={"secondary"} />}
-        title={undefined}
+    <DIALOG
+      trigger={trigger}
+      title={"Login to continue"}
+      id="login-controller"
+      variant={variant}
+    >
+      <LoginBtn
+        text={text}
+        variant={"outline"}
+        className=" w-full "
+        redirectTo={window.location.href} size={'lg'}
       >
-        <div className="text-center px-4">
-          <LoginBtn
-            text="Sign In with Google"
-            variant={"outline"}
-            className=" w-full "
-          >
-            <FcGoogle size={24} />
-          </LoginBtn>
+        <FcGoogle size={24} />
+      </LoginBtn>
+
+      {description && (
+        <div>
+          <TextDivider text="🔐🪪" className="px-4 my-10" />
+
+          <div>{description}</div>
         </div>
-        <TextDivider text="OR" className="px-4 mt-10" />
-        <CredentialsLoginForm />
-      </DIALOG>
-    </>
+      )}
+    </DIALOG>
   );
 };
 
-export default AdminLoginController;
+export default LoginController;

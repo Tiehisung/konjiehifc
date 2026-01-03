@@ -22,7 +22,7 @@ const LandingNewsHeadlines = async () => {
 
       <SimpleCarousel className="_hideScrollbar " scrollButtonStyles="top-1/3">
         {news?.data?.map((item, index) => (
-          <Link href={`/news/${item._id}`} key={index}>
+          <Link href={`/news/${item.slug}`} key={index}>
             <Card className="w-60 sm:max-w-60 max-sm:grow overflow-hidden rounded-none">
               <CardContent>
                 <Image

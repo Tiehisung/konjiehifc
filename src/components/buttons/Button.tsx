@@ -15,6 +15,7 @@ interface ButtonProps {
   styles?: CSSProperties;
   variant?: TButtonVariant;
   size?: TButtonSize;
+  id?:string
 }
 
 interface ClickButtonProps extends ButtonProps {
@@ -34,7 +35,7 @@ export function Button({
   title = "",
   styles = {},
   variant,
-  size,
+  size,id
 }: ClickButtonProps) {
   return (
     <Btn
@@ -48,6 +49,7 @@ export function Button({
       onClick={onClick}
       title={title}
       style={styles}
+      id={id}
     >
       {children}
       {waiting ? (

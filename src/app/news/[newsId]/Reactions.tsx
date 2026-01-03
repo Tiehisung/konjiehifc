@@ -23,17 +23,18 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { IUser } from "@/types/user";
 import { DIALOG } from "@/components/Dialog";
 import QuillEditor from "@/components/editor/Quill";
-import { markupToPlainText } from "../../../lib/DOM";
+import { markupToPlainText, toggleClick } from "../../../lib/DOM";
 import { fireEscape } from "@/hooks/Esc";
 import { getDeviceId } from "@/lib/device";
 import { icons } from "@/assets/icons/icons";
+import LoginController from "@/components/auth/Login";
 
 export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
   const router = useRouter();
   const { handleAction: handleShare } = useAction();
-  const { handleAction:handleViews } = useAction();
+  const { handleAction: handleViews } = useAction();
   const [comment, setComment] = useState("");
-  const session = useSession();
+  const { data: session } = useSession();
 
   const [waiting, setWaiting] = useState(false);
   const maxLength = 3500;
@@ -49,8 +50,8 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
         body: JSON.stringify({
           comments: [
             {
-              name: session?.data?.user?.name ?? "unknown",
-              image: session?.data?.user?.image ?? staticImages.avatar.src,
+              name: session?.user?.name ?? "unknown",
+              image: session?.user?.image ?? staticImages.avatar.src,
               date: new Date().toISOString(),
               comment,
             },
@@ -79,7 +80,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
     : [
         ...(newsItem?.likes ?? []),
         {
-          name: session?.data?.user?.name ?? "unknown",
+          name: session?.user?.name ?? "unknown",
           date: new Date().toISOString(),
           device: getDeviceId(),
         },
@@ -89,19 +90,25 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
 
   useEffect(() => {
     function updateViews() {
+      const uniqueViews = newsItem?.views?.find(
+        (ni) => ni.device == getDeviceId()
+      )
+        ? newsItem?.views
+        : [
+            ...(newsItem?.views ?? []),
+            {
+              name: session?.user?.name ?? "unknown",
+              date: new Date().toISOString(),
+              device: getDeviceId() ?? "unknown",
+            },
+          ];
       handleViews({
         method: "PUT",
         uri: `${apiConfig.news}/${newsItem?._id}`,
         body: {
-          views: [
-            ...(newsItem?.views ?? []),
-            {
-              name: session?.data?.user?.name ?? "unknown",
-              date: new Date().toISOString(),
-              device: getDeviceId() ?? "unknown",
-            },
-          ],
+          views: uniqueViews,
         },
+        showToast: false,
       });
     }
     updateViews();
@@ -116,23 +123,30 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
               likes,
             }}
             uri={`${apiConfig.news}/${newsItem?._id}`}
-            className={`p-1.5 _shrink rounded-full ${isLiked ? "bg-Blue text-white" : ""}`}
+            className={`p-1.5 _shrink rounded-full ${
+              isLiked ? "bg-Blue text-white" : ""
+            }`}
             styles={{ borderRadius: "100%" }}
-            variant={ "ghost"}
+            variant={"ghost"}
             loadingText=""
             disableToast
+            id="likes-trigger"
           >
             {isLiked ? <ThumbsDown size={32} /> : <ThumbsUp size={32} />}
           </ActionButton>
-          <span className="font-lght text-sm ">
+          <span
+            className="font-lght text-xs "
+            onClick={() => toggleClick("likes-trigger")}
+          >
             {newsItem?.likes?.length ?? ""} Likes
           </span>
         </li>
         <li className="">
           <POPOVER
-            trigger={<IoShareSocial size={24} />}
+            trigger={<IoShareSocial size={32} />}
             variant={"ghost"}
             triggerClassNames="rounded-full"
+            id="shares-trigger"
           >
             <div
               onClick={() =>
@@ -143,7 +157,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
                     shares: [
                       ...(newsItem?.shares ?? []),
                       {
-                        name: session?.data?.user?.name ?? "unknown",
+                        name: session?.user?.name ?? "unknown",
                         date: new Date().toISOString(),
                         device: "unknown",
                       },
@@ -155,52 +169,79 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
               <SocialShare />
             </div>
           </POPOVER>
-          <div className="font-lght text-sm ">
+          <div
+            className="font-lght text-xs "
+            onClick={() => toggleClick("shares-trigger")}
+          >
             {newsItem?.shares?.length ?? ""} Shares
           </div>
         </li>
         <li className="flex flex-col items-center justify-center">
-          <DIALOG
-            trigger={
-              <LiaCommentSolid
-                size={24}
-                onClick={() => document.getElementById("comment")?.focus()}
-              />
-            }
-            triggerStyles="rounded-full"
-            variant="ghost"
+          {!session ? (
+            <LoginController
+              trigger={
+                <icons.comment
+                  size={24}
+                  onClick={() => document.getElementById("comment")?.focus()}
+                />
+              }
+              description={
+                <p className="italic font-light text-center">
+                  Login to comment on our news article. Thank you!
+                </p>
+              }
+            />
+          ) : (
+            <DIALOG
+              trigger={
+                <icons.comment
+                  size={24}
+                  onClick={() => document.getElementById("comment")?.focus()}
+                />
+              }
+              triggerStyles="rounded-full"
+              variant="ghost"
+              title="Comment on this news article"
+              id="comments-trigger"
+            >
+              <form onSubmit={onComment}>
+                <QuillEditor
+                  value={comment}
+                  onChange={(val) => {
+                    if (val.length <= maxLength) setComment(val);
+                  }}
+                  className="w-full grow"
+                  placeholder="Type comment ..."
+                />
+                <p className="_p p-4">
+                  {`${markupToPlainText(comment)?.length}/${maxLength}`}
+                </p>
+                <Button
+                  type="submit"
+                  className=" backdrop-blur-2xl w-full mt-5 justify-center"
+                  waiting={waiting}
+                  waitingText=""
+                  primaryText="Comment"
+                  size="lg"
+                >
+                  <SendHorizontal size={20} />
+                </Button>
+              </form>
+            </DIALOG>
+          )}
+
+          <div
+            className="font-lght text-xs "
+            onClick={() => toggleClick(session? "comments-trigger":'login-controller')}
           >
-            <form onSubmit={onComment}>
-              <QuillEditor
-                value={comment}
-                onChange={(val) => {
-                  if (val.length <= maxLength) setComment(val);
-                }}
-                className="w-full grow"
-                placeholder="Type comment ..."
-              />
-              <p className="_p p-4">
-                {markupToPlainText(comment)?.length + "/" + maxLength}
-              </p>
-              <Button
-                type="submit"
-                className="_primaryBtn backdrop-blur-2xl text-white p-1 h-14 w-full mt-5 justify-center"
-                waiting={waiting}
-                waitingText=""
-                primaryText="Send"
-              >
-                <SendHorizontal size={20} />
-              </Button>
-            </form>
-          </DIALOG>
-          <div className="font-lght text-sm ">
             {newsItem?.comments?.length ?? ""} Comment
             {newsItem?.comments?.length == 1 ? "" : "s"}
           </div>
         </li>
 
-        <li className="flex flex-col items-center justify-center gap-4">
-          {<icons.view />} <div>{newsItem?.views?.length} Views</div>{" "}
+        <li className="flex flex-col items-center justify-center gap-1 ">
+          {<icons.view />}{" "}
+          <div className="text-xs">{newsItem?.views?.length} Views</div>
         </li>
       </ul>
 
@@ -233,9 +274,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
               />
             </section>
 
-            {(session?.data?.user as unknown as IUser)?.role?.includes(
-              "admin"
-            ) && (
+            {(session?.user as unknown as IUser)?.role?.includes("admin") && (
               <ActionButton
                 method="PUT"
                 body={{

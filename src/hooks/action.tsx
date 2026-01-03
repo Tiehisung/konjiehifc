@@ -29,6 +29,7 @@ export function useAction() {
     body,
     uri,
     escapeOnEnd = false,
+    showToast,
   }: IProps) => {
     try {
       setIsLoading(true);
@@ -49,14 +50,15 @@ export function useAction() {
       );
       const results: IQueryResponse = await response.json();
       if (results.success) {
-        toast.success(results.message, { position: "bottom-center" });
+        if (showToast)
+          toast.success(results.message, { position: "bottom-center" });
         setError("");
       } else {
-        toast.error(results.message);
+        if (showToast) toast.error(results.message);
         setError(getErrorMessage(error));
       }
     } catch (error) {
-      toast.error(getErrorMessage(error));
+      if (showToast) toast.error(getErrorMessage(error));
       setError(getErrorMessage(error));
     } finally {
       setIsLoading(false);

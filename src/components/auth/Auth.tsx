@@ -29,7 +29,7 @@ export const LoginBtn = ({
   const handleLogin = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setLoading(true);
-    await signIn("google", { redirectTo: "/admin" });
+    await signIn("google", { redirectTo: redirectTo });
 
     setTimeout(() => {
       setLoading(false);
