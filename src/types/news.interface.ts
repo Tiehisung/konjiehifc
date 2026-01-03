@@ -28,6 +28,7 @@ export interface INewsProps {
   summary?: string;
   tags?: string[];
   likes?: { name: string; date: string; device?: string }[];
+  views: { name: string; date: string; device?: string }[];
   shares?: { name: string; date: string; device?: string }[];
   comments?: { image?: string; name?: string; comment: string; date: string }[];
   createdAt: string;

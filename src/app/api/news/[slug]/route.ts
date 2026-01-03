@@ -69,6 +69,8 @@ export async function PUT(
         const slug = (await params).slug;
         const query: QueryFilter<string> = slugIdFilters(slug)
 
+        console.log(query)
+
         const body = await request.json();
 
         //update field
@@ -76,11 +78,14 @@ export async function PUT(
             query,
             { $set: { ...body } }
         );
-        if (updated)
-            return NextResponse.json({
-                message: "News updated",
-                success: true,
-            });
+
+        console.log(updated)
+
+        return NextResponse.json({
+            message: "News updated",
+            success: true,
+            data:updated
+        });
     } catch (error) {
         return NextResponse.json({
             message: getErrorMessage(error, "Failed to update! "),

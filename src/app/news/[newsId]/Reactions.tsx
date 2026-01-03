@@ -8,7 +8,7 @@ import { apiConfig } from "@/lib/configs";
 import { POPOVER } from "@/components/ui/popover";
 import SocialShare from "@/components/SocialShare";
 import { useAction } from "@/hooks/action";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { staticImages } from "@/assets/images";
 import { LiaCommentSolid } from "react-icons/lia";
@@ -26,10 +26,12 @@ import QuillEditor from "@/components/editor/Quill";
 import { markupToPlainText } from "../../../lib/DOM";
 import { fireEscape } from "@/hooks/Esc";
 import { getDeviceId } from "@/lib/device";
+import { icons } from "@/assets/icons/icons";
 
 export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
   const router = useRouter();
   const { handleAction: handleShare } = useAction();
+  const { handleAction:handleViews } = useAction();
   const [comment, setComment] = useState("");
   const session = useSession();
 
@@ -82,6 +84,28 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
           device: getDeviceId(),
         },
       ];
+
+  // update views
+
+  useEffect(() => {
+    function updateViews() {
+      handleViews({
+        method: "PUT",
+        uri: `${apiConfig.news}/${newsItem?._id}`,
+        body: {
+          views: [
+            ...(newsItem?.views ?? []),
+            {
+              name: session?.data?.user?.name ?? "unknown",
+              date: new Date().toISOString(),
+              device: getDeviceId() ?? "unknown",
+            },
+          ],
+        },
+      });
+    }
+    updateViews();
+  }, []);
   return (
     <div>
       <ul className="flex items-center flex-wrap gap-4">
@@ -92,9 +116,9 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
               likes,
             }}
             uri={`${apiConfig.news}/${newsItem?._id}`}
-            className={`p-0.5 h-14 w-14 _shrink ${isLiked ? "" : ""}`}
+            className={`p-1.5 _shrink rounded-full ${isLiked ? "bg-Blue text-white" : ""}`}
             styles={{ borderRadius: "100%" }}
-            variant={isLiked ? "default" : "secondary"}
+            variant={ "ghost"}
             loadingText=""
             disableToast
           >
@@ -104,8 +128,12 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
             {newsItem?.likes?.length ?? ""} Likes
           </span>
         </li>
-        <li>
-          <POPOVER trigger={<IoShareSocial size={24} />}>
+        <li className="">
+          <POPOVER
+            trigger={<IoShareSocial size={24} />}
+            variant={"ghost"}
+            triggerClassNames="rounded-full"
+          >
             <div
               onClick={() =>
                 handleShare({
@@ -127,21 +155,20 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
               <SocialShare />
             </div>
           </POPOVER>
-          <span className="font-lght text-sm ">
+          <div className="font-lght text-sm ">
             {newsItem?.shares?.length ?? ""} Shares
-          </span>
+          </div>
         </li>
-        <li>
+        <li className="flex flex-col items-center justify-center">
           <DIALOG
             trigger={
-              <div
-                className="p-0.5 h-14 w-14 _hover rounded-full _shrink _secondaryBtn"
-                style={{ borderRadius: "100%" }}
+              <LiaCommentSolid
+                size={24}
                 onClick={() => document.getElementById("comment")?.focus()}
-              >
-                <LiaCommentSolid size={24} />
-              </div>
+              />
             }
+            triggerStyles="rounded-full"
+            variant="ghost"
           >
             <form onSubmit={onComment}>
               <QuillEditor
@@ -152,6 +179,9 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
                 className="w-full grow"
                 placeholder="Type comment ..."
               />
+              <p className="_p p-4">
+                {markupToPlainText(comment)?.length + "/" + maxLength}
+              </p>
               <Button
                 type="submit"
                 className="_primaryBtn backdrop-blur-2xl text-white p-1 h-14 w-full mt-5 justify-center"
@@ -162,14 +192,15 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
                 <SendHorizontal size={20} />
               </Button>
             </form>
-            <p className="_p p-4">
-              {markupToPlainText(comment)?.length + "/" + maxLength}
-            </p>
           </DIALOG>
-          <span className="font-lght text-sm ">
+          <div className="font-lght text-sm ">
             {newsItem?.comments?.length ?? ""} Comment
             {newsItem?.comments?.length == 1 ? "" : "s"}
-          </span>
+          </div>
+        </li>
+
+        <li className="flex flex-col items-center justify-center gap-4">
+          {<icons.view />} <div>{newsItem?.views?.length} Views</div>{" "}
         </li>
       </ul>
 
@@ -208,11 +239,9 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
               <ActionButton
                 method="PUT"
                 body={{
-                  likes: [
-                    ...(newsItem?.comments?.filter(
-                      (c) => c?.date !== com?.date
-                    ) ?? []),
-                  ],
+                  likes: newsItem?.comments?.filter(
+                    (c) => c?.date !== com?.date
+                  ),
                 }}
                 uri={`${apiConfig.news}/${newsItem?._id}`}
                 className="absolute right-2 top-1 p-0.5 _hover _shrink"

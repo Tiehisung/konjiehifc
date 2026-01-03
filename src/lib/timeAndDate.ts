@@ -99,7 +99,7 @@ export function getDateFromDaysAgo(daysAgo: number): Date {
   return date;
 }
 
-export type TimeUnit = "month" | "week" | "day" | "hour" | "minute";
+export type TimeUnit = "m" | "wk" | "d" | "hr" | "min";
 
 export interface TimeLeftResult {
   value: number;
@@ -134,19 +134,19 @@ export function getTimeLeftOrAgo(date?: string | number | Date): TimeLeftResult 
 
   if (months >= 1) {
     value = months;
-    unit = "month";
+    unit = "m";
   } else if (weeks >= 1) {
     value = weeks;
-    unit = "week";
+    unit = "wk";
   } else if (days >= 1) {
     value = days;
-    unit = "day";
+    unit = "d";
   } else if (hours >= 1) {
     value = hours;
-    unit = "hour";
+    unit = "hr";
   } else {
     value = Math.max(1, minutes); // at least 1 minute
-    unit = "minute";
+    unit = "min";
   }
 
   const expired = diffMs < 0;

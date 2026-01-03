@@ -31,18 +31,21 @@ const newsSchema = new Schema(
       default: () => ({ isTrending: true, isLatest: true }),
     },
     likes: {
-      type: Schema.Types.Mixed,
-      default: () => [],
+      type: [{ name: String, date: String, device: String }],
+      default: () => []
     },
     comments: {
-      type: Schema.Types.Mixed,
-      default: () => [],
+      type: [{ name: String, date: String, comment: String ,image:String}],
+      default: () => []
     },
     shares: {
-      type: Schema.Types.Mixed,
-      default: () => [],
+      type: [{ name: String, date: String, device: String }],
+      default: () => []
     },
-    views: Number,
+    views: {
+      type: [{ name: String, date: String, device: String }],
+      default: () => []
+    },
 
     isPublished: {
       type: Schema.Types.Boolean,

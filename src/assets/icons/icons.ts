@@ -38,10 +38,12 @@ import {
   XIcon,
   Save,
   Share2,
-  Smile
+  Smile,
+  Eye
 } from "lucide-react";
 
 export const icons = {
+  view:Eye,
   smile: Smile,
   save: Save,
   share: Share2,

@@ -28,7 +28,7 @@ export async function generateMetadata({
     };
   }
 
-  const title = `${article?.headline?.text} | Konjiehi FC`;
+  const title = `Konjiehi FC - ${article?.headline?.text} | Konjiehi FC`;
   const description =
     article?.details?.find(d=>d.text)?.text || "Read the latest news and updates from Konjiehi FC.";
 
