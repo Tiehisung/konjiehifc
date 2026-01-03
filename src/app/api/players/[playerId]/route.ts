@@ -7,6 +7,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { logAction } from "../../logs/helper";
 import ArchiveModel from "@/models/Archives";
 import { ELogSeverity } from "@/types/log";
+import { auth } from "@/auth";
+import { EUserRole, ISession } from "@/types/user";
 
 ConnectMongoDb();
 export async function GET(
@@ -69,11 +71,20 @@ export async function PUT(
 
 //delete
 export async function DELETE(
-  request: NextRequest,
+  _: NextRequest,
   { params }: { params: Promise<{ playerId: string }> }
 ) {
   try {
     const playerId = (await params).playerId
+
+    const session = await auth() as ISession
+
+    if (session?.user?.role !== EUserRole.SUPER_ADMIN) {
+      return NextResponse.json({
+        message: `You are not authorized to perform this action`,
+        success: false,
+      });
+    }
 
     //Update issues
     const player = await PlayerModel.findById(playerId);
