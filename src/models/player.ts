@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import { fileSchema } from "./file";
+import { EPlayerStatus } from "@/types/player.interface";
 
 const playerSchema = new Schema(
   {
@@ -59,14 +60,15 @@ const playerSchema = new Schema(
 
     issues: [{ type: String, default: () => [] }],
     isActive: { type: Schema.Types.Boolean, default: () => true },
-    status: { type: String, default: () => 'pending', enum: ['pending', 'approved'] },
+    status: { type: String, default: () => EPlayerStatus.ACTIVE, enum: Object.values(EPlayerStatus) },
     isFit: { type: Boolean, default: () => true },
     number: { type: String, required: true, unique: true },
     position: {
       type: String,
     },
     training: { type: Schema.Types.Mixed, default: () => ({ team: "A" }) },
-    code: { type: String, required: [true, 'Player ID is required'], unique: [true, 'Player ID must be a unique value'] }//IS091223
+    code: { type: String, required: [true, 'Player ID is required'], unique: [true, 'Player ID must be a unique value'] },//IS091223
+    user: { type: Schema.Types.ObjectId, ref: "users", }
   },
   { timestamps: true }
 );
@@ -76,7 +78,7 @@ const PlayerModel =
 
 export default PlayerModel;
 
- 
+
 
 
 // email: {

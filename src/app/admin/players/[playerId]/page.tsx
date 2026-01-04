@@ -91,7 +91,7 @@ export default async function PlayerProfilePage({
 
       {/* Sections */}
       <main className="space-y-36 px-[2vw] pb-24 pt-7 ">
-        {player?.status == "pending" && (
+        {!player?.isActive  && (
           <NotifierWrapper
             message={"Unconfirmed player"}
             className="text-Red"
@@ -136,11 +136,11 @@ export default async function PlayerProfilePage({
             DANGER ZONE
           </h3>
           <div className="flex gap-10 max-sm:flex-col flex-wrap justify-center items-center bg-card py-6">
-            {player?.status !== EPlayerStatus.APPROVED && (
+            {!player?.isActive && (
               <ConfirmActionButton
                 uri={`${apiConfig.players}/${playerId}`}
                 method="PUT"
-                body={{ status: EPlayerStatus.APPROVED }}
+                body={{ isActive: true }}
                 primaryText="CONFIRM PLAYER"
                 loadingText="Approving..."
                 confirmText={`Do you want to confirm ${player?.firstName}?`}

@@ -66,10 +66,9 @@ export async function POST(request: NextRequest) {
   const pf = (await request.json()) as IPostPlayer;
   try {
 
-    const slug = slugify(`${pf.firstName}-${pf.lastName}`, true)
 
     //Ensure unique code ----------------------------------------
- 
+
     let playerCode = generatePlayerID(pf.firstName, pf.lastName, pf.dob)
 
     const existingPlayerByCode = await PlayerModel.findOne({ code: playerCode });
@@ -78,6 +77,7 @@ export async function POST(request: NextRequest) {
       playerCode = getInitials([pf.firstName, pf.lastName], 2) + (new Date()).getMilliseconds()
     }
 
+    const slug = slugify(`${pf.firstName}-${pf.lastName}-${playerCode}`,)
     //--------------------------------------------------------------------------------
     await PlayerModel.create({ ...pf, slug, code: playerCode });
     // Create User

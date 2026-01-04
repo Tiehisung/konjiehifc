@@ -6,8 +6,29 @@ import { IGoal, IMatch } from "./match.interface";
 import { ICldFileUploadResult } from "./file.interface";
 
 export enum EPlayerStatus {
-    PENDING = 'pending',
-    APPROVED = 'approved'
+    // Match Availability
+    AVAILABLE = 'AVAILABLE',           // Fully fit and available
+    DOUBTFUL = 'DOUBTFUL',             // 50/50 chance to play
+    UNAVAILABLE = 'UNAVAILABLE',       // Not available for selection
+
+    // Injury Status
+    INJURED = 'INJURED',               // Currently injured
+    RECOVERING = 'RECOVERING',         // Returning from injury
+    MINOR_INJURY = 'MINOR_INJURY',     // Small injury, light training
+
+    // Administrative Status
+    SUSPENDED = 'SUSPENDED',           // Disciplinary suspension
+    LOANED = 'LOANED',                 // Playing for another club
+    TRANSFER_LISTED = 'TRANSFER_LISTED', // Available for transfer
+
+    // Squad Status
+    ACTIVE = 'ACTIVE',                 // Part of main squad
+    RESERVE = 'RESERVE',               // Reserve team player
+    YOUTH = 'YOUTH',                   // Youth/academy player
+
+    // Career Status
+    RETIRED = 'RETIRED',               // Ended playing career
+    INACTIVE = 'INACTIVE',             // Not currently playing
 }
 
 export type TPlayerGallery = {
@@ -75,7 +96,8 @@ export interface IPlayer {
     trophies: number;
     cards: IMatchCard[];
     training: { team?: "A" | "B" };
-    status: EPlayerStatus
+    status: EPlayerStatus,
+    
 }
 
 export interface IPostPlayer {
@@ -109,3 +131,4 @@ export interface IPostPlayer {
     status: EPlayerStatus
     slug: string
 }
+

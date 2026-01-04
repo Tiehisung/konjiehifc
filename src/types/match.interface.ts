@@ -20,11 +20,10 @@ export interface IMatch {
   opponent: ITeam;
   broadcaster?: IFileProps;
   status: EMatchStatus;
-  score: { kfc: number; opponent: number };
+  results: 'win' | 'draw' | 'loss'
   isHome: boolean;
   venue?: { name: string; files: IFileProps[] };
   goals: Array<IGoal>
-  opponentGoals: number
   events: Array<IMatchEvent>;
   cards: Array<IMatchCard>;
   squad?: ISquad
@@ -77,23 +76,28 @@ export interface IGoal {
   minute: string | number;
   scorer: IPlayerMini;
   assist?: IPlayerMini;
-  modeOfScore?:
-  | "Open Play Goal"
-  | "Set Piece Goal"
-  | "Penalty Goal"
-  | "Own Goal"
-  | "Counter-Attack Goal"
-  | "Header Goal"
-  | "Volley Goal"
-  | "Tap-In Goal"
-  | "Long-Range Goal"
+  modeOfScore?: EGoalType
   description?: string
   match: string
   forKFC: boolean
+  videoUrl?: string;
 }
 
 
 export interface IMatchHighlight extends IFileProps {
   title: string
   match: IMatch
+}
+
+export enum EGoalType {
+  OPEN_PLAY = "Open Play Goal",
+  SET_PIECE = "Set Piece Goal",
+  PENALTY = "Penalty Goal",
+  OWN_GOAL = "Own Goal",
+  COUNTER_ATTACK = "Counter-Attack Goal",
+  HEADER = "Header Goal",
+  VOLLEY = "Volley Goal",
+  TAP_IN = "Tap-In Goal",
+  LONG_RANGE = "Long-Range Goal",
+  UNKNOWN = 'Unknown'
 }

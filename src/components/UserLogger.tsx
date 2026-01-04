@@ -10,22 +10,34 @@ export default function UserLogButtons() {
   const { data: session, status } = useSession();
 
   if (status == "loading") return <Loader message="" />;
-  if (session)
+
+  if (session) {
+    const path =
+      (session?.user as ISession["user"])?.role == "player"
+        ? `/players/${(session?.user as ISession["user"])?.playerId}`
+        : "/admin";
     return (
       <div className="grid md:flex items-center gap-6 md:gap-2">
-        {(session?.user as ISession["user"])?.role?.includes("admin") ? (
+        {!(session?.user as ISession["user"])?.role?.includes("guest") ? (
           <Link
-            href="/admin"
-            className="hidden md:block border _borderColor hover:ring rounded px-2 py-1 h-full "
+            href={path}
+            className="hidden md:block border _borderColor hover:ring rounded px-2 py-1 h-full"
           >
-            Admin
+            {session?.user?.name?.split(" ")?.[0] ?? "Dashboard"}
           </Link>
         ) : (
-          <span> {(session?.user as ISession["user"])?.role ?? "Guest"}</span>
+          <span> Guest</span>
         )}
 
         <LogoutBtn variant={"destructive"} size={"sm"} />
       </div>
     );
-  return <LoginBtn text="Sign In" variant={"outline"} className="grow text-foreground" />;
+  }
+  return (
+    <LoginBtn
+      text="Sign In"
+      variant={"outline"}
+      className="grow text-foreground"
+    />
+  );
 }

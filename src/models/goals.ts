@@ -1,3 +1,4 @@
+import { EGoalType } from "@/types/match.interface";
 import mongoose, { Schema } from "mongoose";
 
 export const goalSchema = new Schema(
@@ -12,7 +13,7 @@ export const goalSchema = new Schema(
       },
       name: String,
       avatar: String,
-      number:Number
+      number: Number
     },
     assist: {
       _id: {
@@ -21,11 +22,11 @@ export const goalSchema = new Schema(
       },
       name: String,
       avatar: String,
-      number:Number
+      number: Number
     },
     type: String,
     description: String,
-    modeOfScore: String,
+    modeOfScore: { type: String, default: () => EGoalType.UNKNOWN, enum: Object.values(EGoalType) },
     forKFC: { type: Boolean, default: () => false }
   },
   { timestamps: true }
