@@ -17,7 +17,7 @@ export async function generateMetadata({ searchParams }: PageProps) {
       await searchParams
     ).playerId
   );
-  const name = player?.firstName + " " + player?.lastName;
+  const name = `${player?.firstName} ${player?.lastName}`;
 
   return {
     title: `${name}`,

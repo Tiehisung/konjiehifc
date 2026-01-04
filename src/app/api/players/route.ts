@@ -4,10 +4,12 @@ import "@/models/galleries";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import PlayerModel from "@/models/player";
 import { NextRequest, NextResponse } from "next/server";
-import { getErrorMessage, removeEmptyKeys } from "@/lib";
+import { getErrorMessage, getInitials, removeEmptyKeys, slugify } from "@/lib";
 import UserModel from "@/models/user";
 import bcrypt from "bcryptjs";
-import { EPlayerStatus,   } from "@/types/player.interface";
+import { EUserRole } from "@/types/user";
+import { formatDate } from "@/lib/timeAndDate";
+import { IPostPlayer } from "@/types/player.interface";
 
 
 ConnectMongoDb();
@@ -35,6 +37,7 @@ export async function GET(request: NextRequest) {
       { "jersey": regex },
       { "dob": regex },
       { "email": regex },
+      { "status": regex },
     ],
     isActive: isActive,
     status
@@ -60,31 +63,60 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const formData = await request.json();
+  const pf = (await request.json()) as IPostPlayer;
   try {
-    const saved = await PlayerModel.create({ ...formData });
 
+    const slug = slugify(`${pf.firstName}-${pf.lastName}`, true)
+
+    //Ensure unique code ----------------------------------------
+ 
+    let playerCode = generatePlayerID(pf.firstName, pf.lastName, pf.dob)
+
+    const existingPlayerByCode = await PlayerModel.findOne({ code: playerCode });
+
+    if (existingPlayerByCode) {
+      playerCode = getInitials([pf.firstName, pf.lastName], 2) + (new Date()).getMilliseconds()
+    }
+
+    //--------------------------------------------------------------------------------
+    await PlayerModel.create({ ...pf, slug, code: playerCode });
     // Create User
-    if (formData.email) {
-      const existingUser = await UserModel.findOne({ email: formData.email });
+    if (pf.email) {
+      const existingUser = await UserModel.findOne({ email: pf.email });
 
       if (!existingUser) {
-        const password = await bcrypt.hash(formData.firstName.toLowerCase(), 10);
+        const password = await bcrypt.hash(pf.firstName.toLowerCase(), 10);
 
         await UserModel.create({
-          email: formData.email,
-          name: `${formData.firstName} ${formData.lastName}`,
-          image: formData.image,
+          email: pf.email,
+          name: `${pf.firstName} ${pf.lastName}`,
+          image: pf.avatar,
           lastLoginAccount: 'credentials',
           signupMode: 'credentials',
-          password
+          password,
+          role: EUserRole.PLAYER
         });
       }
     }
-    if (saved) return NextResponse.json({ message: "Success", success: true });
     return NextResponse.json({ message: "Player Added", success: true });
   } catch (error) {
     return NextResponse.json({ message: getErrorMessage(error), success: false, data: error });
-
   }
+}
+
+export const generatePlayerID = (firstName: string, lastName: string, dob: string | Date, format: 'ymd' | 'ydm' | 'dmy' | 'dym' | 'mdy' | 'myd' = 'dmy') => {
+  const initials = getInitials([firstName, lastName], 2)
+  const date = formatDate(dob, 'dd/mm/yyyy')
+  const dmy = date.split('/').reverse()
+
+  const codes = {
+    dmy: dmy[2] + dmy[1] + dmy[0].substring(2),
+    dym: dmy[2] + dmy[0].substring(2) + dmy[1],
+    mdy: dmy[2] + dmy[1] + dmy[0].substring(2),
+    myd: dmy[2] + dmy[0].substring(2) + dmy[1],
+    ydm: dmy[0].substring(2) + dmy[2] + dmy[1],
+    ymd: dmy[0].substring(2) + dmy[1] + dmy[2],
+  }
+
+  return initials.toUpperCase() + codes[format]
 }

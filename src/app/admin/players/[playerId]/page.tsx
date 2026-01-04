@@ -16,6 +16,7 @@ import { IGalleryProps, IQueryResponse } from "@/types";
 import { getGallery } from "../../galleries/page";
 import { PrimaryCollapsible } from "@/components/Collapsible";
 import { icons } from "@/assets/icons/icons";
+import NotifierWrapper from "@/components/Notifier";
 
 export default async function PlayerProfilePage({
   params,
@@ -46,7 +47,7 @@ export default async function PlayerProfilePage({
       />
 
       {/*Nav Scroll controllers */}
-      <div className="bg-[#000000ac] text-white w-full px-1 flex gap-2 overflow-x-auto sticky z-10 top-0 hidden__scrollbar">
+      <div className="bg-modalOverlay text-white w-full px-1 flex gap-2 overflow-x-auto sticky z-10 top-0 hidden__scrollbar">
         <ScrollToPointBtn
           sectionId={"edit-player"}
           className="flex gap-1 items-center shadow p-1 hover:text-blue-400 transition-transform"
@@ -90,6 +91,15 @@ export default async function PlayerProfilePage({
 
       {/* Sections */}
       <main className="space-y-36 px-[2vw] pb-24 pt-7 ">
+        {player?.status == "pending" && (
+          <NotifierWrapper
+            message={"Unconfirmed player"}
+            className="text-Red"
+            inDismissible
+          >
+            <p>You need to confirm player to make them visible to the public</p>
+          </NotifierWrapper>
+        )}
         <h1 className="_heading backdrop-blur-xs p-0 ">{`${player?.firstName} ${player?.lastName}`}</h1>
         <UpdatePlayerIssuesAndFitness player={player} />
 
@@ -135,6 +145,7 @@ export default async function PlayerProfilePage({
                 loadingText="Approving..."
                 confirmText={`Do you want to confirm ${player?.firstName}?`}
                 title="Confirm Player"
+                variant={"default"}
               />
             )}
             <ConfirmActionButton

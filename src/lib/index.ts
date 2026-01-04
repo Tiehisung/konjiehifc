@@ -106,7 +106,7 @@ export const getInitials = (text: string | string[], length = 2) => {
   const list = typeof text == "string" ? text.trim().split(" ") : text;
   const initials = list.map((l) => l.trim()[0]);
   if (!text) return "";
-  return initials.join("").substring(0, length);
+  return initials.join("").substring(0, Math.min(length, initials.length));
 };
 
 export const getAge = (dob: string | Date) => {
@@ -156,7 +156,7 @@ export function isObjectId(value?: string): boolean {
 }
 export const getUrlToShare = () => window.location.href;
 
-export function slugify(text: string): string {
+export function slugify(text: string, appendTimestamp: boolean = false): string {
   // Create slug
   const base = text
     .toString()
@@ -177,9 +177,9 @@ export function slugify(text: string): string {
   const min = String(now.getMinutes()).padStart(2, "0");
   const ss = String(now.getSeconds()).padStart(2, "0");
 
-  const timestamp = `${yyyy}-${mm}-${dd}-${hh}${min}${ss}`;
+  const timestamp = `${`${yyyy}`.substring(-2)}-${mm}-${dd}-${hh}${min}${ss}`;
 
-  return `${base.substring(0, 200)}-${timestamp}`;
+  return appendTimestamp ? `${base.substring(0, 200)}-${timestamp}` : base.substring(0, 200);
 }
 
 

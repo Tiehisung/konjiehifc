@@ -1,6 +1,6 @@
 import "@/models/file";
 import "@/models/galleries";
-import { getErrorMessage } from "@/lib";
+import { getErrorMessage, getInitials } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import PlayerModel from "@/models/player";
 import { NextRequest, NextResponse } from "next/server";
@@ -9,52 +9,56 @@ import ArchiveModel from "@/models/Archives";
 import { ELogSeverity } from "@/types/log";
 import { auth } from "@/auth";
 import { EUserRole, ISession } from "@/types/user";
+import { slugIdFilters } from "@/lib/api";
+import { generatePlayerID } from "../route";
 
 ConnectMongoDb();
 export async function GET(
   _: NextRequest,
   { params }: { params: Promise<{ playerId: string }> }
 ) {
-  const player = await PlayerModel.findById((await params).playerId)
+  const slug = slugIdFilters((await params).playerId)
+  const player = await PlayerModel.findOne(slug)
     .populate({ path: "galleries", populate: { path: 'files' } });
   return NextResponse.json(player);
 }
 
-//patch
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ playerId: string }> }
-) {
-  const { fieldKey, fieldValue } = await request.json();
-
-  try {
-    const saved = await PlayerModel.updateOne(
-      { _id: (await params).playerId },
-      { $set: { [fieldKey]: fieldValue } }
-    );
-    if (saved) return NextResponse.json({ message: "Updated", success: true });
-  } catch (error) {
-    return NextResponse.json({
-      message: `Update failed. ${getErrorMessage(error)}`,
-      success: false,
-    });
-  }
-}
 
 //put Only relevant fields at a time
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ playerId: string }> }
 ) {
-  const playerId = (await params).playerId;
+
+  const slug = slugIdFilters((await params).playerId)
   const formData = await request.json();
 
   const updates = { ...formData };
 
   try {
-    const updatedPlayer = await PlayerModel.findByIdAndUpdate(playerId, {
+    const updatedPlayer = await PlayerModel.findOneAndUpdate(slug, {
       $set: { ...updates },
     });
+
+    //REMOVE AFTER
+
+    //Update existing players to have Code
+    let playerCode = generatePlayerID(updatedPlayer.firstName, updatedPlayer.lastName, updatedPlayer.dob)
+
+    if (!updatedPlayer.code) {
+      const existingPlayerByCode = await PlayerModel.findOne({ code: playerCode });
+      if (!existingPlayerByCode) {
+        await PlayerModel.findOneAndUpdate(slug, {
+          $set: { code: playerCode },
+        });
+      } else {
+        playerCode = getInitials([updatedPlayer.firstName, updatedPlayer.lastName], 2) + (new Date()).getMilliseconds()
+        await PlayerModel.findOneAndUpdate(slug, {
+          $set: { code: playerCode },
+        });
+
+      }
+    }
 
     return NextResponse.json({
       message: "Update success",
@@ -75,7 +79,7 @@ export async function DELETE(
   { params }: { params: Promise<{ playerId: string }> }
 ) {
   try {
-    const playerId = (await params).playerId
+    const slug = slugIdFilters((await params).playerId)
 
     const session = await auth() as ISession
 
@@ -87,7 +91,7 @@ export async function DELETE(
     }
 
     //Update issues
-    const player = await PlayerModel.findById(playerId);
+    const player = await PlayerModel.findOne(slug);
 
     await ArchiveModel.updateOne(
       { sourceCollection: "players" },
@@ -95,13 +99,13 @@ export async function DELETE(
     );
 
     //Now remove player
-    const deleted = await PlayerModel.deleteOne({ _id: playerId });
+    const deleted = await PlayerModel.deleteOne(slug);
     // log
     await logAction({
       title: "Player Deleted",
-      description: `Player with id [${playerId}] deleted on ${new Date().toLocaleString()}`,
+      description: `Player with id [${(await params).playerId}] deleted on ${new Date().toLocaleString()}`,
       severity: ELogSeverity.CRITICAL,
-      meta: deleted?.toString(),
+      meta: deleted,
     });
     return NextResponse.json({
       message: "Deleted successful",

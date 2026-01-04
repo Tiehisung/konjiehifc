@@ -1,15 +1,14 @@
-'use client'
+"use client";
 
 import { ReactNode, useEffect, useState } from "react";
 import DiveUpwards from "./Animate";
 import CloseButton from "./buttons/Close";
- 
 
 interface INotifierProps {
   message: ReactNode;
   children?: React.ReactNode;
   className?: string;
-  isAnimate?: boolean;
+  inDismissible?: boolean;
   delay?: "1m" | "30s" | "10s" | "5s" | "2s" | "0";
 }
 const NotifierWrapper = ({
@@ -17,6 +16,7 @@ const NotifierWrapper = ({
   children,
   className,
   delay = "2s",
+  inDismissible,
 }: INotifierProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -52,10 +52,13 @@ const NotifierWrapper = ({
         <p className="font-normal text-sm min-h-6">{message}</p>
         {children}
       </div>
-      <CloseButton
-        onClose={() => setIsOpen(false)}
-        className="absolute right-1 top-1"
-      />
+
+      {inDismissible && (
+        <CloseButton
+          onClose={() => setIsOpen(false)}
+          className="absolute right-1 top-1"
+        />
+      )}
     </DiveUpwards>
   );
 };

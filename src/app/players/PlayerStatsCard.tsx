@@ -2,7 +2,6 @@
 
 import { AVATAR } from "@/components/ui/avatar";
 import { getInitials } from "@/lib";
-// components/PlayerStatsCard.tsx
 import { CSSProperties } from "react";
 
 interface PlayerStatsCardProps {
@@ -35,7 +34,7 @@ export default function PlayerFeatureStatsCard({
   return (
     <div
       style={{ backgroundImage: `url(${playerImage})`, ...styles }}
-      className={`relative w-80 h-[420px] rounded-2xl overflow-hidden shadow-xl text-white flex flex-col items-center justify-end p-6 bg-no-repeat bg-cover bg-accent ${className}`}
+      className={`relative w-80 h-105 rounded-2xl overflow-hidden shadow-xl text-white flex flex-col items-center justify-end p-6 bg-no-repeat bg-cover bg-accent ${className}`}
     >
       <div className="absolute top-4 left-4 h-fit w-32">
         {/* Avatar */}
