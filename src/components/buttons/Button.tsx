@@ -15,7 +15,7 @@ interface ButtonProps {
   styles?: CSSProperties;
   variant?: TButtonVariant;
   size?: TButtonSize;
-  id?:string
+  id?: string;
 }
 
 interface ClickButtonProps extends ButtonProps {
@@ -35,7 +35,8 @@ export function Button({
   title = "",
   styles = {},
   variant,
-  size,id
+  size,
+  id,
 }: ClickButtonProps) {
   return (
     <Btn
@@ -51,7 +52,6 @@ export function Button({
       style={styles}
       id={id}
     >
-      {children}
       {waiting ? (
         <span
           className={`flex items-center gap-2 w-fit min-w-max justify-between whitespace-nowrap transition-all`}
@@ -60,7 +60,10 @@ export function Button({
           {waitingText}
         </span>
       ) : (
-        <span hidden={!primaryText}>{primaryText}</span>
+        <>
+          {children}
+          <span hidden={!primaryText}>{primaryText}</span>
+        </>
       )}
     </Btn>
   );

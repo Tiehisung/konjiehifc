@@ -1,5 +1,6 @@
 export interface IUser {
   _id?: string
+  playerId?: string
   image: string
   name: string;
   email: string;
@@ -26,10 +27,12 @@ export enum EUserAccount {
 }
 export interface ISession {
   user: {
+    id:string
     name: string;
     image: string;
     role?: EUserRole
     email: string;
+    playerId?:string
   };
   expires: string
 }

@@ -14,6 +14,7 @@ import { ThemeModeToggle } from "./ThemeToggle";
 import { NavigationPopover } from "./NavigationPopover";
 import { GalleryThumbnails } from "lucide-react";
 import { useTheme } from "next-themes";
+import { fireEscape } from "@/hooks/Esc";
 // import Image from "next/image";
 // import logoWhite from "@/assets/logo-white.png";
 // import logoDark from "@/assets/logo-dark.png";
@@ -110,14 +111,18 @@ const navLinks = [
 
 export const MobilePublicNav = () => {
   const { status } = useSession();
+  const dashboards={
+    player:{path:'/payers/'}
+  }
   return (
     <NavigationPopover>
-      <ul className="items-center w-full space-y-2 text-white">
+      <ul className=" w-full space-y-2 text-white">
         {navLinks.map((nlink, index) => (
           <li key={index} className="flex _hover">
             <Link
               href={nlink.href}
               className="flex gap-1 w-full items-center h-10 hover:font-black px-2"
+              onClick={() => fireEscape()}
             >
               <span className="text-xl bg-accent/30 rounded-full p-1.5">
                 {nlink.icon}

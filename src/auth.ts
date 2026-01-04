@@ -4,6 +4,7 @@ import { EUserRole, ISession } from './types/user';
 import { ConnectMongoDb } from "./lib/dbconfig";
 import UserModel from "./models/user";
 import { logAction } from "./app/api/logs/helper";
+import PlayerModel from "./models/player";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
     providers: [
@@ -29,6 +30,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                         lastLoginAccount: 'google',
                         signupMode: 'google',
                     });
+
                     // Log
                     logAction({
                         title: ` Signup - [${profile?.name}].`,
@@ -42,6 +44,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                         user.image = profile.picture;
                         user.lastLoginAccount = 'google';
                         await user.save();
+
                     }
                     // Log
                     logAction({
@@ -50,12 +53,19 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                     })
                 }
 
+                let specialId = ''
+                if (user?.role == 'player') {
+                    const player = await PlayerModel.findOne({ user: user?._id })
+                    specialId = player?.slug ?? player?._id?.toString()
+                }
+
                 return {
                     id: user._id?.toString(),
                     email: user.email,
                     name: user.name,
                     image: user.image,
-                    role: user?.role
+                    role: user?.role,
+                    playerId: specialId
                 };
             },
             authorization: {
