@@ -34,7 +34,7 @@ const Header = async () => {
     session?.user?.name?.split(" ")?.[0] ??
     session?.user?.email?.split("@")?.[0];
   return (
-    <header className="flex justify-between px-6 pt-2 sticky top-1 bg-accent z-20 items-center border-b border-border pb-3">
+    <header className="flex justify-between px-6 p-1 sticky top-0.5 bg-accent z-20 items-center border-b border-border">
       <LeftPaneMobile />
       <div className="hidden sm:flex items-center gap-4 flex-wrap">
         <BackBtn />

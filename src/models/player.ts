@@ -3,6 +3,7 @@ import { fileSchema } from "./file";
 
 const playerSchema = new Schema(
   {
+    slug: { type: String, unique: [true, 'Player with slug already exists'] },
     firstName: {
       type: String,
       required: true,
@@ -18,7 +19,6 @@ const playerSchema = new Schema(
     phone: {
       type: String,
       required: true,
-      unique: true,
       message: "Phone number required",
       trim: true,
     },
@@ -26,13 +26,6 @@ const playerSchema = new Schema(
       type: String,
       trim: true,
       lowercase: true,
-      validate: {
-        validator: function (v: string) {
-          if (!v) return true; // skip validation if empty
-          return /\S+@\S+\.\S+/.test(v); // check format if exists
-        },
-        message: "Email must be valid",
-      },
     },
     height: { type: Number },
     captaincy: { type: String },
@@ -51,13 +44,6 @@ const playerSchema = new Schema(
         type: String,
         trim: true,
         lowercase: true,
-        validate: {
-          validator: function (v: string) {
-            if (!v) return true; // skip validation if empty
-            return /\S+@\S+\.\S+/.test(v); // check format if exists
-          },
-          message: "Email must be valid",
-        },
       },
     },
     performance: { type: Schema.Types.Array, default: () => [] },
@@ -80,6 +66,7 @@ const playerSchema = new Schema(
       type: String,
     },
     training: { type: Schema.Types.Mixed, default: () => ({ team: "A" }) },
+    code: { type: String, required: [true, 'Player ID is required'], unique: [true, 'Player ID must be a unique value'] }//IS091223
   },
   { timestamps: true }
 );
@@ -88,3 +75,19 @@ const PlayerModel =
   mongoose.models.players || mongoose.model("players", playerSchema);
 
 export default PlayerModel;
+
+ 
+
+
+// email: {
+//   type: String,
+//     trim: true,
+//       lowercase: true,
+//         validate: {
+//     validator: function (v: string) {
+//       if (!v) return true; // skip validation if empty
+//       return /\S+@\S+\.\S+/.test(v); // check format if exists
+//     },
+//     message: "Email must be valid",
+//       },
+// }

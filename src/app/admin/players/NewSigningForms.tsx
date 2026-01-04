@@ -218,9 +218,10 @@ export default function PlayerProfileForm({
                     render={({ field, fieldState }) => (
                       <IconInputWithLabel
                         type="number"
-                        label="Height"
+                        label="Height(ft)"
                         {...field}
                         error={fieldState.error?.message}
+                        others={{ min: 3.5, max: 7 }}
                       />
                     )}
                   />
@@ -400,7 +401,8 @@ export const playerJoiSchema = Joi.object({
   }),
   height: Joi.number().positive().max(300).required().messages({
     "number.base": "Height must be a number",
-    "number.max": "Height cannot exceed 300 cm",
+    "number.min": "Height cannot be less than 3.50 ft",
+    "number.max": "Height cannot exceed 7.00 ft",
   }),
   phone: Joi.string()
     .trim()

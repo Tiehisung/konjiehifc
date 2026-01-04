@@ -26,9 +26,9 @@ export const getPlayers = async (query?: string) => {
   }
 };
 
-export const getPlayerById = async (playerId: string) => {
+export const getPlayerById = async (slugOrId: string) => {
   try {
-    const response = await fetch(`${apiConfig.players}/${playerId}`, {
+    const response = await fetch(`${apiConfig.players}/${slugOrId}`, {
       cache: "no-store",
     });
 

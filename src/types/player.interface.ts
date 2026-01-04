@@ -42,6 +42,7 @@ export interface IPlayerMini {
 
 export interface IPlayer {
     _id: string;
+    slug: string
     number: string;
     about?: string;
     description?: string;
@@ -105,4 +106,6 @@ export interface IPostPlayer {
     passAcc: string;
     trophies: number;
     cards: string[];
+    status: EPlayerStatus
+    slug: string
 }

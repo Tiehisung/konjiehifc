@@ -17,7 +17,7 @@ export async function FeaturedPlayers() {
               name={name}
               position={pl.position}
               avatar={pl.avatar}
-              playerImage={pl?.featureImage ?? pl.avatar}
+              playerImage={pl?.featureMedia?.[0]?.secure_url ?? pl.avatar}
               goals={pl.goals?.length}
               matches={pl.matches?.length}
               assists={pl.assists?.length}
