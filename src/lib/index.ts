@@ -1,6 +1,4 @@
-import { IMatch } from "@/types/match.interface";
-
-
+ 
 
 export function getErrorMessage(
   error: unknown,
@@ -148,12 +146,6 @@ export function buildQueryStringServer(
   return query ? `?${query}` : "";
 }
 
-export function isObjectId(value?: string): boolean {
-  return (
-    typeof value === "string" &&
-    /^[a-fA-F0-9]{24}$/.test(value)
-  );
-}
 export const getUrlToShare = () => window.location.href;
 
 export function slugify(text: string, appendTimestamp: boolean = false): string {

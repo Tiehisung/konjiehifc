@@ -52,7 +52,7 @@ export enum EPreset {
 export type TResourceType = "image" | "video" | "audio" | "auto";
 // export type TFolders = "images/logos" | "images" | "videos" | "audios";
 
-export type IRecord = Record<string, string | string[] | undefined>
+export type IRecord<T = string | string[] | undefined> = Record<string, T>
 export interface IQueryResponse<T = unknown> {
   success: boolean;
   message?: string;

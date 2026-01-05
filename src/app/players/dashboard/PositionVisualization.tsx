@@ -1,12 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-
 import { Target, Shield, Zap, MapPin, TrendingUp } from "lucide-react";
 import { getPositionAbbreviation, getPositionColor } from "./Header";
 import { EPlayerPosition, IPlayer } from "@/types/player.interface";
 
 interface PositionVisualizationProps {
-  player: IPlayer;
+  player?: IPlayer;
 }
 
 export function PositionVisualization({ player }: PositionVisualizationProps) {
@@ -31,7 +30,7 @@ export function PositionVisualization({ player }: PositionVisualizationProps) {
 
   // Get position category
   const getPositionCategory = (): string => {
-    const position = player.position;
+    const position = player?.position;
 
     if (position === EPlayerPosition.KEEPER) return "Goalkeeper";
 
@@ -41,7 +40,7 @@ export function PositionVisualization({ player }: PositionVisualizationProps) {
         EPlayerPosition.CENTER_BACK,
         EPlayerPosition.WING_BACK,
         EPlayerPosition.SWEEPER,
-      ].includes(position)
+      ].includes(position as EPlayerPosition)
     )
       return "Defense";
 
@@ -51,15 +50,15 @@ export function PositionVisualization({ player }: PositionVisualizationProps) {
         EPlayerPosition.ATTACKING_MIDFIELDER,
         EPlayerPosition.DEFENSIVE_MIDFIELDER,
         EPlayerPosition.WINGER,
-      ].includes(position)
+      ].includes(position as EPlayerPosition)
     )
       return "Midfield";
 
     return "Attack";
   };
 
-  const fieldPos = getFieldPosition(player.position);
-  const positionClass = getPositionColor(player.position);
+  const fieldPos = getFieldPosition(player?.position as EPlayerPosition);
+  const positionClass = getPositionColor(player?.position as EPlayerPosition);
   const category = getPositionCategory();
 
   // Get category icon
@@ -108,7 +107,7 @@ export function PositionVisualization({ player }: PositionVisualizationProps) {
             className="absolute bg-black/80 text-white text-xs px-2 py-1 rounded -translate-x-1/2"
             style={{ top: `calc(${fieldPos.top} + 20px)`, left: fieldPos.left }}
           >
-            {getPositionAbbreviation(player.position)}
+            {getPositionAbbreviation(player?.position as EPlayerPosition)}
           </div>
         </div>
 
@@ -118,7 +117,7 @@ export function PositionVisualization({ player }: PositionVisualizationProps) {
             <div
               className={`${positionClass} px-3 py-2 rounded-lg font-medium`}
             >
-              {player.position}
+              {player?.position}
             </div>
           </InfoBlock>
 
@@ -130,7 +129,7 @@ export function PositionVisualization({ player }: PositionVisualizationProps) {
 
           <InfoBlock label="Number">
             <div className="bg-gray-100 px-3 py-2 rounded-lg font-bold text-center">
-              #{player.number}
+              #{player?.number}
             </div>
           </InfoBlock>
 
@@ -139,7 +138,7 @@ export function PositionVisualization({ player }: PositionVisualizationProps) {
             label="Training Team"
           >
             <div className="bg-blue-50 text-blue-700 px-3 py-2 rounded-lg font-medium text-center">
-              Team {player.training.team || "A"}
+              Team {player?.training.team || "A"}
             </div>
           </InfoBlock>
         </div>

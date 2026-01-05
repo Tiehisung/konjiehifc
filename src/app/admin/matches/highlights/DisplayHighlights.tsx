@@ -8,7 +8,7 @@ import { PrimaryDropdown } from "@/components/Dropdown";
 import { POPOVER } from "@/components/ui/popover";
 import LightboxViewer from "@/components/viewer/LightBox";
 import { apiConfig } from "@/lib/configs";
-import { downloadFile } from "@/lib/downloadFile";
+import { downloadFile } from "@/lib/file";
 import { getVideoThumbnail } from "@/lib/file";
 import { IQueryResponse } from "@/types";
 import { IMatchHighlight } from "@/types/match.interface";

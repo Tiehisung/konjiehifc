@@ -11,32 +11,61 @@ import {
   AlertTriangle,
   Thermometer,
 } from "lucide-react";
- 
+
 import { IPlayer } from "@/types/player.interface";
 import { formatDate } from "@/lib/timeAndDate";
 import { Progress } from "@/components/ui/progress";
 
 interface PlayerSidebarProps {
-  player: IPlayer;
+  player?: IPlayer;
 }
 
 export function PlayerSidebar({ player }: PlayerSidebarProps) {
-  const managerName = `${player.manager.fullname}`;
-  const managerInitials = player.manager.fullname
-    .split(" ")
-    .map((n) => n[0])
-    .join("");
+  // Safe manager data extraction
+  const manager = player?.manager;
+  const managerName = manager?.fullname || "Not Assigned";
 
+  // Get manager initials safely
+  const managerInitials = manager?.fullname
+    ? manager.fullname
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    : "NA";
+
+  // Calculate average rating safely
+  const ratings = player?.ratings || [];
   const averageRating =
-    player.ratings.length > 0
-      ? player.ratings.reduce((acc, curr) => acc + curr.rating, 0) /
-        player.ratings.length
+    ratings.length > 0
+      ? ratings.reduce((acc, curr) => acc + (curr?.rating || 0), 0) /
+        ratings.length
       : 0;
+
+  // Get training team safely
+  const trainingTeam = player?.training?.team || "A";
+
+  // Helper functions for safe data access
+  const getFormattedDate = (dateString?: string): string => {
+    if (!dateString) return "Not Available";
+    try {
+      return formatDate(dateString);
+    } catch {
+      return "Invalid Date";
+    }
+  };
+
+  const getHeightDisplay = (): string => {
+    const height = player?.height;
+    if (height === undefined || height === null) return "Not Available";
+    return `${height} cm`;
+  };
 
   return (
     <div className="space-y-6">
       {/* Personal Details */}
-      <Card>
+      <Card className="rounded-none">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <Ruler className="h-5 w-5" />
@@ -51,19 +80,21 @@ export function PlayerSidebar({ player }: PlayerSidebarProps) {
               </span>
               <div className="flex items-center gap-2">
                 <Cake className="h-4 w-4" />
-                <span className="font-medium">{formatDate(player.dob)}</span>
+                <span className="font-medium">
+                  {getFormattedDate(player?.dob)}
+                </span>
               </div>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Height</span>
-              <span className="font-medium">{player.height} cm</span>
+              <span className="font-medium">{getHeightDisplay()}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Date Signed</span>
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
                 <span className="font-medium">
-                  {formatDate(player.dateSigned)}
+                  {getFormattedDate(player?.dateSigned)}
                 </span>
               </div>
             </div>
@@ -72,7 +103,7 @@ export function PlayerSidebar({ player }: PlayerSidebarProps) {
       </Card>
 
       {/* Fitness & Health */}
-      <Card>
+      <Card className="rounded-none">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <Heart className="h-5 w-5" />
@@ -85,31 +116,32 @@ export function PlayerSidebar({ player }: PlayerSidebarProps) {
               <span className="text-sm text-muted-foreground">
                 Current Fitness
               </span>
-              <Badge variant={player.isFit ? "default" : "destructive"}>
-                {player.isFit ? "Fit to Play" : "Injured"}
+              <Badge
+                variant={player?.isFit ? "default" : "destructive"}
+                className="min-w-22.5 justify-center"
+              >
+                {player?.isFit ? "Fit to Play" : "Injured"}
               </Badge>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">
                 Training Team
               </span>
-              <Badge variant="secondary">
-                Team {player.training.team || "A"}
-              </Badge>
+              <Badge variant="secondary">Team {trainingTeam}</Badge>
             </div>
           </div>
 
-          {player.medicals.length > 0 && (
+          {(player?.medicals?.length || 0) > 0 && (
             <div className="pt-4 border-t">
               <div className="flex items-center gap-2 mb-2">
                 <Thermometer className="h-4 w-4" />
                 <span className="text-sm font-medium">Medical History</span>
               </div>
               <div className="space-y-2">
-                {player.medicals.slice(0, 3).map((medical, index) => (
-                  <div key={index} className="text-sm">
+                {player?.medicals?.slice(0, 3)?.map((medical, index) => (
+                  <div key={`medical-${index}`} className="text-sm">
                     <span className="text-muted-foreground">
-                      {medical.fitness}
+                      {medical?.fitness || "No details"}
                     </span>
                   </div>
                 ))}
@@ -117,26 +149,38 @@ export function PlayerSidebar({ player }: PlayerSidebarProps) {
             </div>
           )}
 
-          {player.injuries.length > 0 && (
+          {(player?.injuries?.length || 0) > 0 && (
             <div className="pt-4 border-t">
               <div className="flex items-center gap-2 mb-2">
                 <AlertTriangle className="h-4 w-4 text-amber-500" />
                 <span className="text-sm font-medium">Recent Injuries</span>
               </div>
               <div className="flex flex-wrap gap-2">
-                {player.injuries.slice(0, 3).map((injury, index) => (
-                  <Badge key={index} variant="outline" className="text-xs">
-                    {injury}
+                {player?.injuries?.slice(0, 3)?.map((injury, index) => (
+                  <Badge
+                    key={`injury-${index}`}
+                    variant="outline"
+                    className="text-xs"
+                  >
+                    {injury || "Unknown Injury"}
                   </Badge>
                 ))}
               </div>
+            </div>
+          )}
+
+          {!player?.medicals?.length && !player?.injuries?.length && (
+            <div className="pt-4 border-t text-center">
+              <p className="text-sm text-muted-foreground">
+                No medical records available
+              </p>
             </div>
           )}
         </CardContent>
       </Card>
 
       {/* Manager Information */}
-      <Card>
+      <Card className="rounded-none">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <Users className="h-5 w-5" />
@@ -146,24 +190,30 @@ export function PlayerSidebar({ player }: PlayerSidebarProps) {
         <CardContent>
           <div className="flex items-center gap-4">
             <Avatar>
-              <AvatarImage src={player.manager.avatar} />
+              <AvatarImage src={manager?.avatar} alt={managerName} />
               <AvatarFallback>{managerInitials}</AvatarFallback>
             </Avatar>
-            <div>
-              <h4 className="font-semibold">{player.manager.fullname}</h4>
-              <p className="text-sm text-muted-foreground">
-                {player.manager.email}
+            <div className="min-w-0 flex-1">
+              <h4 className="font-semibold truncate">{managerName}</h4>
+              <p className="text-sm text-muted-foreground truncate">
+                {manager?.email || "No email provided"}
               </p>
-              <p className="text-sm text-muted-foreground">
-                {player.manager.phone}
+              <p className="text-sm text-muted-foreground truncate">
+                {manager?.phone || "No phone provided"}
               </p>
             </div>
           </div>
+
+          {!manager && (
+            <p className="text-sm text-muted-foreground mt-2 italic">
+              No manager assigned to this player
+            </p>
+          )}
         </CardContent>
       </Card>
 
       {/* Performance Rating */}
-      <Card>
+      <Card className="rounded-none">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <Shield className="h-5 w-5" />
@@ -176,12 +226,27 @@ export function PlayerSidebar({ player }: PlayerSidebarProps) {
               {averageRating.toFixed(1)}
             </div>
             <div className="mb-4">
-              <Progress value={averageRating * 10} className="h-2" />
+              <Progress
+                value={Math.min(averageRating * 10, 100)}
+                className="h-2"
+              />
             </div>
             <p className="text-sm text-muted-foreground">
-              Based on {player.ratings.length} matches
+              Based on {ratings.length || 0} rating
+              {ratings.length !== 1 ? "s" : ""}
+              {player?.matches?.length && (
+                <span className="block text-xs mt-1">
+                  ({player.matches.length} matches played)
+                </span>
+              )}
             </p>
           </div>
+
+          {ratings.length === 0 && (
+            <p className="text-sm text-muted-foreground mt-2 text-center italic">
+              No ratings available yet
+            </p>
+          )}
         </CardContent>
       </Card>
     </div>

@@ -6,7 +6,7 @@ import { IGalleryProps } from "@/types";
 import { useState } from "react";
 import { toggleClick } from "@/lib/DOM";
 import { MediaPreview } from "../files/MediaView";
-import { isObjectId } from "@/lib";
+import { isObjectId } from "@/lib/validate";
 import { formatDate } from "@/lib/timeAndDate";
 import LightboxViewer from "../viewer/LightBox";
 

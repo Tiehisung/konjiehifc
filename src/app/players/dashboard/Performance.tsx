@@ -22,27 +22,31 @@ import { IPlayer } from "@/types/player.interface";
 import { formatDate } from "@/lib/timeAndDate";
 import { shortText } from "@/lib";
 import { EGoalType } from "@/types/match.interface";
+import { IRecord } from "@/types";
 
 interface PerformanceTabsProps {
-  player: IPlayer;
+  player?: IPlayer;
 }
 
 export function PerformanceTabs({ player }: PerformanceTabsProps) {
-  const recentMatches = player.matches.slice(0, 5);
-  const recentGoals = player.goals.slice(0, 5);
-  const recentAssists = player.assists.slice(0, 5);
-  const recentRatings = player.ratings.slice(0, 5);
-  const mvpCount = player.mvp.length;
-  const yellowCards = player.cards.filter(
-    (card) => card.type === "yellow"
-  ).length;
-  const redCards = player.cards.filter((card) => card.type === "red").length;
+  // Safe array access with defaults
+  const recentMatches = player?.matches?.slice(0, 5) || [];
+  const recentGoals = player?.goals?.slice(0, 5) || [];
+  const recentAssists = player?.assists?.slice(0, 5) || [];
+  const recentRatings = player?.ratings?.slice(0, 5) || [];
 
-  // Calculate performance statistics
+  // Safe count calculations
+  const mvpCount = player?.mvp?.length || 0;
+  const yellowCards =
+    player?.cards?.filter((card) => card?.type === "yellow").length || 0;
+  const redCards =
+    player?.cards?.filter((card) => card?.type === "red").length || 0;
+
+  // Calculate average rating safely
   const avgRating =
-    player.ratings.length > 0
+    player?.ratings && player.ratings.length > 0
       ? (
-          player.ratings.reduce((acc, curr) => acc + curr.rating, 0) /
+          player.ratings.reduce((acc, curr) => acc + (curr?.rating || 0), 0) /
           player.ratings.length
         ).toFixed(1)
       : "0.0";
@@ -50,21 +54,70 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
   const [ratingTrend, setRatingTrend] = useState<number[]>([]);
 
   useEffect(() => {
-    // Calculate rating trend from last 5 ratings
-    if (player.ratings.length >= 5) {
-      const lastFive = player.ratings.slice(-5).map((r) => r.rating);
-      setRatingTrend(lastFive);
-    } else {
-      setRatingTrend(player.ratings.map((r) => r.rating));
-    }
-  }, [player.ratings]);
+    // Calculate rating trend safely
+    const ratings = player?.ratings || [];
 
-  // Calculate goal distribution
-  const goalTypes = player.goals.reduce((acc, goal) => {
-    acc[goal?.modeOfScore as EGoalType] =
-      (acc[goal?.modeOfScore as EGoalType] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
+    if (ratings.length >= 5) {
+      const lastFive = ratings.slice(-5).map((r) => r?.rating || 0);
+      setRatingTrend(lastFive);
+    } else if (ratings.length > 0) {
+      const allRatings = ratings.map((r) => r?.rating || 0);
+      setRatingTrend(allRatings);
+    } else {
+      setRatingTrend([]);
+    }
+  }, [player?.ratings]);
+
+  // Calculate goal distribution safely
+  const goalTypes =
+    player?.goals?.reduce((acc, goal) => {
+      if (goal?.modeOfScore) {
+        const type = goal.modeOfScore as EGoalType;
+        acc[type] = (acc[type] || 0) + 1;
+      }
+      return acc;
+    }, {} as Record<EGoalType, number>) || {};
+
+  // Helper functions for safe data access
+  const getMatchResultCount = (resultType: "w" | "l" | "d"): number => {
+    return (
+      player?.matches?.filter((m) => {
+        const result = m?.results?.toLowerCase();
+        return result?.startsWith(resultType);
+      }).length || 0
+    );
+  };
+
+  const getPenaltyCount = (): number => {
+    return (
+      player?.goals?.reduce(
+        (acc, goal) =>
+          acc + (goal?.modeOfScore?.toLowerCase()?.includes("penalty") ? 1 : 0),
+        0
+      ) || 0
+    );
+  };
+
+  const getHeaderCount = (): number => {
+    return (
+      player?.goals?.reduce(
+        (acc, goal) =>
+          acc + (goal?.modeOfScore?.toLowerCase()?.includes("header") ? 1 : 0),
+        0
+      ) || 0
+    );
+  };
+
+  const getAverageMinute = (items: Array<{ minute?: number }> = []): number => {
+    if (!items.length) return 0;
+
+    const total = items.reduce((acc, item) => {
+      const minute = Number(item?.minute) || 0;
+      return acc + minute;
+    }, 0);
+
+    return Math.round(total / items.length);
+  };
 
   return (
     <Tabs defaultValue="matches" className="w-full">
@@ -95,7 +148,7 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-blue-600">
-                  {player.matches.length}
+                  {player?.matches?.length || 0}
                 </div>
                 <div className="text-sm text-muted-foreground">
                   Total Matches
@@ -105,10 +158,7 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-green-600">
-                  {
-                    player.matches.filter((m) => m?.results?.startsWith("w"))
-                      .length
-                  }
+                  {getMatchResultCount("w")}
                 </div>
                 <div className="text-sm text-muted-foreground">Wins</div>
               </CardContent>
@@ -116,10 +166,7 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-red-600">
-                  {
-                    player.matches.filter((m) => m?.results?.startsWith("l"))
-                      .length
-                  }
+                  {getMatchResultCount("l")}
                 </div>
                 <div className="text-sm text-muted-foreground">Losses</div>
               </CardContent>
@@ -127,10 +174,7 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-amber-600">
-                  {
-                    player.matches.filter((m) => m?.results?.startsWith("d"))
-                      .length
-                  }
+                  {getMatchResultCount("d")}
                 </div>
                 <div className="text-sm text-muted-foreground">Draws</div>
               </CardContent>
@@ -141,7 +185,7 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
         {recentMatches.length > 0 ? (
           <div className="space-y-3">
             {recentMatches.map((match, index) => (
-              <Card key={index}>
+              <Card key={match?._id || index}>
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
@@ -151,11 +195,13 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
                         </div>
                         <div>
                           <h4 className="font-semibold">
-                            {match?.opponent?.contactName}
+                            {match?.opponent?.contactName || "Unknown Opponent"}
                           </h4>
                           <p className="text-sm text-muted-foreground">
-                            {formatDate(match?.date)} •{" "}
-                            {shortText(match?.title)}
+                            {match?.date
+                              ? formatDate(match.date)
+                              : "Date not available"}{" "}
+                            • {shortText(match?.title || "Match")}
                           </p>
                         </div>
                       </div>
@@ -163,14 +209,14 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
                     <div className="text-right">
                       <div
                         className={`font-bold text-lg ${
-                          match?.results?.startsWith("W")
+                          match?.results?.toLowerCase()?.startsWith("w")
                             ? "text-green-600"
-                            : match?.results?.startsWith("L")
+                            : match?.results?.toLowerCase()?.startsWith("l")
                             ? "text-red-600"
                             : "text-amber-600"
                         }`}
                       >
-                        {match?.results}
+                        {match?.results || "N/A"}
                       </div>
                       <div className="text-sm text-muted-foreground">
                         Result
@@ -199,7 +245,7 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-red-600">
-                  {player.goals.length}
+                  {player?.goals?.length || 0}
                 </div>
                 <div className="text-sm text-muted-foreground">Total Goals</div>
               </CardContent>
@@ -207,11 +253,7 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-amber-600">
-                  {player.goals.reduce(
-                    (acc, goal) =>
-                      acc + (goal?.modeOfScore?.includes("penalty") ? 1 : 0),
-                    0
-                  )}
+                  {getPenaltyCount()}
                 </div>
                 <div className="text-sm text-muted-foreground">Penalties</div>
               </CardContent>
@@ -219,11 +261,7 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-green-600">
-                  {player.goals.reduce(
-                    (acc, goal) =>
-                      acc + (goal?.modeOfScore?.includes("header") ? 1 : 0),
-                    0
-                  )}
+                  {getHeaderCount()}
                 </div>
                 <div className="text-sm text-muted-foreground">Headers</div>
               </CardContent>
@@ -231,12 +269,9 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-blue-600">
-                  {Math.round(
-                    player.goals.reduce(
-                      (acc, goal) => acc + Number(goal?.minute),
-                      0
-                    ) / player.goals.length
-                  ) || 0}
+                  {getAverageMinute(
+                    player?.goals?.map((g) => ({ minute: Number(g.minute) }))
+                  )}
                 </div>
                 <div className="text-sm text-muted-foreground">Avg. Minute</div>
               </CardContent>
@@ -249,21 +284,23 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
               <CardContent className="p-4">
                 <h4 className="font-medium mb-3">Goal Type Distribution</h4>
                 <div className="space-y-2">
-                  {Object.entries(goalTypes).map(([type, count]) => (
-                    <div
-                      key={type}
-                      className="flex items-center justify-between"
-                    >
-                      <span className="text-sm">{type}</span>
-                      <div className="flex items-center gap-2">
-                        <Progress
-                          value={(count / player.goals.length) * 100}
-                          className="w-32 h-2"
-                        />
-                        <span className="text-sm font-medium">{count}</span>
+                  {Object.entries(goalTypes as IRecord<number>).map(
+                    ([type, count]) => (
+                      <div
+                        key={type}
+                        className="flex items-center justify-between"
+                      >
+                        <span className="text-sm">{type}</span>
+                        <div className="flex items-center gap-2">
+                          <Progress
+                            value={(count / (player?.goals?.length || 1)) * 100}
+                            className="w-32 h-2"
+                          />
+                          <span className="text-sm font-medium">{count}</span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -273,7 +310,7 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
         {recentGoals.length > 0 ? (
           <div className="space-y-3">
             {recentGoals.map((goal, index) => (
-              <Card key={index}>
+              <Card key={goal?._id || index}>
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
@@ -282,15 +319,16 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
                       </div>
                       <div>
                         <h4 className="font-semibold">
-                          Goal vs Match {goal?.match?.slice(-6)}
+                          Goal vs Match {goal?.match?.slice(-6) || "Unknown"}
                         </h4>
                         <p className="text-sm text-muted-foreground">
-                          Minute {goal?.minute} • {goal?.modeOfScore}
+                          Minute {goal?.minute || "?"} •{" "}
+                          {goal?.modeOfScore || "Unknown"}
                         </p>
                       </div>
                     </div>
                     <Badge variant="outline" className="text-xs">
-                      {goal?.minute}'
+                      {goal?.minute || "?"}'
                     </Badge>
                   </div>
                 </CardContent>
@@ -315,7 +353,7 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-blue-600">
-                  {player.assists.length}
+                  {player?.assists?.length || 0}
                 </div>
                 <div className="text-sm text-muted-foreground">
                   Total Assists
@@ -325,12 +363,9 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-green-600">
-                  {Math.round(
-                    player.assists.reduce(
-                      (acc, assist) => acc + Number(assist?.minute),
-                      0
-                    ) / player.assists.length
-                  ) || 0}
+                  {getAverageMinute(
+                    player?.assists?.map((g) => ({ minute: Number(g.minute) }))
+                  )}
                 </div>
                 <div className="text-sm text-muted-foreground">Avg. Minute</div>
               </CardContent>
@@ -338,9 +373,12 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-purple-600">
-                  {(
-                    (player.assists.length / player.matches.length) * 100 || 0
-                  ).toFixed(1)}
+                  {player?.matches?.length && player.assists?.length
+                    ? (
+                        (player.assists.length / player.matches.length) *
+                        100
+                      ).toFixed(1)
+                    : "0.0"}
                   %
                 </div>
                 <div className="text-sm text-muted-foreground">Per Match</div>
@@ -352,7 +390,7 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
         {recentAssists.length > 0 ? (
           <div className="space-y-3">
             {recentAssists.map((assist, index) => (
-              <Card key={index}>
+              <Card key={assist?._id || index}>
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
@@ -361,15 +399,17 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
                       </div>
                       <div>
                         <h4 className="font-semibold">
-                          Assist vs Match {assist.match?.slice(-6)}
+                          Assist vs Match{" "}
+                          {assist?.match?.slice(-6) || "Unknown"}
                         </h4>
                         <p className="text-sm text-muted-foreground">
-                          Minute {assist.minute} • {assist.modeOfScore}
+                          Minute {assist?.minute || "?"} •{" "}
+                          {assist?.modeOfScore || "Unknown"}
                         </p>
                       </div>
                     </div>
                     <Badge variant="outline" className="text-xs">
-                      {assist.minute}'
+                      {assist?.minute || "?"}'
                     </Badge>
                   </div>
                 </CardContent>
@@ -459,30 +499,34 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
         {recentRatings.length > 0 ? (
           <div className="space-y-3">
             {recentRatings.map((rating, index) => {
-              const match = player.matches.find((m) => m._id === rating.match);
+              const match = player?.matches?.find(
+                (m) => m._id === rating?.match
+              );
+              const ratingValue = rating?.rating || 0;
+
               return (
-                <Card key={index}>
+                <Card key={rating?.match || index}>
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
                         <div
                           className={`h-10 w-10 rounded-full flex items-center justify-center ${
-                            rating.rating >= 8.5
+                            ratingValue >= 8.5
                               ? "bg-green-100"
-                              : rating.rating >= 7.0
+                              : ratingValue >= 7.0
                               ? "bg-blue-100"
-                              : rating.rating >= 6.0
+                              : ratingValue >= 6.0
                               ? "bg-amber-100"
                               : "bg-red-100"
                           }`}
                         >
                           <Star
                             className={`h-5 w-5 ${
-                              rating.rating >= 8.5
+                              ratingValue >= 8.5
                                 ? "text-green-500"
-                                : rating.rating >= 7.0
+                                : ratingValue >= 7.0
                                 ? "text-blue-500"
-                                : rating.rating >= 6.0
+                                : ratingValue >= 6.0
                                 ? "text-amber-500"
                                 : "text-red-500"
                             }`}
@@ -491,12 +535,16 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
                         <div>
                           <h4 className="font-semibold">
                             {match
-                              ? `vs ${match?.opponent}`
-                              : `Match ${rating.match?.slice(-6)}`}
+                              ? `vs ${
+                                  match?.opponent?.contactName || "Opponent"
+                                }`
+                              : `Match ${
+                                  rating?.match?.slice(-6) || "Unknown"
+                                }`}
                           </h4>
                           <p className="text-sm text-muted-foreground">
                             {match?.date
-                              ? formatDate(match?.date)
+                              ? formatDate(match.date)
                               : "Date not available"}
                           </p>
                         </div>
@@ -504,16 +552,16 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
                       <div className="text-right">
                         <div
                           className={`text-2xl font-bold ${
-                            rating.rating >= 8.5
+                            ratingValue >= 8.5
                               ? "text-green-600"
-                              : rating.rating >= 7.0
+                              : ratingValue >= 7.0
                               ? "text-blue-600"
-                              : rating.rating >= 6.0
+                              : ratingValue >= 6.0
                               ? "text-amber-600"
                               : "text-red-600"
                           }`}
                         >
-                          {rating.rating.toFixed(1)}
+                          {ratingValue.toFixed(1)}
                         </div>
                         <div className="text-sm text-muted-foreground">
                           Rating

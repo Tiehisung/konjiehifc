@@ -7,7 +7,7 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { IGalleryProps } from "@/types";
 import { apiConfig } from "@/lib/configs";
 import { PrimaryDropdown } from "@/components/Dropdown";
-import { downloadFile } from "@/lib/downloadFile";
+import { downloadFile } from "@/lib/file";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { useState } from "react";
 import { toggleClick } from "@/lib/DOM";

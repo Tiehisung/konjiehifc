@@ -6,7 +6,7 @@ import { DocMoveOrCopyTo } from "./MoveCopyTo";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { icons } from "@/assets/icons/icons";
 import { apiConfig } from "@/lib/configs";
-import { downloadFile } from "@/lib/downloadFile";
+import { downloadFile } from "@/lib/file";
 import { IDocFile } from "@/types/doc";
 
 export function DocumentActions({ document ,className}: { document?: IDocFile,className?:string }) {
