@@ -12,8 +12,68 @@ import { getPlayerById } from "@/app/admin/players/page";
 import GalleryGrid from "@/components/Gallery/GallaryGrid";
 import { IGallery } from "@/types/file.interface";
 import { getGallery } from "@/app/admin/galleries/page";
+import { Metadata } from "next";
+import { kfc } from "@/data/kfc";
+import { PlayerGalleries } from "./Galleries";
 
 // Mock data - replace with actual API call
+export async function generateMetadata({
+  params,
+}: IPageProps): Promise<Metadata> {
+  const session = await auth();
+
+  const player: IPlayer = await getPlayerById(session?.user?.email as string);
+
+  if (!player) {
+    return {
+      title: "Player dashboard | Konjiehi FC",
+      description: "  Konjiehi FC player dashboard",
+    };
+  }
+
+  const title = `${player?.lastName} | Konjiehi FC`;
+  const description = player?.about || "player dashboard from Konjiehi FC.";
+
+  const image = player?.avatar || kfc.logo;
+  const url = `${kfc.url}/players/dashboard`;
+
+  const ogImage = image.replace(
+    "/upload/",
+    "/upload/c_fill,w_1200,h_630,f_auto,q_auto/"
+  );
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: kfc.name,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: player?.firstName,
+        },
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: player?.firstName,
+        },
+      ],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage, image],
+    },
+  };
+}
 
 export default async function PlayerPage({ searchParams }: IPageProps) {
   const session = await auth();
@@ -57,6 +117,7 @@ export default async function PlayerPage({ searchParams }: IPageProps) {
             </Card>
 
             {/* Gallery Section */}
+            <PlayerGalleries />
             <GalleryGrid galleries={galleries?.data ?? []} />
           </div>
         </div>

@@ -20,7 +20,9 @@ export function useFetch<T = unknown>({
 
   const [refetchIndex, setRefetchIndex] = useState(0);
   const refetch = () => {
-    setRefetchIndex((p) => p + 1);
+    setTimeout(() => {
+      setRefetchIndex((p) => p + 1);
+    }, 300);
   };
 
   const query = buildQueryString({ limit: "50000", ...filters });
@@ -36,7 +38,7 @@ export function useFetch<T = unknown>({
           setResults({
             message: getErrorMessage(response.statusText),
             success: false,
-            data:undefined
+            data: undefined,
           });
         } else {
           const results = await response.json();

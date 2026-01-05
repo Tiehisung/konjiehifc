@@ -16,16 +16,13 @@ import {
   Phone,
   Trophy,
   Award,
-  Target,
 } from "lucide-react";
 import { IPlayer } from "@/types/player.interface";
 import { EPlayerPosition } from "@/types/player.interface";
 import { getInitials } from "@/lib";
-import { share } from "@/lib/share";
 import { POPOVER } from "@/components/ui/popover";
-import { icons } from "@/assets/icons/icons";
-import SocialShare, { socialMediaIcons } from "@/components/SocialShare";
-import { SharePage } from "@/components/Share";
+import { SocialShare } from "@/components/SocialShare";
+ 
 
 interface PlayerHeaderProps {
   player?: IPlayer;
@@ -88,10 +85,11 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
             src={player?.avatar}
             alt={fullName}
             fallbackText={getInitials(fullName)}
+
           />
           <div className="absolute -top-2 -right-2">
             <div
-              className={`h-10 w-10 rounded-full flex items-center justify-center text-white font-bold text-sm ${colorClass} shadow-md`}
+              className={`h-7 w-7 rounded-full flex items-center justify-center text-white font-bold text-sm bg-modalOverlay shadow-md`}
             >
               {playerNumber}
             </div>
@@ -113,6 +111,7 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
             <Badge variant="secondary" className="text-sm shrink-0">
               {positionAbbreviation}
             </Badge>
+             
             <Badge
               variant={isFit ? "default" : "destructive"}
               className="shrink-0"
@@ -153,9 +152,8 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
           }
           variant={"outline"}
           className="grid"
-         
         >
-          <SharePage
+          <SocialShare
             url={window.location.href}
             title={fullName}
             text={`Check out ${fullName}'s player profile`}
@@ -163,7 +161,6 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
         </POPOVER>
         <Button
           variant="outline"
-          
           className="gap-2"
           onClick={() => window.print()}
         >
