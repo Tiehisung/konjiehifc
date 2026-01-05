@@ -21,6 +21,11 @@ import {
 import { IPlayer } from "@/types/player.interface";
 import { EPlayerPosition } from "@/types/player.interface";
 import { getInitials } from "@/lib";
+import { share } from "@/lib/share";
+import { POPOVER } from "@/components/ui/popover";
+import { icons } from "@/assets/icons/icons";
+import SocialShare, { socialMediaIcons } from "@/components/SocialShare";
+import { SharePage } from "@/components/Share";
 
 interface PlayerHeaderProps {
   player?: IPlayer;
@@ -139,38 +144,33 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
       </div>
 
       <div className="flex flex-wrap gap-2 self-start lg:self-center">
-        <Button
-          variant="outline"
-          size="sm"
-          className="gap-2"
-          onClick={() => {
-            // Share functionality
-            if (navigator.share) {
-              navigator.share({
-                title: fullName,
-                text: `Check out ${fullName}'s player profile`,
-                url: window.location.href,
-              });
-            } else {
-              // Fallback to clipboard
-              navigator.clipboard.writeText(window.location.href);
-              // You might want to add a toast notification here
-            }
-          }}
+        <POPOVER
+          trigger={
+            <>
+              <Share2 className="h-4 w-4" />
+              Share
+            </>
+          }
+          variant={"outline"}
+          className="grid"
+         
         >
-          <Share2 className="h-4 w-4" />
-          Share
-        </Button>
+          <SharePage
+            url={window.location.href}
+            title={fullName}
+            text={`Check out ${fullName}'s player profile`}
+          />
+        </POPOVER>
         <Button
           variant="outline"
-          size="sm"
+          
           className="gap-2"
           onClick={() => window.print()}
         >
           <Printer className="h-4 w-4" />
           Print
         </Button>
-        <Button className="gap-2">
+        <Button className="gap-2" size="sm">
           <Edit className="h-4 w-4" />
           Edit Player
         </Button>

@@ -1,14 +1,16 @@
 "use client";
 
 import React from "react";
-import { Facebook, Linkedin } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 import { getUrlToShare } from "@/lib";
 import { CopyButton } from "./buttons/CopyBtn";
 import { FaXTwitter } from "react-icons/fa6";
 import { ImWhatsapp } from "react-icons/im";
+import { BsTelegram } from "react-icons/bs";
+import { PiTelegramLogoLight } from "react-icons/pi";
 
 // Custom share button components that match dv-social-share functionality
-const FBShareBtn: React.FC<{ url: string; openInNewTab?: boolean }> = ({
+export const FBShareBtn: React.FC<{ url: string; openInNewTab?: boolean }> = ({
   url,
   openInNewTab = false,
 }) => {
@@ -38,7 +40,7 @@ const FBShareBtn: React.FC<{ url: string; openInNewTab?: boolean }> = ({
   );
 };
 
-const LinkedInShareBtn: React.FC<{ url: string; openInNewTab?: boolean }> = ({
+export const LinkedInShareBtn: React.FC<{ url: string; openInNewTab?: boolean }> = ({
   url,
   openInNewTab = false,
 }) => {
@@ -68,7 +70,7 @@ const LinkedInShareBtn: React.FC<{ url: string; openInNewTab?: boolean }> = ({
   );
 };
 
-const WhatsAppShareBtn: React.FC<{ url: string; openInNewTab?: boolean }> = ({
+export const WhatsAppShareBtn: React.FC<{ url: string; openInNewTab?: boolean }> = ({
   url,
   openInNewTab = false,
 }) => {
@@ -96,7 +98,7 @@ const WhatsAppShareBtn: React.FC<{ url: string; openInNewTab?: boolean }> = ({
   );
 };
 
-const TwitterShareBtn: React.FC<{ url: string; openInNewTab?: boolean }> = ({
+export const TwitterShareBtn: React.FC<{ url: string; openInNewTab?: boolean }> = ({
   url,
   openInNewTab = false,
 }) => {
@@ -131,11 +133,7 @@ const SocialShare: React.FC = ({ className }: { className?: string }) => {
 
   return (
     <div className={`flex gap-2 mt-2 ${className}`}>
-      <CopyButton
-        textToCopy={url}
-        
-
-      />
+      <CopyButton textToCopy={url} />
       <FBShareBtn url={url} openInNewTab />
       <LinkedInShareBtn url={url} openInNewTab />
       <WhatsAppShareBtn url={url} openInNewTab />
@@ -144,4 +142,16 @@ const SocialShare: React.FC = ({ className }: { className?: string }) => {
   );
 };
 
+
 export default SocialShare;
+
+export const socialMediaIcons = {
+  facebook: { icon: <Facebook />, alias: "fb" },
+  whatsapp: { icon: <ImWhatsapp />, alias: "wa" },
+  linkedin: { icon: <Linkedin />, alias: "in" },
+  telegram: { icon: <PiTelegramLogoLight />, alias: "tg" },
+  twitter: { icon: <Twitter />, alias: "x" },
+  // instagram: { icon: Instagram, alias: "ig" },
+};
+
+
