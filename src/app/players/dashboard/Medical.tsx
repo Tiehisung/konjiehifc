@@ -4,12 +4,12 @@ import { AlertTriangle, Activity, Heart, Shield } from "lucide-react";
 import { IPlayer } from "@/types/player.interface";
 
 interface MedicalInfoProps {
-  player: IPlayer;
+  player?: IPlayer;
 }
 
 export function MedicalInfo({ player }: MedicalInfoProps) {
-  const recentInjuries = player.injuries.slice(0, 5);
-  const currentIssues = player.issues;
+  const recentInjuries = player?.injuries?.slice(0, 5)??[];
+  const currentIssues = player?.issues ?? [];
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

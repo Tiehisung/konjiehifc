@@ -13,63 +13,73 @@ import {
 } from "lucide-react";
 
 interface StatsCardsProps {
-  player: IPlayer;
+  player?: IPlayer;
 }
 
 export function StatsCards({ player }: StatsCardsProps) {
   const stats = [
     {
       title: "Goals",
-      value: player.goals.length.toString(),
+      value: (player?.goals?.length || 0).toString(),
       icon: Target,
       color: "text-red-500",
       bgColor: "bg-red-50",
     },
     {
       title: "Assists",
-      value: player.assists.length.toString(),
+      value: (player?.assists?.length || 0).toString(),
       icon: Crosshair,
       color: "text-blue-500",
       bgColor: "bg-blue-50",
     },
     {
       title: "Trophies",
-      value: player.trophies.toString(),
+      value: (player?.trophies || 0).toString(),
       icon: Trophy,
       color: "text-amber-500",
       bgColor: "bg-amber-50",
     },
     {
       title: "MVP Awards",
-      value: player.mvp.length.toString(),
+      value: (player?.mvp?.length || 0).toString(),
       icon: Award,
       color: "text-purple-500",
       bgColor: "bg-purple-50",
     },
     {
       title: "Pass Accuracy",
-      value: player.passAcc,
+      value: player?.passAcc
+        ? player.passAcc.includes("%")
+          ? player.passAcc
+          : `${player.passAcc}%`
+        : "0%",
       icon: Zap,
       color: "text-green-500",
       bgColor: "bg-green-50",
     },
     {
       title: "Total Matches",
-      value: player.matches.length.toString(),
+      value: (player?.matches?.length || 0).toString(),
       icon: Activity,
       color: "text-indigo-500",
       bgColor: "bg-indigo-50",
     },
     {
       title: "Yellow Cards",
-      value: player.cards.filter((c) => c.type === "yellow").length.toString(),
+      value: (
+        player?.cards?.filter((c) => c?.type?.toLowerCase() === "yellow")
+          .length || 0
+      ).toString(),
       icon: Shield,
       color: "text-yellow-500",
       bgColor: "bg-yellow-50",
     },
     {
       title: "Red Cards",
-      value: player.cards.filter((c) => c.type === "red").length.toString(),
+      value: (
+        player?.cards?.filter((c) => c?.type?.toLowerCase() === "red").length ||
+        0
+      ).toString(),
       icon: Shield,
       color: "text-red-600",
       bgColor: "bg-red-50",

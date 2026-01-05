@@ -26,7 +26,15 @@ const playerSchema = new Schema(
     email: {
       type: String,
       trim: true,
+      unique: true,
       lowercase: true,
+      validate: {
+        validator: function (v: string) {
+          if (!v) return true; // skip validation if empty
+          return /\S+@\S+\.\S+/.test(v); // check format if exists
+        },
+        message: "Email must be valid",
+      },
     },
     height: { type: Number },
     captaincy: { type: String },
@@ -68,7 +76,7 @@ const playerSchema = new Schema(
     },
     training: { type: Schema.Types.Mixed, default: () => ({ team: "A" }) },
     code: { type: String, required: [true, 'Player ID is required'], unique: [true, 'Player ID must be a unique value'] },//IS091223
-    user: { type: Schema.Types.ObjectId, ref: "users", }
+   
   },
   { timestamps: true }
 );

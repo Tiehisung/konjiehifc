@@ -1,0 +1,227 @@
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Share2,
+  Printer,
+  Edit,
+  Mail,
+  Phone,
+  Trophy,
+  Award,
+  Target,
+} from "lucide-react";
+import { IPlayer } from "@/types/player.interface";
+import { EPlayerPosition } from "@/types/player.interface";
+
+interface PlayerHeaderProps {
+  player?: IPlayer;
+}
+
+
+export function PlayerHeader({ player }: PlayerHeaderProps) {
+  // Early return if no player
+  if (!player) {
+    return (
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8">
+        <div className="flex items-center gap-4">
+          <div className="relative">
+            <Avatar className="h-24 w-24 border-4 border-white shadow-lg">
+              <AvatarFallback className="text-lg">NA</AvatarFallback>
+            </Avatar>
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold text-muted-foreground">
+              Player Not Found
+            </h1>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Safe data extraction with fallbacks
+  const firstName = player?.firstName || "Unknown";
+  const lastName = player?.lastName || "Player";
+  const fullName = `${firstName} ${lastName}`;
+
+  // Safe initials
+  const initials = `${firstName.charAt(0).toUpperCase()}${lastName
+    .charAt(0)
+    .toUpperCase()}`;
+
+  // Color class for badge
+  const colorClass = player?.favColor
+    ? getPositionColor(player.position)
+    : "bg-gray-500";
+
+  // Safe number display
+  const playerNumber = player?.number || "#";
+
+  // Safe contact info
+  const email = player?.email || "No email provided";
+  const phone = player?.phone || "No phone provided";
+
+  // Status badges
+  const isActive = player?.isActive ?? false;
+  const isFit = player?.isFit ?? false;
+
+  // Safe captaincy check
+  const hasCaptaincy = !!player?.captaincy;
+  const captaincyText = player?.captaincy || "Captain";
+
+  // Safe position abbreviation
+  const positionAbbreviation = getPositionAbbreviation(player?.position || "");
+
+  return (
+    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8">
+      <div className="flex items-center gap-4">
+        <div className="relative">
+          <Avatar className="h-24 w-24 border-4 border-white shadow-lg">
+            <AvatarImage
+              src={player?.avatar}
+              alt={fullName}
+              onError={(e) => {
+                // Fallback if image fails to load
+                const target = e.target as HTMLImageElement;
+                target.style.display = "none";
+              }}
+            />
+            <AvatarFallback className="text-lg bg-linear-to-br from-blue-100 to-blue-200">
+              {initials}
+            </AvatarFallback>
+          </Avatar>
+          <div className="absolute -top-2 -right-2">
+            <div
+              className={`h-10 w-10 rounded-full flex items-center justify-center text-white font-bold text-sm ${colorClass} shadow-md`}
+            >
+              {playerNumber}
+            </div>
+          </div>
+        </div>
+
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <h1 className="text-3xl font-bold truncate">{fullName}</h1>
+            <Badge
+              variant={isActive ? "default" : "destructive"}
+              className="shrink-0"
+            >
+              {isActive ? "Active" : "Inactive"}
+            </Badge>
+          </div>
+
+          <div className="flex items-center gap-3 mt-2 flex-wrap">
+            <Badge variant="secondary" className="text-sm shrink-0">
+              {positionAbbreviation}
+            </Badge>
+            <Badge
+              variant={isFit ? "default" : "destructive"}
+              className="shrink-0"
+            >
+              {isFit ? "Fit" : "Injured"}
+            </Badge>
+            {hasCaptaincy && (
+              <Badge
+                variant="destructive"
+                className="flex items-center gap-1 shrink-0"
+              >
+                <Award className="h-3 w-3" />
+                {captaincyText}
+              </Badge>
+            )}
+          </div>
+
+          <div className="flex items-center gap-4 mt-4 text-sm text-muted-foreground flex-wrap">
+            <div className="flex items-center gap-1 min-w-0">
+              <Mail className="h-4 w-4 shrink-0" />
+              <span className="truncate">{email}</span>
+            </div>
+            <div className="flex items-center gap-1 min-w-0">
+              <Phone className="h-4 w-4 shrink-0" />
+              <span className="truncate">{phone}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-2 self-start lg:self-center">
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-2"
+          onClick={() => {
+            // Share functionality
+            if (navigator.share) {
+              navigator.share({
+                title: fullName,
+                text: `Check out ${fullName}'s player profile`,
+                url: window.location.href,
+              });
+            } else {
+              // Fallback to clipboard
+              navigator.clipboard.writeText(window.location.href);
+              // You might want to add a toast notification here
+            }
+          }}
+        >
+          <Share2 className="h-4 w-4" />
+          Share
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-2"
+          onClick={() => window.print()}
+        >
+          <Printer className="h-4 w-4" />
+          Print
+        </Button>
+        <Button className="gap-2">
+          <Edit className="h-4 w-4" />
+          Edit Player
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+export function getPositionAbbreviation(position: EPlayerPosition): string {
+  const abbreviationMap: Record<EPlayerPosition, string> = {
+    [EPlayerPosition.KEEPER]: "GK",
+    [EPlayerPosition.DEFENDER]: "DEF",
+    [EPlayerPosition.MIDFILDER]: "MID",
+    [EPlayerPosition.FORWARD]: "FWD",
+    [EPlayerPosition.STRIKER]: "ST",
+    [EPlayerPosition.WING_BACK]: "WB",
+    [EPlayerPosition.CENTER_BACK]: "CB",
+    [EPlayerPosition.ATTACKING_MIDFIELDER]: "AM",
+    [EPlayerPosition.DEFENSIVE_MIDFIELDER]: "DM",
+    [EPlayerPosition.WINGER]: "WG",
+    [EPlayerPosition.SWEEPER]: "SW",
+  };
+
+  return abbreviationMap[position] || position;
+}
+
+export function getPositionColor(position: EPlayerPosition): string {
+  const colorMap: Record<EPlayerPosition, string> = {
+    [EPlayerPosition.KEEPER]: "bg-yellow-100 text-yellow-800 border-yellow-200",
+    [EPlayerPosition.DEFENDER]: "bg-blue-100 text-blue-800 border-blue-200",
+    [EPlayerPosition.MIDFILDER]: "bg-green-100 text-green-800 border-green-200",
+    [EPlayerPosition.FORWARD]: "bg-red-100 text-red-800 border-red-200",
+    [EPlayerPosition.STRIKER]:
+      "bg-purple-100 text-purple-800 border-purple-200",
+    [EPlayerPosition.WING_BACK]:
+      "bg-indigo-100 text-indigo-800 border-indigo-200",
+    [EPlayerPosition.CENTER_BACK]: "bg-cyan-100 text-cyan-800 border-cyan-200",
+    [EPlayerPosition.ATTACKING_MIDFIELDER]:
+      "bg-pink-100 text-pink-800 border-pink-200",
+    [EPlayerPosition.DEFENSIVE_MIDFIELDER]:
+      "bg-emerald-100 text-emerald-800 border-emerald-200",
+    [EPlayerPosition.WINGER]: "bg-orange-100 text-orange-800 border-orange-200",
+    [EPlayerPosition.SWEEPER]: "bg-gray-100 text-gray-800 border-gray-200",
+  };
+
+  return colorMap[position] || "bg-gray-100 text-gray-800 border-gray-200";
+}

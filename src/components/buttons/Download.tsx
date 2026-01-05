@@ -1,6 +1,6 @@
 "use client";
 
-import { downloadFile } from "@/lib/downloadFile";
+import { downloadFile } from "@/lib/file";
 import { BiDownload } from "react-icons/bi";
 
 export default function DownloadButton({

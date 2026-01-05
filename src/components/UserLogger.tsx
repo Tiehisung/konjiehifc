@@ -14,7 +14,7 @@ export default function UserLogButtons() {
   if (session) {
     const path =
       (session?.user as ISession["user"])?.role == "player"
-        ? `/players/${(session?.user as ISession["user"])?.playerId}`
+        ? `/players/dashboard`
         : "/admin";
     return (
       <div className="grid md:flex items-center gap-6 md:gap-2">
