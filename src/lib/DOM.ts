@@ -58,6 +58,7 @@ export const markupToPlainText = (text: string): string => {
       .trim();
   }
 };
+
 export function pathnameToLinks(
   pathname: string
 ): { path: string; text: string }[] {
@@ -67,4 +68,18 @@ export function pathnameToLinks(
     path += `/${segment}`;
     return { path, text: segment };
   });
+}
+
+export const shareUrl = (url: string, title: string, description: string) => {
+  if (navigator.share) {
+    navigator.share({
+      title: title,
+      text: description,
+      url: window.location.href,
+    });
+  } else {
+    // Fallback to clipboard
+    navigator.clipboard.writeText(window.location.href);
+    // You might want to add a toast notification here
+  }
 }

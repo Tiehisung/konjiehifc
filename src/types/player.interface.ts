@@ -1,6 +1,6 @@
 import { IManager } from "@/app/admin/managers/page";
 import { IMatchCard } from "@/app/matches/(fixturesAndResults)";
-import { IFileProps } from "@/types/file.interface";
+import { IFileProps, IGallery } from "@/types/file.interface";
 import { EColor } from "./log";
 import { IGoal, IMatch } from "./match.interface";
 import { ICldFileUploadResult } from "./file.interface";
@@ -31,14 +31,6 @@ export enum EPlayerStatus {
     INACTIVE = 'INACTIVE',             // Not currently playing
 }
 
-export type TPlayerGallery = {
-    _id: string;
-    date: string;
-    timestamp: number;
-    description: string;
-    files: Array<IFileProps>;
-};
-
 
 export enum EPlayerPosition {
     KEEPER = 'goal keeper',
@@ -68,7 +60,7 @@ export interface IPlayer {
     about?: string;
     description?: string;
     medicals: { fitness: string }[];
-    galleries: TPlayerGallery[];
+    galleries: IGallery[];
     isFit: boolean;
     isActive: boolean;
     issues: string[];

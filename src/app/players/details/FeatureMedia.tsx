@@ -42,7 +42,7 @@ export function PlayerFeatureMedia({ player }: { player?: IPlayer }) {
       </div>
 
       {player?.featureMedia?.length && (
-        <MasonryGallery items={player?.featureMedia ?? []} useSize />
+        <MasonryGallery files={player?.featureMedia ?? []} useSize />
       )}
     </div>
   );

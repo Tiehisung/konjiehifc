@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, Activity, Heart, Shield } from "lucide-react";
@@ -8,7 +10,7 @@ interface MedicalInfoProps {
 }
 
 export function MedicalInfo({ player }: MedicalInfoProps) {
-  const recentInjuries = player?.injuries?.slice(0, 5)??[];
+  const recentInjuries = player?.injuries?.slice(0, 5) ?? [];
   const currentIssues = player?.issues ?? [];
 
   return (

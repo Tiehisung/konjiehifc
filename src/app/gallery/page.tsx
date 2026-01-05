@@ -1,5 +1,6 @@
 import GalleryClient from "./Client";
-import { IGalleryProps, IQueryResponse, IRecord } from "@/types";
+import {   IQueryResponse, IRecord } from "@/types";
+import { IGallery } from "@/types/file.interface";
 import InfiniteLimitScroller from "@/components/InfiniteScroll";
 import { IntroSection } from "@/components/IntroSection";
 import { staticImages } from "@/assets/images";

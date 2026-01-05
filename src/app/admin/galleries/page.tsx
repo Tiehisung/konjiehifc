@@ -1,7 +1,8 @@
 import { IPlayer } from "@/types/player.interface";
 import { GalleryUpload } from "@/components/Gallery/GalleryUpload";
 import { StackModal } from "@/components/modals/StackModal";
-import { IGalleryProps, IQueryResponse, IRecord } from "@/types";
+import { IQueryResponse, IRecord } from "@/types";
+import { IGallery } from "@/types/file.interface";
 import { getPlayers } from "../players/page";
 import { GalleryDisplay } from "./Display";
 import { apiConfig } from "@/lib/configs";

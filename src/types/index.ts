@@ -1,14 +1,8 @@
-import { ICldFileUploadResult, IFileProps } from "./file.interface";
+
 
 export interface ISelectOptionLV {
   value: string;
   label: string;
-}
-
-export interface IResultProps<T = unknown> {
-  message: string;
-  success: boolean;
-  data?: T;
 }
 
 export type TConvertedFile = {
@@ -23,20 +17,6 @@ export interface IDeleteFile {
   _id?: string; //Trace any saved file data on db
   public_id: string;
   resource_type?: string;
-}
-
-
-
-export interface IGalleryProps {
-  _id?: string;
-  tags: string[];
-  title?: string;
-  description: string;
-  files: Array<IFileProps>;
-  type?: 'player' | 'donation' | 'general',
-  timestamp?: number;
-  createdAt?: string;
-  updatedAt?: string;
 }
 
 //Cloudinary
@@ -105,3 +85,4 @@ export type TSearchKey =
   | 'log_search'
   | 'doc_search'
   | 'highlight_search'
+  | 'user_search'

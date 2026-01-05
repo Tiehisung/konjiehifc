@@ -1,3 +1,5 @@
+'use client'
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IPlayer } from "@/types/player.interface";
  
@@ -20,28 +22,28 @@ export function StatsCards({ player }: StatsCardsProps) {
   const stats = [
     {
       title: "Goals",
-      value: (player?.goals?.length || 0).toString(),
+      value: (player?.goals?.length || 0)?.toString(),
       icon: Target,
       color: "text-red-500",
       bgColor: "bg-red-50",
     },
     {
       title: "Assists",
-      value: (player?.assists?.length || 0).toString(),
+      value: (player?.assists?.length || 0)?.toString(),
       icon: Crosshair,
       color: "text-blue-500",
       bgColor: "bg-blue-50",
     },
     {
       title: "Trophies",
-      value: (player?.trophies || 0).toString(),
+      value: (player?.trophies || 0)?.toString(),
       icon: Trophy,
       color: "text-amber-500",
       bgColor: "bg-amber-50",
     },
     {
       title: "MVP Awards",
-      value: (player?.mvp?.length || 0).toString(),
+      value: (player?.mvp?.length || 0)?.toString(),
       icon: Award,
       color: "text-purple-500",
       bgColor: "bg-purple-50",
@@ -59,7 +61,7 @@ export function StatsCards({ player }: StatsCardsProps) {
     },
     {
       title: "Total Matches",
-      value: (player?.matches?.length || 0).toString(),
+      value: (player?.matches?.length || 0)?.toString(),
       icon: Activity,
       color: "text-indigo-500",
       bgColor: "bg-indigo-50",
@@ -69,7 +71,7 @@ export function StatsCards({ player }: StatsCardsProps) {
       value: (
         player?.cards?.filter((c) => c?.type?.toLowerCase() === "yellow")
           .length || 0
-      ).toString(),
+      )?.toString(),
       icon: Shield,
       color: "text-yellow-500",
       bgColor: "bg-yellow-50",
@@ -79,7 +81,7 @@ export function StatsCards({ player }: StatsCardsProps) {
       value: (
         player?.cards?.filter((c) => c?.type?.toLowerCase() === "red").length ||
         0
-      ).toString(),
+      )?.toString(),
       icon: Shield,
       color: "text-red-600",
       bgColor: "bg-red-50",

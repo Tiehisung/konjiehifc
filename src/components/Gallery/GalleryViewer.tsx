@@ -5,14 +5,14 @@ import { SideDrawer } from "@/components/ShadSideDrawer";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 import { usePlayerGalleryUtils } from "@/hooks/usePlayerGallery";
-import { IGalleryProps } from "@/types";
+import { IGallery } from "@/types/file.interface";
 
 interface IProps {
-  gallery?: IGalleryProps;
+  gallery?: IGallery;
   title?: string;
 }
-export function GalleryViewer({ gallery ,title}: IProps) {
-  const { images } = usePlayerGalleryUtils([gallery] as IGalleryProps[]);
+export function GalleryViewer({ gallery, title }: IProps) {
+  const { images } = usePlayerGalleryUtils([gallery] as IGallery[]);
   const isMobile = useIsMobile("md");
   return (
     <SideDrawer
