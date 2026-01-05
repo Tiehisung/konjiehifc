@@ -3,7 +3,8 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import GalleryModel from "@/models/galleries";
 import FileModel from "@/models/file";
 import { NextRequest, NextResponse } from "next/server";
-import { IGalleryProps } from "@/types";
+import { IGallery } from "@/types/file.interface";
+import { auth } from "@/auth";
 
 ConnectMongoDb();
 
@@ -73,16 +74,19 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { files, tags, title, description, } = (await request.json()) as IGalleryProps;
+    const { files, tags, title, description, } = (await request.json()) as IGallery;
 
     //Save files to File collection
     const savedFiles = await FileModel.insertMany(files);
     const fileIds = savedFiles.map(file => file._id);
 
+    const session = await auth()
+
     //Create gallery with saved file IDs
     const savedGallery = await GalleryModel.create({
       files: fileIds, tags, title, description,
       timestamp: Date.now(),
+      createdBy: session?.user
     });
 
     if (!savedGallery)

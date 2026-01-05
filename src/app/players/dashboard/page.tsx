@@ -1,4 +1,3 @@
-import GalleryGrid from "@/components/Gallery/GallaryGrid";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IPlayer } from "@/types/player.interface";
 import { PlayerHeader } from "./Header";
@@ -6,11 +5,13 @@ import { MedicalInfo } from "./Medical";
 import { PerformanceTabs } from "./Performance";
 import { PlayerSidebar } from "./Sidebar";
 import { StatsCards } from "./Stats";
-import { EColor } from "@/types/log";
 import { PositionVisualization } from "./PositionVisualization";
 import { IPageProps, IQueryResponse } from "@/types";
 import { auth } from "@/auth";
-import { getPlayerById, getPlayers } from "@/app/admin/players/page";
+import { getPlayerById } from "@/app/admin/players/page";
+import GalleryGrid from "@/components/Gallery/GallaryGrid";
+import { IGallery } from "@/types/file.interface";
+import { getGallery } from "@/app/admin/galleries/page";
 
 // Mock data - replace with actual API call
 
@@ -18,6 +19,9 @@ export default async function PlayerPage({ searchParams }: IPageProps) {
   const session = await auth();
 
   const player: IPlayer = await getPlayerById(session?.user?.email as string);
+  const galleries: IQueryResponse<IGallery[]> = await getGallery(
+    `?tags=${[player?._id].filter(Boolean).join(",")}`
+  );
 
   console.log("player", player);
   return (
@@ -47,13 +51,13 @@ export default async function PlayerPage({ searchParams }: IPageProps) {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  {player.about || "No description available."}
+                  {player?.about || "No description available."}
                 </p>
               </CardContent>
             </Card>
 
             {/* Gallery Section */}
-            {/* <GalleryGrid player={mockPlayer} /> */}
+            <GalleryGrid galleries={galleries?.data ?? []} />
           </div>
         </div>
       </div>

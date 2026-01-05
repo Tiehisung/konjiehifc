@@ -12,7 +12,6 @@ const userSchema = new Schema(
       trim: true,
     },
     image: String,
-    dateEngaged: { type: String, default: () => new Date().toISOString() },
     email: {
       type: String,
       required: [true, "Email is required"],
@@ -20,22 +19,13 @@ const userSchema = new Schema(
       trim: true,
       lowercase: true,
     },
-    password: { type: String, },
-    isActive: { type: Boolean, default: true },
     role: {
       type: String,
       default: "guest",
       enum: [...Object.values(EUserRole)],
     },
-    account: {
-      type: String,
-      default: "google",
-      enum: [...Object.values(EUserAccount)],
-    },
-    lastLoginAccount: {
-      type: String,
-      enum: [...Object.values(EUserAccount)],
-    },
+    dateEngaged: { type: String, default: () => new Date().toISOString() },
+    isActive: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

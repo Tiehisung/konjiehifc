@@ -8,10 +8,13 @@ import CloudinaryUploader from "@/components/cloudinary/FileUploadWidget";
 import { Input } from "@/components/input/Inputs";
 import { apiConfig } from "@/lib/configs";
 import { getErrorMessage } from "@/lib";
-import { IGalleryProps, IQueryResponse } from "@/types";
+import { IQueryResponse } from "@/types";
+import { IGallery } from "@/types/file.interface";
 import { IPlayer } from "@/types/player.interface";
 import MultiSelectionInput from "../select/MultiSelect";
 import { ICldFileUploadResult } from "@/types/file.interface";
+import { useSession } from "next-auth/react";
+import { ISession } from "@/types/user";
 
 interface GalleryUploadProps {
   tags?: string[];
@@ -26,10 +29,16 @@ export function GalleryUpload({
 }: GalleryUploadProps) {
   const router = useRouter();
 
+  const { data } = useSession();
+
+  const session = data as ISession;
+
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState<ICldFileUploadResult[]>([]);
   const [description, setDescription] = useState("");
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(
+    session?.user?.role == "player" ? session?.user?.name + " - Player" : ""
+  );
   const [taggedPlayers, setTaggedPlayers] = useState<string[]>([]);
   const [clearTrigger, setClearTrigger] = useState(0);
 
@@ -53,7 +62,7 @@ export function GalleryUpload({
     try {
       setIsLoading(true);
 
-      const payload: IGalleryProps = {
+      const payload: IGallery = {
         title,
         description,
         files: files.map((file) => ({
@@ -62,8 +71,10 @@ export function GalleryUpload({
         })),
         tags: [
           ...tags,
-          ...taggedPlayers.map((t) => t.split(" ").flat()).flat(),
+          ...taggedPlayers.map((t) => t.split(",").flat()).flat(),
         ].filter(Boolean),
+        type: session?.user?.role == "player" ? "player" : undefined,
+        
       };
 
       const response = await fetch(apiConfig.galleries, {
@@ -128,10 +139,10 @@ export function GalleryUpload({
                 <MultiSelectionInput
                   onChange={(ts) => setTaggedPlayers(ts.map((t) => t.value))}
                   options={players?.map((p) => ({
-                    label: `${p.firstName} ${p.lastName}`,
-                    value: `${p._id} ${p.firstName} ${p.lastName}`,
+                    label: `${p.lastName} ${p.firstName}`,
+                    value: `${p._id},${p.lastName} ${p.firstName}`,
                   }))}
-                  className="text-sm text-foreground"
+                  className="text-sm"
                   label=""
                   name={"tags"}
                 />

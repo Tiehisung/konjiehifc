@@ -1,17 +1,18 @@
 "use client";
 
 import { MediaPreview } from "@/components/files/MediaView";
-import { IGalleryProps, IQueryResponse } from "@/types";
+import {   IQueryResponse } from "@/types";
 import { useState } from "react";
 import { MotionWrapper } from "@/components/Animate/MotionWrapper";
 import { AnimateOnView } from "@/components/Animate/AnimateOnView";
 import CardCarousel from "@/components/carousel/cards";
+import { IGallery } from "@/types/file.interface";
 
 export function HomePlayersGallery({
   galleries,
   initialCount = 4,
 }: {
-  galleries?: IQueryResponse<IGalleryProps[]>;
+  galleries?: IQueryResponse<IGallery []>;
   initialCount?: number;
 }) {
   const [limit, setLimit] = useState(initialCount);

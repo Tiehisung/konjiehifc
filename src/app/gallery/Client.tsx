@@ -3,7 +3,8 @@
 import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import LightboxViewer from "@/components/viewer/LightBox";
-import { IGalleryProps, IQueryResponse } from "@/types";
+import {  IQueryResponse } from "@/types";
+import { IGallery } from "@/types/file.interface";
 import { shortText } from "@/lib";
 import { PrimarySearch } from "@/components/Search";
 import { ClearFiltersBtn } from "@/components/buttons/ClearFilters";

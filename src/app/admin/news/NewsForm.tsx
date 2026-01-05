@@ -10,7 +10,7 @@ import { Button } from "@/components/buttons/Button";
 
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
-import { IResultProps } from "@/types";
+import { IQueryResponse } from "@/types";
 import { IFileProps } from "@/types/file.interface";
 import { Plus } from "lucide-react";
 import CloudinaryUploader from "@/components/cloudinary/FileUploadWidget";
@@ -75,7 +75,7 @@ export const NewsForm = ({ newsItem = null }: INewsForm) => {
         body: JSON.stringify(data),
       });
 
-      const result: IResultProps = await res.json();
+      const result: IQueryResponse = await res.json();
       if (result.success) {
         reset();
         toast.success(result.message);

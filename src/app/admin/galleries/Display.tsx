@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Download, View } from "lucide-react";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { IGalleryProps } from "@/types";
+import { IGallery } from "@/types/file.interface";
 import { apiConfig } from "@/lib/configs";
 import { PrimaryDropdown } from "@/components/Dropdown";
 import { downloadFile } from "@/lib/file";

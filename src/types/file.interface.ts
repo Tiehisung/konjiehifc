@@ -1,4 +1,5 @@
 import { EPreset, EPresetType } from ".";
+import { EUserRole, ISession } from "./user";
 
 export interface ICldFileUploadResult {
     secure_url: string;
@@ -45,4 +46,18 @@ export interface IFileUpload {
     folder?: string; //eg. logos, images, videos, audios/qiraa
     presetType?: EPresetType;
     description?: string;
+}
+
+export interface IGallery {
+    _id?: string;
+    title?: string;
+    description: string;
+    files: Array<IFileProps>;
+    timestamp?: number;
+
+    type?: 'player' | 'donation' | 'general',
+    tags?: string[];
+    createdBy?: ISession['user']
+    createdAt?: string;
+    updatedAt?: string;
 }

@@ -1,14 +1,10 @@
 export interface IUser {
   _id?: string
-  playerId?: string
   image: string
   name: string;
   email: string;
-  password?: string;
   dateEngaged?: string;
   role?: EUserRole;
-  account?: EUserAccount
-  lastLoginAccount?: EUserAccount
   isActive?: boolean
   createdAt?: string;
   updatedAt?: string;

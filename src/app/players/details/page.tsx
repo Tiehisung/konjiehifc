@@ -1,7 +1,8 @@
 import { getPlayerById, getPlayers } from "@/app/admin/players/page";
 import { IPlayer } from "@/types/player.interface";
 import PlayerProfile from "./Profile";
-import { IGalleryProps, IQueryResponse } from "@/types";
+import {   IQueryResponse } from "@/types";
+import { IGallery } from "@/types/file.interface";
 import { PlayerHeadList } from "./PlayerHeadList";
 import { getPlayersStats } from "@/app/admin/page";
 import { IPlayerStats } from "@/types/stats";
@@ -37,7 +38,7 @@ export async function generateMetadata({ searchParams }: PageProps) {
 export default async function PlayerProfilePage({ searchParams }: PageProps) {
   const playerId = (await searchParams).playerId;
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
-  const galleries: IQueryResponse<IGalleryProps[]> = await getGallery(
+  const galleries: IQueryResponse<IGallery[]> = await getGallery(
     `?tags=${[playerId].filter(Boolean).join(",")}`
   );
 

@@ -7,10 +7,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getInitials } from "@/lib";
 import { formatDate, getTimeAgo } from "@/lib/timeAndDate";
 import { IQueryResponse } from "@/types";
-import { EUserAccount, EUserRole, IUser } from "@/types/user";
+import {  EUserRole, IUser } from "@/types/user";
 import {
   Globe,
-  Key,
   ChevronUp,
   ChevronDown,
   Search,
@@ -95,23 +94,13 @@ export default function UserTable({ users }: UserTableProps) {
   };
 
   const { loading, results } = useFetch<IUser[]>({ uri: "/users" });
-  console.log("Fetched users:", results);
-  const stats = useMemo(() => {
-    const googleUsers = results?.data?.filter(
-      (u) => u.account === "google"
-    ).length;
-    const credentialsUsers = results?.data?.filter(
-      (u) => u.account === "credentials"
-    ).length;
 
+  const stats = useMemo(() => {
     return {
-      google: googleUsers,
-      credentials: credentialsUsers,
       total: results?.data?.length,
       showing: filteredAndSortedUsers.length,
     };
   }, [results, filteredAndSortedUsers]);
-
 
   return (
     <div className="space-y-6">
@@ -123,20 +112,6 @@ export default function UserTable({ users }: UserTableProps) {
           value={stats.total}
           isLoading={loading}
           color="blue"
-        />
-        <MetricCard
-          icon={<Globe className="w-6 h-6 " />}
-          title="Google Sign-ins"
-          value={stats.google}
-          isLoading={loading}
-          color="red"
-        />
-        <MetricCard
-          icon={<Key className="w-6 h-6 " />}
-          title="Credentials Sign-ins"
-          value={stats.credentials}
-          isLoading={loading}
-          color="purple"
         />
 
         <MetricCard
@@ -168,17 +143,7 @@ export default function UserTable({ users }: UserTableProps) {
                 </p>
               }
             />
-            <PrimarySelect
-              paramKey="account"
-              options={enumToOptions(EUserAccount)}
-              className="border p-2 w-full "
-              triggerStyles="grow w-full py-2 rounded-none"
-              label={
-                <p className="text-muted-foreground font-normal text-xs">
-                  Signup Type:
-                </p>
-              }
-            />
+
             <ClearFiltersBtn label="Clear All" />
           </div>
         </div>
@@ -219,6 +184,7 @@ export default function UserTable({ users }: UserTableProps) {
                         ))}
                     </div>
                   </th>
+
                   <th
                     className="py-4 px-6 text-left cursor-pointer hover:bg-popover/50"
                     onClick={() => handleSort("role")}
@@ -233,7 +199,7 @@ export default function UserTable({ users }: UserTableProps) {
                         ))}
                     </div>
                   </th>
-                  <th className="py-4 px-6 text-left">Account</th>
+
                   <th
                     className="py-4 px-6 text-left cursor-pointer hover:bg-popover/50"
                     onClick={() => handleSort("dateJoined")}
@@ -269,7 +235,7 @@ export default function UserTable({ users }: UserTableProps) {
                         </div>
                       </div>
                     </td>
-                    <td className="py-4 px-6 text-muted-foreground italic">
+                    <td className="py-4 px-6 text-muted-foreground italic _link">
                       <a href={`mailto:${user?.email}`}>{user?.email}</a>
                     </td>
                     <td className="py-4 px-6">
@@ -281,25 +247,7 @@ export default function UserTable({ users }: UserTableProps) {
                         {(user?.role as string).toUpperCase()}
                       </span>
                     </td>
-                    <td className="py-4 px-6">
-                      <div className="flex items-center gap-2">
-                        {user?.account === "google" ? (
-                          <>
-                            <Globe className="w-4 h-4 text-red-500" />
-                            <span className="text-muted-foreground">
-                              Google
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <Key className="w-4 h-4 text-purple-500" />
-                            <span className="text-muted-foreground">
-                              Credentials
-                            </span>
-                          </>
-                        )}
-                      </div>
-                    </td>
+
                     <td className="py-4 px-6 text-muted-foreground">
                       <p>{formatDate(user?.dateEngaged ?? user?.createdAt)}</p>
                       <p>

@@ -20,8 +20,9 @@ const gallerySchema = new Schema(
     description: { type: String, trim: true },
     files: [{ type: Schema.Types.ObjectId, ref: "files" }], // IFileProps[]
     // Probable associated owners
-    tags: [{ type: String }],//eg. objectIds, anything relevant to search
-    // type: { type: Schema.Types.String, enum: ['player', 'donation', 'general'], default: 'general' }
+    tags: [String],//eg. objectIds, anything relevant to search
+    type: { type: Schema.Types.String, enum: ['player', 'donation', 'general'], default: 'general' },
+    createdBy: {}
   },
   { timestamps: true }
 );

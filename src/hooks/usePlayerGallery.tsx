@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import {  IGalleryProps } from "@/types";
+import { IGallery } from "@/types/file.interface";
 import { IFileProps } from "@/types/file.interface";
 import { staticImages } from "@/assets/images";
 /**

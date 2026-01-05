@@ -6,19 +6,19 @@ import { useState } from "react";
 import LightboxViewer from "../viewer/LightBox";
 
 interface MasonryGalleryProps {
-  items: IFileProps[];
+  files: IFileProps[];
   useSize?: boolean;
   enableLightboxViewer?: boolean;
 }
 
 export default function MasonryGallery({
-  items,
+  files,
   useSize,
   enableLightboxViewer = true,
 }: MasonryGalleryProps) {
   const [hoveredId, setHoveredId] = useState<string | undefined>(undefined);
   //For Lightbox
-  const files = items
+  const processedFiles = files
     .filter((f) => f.resource_type === "image" || f.type === "video")
     .map((item) => ({
       src: item?.secure_url,
@@ -44,7 +44,7 @@ export default function MasonryGallery({
   if (useSize)
     return (
       <div className="columns-1 gap-6 sm:columns-2 lg:columns-3 xl:columns-4">
-        {items?.map((item, i) => (
+        {files?.map((item, i) => (
           <div
             key={item?.asset_id + i}
             className="mb-6 break-inside-avoid overflow-hidden rounded-lg"
@@ -88,7 +88,7 @@ export default function MasonryGallery({
         <LightboxViewer
           open={open}
           onClose={() => setOpen(false)}
-          files={files}
+          files={processedFiles}
           index={photoIndex}
         />
       </div>
@@ -96,14 +96,13 @@ export default function MasonryGallery({
 
   return (
     <div className="columns-1 gap-6 sm:columns-2 lg:columns-3 xl:columns-4">
-      {items.map((item, i) => (
+      {files.map((item, i) => (
         <div
           key={item?.asset_id + i}
           className="mb-6 break-inside-avoid overflow-hidden rounded-lg"
           onClick={() => {
             setPhotoIndex(i);
-            if(enableLightboxViewer) setOpen(true);
-              
+            if (enableLightboxViewer) setOpen(true);
           }}
         >
           <div className="group relative aspect-3/4 w-full overflow-hidden bg-muted">
@@ -130,7 +129,7 @@ export default function MasonryGallery({
       <LightboxViewer
         open={open}
         onClose={() => setOpen(false)}
-        files={files}
+        files={processedFiles}
         index={photoIndex}
       />
     </div>

@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/buttons/Button";
 import { Input } from "@/components/input/Inputs";
 import SingleFilePicker from "@/components/files/SingleFilePicker";
-import { TConvertedFile, IResultProps } from "@/types";
+import { TConvertedFile, IQueryResponse } from "@/types";
 import { getErrorMessage } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import { PrimarySelect } from "@/components/select/Select";
@@ -71,7 +71,7 @@ export default function CreateSquad() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      const result: IResultProps = await res.json();
+      const result: IQueryResponse = await res.json();
       if (result.success) {
         toast(result.message);
         reset();

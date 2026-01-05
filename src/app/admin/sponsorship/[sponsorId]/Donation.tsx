@@ -1,7 +1,8 @@
 "use client";
 
 import { IDonation, ISponsorProps } from "@/app/sponsorship/page";
-import { IGalleryProps, IQueryResponse } from "@/types";
+import {  IQueryResponse } from "@/types";
+import { IGallery } from "@/types/file.interface";
 import GalleryGrid from "@/components/Gallery/GallaryGrid";
 import DonationForm from "./DonationForm";
 import { Button } from "@/components/ui/button";

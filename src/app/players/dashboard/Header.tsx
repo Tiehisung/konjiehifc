@@ -1,6 +1,13 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  AVATAR,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
 import {
   Share2,
   Printer,
@@ -13,11 +20,11 @@ import {
 } from "lucide-react";
 import { IPlayer } from "@/types/player.interface";
 import { EPlayerPosition } from "@/types/player.interface";
+import { getInitials } from "@/lib";
 
 interface PlayerHeaderProps {
   player?: IPlayer;
 }
-
 
 export function PlayerHeader({ player }: PlayerHeaderProps) {
   // Early return if no player
@@ -44,11 +51,6 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
   const firstName = player?.firstName || "Unknown";
   const lastName = player?.lastName || "Player";
   const fullName = `${firstName} ${lastName}`;
-
-  // Safe initials
-  const initials = `${firstName.charAt(0).toUpperCase()}${lastName
-    .charAt(0)
-    .toUpperCase()}`;
 
   // Color class for badge
   const colorClass = player?.favColor
@@ -77,20 +79,11 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
     <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8">
       <div className="flex items-center gap-4">
         <div className="relative">
-          <Avatar className="h-24 w-24 border-4 border-white shadow-lg">
-            <AvatarImage
-              src={player?.avatar}
-              alt={fullName}
-              onError={(e) => {
-                // Fallback if image fails to load
-                const target = e.target as HTMLImageElement;
-                target.style.display = "none";
-              }}
-            />
-            <AvatarFallback className="text-lg bg-linear-to-br from-blue-100 to-blue-200">
-              {initials}
-            </AvatarFallback>
-          </Avatar>
+          <AVATAR
+            src={player?.avatar}
+            alt={fullName}
+            fallbackText={getInitials(fullName)}
+          />
           <div className="absolute -top-2 -right-2">
             <div
               className={`h-10 w-10 rounded-full flex items-center justify-center text-white font-bold text-sm ${colorClass} shadow-md`}

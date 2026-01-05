@@ -1,6 +1,7 @@
 import { apiConfig } from "@/lib/configs";
 import { ConnectMongoDb } from "@/lib/dbconfig";
-import { IGalleryProps, IQueryResponse, } from "@/types";
+import {  IQueryResponse, } from "@/types";
+import { IGallery } from "@/types/file.interface";
 
 
 export async function createGallery({

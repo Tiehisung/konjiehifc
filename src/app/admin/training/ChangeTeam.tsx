@@ -3,7 +3,7 @@
 import { IPlayer } from "@/types/player.interface";
 import { Input } from "@/components/ui/input";
 import { apiConfig } from "@/lib/configs";
-import { IResultProps } from "@/types";
+import { IQueryResponse } from "@/types";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import { toast } from "sonner";
@@ -21,7 +21,7 @@ export default function ChangePlayerTeam({ player }: { player: IPlayer }) {
       method: "PUT",
       body: JSON.stringify({ training: { team: value } }),
     });
-    const result: IResultProps = await response.json();
+    const result: IQueryResponse = await response.json();
 
     toast.success(result.message);
     router.refresh();

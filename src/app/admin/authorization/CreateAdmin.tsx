@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
 import Select from "react-select";
 import { customStyles } from "@/styles";
-import { IResultProps, ISelectOptionLV } from "@/types";
+import { IQueryResponse, ISelectOptionLV } from "@/types";
 import Image from "next/image";
 import { FcCamera } from "react-icons/fc";
 import { staticImages } from "@/assets/images";
@@ -66,7 +66,7 @@ const CreateAdmin = ({ existingUser }: { existingUser?: IUser }) => {
             )}_${new Date().getFullYear()}`,
           }),
         });
-        const uploadResult: IResultProps<IFileProps> = await upload.json();
+        const uploadResult: IQueryResponse<IFileProps> = await upload.json();
 
         if (!uploadResult.success || !uploadResult.data) {
           setWaiting(false);

@@ -16,7 +16,7 @@ import { useSearchParams } from "next/navigation";
 import { PrimarySelect } from "@/components/select/Select";
 import CardCarousel from "@/components/carousel/cards";
 import { usePlayerGalleryUtils } from "@/hooks/usePlayerGallery";
-import { IGalleryProps } from "@/types";
+import { IGallery } from "@/types/file.interface";
 import { scrollToElement } from "@/lib/DOM";
 import { generatePlayerAbout } from "@/data/about";
 import GalleryGrid from "@/components/Gallery/GallaryGrid";
@@ -35,7 +35,7 @@ const statsData = [
 
 interface PageProps {
   players: IPlayer[];
-  galleries?: IGalleryProps[];
+  galleries?: IGallery[];
   stats?: IPlayerStats;
 }
 
@@ -251,20 +251,18 @@ export default function PlayerProfile({
       <PlayerFeatureMedia player={player} />
 
       <section>
-        <h1 className="my-6 _title _gradient p-4">GALLERIES</h1>
-        <GalleryGrid
-          galleries={galleries as IGalleryProps[]}
-          // name={`${player?.firstName} ${player?.lastName}`}
-        />
-
-        <GalleryUpload
-          tags={
-            [player?.lastName, player?.firstName, playerId].filter(
-              Boolean
-            ) as string[]
-          }
-          players={players}
-        />
+        <div className="my-6 _title _gradient p-4 flex items-center gap-6 justify-between">
+          <span>GALLERIES</span>
+          <GalleryUpload
+            tags={
+              [player?.lastName, player?.firstName, playerId].filter(
+                Boolean
+              ) as string[]
+            }
+            players={players}
+          />
+        </div>
+        <GalleryGrid galleries={galleries as IGallery[]} />
       </section>
     </main>
   );
