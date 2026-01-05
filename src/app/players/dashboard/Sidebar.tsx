@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AVATAR } from "@/components/ui/avatar";
 import {
   Calendar,
   Ruler,
@@ -17,6 +17,7 @@ import {
 import { IPlayer } from "@/types/player.interface";
 import { formatDate } from "@/lib/timeAndDate";
 import { Progress } from "@/components/ui/progress";
+import { getInitials } from "@/lib";
 
 interface PlayerSidebarProps {
   player?: IPlayer;
@@ -191,10 +192,12 @@ export function PlayerSidebar({ player }: PlayerSidebarProps) {
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-4">
-            <Avatar>
-              <AvatarImage src={manager?.avatar} alt={managerName} />
-              <AvatarFallback>{managerInitials}</AvatarFallback>
-            </Avatar>
+            <AVATAR
+              src={player?.avatar as string}
+              alt={manager?.fullname}
+              fallbackText={getInitials(manager?.fullname as string)}
+              className="h-8 w-8"
+            />
             <div className="min-w-0 flex-1">
               <h4 className="font-semibold truncate">{managerName}</h4>
               <p className="text-sm text-muted-foreground truncate">
