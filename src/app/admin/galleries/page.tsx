@@ -25,7 +25,7 @@ export const getGallery = async (query?: string) => {
 export default async function GalleriesAdmin({ searchParams }: IProps) {
   const qs = buildQueryStringServer(await searchParams);
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
-  const galleries: IQueryResponse<IGalleryProps[]> = await getGallery(qs);
+  const galleries: IQueryResponse<IGallery[]> = await getGallery(qs);
 
   return (
     <div className="pt-16 _page">
