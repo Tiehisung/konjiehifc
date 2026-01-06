@@ -139,7 +139,7 @@ export const SearchWithSubmit = ({
 
       <Button
         type="submit"
-        className="rounded-full px-3 text-xs bg-blue-500 _primaryBtn"
+        className="rounded-full text-xs bg-blue-500 _primaryBtn"
         size={"sm"}
         styles={{ borderRadius: "10rem" }}
       >

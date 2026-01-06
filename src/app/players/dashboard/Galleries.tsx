@@ -8,13 +8,21 @@ import { SlicePagination } from "@/components/pagination/SlicePagination";
 import { SearchWithSubmit } from "@/components/Search";
 import { Button } from "@/components/ui/button";
 import { useFetch } from "@/hooks/fetch";
+import useGetParam from "@/hooks/params";
 import { toggleClick } from "@/lib/DOM";
 import { IGallery } from "@/types/file.interface";
 import { IPlayer } from "@/types/player.interface";
 import { Search } from "lucide-react";
 import { useState } from "react";
 
-export function PlayerGalleries({ player }: { player?: IPlayer }) {
+export function PlayerGalleries({
+  player,
+  initialGalleries,
+}: {
+  player?: IPlayer;
+  initialGalleries?: IGallery[];
+}) {
+  const stackModal = useGetParam("stackModal");
   const [search, setSearch] = useState("");
   const { results, loading, refetch } = useFetch<IGallery[]>({
     uri: "/galleries",
@@ -24,6 +32,7 @@ export function PlayerGalleries({ player }: { player?: IPlayer }) {
         .filter(Boolean)
         .join(","),
     },
+    // skip: !stackModal,
   });
 
   console.log({ results });
@@ -46,7 +55,7 @@ export function PlayerGalleries({ player }: { player?: IPlayer }) {
       {loading ? (
         <Loader className="h-24" />
       ) : (
-        <GalleryGrid galleries={results?.data ?? []} />
+        <GalleryGrid galleries={initialGalleries ?? []} />
       )}
 
       {/* MORE */}
@@ -55,17 +64,16 @@ export function PlayerGalleries({ player }: { player?: IPlayer }) {
         id="modal-trigger"
         className="space-y-5 max-h-[80vh]"
         triggerStyles="w-fit px-20 ml-5 my-4"
+        variant={"outline"}
         header={
-          <div className="mr-6">
-            <SearchWithSubmit
-              onChange={(v) => {
-                setSearch(v);
-                refetch();
-              }}
-              placeholder={`Search your galleries`}
-              className="mx-4 "
-            />
-          </div>
+          <SearchWithSubmit
+            onChange={(v) => {
+              setSearch(v);
+              refetch();
+            }}
+            placeholder={`Search your galleries`}
+            className="mx-4 "
+          />
         }
       >
         {loading ? (

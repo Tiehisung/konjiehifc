@@ -7,6 +7,7 @@ import { useUpdateSearchParams } from "@/hooks/params";
 import { Button } from "../buttons/Button";
 import { cn } from "@/lib/utils";
 import { TButtonSize, TButtonVariant } from "../ui/button";
+import { X } from "lucide-react";
 
 export const StackModal = ({
   children,
@@ -19,12 +20,14 @@ export const StackModal = ({
   size,
   variant,
   triggerStyles,
+  hideCloseButton,
 }: {
   children: ReactNode;
   className?: string;
   id: string;
   overlayClassName?: string;
   closeOnEsc?: boolean;
+  hideCloseButton?: boolean;
   triggerStyles?: string;
   trigger?: ReactNode;
   header?: ReactNode;
@@ -60,7 +63,7 @@ export const StackModal = ({
             setLoading(true);
             setTimeout(() => {
               setLoading(false);
-            }, 1500);
+            }, 3000);
           }}
           waiting={!modalId && loading}
           waitingText="Please wait..."
@@ -75,11 +78,24 @@ export const StackModal = ({
           className={` z-50 fixed inset-0 bg-linear-to-b from-modalOverlay to-accent flex justify-start items-center h-screen ${overlayClassName}`}
         >
           <main
+            onClick={(e) => e.stopPropagation()}
             className={cn(
-              "relative bg-accent space-y-3.5 py-1.5 mt-auto ring max-h-[90vh] "
+              "relative bg-accent space-y-3.5 py-1.5 mt-auto rounded-to-3xl max-h-[90vh] "
             )}
           >
-            {header && <header className="sticky top-2">{header}</header>}
+            <div className="flex items-center gap-3 justify-b ">
+              {header && <header className="sticky top-2">{header}</header>}
+              {!hideCloseButton && (
+                <Button
+                  size="icon-sm"
+                  onClick={() => clearParams("stackModal")}
+                  className='ml-auto'
+                  variant='ghost'
+                >
+                  <X />
+                </Button>
+              )}
+            </div>
             <div
               className={`max-h-[85vh] overflow-y-auto pb-14 min-w-[60vw] ${className}`}
             >

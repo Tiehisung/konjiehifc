@@ -9,11 +9,13 @@ import { useEffect, useState } from "react";
 interface IFetchProps {
   uri: string;
   filters?: Record<string, string>;
+  skip?: boolean;
 }
 
 export function useFetch<T = unknown>({
   uri,
   filters = { limit: "100000" },
+  skip = false,
 }: IFetchProps) {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<IQueryResponse<T> | null>(null);
@@ -29,6 +31,7 @@ export function useFetch<T = unknown>({
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (skip) return;
         setLoading(true);
         const resolvedUri = uri.startsWith(apiConfig.base)
           ? uri
@@ -54,7 +57,6 @@ export function useFetch<T = unknown>({
         setLoading(false);
       }
     };
-
     fetchData();
   }, [refetchIndex]);
   return { loading, results, refetch };
