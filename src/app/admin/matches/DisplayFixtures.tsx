@@ -16,7 +16,7 @@ import SquadCard from "../squad/SquadCard";
 import { DIALOG } from "@/components/Dialog";
 import { Eye } from "lucide-react";
 import Image from "next/image";
-import { Pagination } from "@/components/Pagination";
+import { Pagination } from "@/components/pagination/Pagination";
 import { IQueryResponse } from "@/types";
 import { AdminMatchCard } from "./MatchCard";
 import { DisplayType } from "@/components/DisplayStyle";

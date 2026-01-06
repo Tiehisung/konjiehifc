@@ -17,12 +17,11 @@ import {
   Trophy,
   Award,
 } from "lucide-react";
-import { IPlayer } from "@/types/player.interface";
+import { EPlayerAvailability, IPlayer } from "@/types/player.interface";
 import { EPlayerPosition } from "@/types/player.interface";
 import { getInitials } from "@/lib";
 import { POPOVER } from "@/components/ui/popover";
 import { SocialShare } from "@/components/SocialShare";
- 
 
 interface PlayerHeaderProps {
   player?: IPlayer;
@@ -67,8 +66,7 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
   const phone = player?.phone || "No phone provided";
 
   // Status badges
-  const isActive = player?.isActive ?? false;
-  const isFit = player?.isFit ?? false;
+  const isCurrentPlayer = player?.isCurrentPlayer ?? false;
 
   // Safe captaincy check
   const hasCaptaincy = !!player?.captaincy;
@@ -85,7 +83,6 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
             src={player?.avatar}
             alt={fullName}
             fallbackText={getInitials(fullName)}
-
           />
           <div className="absolute -top-2 -right-2">
             <div
@@ -100,10 +97,10 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
           <div className="flex items-center gap-2 flex-wrap">
             <h1 className="text-3xl font-bold truncate">{fullName}</h1>
             <Badge
-              variant={isActive ? "default" : "destructive"}
+              variant={isCurrentPlayer ? "default" : "destructive"}
               className="shrink-0"
             >
-              {isActive ? "Active" : "Inactive"}
+              {isCurrentPlayer ? "Active" : "Inactive"}
             </Badge>
           </div>
 
@@ -111,12 +108,9 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
             <Badge variant="secondary" className="text-sm shrink-0">
               {positionAbbreviation}
             </Badge>
-             
-            <Badge
-              variant={isFit ? "default" : "destructive"}
-              className="shrink-0"
-            >
-              {isFit ? "Fit" : "Injured"}
+
+            <Badge variant={"destructive"} className="shrink-0">
+              {player?.availability ?? EPlayerAvailability.AVAILABLE}
             </Badge>
             {hasCaptaincy && (
               <Badge
@@ -142,7 +136,7 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 self-start lg:self-center">
+      <div className="flex items-center flex-wrap gap-2 self-start lg:self-center">
         <POPOVER
           trigger={
             <>
@@ -154,7 +148,6 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
           className="grid"
         >
           <SocialShare
-            url={window.location.href}
             title={fullName}
             text={`Check out ${fullName}'s player profile`}
           />

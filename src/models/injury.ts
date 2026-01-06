@@ -1,8 +1,10 @@
+import { EInjurySeverity } from "@/types/injury.interface";
 import mongoose, { Schema } from "mongoose";
 
 export const injurySchema = new Schema(
   {
-    match: { type: Schema.Types.ObjectId, ref: "match", required: true },
+    title: { type: String, required: true },
+    description: { type: String, required: true },
     minute: String,
     player: {
       _id: {
@@ -14,7 +16,7 @@ export const injurySchema = new Schema(
       avatar: String,
       number: Number
     },
-    severity: { type: String, enum: ["minor", "moderate", "severe"], default: 'minor' },
+    severity: { type: String, enum: Object.values(EInjurySeverity), default: EInjurySeverity.MINOR },
   },
   { timestamps: true }
 );

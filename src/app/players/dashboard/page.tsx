@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { IPlayer } from "@/types/player.interface";
+import { EPlayerAvailability, IPlayer } from "@/types/player.interface";
 import { PlayerHeader } from "./Header";
-import { MedicalInfo } from "./Medical";
+import { PlayerInjuryAndIssues } from "./InjuryAndIssues";
 import { PerformanceTabs } from "./Performance";
 import { PlayerSidebar } from "./Sidebar";
 import { StatsCards } from "./Stats";
@@ -9,13 +9,14 @@ import { PositionVisualization } from "./PositionVisualization";
 import { IPageProps, IQueryResponse } from "@/types";
 import { auth } from "@/auth";
 import { getPlayerById } from "@/app/admin/players/page";
-import GalleryGrid from "@/components/Gallery/GallaryGrid";
 import { IGallery } from "@/types/file.interface";
 import { getGallery } from "@/app/admin/galleries/page";
 import { Metadata } from "next";
 import { kfc } from "@/data/kfc";
 import { PlayerGalleries } from "./Galleries";
-import { SearchWithSubmit } from "@/components/Search";
+import { PrimaryTabs } from "@/components/Tabs";
+import { enumToOptions } from "@/lib/select";
+import { TABS } from "@/components/ui/tabs";
 
 // Mock data - replace with actual API call
 export async function generateMetadata({
@@ -42,6 +43,8 @@ export async function generateMetadata({
     "/upload/",
     "/upload/c_fill,w_1200,h_630,f_auto,q_auto/"
   );
+
+  console.log({ ogImage, url, title, description });
 
   return {
     title,
@@ -81,7 +84,7 @@ export default async function PlayerPage({ searchParams }: IPageProps) {
 
   const player: IPlayer = await getPlayerById(session?.user?.email as string);
   const galleries: IQueryResponse<IGallery[]> = await getGallery(
-    `?tags=${[player?._id].filter(Boolean).join(",")}`
+    `?tags=${[player?._id].filter(Boolean).join(",")}&limit=3`
   );
 
   console.log("player", player);
@@ -101,7 +104,7 @@ export default async function PlayerPage({ searchParams }: IPageProps) {
           <div className="lg:col-span-3 space-y-8">
             <StatsCards player={player} />
 
-            <MedicalInfo player={player} />
+            <PlayerInjuryAndIssues player={player} />
 
             <PerformanceTabs player={player} />
 
@@ -118,13 +121,24 @@ export default async function PlayerPage({ searchParams }: IPageProps) {
             </Card>
 
             {/* Gallery Section */}
-            <PlayerGalleries player={player}/>
-            {/* <GalleryGrid galleries={galleries?.data ?? []} /> */}
+            <PlayerGalleries player={player} />
           </div>
         </div>
       </div>
-      <br />
-      <SearchWithSubmit/>
+      <PrimaryTabs tabs={enumToOptions(EPlayerAvailability)}>
+        <p>1</p>
+        <p>2</p>
+        <p>3</p>
+        <p>4</p>
+      </PrimaryTabs>
+       
+      <TABS tabs={enumToOptions(EPlayerAvailability)}>
+        <p>1</p>
+        <p>2</p>
+        <p>3</p>
+        <p>4</p>
+      </TABS>
+      ;
     </div>
   );
 }

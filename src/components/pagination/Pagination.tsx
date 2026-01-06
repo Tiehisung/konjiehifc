@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "./buttons/Button";
+import { Button } from "../buttons/Button";
 import { useUpdateSearchParams } from "@/hooks/params";
 import { FC } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
@@ -37,7 +37,7 @@ export const Pagination: FC<PaginationProps> = ({
   const { setParam } = useUpdateSearchParams();
 
   const handlePrevious = () => {
-    if ((pagination?.page??0) > 1) {
+    if ((pagination?.page ?? 0) > 1) {
       setParam("page", (Number(pagination?.page ?? 2) - 1).toString());
     }
   };

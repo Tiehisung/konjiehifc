@@ -18,20 +18,8 @@ import { getErrorMessage } from "@/lib";
 import { Button } from "@/components/buttons/Button";
 import { useRouter } from "next/navigation";
 import { IMatch } from "@/types/match.interface";
-
-export interface IInjury {
-  _id?: string;
-  player: {
-    name: string;
-    _id: string;
-    avatar: string;
-    number: string | number;
-  };
-  minute: number;
-  description?: string;
-  severity: "minor" | "moderate" | "severe";
-  match: string;
-}
+import { symbols } from "@/data";
+import { EInjurySeverity, IInjury } from "@/types/injury.interface";
 
 interface InjuryEventsTabProps {
   players: IPlayer[];
@@ -44,7 +32,7 @@ export function InjuryEventsTab({ players, match }: InjuryEventsTabProps) {
     player: "",
     minute: "",
     description: "",
-    severity: "moderate" as "minor" | "moderate" | "severe",
+    severity: EInjurySeverity.MINOR,
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -64,21 +52,21 @@ export function InjuryEventsTab({ players, match }: InjuryEventsTabProps) {
       const newInjury: IInjury = {
         player: {
           _id: player?._id,
-          name: player?.firstName + " " + player?.lastName,
+          name: `${player?.firstName} ${player?.lastName}`,
           avatar: player?.avatar,
           number: player?.number,
         },
         minute: Number.parseInt(form.minute),
         description: "🤕 " + form.description,
         severity: form.severity,
-        match: match?._id,
+        title: `${match?.title} ${symbols.longDash} ${match?.date}`,
       };
 
       setForm({
         player: "",
         minute: "",
         description: "",
-        severity: "moderate",
+        severity: EInjurySeverity.MINOR,
       });
 
       const response = await fetch(apiConfig.injuries, {
@@ -90,7 +78,7 @@ export function InjuryEventsTab({ players, match }: InjuryEventsTabProps) {
       const results = await response.json();
       toast.success(results.message);
 
-      setForm({ minute: "", description: "", player: "", severity: "minor" });
+      setForm({ minute: "", description: "", player: "", severity: EInjurySeverity.MINOR });
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
@@ -154,7 +142,7 @@ export function InjuryEventsTab({ players, match }: InjuryEventsTabProps) {
                   onValueChange={(value) =>
                     setForm((prev) => ({
                       ...prev,
-                      severity: value as "minor" | "moderate" | "severe",
+                      severity: value as EInjurySeverity,
                     }))
                   }
                 >
@@ -198,7 +186,6 @@ export function InjuryEventsTab({ players, match }: InjuryEventsTabProps) {
             </Button>
           </div>
         </form>
-     
       </Card>
     </div>
   );

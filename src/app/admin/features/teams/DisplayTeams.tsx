@@ -3,7 +3,7 @@
 import { teamLogos } from "@/assets/teams/logos/team-logos";
 import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { formatDate } from "@/lib/timeAndDate";
-import { Pagination } from "@/components/Pagination";
+import { Pagination } from "@/components/pagination/Pagination";
 import { IQueryResponse } from "@/types";
 import { PrimaryDropdown } from "@/components/Dropdown";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";

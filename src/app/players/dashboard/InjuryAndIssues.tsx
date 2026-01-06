@@ -1,15 +1,22 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, Activity, Heart, Shield } from "lucide-react";
 import { IPlayer } from "@/types/player.interface";
+import { EInjurySeverity } from "@/types/injury.interface";
 
-interface MedicalInfoProps {
+interface InjuryAndIssuesProps {
   player?: IPlayer;
 }
 
-export function MedicalInfo({ player }: MedicalInfoProps) {
+export function PlayerInjuryAndIssues({ player }: InjuryAndIssuesProps) {
   const recentInjuries = player?.injuries?.slice(0, 5) ?? [];
   const currentIssues = player?.issues ?? [];
 
@@ -22,17 +29,17 @@ export function MedicalInfo({ player }: MedicalInfoProps) {
             <AlertTriangle className="h-5 w-5 text-amber-500" />
             Current Issues
           </CardTitle>
+          <CardDescription>
+            Performance, Ratings, Suggestions and others
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {currentIssues.length > 0 ? (
             <div className="space-y-3">
               {currentIssues.map((issue, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between p-3 bg-amber-50 rounded-lg"
-                >
-                  <span className="text-sm">{issue}</span>
-                  <Badge variant="destructive">Active</Badge>
+                <div key={index} className=" p-3 bg-accent rounded-lg">
+                  <p className="text-sm">{issue?.title ?? "Unknown"}</p>
+                  {issue?.description && <p>{issue.description}</p>}
                 </div>
               ))}
             </div>
@@ -59,10 +66,19 @@ export function MedicalInfo({ player }: MedicalInfoProps) {
               {recentInjuries.map((injury, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-3 bg-red-50 rounded-lg"
+                  className="flex flex-col items-center justify-start p-3 bg-red-50 rounded-lg"
                 >
-                  <span className="text-sm">{injury}</span>
-                  <Badge variant="destructive">Recovered</Badge>
+                  <p className="text-sm">{injury?.title}</p>
+                  {injury?.description && <p>{injury.description}</p>}
+                  <Badge
+                    variant={
+                      injury.severity == EInjurySeverity.SEVERE
+                        ? "destructive"
+                        : "secondary"
+                    }
+                  >
+                    {injury.severity}
+                  </Badge>
                 </div>
               ))}
             </div>

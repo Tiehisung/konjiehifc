@@ -1,19 +1,19 @@
 "use client";
 
-import { _pagination, Pagination } from "@/components/Pagination";
+import { _pagination, Pagination } from "@/components/pagination/Pagination";
 import React, { useState } from "react";
 import { SearchQueryUpdator } from "./Headers";
 import { ISelectOptionLV } from "@/types";
-import { PlayedMatchCard } from "./(fixturesAndResults)/Cards";;
+import { PlayedMatchCard } from "./(fixturesAndResults)/Cards";
 import { PrimarySelect } from "@/components/select/Select";
 import { IMatch } from "@/types/match.interface";
 
 const MatchesSection = ({ matches }: { matches: IMatch[] }) => {
-   const filters = [
-     { label: "All", value: "" },
-     { label: "Home", value: "home" },
-     { label: "Away", value: "away" },
-   ];
+  const filters = [
+    { label: "All", value: "" },
+    { label: "Home", value: "home" },
+    { label: "Away", value: "away" },
+  ];
   const [_selectedFilter, setSelectedFilter] = useState<ISelectOptionLV>();
 
   console.log(typeof _selectedFilter);

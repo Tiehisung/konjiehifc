@@ -1,7 +1,7 @@
 "use client";
 
 import { PrimaryDropdown } from "@/components/Dropdown";
-import { Pagination } from "@/components/Pagination";
+import { Pagination } from "@/components/pagination/Pagination";
 import { Card } from "@/components/ui/card";
 import { formatDate } from "@/lib/timeAndDate";
 import { ITransaction } from "@/models/finance/types";

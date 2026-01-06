@@ -8,6 +8,7 @@ import {
   SheetHeader,
 } from "./ui/sheet";
 import { Menu } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface IDrawer {
   children: ReactNode;
@@ -45,11 +46,14 @@ export function SideDrawer({
           {trigger}
         </Button>
       </SheetTrigger>
-      <SheetContent side={side} className={roundedTop ? "rounded-t-2xl" : ""}>
+      <SheetContent
+        side={side}
+        className={roundedTop ? "rounded-t-2xl md:rounded-t-3xl" : ""}
+      >
         <SheetHeader>
           <SheetTitle>{header}</SheetTitle>
         </SheetHeader>
-        <div className={` overflow-y-auto max-h-[85vh] ${className}`}>
+        <div className={cn(` overflow-y-auto max-h-[85vh] `, className)}>
           {children}
         </div>
       </SheetContent>

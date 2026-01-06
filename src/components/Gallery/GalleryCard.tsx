@@ -12,11 +12,12 @@ import { Badge } from "../ui/badge";
 
 export function GalleryCard({
   gallery,
-  showDate,onClick
+  showDate,
+  onClick,
 }: {
   gallery?: IGallery;
   showDate?: boolean;
-  onClick?:()=>void
+  onClick?: () => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -68,8 +69,8 @@ export function GalleryCard({
 
           {/* Tags */}
           <div className="flex flex-wrap gap-1">
-            {gallery?.tags?.slice(0, 10)?.map((tag) => (
-              <div key={tag} className="" hidden={isObjectId(tag)}>
+            {gallery?.tags?.slice(0, 10)?.map((tag, index) => (
+              <div key={index} hidden={isObjectId(tag)}>
                 #{tag}
               </div>
             ))}

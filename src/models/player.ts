@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import { fileSchema } from "./file";
-import { EPlayerStatus } from "@/types/player.interface";
+import { EPlayerAvailability } from "@/types/player.interface";
+ 
 
 const playerSchema = new Schema(
   {
@@ -67,9 +68,9 @@ const playerSchema = new Schema(
     mvp: [{ type: Schema.Types.ObjectId, ref: "mvps", default: [] }],
 
     issues: [{ type: String, default: () => [] }],
-    isActive: { type: Schema.Types.Boolean, default: () => true },
-    status: { type: String, default: () => EPlayerStatus.ACTIVE, enum: Object.values(EPlayerStatus) },
-    isFit: { type: Boolean, default: () => true },
+    isCurrentPlayer: { type: Schema.Types.Boolean, default: () => true },
+    availability: { type: String, default: () => EPlayerAvailability.AVAILABLE, enum: Object.values(EPlayerAvailability) },
+  
     number: { type: String, required: true, unique: true },
     position: {
       type: String,

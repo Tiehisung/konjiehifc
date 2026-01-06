@@ -4,47 +4,7 @@ import { IFileProps, IGallery } from "@/types/file.interface";
 import { EColor } from "./log";
 import { IGoal, IMatch } from "./match.interface";
 import { ICldFileUploadResult } from "./file.interface";
-
-export enum EPlayerStatus {
-    // Match Availability
-    AVAILABLE = 'AVAILABLE',           // Fully fit and available
-    DOUBTFUL = 'DOUBTFUL',             // 50/50 chance to play
-    UNAVAILABLE = 'UNAVAILABLE',       // Not available for selection
-
-    // Injury Status
-    INJURED = 'INJURED',               // Currently injured
-    RECOVERING = 'RECOVERING',         // Returning from injury
-    MINOR_INJURY = 'MINOR_INJURY',     // Small injury, light training
-
-    // Administrative Status
-    SUSPENDED = 'SUSPENDED',           // Disciplinary suspension
-    LOANED = 'LOANED',                 // Playing for another club
-    TRANSFER_LISTED = 'TRANSFER_LISTED', // Available for transfer
-
-    // Squad Status
-    ACTIVE = 'ACTIVE',                 // Part of main squad
-    RESERVE = 'RESERVE',               // Reserve team player
-    YOUTH = 'YOUTH',                   // Youth/academy player
-
-    // Career Status
-    RETIRED = 'RETIRED',               // Ended playing career
-    INACTIVE = 'INACTIVE',             // Not currently playing
-}
-
-
-export enum EPlayerPosition {
-    KEEPER = 'goal keeper',
-    DEFENDER = 'defender',
-    MIDFILDER = 'midfielder',
-    FORWARD = 'forward',
-    STRIKER = 'striker',
-    WING_BACK = 'wing back',
-    CENTER_BACK = 'center back',
-    ATTACKING_MIDFIELDER = 'attacking midfielder',
-    DEFENSIVE_MIDFIELDER = 'defensive midfielder',
-    WINGER = 'winger',
-    SWEEPER = 'sweeper'
-}
+import { IInjury } from "./injury.interface";
 
 export interface IPlayerMini {
     _id: string;
@@ -59,12 +19,7 @@ export interface IPlayer {
     number: string;
     about?: string;
     description?: string;
-    medicals: { fitness: string }[];
     galleries: IGallery[];
-    isFit: boolean;
-    isActive: boolean;
-    issues: string[];
-    injuries: string[];
     captaincy: string;
     firstName: string;
     lastName: string;
@@ -88,10 +43,44 @@ export interface IPlayer {
     trophies: number;
     cards: IMatchCard[];
     training: { team?: "A" | "B" };
-    status: EPlayerStatus,
-    
+
+    availability: EPlayerAvailability
+    fitness: EPlayerFitness
+    injuries: IInjury[]
+
+    // Status
+    issues: { title: string, description: string }[];
+    isCurrentPlayer: boolean;
 }
 
+export enum EPlayerAvailability {
+    AVAILABLE = "AVAILABLE",
+    INJURED = "INJURED",
+    SUSPENDED = "SUSPENDED",
+    PERSONAL_LEAVE = "PERSONAL_LEAVE",
+}
+
+export enum EPlayerFitness {
+    FIT = "FIT",
+    MINOR_INJURY = "MINOR_INJURY",
+    MAJOR_INJURY = "MAJOR_INJURY",
+    RECOVERING = "RECOVERING",
+    UNFIT = "UNFIT",
+}
+
+export enum EPlayerPosition {
+    KEEPER = 'goal keeper',
+    DEFENDER = 'defender',
+    MIDFILDER = 'midfielder',
+    FORWARD = 'forward',
+    STRIKER = 'striker',
+    WING_BACK = 'wing back',
+    CENTER_BACK = 'center back',
+    ATTACKING_MIDFIELDER = 'attacking midfielder',
+    DEFENSIVE_MIDFIELDER = 'defensive midfielder',
+    WINGER = 'winger',
+    SWEEPER = 'sweeper'
+}
 export interface IPostPlayer {
     number: number | string;
     about?: string;
@@ -99,7 +88,6 @@ export interface IPostPlayer {
     training: { team: string };
     medicals: { fitness: string }[];
     galleries: string[];
-    isFit: boolean;
     captaincy: string;
     firstName: string;
     lastName: string;
@@ -120,7 +108,6 @@ export interface IPostPlayer {
     passAcc: string;
     trophies: number;
     cards: string[];
-    status: EPlayerStatus
     slug: string
 }
 

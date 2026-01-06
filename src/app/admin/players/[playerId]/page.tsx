@@ -9,7 +9,7 @@ import PlayerProfileForm from "../NewSigningForms";
 import Loader from "@/components/loaders/Loader";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { apiConfig } from "@/lib/configs";
-import { EPlayerStatus, IPlayer } from "@/types/player.interface";
+import { IPlayer } from "@/types/player.interface";
 import GalleryGrid from "@/components/Gallery/GallaryGrid";
 import { GalleryUpload } from "@/components/Gallery/GalleryUpload";
 import { IQueryResponse } from "@/types";
@@ -27,12 +27,14 @@ export default async function PlayerProfilePage({
   const playerId = (await params).playerId;
   const player: IPlayer = await getPlayerById(playerId);
 
-  const galleries: IQueryResponse<IGalleryProps[]> = await getGallery(
+  const galleries: IQueryResponse<IGallery[]> = await getGallery(
     `?tags=${[playerId].filter(Boolean).join(",")}`
   );
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
 
   if (!player) return <Loader message="Loading player..." />;
+
+  const fullname = `${player?.lastName} ${player?.firstName}`;
 
   return (
     <main className="relative bg-cover py-8 ">
@@ -76,7 +78,7 @@ export default async function PlayerProfilePage({
         <ScrollToPointBtn
           sectionId={"danger-zone"}
           className="flex gap-1 items-center shadow p-1 hover:text-blue-400 transition-transform"
-          label={player?.isActive ? "Deactivate" : "Activate"}
+          label={player?.isCurrentPlayer ? "Deactivate" : "Activate"}
         >
           <GiPresent />
         </ScrollToPointBtn>
@@ -92,16 +94,17 @@ export default async function PlayerProfilePage({
 
       {/* Sections */}
       <main className="space-y-36 px-[2vw] pb-24 pt-7 ">
-        {!player?.isActive  && (
+        {!player?.isCurrentPlayer && (
           <NotifierWrapper
             message={"Unconfirmed player"}
             className="text-Red"
             inDismissible
           >
-            <p>You need to confirm player to make them visible to the public</p>
+            <p>{fullname} is not visible to the public</p>
           </NotifierWrapper>
         )}
-        <h1 className="_heading backdrop-blur-xs p-0 ">{`${player?.firstName} ${player?.lastName}`}</h1>
+
+        <h1 className="_heading backdrop-blur-xs p-0 ">{fullname}</h1>
         <UpdatePlayerIssuesAndFitness player={player} />
 
         <section id="edit-player">
@@ -118,16 +121,11 @@ export default async function PlayerProfilePage({
 
         <section id="galleries">
           <header className="my-6 _title _gradient p-4 flex items-center justify-between gap-6">
-            GALLERIES{" "}
-            <GalleryGrid galleries={galleries?.data as IGalleryProps[]} />
+            GALLERIES <GalleryGrid galleries={galleries?.data as IGallery[]} />
           </header>
 
           <GalleryUpload
-            tags={
-              [player?.lastName, player?.firstName, playerId].filter(
-                Boolean
-              ) as string[]
-            }
+            tags={[fullname, playerId].filter(Boolean) as string[]}
             players={players?.data}
           />
         </section>
@@ -137,14 +135,14 @@ export default async function PlayerProfilePage({
             DANGER ZONE
           </h3>
           <div className="flex gap-10 max-sm:flex-col flex-wrap justify-center items-center bg-card py-6">
-            {!player?.isActive && (
+            {!player?.isCurrentPlayer && (
               <ConfirmActionButton
                 uri={`${apiConfig.players}/${playerId}`}
                 method="PUT"
-                body={{ isActive: true }}
+                body={{ isCurrentPlayer: true }}
                 primaryText="CONFIRM PLAYER"
                 loadingText="Approving..."
-                confirmText={`Do you want to confirm ${player?.firstName}?`}
+                confirmText={`Do you want to confirm ${fullname}?`}
                 title="Confirm Player"
                 variant={"default"}
               />
@@ -152,10 +150,10 @@ export default async function PlayerProfilePage({
             <ConfirmActionButton
               uri={`${apiConfig.players}/${playerId}`}
               method="PUT"
-              body={{ isActive: false }}
+              body={{ isCurrentPlayer: false }}
               primaryText="DEACTIVATE PLAYER"
               loadingText="DELETING..."
-              confirmText={`Do you want to disable ${player?.firstName}?`}
+              confirmText={`Do you want to disable ${fullname}?`}
               variant="destructive"
               title="Deactivate Player"
             />
@@ -164,7 +162,7 @@ export default async function PlayerProfilePage({
               method="DELETE"
               primaryText="DELETE PLAYER"
               loadingText="DELETING..."
-              confirmText={`Do you want to delete ${player?.firstName}?`}
+              confirmText={`Do you want to delete ${fullname}?`}
               gobackAfter
               variant="destructive"
               title="Delete Player"
