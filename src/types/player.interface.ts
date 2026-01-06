@@ -1,7 +1,7 @@
 import { IManager } from "@/app/admin/managers/page";
 import { IMatchCard } from "@/app/matches/(fixturesAndResults)";
 import { IFileProps, IGallery } from "@/types/file.interface";
-import { EColor } from "./log";
+import { EColor } from "./color";
 import { IGoal, IMatch } from "./match.interface";
 import { ICldFileUploadResult } from "./file.interface";
 import { IInjury } from "./injury.interface";

@@ -6,7 +6,6 @@ export async function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const session = (await auth()) as ISession | null;
 
-    // console.log({ session });
     // Define protected paths
     const isAdminPath = pathname.startsWith("/admin");
     const isPlayerDashboardPath = pathname.startsWith("/players/dashboard");
@@ -28,24 +27,34 @@ export async function proxy(request: NextRequest) {
 
     const role = session.user.role;
 
-    // Check admin authorization
-    // Player trying to access admin
-    if (isAdminPath && role !== EUserRole.ADMIN) {
+    // **FIXED LOGIC:**
+    // Check admin access
+    if (isAdminPath) {
+        // Allow only admins
+        if (role === EUserRole.ADMIN) {
+            return NextResponse.next(); // ✅ Admin can access admin routes
+        }
+        // Redirect non-admins
         if (role === EUserRole.PLAYER) {
             return NextResponse.redirect(new URL("/players/dashboard", request.url));
         }
         return NextResponse.redirect(new URL("/auth/not-authorized", request.url));
     }
 
-    // Check player authorization
-    // Admin trying to access player dashboard
-    if (isPlayerDashboardPath && role !== EUserRole.PLAYER) {
+    // Check player dashboard access
+    if (isPlayerDashboardPath) {
+        // Allow only players
+        if (role === EUserRole.PLAYER) {
+            return NextResponse.next(); // ✅ Player can access player dashboard
+        }
+        // Redirect non-players
         if (role === EUserRole.ADMIN) {
             return NextResponse.redirect(new URL("/admin", request.url));
         }
         return NextResponse.redirect(new URL("/auth/not-authorized", request.url));
     }
 
+    // Default fallback (shouldn't reach here for protected paths)
     return NextResponse.next();
 }
 
@@ -55,4 +64,3 @@ export const config = {
         "/players/dashboard/:path*",
     ],
 };
-

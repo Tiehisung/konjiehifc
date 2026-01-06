@@ -35,7 +35,6 @@ export function PlayerGalleries({
     skip: !stackModal,
   });
 
-  console.log({ results });
 
   const [data, setData] = useState<IGallery[]>([]);
 

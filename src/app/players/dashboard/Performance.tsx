@@ -143,7 +143,7 @@ export function PerformanceTabs({ player }: PerformanceTabsProps) {
       {/* Matches Tab */}
       <TabsContent value="matches" className="space-y-4">
         <div className="mb-6">
-          <h3 className="text-lg font-semibold mb-4">Recent Matches</h3>
+          <h3 className="text-lg font-semibold mb-4"> Matches</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <Card>
               <CardContent className="p-4 text-center">
