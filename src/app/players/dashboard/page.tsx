@@ -15,6 +15,7 @@ import { getGallery } from "@/app/admin/galleries/page";
 import { Metadata } from "next";
 import { kfc } from "@/data/kfc";
 import { PlayerGalleries } from "./Galleries";
+import { SearchWithSubmit } from "@/components/Search";
 
 // Mock data - replace with actual API call
 export async function generateMetadata({
@@ -117,11 +118,13 @@ export default async function PlayerPage({ searchParams }: IPageProps) {
             </Card>
 
             {/* Gallery Section */}
-            <PlayerGalleries />
-            <GalleryGrid galleries={galleries?.data ?? []} />
+            <PlayerGalleries player={player}/>
+            {/* <GalleryGrid galleries={galleries?.data ?? []} /> */}
           </div>
         </div>
       </div>
+      <br />
+      <SearchWithSubmit/>
     </div>
   );
 }
