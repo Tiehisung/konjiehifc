@@ -1,8 +1,9 @@
-'use client'
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { MetricCard } from "@/components/MetricsCards";
+import { TColor } from "@/types/color";
 import { IPlayer } from "@/types/player.interface";
- 
+
 import {
   Target,
   Crosshair,
@@ -24,28 +25,28 @@ export function StatsCards({ player }: StatsCardsProps) {
       title: "Goals",
       value: (player?.goals?.length || 0)?.toString(),
       icon: Target,
-      color: "text-red-500",
+      color: "red",
       bgColor: "bg-red-50",
     },
     {
       title: "Assists",
       value: (player?.assists?.length || 0)?.toString(),
       icon: Crosshair,
-      color: "text-blue-500",
+      color: "blue",
       bgColor: "bg-blue-50",
     },
     {
       title: "Trophies",
       value: (player?.trophies || 0)?.toString(),
       icon: Trophy,
-      color: "text-amber-500",
+      color: "amber",
       bgColor: "bg-amber-50",
     },
     {
       title: "MVP Awards",
       value: (player?.mvp?.length || 0)?.toString(),
       icon: Award,
-      color: "text-purple-500",
+      color: "purple",
       bgColor: "bg-purple-50",
     },
     {
@@ -56,14 +57,14 @@ export function StatsCards({ player }: StatsCardsProps) {
           : `${player.passAcc}%`
         : "0%",
       icon: Zap,
-      color: "text-green-500",
+      color: "green",
       bgColor: "bg-green-50",
     },
     {
       title: "Total Matches",
       value: (player?.matches?.length || 0)?.toString(),
       icon: Activity,
-      color: "text-indigo-500",
+      color: "indigo",
       bgColor: "bg-indigo-50",
     },
     {
@@ -73,7 +74,7 @@ export function StatsCards({ player }: StatsCardsProps) {
           .length || 0
       )?.toString(),
       icon: Shield,
-      color: "text-yellow-500",
+      color: "yellow",
       bgColor: "bg-yellow-50",
     },
     {
@@ -83,7 +84,7 @@ export function StatsCards({ player }: StatsCardsProps) {
         0
       )?.toString(),
       icon: Shield,
-      color: "text-red-600",
+      color: "red",
       bgColor: "bg-red-50",
     },
   ];
@@ -93,23 +94,31 @@ export function StatsCards({ player }: StatsCardsProps) {
       {stats.map((stat, index) => {
         const Icon = stat.icon;
         return (
-          <Card key={index}>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">
-                    {stat.title}
-                  </p>
-                  <p className="text-2xl font-bold mt-2">{stat.value}</p>
-                </div>
-                <div className={`${stat.bgColor} p-3 rounded-full`}>
-                  <Icon className={`h-6 w-6 ${stat.color}`} />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <MetricCard
+            key={index}
+            title={stat.title}
+            color={stat.color as TColor}
+            icon={<Icon />}
+            value={stat.value}
+          />
         );
       })}
     </div>
   );
 }
+
+// <Card key={index}>
+//   <CardContent className="p-6">
+//     <div className="flex items-center justify-between">
+//       <div>
+//         <p className="text-sm font-medium text-muted-foreground">
+//           {stat.title}
+//         </p>
+//         <p className="text-2xl font-bold mt-2">{stat.value}</p>
+//       </div>
+//       <div className={`${stat.bgColor} p-3 rounded-full`}>
+//         <Icon className={`h-6 w-6 ${stat.color}`} />
+//       </div>
+//     </div>
+//   </CardContent>
+// </Card>

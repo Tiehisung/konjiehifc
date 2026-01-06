@@ -94,6 +94,8 @@ export function TABS({
 }: ReusableTabsProps) {
   const defaultTab = defaultValue || tabs[0]?.value;
 
+  // const resolvedTabs=tabs?.map(t=>({...t,value:t?.value??t?.label}))//Value is optional
+
   return (
     <Tabs defaultValue={defaultTab} className={className}>
       <TabsList className={`grid ${gridCols} mb-8 ${listClassName}`}>

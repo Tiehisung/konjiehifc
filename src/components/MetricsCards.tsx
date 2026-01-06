@@ -3,30 +3,19 @@
 import { ReactNode } from "react";
 import Loader from "./loaders/Loader";
 import CountUp from "react-countup";
+import { TColor } from "@/types/color";
 
 interface IProps {
   title?: string;
   icon?: React.ReactNode;
   value?: string | number;
-  color?: "red" | "blue" | "green" | "purple" | "orange";
+  color?: TColor;
   isLoading?: boolean;
 }
 
 export function MetricCard({ title, icon, value, color, isLoading }: IProps) {
-  const colorMap: Record<string, string> = {
-    red: "bg-red-50",
-    blue: "bg-blue-50",
-    green: "bg-green-50",
-    purple: "bg-purple-50",
-    orange: "bg-orange-50",
-  };
-  const textColorMap: Record<string, string> = {
-    red: "text-red-500",
-    blue: "text-blue-500",
-    green: "text-green-500",
-    purple: "text-purple-500",
-    orange: "text-orange-500",
-  };
+  const txtCl = `text-${color}-500`;
+  const cl = `${txtCl} bg-${color}-50`;
   return (
     <div className="bg-card rounded-xl shadow-card p-6">
       <div className="flex items-center justify-between">
@@ -38,18 +27,12 @@ export function MetricCard({ title, icon, value, color, isLoading }: IProps) {
               title
             )}
           </p>
-          <p
-            className={`text-2xl font-bold ${
-              color ? `${textColorMap[color]}` : ""
-            }`}
-          >
+          <p className={`text-2xl font-bold ${txtCl}`}>
             {isLoading ? <Loader size="sm" /> : value}
           </p>
         </div>
         <div
-          className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-            color ? ` ${colorMap[color]}` : ""
-          } ${color ? textColorMap[color || "blue"] : ""}`}
+          className={`w-12 h-12 rounded-lg flex items-center justify-center ${cl} `}
         >
           {icon}
         </div>
