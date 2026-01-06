@@ -20,14 +20,14 @@ export default function NotFound() {
   }, [pathname]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-6 text-center">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-accent px-6 text-center">
       <div className="flex flex-col items-center space-y-6">
-        <SearchX className="w-20 h-20 text-gray-400" />
+        <SearchX className="w-20 h-20 text-muted-foreground" />
 
-        <h1 className="text-4xl font-bold text-gray-800">Page Not Found</h1>
+        <h1 className="text-4xl font-bold text-muted-foreground">Page Not Resolved</h1>
 
-        <p className="text-gray-600 max-w-md">
-          The page you're looking for does not exist or may have been moved.
+        <p className="text-muted-foreground max-w-md">
+          The page you're looking for can not be resolved at the moment.
         </p>
 
         <Link

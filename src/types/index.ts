@@ -86,3 +86,4 @@ export type TSearchKey =
   | 'doc_search'
   | 'highlight_search'
   | 'user_search'
+  | 'mvp_search'

@@ -34,3 +34,4 @@ const CardModel = mongoose.models.cards || mongoose.model("cards", cardSchema);
 
 export default CardModel;
 
+export type IPostCard = mongoose.InferSchemaType<typeof cardSchema>;

@@ -22,7 +22,7 @@ export const LoginBtn = ({
   variant,
   text = "Login",
   children,
-  redirectTo = "/admin",
+  redirectTo = window.location.href,
   stayOnPage = false,
 }: IProps) => {
   const [loading, setLoading] = useState(false);

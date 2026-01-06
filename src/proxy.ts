@@ -6,6 +6,8 @@ export async function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const session = (await auth()) as ISession | null;
 
+ 
+
     // Define protected paths
     const isAdminPath = pathname.startsWith("/admin");
     const isPlayerDashboardPath = pathname.startsWith("/players/dashboard");
@@ -30,8 +32,9 @@ export async function proxy(request: NextRequest) {
     // **FIXED LOGIC:**
     // Check admin access
     if (isAdminPath) {
+  
         // Allow only admins
-        if (role === EUserRole.ADMIN) {
+        if (role?.includes(EUserRole.ADMIN)) {
             return NextResponse.next(); // ✅ Admin can access admin routes
         }
         // Redirect non-admins
@@ -43,16 +46,19 @@ export async function proxy(request: NextRequest) {
 
     // Check player dashboard access
     if (isPlayerDashboardPath) {
+ 
         // Allow only players
         if (role === EUserRole.PLAYER) {
             return NextResponse.next(); // ✅ Player can access player dashboard
         }
         // Redirect non-players
-        if (role === EUserRole.ADMIN) {
+        if (role?.includes(EUserRole.ADMIN)) {
             return NextResponse.redirect(new URL("/admin", request.url));
         }
         return NextResponse.redirect(new URL("/auth/not-authorized", request.url));
     }
+
+
 
     // Default fallback (shouldn't reach here for protected paths)
     return NextResponse.next();

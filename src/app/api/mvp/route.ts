@@ -3,10 +3,10 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import { NextRequest, NextResponse } from "next/server";
 import { logAction } from "../logs/helper";
 import { IMatchCard } from "@/app/matches/(fixturesAndResults)";
-import CardModel from "@/models/card";
 import { updateMatchEvent } from "../matches/live/events/route";
 import PlayerModel from "@/models/player";
-import { auth } from "@/auth";
+import MvPModel, { IPostMvp } from "@/models/mpv";
+import { TSearchKey } from "@/types";
 
 ConnectMongoDb();
 
@@ -17,24 +17,23 @@ export async function GET(request: NextRequest) {
   const limit = Number.parseInt(searchParams.get("limit") || "30", 10);
   const skip = (page - 1) * limit;
 
-  const search = searchParams.get("card_search") || "";
+  const search = searchParams.get("mvp_search") as TSearchKey || "";
 
   const regex = new RegExp(search, "i");
 
   const query = {
     $or: [
-      { "type": regex },
       { "player.name": regex },
-      { "match.name": regex },
+      { "player.number": regex },
       { "description": regex },
     ],
   }
 
-  const cards = await CardModel.find(query)
+  const cards = await MvPModel.find(query)
     .limit(limit).skip(skip)
     .lean().sort({ createdAt: "desc" });
 
-  const total = await CardModel.countDocuments(query)
+  const total = await MvPModel.countDocuments(query)
   return NextResponse.json({
     success: true,
     data: cards,
@@ -49,34 +48,34 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { match, minute, player, type, description, } = await request.json() as IMatchCard;
+    const { match, player, description, } = await request.json() as IPostMvp;
 
-    const savedCard = await CardModel.create({
-      match, minute, player, type
+    const savedMVP = await MvPModel.create({
+      match, player, description
     });
 
-    if (!savedCard) {
+    if (!savedMVP) {
       return NextResponse.json({ message: "Failed to create card.", success: false });
     }
 
     //Update Player
-    await PlayerModel.findByIdAndUpdate(player?._id, { $push: { cards: savedCard._id } })
+    await PlayerModel.findByIdAndUpdate(player?._id, { $push: { mvps: savedMVP._id } })
 
     //Update events
-    await updateMatchEvent(match._id, {
-      type: 'card',
-      minute: minute,
-      title: `${type == 'red' ? '🟥' : '🟨'} ${minute}' - ${player.number}  ${player.name} `,
-      description
+    await updateMatchEvent(match?.toString(), {
+      type: 'general',
+      minute: 90,
+      title: `${player?.name} awarded MVP `,
+      description: description as string
     })
 
     // log
     await logAction({
-      title: "Card Created",
-      description: `${type == 'red' ? '🟥' : '🟨'} ${type} card recorded. ${description || ''}`,
+      title: "MVP declared",
+      description: `${player?.name} declared MVP. ${description || ''}`,
     });
 
-    return NextResponse.json({ message: "Card created successfully!", success: true, data: savedCard });
+    return NextResponse.json({ message: "MVP created successfully!", success: true, data: savedMVP });
 
   } catch (error) {
     return NextResponse.json({
@@ -89,32 +88,32 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const { cardId, playerId, matchId } = await request.json() as { cardId: string, playerId: string, matchId: string }
+    const { matchId, playerId, } = await request.json() as { matchId: string, playerId: string, }
 
-    const deleted = await CardModel.findByIdAndDelete(cardId,);
+    const deleted = await MvPModel.findByIdAndDelete(matchId,);
 
     if (!deleted) {
       return NextResponse.json({ message: "Failed to delete card.", success: false });
     }
 
     //Update Player
-    await PlayerModel.findByIdAndUpdate(playerId, { $pull: { cards: cardId } })
+    await PlayerModel.findByIdAndUpdate(playerId, { $pull: { mvps: matchId } })
 
     //Update events
     await updateMatchEvent(matchId, {
-      type: 'card',
+      type: 'general',
       minute: deleted?.minute,
-      title: ` Card revoked `,
-      description: 'Card reviewed and revoked'
+      title: ` MVP revoked `,
+      description: 'MVP reviewed and revoked'
     })
 
     // log
     await logAction({
-      title: "Card deleted",
-      description: `Recent card was revoked`,
+      title: "MVP deleted",
+      description: `Recent MVP was revoked`,
     });
 
-    return NextResponse.json({ message: "Card created successfully!", success: true, data: deleted });
+    return NextResponse.json({ message: "MVP created successfully!", success: true, data: deleted });
 
   } catch (error) {
     return NextResponse.json({
