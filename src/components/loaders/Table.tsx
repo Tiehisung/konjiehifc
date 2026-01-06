@@ -21,7 +21,7 @@ const TableLoader = ({
             {colsCount.map((_, cIndex) => (
               <th key={cIndex}>
                 <div
-                  className={`m-2 w-[80%] h-4 bg-popover rounded animate-pulse ${className}`}
+                  className={`my-2 mx-auto w-[80%] h-4 bg-muted rounded animate-pulse border ${className}`}
                 />
               </th>
             ))}
@@ -32,7 +32,7 @@ const TableLoader = ({
               {colsCount.map((_, cIndex) => (
                 <td key={cIndex}>
                   <div
-                    className={`m-2 w-[80%] h-4 bg-popover rounded animate-pulse ${className}`}
+                    className={`my-2 mx-auto w-[80%] h-4 bg-muted/90 rounded animate-pulse border ${className}`}
                   />
                 </td>
               ))}

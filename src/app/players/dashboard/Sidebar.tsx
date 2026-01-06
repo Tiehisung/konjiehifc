@@ -11,10 +11,9 @@ import {
   Shield,
   Users,
   AlertTriangle,
-  Thermometer,
 } from "lucide-react";
 
-import { IPlayer } from "@/types/player.interface";
+import { EPlayerFitness, IPlayer } from "@/types/player.interface";
 import { formatDate } from "@/lib/timeAndDate";
 import { Progress } from "@/components/ui/progress";
 import { getInitials } from "@/lib";
@@ -110,7 +109,7 @@ export function PlayerSidebar({ player }: PlayerSidebarProps) {
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <Heart className="h-5 w-5" />
-            Fitness Status
+            Status
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -120,10 +119,14 @@ export function PlayerSidebar({ player }: PlayerSidebarProps) {
                 Current Fitness
               </span>
               <Badge
-                variant={player?.isFit ? "default" : "destructive"}
+                variant={
+                  player?.fitness == EPlayerFitness.FIT
+                    ? "default"
+                    : "destructive"
+                }
                 className="min-w-22.5 justify-center"
               >
-                {player?.isFit ? "Fit to Play" : "Injured"}
+                {player?.fitness ?? EPlayerFitness.FIT}
               </Badge>
             </div>
             <div className="flex justify-between items-center">
@@ -133,24 +136,6 @@ export function PlayerSidebar({ player }: PlayerSidebarProps) {
               <Badge variant="secondary">Team {trainingTeam}</Badge>
             </div>
           </div>
-
-          {(player?.medicals?.length || 0) > 0 && (
-            <div className="pt-4 border-t">
-              <div className="flex items-center gap-2 mb-2">
-                <Thermometer className="h-4 w-4" />
-                <span className="text-sm font-medium">Medical History</span>
-              </div>
-              <div className="space-y-2">
-                {player?.medicals?.slice(0, 3)?.map((medical, index) => (
-                  <div key={`medical-${index}`} className="text-sm">
-                    <span className="text-muted-foreground">
-                      {medical?.fitness || "No details"}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
 
           {(player?.injuries?.length || 0) > 0 && (
             <div className="pt-4 border-t">
@@ -165,20 +150,14 @@ export function PlayerSidebar({ player }: PlayerSidebarProps) {
                     variant="outline"
                     className="text-xs"
                   >
-                    {injury || "Unknown Injury"}
+                    {injury?.title || "Unknown Injury"}
                   </Badge>
                 ))}
               </div>
             </div>
           )}
 
-          {!player?.medicals?.length && !player?.injuries?.length && (
-            <div className="pt-4 border-t text-center">
-              <p className="text-sm text-muted-foreground">
-                No medical records available
-              </p>
-            </div>
-          )}
+          
         </CardContent>
       </Card>
 

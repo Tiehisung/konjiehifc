@@ -1,20 +1,14 @@
 "use client";
 
-import { Pagination } from "@/components/Pagination";
+import { Pagination } from "@/components/pagination/Pagination";
 import { PrimarySearch } from "@/components/Search";
 import { AVATAR } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { getInitials } from "@/lib";
 import { formatDate, getTimeAgo } from "@/lib/timeAndDate";
 import { IQueryResponse } from "@/types";
-import {  EUserRole, IUser } from "@/types/user";
-import {
-  Globe,
-  ChevronUp,
-  ChevronDown,
-  Search,
-  Filter,
-} from "lucide-react";
+import { EUserRole, IUser } from "@/types/user";
+import { Globe, ChevronUp, ChevronDown, Search, Filter } from "lucide-react";
 import { useState, useMemo } from "react";
 import { UserActions } from "./Actions";
 import { PrimarySelect } from "@/components/select/Select";

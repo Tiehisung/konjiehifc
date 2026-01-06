@@ -101,9 +101,9 @@ export const shortText = (text: string, maxLength = 30) =>
   text?.length >= maxLength ? `${text.substring(0, maxLength)}...` : text;
 
 export const getInitials = (text: string | string[], length = 2) => {
-  const list = typeof text == "string" ? text.trim().split(" ") : text;
-  const initials = list.map((l) => l.trim()[0]);
   if (!text) return "";
+  const list = typeof text == "string" ? text.trim().split(" ") : text;
+  const initials = list?.map((l) => l.trim()[0]);
   return initials.join("").substring(0, Math.min(length, initials.length));
 };
 

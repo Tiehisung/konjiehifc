@@ -148,8 +148,8 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
             triggerClassNames="rounded-full"
             id="shares-trigger"
           >
-            <div
-              onClick={() =>
+            <SocialShare
+              onShare={() =>
                 handleShare({
                   method: "PUT",
                   uri: `${apiConfig.news}/${newsItem?._id}`,
@@ -165,9 +165,7 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
                   },
                 })
               }
-            >
-              <SocialShare />
-            </div>
+            />
           </POPOVER>
           <div
             className="font-lght text-xs "
@@ -232,7 +230,9 @@ export function NewsReactions({ newsItem }: { newsItem: INewsProps }) {
 
           <div
             className="font-lght text-xs "
-            onClick={() => toggleClick(session? "comments-trigger":'login-controller')}
+            onClick={() =>
+              toggleClick(session ? "comments-trigger" : "login-controller")
+            }
           >
             {newsItem?.comments?.length ?? ""} Comment
             {newsItem?.comments?.length == 1 ? "" : "s"}

@@ -1,7 +1,7 @@
 "use client";
 
 import { INewsProps } from "@/types/news.interface";
-import { Pagination } from "@/components/Pagination";
+import { Pagination } from "@/components/pagination/Pagination";
 import { PrimarySearch } from "@/components/Search";
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/timeAndDate";

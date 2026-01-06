@@ -3,10 +3,10 @@ import PlayerModel from "@/models/player";
 
 export async function getGlobalPlayersStats() {
     // Fetch all players once (best performance)
-    const players = await PlayerModel.find().lean() as unknown as IPlayer[];
+    const players = await PlayerModel.find({ isCurrentPlayer: true }).lean() as unknown as IPlayer[];
 
     const totalPlayers = players.length;
-    const activePlayers = players.filter(p => p.isActive).length;
+    const activePlayers = players.filter(p => p.isCurrentPlayer).length;
     const inactivePlayers = totalPlayers - activePlayers;
 
     // Injuries

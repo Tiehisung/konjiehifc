@@ -1,8 +1,11 @@
 "use client";
 
 import GalleryGrid from "@/components/Gallery/GallaryGrid";
+import Loader from "@/components/loaders/Loader";
 import TableLoader from "@/components/loaders/Table";
-import { PrimarySearch, SearchWithSubmit } from "@/components/Search";
+import { Pagination } from "@/components/pagination/Pagination";
+import { SlicePagination } from "@/components/pagination/SlicePagination";
+import { SearchWithSubmit } from "@/components/Search";
 import { SideDrawer } from "@/components/ShadSideDrawer";
 import { Button } from "@/components/ui/button";
 import { useFetch } from "@/hooks/fetch";
@@ -18,40 +21,65 @@ export function PlayerGalleries({ player }: { player?: IPlayer }) {
     uri: "/galleries",
     filters: {
       gallery_search: search ?? "",
-      tags: [player?._id].filter(Boolean).join(","),
+      tags: [player?._id,`${player?.lastName} ${player?.firstName}`].filter(Boolean).join(","),
     },
   });
 
   console.log({ results });
 
+  const [data, setData] = useState<IGallery[]>([]);
+
   return (
     <div className="grid gap-2">
+      <h3 className="text-lg font-semibold mb-4">Related Galleries</h3>
       <div>
-        <Button onClick={() => toggleClick("modal-trigger")}>
+        <Button
+          onClick={() => toggleClick("modal-trigger")}
+          variant="outline"
+          className="grow mx-4"
+        >
           <Search />
           Search your galleries
         </Button>
       </div>
       {loading ? (
-        <TableLoader cols={3} rows={1} className="h-24" />
+        <Loader className="h-24" />
       ) : (
         <GalleryGrid galleries={results?.data ?? []} />
       )}
 
       {/* MORE */}
-      <SideDrawer side="bottom" trigger={"View More"} id="modal-trigger">
-        <SearchWithSubmit
-          onChange={(v) => {
-            setSearch(v);
-            refetch();
-          }}
-          placeholder={`Search your galleries`}
-          className="mx-4 mt-3"
-        />
+      <SideDrawer
+        side="bottom"
+        trigger={"View More"}
+        id="modal-trigger"
+        className="space-y-5 max-h-[80vh]"
+        variant="outline"
+        triggerStyles="w-fit px-20 ml-5 my-4"
+        roundedTop
+        header={
+          <div className="mr-6">
+            {/* <p>Search related galleries for {player?.firstName}</p> */}
+            <SearchWithSubmit
+              onChange={(v) => {
+                setSearch(v);
+                refetch();
+              }}
+              placeholder={`Search your galleries`}
+              className="mx-4 "
+            />
+          </div>
+        }
+      >
         {loading ? (
-          <TableLoader cols={3} rows={1} className="h-24" />
+          <TableLoader cols={3} rows={3} className="h-24" />
         ) : (
-          <GalleryGrid galleries={results?.data ?? []} />
+          <div className="pb-4 space-y-3">
+            <GalleryGrid galleries={data ?? results?.data ?? []} />
+            <div className="pl-4">
+              <SlicePagination onPageChange={setData} data={results?.data} />
+            </div>
+          </div>
         )}
       </SideDrawer>
     </div>

@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import * as TabsPrimitive from "@radix-ui/react-tabs"
+import * as React from "react";
+import * as TabsPrimitive from "@radix-ui/react-tabs";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function Tabs({
   className,
@@ -15,7 +15,7 @@ function Tabs({
       className={cn("flex flex-col gap-2", className)}
       {...props}
     />
-  )
+  );
 }
 
 function TabsList({
@@ -31,7 +31,7 @@ function TabsList({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function TabsTrigger({
@@ -47,7 +47,7 @@ function TabsTrigger({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function TabsContent({
@@ -60,17 +60,65 @@ function TabsContent({
       className={cn("flex-1 outline-none", className)}
       {...props}
     />
-  )
+  );
 }
 
-export { Tabs, TabsList, TabsTrigger, TabsContent }
+export { Tabs, TabsList, TabsTrigger, TabsContent };
 
+export interface TabConfig {
+  value: string;
+  label: string;
+  icon?: React.ReactNode;
+  showLabel?: boolean;
+}
 
-{/* <Tabs defaultValue="account" className="w-[400px]">
-  <TabsList>
-    <TabsTrigger value="account">Account</TabsTrigger>
-    <TabsTrigger value="password">Password</TabsTrigger>
-  </TabsList>
-  <TabsContent value="account">Make changes to your account here.</TabsContent>
-  <TabsContent value="password">Change your password here.</TabsContent>
-</Tabs>; */}
+interface ReusableTabsProps {
+  tabs: TabConfig[];
+  children: React.ReactNode[];
+  defaultValue?: string;
+  className?: string;
+  listClassName?: string;
+  contentClassName?: string;
+  gridCols?: string;
+}
+
+export function TABS({
+  tabs,
+  defaultValue,
+  className = "w-full",
+  listClassName = "",
+  contentClassName = "space-y-4",
+  gridCols = "grid-cols-2 md:grid-cols-4",
+  children,
+}: ReusableTabsProps) {
+  const defaultTab = defaultValue || tabs[0]?.value;
+
+  return (
+    <Tabs defaultValue={defaultTab} className={className}>
+      <TabsList className={`grid ${gridCols} mb-8 ${listClassName}`}>
+        {tabs?.map((tab) => (
+          <TabsTrigger
+            key={tab.value}
+            value={tab.value}
+            className="flex items-center gap-2"
+          >
+            {tab?.icon ?? ""}
+            {tab.showLabel !== false && (
+              <span className="hidden sm:inline">{tab.label}</span>
+            )}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+
+      {children?.map((cont, i) => (
+        <TabsContent
+          key={i}
+          value={tabs?.[i]?.value}
+          className={contentClassName}
+        >
+          {cont}
+        </TabsContent>
+      ))}
+    </Tabs>
+  );
+}

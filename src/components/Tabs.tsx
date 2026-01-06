@@ -5,8 +5,8 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { FC, ReactNode, useEffect, useState } from "react";
 import Loader from "./loaders/Loader";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
 import { AnimateOnView } from "./Animate/AnimateOnView";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 interface IProps {
   labels: string[];
   children: ReactNode[];
