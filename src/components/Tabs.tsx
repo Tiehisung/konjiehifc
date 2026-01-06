@@ -7,6 +7,7 @@ import React, { FC, ReactNode, useEffect, useState } from "react";
 import Loader from "./loaders/Loader";
 import { AnimateOnView } from "./Animate/AnimateOnView";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { cn } from "@/lib/utils";
 interface IProps {
   labels: string[];
   children: ReactNode[];
@@ -156,14 +157,23 @@ export const LinkTabs = ({
 
 interface ITabs {
   className?: string;
+  listClassName?:string
   tabs: Array<{ value: string; label: ReactNode }>;
   defaultValue?: string;
   children: Array<ReactNode>;
 }
 export const PrimaryTabs: FC<ITabs> = (props) => {
   return (
-    <Tabs defaultValue={props.defaultValue} className={`pb-6 ${props.className}`}>
-      <TabsList className="flex items-center gap-1.5 p-1 mb-5 rounded-full bg-accent dark:text-foreground border border-border w-fit">
+    <Tabs
+      defaultValue={props.defaultValue}
+      className={`pb-6 ${props.className}`}
+    >
+      <TabsList
+        className={cn(
+          "flex items-center overflow-x-auto _hideScrollbar gap-1.5 p-1 mb-5 rounded-full bg-accent dark:text-foreground border border-border w-full",
+          props.listClassName
+        )}
+      >
         {props.tabs.map((tab) => (
           <TabsTrigger
             key={tab.value}
@@ -176,8 +186,8 @@ export const PrimaryTabs: FC<ITabs> = (props) => {
       </TabsList>
 
       {props.children.map((cont, i) => (
-        <TabsContent key={i} value={props.tabs[i].value} >
-          <AnimateOnView x={12}>{cont}</AnimateOnView>
+        <TabsContent key={i} value={props.tabs[i].value}>
+          <AnimateOnView x={6}>{cont}</AnimateOnView>
         </TabsContent>
       ))}
     </Tabs>

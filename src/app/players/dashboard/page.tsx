@@ -14,11 +14,8 @@ import { getGallery } from "@/app/admin/galleries/page";
 import { Metadata } from "next";
 import { kfc } from "@/data/kfc";
 import { PlayerGalleries } from "./Galleries";
-import { PrimaryTabs } from "@/components/Tabs";
 import { enumToOptions } from "@/lib/select";
-import { TABS } from "@/components/ui/tabs";
 
-// Mock data - replace with actual API call
 export async function generateMetadata({
   params,
 }: IPageProps): Promise<Metadata> {
@@ -44,7 +41,6 @@ export async function generateMetadata({
     "/upload/c_fill,w_1200,h_630,f_auto,q_auto/"
   );
 
-  console.log({ ogImage, url, title, description });
 
   return {
     title,
@@ -79,7 +75,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function PlayerPage({ searchParams }: IPageProps) {
+export default async function PlayerPage({}: IPageProps) {
   const session = await auth();
 
   const player: IPlayer = await getPlayerById(session?.user?.email as string);
@@ -121,24 +117,13 @@ export default async function PlayerPage({ searchParams }: IPageProps) {
             </Card>
 
             {/* Gallery Section */}
-            <PlayerGalleries player={player} />
+            <PlayerGalleries
+              player={player}
+              initialGalleries={galleries?.data}
+            />
           </div>
         </div>
       </div>
-      <PrimaryTabs tabs={enumToOptions(EPlayerAvailability)}>
-        <p>1</p>
-        <p>2</p>
-        <p>3</p>
-        <p>4</p>
-      </PrimaryTabs>
-       
-      <TABS tabs={enumToOptions(EPlayerAvailability)}>
-        <p>1</p>
-        <p>2</p>
-        <p>3</p>
-        <p>4</p>
-      </TABS>
-      ;
     </div>
   );
 }
