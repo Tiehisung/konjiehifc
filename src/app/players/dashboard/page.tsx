@@ -132,13 +132,13 @@ export default async function PlayerPage({ searchParams }: IPageProps) {
         <p>4</p>
       </PrimaryTabs>
        
-      <TABS tabs={enumToOptions(EPlayerAvailability)}>
+      <TABS tabs={enumToOptions(EPlayerAvailability)} >
         <p>1</p>
         <p>2</p>
         <p>3</p>
         <p>4</p>
       </TABS>
-      ;
+      
     </div>
   );
 }

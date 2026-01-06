@@ -70,7 +70,7 @@ const BottomSheetLite: React.FC<Props> = ({
           >
             <hr className='h-1.5 w-16 rounded-full bg-border mx-auto'/>
             <div
-              className={`mt-auto md:min-w-[400px] grow max-h-[90vh] min-h-48 h-fit overflow-y-auto p-6 pb-20 ${className}`}
+              className={`mt-auto md:min-w-100 grow max-h-[90vh] min-h-48 h-fit overflow-y-auto p-6 pb-20 ${className}`}
             >
               {children}
             </div>

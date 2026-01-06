@@ -69,7 +69,6 @@ export interface TabConfig {
   value: string;
   label: string;
   icon?: React.ReactNode;
-  showLabel?: boolean;
 }
 
 interface ReusableTabsProps {
@@ -80,6 +79,7 @@ interface ReusableTabsProps {
   listClassName?: string;
   contentClassName?: string;
   gridCols?: string;
+  hideLabelOnMobile?: boolean;
 }
 
 export function TABS({
@@ -90,6 +90,7 @@ export function TABS({
   contentClassName = "space-y-4",
   gridCols = "grid-cols-2 md:grid-cols-4",
   children,
+  hideLabelOnMobile,
 }: ReusableTabsProps) {
   const defaultTab = defaultValue || tabs[0]?.value;
 
@@ -103,8 +104,10 @@ export function TABS({
             className="flex items-center gap-2"
           >
             {tab?.icon ?? ""}
-            {tab.showLabel !== false && (
+            {hideLabelOnMobile ? (
               <span className="hidden sm:inline">{tab.label}</span>
+            ) : (
+              <span className="inline">{tab.label}</span>
             )}
           </TabsTrigger>
         ))}

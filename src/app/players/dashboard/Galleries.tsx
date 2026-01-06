@@ -3,10 +3,9 @@
 import GalleryGrid from "@/components/Gallery/GallaryGrid";
 import Loader from "@/components/loaders/Loader";
 import TableLoader from "@/components/loaders/Table";
-import { Pagination } from "@/components/pagination/Pagination";
+import { StackModal } from "@/components/modals/StackModal";
 import { SlicePagination } from "@/components/pagination/SlicePagination";
 import { SearchWithSubmit } from "@/components/Search";
-import { SideDrawer } from "@/components/ShadSideDrawer";
 import { Button } from "@/components/ui/button";
 import { useFetch } from "@/hooks/fetch";
 import { toggleClick } from "@/lib/DOM";
@@ -21,7 +20,9 @@ export function PlayerGalleries({ player }: { player?: IPlayer }) {
     uri: "/galleries",
     filters: {
       gallery_search: search ?? "",
-      tags: [player?._id,`${player?.lastName} ${player?.firstName}`].filter(Boolean).join(","),
+      tags: [player?._id, `${player?.lastName} ${player?.firstName}`]
+        .filter(Boolean)
+        .join(","),
     },
   });
 
@@ -49,17 +50,13 @@ export function PlayerGalleries({ player }: { player?: IPlayer }) {
       )}
 
       {/* MORE */}
-      <SideDrawer
-        side="bottom"
+      <StackModal
         trigger={"View More"}
         id="modal-trigger"
         className="space-y-5 max-h-[80vh]"
-        variant="outline"
         triggerStyles="w-fit px-20 ml-5 my-4"
-        roundedTop
         header={
           <div className="mr-6">
-            {/* <p>Search related galleries for {player?.firstName}</p> */}
             <SearchWithSubmit
               onChange={(v) => {
                 setSearch(v);
@@ -81,7 +78,7 @@ export function PlayerGalleries({ player }: { player?: IPlayer }) {
             </div>
           </div>
         )}
-      </SideDrawer>
+      </StackModal>
     </div>
   );
 }
