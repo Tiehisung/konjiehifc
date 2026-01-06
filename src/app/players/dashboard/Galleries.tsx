@@ -32,7 +32,7 @@ export function PlayerGalleries({
         .filter(Boolean)
         .join(","),
     },
-    // skip: !stackModal,
+    skip: !stackModal,
   });
 
   console.log({ results });
