@@ -1,14 +1,11 @@
 "use client";
 
- 
- 
-import QuillEditor from "@/components/editor/Quill";
- 
+import { InjuriesManager } from "../admin/injuries/InjuresManager";
 
 const TestPage = () => {
   return (
     <div className="p-6 pt-16">
-      <QuillEditor value={""} onChange={(e) => console.log(e)} placeholder="Type in here..."/>
+      <InjuriesManager />
     </div>
   );
 };

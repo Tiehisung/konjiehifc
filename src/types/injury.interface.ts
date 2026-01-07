@@ -1,3 +1,5 @@
+import { IUser } from "./user";
+
 export interface IInjury {
   _id?: string;
   player: {
@@ -10,10 +12,14 @@ export interface IInjury {
   title: string;
   description?: string;
   severity: EInjurySeverity;
+  createdAt?: string;
+  updatedAt?: string;
+  user?:IUser
 }
 
 export enum EInjurySeverity {
   MINOR = "MINOR",
   MODERATE = "MODERATE",
   SEVERE = "SEVERE",
+  MAJOR = "MAJOR",
 }

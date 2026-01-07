@@ -17,6 +17,7 @@ export const injurySchema = new Schema(
       number: Number
     },
     severity: { type: String, enum: Object.values(EInjurySeverity), default: EInjurySeverity.MINOR },
+    user: {},
   },
   { timestamps: true }
 );
