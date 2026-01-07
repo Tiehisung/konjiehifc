@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import Loader from "./loaders/Loader";
 import CountUp from "react-countup";
 import { TColor } from "@/types/color";
+import { cn } from "@/lib/utils";
 
 interface IProps {
   title?: string;
@@ -49,6 +50,8 @@ interface ICountupProps {
   countupSuffix?: string;
   countupPrefix?: string;
   isLoading?: boolean;
+  color?: TColor;
+  className?: string;
 }
 export function CountupMetricCard({
   icon,
@@ -58,11 +61,24 @@ export function CountupMetricCard({
   description,
   isCountUp,
   isLoading,
+  color,
+  className,
 }: ICountupProps) {
+  const txtCl = `text-${color}-500`;
+  const _color = `${txtCl} bg-${color}-50`;
   return (
-    <div className="text-center p-4 rounded-2xl bg-card/5 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-colors">
-      <div className="flex justify-center mb-2 text-yellow-500">{icon}</div>
-      <div className="text-3xl font-bold text-white mb-1">
+    <div
+      className={cn(
+        "text-center p-4 rounded-2xl bg-card backdrop-blur-sm border border-white/10 hover:border-white/20 transition-colors",
+        className
+      )}
+    >
+      <div
+        className={` p-3 w-fit h-fit rounded-lg flex items-center justify-center mx-auto ${_color} `}
+      >
+        {icon}
+      </div>
+      <div className={`text-3xl font-bold mb-1 ${txtCl}`}>
         {isLoading ? (
           <div className="animate-pulse bg-secondary h-4 w-full" />
         ) : (
@@ -79,7 +95,7 @@ export function CountupMetricCard({
           </div>
         )}
       </div>
-      <div className="text-sm text-white/60 grow">
+      <div className="text-sm text-muted-foreground grow">
         {isLoading ? (
           <div className="animate-pulse bg-secondary h-4 w-full" />
         ) : (

@@ -11,6 +11,7 @@ import {
 import { Label } from "../ui/label";
 import { ReactNode, useEffect, useState } from "react";
 import Loader from "../loaders/Loader";
+import { cn } from "@/lib/utils";
 
 export interface SelectOption {
   label: string;
@@ -61,11 +62,16 @@ export function PrimarySelect({ clearable = true, ...props }: ISelect) {
   const normalizedValue =
     !props.value || props.value === "all" ? undefined : props.value;
 
+
   if (refreshing) return <Loader />;
 
   return (
     <div>
-      {props.label && <Label htmlFor={props.name} className="_label mb-1">{props.label}</Label>}
+      {props.label && (
+        <Label htmlFor={props.name} className="_label mb-2 text-muted-foreground">
+          {props.label}
+        </Label>
+      )}
 
       <Select
         value={normalizedValue}
@@ -94,6 +100,79 @@ export function PrimarySelect({ clearable = true, ...props }: ISelect) {
       {props.error && (
         <p className={` text-red-500 text-left text-sm mt-1 font-light`}>
           {props.error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+interface ISELECT {
+  options: SelectOption[];
+  value?: string;
+  onChange?: (value: string) => void;
+  placeholder?: string;
+  className?: string;
+  selectStyles?: string;
+
+  name?: string;
+  paramKey?: string;
+  label?: ReactNode;
+  error?: string;
+  disabled?: boolean;
+  required?: boolean;
+}
+
+export default function SELECT({
+  options,
+  name,
+  value,
+  error,
+  onChange,
+  label,
+  className,
+  paramKey,
+  ...props
+}: ISELECT) {
+  const { setParam } = useUpdateSearchParams();
+
+  const handleOnChange = (val: string) => {
+    if (typeof onChange !== "undefined") {
+      onChange(val);
+    } else {
+      if (paramKey) setParam((paramKey as string) ?? "filter", val);
+    }
+  };
+  return (
+    <div className={cn("flex items-center gap-2 relative", className)}>
+      {label && (
+        <Label htmlFor={name} className="_label text-muted-foreground">
+          {label}
+        </Label>
+      )}
+      <select
+        value={value}
+        onChange={(e) => handleOnChange?.(e.target.value)}
+        className={cn(
+          "bg-transparent text-sm border rounded px-2 py-1 h-9",
+          props.selectStyles
+        )}
+        {...props}
+      >
+        <option value="" hidden>
+          {props.placeholder}
+        </option>
+        {options?.map((op, i) => (
+          <option key={i} value={op.value}>
+            {op.label}
+          </option>
+        ))}
+      </select>
+
+      {error && (
+        <p
+          className={`absolute top-full text-red-500 text-left text-sm font-light`}
+        >
+          {error}
         </p>
       )}
     </div>

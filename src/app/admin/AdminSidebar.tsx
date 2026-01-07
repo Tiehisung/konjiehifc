@@ -221,6 +221,16 @@ const sidebarLinks = [
     icon: <FiUserCheck />,
   },
   {
+    label: "Injuries",
+    path: "/admin/injuries",
+    icon: <Users />,
+  },
+  {
+    label: "Cards",
+    path: "/admin/cards",
+    icon: <Users />,
+  },
+  {
     label: "Users",
     path: "/admin/users",
     icon: <Users />,

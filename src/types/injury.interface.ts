@@ -1,3 +1,6 @@
+import { IMatch } from "./match.interface";
+import { IUser } from "./user";
+
 export interface IInjury {
   _id?: string;
   player: {
@@ -6,14 +9,22 @@ export interface IInjury {
     avatar: string;
     number: string | number;
   };
-  minute: number;
   title: string;
   description?: string;
   severity: EInjurySeverity;
+
+  //if occurred in match
+  minute?: number | string;
+  match?: IMatch
+
+  user?: IUser
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export enum EInjurySeverity {
   MINOR = "MINOR",
   MODERATE = "MODERATE",
   SEVERE = "SEVERE",
+  MAJOR = "MAJOR",
 }

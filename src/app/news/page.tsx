@@ -1,7 +1,6 @@
 import { IQueryResponse } from "@/types";
 import { Suspense } from "react";
 import { getNews } from "../admin/news/page";
-import BestOfUs from "./BestOfUs";
 import { LatestNews } from "./Latest";
 import Skeleton from "react-loading-skeleton";
 import YouMayLike from "./YouMayLike";

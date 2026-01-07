@@ -1,4 +1,4 @@
-export type TColor = "red" | "teal" | "yellow" | "green" | "blue" | "black" | "gray" | "white" | "gold"
+export type TColor = "red" | "teal" | "yellow" | "green" | "blue" | "black" | "gray" | "white" | "orange"
 
 export enum EColor {
     RED = 'red',

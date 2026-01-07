@@ -17,6 +17,8 @@ export const injurySchema = new Schema(
       number: Number
     },
     severity: { type: String, enum: Object.values(EInjurySeverity), default: EInjurySeverity.MINOR },
+    match: {},
+    user: {},
   },
   { timestamps: true }
 );
@@ -25,3 +27,4 @@ const InjuryModel = mongoose.models.injuries || mongoose.model("injuries", injur
 
 export default InjuryModel;
 
+export type IPostInjury = mongoose.InferSchemaType<typeof injurySchema>;

@@ -1,192 +1,211 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Plus } from "lucide-react";
-import { IPlayer } from "@/types/player.interface";
 import { toast } from "sonner";
 import { apiConfig } from "@/lib/configs";
 import { getErrorMessage } from "@/lib";
 import { Button } from "@/components/buttons/Button";
-import { useRouter } from "next/navigation";
+import { AVATAR } from "@/components/ui/avatar";
+import { enumToOptions } from "@/lib/select";
+import SELECT, { PrimarySelect } from "@/components/select/Select";
+import { Input, TextArea } from "@/components/input/Inputs";
+import { IPlayer } from "@/types/player.interface";
 import { IMatch } from "@/types/match.interface";
+import { IInjury } from "@/types/injury.interface";
+import { z } from "zod";
 import { symbols } from "@/data";
-import { EInjurySeverity, IInjury } from "@/types/injury.interface";
+import { EInjurySeverity } from "@/types/injury.interface";
+
+const injurySchema = z.object({
+  player: z.string().min(1, "Player is required"),
+  minute: z.string().optional(),
+  title: z.string().min(5, "Title is required"),
+  description: z.string().optional(),
+  severity: z.enum(EInjurySeverity),
+});
+
+type InjuryFormValues = z.infer<typeof injurySchema>;
 
 interface InjuryEventsTabProps {
   players: IPlayer[];
-  match: IMatch;
+  match?: IMatch;
 }
 
-export function InjuryEventsTab({ players, match }: InjuryEventsTabProps) {
+export function InjuryForm({ players, match }: InjuryEventsTabProps) {
   const router = useRouter();
-  const [form, setForm] = useState({
-    player: "",
-    minute: "",
-    description: "",
-    severity: EInjurySeverity.MINOR,
+
+  const {
+    control,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { isSubmitting },
+  } = useForm<InjuryFormValues>({
+    resolver: zodResolver(injurySchema),
+    defaultValues: {
+      player: "",
+      title: match?.title,
+      minute: "",
+      description: "",
+      severity: EInjurySeverity.MINOR,
+    },
   });
 
-  const [isLoading, setIsLoading] = useState(false);
+  const selectedPlayerId = watch("player");
+  const selectedPlayer = players.find((p) => p._id === selectedPlayerId);
 
-  const handleAddInjury = async () => {
+  const onSubmit = async (data: InjuryFormValues) => {
     try {
-      setIsLoading(true);
-
-      if (!form.player || !form.minute || !form.description) {
-        toast.warning("Please fill in player, minute, and description");
-        return;
-      }
-
-      const player = players.find((p) => p._id === form.player);
+      const player = players.find((p) => p._id === data.player);
       if (!player) return;
 
-      const newInjury: IInjury = {
+      const payload: IInjury = {
         player: {
-          _id: player?._id,
-          name: `${player?.firstName} ${player?.lastName}`,
-          avatar: player?.avatar,
-          number: player?.number,
+          _id: player._id,
+          name: `${player.firstName} ${player.lastName}`,
+          avatar: player.avatar,
+          number: Number(player.number),
         },
-        minute: Number.parseInt(form.minute),
-        description: "🤕 " + form.description,
-        severity: form.severity,
-        title: `${match?.title} ${symbols.longDash} ${match?.date}`,
+        description: `🤕 ${data.description}`,
+        severity: data.severity,
+        title: `${data?.title}`,
+        match,
+        minute: data.minute,
       };
 
-      setForm({
-        player: "",
-        minute: "",
-        description: "",
-        severity: EInjurySeverity.MINOR,
-      });
-
-      const response = await fetch(apiConfig.injuries, {
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(newInjury),
+      const res = await fetch(apiConfig.injuries, {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
 
-      const results = await response.json();
-      toast.success(results.message);
+      const result = await res.json();
 
-      setForm({ minute: "", description: "", player: "", severity: EInjurySeverity.MINOR });
-    } catch (error) {
-      toast.error(getErrorMessage(error));
+      toast(result.message, { position: "bottom-center" });
+      if (result.success) {
+        reset({
+          player: "",
+          title: match?.title ?? "",
+          minute: "",
+          description: "",
+          severity: EInjurySeverity.MINOR,
+        });
+      }
+    } catch (err) {
+      toast.error(getErrorMessage(err));
     } finally {
-      setIsLoading(false);
       router.refresh();
     }
   };
 
   return (
-    <div className="space-y-8">
-      <Card className="p-6 rounded-none">
-        <form onSubmit={handleAddInjury}>
-          <h2 className="mb-6 text-2xl font-bold">Add Injury</h2>
+    <Card className="p-6 rounded-none">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <h2 className="mb-6 text-2xl font-bold flex items-center justify-between">
+          Add Injury
+          <AVATAR
+            alt="injured player"
+            src={selectedPlayer?.avatar as string}
+            fallbackText="IP"
+          />
+        </h2>
 
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <label className="mb-2 block text-sm font-medium">Player</label>
-                <Select
-                  value={form.player}
-                  onValueChange={(value) =>
-                    setForm((prev) => ({ ...prev, player: value }))
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select player" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {players?.map((player) => (
-                      <SelectItem key={player._id} value={player._id}>
-                        {player.number} -{" "}
-                        {player.lastName + " " + player?.firstName}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-medium">Minute</label>
+        <div className="space-y-4">
+          {/* Player */}
+          <Controller
+            control={control}
+            name="player"
+            render={({ field, fieldState }) => (
+              <SELECT
+                {...field}
+                options={players.map((p) => ({
+                  label: `${p.number} - ${p.lastName} ${p.firstName}`,
+                  value: p._id,
+                }))}
+                label="Player"
+                placeholder="Select"
+                selectStyles="w-full "
+                error={fieldState?.error?.message}
+                className="grid"
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="title"
+            render={({ field, fieldState }) => (
+              <Input
+                {...field}
+                label="Title "
+                placeholder="e.g. Title"
+                error={fieldState?.error?.message}
+              />
+            )}
+          />
+          {/* Minute */}
+          {match && (
+            <Controller
+              control={control}
+              name="minute"
+              render={({ field, fieldState }) => (
                 <Input
+                  {...field}
                   type="number"
-                  min="0"
-                  max="120"
-                  placeholder="e.g., 25"
-                  value={form.minute}
-                  onChange={(e) =>
-                    setForm((prev) => ({ ...prev, minute: e.target.value }))
-                  }
+                  label="Minute"
+                  placeholder="e.g. 25"
+                  others={{ min: 0, max: 120 }}
+                  error={fieldState?.error?.message}
                 />
-              </div>
-            </div>
+              )}
+            />
+          )}
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <label className="mb-2 block text-sm font-medium">
-                  Severity
-                </label>
-                <Select
-                  value={form.severity}
-                  onValueChange={(value) =>
-                    setForm((prev) => ({
-                      ...prev,
-                      severity: value as EInjurySeverity,
-                    }))
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select severity" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="minor">Minor</SelectItem>
-                    <SelectItem value="moderate">Moderate</SelectItem>
-                    <SelectItem value="severe">Severe</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <label className="mb-2 block text-sm font-medium">
-                  Description
-                </label>
-                <Input
-                  placeholder="e.g., VAR Review, Penalty Decision, etc."
-                  value={form.description}
-                  onChange={(e) =>
-                    setForm((prev) => ({
-                      ...prev,
-                      description: e.target.value,
-                    }))
-                  }
-                  name={"goalDescription"}
-                />
-              </div>
-            </div>
+          {/* Severity */}
+          <Controller
+            control={control}
+            name="severity"
+            render={({ field, fieldState }) => (
+              <PrimarySelect
+                {...field}
+                options={enumToOptions(EInjurySeverity)}
+                label="Severity"
+                placeholder="Select"
+                triggerStyles="w-full"
+                error={fieldState?.error?.message}
+              />
+            )}
+          />
 
-            <Button
-              onClick={handleAddInjury}
-              className="w-full justify-center _primaryBtn"
-              waiting={isLoading}
-              primaryText=" Add Injury"
-              waitingText="Adding Injury"
-              type="submit"
-            >
-              <Plus className="mr-2 h-4 w-4" />
-            </Button>
-          </div>
-        </form>
-      </Card>
-    </div>
+          {/* Description */}
+          <Controller
+            control={control}
+            name="description"
+            render={({ field, fieldState }) => (
+              <TextArea
+                {...field}
+                label="Description"
+                placeholder="e.g., Hamstring, head injury..."
+                error={fieldState?.error?.message}
+              />
+            )}
+          />
+
+          <Button
+            type="submit"
+            waiting={isSubmitting}
+            className="w-full _primaryBtn"
+            primaryText="Add Injury"
+            waitingText="Adding Injury"
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Add Injury
+          </Button>
+        </div>
+      </form>
+    </Card>
   );
 }

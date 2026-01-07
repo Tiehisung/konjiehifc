@@ -4,8 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { logAction } from "../logs/helper";
 import { updateMatchEvent } from "../matches/live/events/route";
 import InjuryModel from "@/models/injury";
-import { IInjury } from "@/app/admin/live-match/(events)/Injury";
 import PlayerModel from "@/models/player";
+import { IInjury } from "@/types/injury.interface";
 
 ConnectMongoDb();
 export async function GET(request: NextRequest) {
@@ -48,10 +48,10 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
 
-    const { match, minute, player, description, severity } = await request.json() as IInjury
+    const { match, minute, player, description, severity, title } = await request.json() as IInjury
 
     const savedInjury = await InjuryModel.create({
-      minute, description, severity, match, player
+      minute, description, severity, match, player, title
     });
 
     if (!savedInjury) {
@@ -62,13 +62,13 @@ export async function POST(request: NextRequest) {
     //Update Player
     await PlayerModel.findByIdAndUpdate(player?._id, { $push: { injuries: savedInjury._id } })
 
-    //Update events
-    await updateMatchEvent(match, {
-      type: 'injury',
-      minute: minute,
-      title: `🤕 ${minute}' - ${player.number ?? ''}  ${player.name} `,
-      description
-    })
+    // //Update events
+    // await updateMatchEvent(match, {
+    //   type: 'injury',
+    //   minute: minute,
+    //   title: `🤕 ${minute}' - ${player.number ?? ''}  ${player.name} `,
+    //   description
+    // })
 
     // log
     await logAction({
