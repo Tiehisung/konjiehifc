@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CardEventsTab } from "./(events)/Card";
 import { GeneralEventsTab } from "./(events)/General";
 import { ScoreEventsTab } from "./(events)/Goals";
-import { InjuryEventsTab } from "./(events)/Injury";
+import { InjuryForm } from "./(events)/Injury";
 import { IPlayer } from "@/types/player.interface";
 import {
   IMatchEvent,
@@ -73,7 +73,7 @@ export function MatchEventsAdmin({ players, opponent, match }: IProps) {
         </TabsContent>
 
         <TabsContent value="injuries">
-          <InjuryEventsTab players={players as IPlayer[]} match={match} />
+          <InjuryForm players={players as IPlayer[]} match={match} />
         </TabsContent>
       </Tabs>
 

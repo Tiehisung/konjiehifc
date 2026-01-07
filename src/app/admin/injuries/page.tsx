@@ -5,6 +5,7 @@ import BackToTopButton from "@/components/scroll/ToTop";
 import { IQueryResponse } from "@/types";
 import { IInjury } from "@/types/injury.interface";
 import { InjuriesManager } from "./InjuresManager";
+import { getPlayers } from "../players/page";
 
 export const getInjuries = async (queryString?: string) => {
   try {
@@ -34,7 +35,9 @@ interface IPageProps {
 
 export default async function InjuryPage({ searchParams }: IPageProps) {
   const qs = buildQueryStringServer(await searchParams);
-  const injuries = (await getInjuries(qs)) as IQueryResponse<IInjury[]>;
+  const players = (await getPlayers(qs)) as IQueryResponse<IInjury[]>;
+
+  console.log(players)
 
   return (
     <div className="_page ">

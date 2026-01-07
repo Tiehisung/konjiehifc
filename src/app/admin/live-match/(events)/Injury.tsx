@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -20,13 +19,18 @@ import { useRouter } from "next/navigation";
 import { IMatch } from "@/types/match.interface";
 import { symbols } from "@/data";
 import { EInjurySeverity, IInjury } from "@/types/injury.interface";
+import { IPostInjury } from "@/models/injury";
+import SELECT, { PrimarySelect } from "@/components/select/Select";
+import { enumToOptions } from "@/lib/select";
+import { Input, TextArea } from "@/components/input/Inputs";
+import { AVATAR } from "@/components/ui/avatar";
 
 interface InjuryEventsTabProps {
   players: IPlayer[];
-  match: IMatch;
+  match?: IMatch;
 }
 
-export function InjuryEventsTab({ players, match }: InjuryEventsTabProps) {
+export function InjuryForm({ players, match }: InjuryEventsTabProps) {
   const router = useRouter();
   const [form, setForm] = useState({
     player: "",
@@ -41,7 +45,7 @@ export function InjuryEventsTab({ players, match }: InjuryEventsTabProps) {
     try {
       setIsLoading(true);
 
-      if (!form.player || !form.minute || !form.description) {
+      if (!form.player || !form.description) {
         toast.warning("Please fill in player, minute, and description");
         return;
       }
@@ -54,12 +58,13 @@ export function InjuryEventsTab({ players, match }: InjuryEventsTabProps) {
           _id: player?._id,
           name: `${player?.firstName} ${player?.lastName}`,
           avatar: player?.avatar,
-          number: player?.number,
+          number: Number(player?.number),
         },
-        minute: Number.parseInt(form.minute),
-        description: "🤕 " + form.description,
+        description: `🤕 ${form.description}`,
         severity: form.severity,
         title: `${match?.title} ${symbols.longDash} ${match?.date}`,
+        match,
+        minute: form.minute,
       };
 
       setForm({
@@ -78,7 +83,12 @@ export function InjuryEventsTab({ players, match }: InjuryEventsTabProps) {
       const results = await response.json();
       toast.success(results.message);
 
-      setForm({ minute: "", description: "", player: "", severity: EInjurySeverity.MINOR });
+      setForm({
+        minute: "",
+        description: "",
+        player: "",
+        severity: EInjurySeverity.MINOR,
+      });
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
@@ -88,105 +98,95 @@ export function InjuryEventsTab({ players, match }: InjuryEventsTabProps) {
   };
 
   return (
-    <div className="space-y-8">
-      <Card className="p-6 rounded-none">
-        <form onSubmit={handleAddInjury}>
-          <h2 className="mb-6 text-2xl font-bold">Add Injury</h2>
+    <Card className="p-6 rounded-none">
+      <form onSubmit={handleAddInjury}>
+        <h2 className="mb-6 text-2xl font-bold flex items-center justify-between gap-6">
+          Add Injury{" "}
+          <AVATAR
+            alt="injured player"
+            src={players?.find((p) => p._id == form.player)?.avatar as string}
+            fallbackText={"IP"}
+           
+          />
+        </h2>
 
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <label className="mb-2 block text-sm font-medium">Player</label>
-                <Select
-                  value={form.player}
-                  onValueChange={(value) =>
-                    setForm((prev) => ({ ...prev, player: value }))
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select player" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {players?.map((player) => (
-                      <SelectItem key={player._id} value={player._id}>
-                        {player.number} -{" "}
-                        {player.lastName + " " + player?.firstName}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 gap-4 ">
+            <SELECT
+              options={
+                players?.map((p) => ({
+                  label: `${p.number} - ${p.lastName} ${p?.firstName}`,
+                  value: p._id,
+                })) ?? []
+              }
+              label=" Player"
+              placeholder="Select"
+              onChange={(value) =>
+                setForm((prev) => ({
+                  ...prev,
+                  player: value,
+                }))
+              }
+              selectStyles="grow w-full"
+              required
+              className="grid"
+            />
 
-              <div>
-                <label className="mb-2 block text-sm font-medium">Minute</label>
-                <Input
-                  type="number"
-                  min="0"
-                  max="120"
-                  placeholder="e.g., 25"
-                  value={form.minute}
-                  onChange={(e) =>
-                    setForm((prev) => ({ ...prev, minute: e.target.value }))
-                  }
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <label className="mb-2 block text-sm font-medium">
-                  Severity
-                </label>
-                <Select
-                  value={form.severity}
-                  onValueChange={(value) =>
-                    setForm((prev) => ({
-                      ...prev,
-                      severity: value as EInjurySeverity,
-                    }))
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select severity" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="minor">Minor</SelectItem>
-                    <SelectItem value="moderate">Moderate</SelectItem>
-                    <SelectItem value="severe">Severe</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <label className="mb-2 block text-sm font-medium">
-                  Description
-                </label>
-                <Input
-                  placeholder="e.g., VAR Review, Penalty Decision, etc."
-                  value={form.description}
-                  onChange={(e) =>
-                    setForm((prev) => ({
-                      ...prev,
-                      description: e.target.value,
-                    }))
-                  }
-                  name={"goalDescription"}
-                />
-              </div>
-            </div>
-
-            <Button
-              onClick={handleAddInjury}
-              className="w-full justify-center _primaryBtn"
-              waiting={isLoading}
-              primaryText=" Add Injury"
-              waitingText="Adding Injury"
-              type="submit"
-            >
-              <Plus className="mr-2 h-4 w-4" />
-            </Button>
+            {match && (
+              <Input
+                label="Minute"
+                type="number"
+                others={{ min: 0, max: 120 }}
+                placeholder="e.g., 25"
+                value={form.minute}
+                onChange={(e) =>
+                  setForm((prev) => ({ ...prev, minute: e.target.value }))
+                }
+                name={"minute"}
+              />
+            )}
           </div>
-        </form>
-      </Card>
-    </div>
+
+          <div className="grid grid-cols-1 gap-6 ">
+            <PrimarySelect
+              options={enumToOptions(EInjurySeverity)}
+              label="Severity"
+              placeholder="Select"
+              onChange={(value) =>
+                setForm((prev) => ({
+                  ...prev,
+                  severity: value as EInjurySeverity,
+                }))
+              }
+              triggerStyles="grow w-full"
+            />
+            <TextArea
+              label="Description"
+              placeholder="e.g., Head injury..., Hamstring ..., etc."
+              value={form.description}
+              onChange={(e) =>
+                setForm((prev) => ({
+                  ...prev,
+                  description: e.target.value,
+                }))
+              }
+              name={"goalDescription"}
+              required
+            />
+          </div>
+
+          <Button
+            onClick={handleAddInjury}
+            className="w-full justify-center _primaryBtn"
+            waiting={isLoading}
+            primaryText=" Add Injury"
+            waitingText="Adding Injury"
+            type="submit"
+          >
+            <Plus className="mr-2 h-4 w-4" />
+          </Button>
+        </div>
+      </form>
+    </Card>
   );
 }

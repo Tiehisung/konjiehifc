@@ -62,12 +62,13 @@ export function PrimarySelect({ clearable = true, ...props }: ISelect) {
   const normalizedValue =
     !props.value || props.value === "all" ? undefined : props.value;
 
+
   if (refreshing) return <Loader />;
 
   return (
     <div>
       {props.label && (
-        <Label htmlFor={props.name} className="_label mb-1">
+        <Label htmlFor={props.name} className="_label mb-2 text-muted-foreground">
           {props.label}
         </Label>
       )}
@@ -144,7 +145,7 @@ export default function SELECT({
   return (
     <div className={cn("flex items-center gap-2 relative", className)}>
       {label && (
-        <Label htmlFor={name} className="_label mb-1">
+        <Label htmlFor={name} className="_label text-muted-foreground">
           {label}
         </Label>
       )}

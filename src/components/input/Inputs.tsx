@@ -11,6 +11,7 @@ import { BiPhone, BiText } from "react-icons/bi";
 import { IoIosLink, IoMdTime } from "react-icons/io";
 import { MdAlternateEmail, MdDateRange, MdNumbers } from "react-icons/md";
 import { TbLockPassword } from "react-icons/tb";
+import { Label } from "../ui/label";
 
 const inputIcons = [
   { type: "text", icon: <BiText /> },
@@ -31,6 +32,7 @@ interface ITextAreaProps extends IInput {
   wrapperStyles?: string;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   error?: string;
+  animate?: boolean;
 }
 export function TextArea({
   className = "",
@@ -45,6 +47,7 @@ export function TextArea({
   others,
   wrapperStyles,
   error,
+  animate,
 }: ITextAreaProps) {
   const [isFocus, setIsFocus] = useState(false);
   useEffect(() => {
@@ -52,16 +55,20 @@ export function TextArea({
   }, [value]);
   return (
     <div className={`relative w-full group ${wrapperStyles}`} title={dataTip}>
-      <label
-        htmlFor={name}
-        className={`absolute transition-all duration-200 ease-linear delay-0 select-none ${
-          isFocus
-            ? "-top-5 left-0 text-sm"
-            : " top-3 left-4 text-muted-foreground font-semibold"
-        } ${labelStyles}`}
-      >
-        {label}
-      </label>
+      {(animate && label) ? (
+        <label
+          htmlFor={name}
+          className={`absolute transition-all duration-200 ease-linear delay-0 select-none ${
+            isFocus
+              ? "-top-5 left-0 text-sm"
+              : " top-3 left-4 text-muted-foreground font-semibold"
+          } ${labelStyles}`}
+        >
+          {label}
+        </label>
+      ) : (
+        <Label className="_label mb-2 text-muted-foreground">{label}</Label>
+      )}
       <textarea
         name={name}
         id={name}

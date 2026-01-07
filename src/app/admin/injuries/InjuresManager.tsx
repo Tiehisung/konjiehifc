@@ -26,7 +26,9 @@ import { PrimaryClearFiltersBtn } from "@/components/buttons/ClearFilters";
 import SELECT from "@/components/select/Select";
 import { enumToOptions } from "@/lib/select";
 import { InjuryStats } from "./Stats";
-import { PlayerDisplayPanel } from "./PlayerDisplay";
+import { PlayerDisplayPanel } from "../players/PlayerDisplay";
+import { InjuryForm } from "../live-match/(events)/Injury";
+import { DIALOG } from "@/components/Dialog";
 
 interface Player {
   _id: string;
@@ -69,8 +71,6 @@ export function InjuriesManager() {
   >({
     uri: "/injuries",
   });
-
-   
 
   // Get injuries for selected player or all injuries
   const playerInjuries = useMemo(() => {
@@ -140,10 +140,17 @@ export function InjuriesManager() {
     <div className="container mx-auto p-4">
       <div className="flex items-center justify-between mb-6">
         <div />
-        <Button onClick={() => setShowInjuryForm(true)}>
-          <Plus className="h-4 w-4 mr-2" />
-          New Injury Report
-        </Button>
+
+        <DIALOG
+          trigger={
+            <>
+              <Plus className="h-4 w-4 mr-2" />
+              New Injury Report
+            </>
+          }
+        >
+          <InjuryForm players={players?.data as IPlayer[]} match={undefined} />
+        </DIALOG>
       </div>
       <InjuryStats injuries={allInjuries} loading={isLoadingInjuries} />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -304,6 +311,7 @@ export function InjuriesManager() {
                 }}
                 initialPlayerId={selectedPlayerId}
               /> */}
+              {/* <InjuryForm players={players as IPlayer[]} match={match} /> */}
             </div>
           </div>
         </div>

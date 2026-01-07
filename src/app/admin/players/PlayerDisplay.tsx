@@ -26,8 +26,8 @@ export function PlayerDisplayPanel({
   // Fetch players
   const { results: playersData, loading } = useFetch<IPlayer[]>({
     uri: "/players",
-    filters: { ...filters },
-    skip: (defaultPlayers?.length??0)>0 ? true : false,
+    filters:filters? { ...filters }:{},
+    skip: (defaultPlayers?.length ?? 0) > 0 ? true : false,
   });
   const players = defaultPlayers ?? playersData?.data ?? [];
 
@@ -41,10 +41,13 @@ export function PlayerDisplayPanel({
       return (
         fullName.includes(searchLower) ||
         player.number.includes(searchQuery) ||
+        player.email.includes(searchQuery) ||
         player.position.toLowerCase().includes(searchLower)
       );
     });
   }, [players, searchQuery]);
+
+  console.log({ playersData });
 
   return (
     <Card className="lg:col-span-1">
