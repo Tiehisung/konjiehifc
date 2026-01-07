@@ -146,6 +146,8 @@ export function InjuriesManager() {
               New Injury Report
             </>
           }
+          
+
         >
           <InjuryForm players={players?.data as IPlayer[]} match={undefined} />
         </DIALOG>

@@ -5,7 +5,7 @@ import { NavigationPopover } from "@/components/NavigationPopover";
 import { ThemeModeToggle } from "@/components/ThemeToggle";
 import UserLogButtons from "@/components/UserLogger";
 import { fireEscape } from "@/hooks/Esc";
-import { Logs, Users } from "lucide-react";
+import { Ambulance, HeartMinusIcon, Logs, Users ,Columns} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiOutlineTeam } from "react-icons/ai";
@@ -223,12 +223,12 @@ const sidebarLinks = [
   {
     label: "Injuries",
     path: "/admin/injuries",
-    icon: <Users />,
+    icon: <Ambulance />,
   },
   {
     label: "Cards",
     path: "/admin/cards",
-    icon: <Users />,
+    icon: <Columns />,
   },
   {
     label: "Users",

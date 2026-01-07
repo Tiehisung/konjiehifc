@@ -19,6 +19,7 @@ import { IInjury } from "@/types/injury.interface";
 import { z } from "zod";
 import { symbols } from "@/data";
 import { EInjurySeverity } from "@/types/injury.interface";
+import { fireEscape } from "@/hooks/Esc";
 
 const injurySchema = z.object({
   player: z.string().min(1, "Player is required"),
@@ -94,6 +95,8 @@ export function InjuryForm({ players, match }: InjuryEventsTabProps) {
           description: "",
           severity: EInjurySeverity.MINOR,
         });
+
+        fireEscape()
       }
     } catch (err) {
       toast.error(getErrorMessage(err));

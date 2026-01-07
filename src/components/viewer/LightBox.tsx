@@ -50,7 +50,7 @@ export default function LightboxViewer({
   files,
   index = 0,
   controller,
-  videoSettings,
+  videoSettings = { autoPlay: true },
 }: LightboxViewerProps) {
   return (
     <Lightbox
