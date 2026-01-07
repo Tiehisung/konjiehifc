@@ -6,6 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import TextDivider from "../Divider";
 import { ReactNode } from "react";
 import { TButtonVariant } from "../ui/button";
+import { getUrlToShare } from "@/lib";
 
 /**
  * id - login-controller
@@ -35,7 +36,8 @@ const LoginController = ({
         text={text}
         variant={"outline"}
         className=" w-full "
-        redirectTo={window.location.href} size={'lg'}
+        redirectTo={getUrlToShare()}
+        size={"lg"}
       >
         <FcGoogle size={24} />
       </LoginBtn>

@@ -5,6 +5,7 @@ import { Button } from "../buttons/Button";
 import { LogIn, LogOut } from "lucide-react";
 import { useState } from "react";
 import { TButtonSize, TButtonVariant } from "../ui/button";
+import { getUrlToShare } from "@/lib";
 
 interface IProps {
   className?: string;
@@ -22,7 +23,7 @@ export const LoginBtn = ({
   variant,
   text = "Login",
   children,
-  redirectTo = window.location.href,
+  redirectTo = getUrlToShare(),
   stayOnPage = false,
 }: IProps) => {
   const [loading, setLoading] = useState(false);
