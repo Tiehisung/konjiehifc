@@ -1,4 +1,4 @@
- 
+
 
 export function getErrorMessage(
   error: unknown,
@@ -146,7 +146,7 @@ export function buildQueryStringServer(
   return query ? `?${query}` : "";
 }
 
-export const getUrlToShare = () => window.location.href;
+export const getUrlToShare = () => typeof window !== 'undefined' ? window.location.href : "";
 
 export function slugify(text: string, appendTimestamp: boolean = false): string {
   // Create slug

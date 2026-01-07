@@ -2,7 +2,6 @@ import mongoose, { Schema } from "mongoose";
 
 export const mvpSchema = new Schema(
   {
-
     player: {
       _id: {
         type: Schema.Types.ObjectId,
@@ -14,17 +13,14 @@ export const mvpSchema = new Schema(
       number: String
     },
     match: {
-      _id: {
-        type: Schema.Types.ObjectId,
-        ref: "matches",
-        required: true
-      },
-      name: String,
+      type: Schema.Types.ObjectId,
+      ref: "matches",
+      required: true
     },
 
     description: String,
-
   },
+  
   { timestamps: true }
 );
 
@@ -32,3 +28,4 @@ const MvPModel = mongoose.models.mvps || mongoose.model("mvps", mvpSchema);
 
 export default MvPModel;
 
+export type IPostMvp = mongoose.InferSchemaType<typeof mvpSchema>;
