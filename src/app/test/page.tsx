@@ -1,8 +1,7 @@
-import Loader from "@/components/loaders/Loader";
-import { Suspense } from "react";
+ 
 
 const TestPage = async () => {
-  return <Suspense fallback={<Loader />}>hi tester</Suspense>;
+  return <div  className="pt-20">hi tester</div>;
 };
 
 export default TestPage;

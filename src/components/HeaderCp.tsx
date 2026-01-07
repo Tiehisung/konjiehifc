@@ -15,9 +15,8 @@ import { NavigationPopover } from "./NavigationPopover";
 import { GalleryThumbnails } from "lucide-react";
 import { useTheme } from "next-themes";
 import { fireEscape } from "@/hooks/Esc";
-// import Image from "next/image";
-// import logoWhite from "@/assets/logo-white.png";
-// import logoDark from "@/assets/logo-dark.png";
+import { ISession } from "@/types/user";
+ 
 
 export default function HeaderCp() {
   const { theme } = useTheme();
@@ -34,13 +33,7 @@ export default function HeaderCp() {
             <GiSoccerBall size={42} />
           </div>
           <span className="text-Orange">KonFC</span>
-          {/* <Image
-            src={theme == "dark" ? logoWhite : logoDark}
-            width={200}
-            height={200}
-            alt="logo"
-            className="max-w-32 h-full"
-          /> */}
+          
         </div>
       </Link>
       <div className=" container ml-auto flex justify-end items-center ">
@@ -110,10 +103,9 @@ const navLinks = [
 ];
 
 export const MobilePublicNav = () => {
-  const { status } = useSession();
-  const dashboards={
-    player:{path:'/payers/'}
-  }
+  const {data:session, status } = useSession();
+  const role = (session as ISession)?.user?.role
+  const dashboardRoute= role=='player'?'/player/dashboard':role?.includes('admin')?"/admin":''
   return (
     <NavigationPopover>
       <ul className=" w-full space-y-2 text-white">
@@ -131,16 +123,16 @@ export const MobilePublicNav = () => {
             </Link>
           </li>
         ))}
-        {status == "authenticated" && (
+        {status == "authenticated" &&  (
           <li className={`flex _hover`}>
             <Link
-              href={"/admin"}
+              href={dashboardRoute }
               className="flex gap-1 w-full items-center h-10 hover:font-semibold px-2"
             >
               <span className="text-xl bg-accent/30 rounded-full p-1.5">
                 {<GrDashboard />}
               </span>
-              Admin Dashboard
+               Dashboard
             </Link>
           </li>
         )}
