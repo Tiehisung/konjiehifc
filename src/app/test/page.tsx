@@ -1,14 +1,8 @@
-import { InjuriesManager } from "../admin/injuries/InjuresManager";
-import { getPlayers } from "../admin/players/page";
+import Loader from "@/components/loaders/Loader";
+import { Suspense } from "react";
 
 const TestPage = async () => {
-  const players = await getPlayers();
-  console.log({ players });
-  return (
-    <div className="p-6 pt-16">
-      <InjuriesManager />
-    </div>
-  );
+  return <Suspense fallback={<Loader />}>hi tester</Suspense>;
 };
 
 export default TestPage;

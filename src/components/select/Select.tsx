@@ -153,7 +153,7 @@ export default function SELECT({
         value={value}
         onChange={(e) => handleOnChange?.(e.target.value)}
         className={cn(
-          "bg-transparent text-sm border rounded px-2 py-1",
+          "bg-transparent text-sm border rounded px-2 py-1 h-9",
           props.selectStyles
         )}
         {...props}
@@ -170,7 +170,7 @@ export default function SELECT({
 
       {error && (
         <p
-          className={`absolute top-full text-red-500 text-left text-sm mt-1 font-light`}
+          className={`absolute top-full text-red-500 text-left text-sm font-light`}
         >
           {error}
         </p>

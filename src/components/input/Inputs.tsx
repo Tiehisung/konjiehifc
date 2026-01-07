@@ -131,13 +131,13 @@ export function Input({
 }: IInputProps) {
   return (
     <div className={`grid relative ${wrapperStyles} `} data-tip={dataTip}>
-      <label
+      <Label
         hidden={!label}
         htmlFor={name}
-        className={` transition-all duration-200 ease-linear delay-0 select-none ${labelStyles}`}
+        className={` transition-all duration-200 ease-linear delay-0 select-none _label text-muted-foreground ${labelStyles}`}
       >
         {label}
-      </label>
+      </Label >
       <input
         name={name}
         id={name}
