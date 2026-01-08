@@ -28,7 +28,6 @@ const CardCard = ({ card, selectedPlayer, badge }: IProps) => {
               </span>
             </div>
 
-            <h3 className="font-semibold text-lg mb-2">{card.type}</h3>
 
             <p className="text-muted-foreground mb-3">{card.description}</p>
 

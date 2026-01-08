@@ -45,7 +45,6 @@ export function CardForm({ match, card, player: defaultPlayer }: IProps) {
     uri: "/matches",
     filters: { status: "UPCOMING" },
   });
-  console.log({ matches });
 
   const {
     control,
@@ -114,6 +113,7 @@ export function CardForm({ match, card, player: defaultPlayer }: IProps) {
     }
   };
 
+  console.log(card);
   return (
     <Card className="p-6 rounded-none">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -146,11 +146,12 @@ export function CardForm({ match, card, player: defaultPlayer }: IProps) {
                   selectStyles="w-full "
                   error={fieldState?.error?.message}
                   className="grid"
+                  loading={isLoadingPlayers}
                 />
               )}
             />
           )}
-          {!match && (
+          {!(match||card) && (
             <Controller
               control={control}
               name="match"
@@ -168,10 +169,13 @@ export function CardForm({ match, card, player: defaultPlayer }: IProps) {
                   selectStyles="w-full "
                   error={fieldState?.error?.message}
                   className="grid"
+                  loading={isLoadingMatches}
                 />
               )}
             />
           )}
+
+          {/* Minute */}
 
           <Controller
             control={control}
@@ -179,29 +183,14 @@ export function CardForm({ match, card, player: defaultPlayer }: IProps) {
             render={({ field, fieldState }) => (
               <Input
                 {...field}
-                label="Title "
-                placeholder="e.g. Title"
+                type="number"
+                label="Minute"
+                placeholder="e.g. 25"
+                others={{ min: 0, max: 120 }}
                 error={fieldState?.error?.message}
               />
             )}
           />
-          {/* Minute */}
-          {match && (
-            <Controller
-              control={control}
-              name="minute"
-              render={({ field, fieldState }) => (
-                <Input
-                  {...field}
-                  type="number"
-                  label="Minute"
-                  placeholder="e.g. 25"
-                  others={{ min: 0, max: 120 }}
-                  error={fieldState?.error?.message}
-                />
-              )}
-            />
-          )}
 
           {/* Severity */}
           <Controller
@@ -230,7 +219,7 @@ export function CardForm({ match, card, player: defaultPlayer }: IProps) {
               <TextArea
                 {...field}
                 label="Description"
-                placeholder="e.g., Hamstring, head card?..."
+                placeholder="e.g., Wrong celebration, fight..."
                 error={fieldState?.error?.message}
               />
             )}

@@ -56,24 +56,21 @@ export function CardsManager() {
   const TypeBadge = ({ type }: { type: string }) => {
     const config = {
       YELLOW: {
-        label: "Yellow",
+        label: "🟨 Yellow",
         className: "bg-yellow-100 text-yellow-800 hover:bg-yellow-100",
-        icon: <AlertCircle className="h-3 w-3" />,
       },
 
       RED: {
-        label: "Red",
+        label: "🟥 Red",
         className: "bg-red-100 text-red-800 hover:bg-red-100",
-        icon: <AlertOctagon className="h-3 w-3" />,
       },
     };
 
-    const { label, className, icon } =
+    const { label, className } =
       config[type as keyof typeof config] || config.YELLOW;
 
     return (
       <Badge variant="outline" className={`gap-1 ${className}`}>
-        {icon}
         {label}
       </Badge>
     );
@@ -172,7 +169,8 @@ export function CardsManager() {
             ) : (
               <div className="space-y-4">
                 {playerCards?.map((card) => (
-                  <CardCard card={card}
+                  <CardCard
+                    card={card}
                     key={card._id}
                     selectedPlayer={selectedPlayer as IPlayer}
                     badge={<TypeBadge type={card.type} />}
