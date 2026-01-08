@@ -1,88 +1,111 @@
-// "use client";
+"use client";
 
-// import * as React from "react";
-// import {
-//   AlertDialog,
-//   AlertDialogTrigger,
-//   AlertDialogContent,
-//   AlertDialogHeader,
-//   AlertDialogFooter,
-//   AlertDialogTitle,
-//   AlertDialogDescription,
-//   AlertDialogCancel,
-//   AlertDialogAction,
-// } from "@/components/ui/alert-dialog";
-// import { Button, TButtonVariant } from "@/components/ui/button";
-// import { cn } from "@/lib/utils";
-// import { useAction } from "@/hooks/action";
+import * as React from "react";
 
-// interface ConfirmDialogProps {
-//   //   open?: boolean;
-//   //   onOpenChange?: (open: boolean) => void; //External control
+import { Button, TButtonSize, TButtonVariant } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useAction } from "@/hooks/action";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./ui/alert-dialog";
 
-//   title?: string;
-//   description?: React.ReactNode;
+interface ConfirmDialogProps {
+  //   open?: boolean;
+  //   onOpenChange?: (open: boolean) => void; //External control
 
-//   confirmText?: string;
-//   cancelText?: string;
+  title?: string;
+  description?: React.ReactNode;
 
-//   variant?: TButtonVariant;
+  confirmText?: string;
+  cancelText?: string;
 
-//   trigger?: React.ReactNode;
-//   className?: string;
-//   action: {
-//     method: "PUT" | "POST" | "DELETE" | "GET";
-//     body?: object;
-//     uri: string;
-//   };
-// }
+  disabled?: boolean;
 
-// export function ConfirmDialog({
-//   title = "Are you sure?",
-//   description = "This action cannot be undone.",
-//   confirmText = "Confirm",
-//   cancelText = "Cancel",
-//   variant = "default",
-//   trigger,
-//   className,
-//   action: { method = "GET", body, uri },
-// }: ConfirmDialogProps) {
-//   const { handleAction, isLoading } = useAction();
-//   return (
-//     <AlertDialog
-//     //  open={open} onOpenChange={onOpenChange} //external control only
-//     >
-//       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
+  variant?: TButtonVariant;
+  size?: TButtonSize;
+  trigger?: React.ReactNode;
+  triggerStyles?: string;
+  className?: string;
+  action: {
+    method: "PUT" | "POST" | "DELETE" | "GET";
+    body?: object;
+    uri: string;
+  };
+}
 
-//       <AlertDialogContent className={cn("sm:max-w-md", className)}>
-//         <AlertDialogHeader>
-//           <AlertDialogTitle>{title}</AlertDialogTitle>
-//           <AlertDialogDescription>{description}</AlertDialogDescription>
-//         </AlertDialogHeader>
+export function ConfirmDialog({
+  title = "Are you sure?",
+  description = "This action cannot be undone.",
+  confirmText = "Confirm",
+  cancelText = "Cancel",
+  variant = "default",
+  trigger,
+  className,
+  action: { method = "GET", body, uri },
+  size,
+  disabled,
+  triggerStyles,
+}: ConfirmDialogProps) {
+  const { handleAction, isLoading } = useAction();
+  return (
+    <AlertDialog
+    //  open={open} onOpenChange={onOpenChange} //external control only
+    >
+      <AlertDialogTrigger asChild>
+        <Button
+          variant={variant}
+          size={size}
+          title={typeof title == "string" ? title : ""}
+          className={cn(`h-fit `, triggerStyles)}
+          disabled={disabled}
+        >
+          {trigger}
+        </Button>
+      </AlertDialogTrigger>
 
-//         <AlertDialogFooter>
-//           <AlertDialogCancel disabled={isLoading}>
-//             {cancelText}
-//           </AlertDialogCancel>
+      <AlertDialogContent className={cn("sm:max-w-md", className)}>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
+          <AlertDialogDescription>
+            {typeof description === "string" ? (
+              <div dangerouslySetInnerHTML={{ __html: description }} />
+            ) : (
+              description
+            )}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
 
-//           <AlertDialogAction asChild>
-//             <Button
-//               variant={variant}
-//               onClick={() =>
-//                 handleAction({
-//                   method,
-//                   body,
-//                   uri,
-//                   escapeOnEnd: true,
-//                 })
-//               }
-//               disabled={isLoading}
-//             >
-//               {isLoading ? "Please wait..." : confirmText}
-//             </Button>
-//           </AlertDialogAction>
-//         </AlertDialogFooter>
-//       </AlertDialogContent>
-//     </AlertDialog>
-//   );
-// }
+        <AlertDialogFooter>
+          <AlertDialogCancel disabled={isLoading}>
+            {cancelText}
+          </AlertDialogCancel>
+
+          <AlertDialogAction asChild>
+            <Button
+              variant={variant}
+              onClick={() =>
+                handleAction({
+                  method,
+                  body,
+                  uri,
+                  escapeOnEnd: true,
+                })
+              }
+              disabled={isLoading}
+            >
+              {isLoading ? "Please wait..." : confirmText}
+            </Button>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}

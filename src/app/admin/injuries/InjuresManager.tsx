@@ -6,7 +6,6 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  Search,
   Filter,
   User,
   AlertTriangle,
@@ -15,6 +14,7 @@ import {
   X,
   Plus,
   Calendar,
+  Edit,
 } from "lucide-react";
 import { useFetch } from "@/hooks/fetch";
 import { IPlayer } from "@/types/player.interface";
@@ -25,56 +25,27 @@ import SELECT from "@/components/select/Select";
 import { enumToOptions } from "@/lib/select";
 import { InjuryStats } from "./Stats";
 import { PlayerDisplayPanel } from "../players/PlayerDisplay";
-import { InjuryForm } from "../live-match/(events)/Injury";
+import { InjuryForm } from "./InjuryForm";
 import { DIALOG } from "@/components/Dialog";
-
-interface Player {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  number: string;
-  avatar?: string;
-  position: string;
-}
-
-interface Injury {
-  _id: string;
-  title: string;
-  description: string;
-  minute?: string;
-  severity: "MINOR" | "MODERATE" | "MAJOR" | "SEVERE";
-  player: {
-    _id: string;
-    name: string;
-    avatar?: string;
-    number: string;
-  };
-  createdAt: string;
-  updatedAt: string;
-}
+import { ConfirmDialog } from "@/components/Confirm-dialog";
 
 export function InjuriesManager() {
-  const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
+  const [selectedPlayer, setSelectedPlayer] = useState<IPlayer | null>(null);
   const [severityFilter, setSeverityFilter] = useState<string>("all");
-  const [showInjuryForm, setShowInjuryForm] = useState(false);
-
-  // Fetch players
-  const { results: players, loading: isLoadingPlayers } = useFetch<IPlayer[]>({
-    uri: "/players",
-  });
 
   // Fetch all injuries
   const { results: allInjuries, loading: isLoadingInjuries } = useFetch<
     IInjury[]
   >({
     uri: "/injuries",
+    refetchOnRefresh: true,
   });
 
   // Get injuries for selected player or all injuries
   const playerInjuries = useMemo(() => {
-    let injuries = selectedPlayerId
+    let injuries = selectedPlayer
       ? allInjuries?.data?.filter(
-          (injury) => injury.player._id === selectedPlayerId
+          (injury) => injury.player._id === selectedPlayer._id
         )
       : allInjuries?.data;
 
@@ -91,12 +62,7 @@ export function InjuriesManager() {
         new Date(b?.createdAt as string).getTime() -
         new Date(a?.createdAt as string).getTime()
     );
-  }, [allInjuries, selectedPlayerId, severityFilter]);
-
-  // Get selected player details
-  const selectedPlayer = selectedPlayerId
-    ? players?.data?.find((p: Player) => p._id === selectedPlayerId)
-    : null;
+  }, [allInjuries, selectedPlayer, severityFilter]);
 
   // Severity badge component
   const SeverityBadge = ({ severity }: { severity: string }) => {
@@ -146,16 +112,15 @@ export function InjuriesManager() {
               New Injury Report
             </>
           }
-          
-
+          variant={"default"}
         >
-          <InjuryForm players={players?.data as IPlayer[]} match={undefined} />
+          <InjuryForm match={undefined} injury={undefined} />
         </DIALOG>
       </div>
       <InjuryStats injuries={allInjuries} loading={isLoadingInjuries} />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Panel: Player List */}
-        <PlayerDisplayPanel onSelect={(p) => setSelectedPlayerId(p?._id)} />
+        <PlayerDisplayPanel onSelect={(p) => setSelectedPlayer(p as IPlayer)} />
         {/* Right Panel: Injuries */}
         <Card className="lg:col-span-2">
           <div className="p-4 border-b">
@@ -185,11 +150,11 @@ export function InjuriesManager() {
                   onChange={(v) => setSeverityFilter(v)}
                 />
 
-                {selectedPlayerId && (
+                {selectedPlayer && (
                   <PrimaryClearFiltersBtn
                     variant="ghost"
                     size="sm"
-                    onClick={() => setSelectedPlayerId(null)}
+                    onClick={() => setSelectedPlayer(null)}
                     label="Clear Filter"
                   />
                 )}
@@ -208,14 +173,17 @@ export function InjuriesManager() {
                     ? "No injuries recorded for this player"
                     : "No injuries found"}
                 </p>
-                <Button
-                  variant="outline"
-                  className="mt-4"
-                  onClick={() => setShowInjuryForm(true)}
+                <DIALOG
+                  trigger={
+                    <>
+                      <Plus className="h-4 w-4 mr-2" />
+                      Report First Injury
+                    </>
+                  }
+                  variant={"outline"}
                 >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Report First Injury
-                </Button>
+                  <InjuryForm player={selectedPlayer as IPlayer} />
+                </DIALOG>
               </div>
             ) : (
               <div className="space-y-4">
@@ -273,12 +241,24 @@ export function InjuriesManager() {
                         </div>
 
                         <div className="flex gap-2">
-                          <Button variant="outline" size="sm">
-                            Edit
-                          </Button>
-                          <Button variant="destructive" size="sm">
-                            Resolve
-                          </Button>
+                          <DIALOG
+                            trigger={"Edit"}
+                            variant={"outline"}
+                            triggerStyles="text-sm p-1.5 px-2"
+                          >
+                            <InjuryForm match={undefined} injury={injury} />
+                          </DIALOG>
+
+                          <ConfirmDialog
+                            description="Delete injury to resolve"
+                            action={{
+                              method: "DELETE",
+                              uri: `/injuries/${injury._id}`,
+                            }}
+                            trigger="Resolve"
+                            variant={"destructive"}
+                            title={injury.title}
+                          />
                         </div>
                       </div>
                     </div>
@@ -289,33 +269,6 @@ export function InjuriesManager() {
           </div>
         </Card>
       </div>
-      {/* Injury Form Modal */}
-      {showInjuryForm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-background rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold">Report New Injury</h2>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowInjuryForm(false)}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-              {/* <InjuryForm
-                onSuccess={() => {
-                  setShowInjuryForm(false);
-                  // Refetch injuries
-                }}
-                initialPlayerId={selectedPlayerId}
-              /> */}
-              {/* <InjuryForm players={players as IPlayer[]} match={match} /> */}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

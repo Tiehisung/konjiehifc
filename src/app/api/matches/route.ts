@@ -8,7 +8,6 @@ import "@/models/goals";
 import "@/models/player";
 import "@/models/squad";
 import { removeEmptyKeys } from "@/lib";
-import { getSessionUser } from "@/app/admin/page";
 import { EMatchStatus } from "@/types/match.interface";
 import { logAction } from "../logs/helper";
 import { formatDate } from "@/lib/timeAndDate";
@@ -44,10 +43,10 @@ export async function GET(request: NextRequest) {
       { "date": regex },
     ]
   }
-  const user = await getSessionUser()
-  console.log({ user })
 
+  
   const cleanedFilters = removeEmptyKeys(query)
+  console.log(cleanedFilters )
 
   const fixtures = await MatchModel.find(cleanedFilters)
     .populate({ path: "opponent", })
@@ -88,7 +87,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-  const user = await getSessionUser()
+ 
 
   const { _id, ...others } = await request.json();
 

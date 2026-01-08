@@ -3,19 +3,33 @@
 import { useState } from "react";
 import clsx from "clsx";
 
+export enum EEmoji {
+  GOAL = "⚽",
+  ASSIST = "🎯",
+  YELLOW_CARD = "🟨",
+  RED_CARD = "🟥",
+  INJURY = "🤕",
+  SAVE = "🧤",
+  TROPHY = "🏆",
+  SUBSTITUTION = "🔁",
+  TIME = "⏱️",
+  SHOT = "🥅",
+  CAPTAIN = "🫡",
+}
+
 export const FOOTBALL_EMOJIS = [
-  { label: "Goal", value: "⚽" },
-  { label: "Assist", value: "🎯" },
-  { label: "Yellow Card", value: "🟨" },
-  { label: "Red Card", value: "🟥" },
-  { label: "Injury", value: "🤕" },
-  { label: "Save", value: "🧤" },
-  { label: "Trophy", value: "🏆" },
-  { label: "Substitution", value: "🔁" },
-  { label: "Time", value: "⏱️" },
-  { label: "Shot", value: "🥅" },
-  { label: "Captain", value: "🫡" },
-];
+  { label: "Goal", value: EEmoji.GOAL },
+  { label: "Assist", value: EEmoji.ASSIST },
+  { label: "Yellow Card", value: EEmoji.YELLOW_CARD },
+  { label: "Red Card", value: EEmoji.RED_CARD },
+  { label: "Injury", value: EEmoji.INJURY },
+  { label: "Save", value: EEmoji.SAVE },
+  { label: "Trophy", value: EEmoji.TROPHY },
+  { label: "Substitution", value: EEmoji.SUBSTITUTION },
+  { label: "Time", value: EEmoji.TIME },
+  { label: "Shot", value: EEmoji.SHOT },
+  { label: "Captain", value: EEmoji.CAPTAIN },
+]  
 
 interface EmojiPickerProps {
   emojis?: { label: string; value: string }[];

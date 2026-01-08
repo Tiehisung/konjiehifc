@@ -5,19 +5,33 @@ import { LoginBtn } from "@/components/auth/Auth";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { useSession } from "next-auth/react";
-// import { CredentialsLoginForm } from "./Credentials";
+import { IUser } from "@/types/user";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const LoginPage = () => {
   const { data: session } = useSession();
 
+  const router = useRouter();
+
+  //Return if logged in
+  useEffect(() => {
+    if (session) router.back();
+  }, [session]);
+
+  //may not display
   if (session?.user) {
+    const path =
+      (session.user as IUser).role == "player"
+        ? "/players/dashboard"
+        : "/admin";
     return (
       <div className="min-h-screen flex flex-col justify-center items-center">
         <h1 className="text-2xl font-bold mb-4">You are already logged in</h1>
         <p className="text-center">
           Go to{" "}
-          <Link href="/admin" className="text-blue-500 underline">
-            Admin Dashboard
+          <Link href={path} className="text-blue-500 underline">
+            Dashboard
           </Link>
         </p>
       </div>
@@ -35,12 +49,10 @@ const LoginPage = () => {
           <FcGoogle size={24} />
         </LoginBtn>
 
-         <br />
+        <br />
       </div>
     </div>
   );
 };
 
 export default LoginPage;
-
-

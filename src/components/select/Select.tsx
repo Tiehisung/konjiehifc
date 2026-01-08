@@ -12,6 +12,7 @@ import { Label } from "../ui/label";
 import { ReactNode, useEffect, useState } from "react";
 import Loader from "../loaders/Loader";
 import { cn } from "@/lib/utils";
+import { OverlayLoader } from "../loaders/OverlayLoader";
 
 export interface SelectOption {
   label: string;
@@ -32,6 +33,7 @@ interface ISelect {
   label?: ReactNode;
   error?: string;
   clearable?: boolean;
+  loading?: boolean;
 }
 
 // Primary Select (like your PrimaryDropdown)
@@ -62,13 +64,15 @@ export function PrimarySelect({ clearable = true, ...props }: ISelect) {
   const normalizedValue =
     !props.value || props.value === "all" ? undefined : props.value;
 
-
   if (refreshing) return <Loader />;
 
   return (
     <div>
       {props.label && (
-        <Label htmlFor={props.name} className="_label mb-2 text-muted-foreground">
+        <Label
+          htmlFor={props.name}
+          className="_label mb-2 text-muted-foreground"
+        >
           {props.label}
         </Label>
       )}
@@ -76,11 +80,14 @@ export function PrimarySelect({ clearable = true, ...props }: ISelect) {
       <Select
         value={normalizedValue}
         onValueChange={handleOnChange}
-        disabled={props.disabled}
         name={props.name}
         required={props.required}
       >
-        <SelectTrigger className={`${props.triggerStyles}`} id={props.name}>
+        <SelectTrigger
+          disabled={props.disabled}
+          className={`${props.triggerStyles}`}
+          id={props.name}
+        >
           <SelectValue placeholder={props.placeholder ?? "Select"} />
         </SelectTrigger>
         <SelectContent className={props.className}>
@@ -102,6 +109,7 @@ export function PrimarySelect({ clearable = true, ...props }: ISelect) {
           {props.error}
         </p>
       )}
+      {props.loading && <OverlayLoader isLoading />}
     </div>
   );
 }
@@ -113,7 +121,7 @@ interface ISELECT {
   placeholder?: string;
   className?: string;
   selectStyles?: string;
-
+  loading?: boolean;
   name?: string;
   paramKey?: string;
   label?: ReactNode;
@@ -131,6 +139,8 @@ export default function SELECT({
   label,
   className,
   paramKey,
+  selectStyles,
+  loading,
   ...props
 }: ISELECT) {
   const { setParam } = useUpdateSearchParams();
@@ -154,7 +164,7 @@ export default function SELECT({
         onChange={(e) => handleOnChange?.(e.target.value)}
         className={cn(
           "bg-transparent text-sm border rounded px-2 py-1 h-9",
-          props.selectStyles
+          selectStyles
         )}
         {...props}
       >
@@ -175,6 +185,7 @@ export default function SELECT({
           {error}
         </p>
       )}
+      {loading && <OverlayLoader isLoading />}
     </div>
   );
 }

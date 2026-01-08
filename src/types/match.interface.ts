@@ -2,6 +2,7 @@ import { ISquad } from "@/app/admin/squad/page";
 import { IFileProps } from "@/types/file.interface";
 import { IPlayerMini } from "./player.interface";
 import { IPlayerStatsProps } from "@/app/statistics/Statistics";
+import { ICard } from "./card.interface";
 
 export enum EMatchStatus {
   FT = 'FT',
@@ -25,7 +26,7 @@ export interface IMatch {
   venue?: { name: string; files: IFileProps[] };
   goals: Array<IGoal>
   events: Array<IMatchEvent>;
-  cards: Array<IMatchCard>;
+  cards: Array<ICard>;
   squad?: ISquad
 }
 export interface IMatchMetrics {
@@ -41,13 +42,7 @@ export interface IMatchMetrics {
     away: ITeam;
   }
 }
-export interface IMatchCard {
-  type: 'red' | 'yellow';
-  minute: string | number
-  match: { name: string, _id: string }
-  player: IPlayerMini
-  description?: string
-}
+ 
 export interface IMatchEvent {
   title: string,
   description?: string;

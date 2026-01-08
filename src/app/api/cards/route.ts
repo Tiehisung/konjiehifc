@@ -2,11 +2,11 @@ import { getErrorMessage } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import { NextRequest, NextResponse } from "next/server";
 import { logAction } from "../logs/helper";
-import { IMatchCard } from "@/app/matches/(fixturesAndResults)";
 import CardModel from "@/models/card";
 import { updateMatchEvent } from "../matches/live/events/route";
 import PlayerModel from "@/models/player";
 import { auth } from "@/auth";
+import { ICard } from "@/types/card.interface";
 
 ConnectMongoDb();
 
@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { match, minute, player, type, description, } = await request.json() as IMatchCard;
+    const { match, minute, player, type, description, } = await request.json() as ICard;
 
     const savedCard = await CardModel.create({
       match, minute, player, type

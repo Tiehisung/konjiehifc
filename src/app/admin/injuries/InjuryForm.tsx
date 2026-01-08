@@ -17,9 +17,9 @@ import { IPlayer } from "@/types/player.interface";
 import { IMatch } from "@/types/match.interface";
 import { IInjury } from "@/types/injury.interface";
 import { z } from "zod";
-import { symbols } from "@/data";
 import { EInjurySeverity } from "@/types/injury.interface";
 import { fireEscape } from "@/hooks/Esc";
+import { useFetch } from "@/hooks/fetch";
 
 const injurySchema = z.object({
   player: z.string().min(1, "Player is required"),
@@ -32,13 +32,21 @@ const injurySchema = z.object({
 type InjuryFormValues = z.infer<typeof injurySchema>;
 
 interface InjuryEventsTabProps {
-  players: IPlayer[];
+  player?: IPlayer;
   match?: IMatch;
+  injury?: IInjury;
 }
 
-export function InjuryForm({ players, match }: InjuryEventsTabProps) {
+export function InjuryForm({
+  match,
+  injury,
+  player: defaultPlayer,
+}: InjuryEventsTabProps) {
   const router = useRouter();
-
+  // Fetch players
+  const { results: players, loading: isLoadingPlayers } = useFetch<IPlayer[]>({
+    uri: "/players",
+  });
   const {
     control,
     handleSubmit,
@@ -47,21 +55,23 @@ export function InjuryForm({ players, match }: InjuryEventsTabProps) {
     formState: { isSubmitting },
   } = useForm<InjuryFormValues>({
     resolver: zodResolver(injurySchema),
-    defaultValues: {
-      player: "",
-      title: match?.title,
-      minute: "",
-      description: "",
-      severity: EInjurySeverity.MINOR,
-    },
+    defaultValues: injury
+      ? ({ ...injury, player: injury.player._id } as InjuryFormValues)
+      : {
+          player: defaultPlayer?._id,
+          title: match?.title,
+          minute: "",
+          description: "",
+          severity: EInjurySeverity.MINOR,
+        },
   });
 
   const selectedPlayerId = watch("player");
-  const selectedPlayer = players.find((p) => p._id === selectedPlayerId);
+  const selectedPlayer = players?.data?.find((p) => p._id === selectedPlayerId);
 
   const onSubmit = async (data: InjuryFormValues) => {
     try {
-      const player = players.find((p) => p._id === data.player);
+      const player = players?.data?.find((p) => p._id === data.player);
       if (!player) return;
 
       const payload: IInjury = {
@@ -78,11 +88,14 @@ export function InjuryForm({ players, match }: InjuryEventsTabProps) {
         minute: data.minute,
       };
 
-      const res = await fetch(apiConfig.injuries, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const res = await fetch(
+        apiConfig.injuries + (injury ? `/${injury._id}` : ""),
+        {
+          method: injury ? "PUT" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
 
       const result = await res.json();
 
@@ -96,7 +109,7 @@ export function InjuryForm({ players, match }: InjuryEventsTabProps) {
           severity: EInjurySeverity.MINOR,
         });
 
-        fireEscape()
+        fireEscape();
       }
     } catch (err) {
       toast.error(getErrorMessage(err));
@@ -109,7 +122,7 @@ export function InjuryForm({ players, match }: InjuryEventsTabProps) {
     <Card className="p-6 rounded-none">
       <form onSubmit={handleSubmit(onSubmit)}>
         <h2 className="mb-6 text-2xl font-bold flex items-center justify-between">
-          Add Injury
+          {injury ? `Edit - ${injury.player?.name}` : "Add Injury"}:
           <AVATAR
             alt="injured player"
             src={selectedPlayer?.avatar as string}
@@ -119,24 +132,29 @@ export function InjuryForm({ players, match }: InjuryEventsTabProps) {
 
         <div className="space-y-4">
           {/* Player */}
-          <Controller
-            control={control}
-            name="player"
-            render={({ field, fieldState }) => (
-              <SELECT
-                {...field}
-                options={players.map((p) => ({
-                  label: `${p.number} - ${p.lastName} ${p.firstName}`,
-                  value: p._id,
-                }))}
-                label="Player"
-                placeholder="Select"
-                selectStyles="w-full "
-                error={fieldState?.error?.message}
-                className="grid"
-              />
-            )}
-          />
+          {!(defaultPlayer || injury) && (
+            <Controller
+              control={control}
+              name="player"
+              render={({ field, fieldState }) => (
+                <SELECT
+                  {...field}
+                  options={
+                    players?.data?.map((p) => ({
+                      label: `${p.number} - ${p.lastName} ${p.firstName}`,
+                      value: p._id,
+                    })) ?? []
+                  }
+                  label="Player"
+                  placeholder="Select"
+                  selectStyles="w-full "
+                  error={fieldState?.error?.message}
+                  className="grid"
+                />
+              )}
+            />
+          )}
+
           <Controller
             control={control}
             name="title"
@@ -201,11 +219,10 @@ export function InjuryForm({ players, match }: InjuryEventsTabProps) {
             type="submit"
             waiting={isSubmitting}
             className="w-full _primaryBtn"
-            primaryText="Add Injury"
-            waitingText="Adding Injury"
+            primaryText={injury ? "Edit Injury" : "Add Injury"}
+            waitingText={injury ? "Editing Injury" : "Adding Injury"}
           >
             <Plus className="mr-2 h-4 w-4" />
-            Add Injury
           </Button>
         </div>
       </form>

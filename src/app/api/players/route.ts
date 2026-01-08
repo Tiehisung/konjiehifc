@@ -65,8 +65,6 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const pf = (await request.json()) as IPostPlayer;
   try {
-
-
     //Ensure unique code ----------------------------------------
 
     let playerCode = generatePlayerID(pf.firstName, pf.lastName, pf.dob)
