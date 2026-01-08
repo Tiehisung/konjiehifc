@@ -219,7 +219,7 @@ export function CardForm({ match, card, player: defaultPlayer }: IProps) {
               <TextArea
                 {...field}
                 label="Description"
-                placeholder="e.g., Hamstring, head card?..."
+                placeholder="e.g., Wrong celebration, fight..."
                 error={fieldState?.error?.message}
               />
             )}
