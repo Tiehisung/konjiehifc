@@ -1,5 +1,6 @@
 "use client";
 
+import BackBtn from "@/components/buttons/BackBtn";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -11,7 +12,7 @@ import { useMemo, useState } from "react";
 
 interface Props {
   onSearch?: (e: string) => void;
-  onSelect: (player: IPlayer) => void;
+  onSelect: (player?: IPlayer) => void;
   filters?: object;
   defaultPlayers?: IPlayer[];
 }
@@ -26,7 +27,7 @@ export function PlayerDisplayPanel({
   // Fetch players
   const { results: playersData, loading } = useFetch<IPlayer[]>({
     uri: "/players",
-    filters:filters? { ...filters }:{},
+    filters: filters ? { ...filters } : {},
     skip: (defaultPlayers?.length ?? 0) > 0 ? true : false,
   });
   const players = defaultPlayers ?? playersData?.data ?? [];
@@ -47,8 +48,6 @@ export function PlayerDisplayPanel({
     });
   }, [players, searchQuery]);
 
-  console.log({ playersData });
-
   return (
     <Card className="lg:col-span-1">
       <div className="p-4 border-b">
@@ -65,12 +64,24 @@ export function PlayerDisplayPanel({
           />
         </div>
 
-        <Tabs defaultValue="all" className="w-full">
-          <TabsList className="grid grid-cols-2 mb-4">
-            <TabsTrigger value="all">All Players</TabsTrigger>
-            <TabsTrigger value="injured">Injured</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <div className="flex items-start gap-5">
+          {selectedPlayer && (
+            <BackBtn
+              onClick={(r) => {
+                onSelect?.(undefined);
+                setSelectedPlayer("");
+              }}
+              className=""
+            />
+          )}
+
+          <Tabs defaultValue="all" className="w-full">
+            <TabsList className="grid grid-cols-2 mb-4">
+              <TabsTrigger value="all">All Players</TabsTrigger>
+              <TabsTrigger value="injured">Injured</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
       </div>
 
       <div className="p-2 max-h-[calc(100vh-300px)] overflow-y-auto">

@@ -17,12 +17,12 @@ import { IUser } from "@/types/user";
 import LightboxViewer from "@/components/viewer/LightBox";
 
 interface GalleryDisplayProps {
-  galleries: IGalleryProps[];
+  galleries: IGallery[];
 }
 
 export function GalleryDisplay({ galleries }: GalleryDisplayProps) {
   const [selectedGallery, setSelectedGallery] = useState<
-    IGalleryProps | undefined
+    IGallery | undefined
   >(undefined);
 
   const session = useSession();

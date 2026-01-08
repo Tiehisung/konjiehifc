@@ -1,13 +1,13 @@
 import { VscLoading } from 'react-icons/vsc';
 
 interface IOverlayLoader {
-  isLoading: boolean;
+  isLoading?: boolean;
   iconClassName?: string;
   className?: string;
 }
 
 export function OverlayLoader({
-  isLoading,
+  isLoading=true,
   iconClassName = 'text-4xl',
   className,
 }: IOverlayLoader) {

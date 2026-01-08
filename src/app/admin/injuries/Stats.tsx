@@ -4,7 +4,7 @@ import { CountupMetricCard } from "@/components/MetricsCards";
 import { useFetch } from "@/hooks/fetch";
 import { IQueryResponse } from "@/types";
 import { EInjurySeverity, IInjury } from "@/types/injury.interface";
-import { AlertCircle, AlertTriangle, AlertOctagon } from "lucide-react";
+import { AlertCircle, AlertTriangle, AlertOctagon ,} from "lucide-react";
 import { useMemo } from "react";
 
 interface IProps {

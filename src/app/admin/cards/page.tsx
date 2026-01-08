@@ -2,11 +2,11 @@ import HEADER from "@/components/Element";
 import { buildQueryStringServer } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import BackToTopButton from "@/components/scroll/ToTop";
-import { InjuriesManager } from "./InjuresManager";
+import { CardsManager } from "./CardsManager";
 
-export const getInjuries = async (queryString?: string) => {
+export const getCards = async (queryString?: string) => {
   try {
-    const url = `${apiConfig.base}/injuries${queryString || ""}`;
+    const url = `${apiConfig.base}/cards${queryString || ""}`;
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -30,7 +30,7 @@ interface IPageProps {
   }>;
 }
 
-export default async function InjuryPage({ searchParams }: IPageProps) {
+export default async function CardsPage({ searchParams }: IPageProps) {
   const qs = buildQueryStringServer(await searchParams);
  
 
@@ -41,7 +41,7 @@ export default async function InjuryPage({ searchParams }: IPageProps) {
         subtitle="Track and manage player injuries"
       />
 
-      <InjuriesManager />
+      <CardsManager />
 
       <BackToTopButton />
     </div>

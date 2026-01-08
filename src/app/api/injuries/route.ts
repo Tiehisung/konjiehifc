@@ -1,8 +1,7 @@
-import { getErrorMessage } from "@/lib";
+import { getErrorMessage, removeEmptyKeys } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import { NextRequest, NextResponse } from "next/server";
 import { logAction } from "../logs/helper";
-import { updateMatchEvent } from "../matches/live/events/route";
 import InjuryModel from "@/models/injury";
 import PlayerModel from "@/models/player";
 import { IInjury } from "@/types/injury.interface";
@@ -21,14 +20,20 @@ export async function GET(request: NextRequest) {
 
   const query = {
     $or: [
-      { "type": regex },
-      { "player.name": regex },
-      { "severity": regex },
+      { "title": regex },
       { "description": regex },
+      { "severity": regex },
+      { "player.name": regex },
+      { "minute": regex },
+      { "match.title": regex },
     ],
   }
 
-  const injuries = await InjuryModel.find(query)
+  const cleaned =removeEmptyKeys(query)
+
+  console.log({cleaned})
+
+  const injuries = await InjuryModel.find(cleaned)
     .limit(limit).skip(skip)
     .lean().sort({ createdAt: "desc" });
 

@@ -1,9 +1,11 @@
+import { ECardType } from "@/types/card.interface";
 import mongoose, { Schema } from "mongoose";
 
 export const cardSchema = new Schema(
   {
 
     minute: String,
+    description: String,
     player: {
       _id: {
         type: Schema.Types.ObjectId,
@@ -14,17 +16,9 @@ export const cardSchema = new Schema(
       avatar: String,
       number: String
     },
-    match: {
-      _id: {
-        type: Schema.Types.ObjectId,
-        ref: "matches",
-        required: true
-      },
-      name: String,
-    },
+    match: {},
 
-    type: { type: String, enum: ['yellow', 'red'], default: 'yellow' },
-    description: String,
+    type: { type: String, enum: Object.values(ECardType), default: ECardType.YELLOW},
 
   },
   { timestamps: true }

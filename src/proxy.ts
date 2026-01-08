@@ -5,8 +5,9 @@ import { EUserRole, ISession } from "./types/user";
 export async function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const session = (await auth()) as ISession | null;
+    const role = session?.user?.role;
 
- 
+    // const resolvedPathname = pathname.startsWith('/auth/login') ? (role == 'player' ? '/players/dashboard' : role?.includes('admin') ? '/admin' : '/') : pathname
 
     // Define protected paths
     const isAdminPath = pathname.startsWith("/admin");
@@ -27,12 +28,12 @@ export async function proxy(request: NextRequest) {
         );
     }
 
-    const role = session.user.role;
+
 
     // **FIXED LOGIC:**
     // Check admin access
     if (isAdminPath) {
-  
+
         // Allow only admins
         if (role?.includes(EUserRole.ADMIN)) {
             return NextResponse.next(); // ✅ Admin can access admin routes
@@ -46,7 +47,7 @@ export async function proxy(request: NextRequest) {
 
     // Check player dashboard access
     if (isPlayerDashboardPath) {
- 
+
         // Allow only players
         if (role === EUserRole.PLAYER) {
             return NextResponse.next(); // ✅ Player can access player dashboard

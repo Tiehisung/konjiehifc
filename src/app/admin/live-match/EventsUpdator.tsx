@@ -1,15 +1,12 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CardEventsTab } from "./(events)/Card";
+import { CardForm } from "../cards/CardForm";
 import { GeneralEventsTab } from "./(events)/General";
 import { ScoreEventsTab } from "./(events)/Goals";
-import { InjuryForm } from "./(events)/Injury";
+import { InjuryForm } from "../injuries/InjuryForm";
 import { IPlayer } from "@/types/player.interface";
-import {
-  IMatchEvent,
-  ITeamProps,
-} from "@/app/matches/(fixturesAndResults)";
+import { IMatchEvent, ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { Button } from "@/components/buttons/Button";
 import { Trash2 } from "lucide-react";
 import { apiConfig } from "@/lib/configs";
@@ -69,7 +66,7 @@ export function MatchEventsAdmin({ players, opponent, match }: IProps) {
         </TabsContent>
 
         <TabsContent value="cards">
-          <CardEventsTab players={players as IPlayer[]} match={match} />
+          <CardForm players={players as IPlayer[]} match={match} />
         </TabsContent>
 
         <TabsContent value="injuries">
