@@ -38,6 +38,8 @@ export function useFetch<T = unknown>({
   useRefetchOnRefresh(refetch);
 
   const query = buildQueryString({ limit: "50000", ...filters });
+
+  
   useEffect(() => {
     const fetchData = async () => {
       try {

@@ -42,7 +42,8 @@ export function CardForm({ match, card, player: defaultPlayer }: IProps) {
     uri: "/players",
   });
   const { results: matches, loading: isLoadingMatches } = useFetch<IMatch[]>({
-    uri: "/matches?status=UPCOMING",
+    uri: "/matches",
+    filters: { status: "UPCOMING" },
   });
   console.log({ matches });
 
