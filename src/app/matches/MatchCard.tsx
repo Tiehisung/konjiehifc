@@ -1,4 +1,3 @@
-import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { AVATAR } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { checkMatchMetrics, checkTeams } from "@/lib/compute/match";
@@ -9,28 +8,13 @@ import {
 } from "@/lib/timeAndDate";
 
 import { DIALOG } from "@/components/Dialog";
-import { Eye, View } from "lucide-react";
+import { View } from "lucide-react";
 
-import { IPlayer } from "@/types/player.interface";
 
-import { Button } from "@/components/buttons/Button";
-import { IManager } from "../admin/managers/page";
-import SquadForm from "../admin/squad/SquadForm";
 import SquadCard from "../admin/squad/SquadCard";
 import { IMatch } from "@/types/match.interface";
 
-export function MatchFixtureCard({
-  match,
-  managers,
-  matches,
-  players,
-}: {
-  match?: IMatch;
-  teams?: ITeamProps[];
-  players?: IPlayer[];
-  managers?: IManager[];
-  matches?: IMatch[];
-}) {
+export function MatchFixtureCard({ match }: { match?: IMatch }) {
   const { away, home } = checkTeams(match);
   const scores = checkMatchMetrics(match);
   const status = match?.status;
@@ -90,7 +74,7 @@ export function MatchFixtureCard({
       <div>
         <div className="flex items-center text-sm gap-5">
           <span className="w-20 py-2 font-semibold">{match?.status}</span>
-          {match?.squad ? (
+          {match?.squad && (
             <DIALOG
               trigger={
                 <span className="flex items-center gap-1 font-light _hover _shrink">
@@ -102,24 +86,6 @@ export function MatchFixtureCard({
               className="min-w-[80vw]"
             >
               <SquadCard squad={match?.squad} match={match} />
-            </DIALOG>
-          ) : (
-            <DIALOG
-              trigger={
-                <Button
-                  primaryText="Choose Squad"
-                  className="text-xs font-thin _secondaryBtn "
-                />
-              }
-              title={`Select Squad for ${match?.title}`}
-              className="min-w-[80vw]"
-            >
-              <SquadForm
-                players={players}
-                managers={managers}
-                matches={matches}
-                defaultMatch={match}
-              />
             </DIALOG>
           )}
         </div>

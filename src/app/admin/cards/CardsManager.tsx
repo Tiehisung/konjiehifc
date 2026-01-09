@@ -14,24 +14,22 @@ import { CardForm } from "./CardForm";
 import { ECardType, ICard } from "@/types/card.interface";
 import CardCard from "./CardCard";
 import Loader from "@/components/loaders/Loader";
+import { IQueryResponse } from "@/types";
+interface IProps {
+  cardsData?: IQueryResponse<ICard[]>;
+}
 
-export function CardsManager() {
+export function CardsManager({ cardsData }: IProps) {
   const [selectedPlayer, setSelectedPlayer] = useState<IPlayer | null>(null);
   const [typeFilter, setTypeFilter] = useState<string>("all");
-
-  // Fetch all cards
-  const { results: allCards, loading: isLoadingCards } = useFetch<ICard[]>({
-    uri: "/cards",
-    refetchOnRefresh: true,
-  });
 
   // Get cards for selected player or all cards
   const playerCards = useMemo(() => {
     let cards = selectedPlayer
-      ? allCards?.data?.filter(
+      ? cardsData?.data?.filter(
           (card) => card?.player?._id === selectedPlayer._id
         )
-      : allCards?.data;
+      : cardsData?.data;
 
     // Apply type filter
     if (typeFilter !== "all") {
@@ -44,7 +42,7 @@ export function CardsManager() {
         new Date(b?.createdAt as string).getTime() -
         new Date(a?.createdAt as string).getTime()
     );
-  }, [allCards, selectedPlayer, typeFilter]);
+  }, [cardsData, selectedPlayer, typeFilter]);
 
   return (
     <div className="container mx-auto p-4">
@@ -64,11 +62,13 @@ export function CardsManager() {
         </DIALOG>
       </div>
 
-      <CardsStats cards={allCards} loading={isLoadingCards} />
+      <CardsStats cards={cardsData} loading={!cardsData} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Panel: Player List */}
-        <PlayerDisplayPanel onSelect={(p) => setSelectedPlayer(p as IPlayer)} />
+        <PlayerDisplayPanel
+          onSelect={(player) => setSelectedPlayer(player ?? null)}
+        />
         {/* Right Panel: cards */}
         <Card className="lg:col-span-2">
           <header className="p-4 border-b">
@@ -114,15 +114,13 @@ export function CardsManager() {
           </header>
 
           <div className="p-4 max-h-[calc(100vh-200px)] overflow-y-auto">
-            {isLoadingCards ? (
+            {!cardsData ? (
               <Loader />
             ) : playerCards?.length === 0 ? (
               <div className="text-center py-12">
                 <AlertTriangle className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-20" />
                 <p className="text-muted-foreground">
-                  {selectedPlayer
-                    ? "No cards recorded"
-                    : "No cards found"}
+                  {selectedPlayer ? "No cards recorded" : "No cards found"}
                 </p>
                 <DIALOG
                   trigger={

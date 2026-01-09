@@ -3,6 +3,8 @@ import { buildQueryStringServer } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import BackToTopButton from "@/components/scroll/ToTop";
 import { CardsManager } from "./CardsManager";
+import { IQueryResponse } from "@/types";
+import { ICard } from "@/types/card.interface";
 
 export const getCards = async (queryString?: string) => {
   try {
@@ -32,7 +34,9 @@ interface IPageProps {
 
 export default async function CardsPage({ searchParams }: IPageProps) {
   const qs = buildQueryStringServer(await searchParams);
- 
+
+  const cards: IQueryResponse<ICard[]> = await getCards(qs);
+  console.log(cards);
 
   return (
     <div className="_page ">
@@ -41,7 +45,7 @@ export default async function CardsPage({ searchParams }: IPageProps) {
         subtitle="Track and manage player cards"
       />
 
-      <CardsManager />
+      <CardsManager cardsData={cards} />
 
       <BackToTopButton />
     </div>
