@@ -17,7 +17,6 @@ import { UpdateFixtureMatch } from "./CreateFixture";
 import SquadForm from "../squad/SquadForm";
 import { IPlayer } from "@/types/player.interface";
 import { IManager } from "../managers/page";
-import { Button } from "@/components/buttons/Button";
 import { IMatch, ITeam } from "@/types/match.interface";
 
 export function AdminMatchCard({
@@ -107,6 +106,7 @@ export function AdminMatchCard({
             <DIALOG
               trigger={"Choose Squad"}
               variant={"ghost"}
+              size={'sm'}
               title={`Select Squad for ${match?.title}`}
               className="min-w-[80vw]"
             >

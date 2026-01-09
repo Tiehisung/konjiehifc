@@ -30,6 +30,7 @@ export const ClearFiltersBtn = ({
     </Button>
   );
 };
+
 export const ClearBtn = ({
   className = "",
   label = "Clear Filter",
@@ -51,7 +52,7 @@ export const ClearBtn = ({
       size={size}
       title="Clear filters"
       onClick={() => {
-        if (typeof onClick !== "undefined") onClick?.();
+        if (typeof onClick !== "undefined") onClick();
         else clearParams();
       }}
       className={className}

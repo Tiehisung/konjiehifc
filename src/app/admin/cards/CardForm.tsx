@@ -64,7 +64,7 @@ export function CardForm({ match, card, player: defaultPlayer }: IProps) {
           type: ECardType.YELLOW,
         },
   });
-console.log(errors)
+ 
   const selectedPlayerId = watch("player");
   const selectedPlayer = players?.data?.find((p) => p._id === selectedPlayerId);
 
