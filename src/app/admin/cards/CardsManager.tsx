@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Filter, AlertTriangle, Plus } from "lucide-react";
 import { useFetch } from "@/hooks/fetch";
 import { IPlayer } from "@/types/player.interface";
-import { PrimaryClearFiltersBtn } from "@/components/buttons/ClearFilters";
+import { ClearBtn } from "@/components/buttons/ClearFilters";
 import SELECT from "@/components/select/Select";
 import { CardsStats } from "./Stats";
 import { PlayerDisplayPanel } from "../players/PlayerDisplay";
@@ -102,7 +102,7 @@ export function CardsManager() {
                 />
 
                 {selectedPlayer && (
-                  <PrimaryClearFiltersBtn
+                  <ClearBtn
                     variant="ghost"
                     size="sm"
                     onClick={() => setSelectedPlayer(null)}

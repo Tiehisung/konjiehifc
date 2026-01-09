@@ -37,8 +37,8 @@ export default async function CardsPage({ searchParams }: IPageProps) {
   return (
     <div className="_page ">
       <HEADER
-        title="Injuries Management"
-        subtitle="Track and manage player injuries"
+        title="Cards Management"
+        subtitle="Track and manage player cards"
       />
 
       <CardsManager />

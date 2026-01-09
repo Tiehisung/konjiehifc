@@ -30,7 +30,7 @@ export const ClearFiltersBtn = ({
     </Button>
   );
 };
-export const PrimaryClearFiltersBtn = ({
+export const ClearBtn = ({
   className = "",
   label = "Clear Filter",
   size = "sm",
@@ -56,7 +56,7 @@ export const PrimaryClearFiltersBtn = ({
       }}
       className={className}
     >
-      <X className="h-4 w-4 mr-1" /> {label}
+      <X className="h-4 w-4 " /> {label}
     </Button>
   );
 };

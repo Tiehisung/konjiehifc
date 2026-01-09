@@ -10,7 +10,7 @@ import {
 import { useFetch } from "@/hooks/fetch";
 import { IPlayer } from "@/types/player.interface";
 import { EInjurySeverity, IInjury } from "@/types/injury.interface";
-import { PrimaryClearFiltersBtn } from "@/components/buttons/ClearFilters";
+import { ClearBtn } from "@/components/buttons/ClearFilters";
 import SELECT from "@/components/select/Select";
 import { enumToOptions } from "@/lib/select";
 import { InjuryStats } from "./Stats";
@@ -108,11 +108,11 @@ export function InjuriesManager() {
                 />
 
                 {selectedPlayer && (
-                  <PrimaryClearFiltersBtn
-                    variant="ghost"
+                  <ClearBtn
+                    variant="outline"
                     size="sm"
                     onClick={() => setSelectedPlayer(null)}
-                    label="Clear Filter"
+                    label=""
                   />
                 )}
               </div>
