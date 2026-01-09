@@ -23,7 +23,7 @@ const cardSchema = z.object({
   player: z.string().min(1, "Player is required"),
   minute: z.string().optional(),
   description: z.string().optional(),
-  type: z.nativeEnum(ECardType),
+  type: z.enum(ECardType),
   match: z.string().optional(),
 });
 
@@ -51,11 +51,11 @@ export function CardForm({ match, card, player: defaultPlayer }: IProps) {
     handleSubmit,
     watch,
     reset,
-    formState: { isSubmitting },
+    formState: { isSubmitting ,errors},
   } = useForm<CardFormValues>({
     resolver: zodResolver(cardSchema),
     defaultValues: card
-      ? ({ ...card, player: card?.player?._id } as CardFormValues)
+      ? ({ ...card, player: card?.player?._id,match:card.match?._id } as CardFormValues)
       : {
           player: defaultPlayer?._id,
           match: match?._id,
@@ -64,7 +64,7 @@ export function CardForm({ match, card, player: defaultPlayer }: IProps) {
           type: ECardType.YELLOW,
         },
   });
-
+console.log(errors)
   const selectedPlayerId = watch("player");
   const selectedPlayer = players?.data?.find((p) => p._id === selectedPlayerId);
 
@@ -113,7 +113,7 @@ export function CardForm({ match, card, player: defaultPlayer }: IProps) {
     }
   };
 
-  console.log(card);
+
   return (
     <Card className="p-6 rounded-none">
       <form onSubmit={handleSubmit(onSubmit)}>
