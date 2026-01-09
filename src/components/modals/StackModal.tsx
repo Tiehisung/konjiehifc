@@ -16,11 +16,12 @@ export const StackModal = ({
   overlayClassName,
   closeOnEsc,
   trigger,
-  header,
+  header = "",
   size,
   variant,
   triggerStyles,
   hideCloseButton,
+  rounded = true,
 }: {
   children: ReactNode;
   className?: string;
@@ -33,6 +34,7 @@ export const StackModal = ({
   header?: ReactNode;
   variant?: TButtonVariant;
   size?: TButtonSize;
+  rounded?: boolean;
 }) => {
   const modalId = useSearchParams().get("stackModal");
 
@@ -63,7 +65,7 @@ export const StackModal = ({
             setLoading(true);
             setTimeout(() => {
               setLoading(false);
-            }, 3000);
+            }, 4000);
           }}
           waiting={!modalId && loading}
           waitingText="Please wait..."
@@ -77,31 +79,38 @@ export const StackModal = ({
           onClick={() => clearParams("stackModal")}
           className={` z-50 fixed inset-0 bg-linear-to-b from-modalOverlay to-accent flex justify-start items-center h-screen ${overlayClassName}`}
         >
-          <main
+          <div
             onClick={(e) => e.stopPropagation()}
             className={cn(
-              "relative bg-accent space-y-3.5 py-1.5 mt-auto rounded-to-3xl max-h-[90vh] "
+              "relative bg-card space-y-3.5 py-1.5 mt-auto rounded-to-3xl max-h-[90vh] min-h-[90vh] mx-auto grow",
+              rounded ? " rounded-t-3xl overflow-hidden" : ""
             )}
           >
-            <div className="flex items-center gap-3 justify-b ">
-              {header && <header className="sticky top-2">{header}</header>}
-              {!hideCloseButton && (
-                <Button
-                  size="icon-sm"
-                  onClick={() => clearParams("stackModal")}
-                  className='ml-auto'
-                  variant='ghost'
-                >
-                  <X />
-                </Button>
+            {header && !hideCloseButton && (
+              <header className="flex items-center gap-3 justify-between border-b border-border ">
+                {header && <header className=" px-5 ">{header}</header>}
+                {!hideCloseButton && (
+                  <Button
+                    size="icon-sm"
+                    onClick={() => clearParams("stackModal")}
+                    className="ml-auto mr-1.5"
+                    variant="ghost"
+                  >
+                    <X />
+                  </Button>
+                )}
+              </header>
+            )}
+
+            <main
+              className={cn(
+                `max-h-[85vh] overflow-y-auto pb-14 min-w-[60vw] `,
+                className
               )}
-            </div>
-            <div
-              className={`max-h-[85vh] overflow-y-auto pb-14 min-w-[60vw] ${className}`}
             >
               {children}
-            </div>
-          </main>
+            </main>
+          </div>
         </div>
       )}
     </>

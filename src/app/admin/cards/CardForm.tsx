@@ -120,7 +120,7 @@ export function CardForm({ match, card, player: defaultPlayer }: IProps) {
         <h2 className="mb-6 text-2xl font-bold flex items-center justify-between">
           {card ? `Edit - ${card?.player?.name}` : "Add card"}:
           <AVATAR
-            alt="injured player"
+            alt="card player"
             src={selectedPlayer?.avatar as string}
             fallbackText="IP"
           />

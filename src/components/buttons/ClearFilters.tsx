@@ -9,7 +9,7 @@ export const ClearFiltersBtn = ({
   className = " rounded px-2 ",
   label,
   size,
-  variant,
+  variant='destructive',
 }: {
   className?: string;
   label?: string;
