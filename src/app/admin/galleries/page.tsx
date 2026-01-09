@@ -31,12 +31,9 @@ export default async function GalleriesAdmin({ searchParams }: IProps) {
     <div className="pt-16 _page">
       <StackModal
         id="new-gallery"
-        trigger={
-          <span className="_primaryBtn w-44 justify-center">
-            Create Gallery
-          </span>
-        }
-        className="bg-popover"
+        trigger={"Create Gallery"}
+        variant={'default'}
+        className="p-4 "
       >
         <GalleryUpload players={players?.data} />
       </StackModal>

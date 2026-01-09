@@ -36,16 +36,17 @@ export default async function CardsPage({ searchParams }: IPageProps) {
   const qs = buildQueryStringServer(await searchParams);
 
   const cards: IQueryResponse<ICard[]> = await getCards(qs);
-  console.log(cards);
 
   return (
-    <div className="_page ">
+    <div>
       <HEADER
         title="Cards Management"
         subtitle="Track and manage player cards"
       />
 
-      <CardsManager cardsData={cards} />
+      <div className="_page ">
+        <CardsManager cardsData={cards} />
+      </div>
 
       <BackToTopButton />
     </div>

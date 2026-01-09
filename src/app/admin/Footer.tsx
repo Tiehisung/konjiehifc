@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const AdminFooter = () => {
   return (
-    <div className="min-h-60 bg-secondary grid items-start justify-center gap-6 p-6 mt-10 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
+    <div className="min-h-60 bg-accent grid items-start justify-center gap-6 p-6 pt-10 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5">
       {links.map((link, i) => (
         <Link href={link.path} key={i} className="_secondaryBtn _hover _shrink">
           {link.label}

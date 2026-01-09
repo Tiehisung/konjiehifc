@@ -28,7 +28,7 @@ export function SearchGallery({ players }: { players?: IPlayer[] }) {
                   Tag Players
                 </span>
               ),
-            }}
+            }}variant={'outline'}
           >
             <MultiSelectionInput
               name="tags"
@@ -40,7 +40,7 @@ export function SearchGallery({ players }: { players?: IPlayer[] }) {
             />
           </PrimaryCollapsible>
 
-          <ClearFiltersBtn label="Clear" className="ml-auto text-red-500" />
+          <ClearFiltersBtn label="Clear" className="ml-auto" />
         </div>
       )}
     </div>

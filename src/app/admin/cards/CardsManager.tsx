@@ -3,7 +3,6 @@
 import { useState, useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import { Filter, AlertTriangle, Plus } from "lucide-react";
-import { useFetch } from "@/hooks/fetch";
 import { IPlayer } from "@/types/player.interface";
 import { ClearBtn } from "@/components/buttons/ClearFilters";
 import SELECT from "@/components/select/Select";
@@ -45,7 +44,7 @@ export function CardsManager({ cardsData }: IProps) {
   }, [cardsData, selectedPlayer, typeFilter]);
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto py-6">
       <div className="flex items-center justify-between mb-6">
         <div />
 
@@ -53,7 +52,7 @@ export function CardsManager({ cardsData }: IProps) {
           trigger={
             <>
               <Plus className="h-4 w-4 mr-2" />
-              New Injury Report
+              New Card Report
             </>
           }
           variant={"default"}
@@ -113,7 +112,7 @@ export function CardsManager({ cardsData }: IProps) {
             </div>
           </header>
 
-          <div className="p-4 max-h-[calc(100vh-200px)] overflow-y-auto">
+          <div className="p-3 md:max-h-[calc(100vh-200px)] overflow-y-auto">
             {!cardsData ? (
               <Loader />
             ) : playerCards?.length === 0 ? (

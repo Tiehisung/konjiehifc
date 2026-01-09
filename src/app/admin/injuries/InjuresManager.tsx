@@ -2,11 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { Card } from "@/components/ui/card";
-import {
-  Filter,
-  AlertTriangle,
-  Plus,
-} from "lucide-react";
+import { Filter, AlertTriangle, Plus } from "lucide-react";
 import { useFetch } from "@/hooks/fetch";
 import { IPlayer } from "@/types/player.interface";
 import { EInjurySeverity, IInjury } from "@/types/injury.interface";
@@ -19,6 +15,7 @@ import { InjuryForm } from "./InjuryForm";
 import { DIALOG } from "@/components/Dialog";
 import { InjuryCard } from "./InjuryCard";
 import Loader from "@/components/loaders/Loader";
+import { SlicePagination } from "@/components/pagination/SlicePagination";
 
 export function InjuriesManager() {
   const [selectedPlayer, setSelectedPlayer] = useState<IPlayer | null>(null);
@@ -55,7 +52,7 @@ export function InjuriesManager() {
     );
   }, [allInjuries, selectedPlayer, severityFilter]);
 
- 
+  const [inview, setInview] = useState<IInjury[]>([]);
 
   return (
     <div className="container mx-auto p-4">
@@ -119,9 +116,9 @@ export function InjuriesManager() {
             </div>
           </div>
 
-          <div className="p-4 max-h-[calc(100vh-300px)] overflow-y-auto">
+          <div className="p-4 md:max-h-[calc(100vh-300px)] overflow-y-auto">
             {isLoadingInjuries ? (
-                <Loader message='Loading injuries ...' />
+              <Loader message="Loading injuries ..." />
             ) : playerInjuries?.length === 0 ? (
               <div className="text-center py-12">
                 <AlertTriangle className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-20" />
@@ -144,9 +141,18 @@ export function InjuriesManager() {
               </div>
             ) : (
               <div className="space-y-4">
-                {playerInjuries?.map((injury) => (
-                  <InjuryCard key={injury._id} injury={injury} selectedPlayer={selectedPlayer as IPlayer}/>
+                {inview?.map((injury) => (
+                  <InjuryCard
+                    key={injury._id}
+                    injury={injury}
+                    selectedPlayer={selectedPlayer as IPlayer}
+                  />
                 ))}
+
+                <SlicePagination
+                  data={playerInjuries}
+                  onPageChange={setInview}
+                />
               </div>
             )}
           </div>
