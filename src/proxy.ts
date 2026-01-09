@@ -7,11 +7,11 @@ export async function proxy(request: NextRequest) {
     const session = (await auth()) as ISession | null;
     const role = session?.user?.role;
 
-    const resolvedPathname = pathname.startsWith('/auth/login') ? (role == 'player' ? '/players/dashboard' : role?.includes('admin') ? '/admin' : '/') : pathname
+    // const resolvedPathname = pathname.startsWith('/auth/login') ? (role == 'player' ? '/players/dashboard' : role?.includes('admin') ? '/admin' : '/') : pathname
 
     // Define protected paths
-    const isAdminPath = resolvedPathname.startsWith("/admin");
-    const isPlayerDashboardPath = resolvedPathname.startsWith("/players/dashboard");
+    const isAdminPath = pathname.startsWith("/admin");
+    const isPlayerDashboardPath = pathname.startsWith("/players/dashboard");
 
     // Check if path is protected
     const isProtectedPath = isAdminPath || isPlayerDashboardPath;
@@ -24,7 +24,7 @@ export async function proxy(request: NextRequest) {
     // If no session, redirect to login
     if (!session?.user) {
         return NextResponse.redirect(
-            new URL(`/auth/login?callbackUrl=${encodeURIComponent(resolvedPathname)}`, request.url)
+            new URL(`/auth/login?callbackUrl=${encodeURIComponent(pathname)}`, request.url)
         );
     }
 

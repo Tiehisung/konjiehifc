@@ -100,8 +100,8 @@ export function CardsManager() {
         {/* Left Panel: Player List */}
         <PlayerDisplayPanel onSelect={(p) => setSelectedPlayer(p as IPlayer)} />
         {/* Right Panel: cards */}
-        <Card className="lg:col-span-2">
-          <div className="p-4 border-b">
+        <main className="lg:col-span-2">
+          <header className="p-4 border-b">
             <div className="flex flex-wrap gap-2 items-center justify-between">
               <div>
                 <h2 className="text-lg font-semibold">
@@ -141,7 +141,7 @@ export function CardsManager() {
                 )}
               </div>
             </div>
-          </div>
+          </header>
 
           <div className="p-4 max-h-[calc(100vh-300px)] overflow-y-auto">
             {isLoadingCards ? (
@@ -179,7 +179,7 @@ export function CardsManager() {
               </div>
             )}
           </div>
-        </Card>
+        </main>
       </div>
     </div>
   );
