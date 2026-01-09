@@ -72,7 +72,7 @@ const CardCard = ({ card, selectedPlayer, badge }: IProps) => {
             </DIALOG>
 
             <ConfirmDialog
-              description={`Are you sure you want to delete this card? \n <i>${card?.description}</>`}
+              description={`Are you sure you want to delete this card? \n <i>${card?.description??''}</>`}
               action={{
                 method: "DELETE",
                 uri: `/cards/${card._id}`,
