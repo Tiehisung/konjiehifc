@@ -2,14 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import {
-  Filter,
-  AlertTriangle,
-  AlertCircle,
-  AlertOctagon,
-  Plus,
-} from "lucide-react";
+import { Filter, AlertTriangle, Plus } from "lucide-react";
 import { useFetch } from "@/hooks/fetch";
 import { IPlayer } from "@/types/player.interface";
 import { PrimaryClearFiltersBtn } from "@/components/buttons/ClearFilters";
@@ -20,6 +13,7 @@ import { DIALOG } from "@/components/Dialog";
 import { CardForm } from "./CardForm";
 import { ECardType, ICard } from "@/types/card.interface";
 import CardCard from "./CardCard";
+import Loader from "@/components/loaders/Loader";
 
 export function CardsManager() {
   const [selectedPlayer, setSelectedPlayer] = useState<IPlayer | null>(null);
@@ -52,30 +46,6 @@ export function CardsManager() {
     );
   }, [allCards, selectedPlayer, typeFilter]);
 
-  // Severity badge component
-  const TypeBadge = ({ type }: { type: string }) => {
-    const config = {
-      YELLOW: {
-        label: "🟨 Yellow",
-        className: "bg-yellow-100 text-yellow-800 hover:bg-yellow-100",
-      },
-
-      RED: {
-        label: "🟥 Red",
-        className: "bg-red-100 text-red-800 hover:bg-red-100",
-      },
-    };
-
-    const { label, className } =
-      config[type as keyof typeof config] || config.YELLOW;
-
-    return (
-      <Badge variant="outline" className={`gap-1 ${className}`}>
-        {label}
-      </Badge>
-    );
-  };
-
   return (
     <div className="container mx-auto p-4">
       <div className="flex items-center justify-between mb-6">
@@ -100,7 +70,7 @@ export function CardsManager() {
         {/* Left Panel: Player List */}
         <PlayerDisplayPanel onSelect={(p) => setSelectedPlayer(p as IPlayer)} />
         {/* Right Panel: cards */}
-        <main className="lg:col-span-2">
+        <Card className="lg:col-span-2">
           <header className="p-4 border-b">
             <div className="flex flex-wrap gap-2 items-center justify-between">
               <div>
@@ -143,22 +113,22 @@ export function CardsManager() {
             </div>
           </header>
 
-          <div className="p-4 max-h-[calc(100vh-300px)] overflow-y-auto">
+          <div className="p-4 max-h-[calc(100vh-200px)] overflow-y-auto">
             {isLoadingCards ? (
-              <div className="text-center py-8">Loading cards...</div>
+              <Loader />
             ) : playerCards?.length === 0 ? (
               <div className="text-center py-12">
                 <AlertTriangle className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-20" />
                 <p className="text-muted-foreground">
                   {selectedPlayer
-                    ? "No cards recorded for this player"
+                    ? "No cards recorded"
                     : "No cards found"}
                 </p>
                 <DIALOG
                   trigger={
                     <>
                       <Plus className="h-4 w-4 mr-2" />
-                      Record First Card
+                      Record a Card
                     </>
                   }
                   variant={"outline"}
@@ -173,13 +143,12 @@ export function CardsManager() {
                     card={card}
                     key={card._id}
                     selectedPlayer={selectedPlayer as IPlayer}
-                    badge={<TypeBadge type={card.type} />}
                   />
                 ))}
               </div>
             )}
           </div>
-        </main>
+        </Card>
       </div>
     </div>
   );

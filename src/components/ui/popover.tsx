@@ -4,7 +4,7 @@ import * as React from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 
 import { cn } from "@/lib/utils";
-import { CgMoreAlt } from "react-icons/cg";
+import {  MoreHorizontal } from "lucide-react";
 import { Button, TButtonSize, TButtonVariant } from "./button";
 
 function Popover({
@@ -62,14 +62,15 @@ interface IProps {
 
 export function POPOVER({
   trigger = (
-    <CgMoreAlt className=" cursor-pointer shadow-xs hover:bg-border rounded-full text-4xl hover:scale-105 " />
+    <MoreHorizontal className=" cursor-pointer hover:bg-border rounded-full text-4xl hover:scale-105 " />
   ),
   children,
   triggerClassNames,
   className,
   align,
   variant,
-  size,id
+  size,
+  id,
 }: IProps) {
   return (
     <Popover>
