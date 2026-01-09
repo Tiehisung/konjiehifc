@@ -7,19 +7,10 @@ import { FcGoogle } from "react-icons/fc";
 import { useSession } from "next-auth/react";
 import { IUser } from "@/types/user";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 const LoginPage = () => {
   const { data: session } = useSession();
 
-  const router = useRouter();
-
-  //Return if logged in
-  useEffect(() => {
-    if (session) router.back();
-  }, [session]);
-
-  //may not display
   if (session?.user) {
     const path =
       (session.user as IUser).role == "player"
@@ -45,6 +36,7 @@ const LoginPage = () => {
           text="Sign In with Google"
           variant={"outline"}
           className="mx-4"
+          redirectTo="/"
         >
           <FcGoogle size={24} />
         </LoginBtn>
