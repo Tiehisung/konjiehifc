@@ -1,4 +1,4 @@
-import { EUserAccount, EUserRole } from "@/types/user";
+import {  EUserRole } from "@/types/user";
 import mongoose, { Schema } from "mongoose";
 
 // mongoose.connect(process.env.MDB_URI!);
@@ -18,6 +18,9 @@ const userSchema = new Schema(
       unique: [true, "Email already taken"],
       trim: true,
       lowercase: true,
+    },
+    password: {
+      type: String,
     },
     role: {
       type: String,

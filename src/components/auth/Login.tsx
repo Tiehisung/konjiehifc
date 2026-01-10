@@ -7,6 +7,7 @@ import TextDivider from "../Divider";
 import { ReactNode } from "react";
 import { TButtonVariant } from "../ui/button";
 import { getUrlToShare } from "@/lib";
+import { CredentialsLoginForm } from "@/app/auth/signin/Credentials";
 
 /**
  * id - login-controller
@@ -31,6 +32,7 @@ const LoginController = ({
       title={"Login to continue"}
       id="login-controller"
       variant={variant}
+      
     >
       <LoginBtn
         text={text}
@@ -41,6 +43,9 @@ const LoginController = ({
       >
         <FcGoogle size={24} />
       </LoginBtn>
+
+      <TextDivider />
+              <CredentialsLoginForm />
 
       {description && (
         <div>

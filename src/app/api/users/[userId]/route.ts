@@ -1,22 +1,21 @@
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import UserModel from "@/models/user";
-
 import { NextRequest, NextResponse } from "next/server";
 import { logAction } from "../../logs/helper";
-import ArchiveModel from "@/models/Archives";
 import { EArchivesCollection } from "@/types/archive.interface";
 import { saveToArchive } from "../../archives/helper";
 import { ELogSeverity } from "@/types/log";
 import bcrypt from "bcryptjs";
-
+import { slugIdFilters } from "@/lib/api";
 
 ConnectMongoDb();
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { userId: string } }
+  { params }: { params: Promise<{ userId: string }> }
 ) {
-  const users = await UserModel.findById(params.userId);
+  const slug = slugIdFilters((await params).userId)
+  const users = await UserModel.findOne(slug);
   return NextResponse.json(users);
 }
 
@@ -25,11 +24,9 @@ export async function PUT(
   { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
-
-
     const { password, ...data } = await req.json();
-
-    const updated = await UserModel.findByIdAndUpdate((await params).userId, {
+    const slug = slugIdFilters((await params).userId)
+    const updated = await UserModel.findOneAndUpdate(slug, {
       $set: { ...data },
     });
     if (password) {
@@ -58,8 +55,8 @@ export async function DELETE(
 ) {
   try {
     const userId = (await params).userId;
-
-    const deleted = await UserModel.findByIdAndDelete(userId);
+    const slug = slugIdFilters((await params).userId)
+    const deleted = await UserModel.findOneAndDelete(slug);
     //Archive
     saveToArchive({
       data: deleted,
@@ -70,8 +67,8 @@ export async function DELETE(
 
     // Log
     logAction({
-      title: ` User [${deleted?.name}] deleted.`, 
-      description: deleted?.name ,
+      title: ` User [${deleted?.name}] deleted.`,
+      description: deleted?.name,
       meta: deleted?.toString(),
       severity: ELogSeverity.CRITICAL,
     })
