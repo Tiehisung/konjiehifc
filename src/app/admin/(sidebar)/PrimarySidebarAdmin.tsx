@@ -20,6 +20,7 @@ import {
   Users,
   Wallet,
   LetterText,
+  UserPlus,
 } from "lucide-react";
 import { ILinkItem } from "./GroupedSidebarLinks";
 import { PrimaryCollapsible } from "@/components/Collapsible";
@@ -102,7 +103,7 @@ const sidebarLinks: ILinkItem[] = [
     title: "Club Media",
     path: "/admin/news",
     icon: <Newspaper />,
-    defaultOpen: true,
+ 
     children: [
       { title: "News", path: "/admin/news", icon: <Newspaper /> },
       { title: "Gallery", path: "/admin/galleries", icon: <Image /> },
@@ -118,10 +119,11 @@ const sidebarLinks: ILinkItem[] = [
     title: "Players",
     path: "/admin/players",
     icon: <User />,
-    defaultOpen: true,
+   
     children: [
-      { title: "Players", path: "/admin/players", icon: <User /> },
       { title: "Captaincy", path: "/admin/players/captaincy", icon: <User /> },
+      { title: "New Signing", path: "/admin/players/new", icon: <UserPlus /> },
+      { title: "Players", path: "/admin/players", icon: <Users /> },
     ],
   },
   { title: "Teams", path: "/admin/features/teams", icon: <Users /> },
