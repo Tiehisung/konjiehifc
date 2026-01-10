@@ -27,8 +27,8 @@ import { PrimaryCollapsible } from "@/components/Collapsible";
 export function PrimaryAdminSidebar() {
   return (
     <aside className="w-64 p-4 border-r ">
-      {sidebarLinks.map((link) => (
-        <SidebarLink key={link.path} item={link} />
+      {sidebarLinks.map((link,i) => (
+        <SidebarLink key={i} item={link} />
       ))}
     </aside>
   );
@@ -60,8 +60,8 @@ function SidebarLink({ item, depth = 0 }: { item: ILinkItem; depth?: number }) {
       }}
       defaultOpen={item.defaultOpen}
     >
-      {item.children!.map((child) => (
-        <SidebarLink key={child.path} item={child} depth={depth + 1} />
+      {item.children!.map((child,i) => (
+        <SidebarLink key={i} item={child} depth={depth + 1} />
       ))}
     </PrimaryCollapsible>
   );
