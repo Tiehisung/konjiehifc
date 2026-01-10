@@ -101,10 +101,10 @@ export function LeftPaneMobile() {
     <NavigationPopover
       align="start"
       triggerStyles="md:hidden"
-      className="backdrop-blur-sm text-white"
+      className="backdrop-blur-sm text-white w-fit"
     >
-      <ul className="w-full max-h-[80vh] overflow-y-auto relative px-2.5">
-        {mobileLinks.map((slink, index) => (
+      <ul className="w-full max-h-[80vh] overflow-y-auto relative ">
+        {/* {mobileLinks.map((slink, index) => (
           <li
             key={index}
             className={`flex _hover _shrink px-2 rounded-md ${
@@ -122,7 +122,8 @@ export function LeftPaneMobile() {
               {slink.label}
             </Link>
           </li>
-        ))}
+        ))} */}
+        <PrimaryAdminSidebar />
 
         <li className="mt-12 px-3 flex gap-6 items-center sticky bottom-0 backdrop-blur-md bg-muted/30">
           <ThemeModeToggle className="w-full" />

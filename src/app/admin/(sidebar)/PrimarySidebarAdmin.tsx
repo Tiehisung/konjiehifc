@@ -27,7 +27,7 @@ import { PrimaryCollapsible } from "@/components/Collapsible";
 export function PrimaryAdminSidebar() {
   return (
     <aside className="w-64 p-4 border-r ">
-      {sidebarLinks.map((link,i) => (
+      {sidebarLinks.map((link, i) => (
         <SidebarLink key={i} item={link} />
       ))}
     </aside>
@@ -42,9 +42,14 @@ function SidebarLink({ item, depth = 0 }: { item: ILinkItem; depth?: number }) {
       <div className="flex rounded ">
         <Link
           href={item.path}
-          className="flex items-center gap-2 flex-1 pl-2.5 py-1.5 mt-1 _hover text-sm transition-colors "
+          className="flex items-center gap-2 flex-1 pl-1.5 py-1.5 mt-1 _hover text-sm transition-colors "
         >
-          {item.icon && item.icon}
+          {item.icon && (
+            <span className="text-xl bg-white/30 rounded-full p-1.5">
+              {item.icon}
+            </span>
+          )}
+
           {item.title}
         </Link>
       </div>
@@ -60,7 +65,7 @@ function SidebarLink({ item, depth = 0 }: { item: ILinkItem; depth?: number }) {
       }}
       defaultOpen={item.defaultOpen}
     >
-      {item.children!.map((child,i) => (
+      {item.children!.map((child, i) => (
         <SidebarLink key={i} item={child} depth={depth + 1} />
       ))}
     </PrimaryCollapsible>
