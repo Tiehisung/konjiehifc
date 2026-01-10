@@ -32,7 +32,6 @@ const LoginController = ({
       title={"Login to continue"}
       id="login-controller"
       variant={variant}
-      
     >
       <LoginBtn
         text={text}
@@ -45,7 +44,7 @@ const LoginController = ({
       </LoginBtn>
 
       <TextDivider />
-              <CredentialsLoginForm />
+      <CredentialsLoginForm />
 
       {description && (
         <div>

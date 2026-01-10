@@ -47,6 +47,7 @@ export const SocialShare = ({
                   if (success) onShare?.();
                 });
             }}
+            key={platform}
           >
             {socialMediaIcons[platform as keyof typeof socialMediaIcons].icon}
             {isMini ? "" : platform}
