@@ -12,9 +12,10 @@ import { AlertCircle } from "lucide-react";
 const LoginPage = async ({ searchParams }: IPageProps) => {
   const callbackUrl = (await searchParams).callbackUrl ?? "/";
 
-  console.log({ callbackUrl });
+  // console.log({ callbackUrl });
   const error = (await searchParams).error;
 
+  const message = errorMessages[error || ""] || errorMessages.Default;
   const session = await auth();
 
   if (session?.user as ISession["user"]) {
@@ -41,13 +42,11 @@ const LoginPage = async ({ searchParams }: IPageProps) => {
         {error && (
           <Alert variant="destructive">
             <AlertCircle />
-            <AlertTitle>{error}</AlertTitle>
-            <AlertDescription>
-              Credentials error! Check your credentials and try again.
-            </AlertDescription>
+            <AlertTitle>Error code</AlertTitle>
+            <AlertDescription className="text-xs ">{message}</AlertDescription>
           </Alert>
         )}
-        
+
         <LoginBtn
           text="Sign In with Google"
           variant={"outline"}
@@ -58,11 +57,24 @@ const LoginPage = async ({ searchParams }: IPageProps) => {
 
         <TextDivider />
         <CredentialsLoginForm />
-
-        
       </div>
     </div>
   );
 };
 
 export default LoginPage;
+
+const errorMessages: Record<string, string> = {
+  OAuthSignin: "Could not start Google sign-in.",
+  OAuthCallback: "Google sign-in failed. Please try again.",
+  OAuthCreateAccount: "Could not create your Google account.",
+  EmailCreateAccount: "Could not create email account.",
+  EmailSignin: "Failed to send login email.",
+  CredentialsSignin: "Invalid email or password.",
+  Verification: "This login link is invalid or expired.",
+  AccountNotLinked: "This email is already linked to another provider.",
+  AccessDenied: "You do not have permission to sign in.",
+  Configuration: "Authentication server misconfiguration.",
+  Callback: "Authentication callback failed.",
+  Default: "Something went wrong. Please try again.",
+};
