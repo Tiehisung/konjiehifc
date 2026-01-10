@@ -1,24 +1,23 @@
-"use client";
-
-// import TextDivider from "@/components/Divider";
 import { LoginBtn } from "@/components/auth/Auth";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
-import { useSession } from "next-auth/react";
-import { IUser } from "@/types/user";
+import { ISession, IUser } from "@/types/user";
 import { IPageProps } from "@/types";
+import TextDivider from "@/components/Divider";
+import { CredentialsLoginForm } from "./Credentials";
+import { auth } from "@/auth";
 
 const LoginPage = async ({searchParams}:IPageProps) => {
 
-  const callbackUrl= (await searchParams).callbackUrl
+  const callbackUrl= (await searchParams).callbackUrl??'/'
 
   console.log({callbackUrl})
 
-  const { data: session } = useSession();
+  const   session  =await auth();
 
-  if (session?.user) {
+  if (session?.user as ISession['user']) {
     const path =
-      (session.user as IUser).role == "player"
+      (session?.user as IUser).role == "player"
         ? "/players/dashboard"
         : "/admin";
     return (
@@ -46,7 +45,8 @@ const LoginPage = async ({searchParams}:IPageProps) => {
           <FcGoogle size={24} />
         </LoginBtn>
 
-        <br />
+        <TextDivider />
+        <CredentialsLoginForm />
       </div>
     </div>
   );

@@ -10,18 +10,18 @@ import { signIn } from "next-auth/react";
 
 export const CredentialsLoginForm = ({ className }: { className?: string }) => {
   const [waiting, setWaiting] = useState(false);
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [error, setError] = useState({ email: "", password: "", general: "" });
+  const [error, setError] = useState({ username: "", password: "", general: "" });
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
       setWaiting(true);
-      if (!email || !password) {
-        if (!email)
-          setError((prev) => ({ ...prev, email: "Email is required" }));
+      if (!username || !password) {
+        if (!username)
+          setError((prev) => ({ ...prev, username: "Username is required" }));
         if (!password)
           setError((prev) => ({ ...prev, password: "Password is required" }));
 
@@ -30,7 +30,7 @@ export const CredentialsLoginForm = ({ className }: { className?: string }) => {
       await signIn("credentials", {
         redirect: true,
         callbackUrl: "/admin",
-        email,
+        username,
         password,
       });
     } catch (err) {
@@ -47,15 +47,14 @@ export const CredentialsLoginForm = ({ className }: { className?: string }) => {
       className={`${className} flex flex-col gap-8 pb-8 p-5 min-w-2xs grow`}
     >
       <IconInputWithLabel
-        label="Email"
+        label="Username"
         labelStyles="text-gray-700"
         wrapperStyles="mt-6"
-        name="email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        name="username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
         //   required
-        error={error.email}
+        error={error.username}
       />
       <IconInputWithLabel
         labelStyles="text-gray-700"

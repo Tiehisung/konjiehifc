@@ -76,7 +76,10 @@ export async function POST(request: NextRequest) {
 
     const slug = slugify(`${pf.firstName}-${pf.lastName}-${playerCode}`,)
     //--------------------------------------------------------------------------------
-    await PlayerModel.create({ ...pf, slug, code: playerCode });
+
+    const email = pf.email ?? `${playerCode}@kfc.com`
+
+    await PlayerModel.create({ ...pf, slug, code: playerCode, email });
     // Create User
     if (pf.email) {
       const existingUser = await UserModel.findOne({ email: pf.email });
@@ -85,11 +88,10 @@ export async function POST(request: NextRequest) {
         const password = await bcrypt.hash(pf.firstName.toLowerCase(), 10);
 
         await UserModel.create({
-          email: pf.email,
-          name: `${pf.firstName} ${pf.lastName}`,
+          email,
+          name: `${pf.lastName} ${pf.firstName}`,
           image: pf.avatar,
           lastLoginAccount: 'credentials',
-          signupMode: 'credentials',
           password,
           role: EUserRole.PLAYER
         });

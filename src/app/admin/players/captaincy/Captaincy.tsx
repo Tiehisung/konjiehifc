@@ -147,12 +147,7 @@ export const UpdateCaptaincy = ({
   const [isBusy, setIsBusy] = useState(false);
 
   return (
-    <DIALOG
-      title
-      trigger={
-        <Button primaryText="Update Captaincy" className="text-Green" />
-      }
-    >
+    <DIALOG title trigger={"Update Captaincy"} variant="outline">
       <OverlayLoader isLoading={isBusy} className="backdrop:blur-none" />
       <table
         className={` bg-card w-full ${

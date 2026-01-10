@@ -14,9 +14,9 @@ ConnectMongoDb();
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { userId: string } }
+  { params }: { params: Promise<{ userId: string }> }
 ) {
-  const users = await UserModel.findById(params.userId);
+  const users = await UserModel.findById((await params).userId);
   return NextResponse.json(users);
 }
 
