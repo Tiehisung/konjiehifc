@@ -7,6 +7,7 @@ import { ChevronDown } from "lucide-react";
 import { TButtonSize, TButtonVariant } from "./ui/button";
 import { Button } from "./buttons/Button";
 import Loader from "./loaders/Loader";
+import { cn } from "@/lib/utils";
 interface ICollapsible {
   header: {
     icon?: ReactNode;
@@ -21,6 +22,7 @@ interface ICollapsible {
   variant?: TButtonVariant;
   size?: TButtonSize;
   loading?: boolean;
+  defaultOpen?:boolean
 }
 
 export function PrimaryCollapsible({
@@ -30,9 +32,9 @@ export function PrimaryCollapsible({
   onChange,
   variant = "ghost",
   size,
-  loading,
+  loading,defaultOpen
 }: ICollapsible) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(defaultOpen);
   const pathname = usePathname();
   const isActiveLink = (path: string) => pathname === path;
   if (loading) return <Loader />;
@@ -44,11 +46,14 @@ export function PrimaryCollapsible({
           setIsOpen(!isOpen);
           if (typeof onChange == "function") onChange(!isOpen);
         }}
-        className={`w-full flex items-center justify-between p-3 rounded-lg _hover _transition ${
-          isActiveLink(header?.path || "")
-            ? "bg-primary/10 text-muted-foreground"
-            : ""
-        } ${header?.className ?? ""} ${isOpen ? "rounded-b-none ring" : ""}`}
+        className={cn(
+          `w-full flex items-center justify-between p-3 rounded-lg _hover _transition ${
+            isActiveLink(header?.path || "")
+              ? "bg-primary/10 text-muted-foreground"
+              : ""
+          }  ${isOpen ? "rounded-b-none ring" : ""}`,
+          header?.className
+        )}
         {...header?.others}
         variant={variant}
         size={size}
@@ -95,7 +100,7 @@ export function PrimaryCollapsible({
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <div className=" space-y-1 border-l border-gray-200 pl-4 mb-8">
+            <div className=" space-y-1 border-l border-border/50 pl-4 mb-3">
               {children}
             </div>
           </motion.div>

@@ -5,7 +5,7 @@ import { NavigationPopover } from "@/components/NavigationPopover";
 import { ThemeModeToggle } from "@/components/ThemeToggle";
 import UserLogButtons from "@/components/UserLogger";
 import { fireEscape } from "@/hooks/Esc";
-import { Ambulance, HeartMinusIcon, Logs, Users ,Columns} from "lucide-react";
+import { Ambulance, HeartMinusIcon, Logs, Users, Columns } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiOutlineTeam } from "react-icons/ai";
@@ -22,6 +22,7 @@ import {
 } from "react-icons/md";
 import { PiNewspaperThin } from "react-icons/pi";
 import { RiHomeLine } from "react-icons/ri";
+import { PrimaryAdminSidebar } from "./(sidebar)/PrimarySidebarAdmin";
 
 const AdminSidebar = () => {
   return (
@@ -43,7 +44,7 @@ export function LeftPaneDesktop() {
   };
   return (
     <div
-      className={`max-md:hidden bg-accent w-55 max-h-screen overflow-y-auto py-6`}
+      className={`max-md:hidden bg-accent max-h-screen overflow-y-auto py-6`}
     >
       <div className="p-6 flex items-center justify-between">
         <Link
@@ -54,7 +55,7 @@ export function LeftPaneDesktop() {
           ⚽ KonFC
         </Link>
       </div>
-      <ul className="flex flex-col flex-1 gap-3 h-fit pl-1">
+      {/* <ul className="flex flex-col flex-1 gap-3 h-fit pl-1">
         {sidebarLinks.map((slink, index) => (
           <li key={index}>
             <Link
@@ -70,18 +71,11 @@ export function LeftPaneDesktop() {
         ))}
 
         <li className="mt-10 flex gap-4 justify-center items-center"></li>
-      </ul>
+      </ul> */}
+      <PrimaryAdminSidebar />
 
       <footer className="flex flex-wrap p-3 items-center gap-3.5 justify-betweenp-4 border-t border-secondary-foreground/20">
         <ThemeModeToggle />
-
-        {/* <Button
-          onClick={() => signOut()}
-          primaryText="Logout"
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary-foreground/10 transition-colors"
-        >
-          <LogOut size={20} />
-        </Button> */}
 
         <LogoutBtn text="Logout" />
       </footer>
@@ -107,10 +101,10 @@ export function LeftPaneMobile() {
     <NavigationPopover
       align="start"
       triggerStyles="md:hidden"
-      className="backdrop-blur-sm text-white"
+      className="backdrop-blur-sm text-white w-fit"
     >
-      <ul className="w-full max-h-[80vh] overflow-y-auto relative px-2.5">
-        {mobileLinks.map((slink, index) => (
+      <ul className="w-full max-h-[80vh] overflow-y-auto relative ">
+        {/* {mobileLinks.map((slink, index) => (
           <li
             key={index}
             className={`flex _hover _shrink px-2 rounded-md ${
@@ -128,7 +122,8 @@ export function LeftPaneMobile() {
               {slink.label}
             </Link>
           </li>
-        ))}
+        ))} */}
+        <PrimaryAdminSidebar />
 
         <li className="mt-12 px-3 flex gap-6 items-center sticky bottom-0 backdrop-blur-md bg-muted/30">
           <ThemeModeToggle className="w-full" />
