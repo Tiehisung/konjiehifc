@@ -13,8 +13,9 @@ import { IGallery } from "@/types/file.interface";
 import { getGallery } from "@/app/admin/galleries/page";
 import { Metadata } from "next";
 import { kfc } from "@/data/kfc";
-import { PlayerGalleries } from "./Galleries";
-import { enumToOptions } from "@/lib/select";
+import GalleryGrid from "@/components/Gallery/GallaryGrid";
+import PrimLink from "@/components/Link";
+import Link from "next/link";
 
 export async function generateMetadata({
   params,
@@ -40,7 +41,6 @@ export async function generateMetadata({
     "/upload/",
     "/upload/c_fill,w_1200,h_630,f_auto,q_auto/"
   );
-
 
   return {
     title,
@@ -79,11 +79,11 @@ export default async function PlayerPage({}: IPageProps) {
   const session = await auth();
 
   const player: IPlayer = await getPlayerById(session?.user?.email as string);
+
   const galleries: IQueryResponse<IGallery[]> = await getGallery(
     `?tags=${[player?._id].filter(Boolean).join(",")}&limit=3`
   );
 
-  console.log("player", player);
   return (
     <div className="min-h-screen bg-accent p-4 md:p-8 pt-20 md:pt-20 ">
       <div className="max-w-7xl mx-auto">
@@ -117,10 +117,10 @@ export default async function PlayerPage({}: IPageProps) {
             </Card>
 
             {/* Gallery Section */}
-            <PlayerGalleries
-              player={player}
-              initialGalleries={galleries?.data}
-            />
+            <div className="pb-4 space-y-3">
+              <GalleryGrid galleries={galleries?.data as IGallery[]} />
+              <Link href={`/players/dashboard/galleries?=playerId=${player?._id}`} className="pl-4">More Galleries</Link>
+            </div>
           </div>
         </div>
       </div>

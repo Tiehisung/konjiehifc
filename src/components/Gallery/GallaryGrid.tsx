@@ -1,13 +1,6 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
-import { toggleClick } from "@/lib/DOM";
-import { MediaPreview } from "../files/MediaView";
-import { isObjectId } from "@/lib/validate";
-import { formatDate } from "@/lib/timeAndDate";
-import LightboxViewer from "../viewer/LightBox";
 import { IGallery } from "@/types/file.interface";
 import { GalleryCard } from "./GalleryCard";
 

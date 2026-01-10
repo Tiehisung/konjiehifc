@@ -8,7 +8,6 @@ import { useState } from "react";
 import { MediaPreview } from "../files/MediaView";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import LightboxViewer from "../viewer/LightBox";
-import { Badge } from "../ui/badge";
 
 export function GalleryCard({
   gallery,
