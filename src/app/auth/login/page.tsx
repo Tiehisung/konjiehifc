@@ -6,9 +6,14 @@ import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { useSession } from "next-auth/react";
 import { IUser } from "@/types/user";
-import { useRouter } from "next/navigation";
+import { IPageProps } from "@/types";
 
-const LoginPage = () => {
+const LoginPage = async ({searchParams}:IPageProps) => {
+
+  const callbackUrl= (await searchParams).callbackUrl
+
+  console.log({callbackUrl})
+
   const { data: session } = useSession();
 
   if (session?.user) {
@@ -36,7 +41,7 @@ const LoginPage = () => {
           text="Sign In with Google"
           variant={"outline"}
           className="mx-4"
-          redirectTo="/"
+          redirectTo={callbackUrl}
         >
           <FcGoogle size={24} />
         </LoginBtn>
