@@ -11,6 +11,8 @@ import { FC, ReactNode, useState } from "react";
 import { LuSlidersHorizontal } from "react-icons/lu";
 import HideOnClickOutside from "./HideOnClickOutside";
 import { useActionOnEsc } from "@/hooks/Esc";
+import { Button, TButtonSize, TButtonVariant } from "./ui/button";
+import { cn } from "@/lib/utils";
 
 export function PrimaryDropdown({
   children,
@@ -20,6 +22,8 @@ export function PrimaryDropdown({
   id,
   hideAngle = true,
   align = "end",
+  size='icon-sm',
+  variant,
 }: {
   children: ReactNode;
   trigger?: ReactNode;
@@ -28,17 +32,23 @@ export function PrimaryDropdown({
   triggerStyles?: string;
   hideAngle?: boolean;
   align?: "center" | "start" | "end";
+  variant?: TButtonVariant;
+  size?: TButtonSize;
 }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild id={id}>
-        <button
-          className={` gap-1 flex items-center cursor-pointer bg-muted hover:bg-background/70 hover:backdrop-blur-xl p-2 _hover _shrink rounded-full ${triggerStyles}`}
-          type="button"
+        <Button
+          variant={variant}
+          size={size}
+          className={cn(
+            ` gap-1 flex items-center cursor-pointer bg-muted text-muted-foreground backdrop-blur-sm p-2 rounded-full `,
+            triggerStyles
+          )}
         >
           {trigger}
           {!hideAngle && <ChevronDown size={16} />}
-        </button>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className={`w-56 ${className}`} align={align}>
         {children}

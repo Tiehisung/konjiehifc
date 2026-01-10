@@ -1,6 +1,37 @@
+"use client";
+
 import { staticImages } from "@/assets/images";
 import { IFileProps } from "@/types/file.interface";
 import Image from "next/image";
+
+import { useState } from "react";
+
+interface IFallbackImgProps {
+  src: string;
+  fallbackSrc: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  className?: string;
+  sizes?: string;
+  fill?: boolean;
+  priority?: boolean;
+}
+
+export default function IMAGE({
+  src,
+  alt,
+  fallbackSrc,
+  ...props
+}: IFallbackImgProps) {
+  const [imgSrc, setImgSrc] = useState(src);
+
+  const handleError = () => {
+    setImgSrc(fallbackSrc);
+  };
+
+  return <Image src={imgSrc} alt={alt} onError={handleError} {...props} />;
+}
 interface IProps {
   file: Partial<IFileProps>;
   caption?: string;
@@ -31,7 +62,7 @@ export function SlideImage({ file, className = "", caption = "" }: IProps) {
             className={`p-4 bg-linear-to-b from-transparent via-modalOverlay to-modalOverlay z-10 absolute bottom-0 right-0 left-0 w-full`}
           >
             <h3 className="font-bold text-lg uppercase text-white text-center">
-              {caption} 
+              {caption}
             </h3>
           </div>
         )}
