@@ -16,6 +16,7 @@ import { GalleryThumbnails } from "lucide-react";
 import { useTheme } from "next-themes";
 import { fireEscape } from "@/hooks/Esc";
 import { ISession } from "@/types/user";
+import LoginController from "./auth/Login";
 
 export default function HeaderCp() {
   const { theme } = useTheme();
@@ -69,6 +70,7 @@ export const DesktopNav = () => {
 
       <li className="ml-3">
         <UserLogButtons />
+        
       </li>
       <li className="ml-3">
         <ThemeModeToggle />

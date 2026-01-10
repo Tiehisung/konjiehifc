@@ -3,8 +3,9 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Loader from "./loaders/Loader";
-import { LoginBtn, LogoutBtn } from "./auth/Auth";
+import { LogoutBtn } from "./auth/Auth";
 import { ISession } from "@/types/user";
+import LoginController from "./auth/Login";
 
 export default function UserLogButtons() {
   const { data: session, status } = useSession();
@@ -33,11 +34,5 @@ export default function UserLogButtons() {
       </div>
     );
   }
-  return (
-    <LoginBtn
-      text="Sign In"
-      variant={"outline"}
-      className="grow text-foreground"
-    />
-  );
+  return <LoginController trigger="Sign In" />;
 }

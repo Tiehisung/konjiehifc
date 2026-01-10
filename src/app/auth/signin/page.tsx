@@ -6,16 +6,18 @@ import { IPageProps } from "@/types";
 import TextDivider from "@/components/Divider";
 import { CredentialsLoginForm } from "./Credentials";
 import { auth } from "@/auth";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
-const LoginPage = async ({searchParams}:IPageProps) => {
+const LoginPage = async ({ searchParams }: IPageProps) => {
+  const callbackUrl = (await searchParams).callbackUrl ?? "/";
 
-  const callbackUrl= (await searchParams).callbackUrl??'/'
+  console.log({ callbackUrl });
+  const error = (await searchParams).error;
 
-  console.log({callbackUrl})
+  const session = await auth();
 
-  const   session  =await auth();
-
-  if (session?.user as ISession['user']) {
+  if (session?.user as ISession["user"]) {
     const path =
       (session?.user as IUser).role == "player"
         ? "/players/dashboard"
@@ -35,11 +37,20 @@ const LoginPage = async ({searchParams}:IPageProps) => {
   return (
     <div className="min-h-screen flex flex-col  pt-20 items-center">
       <h1 className="text-2xl font-bold mb-4">Login</h1>
-      <div className=" flex flex-col gap-5 rounded-2xl min-w-2xs md:min-w-xl max-w-md mx-auto border pt-6">
+      <div className="px-4 flex flex-col gap-5 rounded-2xl min-w-2xs md:min-w-xl max-w-md mx-auto border pt-6">
+        {error && (
+          <Alert variant="destructive">
+            <AlertCircle />
+            <AlertTitle>{error}</AlertTitle>
+            <AlertDescription>
+              Credentials error! Check your credentials and try again.
+            </AlertDescription>
+          </Alert>
+        )}
+        
         <LoginBtn
           text="Sign In with Google"
           variant={"outline"}
-          className="mx-4"
           redirectTo={callbackUrl}
         >
           <FcGoogle size={24} />
@@ -47,6 +58,8 @@ const LoginPage = async ({searchParams}:IPageProps) => {
 
         <TextDivider />
         <CredentialsLoginForm />
+
+        
       </div>
     </div>
   );

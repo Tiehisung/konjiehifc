@@ -9,15 +9,15 @@ import bcrypt from 'bcryptjs'
 import { isValidEmail } from "./lib/validate";
 import { getUserById } from "./app/admin/authorization/page";
 
- ConnectMongoDb();
+
 export const { auth, handlers, signIn, signOut } = NextAuth({
     providers: [
         Google({
             clientId: process.env.AUTH_GOOGLE_ID!,
             clientSecret: process.env.AUTH_GOOGLE_SECRET!,
-   
+
             async profile(profile) {
-               
+                ConnectMongoDb();
                 let user = await UserModel.findOne({ email: profile.email });
 
                 if (!user) {
@@ -72,47 +72,38 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             },
             async authorize(credentials, request) {
                 const { username, password } = credentials as { username: string; password: string }
-                // const email = isValidEmail(username) ? username : username.concat('@kfc.com')
-                // console.log({ credentials ,})
-                // return { email, role: 'player', name: String(password) }
-                try {
-                    
-                    const foundUser = (await UserModel.findOne({
-                        email: credentials?.username,
-                    })
-                        .lean()
-                        .exec()) as IUser | null;
-                    console.log("Found user:", foundUser);
 
-                    if (foundUser) {
-                        const matched = await bcrypt.compare(
-                            credentials?.password as string,
-                            foundUser.password as string
-                        ); //Compare passwords
+                ConnectMongoDb();
+                
+                const email = isValidEmail(username) ? username : username.concat('@kfc.com')
+                
+                const foundUser = await getUserById(email) as IUser | null;
 
-                        if (matched) {
-                            const { _id, name, image, role, email } = foundUser; //Eliminate pass
-                            const safeUser = {
-                                name,
-                                image,
-                                role,//Assign role
-                                email,
-                                id: _id,
-                            };
+                if (foundUser) {
+                    //Compare passwords
+                    const matched = await bcrypt.compare(password, foundUser.password as string);
 
-                            //Normal user
-                            return { ...safeUser };
-                        } else {
 
-                            return null;
-                        }
+                    if (matched) {
+                        const { _id, name, image, role, email } = foundUser; //Eliminate pass
+                        const safeUser = {
+                            name,
+                            image,
+                            role,
+                            email,
+                            id: _id,
+                        };
+
+                        //Normal user
+                        return { ...safeUser };
                     } else {
+
                         return null;
                     }
-                } catch (error) {
-                    console.log('Credentials error:', error);
-                    return null
+                } else {
+                    return null;
                 }
+
 
             },
         }),
@@ -137,7 +128,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
     pages: {
         error: "/auth/error",
-        signIn: "/auth/login",
+        signIn: "/auth/signin",
     },
     session: {
         strategy: "jwt",
