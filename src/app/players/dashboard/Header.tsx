@@ -2,12 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  AVATAR,
-  Avatar,
-  AvatarFallback,
-  
-} from "@/components/ui/avatar";
+import { AVATAR, Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Share2,
   Printer,
@@ -15,7 +10,8 @@ import {
   Mail,
   Phone,
   Trophy,
-  Award,Tag, 
+  Award,
+  Tag,
 } from "lucide-react";
 import { EPlayerAvailability, IPlayer } from "@/types/player.interface";
 import { EPlayerPosition } from "@/types/player.interface";
@@ -52,11 +48,6 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
   const firstName = player?.firstName || "Unknown";
   const lastName = player?.lastName || "Player";
   const fullName = `${firstName} ${lastName}`;
-
-  // Color class for badge
-  const colorClass = player?.favColor
-    ? getPositionColor(player.position)
-    : "bg-gray-500";
 
   // Safe number display
   const playerNumber = player?.number || "#";

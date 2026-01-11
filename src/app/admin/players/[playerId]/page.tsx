@@ -5,7 +5,7 @@ import UpdatePlayerIssuesAndFitness from "./IssuesUpdate";
 import { GiHealthNormal, GiPresent } from "react-icons/gi";
 import { getPlayerById, getPlayers } from "../page";
 import { RiDeleteBin2Line } from "react-icons/ri";
-import PlayerProfileForm from "../NewSigningForms";
+import PlayerProfileForm from "../new/NewSigningForms";
 import Loader from "@/components/loaders/Loader";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { apiConfig } from "@/lib/configs";
@@ -105,7 +105,6 @@ export default async function PlayerProfilePage({
         )}
 
         <h1 className="_heading backdrop-blur-xs p-0 flex items-center gap-6 justify-between flex-wrap ">
-           
           <span>{fullname}</span>{" "}
           <span className="text-muted-foreground">{player?.code} </span>
         </h1>

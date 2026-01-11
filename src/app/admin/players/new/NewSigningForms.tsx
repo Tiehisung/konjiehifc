@@ -11,7 +11,7 @@ import { useForm, Controller } from "react-hook-form";
 import DiveUpwards from "@/components/Animate";
 import ImageUploaderCldWidget from "@/components/cloudinary/AvatarUploadWidget";
 import { EPlayerPosition, IPlayer } from "@/types/player.interface";
-import type { IManager } from "../managers/page";
+import type { IManager } from "../../managers/page";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
 import { staticImages } from "@/assets/images";
@@ -221,7 +221,7 @@ export default function PlayerProfileForm({
                         label="Height(ft)"
                         {...field}
                         error={fieldState.error?.message}
-                        others={{ min: 3.5, max: 7 }}
+                        others={{ min: 3, max: 8 }}
                       />
                     )}
                   />
@@ -401,8 +401,8 @@ export const playerJoiSchema = Joi.object({
   }),
   height: Joi.number().positive().min(3).max(7).required().messages({
     "number.base": "Height must be a number",
-    "number.min": "Height cannot be less than 3.50 ft",
-    "number.max": "Height cannot exceed 7.50 ft",
+    "number.min": "Height cannot be less than 3 ft",
+    "number.max": "Height cannot exceed 8 ft",
   }),
   phone: Joi.string()
     .trim()

@@ -79,6 +79,14 @@ export async function POST(request: NextRequest) {
 
     const email = pf.email ?? `${playerCode}@kfc.com`
 
+    const existingPlayerByEmail = await PlayerModel.findOne({ email });
+
+    if (existingPlayerByEmail)
+      return NextResponse.json({
+        message: `Duplicate email found - ${email}`,
+        success: false
+      });
+
     await PlayerModel.create({ ...pf, slug, code: playerCode, email });
     // Create User
     if (pf.email) {
