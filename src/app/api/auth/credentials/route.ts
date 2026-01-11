@@ -43,7 +43,7 @@ export async function PUT(req: NextRequest,) {
     try {
         const { email: rawEmail, password, name, } = await req.json() as IUser
 
-        const email = isValidEmail(rawEmail) ? rawEmail : rawEmail.concat('@kfc.com')
+        const email = (isValidEmail(rawEmail) ? rawEmail : rawEmail.concat('@kfc.com')).toLowerCase()
 
         if (!email || !password) return NextResponse.json({ success: false, message: 'Missing email, name or password' });
 
@@ -57,7 +57,7 @@ export async function PUT(req: NextRequest,) {
         //Each name must be in store name
         const allPassed = formattedNewnames.every(nn => dbNames.find(dn => dn == nn));
 
-        if (!allPassed) return NextResponse.json({ success: false, message: 'Invalid names' });
+        if (!allPassed) return NextResponse.json({ success: false, message: 'Invalid name' });
 
         //Store password
         const salt = await bcrypt.genSalt(10);

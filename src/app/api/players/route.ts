@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
     const slug = slugify(`${pf.firstName}-${pf.lastName}-${playerCode}`,)
     //--------------------------------------------------------------------------------
 
-    const email = pf.email ?? `${playerCode}@kfc.com`
+    const email = (pf.email || `${playerCode}@kfc.com`).toLowerCase()
 
     const existingPlayerByEmail = await PlayerModel.findOne({ email });
 
@@ -88,22 +88,22 @@ export async function POST(request: NextRequest) {
       });
 
     await PlayerModel.create({ ...pf, slug, code: playerCode, email });
+
+
     // Create User
-    if (pf.email) {
-      const existingUser = await UserModel.findOne({ email: pf.email });
+    const existingUser = await UserModel.findOne({ email: pf.email });
 
-      if (!existingUser) {
-        const password = await bcrypt.hash(pf.firstName.toLowerCase(), 10);
+    if (!existingUser) {
+      const password = await bcrypt.hash(pf.firstName.toLowerCase(), 10);
 
-        await UserModel.create({
-          email,
-          name: `${pf.lastName} ${pf.firstName}`,
-          image: pf.avatar,
-          lastLoginAccount: 'credentials',
-          password,
-          role: EUserRole.PLAYER
-        });
-      }
+      await UserModel.create({
+        email,
+        name: `${pf.lastName} ${pf.firstName}`,
+        image: pf.avatar,
+        lastLoginAccount: 'credentials',
+        password,
+        role: EUserRole.PLAYER
+      });
     }
     return NextResponse.json({ message: "Player Added", success: true });
   } catch (error) {

@@ -399,7 +399,7 @@ export const playerJoiSchema = Joi.object({
   dateSigned: Joi.date().iso().required().messages({
     "date.base": "Date signed must be a valid date",
   }),
-  height: Joi.number().positive().min(3).max(7).required().messages({
+  height: Joi.number().positive().min(3).max(8).required().messages({
     "number.base": "Height must be a number",
     "number.min": "Height cannot be less than 3 ft",
     "number.max": "Height cannot exceed 8 ft",
