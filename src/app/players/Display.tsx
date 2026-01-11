@@ -18,12 +18,10 @@ export default function OurPlayers({ players }: IProps) {
           return (
             <li key={index} className="border-b border-primary pb-6 ">
               <h2 className="font-bold">#{player?.number}</h2>
-              
+
               <div className="text-Blue text-2xl my-4">
                 <Link
-                  href={`/players/details?playerId=${
-                    player?.slug ?? player?._id
-                  }`}
+                  href={`/players/details?playerId=${player?._id}`}
                   className="_link"
                 >
                   {`${player?.lastName} ${player?.firstName}`}

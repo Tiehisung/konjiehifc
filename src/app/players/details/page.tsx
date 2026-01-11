@@ -47,7 +47,7 @@ export default async function PlayerProfilePage({ searchParams }: PageProps) {
   );
 
   const player = players?.data?.find(
-    (p) => p._id == playerId || p.slug == playerId
+    (p) => p._id == playerId 
   );
 
   return (

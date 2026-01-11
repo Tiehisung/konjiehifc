@@ -48,7 +48,7 @@ export default function PlayerProfile({
 
   const playerId = sp.get("playerId");
 
-  const player = players?.find((p) => p._id == playerId);
+  const player = players?.find((p) => p._id == playerId );
 
   const { images } = usePlayerGalleryUtils(galleries);
   const slides = images?.slice(0, 10)?.map((file) => (
