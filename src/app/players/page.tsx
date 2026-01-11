@@ -7,6 +7,7 @@ import { kfc } from "@/data/kfc";
 import HEADER from "@/components/Element";
 import { MotionWrapper } from "@/components/Animate/MotionWrapper";
 import { IPlayer } from "@/types/player.interface";
+import OurPlayers from "./Display";
 
 export const metadata = {
   title: "Konjiehi FC Players",
@@ -26,8 +27,8 @@ const PlayersPage = async () => {
   return (
     <div className="">
       <HEADER title="Players" subtitle="Meet Our Gallant Players " />
-
-      <div className="bg-popover px-4 sm:px-6 lg:px-8">
+      <OurPlayers players={players} />
+      {/* <div className="bg-popover px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:max-w-7xl py-16 sm:py-24">
           <h2 className="sr-only">Players</h2>
 
@@ -61,7 +62,7 @@ const PlayersPage = async () => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* <FeaturedPlayers /> */}
     </div>

@@ -18,20 +18,23 @@ export interface IPlayer {
     slug: string
     number: string;
     about?: string;
-    code:string
+    code: string
     description?: string;
     galleries: IGallery[];
     captaincy: string;
+
     firstName: string;
     lastName: string;
+
     dateSigned: string;
+
     phone: string;
     email: string;
     dob: string;
+
     height: number;
     avatar: string;
     featureMedia?: ICldFileUploadResult[];
-    manager: IManager;
     position: EPlayerPosition;
     favColor?: EColor
     //Stats
@@ -51,7 +54,22 @@ export interface IPlayer {
 
     // Status
     issues: { title: string, description: string }[];
-    isCurrentPlayer: boolean;
+
+    status: 'current' | 'former'
+
+    ageStatus: EPlayerAgeStatus
+
+    manager: IManager;
+}
+
+export enum EPlayerAgeStatus {
+    JUVENILE = "juvenile",
+    YOUTH = "youth",
+}
+
+export enum EPlayerStatus {
+    CURRENT = "current",
+    FORMER = "former",
 }
 
 export enum EPlayerAvailability {
@@ -82,6 +100,7 @@ export enum EPlayerPosition {
     WINGER = 'winger',
     SWEEPER = 'sweeper'
 }
+
 export interface IPostPlayer {
     number: number | string;
     about?: string;

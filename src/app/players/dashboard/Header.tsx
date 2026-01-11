@@ -57,7 +57,7 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
   const phone = player?.phone || "No phone provided";
 
   // Status badges
-  const isCurrentPlayer = player?.isCurrentPlayer ?? false;
+  const isCurrentPlayer = player?.status == "current";
 
   // Safe captaincy check
   const hasCaptaincy = !!player?.captaincy;
@@ -91,7 +91,7 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
               variant={isCurrentPlayer ? "default" : "destructive"}
               className="shrink-0"
             >
-              {isCurrentPlayer ? "Active" : "Inactive"}
+              {isCurrentPlayer}
             </Badge>
           </div>
 

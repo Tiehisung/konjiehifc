@@ -4,12 +4,12 @@ import "@/models/galleries";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import PlayerModel from "@/models/player";
 import { NextRequest, NextResponse } from "next/server";
-import { getErrorMessage, getInitials, removeEmptyKeys, slugify } from "@/lib";
+import { getAge, getErrorMessage, getInitials, removeEmptyKeys, slugify } from "@/lib";
 import UserModel from "@/models/user";
 import bcrypt from "bcryptjs";
 import { EUserRole } from "@/types/user";
 import { formatDate } from "@/lib/timeAndDate";
-import { IPostPlayer } from "@/types/player.interface";
+import { EPlayerAgeStatus, EPlayerStatus, IPostPlayer } from "@/types/player.interface";
 
 ConnectMongoDb();
 
@@ -17,14 +17,16 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const page = Number.parseInt(searchParams.get("page") || "1", 10);
 
-  const isActive = searchParams.get("isCurrentPlayer") == "0" ? false : true
+  const ageStatus = searchParams.get("ageStatus") || EPlayerAgeStatus.YOUTH
 
   const limit = Number.parseInt(searchParams.get("limit") || "30", 10);
   const skip = (page - 1) * limit;
 
   const search = searchParams.get("player_search") || "";
+  const field = searchParams.get("field") || "";
+  const value = searchParams.get("value") || "";
 
-  const status = searchParams.get("status")
+  const status = searchParams.get("status") || EPlayerStatus.CURRENT
 
   const regex = new RegExp(search, "i");
 
@@ -38,8 +40,9 @@ export async function GET(request: NextRequest) {
       { "email": regex },
       { "status": regex },
     ],
-    isCurrentPlayer: isActive,
-    status
+    status,
+    ageStatus,
+    // [field]: value
   }
   const cleaned = removeEmptyKeys(query)
 
@@ -87,7 +90,9 @@ export async function POST(request: NextRequest) {
         success: false
       });
 
-    await PlayerModel.create({ ...pf, slug, code: playerCode, email });
+    const isJuvenile = getAge(pf.dob) < 15
+
+    await PlayerModel.create({ ...pf, slug, code: playerCode, email, isJuvenile });
 
 
     // Create User
