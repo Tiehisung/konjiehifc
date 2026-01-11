@@ -4,78 +4,146 @@ import { Button } from "@/components/buttons/Button";
 import { IconInputWithLabel } from "@/components/input/Inputs";
 import { getErrorMessage } from "@/lib";
 import { LogIn } from "lucide-react";
-import { useState } from "react";
 import { toast } from "sonner";
 import { signIn } from "next-auth/react";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter, useSearchParams } from "next/navigation";
+import { z } from "zod";
+import { Separator } from "@/components/ui/separator";
+import { fireEscape } from "@/hooks/Esc";
+import { apiConfig } from "@/lib/configs";
+import { useState } from "react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
+import { ISession } from "@/types/user";
 
-export const CredentialsLoginForm = ({ className }: { className?: string }) => {
-  const [waiting, setWaiting] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+export const credentialsLoginSchema = z.object({
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(1, "Password is required"),
+});
 
-  const [error, setError] = useState({ username: "", password: "", general: "" });
+export type CredentialsLoginFormData = z.infer<typeof credentialsLoginSchema>;
 
-  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
+export const CredentialsLoginForm = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/players/dashboard";
+
+  const [error, setError] = useState("");
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    watch,
+  } = useForm<CredentialsLoginFormData>({
+    resolver: zodResolver(credentialsLoginSchema),
+    defaultValues: {
+      username: searchParams.get("username") ?? "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (data: CredentialsLoginFormData) => {
     try {
-      e.preventDefault();
-      setWaiting(true);
-      if (!username || !password) {
-        if (!username)
-          setError((prev) => ({ ...prev, username: "Username is required" }));
-        if (!password)
-          setError((prev) => ({ ...prev, password: "Password is required" }));
+      const response = await fetch(apiConfig.credentialSignin, {
+        method: "PUT",
+        body: JSON.stringify({
+          email: data.username,
+          password: data.password,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const result = await response.json();
 
+      if (!result.success) {
+        toast.error(result.message);
+        setError(result.message);
         return;
       }
-      await signIn("credentials", {
-        redirect: true,
-        callbackUrl: "/admin",
-        username,
-        password,
+      console.log(result);
+      const safeUser: ISession["user"] = result.data;
+      const res = await signIn("credentials", {
+        redirect: false,
+        callbackUrl,
+        user: JSON.stringify(safeUser),
       });
+
+      // window.location.href = res.url || callbackUrl;
     } catch (err) {
-      console.log("SignIn error:", err);
       toast.error(getErrorMessage(err));
-    } finally {
-      setWaiting(false);
+      setError(getErrorMessage(err));
     }
   };
 
   return (
-    <form
-      onSubmit={handleSignIn}
-      className={`${className} flex flex-col gap-8 pb-8 p-5 min-w-2xs grow`}
+    <main
+      className={`${isSubmitting ? "pointer-events-none opacity-70 cursor-wait" : ""}  `}
     >
-      <IconInputWithLabel
-        label="Username"
-        labelStyles="text-gray-700"
-        wrapperStyles="mt-6"
-        name="username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        //   required
-        error={error.username}
-      />
-      <IconInputWithLabel
-        labelStyles="text-gray-700"
-        label="Password"
-        name="password"
-        value={password}
-        type="password"
-        onChange={(e) => setPassword(e.target.value)}
-        error={error.password}
-        //   required
-      />
-      <Button
-        primaryText="Sign in with credentials"
-        waiting={waiting}
-        waitingText="Signing in..."
-        type="submit"
-        className=" _primaryBtn p-2 grow w-full justify-center"
-        variant="secondary"
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={`  flex flex-col gap-8 pb-8 p-5 pt-0 min-w-2xs grow`}
       >
-        <LogIn className="w-4 h-4 " />
-      </Button>
-    </form>
+        {error && (
+          <Alert variant="destructive">
+            <AlertCircle />
+            <AlertTitle>Login Error</AlertTitle>
+            <AlertDescription className="text-xs ">{error}</AlertDescription>
+          </Alert>
+        )}
+        {/* Username */}
+        <Controller
+          control={control}
+          name="username"
+          render={({ field }) => (
+            <IconInputWithLabel
+              {...field}
+              label="Username"
+              wrapperStyles="mt-6"
+              error={errors.username?.message}
+            />
+          )}
+        />
+
+        {/* Password */}
+        <Controller
+          control={control}
+          name="password"
+          render={({ field }) => (
+            <IconInputWithLabel
+              {...field}
+              label="Password"
+              type="password"
+              error={errors.password?.message}
+            />
+          )}
+        />
+
+        <Button
+          primaryText="Sign in"
+          waiting={isSubmitting}
+          waitingText="Signing in..."
+          type="submit"
+          className="_primaryBtn p-2 grow w-full justify-center"
+          variant="secondary"
+        >
+          <LogIn className="w-4 h-4" />
+        </Button>
+      </form>
+      <Separator className="my-3" />
+      <Button
+        primaryText={"Sign In instead"}
+        onClick={() => {
+          router.replace(`/auth/reset-password?username${watch("username")}`);
+          setTimeout(() => {
+            fireEscape();
+          }, 2000);
+        }}
+        variant={"link"}
+      />
+    </main>
   );
 };

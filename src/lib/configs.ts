@@ -10,7 +10,9 @@ export const apiConfig = {
   base: `${baseUrl}/api`,
   features: `${baseUrl}/api/features`,
   users: `${baseUrl}/api/users`,
+  auth: `${baseUrl}/api/auth`,
   signin: `${baseUrl}/api/auth/signin`,
+  credentialSignin: `${baseUrl}/api/auth/credentials`,
   signout: `${baseUrl}/api/auth/signout`,
   logout: `${baseUrl}/api/auth/users/logout`,
   sponsors: `${baseUrl}/api/sponsors`,
@@ -39,7 +41,7 @@ export const apiConfig = {
   news: `${baseUrl}/api/news`,
   squad: `${baseUrl}/api/squad`,
 
-  fileUpload: `${baseUrl}/api/file/cloudinary`, 
-  file: `${baseUrl}/api/file`,  
-  highlights: `${baseUrl}/api/highlights`,  
+  fileUpload: `${baseUrl}/api/file/cloudinary`,
+  file: `${baseUrl}/api/file`,
+  highlights: `${baseUrl}/api/highlights`,
 };
