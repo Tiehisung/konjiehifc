@@ -17,7 +17,9 @@ export default function OurPlayers({ players }: IProps) {
         {players?.data?.map((player, index) => {
           return (
             <li key={index} className="border-b border-primary pb-6 ">
-              <div className="text-Blue text-2xl mb-4">
+              <h2 className="font-bold">#{player?.number}</h2>
+              
+              <div className="text-Blue text-2xl my-4">
                 <Link
                   href={`/players/details?playerId=${
                     player?.slug ?? player?._id
