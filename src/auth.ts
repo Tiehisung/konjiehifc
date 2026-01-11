@@ -45,7 +45,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                     }
                     // Log
                     logAction({
-                        title: ` Login - [${profile?.name}].`,
+                        title: ` Login - ${profile?.name}.`,
                         description: `User with email ${profile.email} logged in.`,
                     })
                 }
@@ -72,10 +72,17 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             async authorize(credentials, request) {
                 const userString = credentials?.user
 
-                console.log({ userString }, JSON.parse(userString as string))
+                // console.log({ userString }, JSON.parse(userString as string))
 
-                if (userString)
-                    return JSON.parse(userString as string) as ISession['user']
+                if (userString) {
+                    const user = JSON.parse(userString as string) as ISession['user']
+                    // Log
+                    logAction({
+                        title: ` Login - ${user?.name}.`,
+                        description: `User with email ${user?.email} logged in.`,
+                    })
+                    return user
+                }
 
                 // const { username, password } = credentials as { username: string; password: string }
 

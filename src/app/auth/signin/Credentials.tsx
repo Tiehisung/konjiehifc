@@ -35,7 +35,7 @@ export const CredentialsLoginForm = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: {   isSubmitting },
     watch,
   } = useForm<CredentialsLoginFormData>({
     resolver: zodResolver(credentialsLoginSchema),
@@ -47,8 +47,9 @@ export const CredentialsLoginForm = () => {
 
   const onSubmit = async (data: CredentialsLoginFormData) => {
     try {
+      setError("");
       const response = await fetch(apiConfig.credentialSignin, {
-        method: "PUT",
+        method: "POST",
         body: JSON.stringify({
           email: data.username,
           password: data.password,
@@ -64,14 +65,18 @@ export const CredentialsLoginForm = () => {
         setError(result.message);
         return;
       }
-      console.log(result);
+       
+      toast.success(result.message);
       const safeUser: ISession["user"] = result.data;
       const res = await signIn("credentials", {
-        redirect: false,
-        callbackUrl,
+        // redirect: false,
+        redirectTo:callbackUrl,
         user: JSON.stringify(safeUser),
       });
 
+      console.log({res})
+
+      // router.push(res.url || callbackUrl);
       // window.location.href = res.url || callbackUrl;
     } catch (err) {
       toast.error(getErrorMessage(err));
@@ -81,29 +86,24 @@ export const CredentialsLoginForm = () => {
 
   return (
     <main
-      className={`${isSubmitting ? "pointer-events-none opacity-70 cursor-wait" : ""}  `}
+      className={`${
+        isSubmitting ? "pointer-events-none opacity-70 cursor-wait" : ""
+      }  `}
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={`  flex flex-col gap-8 pb-8 p-5 pt-0 min-w-2xs grow`}
       >
-        {error && (
-          <Alert variant="destructive">
-            <AlertCircle />
-            <AlertTitle>Login Error</AlertTitle>
-            <AlertDescription className="text-xs ">{error}</AlertDescription>
-          </Alert>
-        )}
         {/* Username */}
         <Controller
           control={control}
           name="username"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <IconInputWithLabel
               {...field}
               label="Username"
               wrapperStyles="mt-6"
-              error={errors.username?.message}
+              error={fieldState.error?.message}
             />
           )}
         />
@@ -112,16 +112,22 @@ export const CredentialsLoginForm = () => {
         <Controller
           control={control}
           name="password"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <IconInputWithLabel
               {...field}
               label="Password"
               type="password"
-              error={errors.password?.message}
+              error={fieldState.error?.message}
             />
           )}
         />
-
+        {error && (
+          <Alert variant="destructive">
+            <AlertCircle />
+            <AlertTitle>Login Error</AlertTitle>
+            <AlertDescription className="text-xs ">{error}</AlertDescription>
+          </Alert>
+        )}
         <Button
           primaryText="Sign in"
           waiting={isSubmitting}
@@ -137,7 +143,7 @@ export const CredentialsLoginForm = () => {
       <Button
         primaryText={"Sign In instead"}
         onClick={() => {
-          router.replace(`/auth/reset-password?username${watch("username")}`);
+          router.replace(`/auth/reset-password?username=${watch("username")}`);
           setTimeout(() => {
             fireEscape();
           }, 2000);

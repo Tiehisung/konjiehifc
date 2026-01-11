@@ -24,14 +24,15 @@ export type PasswordResetForm = z.infer<typeof passwordResetSchema>;
 
 export default function PasswordResetClient() {
   const router = useRouter();
-    const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
   const defaultUsername = searchParams.get("username");
   const [error, setError] = useState("");
 
   const {
     control,
     handleSubmit,
-    formState: {  isSubmitting },
+    formState: { isSubmitting },
+    watch,
   } = useForm<PasswordResetForm>({
     resolver: zodResolver(passwordResetSchema),
     defaultValues: {
@@ -61,6 +62,12 @@ export default function PasswordResetClient() {
         setError(result.message);
         return;
       }
+
+      toast.success(result.message??'Reset successful');
+
+      setTimeout(() => {
+        router.replace(`/auth/signin?username=${watch("username")}`);
+      }, 2000);
     } catch (err) {
       toast.error(getErrorMessage(err));
       setError(getErrorMessage(err));
@@ -70,15 +77,9 @@ export default function PasswordResetClient() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-8 pb-8 p-5 min-w-2xs grow"
+      className="flex flex-col gap-8 pb-8 p-5 min-w-2xs grow max-w-3xl"
     >
-      {error && (
-        <Alert variant="destructive">
-          <AlertCircle />
-          <AlertTitle>Password Reset Error</AlertTitle>
-          <AlertDescription className="text-xs ">{error}</AlertDescription>
-        </Alert>
-      )}
+      <h1 className="text-xl mb-3.5">Reset Password</h1>
       {/* Username */}
       <Controller
         control={control}
@@ -121,6 +122,14 @@ export default function PasswordResetClient() {
         )}
       />
 
+      {error && (
+        <Alert variant="destructive">
+          <AlertCircle />
+          <AlertTitle>Password Reset Error</AlertTitle>
+          <AlertDescription className="text-xs ">{error}</AlertDescription>
+        </Alert>
+      )}
+
       <Button
         primaryText="Reset password"
         waiting={isSubmitting}
@@ -135,11 +144,11 @@ export default function PasswordResetClient() {
       <Separator className="mb-3 mt-9" />
       <Button
         primaryText={"Sign In instead"}
-        onClick={() => router.replace("/auth/signin")}
+        onClick={() =>
+          router.replace(`/auth/signin?username=${watch("username")}`)
+        }
         variant={"link"}
       />
     </form>
   );
-};
-
-
+}

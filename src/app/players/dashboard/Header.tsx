@@ -6,7 +6,7 @@ import {
   AVATAR,
   Avatar,
   AvatarFallback,
-  AvatarImage,
+  
 } from "@/components/ui/avatar";
 import {
   Share2,
@@ -15,7 +15,7 @@ import {
   Mail,
   Phone,
   Trophy,
-  Award,
+  Award,Tag, 
 } from "lucide-react";
 import { EPlayerAvailability, IPlayer } from "@/types/player.interface";
 import { EPlayerPosition } from "@/types/player.interface";
@@ -131,6 +131,10 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
             <div className="flex items-center gap-1 min-w-0">
               <Phone className="h-4 w-4 shrink-0" />
               <span className="truncate">{phone}</span>
+            </div>
+            <div className="flex items-center gap-1 min-w-0">
+              <Tag className="h-4 w-4 shrink-0" />
+              <span className="truncate">{player?.code}</span>
             </div>
           </div>
         </div>

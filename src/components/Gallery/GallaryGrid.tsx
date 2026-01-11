@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { IGallery } from "@/types/file.interface";
 import { GalleryCard } from "./GalleryCard";
 
@@ -13,8 +12,6 @@ export default function GalleryGrid({
   galleries,
   showDate = true,
 }: GalleryGridProps) {
-  const [selectedGallery, setSelectedGallery] = useState(galleries?.[0]);
-  const [isOpen, setIsOpen] = useState(false);
   if (!galleries?.length) {
     return (
       <div className="text-center py-10 text-muted-foreground">
@@ -33,7 +30,6 @@ export default function GalleryGrid({
           <GalleryCard key={gallery?._id} gallery={gallery} />
         ))}
       </div>
-      
     </>
   );
 }
