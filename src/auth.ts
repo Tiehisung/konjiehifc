@@ -1,13 +1,13 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { EUserRole, ISession, IUser } from './types/user';
+import { EUserRole, ISession, } from './types/user';
 import { ConnectMongoDb } from "./lib/dbconfig";
 import UserModel from "./models/user";
 import { logAction } from "./app/api/logs/helper";
-import bcrypt from 'bcryptjs'
-import { isValidEmail } from "./lib/validate";
-import { getUserById } from "./app/admin/authorization/page";
+// import bcrypt from 'bcryptjs'
+// import { isValidEmail } from "./lib/validate";
+// import { getUserById } from "./app/admin/authorization/page";
 
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
@@ -67,44 +67,50 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         CredentialsProvider({
             name: "Credentials",
             credentials: {
-                username: {},
-                password: {},
+                user: {},
             },
             async authorize(credentials, request) {
-                const { username, password } = credentials as { username: string; password: string }
+                const userString = credentials?.user
 
-                ConnectMongoDb();
-                
-                const email = isValidEmail(username) ? username : username.concat('@kfc.com')
-                
-                const foundUser = await getUserById(email) as IUser | null;
+                console.log({ userString }, JSON.parse(userString as string))
 
-                if (foundUser) {
-                    //Compare passwords
-                    const matched = await bcrypt.compare(password, foundUser.password as string);
+                if (userString)
+                    return JSON.parse(userString as string) as ISession['user']
 
+                // const { username, password } = credentials as { username: string; password: string }
 
-                    if (matched) {
-                        const { _id, name, image, role, email } = foundUser; //Eliminate pass
-                        const safeUser = {
-                            name,
-                            image,
-                            role,
-                            email,
-                            id: _id,
-                        };
+                // ConnectMongoDb();
 
-                        //Normal user
-                        return { ...safeUser };
-                    } else {
+                // const email = isValidEmail(username) ? username : username.concat('@kfc.com')
 
-                        return null;
-                    }
-                } else {
-                    return null;
-                }
+                // const foundUser = await getUserById(email) as IUser | null;
+
+                // if (foundUser) {
+                //     //Compare passwords
+                //     const matched = await bcrypt.compare(password, foundUser.password as string);
 
 
+                //     if (matched) {
+                //         const { _id, name, image, role, email } = foundUser; //Eliminate pass
+                //         const safeUser = {
+                //             name,
+                //             image,
+                //             role,
+                //             email,
+                //             id: _id,
+                //         };
+
+                //         //Normal user
+                //         return { ...safeUser };
+                //     } else {
+
+                //         return null;
+                //     }
+                // } else {
+                //     return null;
+                // }
+
+                return null;
             },
         }),
     ],

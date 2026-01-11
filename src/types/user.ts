@@ -1,11 +1,12 @@
 export interface IUser {
-  password: string;
   _id?: string
   image: string
   name: string;
   email: string;
-  dateEngaged?: string;
   role?: EUserRole;
+  
+  dateEngaged?: string;
+  password?: string;
   isActive?: boolean
   createdAt?: string;
   updatedAt?: string;
@@ -24,12 +25,12 @@ export enum EUserAccount {
 }
 export interface ISession {
   user: {
-    id:string
+    id: string
     name: string;
     image: string;
     role?: EUserRole
     email: string;
-    playerId?:string
+
   };
   expires: string
 }
