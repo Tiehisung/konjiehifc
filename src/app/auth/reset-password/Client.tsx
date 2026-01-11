@@ -8,9 +8,8 @@ import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
-import useGetParam from "@/hooks/params";
 import { Separator } from "@/components/ui/separator";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { apiConfig } from "@/lib/configs";
 import { useState } from "react";
@@ -25,13 +24,14 @@ export type PasswordResetForm = z.infer<typeof passwordResetSchema>;
 
 export default function PasswordResetClient() {
   const router = useRouter();
-  const defaultUsername = useGetParam("username");
+    const searchParams = useSearchParams();
+  const defaultUsername = searchParams.get("username");
   const [error, setError] = useState("");
-  
+
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: {  isSubmitting },
   } = useForm<PasswordResetForm>({
     resolver: zodResolver(passwordResetSchema),
     defaultValues: {
@@ -83,12 +83,12 @@ export default function PasswordResetClient() {
       <Controller
         control={control}
         name="username"
-        render={({ field }) => (
+        render={({ field, fieldState }) => (
           <IconInputWithLabel
             {...field}
             label="Username"
             wrapperStyles="mt-6"
-            error={errors.username?.message}
+            error={fieldState.error?.message}
           />
         )}
       />
@@ -97,12 +97,12 @@ export default function PasswordResetClient() {
       <Controller
         control={control}
         name="fullname"
-        render={({ field }) => (
+        render={({ field, fieldState }) => (
           <IconInputWithLabel
             {...field}
             label="Fullname"
             wrapperStyles="mt-6"
-            error={errors.fullname?.message}
+            error={fieldState.error?.message}
           />
         )}
       />
@@ -111,12 +111,12 @@ export default function PasswordResetClient() {
       <Controller
         control={control}
         name="password"
-        render={({ field }) => (
+        render={({ field, fieldState }) => (
           <IconInputWithLabel
             {...field}
             label="Password"
             type="password"
-            error={errors.password?.message}
+            error={fieldState.error?.message}
           />
         )}
       />
