@@ -80,22 +80,54 @@ export const getVideoThumbnail = (
     return `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/video/upload/${transformations}/${publicId}.jpg`
 }
 
+export const getThumbnail = (
+    file?: Partial<IFileProps>,
+    options?: {
+        width?: number
+        height?: number
+        second?: number
+        crop?: "fill" | "fit" | "limit",
+    }
+) => {
+    if (!file) return ''
+
+    if (file?.resource_type == 'image') return file.secure_url
+    const {
+        width = 1200,
+        height = 680,
+        second = 4,
+        crop = "fill",
+    } = options || {}
+
+    const transformations = [
+        `so_${second}`,            // seek to timestamp
+        "f_auto",                  // WebP/AVIF
+        "q_auto:good",             // quality
+        "fl_progressive",          // faster load
+        `c_${crop}`,
+        `w_${width}`,
+        `h_${height}`,
+    ].join(",")
+
+    return `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/video/upload/${transformations}/${file?.public_id}.jpg`
+}
+
 
 export const downloadFile = (url: string | URL | Request, filename: string) => {
-  fetch(url)
-    .then((response) => response.blob())
-    .then((blob) => {
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", filename);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-     
-    })
-    .catch((error) => {
-      console.error("Error downloading file:", error);
-      toast.error('Error downloading file')
-    });
+    fetch(url)
+        .then((response) => response.blob())
+        .then((blob) => {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", filename);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+        })
+        .catch((error) => {
+            console.error("Error downloading file:", error);
+            toast.error('Error downloading file')
+        });
 };

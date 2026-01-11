@@ -70,23 +70,9 @@ const NewsPage = async () => {
             <YouMayLike />
           </Suspense>
         </section>
-        <br />
+     
 
-        <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-6">
-          {news?.data?.slice(0, 5)?.map((item) => (
-            <NewsCard
-              key={item?._id}
-              id={item?.slug}
-              title={item?.headline?.text}
-              summary={markupToPlainText(
-                item?.details?.find((d) => d.text)?.text as string
-              )}
-              image={item?.headline?.image}
-              date={item?.createdAt}
-              tags={item?.tags}
-            />
-          ))}
-        </section>
+       
       </main>
     </>
   );

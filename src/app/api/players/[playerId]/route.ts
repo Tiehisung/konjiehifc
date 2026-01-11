@@ -11,6 +11,7 @@ import { auth } from "@/auth";
 import { EUserRole, ISession } from "@/types/user";
 import { slugIdFilters } from "@/lib/api";
 import { generatePlayerID } from "../route";
+import UserModel from "@/models/user";
 
 ConnectMongoDb();
 export async function GET(
@@ -99,7 +100,10 @@ export async function DELETE(
     );
 
     //Now remove player
-    const deleted = await PlayerModel.deleteOne(slug);
+    const deleted = await PlayerModel.findOneAndDelete(slug);
+
+    //Delete from users
+    await UserModel.findOneAndDelete({ email: deleted.email });
     // log
     await logAction({
       title: "Player Deleted",

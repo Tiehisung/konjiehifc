@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import OtherAdminNews from "./OtherNews";
 import { SearchAndFilterNews } from "./SearchAndFilter";
-import NewsItemClient from "./ClientItem";
+import NewsItemClient from "./NewsClient";
 import { INewsProps } from "@/types/news.interface";
 import { IPageProps, IQueryResponse } from "@/types";
 import { buildQueryStringServer } from "@/lib";
