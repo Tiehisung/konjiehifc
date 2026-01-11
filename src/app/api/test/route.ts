@@ -5,17 +5,15 @@ import { NextResponse } from "next/server";
 ConnectMongoDb();
 export async function GET() {
   try {
-    // const mod = await PlayerModel.updateMany({}, { $unset: { status: "" } }).lean();
+    const mod = await PlayerModel.updateMany({}, { $set: { status: "current" } }) 
     const players = await PlayerModel.find()
 
-    players.forEach(async (p) => {
-      p.set('status', undefined)
-      await p.save();
-    })
+     
     return NextResponse.json({
       ok: true,
       message: 'Test complete!',
-      data: players
+      data: mod,
+      players
 
     })
   } catch (error) {

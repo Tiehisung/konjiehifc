@@ -78,7 +78,7 @@ export default async function PlayerProfilePage({
         <ScrollToPointBtn
           sectionId={"danger-zone"}
           className="flex gap-1 items-center shadow p-1 hover:text-blue-400 transition-transform"
-          label={player?.isCurrentPlayer ? "Deactivate" : "Activate"}
+          label={player?.status  }
         >
           <GiPresent />
         </ScrollToPointBtn>
@@ -94,7 +94,7 @@ export default async function PlayerProfilePage({
 
       {/* Sections */}
       <main className="space-y-36 px-[2vw] pb-24 pt-7 ">
-        {!player?.isCurrentPlayer && (
+        {!player?.status && (
           <NotifierWrapper
             message={"Unconfirmed player"}
             className="text-Red"
@@ -144,11 +144,11 @@ export default async function PlayerProfilePage({
             DANGER ZONE
           </h3>
           <div className="flex gap-10 max-sm:flex-col flex-wrap justify-center items-center bg-card py-6">
-            {!player?.isCurrentPlayer && (
+            {!player?.status && (
               <ConfirmActionButton
                 uri={`${apiConfig.players}/${playerId}`}
                 method="PUT"
-                body={{ isCurrentPlayer: true }}
+                body={{ status: true }}
                 primaryText="CONFIRM PLAYER"
                 loadingText="Approving..."
                 confirmText={`Do you want to confirm ${fullname}?`}
@@ -159,7 +159,7 @@ export default async function PlayerProfilePage({
             <ConfirmActionButton
               uri={`${apiConfig.players}/${playerId}`}
               method="PUT"
-              body={{ isCurrentPlayer: false }}
+              body={{ status: false }}
               primaryText="DEACTIVATE PLAYER"
               loadingText="DELETING..."
               confirmText={`Do you want to disable ${fullname}?`}
