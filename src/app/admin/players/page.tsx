@@ -5,7 +5,7 @@ import CaptaincyAdm from "./captaincy/Captaincy";
 import { getCaptains } from "./captaincy/page";
 import { MdAdd } from "react-icons/md";
 import { IQueryResponse } from "@/types";
-import PlayerProfileForm from "./NewSigningForms";
+import PlayerProfileForm from "./new/NewSigningForms";
 import { ScrollToPointBtn } from "@/components/scroll/ScrollToPoint";
 import { PrimaryAccordion } from "@/components/Accordion";
 import { PrimarySearch } from "@/components/Search";
@@ -19,8 +19,8 @@ export const getPlayers = async (query?: string) => {
     });
 
     if (!response.ok) return null;
- 
-    return   await response.json();
+
+    return await response.json();
   } catch {
     return null;
   }

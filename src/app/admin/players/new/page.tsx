@@ -1,4 +1,4 @@
-import PlayerProfileForm from "../NewSigningForms";
+import PlayerProfileForm from "./NewSigningForms";
 
 export default function AdminPlayer() {
   return (
