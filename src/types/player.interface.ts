@@ -58,13 +58,18 @@ export interface IPlayer {
     status: 'current' | 'former'
 
     ageStatus: EPlayerAgeStatus
-    
+
     manager: IManager;
 }
 
 export enum EPlayerAgeStatus {
     JUVENILE = "juvenile",
     YOUTH = "youth",
+}
+
+export enum EPlayerStatus {
+    CURRENT = "current",
+    FORMER = "former",
 }
 
 export enum EPlayerAvailability {

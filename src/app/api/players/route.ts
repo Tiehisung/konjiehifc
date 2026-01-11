@@ -9,7 +9,7 @@ import UserModel from "@/models/user";
 import bcrypt from "bcryptjs";
 import { EUserRole } from "@/types/user";
 import { formatDate } from "@/lib/timeAndDate";
-import { EPlayerAgeStatus, IPostPlayer } from "@/types/player.interface";
+import { EPlayerAgeStatus, EPlayerStatus, IPostPlayer } from "@/types/player.interface";
 
 ConnectMongoDb();
 
@@ -17,15 +17,16 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const page = Number.parseInt(searchParams.get("page") || "1", 10);
 
-  const isActive = searchParams.get("isCurrentPlayer") == "0" ? false : true
   const ageStatus = searchParams.get("ageStatus") || EPlayerAgeStatus.YOUTH
 
   const limit = Number.parseInt(searchParams.get("limit") || "30", 10);
   const skip = (page - 1) * limit;
 
   const search = searchParams.get("player_search") || "";
+  const field = searchParams.get("field") || "";
+  const value = searchParams.get("value") || "";
 
-  const status = searchParams.get("status") || 'current'
+  const status = searchParams.get("status") || EPlayerStatus.CURRENT
 
   const regex = new RegExp(search, "i");
 
@@ -39,9 +40,9 @@ export async function GET(request: NextRequest) {
       { "email": regex },
       { "status": regex },
     ],
-    isCurrentPlayer: isActive,
     status,
-    ageStatus
+    ageStatus,
+    // [field]: value
   }
   const cleaned = removeEmptyKeys(query)
 
