@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import { fileSchema } from "./file";
-import { EPlayerAvailability } from "@/types/player.interface";
- 
+import { EPlayerAgeStatus, EPlayerAvailability } from "@/types/player.interface";
+
 
 const playerSchema = new Schema(
   {
@@ -69,15 +69,17 @@ const playerSchema = new Schema(
 
     issues: [{ type: String, default: () => [] }],
     isCurrentPlayer: { type: Schema.Types.Boolean, default: () => true },
+    ageStatus: { type: String, enum: Object.values(EPlayerAgeStatus) },
+    status: { type: String, enum: ['current', 'former'], default: () => 'current' },
     availability: { type: String, default: () => EPlayerAvailability.AVAILABLE, enum: Object.values(EPlayerAvailability) },
-  
+
     number: { type: String, required: true, unique: true },
     position: {
       type: String,
     },
     training: { type: Schema.Types.Mixed, default: () => ({ team: "A" }) },
     code: { type: String, required: [true, 'Player ID is required'], unique: [true, 'Player ID must be a unique value'] },//IS091223
-   
+
   },
   { timestamps: true }
 );
