@@ -4,8 +4,6 @@ import { getNews } from "../admin/news/page";
 import { LatestNews } from "./Latest";
 import Skeleton from "react-loading-skeleton";
 import YouMayLike from "./YouMayLike";
-import NewsCard from "./NewsCard";
-import { markupToPlainText } from "@/lib/DOM";
 import { kfc } from "@/data/kfc";
 import { INewsProps } from "@/types/news.interface";
 
@@ -28,10 +26,7 @@ export const metadata = {
   },
 };
 
-
-
 const NewsPage = async () => {
-  const news: IQueryResponse<INewsProps[]> = await getNews();
   // console.log(news);
   return (
     <>
@@ -51,28 +46,17 @@ const NewsPage = async () => {
       <main className="my-5 container _page ">
         <section className="space-y-10">
           <Suspense
-            fallback={
-              <div>
-                <Skeleton width={300} height={"200px"} className="" />
-              </div>
-            }
+            fallback={<Skeleton width={300} height={"200px"} className="" />}
           >
             <LatestNews />
           </Suspense>
 
           <Suspense
-            fallback={
-              <div>
-                <Skeleton width={300} height={"200px"} className="" />
-              </div>
-            }
+            fallback={<Skeleton width={300} height={"200px"} className="" />}
           >
             <YouMayLike />
           </Suspense>
         </section>
-     
-
-       
       </main>
     </>
   );
