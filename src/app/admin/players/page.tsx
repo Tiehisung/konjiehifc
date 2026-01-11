@@ -59,13 +59,6 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
       <header className="mb-6 mx-auto">
         <div className="text-center mb-10 space-y-3.5 ">
           <h1 className="text-3xl font-bold">KFC PLAYERS</h1>
-          <ScrollToPointBtn
-            label=" NEW SIGNING"
-            sectionId="new-signing"
-            className="flex items-center gap-2 _primaryBtn px-3 py-2 grow justify-center font-semibold "
-          >
-            <MdAdd size={20} />
-          </ScrollToPointBtn>
         </div>
 
         <div className="mt-4 mb-2 flex flex-wrap items-center justify-center gap-6 ">
@@ -85,23 +78,6 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
 
       <section className=" min-h-screen md:p-6 rounded-2xl">
         <DisplayAdminPlayers players={players} />
-      </section>
-
-      <section id="new-signing">
-        <PrimaryAccordion
-          data={[
-            {
-              content: <PlayerProfileForm />,
-              trigger: (
-                <span className=" grow justify-center no-underline">
-                  Toggle Signup Form
-                </span>
-              ),
-              value: "add-new",
-              isDefault: true,
-            },
-          ]}
-        />
       </section>
 
       <section className="mt-12">

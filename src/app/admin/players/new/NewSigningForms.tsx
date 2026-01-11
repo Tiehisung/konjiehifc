@@ -50,7 +50,7 @@ export default function PlayerProfileForm({
       lastName: player?.lastName || "",
       number: player?.number || "",
       dateSigned: player?.dateSigned || "",
-      height: player?.height || 0,
+      height: player?.height || 3.5,
       phone: player?.phone || "",
       about: player?.about || "",
       email: player?.email || "",

@@ -6,12 +6,13 @@ interface FileRendererProps {
   file?: IFileProps;
   className?: string;
   controls?: boolean;
+ 
 }
 
 const FileRenderer: React.FC<FileRendererProps> = ({
   file,
   className,
-  controls,
+  controls, 
 }) => {
   const fileUrl = file?.secure_url as string;
   const fileType = file?.resource_type as string;
@@ -27,6 +28,7 @@ const FileRenderer: React.FC<FileRendererProps> = ({
           height={500}
           priority
           className={`max-w-full h-auto ${className}`}
+     
         />
       );
 

@@ -4,17 +4,24 @@ import { IFileProps } from "@/types/file.interface";
 import Image from "next/image";
 import { useState } from "react";
 import LightboxViewer from "../viewer/LightBox";
+import { getVideoThumbnail } from "@/lib/file";
+import IMAGE from "../Image";
+import { cn } from "@/lib/utils";
 
 interface MasonryGalleryProps {
   files: IFileProps[];
   useSize?: boolean;
   enableLightboxViewer?: boolean;
+  wrapperStyles?: string;
+  className?: string;
 }
 
 export default function MasonryGallery({
   files,
   useSize,
   enableLightboxViewer = true,
+  wrapperStyles,
+  className,
 }: MasonryGalleryProps) {
   const [hoveredId, setHoveredId] = useState<string | undefined>(undefined);
   //For Lightbox
@@ -43,47 +50,62 @@ export default function MasonryGallery({
   }
   if (useSize)
     return (
-      <div className="columns-1 gap-6 sm:columns-2 lg:columns-3 xl:columns-4">
-        {files?.map((item, i) => (
-          <div
-            key={item?.asset_id + i}
-            className="mb-6 break-inside-avoid overflow-hidden rounded-lg"
-            onMouseEnter={() => setHoveredId(item?.asset_id)}
-            onMouseLeave={() => setHoveredId(undefined)}
-            onClick={() => {
-              setPhotoIndex(i);
-              if (enableLightboxViewer) setOpen(true);
-            }}
-          >
+      <div
+        className={cn(
+          "columns-1 gap-6 sm:columns-2 lg:columns-3 xl:columns-4",
+          wrapperStyles
+        )}
+      >
+        {files?.map((file, i) => {
+          const thumbnail =
+            file?.resource_type !== "image"
+              ? getVideoThumbnail(file.public_id)
+              : file.secure_url;
+          return (
             <div
-              className={`group relative ${getAspectRatio(
-                item?.bytes as number
-              )} w-full overflow-hidden bg-muted`}
+              key={file?.asset_id + i}
+              className="mb-6 break-inside-avoid overflow-hidden rounded-lg"
+              onMouseEnter={() => setHoveredId(file?.asset_id)}
+              onMouseLeave={() => setHoveredId(undefined)}
+              onClick={() => {
+                setPhotoIndex(i);
+                if (enableLightboxViewer) setOpen(true);
+              }}
             >
-              <Image
-                src={item?.secure_url}
-                alt={item?.name ?? "img"}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-              />
-
               <div
-                className={`absolute inset-0 bg-black transition-opacity duration-300 ${
-                  hoveredId === item?.asset_id ? "opacity-40" : "opacity-20"
-                }`}
-              />
+                className={cn(
+                  `group relative ${getAspectRatio(
+                    file?.bytes as number
+                  )} w-full overflow-hidden bg-muted`,
+                  className
+                )}
+              >
+                <IMAGE
+                  fallbackSrc={file.thumbnail_url ?? file.secure_url}
+                  src={thumbnail}
+                  alt={file?.original_filename ?? "img"}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                />
 
-              {item?.description && (
-                <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black via-black/60 to-transparent px-4 py-6">
-                  <p className="mt-1 text-sm text-gray-200 line-clamp-1">
-                    {item?.description}
-                  </p>
-                </div>
-              )}
+                <div
+                  className={`absolute inset-0 bg-black transition-opacity duration-300 ${
+                    hoveredId === file?.asset_id ? "opacity-40" : "opacity-20"
+                  }`}
+                />
+
+                {file?.description && (
+                  <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black via-black/60 to-transparent px-4 py-6">
+                    <p className="mt-1 text-sm text-gray-200 line-clamp-1">
+                      {file?.description}
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
 
         <LightboxViewer
           open={open}
@@ -96,9 +118,9 @@ export default function MasonryGallery({
 
   return (
     <div className="columns-1 gap-6 sm:columns-2 lg:columns-3 xl:columns-4">
-      {files.map((item, i) => (
+      {files.map((file, i) => (
         <div
-          key={item?.asset_id + i}
+          key={file?.asset_id + i}
           className="mb-6 break-inside-avoid overflow-hidden rounded-lg"
           onClick={() => {
             setPhotoIndex(i);
@@ -107,8 +129,8 @@ export default function MasonryGallery({
         >
           <div className="group relative aspect-3/4 w-full overflow-hidden bg-muted">
             <Image
-              src={item?.secure_url}
-              alt={item?.original_filename ?? (item?.asset_id as string)}
+              src={file?.secure_url}
+              alt={file?.original_filename ?? (file?.asset_id as string)}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-110"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
@@ -116,10 +138,10 @@ export default function MasonryGallery({
 
             <div className="absolute inset-0 bg-black transition-opacity duration-300 group-hover:opacity-40 opacity-20" />
 
-            {item?.description && (
+            {file?.description && (
               <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black via-black/60 to-transparent px-4 py-6">
                 <p className="mt-1 text-sm text-gray-200 line-clamp-1">
-                  {item?.description}
+                  {file?.description}
                 </p>
               </div>
             )}
