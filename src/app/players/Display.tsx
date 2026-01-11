@@ -16,7 +16,7 @@ export default function OurPlayers({ players }: IProps) {
       <ul className="space-y-5">
         {players?.data?.map((player, index) => {
           return (
-            <li key={index} className="border-b pb-6 ">
+            <li key={index} className="border-b border-primary pb-6 ">
               <div className="text-Blue text-2xl mb-4">
                 <Link
                   href={`/players/details?playerId=${
@@ -27,23 +27,13 @@ export default function OurPlayers({ players }: IProps) {
                   {`${player?.lastName} ${player?.firstName}`}
                 </Link>
               </div>
-              <header className="flex items-center gap-1.5 mb-3">
-                <div className="flex items-center gap-1">
-                  Age: <strong>{getAge(player.dob)}</strong>
-                </div>{" "}
-                |
-                <div className="flex items-center gap-1">
-                  Position: <strong>{player.position}</strong>
-                </div>{" "}
-                |
-                <div className="flex items-center gap-1">
-                  Status: <strong>{player.status}</strong>
-                </div>{" "}
-                |
-                <div className="flex items-center gap-1">
-                  Height: <strong>{player.height} FT</strong>
-                </div>
-              </header>
+
+              <h1 className="capitalize mb-3">
+                Age: <strong>{getAge(player.dob)}</strong> | Position:{" "}
+                <strong>{player.position}</strong> | Status:{" "}
+                <strong>{player.status}</strong> | Height:{" "}
+                <strong>{player.height} FT</strong>
+              </h1>
 
               <Image
                 width={1000}
@@ -60,7 +50,7 @@ export default function OurPlayers({ players }: IProps) {
                 dangerouslySetInnerHTML={{
                   __html: (player?.description ?? player?.about) as string,
                 }}
-                className=""
+                className="mt-6"
               />
             </li>
           );
