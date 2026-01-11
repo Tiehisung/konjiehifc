@@ -1,6 +1,5 @@
 "use client";
 
-import { toggleClick } from "@/lib/DOM";
 import { formatDate } from "@/lib/timeAndDate";
 import { isObjectId } from "@/lib/validate";
 import { IGallery } from "@/types/file.interface";
@@ -67,11 +66,11 @@ export function GalleryCard({
           )}
 
           {/* Tags */}
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1 font-light text-sm">
             {gallery?.tags?.slice(0, 10)?.map((tag, index) => (
-              <div key={index} hidden={isObjectId(tag)}>
+              <small key={index} hidden={isObjectId(tag)}>
                 #{tag}
-              </div>
+              </small>
             ))}
           </div>
         </CardContent>

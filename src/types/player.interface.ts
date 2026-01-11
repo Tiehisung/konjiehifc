@@ -18,6 +18,7 @@ export interface IPlayer {
     slug: string
     number: string;
     about?: string;
+    code:string
     description?: string;
     galleries: IGallery[];
     captaincy: string;

@@ -104,7 +104,17 @@ export default async function PlayerProfilePage({
           </NotifierWrapper>
         )}
 
-        <h1 className="_heading backdrop-blur-xs p-0 ">{fullname}</h1>
+        <h1 className="_heading backdrop-blur-xs p-0 flex items-center gap-6 justify-between flex-wrap ">
+           
+          <span>{fullname}</span>{" "}
+          <span className="text-muted-foreground">{player?.code} </span>
+        </h1>
+
+        <div className="my-3.5 space-y-2">
+          <p>{player?.email}</p>
+          <p>{player?.code}</p>
+        </div>
+
         <UpdatePlayerIssuesAndFitness player={player} />
 
         <section id="edit-player">
