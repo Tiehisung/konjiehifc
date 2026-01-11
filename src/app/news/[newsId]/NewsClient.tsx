@@ -32,7 +32,7 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
       </header>
 
       <div className=" mt-15 gap-x-6">
-        <main className="_p grow my-6">
+        <main className=" grow my-6">
           <ul>
             {newsItem?.details?.map((detail, index) => {
               return (
@@ -40,7 +40,7 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
                   <div
                     dangerouslySetInnerHTML={{
                       __html: detail?.text as string,
-                    }}
+                    }} className="_p"
                   />
 
                   {/* Large first media */}
@@ -66,7 +66,7 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
                       files={(detail?.media as IFileProps[]) ?? []}
                       useSize
                       wrapperStyles="md:columns-2 lg:columns-2 xl:columns-3"
-                      className="rounded-none"
+                      className="rounded-none "
                     />
                   )}
                 </li>

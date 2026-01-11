@@ -64,7 +64,10 @@ export default function MasonryGallery({
           return (
             <div
               key={file?.asset_id + i}
-              className="mb-6 break-inside-avoid overflow-hidden rounded-lg"
+              className={cn(
+                "mb-6 break-inside-avoid overflow-hidden rounded-lg",
+                className
+              )}
               onMouseEnter={() => setHoveredId(file?.asset_id)}
               onMouseLeave={() => setHoveredId(undefined)}
               onClick={() => {
@@ -76,8 +79,7 @@ export default function MasonryGallery({
                 className={cn(
                   `group relative ${getAspectRatio(
                     file?.bytes as number
-                  )} w-full overflow-hidden bg-muted`,
-                  className
+                  )} w-full overflow-hidden bg-muted`
                 )}
               >
                 <IMAGE
@@ -121,7 +123,10 @@ export default function MasonryGallery({
       {files.map((file, i) => (
         <div
           key={file?.asset_id + i}
-          className="mb-6 break-inside-avoid overflow-hidden rounded-lg"
+          className={cn(
+            "mb-6 break-inside-avoid overflow-hidden rounded-lg",
+            className
+          )}
           onClick={() => {
             setPhotoIndex(i);
             if (enableLightboxViewer) setOpen(true);
