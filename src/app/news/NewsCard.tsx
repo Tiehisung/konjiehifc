@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Calendar, Tag } from "lucide-react";
 import { motion } from "framer-motion";
 import { Separator } from "@/components/ui/separator";
+import { symbols } from "@/data";
+import { getTimeAgo } from "@/lib/timeAndDate";
 
 interface NewsCardProps {
   id: string;
@@ -72,13 +74,14 @@ export default function NewsCard({
           )}
 
           {/* Footer */}
-          <footer className="flex items-center gap-3 justify-between text-xs text-muted-foreground">
-            <div className="flex items-center gap-2 mt-3 pt-2 border-t ">
+          <footer className="flex items-center gap-3 pt-3  justify-between text-xs text-muted-foreground border-t ">
+            <div className="flex items-center gap-2pt-2">
               <Calendar size={14} />
-              {new Date(date).toLocaleDateString()}
+              {new Date(date).toLocaleDateString()}{" "}
+              {`${symbols.dot} ${getTimeAgo(date)}`}
             </div>
 
-            {reactions && <div className=''>{reactions} Reactions </div>}
+            {reactions && <div className="">{reactions} Reactions </div>}
           </footer>
         </div>
       </Link>
