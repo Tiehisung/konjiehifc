@@ -80,14 +80,14 @@ export async function PUT(req: NextRequest,) {
         })
 
         return NextResponse.json({
-            message: "User updated",
+            message: "Reset successful",
             success: true,
             data: safeUser,
         });
     } catch (error) {
         return NextResponse.json({
             success: false,
-            message: "Failed to update user",
+            message: "Failed to reset user password",
         });
     }
 }

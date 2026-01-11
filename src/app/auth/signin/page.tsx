@@ -8,6 +8,8 @@ import { CredentialsLoginForm } from "./Credentials";
 import { auth } from "@/auth";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
+import { AVATAR } from "@/components/ui/avatar";
+import { getInitials } from "@/lib";
 
 const LoginPage = async ({ searchParams }: IPageProps) => {
   const callbackUrl = (await searchParams).callbackUrl ?? "/";
@@ -18,19 +20,27 @@ const LoginPage = async ({ searchParams }: IPageProps) => {
   const message = errorMessages[error || ""] || errorMessages.Default;
   const session = await auth();
 
-  if (session?.user as ISession["user"]) {
+  if (session?.user) {
+    const user = session.user as ISession["user"];
     const path =
-      (session?.user as IUser).role == "player"
-        ? "/players/dashboard"
-        : "/admin";
+      (user as IUser).role == "player" ? "/players/dashboard" : "/admin";
     return (
-      <div className="min-h-screen flex flex-col justify-center items-center">
+      <div className="min-h-screen flex flex-col gap-2.5 justify-center items-center">
         <h1 className="text-2xl font-bold mb-4">You are already logged in</h1>
+        <AVATAR
+          src={user?.image as string}
+          fallbackText={getInitials(user?.name as string)}
+          
+        />
         <p className="text-center">
           Go to{" "}
           <Link href={path} className="text-blue-500 underline">
             Dashboard
-          </Link>
+          </Link>{" "}
+          as{" "}
+          <span className="italic font-light text-muted-foreground bg-secondary">
+            {user?.name}
+          </span>
         </p>
       </div>
     );
