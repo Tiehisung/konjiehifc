@@ -26,6 +26,7 @@ export async function LatestNews() {
               item?.likes?.length ?? 0,
               item?.comments?.length ?? 0,
               item?.shares?.length ?? 0,
+              item?.views?.length ?? 0,
             ].reduce((acc, p) => acc + p, 0)}
           />
         ))}
