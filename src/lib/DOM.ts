@@ -25,7 +25,7 @@ export const markupToPlainText = (text: string): string => {
 
   try {
     // Sanitize first
-    const sanitizedHTML = DOMPurify.sanitize(text, {
+    const sanitizedHTML = DOMPurify?.sanitize(text, {
       ALLOWED_TAGS: [
         'p',
         'br',

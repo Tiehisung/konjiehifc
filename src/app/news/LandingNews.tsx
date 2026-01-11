@@ -13,6 +13,7 @@ import { TITLE } from "@/components/Element";
 import { PiNewspaperLight } from "react-icons/pi";
 
 const casters = Object.values(broadcasters);
+
 const LandingNewsHeadlines = async () => {
   const news: IQueryResponse<INewsProps[]> = await getNews();
 

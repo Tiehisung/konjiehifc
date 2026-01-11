@@ -14,7 +14,6 @@ import { getGallery } from "@/app/admin/galleries/page";
 import { Metadata } from "next";
 import { kfc } from "@/data/kfc";
 import GalleryGrid from "@/components/Gallery/GallaryGrid";
-import PrimLink from "@/components/Link";
 import Link from "next/link";
 
 export async function generateMetadata({

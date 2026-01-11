@@ -22,6 +22,11 @@ export async function LatestNews() {
             image={item?.headline?.image}
             date={item?.createdAt}
             tags={item?.tags}
+            reactions={[
+              item?.likes?.length ?? 0,
+              item?.comments?.length ?? 0,
+              item?.shares?.length ?? 0,
+            ].reduce((acc, p) => acc + p, 0)}
           />
         ))}
       </section>

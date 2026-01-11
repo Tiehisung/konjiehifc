@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -14,6 +14,7 @@ interface NewsCardProps {
   date: string;
   tags?: string[];
   href?: string;
+  reactions?: number;
 }
 
 export default function NewsCard({
@@ -24,6 +25,7 @@ export default function NewsCard({
   date,
   tags = [],
   href = `/news/${id}`,
+  reactions,
 }: NewsCardProps) {
   return (
     <motion.div
@@ -69,12 +71,15 @@ export default function NewsCard({
             </div>
           )}
 
-
           {/* Footer */}
-          <div className="flex items-center gap-2 text-xs text-muted-foreground mt-3 pt-2 border-t ">
-            <Calendar size={14} />
-            {new Date(date).toLocaleDateString()}
-          </div>
+          <footer className="flex items-center gap-3 justify-between text-xs text-muted-foreground">
+            <div className="flex items-center gap-2 mt-3 pt-2 border-t ">
+              <Calendar size={14} />
+              {new Date(date).toLocaleDateString()}
+            </div>
+
+            {reactions && <div className=''>{reactions} Reactions </div>}
+          </footer>
         </div>
       </Link>
     </motion.div>
