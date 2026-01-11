@@ -1,7 +1,7 @@
 import { getPlayerById, getPlayers } from "@/app/admin/players/page";
 import { IPlayer } from "@/types/player.interface";
 import PlayerProfile from "./Profile";
-import {   IQueryResponse } from "@/types";
+import { IQueryResponse } from "@/types";
 import { IGallery } from "@/types/file.interface";
 import { PlayerHeadList } from "./PlayerHeadList";
 import { getPlayersStats } from "@/app/admin/page";
@@ -46,7 +46,9 @@ export default async function PlayerProfilePage({ searchParams }: PageProps) {
     playerId
   );
 
-  const player = players?.data?.find((p) => p._id == playerId);
+  const player = players?.data?.find(
+    (p) => p._id == playerId || p.slug == playerId
+  );
 
   return (
     <main className="_page">
