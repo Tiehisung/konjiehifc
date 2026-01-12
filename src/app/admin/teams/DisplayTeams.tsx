@@ -73,20 +73,18 @@ const DisplayTeams = ({ teams }: { teams?: IQueryResponse<ITeamProps[]> }) => {
 export default DisplayTeams;
 
 export const TeamActians = ({ team }: { team: ITeamProps }) => {
-  const className =
-    "w-full py-2 px-3 _hover select-none cursor-pointer _shrink grow ";
-
+  
   return (
     <ul>
       <li className=" mb-1.5">
-        <DIALOG trigger={<div className={className}>Update</div>}>
+        <DIALOG trigger={"Update"}>
           <TeamForm team={team} />
         </DIALOG>
       </li>
       <li>
         <ConfirmActionButton
           method={"DELETE"}
-          trigger={<span className={`flex ${className}`}>Delete Feature</span>}
+          trigger={"Delete Feature"}
           primaryText=""
           loadingText="Deleting..."
           uri={`${apiConfig.teams}`}
@@ -103,60 +101,3 @@ export const TeamActians = ({ team }: { team: ITeamProps }) => {
   );
 };
 
-//  <div className="max-w-5xl overflow-x-auto ">
-//         <table className="table-auto w-full">
-//           <tbody>
-//             <tr className="text-muted-foreground text-left uppercase">
-//               <th></th>
-//               <th>Name</th>
-//               <th>Alias</th>
-//               <th>Created At</th>
-//               <th>Actions</th>
-//             </tr>
-
-//             {teams?.data?.map((team: ITeamProps, index: number) => (
-//               <tr key={index} className=" border-b">
-//                 <td className="p-3">{index + 1}</td>
-
-//                 <td className="py-3 min-w-44">
-//                   <div className="flex items-center gap-3">
-//                     <AVATAR
-//                       src={team?.logo ?? teamLogos?.[0]?.logo.src}
-//                       alt={team?.name ?? "logo"}
-//                       className="h-12 w-12 min-w-12 aspect-square object-cover rounded-2xl"
-//                     />
-//                     {team.name}
-//                   </div>
-//                 </td>
-
-//                 <td className="py-3">{team.alias}</td>
-
-//                 <td className="py-3">
-//                   {formatDate(team?.createdAt, "March 2, 2025")}
-//                 </td>
-
-//                 <td className="py-3">
-//                   <PrimaryDropdown>
-//                     <TeamActians team={team} />
-//                   </PrimaryDropdown>
-//                 </td>
-//               </tr>
-//             ))}
-//             {teams?.data?.length === 0 && (
-//               <tr>
-//                 <td colSpan={6} className="text-center _label">
-//                   No teams available.
-//                 </td>
-//               </tr>
-//             )}
-//           </tbody>
-
-//           <tfoot>
-//             <tr>
-//               <td colSpan={5} className="py-3 text-muted-foreground">
-//                 {`Teams: ${teams?.data?.length}`}
-//               </td>
-//             </tr>
-//           </tfoot>
-//         </table>
-//       </div>

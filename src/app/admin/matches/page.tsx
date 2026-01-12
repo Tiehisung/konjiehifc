@@ -1,11 +1,7 @@
 import { apiConfig } from "@/lib/configs";
 import { DisplayFixtures } from "./DisplayFixtures";
-import { getTeams } from "../features/teams/page";
-import {
-  IMatchProps,
-  ITeamProps,
- 
-} from "@/app/matches/(fixturesAndResults)";
+import { getTeams } from "../teams/page";
+import { IMatchProps, ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { IQueryResponse } from "@/types";
 import { buildQueryStringServer } from "@/lib";
 import Header from "../../../components/Element";
@@ -72,7 +68,7 @@ export default async function AdminFixtures({ searchParams }: IPageProps) {
         />
 
         <Separator />
-        
+
         <h2 className="mt-8 mb-4">Quick Links</h2>
 
         <QuickLinks
@@ -87,12 +83,9 @@ export default async function AdminFixtures({ searchParams }: IPageProps) {
               href: "/admin/matches/create-fixture",
               description: "Add new match fixture",
             },
-            
           ]}
           className="my-5"
         />
-
-       
       </main>
     </section>
   );

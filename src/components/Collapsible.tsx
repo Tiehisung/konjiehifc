@@ -67,7 +67,7 @@ export function PrimaryCollapsible({
                 initial="closed"
                 animate="open"
                 exit="closed"
-                className="font-medium "
+                className=""
               >
                 {header.label}
               </motion.div>

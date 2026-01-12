@@ -40,16 +40,18 @@ export default function HEADER({
   return (
     <header
       className={cn(
-        `border-b border-border bg-linear-to-r from-primary dark:from-Blue/45 via-primary/60  to-primary/90 dark:to-Blue/20 grow py-5 md:py-10 px-4 ${className}`,
-        georgia.className
+        `border-b border-border bg-linear-to-r from-primary dark:from-Blue/45 via-primary/60  to-primary/90 dark:to-Blue/20 grow py-5 md:py-10 px-4 `,
+        georgia.className,
+        className
       )}
     >
       <div className={` mx-auto ${isPage ? "_page" : ""}`}>
         <div className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
           {title}
         </div>
-
-        <p className={` font-light ${titillium.className}`}>{subtitle}</p>
+        {subtitle && (
+          <div className={` font-light ${titillium.className}`}>{subtitle}</div>
+        )}
       </div>
       {children}
     </header>

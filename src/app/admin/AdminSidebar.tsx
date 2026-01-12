@@ -36,47 +36,26 @@ const AdminSidebar = () => {
 export default AdminSidebar;
 
 export function LeftPaneDesktop() {
-  const pathname = usePathname();
-  const activeLink = (linkname: string) => {
-    if (linkname == "/") return false;
-    else return pathname == linkname ? true : false;
-  };
+ 
   return (
     <div
       className={`max-md:hidden bg-accent max-h-screen overflow-y-auto py-6`}
     >
-      <div className="p-6 flex items-center justify-between">
+      <div className="p-6 flex items-center gap-6 justify-between">
         <Link
           href={"/"}
           className="text-2xl font-semibold grow flex"
           title="Home"
         >
           ⚽ KonFC
-        </Link>
+        </Link>{" "}
+        <ThemeModeToggle />
       </div>
-      {/* <ul className="flex flex-col flex-1 gap-3 h-fit pl-1">
-        {sidebarLinks.map((slink, index) => (
-          <li key={index}>
-            <Link
-              href={slink.path}
-              className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-left ${
-                activeLink(slink.path) ? "bg-teal-500/50  " : ""
-              }`}
-            >
-              <span className="text-2xl"> {slink.icon} </span>
-              {slink.label}
-            </Link>
-          </li>
-        ))}
 
-        <li className="mt-10 flex gap-4 justify-center items-center"></li>
-      </ul> */}
       <PrimaryAdminSidebar />
 
       <footer className="flex flex-wrap p-3 items-center gap-3.5 justify-betweenp-4 border-t border-secondary-foreground/20">
-        <ThemeModeToggle />
-
-        <LogoutBtn text="Logout" />
+        <LogoutBtn text="Logout" className="grow "/>
       </footer>
     </div>
   );
