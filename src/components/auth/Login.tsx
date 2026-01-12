@@ -58,24 +58,4 @@ const LoginController = ({
 };
 
 export default LoginController;
-
-export function LoginForm() {
-  return (
-    <div>
-      <LoginBtn
-        text={"Sign In with Google"}
-        variant={"outline"}
-        className=" w-full "
-        redirectTo={getUrlToShare()}
-        size={"lg"}
-      >
-        <FcGoogle size={24} />
-      </LoginBtn>
-
-      <TextDivider />
-      <CredentialsLoginForm />
-
-      <TextDivider text="🔐🪪" className="px-4 my-10" />
-    </div>
-  );
-}
+ 

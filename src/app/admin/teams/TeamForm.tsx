@@ -87,87 +87,83 @@ export const TeamForm = ({ team }: IProps) => {
   };
   return (
     <Card className="w-fit p-3 mx-auto grow">
-      <CardHeader>
-        <h1 className="font-bold text-lg mb-2 text-teal-700 text-center uppercase">
-          {team ? `Update ${team?.name}` : "Register New Opponent Team"}
-        </h1>
-      </CardHeader>
+      <h1 className="font-bold text-lg mb-2 text-teal-700 text-center uppercase">
+        {team ? `Update ${team?.name}` : "Register New Opponent Team"}
+      </h1>
 
-      <CardContent className="mx-auto ">
-        <form
-          onSubmit={handleSubmit}
-          className="p-4 pt-10 border _borderColor max-w-md flex flex-col gap-4 gap-y-8 items-center justify-center mx-center w-full  grow md:min-w-sm"
-        >
-          <div className="flex flex-col items-center justify-center gap-2 mx-auto ">
-            <ImageUploaderCldWidget
-              initialAvatar={formData.logo as string}
-              label="Upload"
-              onUploaded={(file) =>
-                setFormData({ ...formData, logo: file?.secure_url ?? "" })
-              }
-              className="flex text-sm items-center gap-2 border"
-            />
-            {!formData.logo && (
-              <p className="text-red-500 text-xs">Logo is required</p>
-            )}
-          </div>
-          <IconInputWithLabel
-            name="name"
-            type="text"
-            className=""
-            value={formData.name}
-            onChange={handleOnChange}
-            label="Name"
-            required
+      <form
+        onSubmit={handleSubmit}
+        className="p-4 pt-10 border _borderColor max-w-md flex flex-col gap-4 gap-y-8 items-center justify-center mx-center w-full  grow md:min-w-sm"
+      >
+        <div className="flex flex-col items-center justify-center gap-2 mx-auto ">
+          <ImageUploaderCldWidget
+            initialAvatar={formData.logo as string}
+            label="Upload"
+            onUploaded={(file) =>
+              setFormData({ ...formData, logo: file?.secure_url ?? "" })
+            }
+            className="flex text-sm items-center gap-2 border"
           />
+          {!formData.logo && (
+            <p className="text-red-500 text-xs">Logo is required</p>
+          )}
+        </div>
+        <IconInputWithLabel
+          name="name"
+          type="text"
+          className=""
+          value={formData.name}
+          onChange={handleOnChange}
+          label="Name"
+          required
+        />
 
-          <IconInputWithLabel
-            name="alias"
-            type="text"
-            className=""
-            value={formData.alias}
-            onChange={handleOnChange}
-            label="Alias"
-            required
-          />
+        <IconInputWithLabel
+          name="alias"
+          type="text"
+          className=""
+          value={formData.alias}
+          onChange={handleOnChange}
+          label="Alias"
+          required
+        />
 
-          <IconInputWithLabel
-            name="community"
-            type="text"
-            className=""
-            value={formData.community}
-            onChange={handleOnChange}
-            label="Community"
-            required
-          />
-          <IconInputWithLabel
-            name="contactName"
-            type="text"
-            className=""
-            value={formData.contactName}
-            onChange={handleOnChange}
-            label="Contact Person Name"
-            required
-          />
-          <IconInputWithLabel
-            name="contact"
-            type="tel"
-            className=""
-            value={formData.contact}
-            onChange={handleOnChange}
-            label="Contact"
-            required
-          />
-          <Button
-            type="submit"
-            waiting={waiting}
-            disabled={waiting}
-            waitingText={"Saving..."}
-            primaryText={"SAVE"}
-            className="_primaryBtn px-3 py-2 w-full mt-2 justify-center"
-          />
-        </form>
-      </CardContent>
+        <IconInputWithLabel
+          name="community"
+          type="text"
+          className=""
+          value={formData.community}
+          onChange={handleOnChange}
+          label="Community"
+          required
+        />
+        <IconInputWithLabel
+          name="contactName"
+          type="text"
+          className=""
+          value={formData.contactName}
+          onChange={handleOnChange}
+          label="Contact Person Name"
+          required
+        />
+        <IconInputWithLabel
+          name="contact"
+          type="tel"
+          className=""
+          value={formData.contact}
+          onChange={handleOnChange}
+          label="Contact"
+          required
+        />
+        <Button
+          type="submit"
+          waiting={waiting}
+          disabled={waiting}
+          waitingText={"Saving..."}
+          primaryText={"SAVE"}
+          className="_primaryBtn px-3 py-2 w-full mt-2 justify-center"
+        />
+      </form>
     </Card>
   );
 };

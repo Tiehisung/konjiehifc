@@ -13,51 +13,93 @@ import Image from "next/image";
 import { DIALOG } from "@/components/Dialog";
 import { TeamForm } from "./TeamForm";
 import { LVOutPutTable } from "@/components/tables/VerticalTable";
+import { Edit, Plus, Trash } from "lucide-react";
+import { ConfirmDialog } from "@/components/Confirm-dialog";
+import { StackModal } from "@/components/modals/StackModal";
 
 const DisplayTeams = ({ teams }: { teams?: IQueryResponse<ITeamProps[]> }) => {
   if (!teams) return <div className="_label p-6 "> No teams available</div>;
   return (
-    <div className=" bg-card mx-auto ">
-      <h1 className="_heading">Teams</h1>
+    <div className=" mx-auto ">
+      <header className="_heading text-muted-foreground flex items-center justify-between gap-6">
+        <span>Teams</span>
+        <StackModal
+          trigger={
+            <>
+              <Plus />
+              New
+            </>
+          }
+          triggerStyles=" justify-start"
+          variant={"default"}
+          id={"new-team"}
+        >
+          <TeamForm />
+        </StackModal>
+      </header>
 
       <ul className="divide-y-8 divide-border space-y-14">
         {teams?.data?.map((team) => (
-          <li
-            key={team?._id}
-            className="grid md:grid-cols-2 gap-3.5 relative pb-6 px-4"
-          >
-            <Image
-              src={team?.logo ?? teamLogos?.[0]?.logo.src}
-              alt={team?.name ?? "logo"}
-              width={400}
-              height={400}
-              className="object-cover bg-accent  "
-            />
-
-            <div>
-              <p className="_heading">{team?.name}</p>
-              <p className="_title">{team?.alias}</p>
-
-              <LVOutPutTable
-                body={[
-                  { label: "Alias", value: team?.alias },
-                  {
-                    label: "Last Match",
-                    value: formatDate(team?.updatedAt, "March 2, 2025"),
-                  },
-                  { label: "Encounters", value: "0" },
-                  { label: "Wins", value: "0" },
-                  { label: "Losses", value: "0" },
-                  { label: "Draws", value: "0" },
-                ]}
-                //  className="ring"
-                trStyles="grow w-full"
-                labelTDStyles="grow"
-                className="rounded-xl overflow-hidden w-fit border shadow-2xs"
+          <li key={team?._id} className="relative pb-6 px-4">
+            <p className="_heading">{team?.name}</p>
+            <div className="flex flex-wrap gap-3.5 ">
+              <Image
+                src={team?.logo ?? teamLogos?.[0]?.logo.src}
+                alt={team?.name ?? "logo"}
+                width={400}
+                height={400}
+                className="object-cover bg-accent h-60 w-60 aspect-4/3 rounded-xl "
               />
+
+              <div className="grow">
+                <LVOutPutTable
+                  body={[
+                    { label: "Alias", value: team?.alias },
+                    {
+                      label: "Last Match",
+                      value: formatDate(team?.updatedAt, "March 2, 2025"),
+                    },
+                    { label: "Encounters", value: "0" },
+                    { label: "Wins", value: "0" },
+                    { label: "Losses", value: "0" },
+                    { label: "Draws", value: "0" },
+                  ]}
+                  //  className="ring"
+                  trStyles=" w-full"
+                  valueTDStyles=" w-full"
+                  className="rounded-xl overflow-hidden border shadow-2xs"
+                />
+              </div>
             </div>
             <PrimaryDropdown triggerStyles="absolute right-4 top-1 bg-accent/40 rounded-full p-1 h-10 w-10 _hover flex items-center justify-center">
-              <TeamActians team={team} />
+              <DIALOG
+                trigger={
+                  <>
+                    <Edit />
+                    Edit
+                  </>
+                }
+                triggerStyles=" w-full justify-start"
+                variant={"ghost"}
+              >
+                <TeamForm team={team} />
+              </DIALOG>
+              <ConfirmDialog
+                action={{
+                  method: "DELETE",
+                  uri: apiConfig.teams,
+                }}
+                trigger={
+                  <>
+                    <Trash />
+                    Delete
+                  </>
+                }
+                triggerStyles="text-sm p-1.5 px-2 grow w-full justify-start "
+                variant={"destructive"}
+                title={`Delete '${team?.name}'`}
+                description={`Are you sure you want to delete "${team?.name}"?`}
+              />
             </PrimaryDropdown>
           </li>
         ))}
@@ -71,33 +113,3 @@ const DisplayTeams = ({ teams }: { teams?: IQueryResponse<ITeamProps[]> }) => {
 };
 
 export default DisplayTeams;
-
-export const TeamActians = ({ team }: { team: ITeamProps }) => {
-  
-  return (
-    <ul>
-      <li className=" mb-1.5">
-        <DIALOG trigger={"Update"}>
-          <TeamForm team={team} />
-        </DIALOG>
-      </li>
-      <li>
-        <ConfirmActionButton
-          method={"DELETE"}
-          trigger={"Delete Feature"}
-          primaryText=""
-          loadingText="Deleting..."
-          uri={`${apiConfig.teams}`}
-          body={team}
-          variant="destructive"
-          title={`Delete ${team?.name}`}
-          confirmText={`Are you sure you want to delete "${team?.name}"?`}
-          escapeOnEnd
-        >
-          <AiTwotoneDelete />
-        </ConfirmActionButton>
-      </li>
-    </ul>
-  );
-};
-

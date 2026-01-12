@@ -1,11 +1,7 @@
 import { IQueryResponse } from "@/types";
 import { getPlayers } from "../admin/players/page";
-import Link from "next/link";
-import PlayerFeatureStatsCard from "./PlayerStatsCard";
-import { AnimateOnView } from "@/components/Animate/AnimateOnView";
 import { kfc } from "@/data/kfc";
 import HEADER from "@/components/Element";
-import { MotionWrapper } from "@/components/Animate/MotionWrapper";
 import { IPlayer } from "@/types/player.interface";
 import OurPlayers from "./Display";
 
