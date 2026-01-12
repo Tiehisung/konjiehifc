@@ -1,4 +1,4 @@
-import { IUpdateTeam } from "@/app/admin/features/teams/TeamForm";
+import { IUpdateTeam } from "@/app/admin/teams/TeamForm";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import TeamModel from "@/models/teams";
 import { NextRequest, NextResponse } from "next/server";
@@ -59,7 +59,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     const teamId = (await params).teamId
     const body = await request.json();
     const deleted = await TeamModel.findByIdAndDelete(teamId);
-    
+
     //Archive
     await ArchiveModel.updateOne(
       { sourceCollection: EArchivesCollection.TEAMS, originalId: body?._id },

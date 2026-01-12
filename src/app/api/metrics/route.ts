@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     draws: matchMetrics?.filter(m => m?.winStatus == 'draw'),
     losses: matchMetrics?.filter(m => m?.winStatus == 'loss'),
   }
-  const winRate = ((matchStats?.wins?.length / matchMetrics?.length) * 100)?.toFixed(1)
+  const winRate = (((matchStats?.wins?.length ?? 0) / (matchMetrics?.length ?? 1)) * 100)?.toFixed(1)
 
   const goals = matchMetrics?.map(mm => mm.goals.kfc).flat().length ?? 0
 

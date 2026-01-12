@@ -26,7 +26,11 @@ const PlayersPage = async () => {
 
   return (
     <div className="">
-      <HEADER title="Players" subtitle="Meet Our Gallant Players " />
+      <HEADER
+        title="Players"
+        subtitle="Meet Our Gallant Players "
+        className="pt-12"
+      />
       <OurPlayers players={players} />
       {/* <div className="bg-popover px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:max-w-7xl py-16 sm:py-24">

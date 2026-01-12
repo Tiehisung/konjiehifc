@@ -62,9 +62,9 @@ function SidebarLink({ item, depth = 0 }: { item: ILinkItem; depth?: number }) {
         icon: item.icon,
         path: item.path,
         label: item.title,
-        className: "ring-border ",
+        className: "ring-border font-normal text-sm ",
       }}
-      defaultOpen={item.defaultOpen}
+      defaultOpen={item.defaultOpen} 
     >
       {item.children!.map((child, i) => (
         <SidebarLink key={i} item={child} depth={depth + 1} />
@@ -74,88 +74,156 @@ function SidebarLink({ item, depth = 0 }: { item: ILinkItem; depth?: number }) {
 }
 
 const sidebarLinks: ILinkItem[] = [
-  { title: "Home", path: "/", icon: <Home /> },
-  { title: "Dashboard", path: "/admin", icon: <LayoutDashboard /> },
-  { title: "Docs", path: "/admin/docs", icon: <FileText /> },
+  { title: "Home", path: "/", icon: <Home className="w-4 h-4" /> },
+  {
+    title: "Dashboard",
+    path: "/admin",
+    icon: <LayoutDashboard className="w-4 h-4" />,
+  },
+  {
+    title: "Docs",
+    path: "/admin/docs",
+    icon: <FileText className="w-4 h-4" />,
+  },
 
   {
     title: "Matches",
     path: "/admin/matches",
-    icon: <Target />,
+    icon: <Target className="w-4 h-4" />,
     defaultOpen: true,
     children: [
       {
         title: "Create Fixture",
         path: "/admin/matches/create-fixture",
-        icon: <Newspaper />,
+        icon: <Newspaper className="w-4 h-4" />,
       },
-      { title: "Live Match", path: "/admin/live-match", icon: <Tv /> },
+      {
+        title: "Live Match",
+        path: "/admin/live-match",
+        icon: <Tv className="w-4 h-4" />,
+      },
 
       {
         title: "Match Request",
         path: "/admin/matches/request",
-        icon: <LetterText />,
+        icon: <LetterText className="w-4 h-4" />,
       },
     ],
   },
-  { title: "News", path: "/admin/news", icon: <Newspaper /> },
+  {
+    title: "News",
+    path: "/admin/news",
+    icon: <Newspaper className="w-4 h-4" />,
+  },
   {
     title: "Club Media",
     path: "/admin/news",
-    icon: <Newspaper />,
- 
+    icon: <Newspaper className="w-4 h-4" />,
+
     children: [
-      { title: "News", path: "/admin/news", icon: <Newspaper /> },
-      { title: "Gallery", path: "/admin/galleries", icon: <Image /> },
-      { title: "Cards", path: "/admin/cards", icon: <Square /> },
+      {
+        title: "News",
+        path: "/admin/news",
+        icon: <Newspaper className="w-4 h-4" />,
+      },
+      {
+        title: "Gallery",
+        path: "/admin/galleries",
+        icon: <Image className="w-4 h-4" />,
+      },
+      {
+        title: "Cards",
+        path: "/admin/cards",
+        icon: <Square className="w-4 h-4" />,
+      },
       {
         title: "Highlights",
         path: "/admin/matches/highlights",
-        icon: <ActivityIcon />,
+        icon: <ActivityIcon className="w-4 h-4" />,
       },
     ],
   },
   {
     title: "Players",
     path: "/admin/players",
-    icon: <User />,
-   
+    icon: <User className="w-4 h-4" />,
+
     children: [
-      { title: "Captaincy", path: "/admin/players/captaincy", icon: <User /> },
-      { title: "New Signing", path: "/admin/players/new", icon: <UserPlus /> },
-      { title: "Players", path: "/admin/players", icon: <Users /> },
+      {
+        title: "Captaincy",
+        path: "/admin/players/captaincy",
+        icon: <User className="w-4 h-4" />,
+      },
+      {
+        title: "New Signing",
+        path: "/admin/players/new",
+        icon: <UserPlus className="w-4 h-4" />,
+      },
+      {
+        title: "Players",
+        path: "/admin/players",
+        icon: <Users className="w-4 h-4" />,
+      },
     ],
   },
-  { title: "Teams", path: "/admin/features/teams", icon: <Users /> },
-  { title: "Squad", path: "/admin/squad", icon: <Users /> },
+  {
+    title: "Teams",
+    path: "/admin/teams",
+    icon: <Users className="w-4 h-4" />,
+  },
+  { title: "Squad", path: "/admin/squad", icon: <Users className="w-4 h-4" /> },
 
-  { title: "Managers", path: "/admin/managers", icon: <UserCheck /> },
+  {
+    title: "Managers",
+    path: "/admin/managers",
+    icon: <UserCheck className="w-4 h-4" />,
+  },
 
   {
     title: "Training & Fitness",
     path: "",
-    icon: <Activity />,
+    icon: <Activity className="w-4 h-4" />,
     defaultOpen: true,
     children: [
       {
         title: "Attendance",
         path: "/admin/training/attendance",
-        icon: <ClipboardList />,
+        icon: <ClipboardList className="w-4 h-4" />,
       },
-      { title: "Injuries", path: "/admin/injuries", icon: <HeartPulse /> },
+      {
+        title: "Injuries",
+        path: "/admin/injuries",
+        icon: <HeartPulse className="w-4 h-4" />,
+      },
     ],
   },
 
   {
     title: "Operations",
     path: "",
-    icon: <Wallet />,
+    icon: <Wallet className="w-4 h-4" />,
     defaultOpen: true,
     children: [
-      { title: "Sponsorship", path: "/admin/sponsorship", icon: <Wallet /> },
-      { title: "Finance", path: "/admin/resources/finance", icon: <Wallet /> },
-      { title: "Users", path: "/admin/users", icon: <Users /> },
-      { title: "Logs", path: "/admin/logs", icon: <Shield /> },
+      {
+        title: "Sponsorship",
+        path: "/admin/sponsorship",
+        icon: <Wallet className="w-4 h-4" />,
+      },
+      {
+        title: "Finance",
+        path: "/admin/resources/finance",
+        icon: <Wallet className="w-4 h-4" />,
+      },
+      {
+        title: "Users",
+        path: "/admin/users",
+        icon: <Users className="w-4 h-4" />,
+      },
+      {
+        title: "Logs",
+        path: "/admin/logs",
+        icon: <Shield className="w-4 h-4" />,
+      },
     ],
   },
 ];

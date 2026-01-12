@@ -4,7 +4,7 @@ import { IPlayer } from "@/types/player.interface";
 import { getPlayers } from "../players/page";
 import { IQueryResponse } from "@/types";
 import { MatchEventsAdmin } from "./EventsUpdator";
-import { getTeams } from "../features/teams/page";
+import { getTeams } from "../teams/page";
 import Image from "next/image";
 import { StartStopMatch } from "./StartStop";
 import Header from "../../../components/Element";

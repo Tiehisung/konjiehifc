@@ -1,6 +1,6 @@
 import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { IQueryResponse } from "@/types";
-import { getTeams } from "../../features/teams/page";
+import { getTeams } from "../../teams/page";
 import CreateMatch from "../CreateFixture";
 const NewFixturePage = async () => {
   const teams: IQueryResponse<ITeamProps[]> = await getTeams();
