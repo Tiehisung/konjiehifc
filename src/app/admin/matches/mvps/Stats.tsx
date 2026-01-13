@@ -23,22 +23,19 @@ export function MVPsStats({ loading, mvps }: IProps) {
       store[mvp.player._id].push(mvp);
     });
 
-    const sortedMvps = Object.values(store).sort((a, b) => a.length - b.length);
+    const sortedMvps = Object.values(store).sort((a, b) => b.length - a.length);
 
     console.log({ sortedMvps, mvps });
 
     return {
       total: mvps?.data?.length ?? 0,
       sortedMvps,
-      // first: { total: sortedMvps[0].length, player: sortedMvps[0][0].player },
-      // second: { total: sortedMvps[1].length, player: sortedMvps[1][0].player },
-      // third: { total: sortedMvps[2].length, player: sortedMvps[2][0].player },
       stats: sortedMvps.map((m) => ({ player: m[0].player, total: m.length })),
     };
   };
   const data = computeMVPs();
 
-  console.log(data);
+ 
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
