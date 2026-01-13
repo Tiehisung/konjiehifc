@@ -41,7 +41,6 @@ const playerSchema = new Schema(
     captaincy: { type: String },
     dob: { type: String, required: true },
     about: { type: String, },
-    description: { type: String, },
     history: { type: String, },
     dateSigned: { type: String, required: true },
     avatar: String,
@@ -67,7 +66,7 @@ const playerSchema = new Schema(
     status: { type: String, enum: Object.values(EPlayerStatus), default: () => EPlayerStatus.CURRENT },
     availability: { type: String, default: () => EPlayerAvailability.AVAILABLE, enum: Object.values(EPlayerAvailability) },
 
-    number: { type: String, required: true, unique: true },
+    number: { type: String, required: true,  },
     position: {
       type: String,
     },
