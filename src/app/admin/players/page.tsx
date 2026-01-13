@@ -52,6 +52,8 @@ export default async function AdminPlayers({ searchParams }: PlayersProps) {
 
   const players: IQueryResponse<IPlayer[]> = await getPlayers(qs);
 
+  console.log(players)
+
   const captains = await getCaptains(qs);
 
   return (
