@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
       { "firstName": regex },
       { "lastName": regex },
       { "position": regex },
-      { "jersey": regex },
+      { "number": regex },
       { "dob": regex },
       { "email": regex },
       { "status": regex },
@@ -46,8 +46,8 @@ export async function GET(request: NextRequest) {
     // [field]: value
   }
   const cleaned = removeEmptyKeys(query)
-
-  const players = await PlayerModel.find(cleaned)
+  console.log('clned',cleaned)
+  const players = await PlayerModel.find()
     .populate({ path: "galleries", populate: { path: 'files' } }).skip(skip)
     .limit(limit)
     .lean();
@@ -91,11 +91,11 @@ export async function POST(request: NextRequest) {
         success: false
       });
 
-    const isJuvenile = getAge(pf.dob) < 10
+    const ageStatus = getAge(pf.dob) < 10?EPlayerAgeStatus.JUVENILE:EPlayerAgeStatus.YOUTH
 
-    const about = pf.about ?? generatePlayerAbout(pf.firstName, pf.lastName, pf.position)
+    const about = pf.about || generatePlayerAbout(pf.firstName, pf.lastName, pf.position)
 
-    await PlayerModel.create({ ...pf, slug, code: playerCode, email, isJuvenile, about });
+    await PlayerModel.create({ ...pf, slug, code: playerCode, email, isJuvenile, about, ageStatus });
 
 
     // Create User

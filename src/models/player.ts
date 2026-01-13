@@ -61,12 +61,11 @@ const playerSchema = new Schema(
     mvps: [{ type: Schema.Types.ObjectId, ref: "mvps", default: [] }],
 
     issues: [{ type: String, default: () => [] }],
-    isCurrentPlayer: { type: Schema.Types.Boolean, default: () => true },
-    ageStatus: { type: String, enum: Object.values(EPlayerAgeStatus) },
+    ageStatus: { type: String, enum: Object.values(EPlayerAgeStatus), default: () => EPlayerAgeStatus.YOUTH },
     status: { type: String, enum: Object.values(EPlayerStatus), default: () => EPlayerStatus.CURRENT },
     availability: { type: String, default: () => EPlayerAvailability.AVAILABLE, enum: Object.values(EPlayerAvailability) },
 
-    number: { type: String, required: true,  },
+    number: { type: String, required: true, },
     position: {
       type: String,
     },
