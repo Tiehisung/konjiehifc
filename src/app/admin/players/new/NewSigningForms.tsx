@@ -51,7 +51,7 @@ export default function PlayerProfileForm({
       number: player?.number || "",
       dateSigned: player?.dateSigned || "",
       height: player?.height || 3.5,
-      phone: player?.phone || "",
+      phone: player?.phone || "0211111111",
       about: player?.about || "",
       email: player?.email || "",
       dob: player?.dob?.split("T")?.[0] || "",
@@ -61,7 +61,7 @@ export default function PlayerProfileForm({
         ? { ...player?.manager, dob: player?.manager?.dob?.split("T")?.[0] }
         : {
             fullname: "",
-            phone: "",
+            phone: "0211111111",
             email: "",
             dob: "",
           },
