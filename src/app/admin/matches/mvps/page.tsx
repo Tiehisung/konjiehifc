@@ -29,7 +29,7 @@ export default async function MVPsPage({ searchParams }: IPageProps) {
 
   const mvps: IQueryResponse<IMvp[]> = await getMVPs(qs);
 
-  console.log(mvps)
+ 
 
   return (
     <div>
