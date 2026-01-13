@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
   }
   const cleaned = removeEmptyKeys(query)
   console.log('clned',cleaned)
-  const players = await PlayerModel.find()
+  const players = await PlayerModel.find(cleaned)
     .populate({ path: "galleries", populate: { path: 'files' } }).skip(skip)
     .limit(limit)
     .lean();
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
 
     const about = pf.about || generatePlayerAbout(pf.firstName, pf.lastName, pf.position)
 
-    await PlayerModel.create({ ...pf, slug, code: playerCode, email, isJuvenile, about, ageStatus });
+    await PlayerModel.create({ ...pf, slug, code: playerCode, email, about, ageStatus });
 
 
     // Create User
