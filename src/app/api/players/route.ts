@@ -46,7 +46,6 @@ export async function GET(request: NextRequest) {
     // [field]: value
   }
   const cleaned = removeEmptyKeys(query)
-  console.log('clned',cleaned)
   const players = await PlayerModel.find(cleaned)
     .populate({ path: "galleries", populate: { path: 'files' } }).skip(skip)
     .limit(limit)
