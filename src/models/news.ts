@@ -31,26 +31,28 @@ const newsSchema = new Schema(
       default: () => ({ isTrending: true, isLatest: true }),
     },
     likes: {
-      type: [{ name: String, date: String, device: String }],
+      type: [{ email: String, name: String, date: String, device: String }],
       default: () => []
     },
     comments: {
-      type: [{ name: String, date: String, comment: String ,image:String}],
+      type: [{ name: String, date: String, comment: String, image: String }],
       default: () => []
     },
     shares: {
-      type: [{ name: String, date: String, device: String }],
+      type: [{ email: String, name: String, date: String, device: String }],
       default: () => []
     },
     views: {
-      type: [{ name: String, date: String, device: String }],
+      type: [{ email: String, name: String, date: String, device: String }],
       default: () => []
     },
 
-    isPublished: {
-      type: Schema.Types.Boolean,
-      default: false
+    status: {
+      type: String,
+      default: 'unpublished', enum: ['published', 'unpublished', 'archived']
     },
+    reporter: { email: String, name: String, image: String, role: String, about: String },
+    editors: [{ email: String, name: String, image: String, role: String, about: String, date: String }]
   },
   { timestamps: true }
 );

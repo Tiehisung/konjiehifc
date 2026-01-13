@@ -21,8 +21,8 @@ const DisplayTeams = ({ teams }: { teams?: IQueryResponse<ITeamProps[]> }) => {
   if (!teams) return <div className="_label p-6 "> No teams available</div>;
   return (
     <div className=" mx-auto ">
-      <header className="_heading text-muted-foreground flex items-center justify-between gap-6">
-        <span>Teams</span>
+      <header className=" text-muted-foreground flex items-center justify-between gap-6">
+        <span className="_heading">Teams</span>
         <StackModal
           trigger={
             <>
@@ -32,7 +32,8 @@ const DisplayTeams = ({ teams }: { teams?: IQueryResponse<ITeamProps[]> }) => {
           }
           triggerStyles=" justify-start"
           variant={"default"}
-          id={"new-team"}
+          id={"new-team"} 
+          closeOnEsc
         >
           <TeamForm />
         </StackModal>

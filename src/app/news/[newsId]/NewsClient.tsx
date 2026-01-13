@@ -8,6 +8,7 @@ import { NewsReactions } from "./Reactions";
 import MasonryGallery from "@/components/Gallery/Masonry";
 import LightboxViewer from "@/components/viewer/LightBox";
 import { getThumbnail } from "@/lib/file";
+import { AVATAR } from "@/components/ui/avatar";
 
 const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
   const [open, setOpen] = useState(false);
@@ -40,7 +41,8 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
                   <div
                     dangerouslySetInnerHTML={{
                       __html: detail?.text as string,
-                    }} className="_p"
+                    }}
+                    className="_p"
                   />
 
                   {/* Large first media */}
@@ -77,6 +79,20 @@ const NewsItemClient: FC<{ newsItem: INewsProps }> = ({ newsItem }) => {
           {/* Comments and reactions */}
           <section className=" mt-32 border-t-2 pt-4">
             <NewsReactions newsItem={newsItem} />
+          </section>
+
+          <section className="flex items-start gap-5 my-6">
+            <AVATAR
+              src={newsItem?.reporter?.image as string}
+              fallbackText={newsItem?.reporter?.name}
+              alt="reporter"
+              className="h-16 w-16"
+            />
+
+            <div className="space-y-2.5 text-muted-foreground">
+              <h1 className="font-bold">{newsItem?.reporter?.name}</h1>
+              <h1>{newsItem?.reporter?.about ?? "KonjiehiFC Staff"}</h1>
+            </div>
           </section>
         </main>
       </div>

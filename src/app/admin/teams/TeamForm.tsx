@@ -93,7 +93,7 @@ export const TeamForm = ({ team }: IProps) => {
 
       <form
         onSubmit={handleSubmit}
-        className="p-4 pt-10 border _borderColor max-w-md flex flex-col gap-4 gap-y-8 items-center justify-center mx-center w-full  grow md:min-w-sm"
+        className="p-4 pt-10 border max-w-md flex flex-col gap-4 gap-y-8 items-center justify-center mx-center w-full  grow md:min-w-sm"
       >
         <div className="flex flex-col items-center justify-center gap-2 mx-auto ">
           <ImageUploaderCldWidget
@@ -110,7 +110,6 @@ export const TeamForm = ({ team }: IProps) => {
         </div>
         <IconInputWithLabel
           name="name"
-          type="text"
           className=""
           value={formData.name}
           onChange={handleOnChange}
@@ -120,7 +119,6 @@ export const TeamForm = ({ team }: IProps) => {
 
         <IconInputWithLabel
           name="alias"
-          type="text"
           className=""
           value={formData.alias}
           onChange={handleOnChange}
@@ -130,7 +128,6 @@ export const TeamForm = ({ team }: IProps) => {
 
         <IconInputWithLabel
           name="community"
-          type="text"
           className=""
           value={formData.community}
           onChange={handleOnChange}
@@ -139,7 +136,6 @@ export const TeamForm = ({ team }: IProps) => {
         />
         <IconInputWithLabel
           name="contactName"
-          type="text"
           className=""
           value={formData.contactName}
           onChange={handleOnChange}

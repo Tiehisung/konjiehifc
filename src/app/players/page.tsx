@@ -25,7 +25,7 @@ const PlayersPage = async () => {
       <HEADER
         title="Players"
         subtitle="Meet Our Gallant Players "
-        className="pt-12"
+        className="pt-12 text-Orange"
       />
       <OurPlayers players={players} />
       {/* <div className="bg-popover px-4 sm:px-6 lg:px-8">

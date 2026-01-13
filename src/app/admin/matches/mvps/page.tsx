@@ -2,13 +2,13 @@ import HEADER from "@/components/Element";
 import { buildQueryStringServer } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import BackToTopButton from "@/components/scroll/ToTop";
-import { CardsManager } from "./CardsManager";
 import { IPageProps, IQueryResponse } from "@/types";
-import { ICard } from "@/types/card.interface";
+import { MVPsManager } from "./MVPsManager";
+import { IMvp } from "@/types/mvp.interface";
 
-export const getCards = async (queryString?: string) => {
+export const getMVPs = async (queryString?: string) => {
   try {
-    const url = `${apiConfig.base}/cards${queryString || ""}`;
+    const url = `${apiConfig.base}/mvps${queryString || ""}`;
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -24,20 +24,20 @@ export const getCards = async (queryString?: string) => {
 
 
 
-export default async function CardsPage({ searchParams }: IPageProps) {
+export default async function MVPsPage({ searchParams }: IPageProps) {
   const qs = buildQueryStringServer(await searchParams);
 
-  const cards: IQueryResponse<ICard[]> = await getCards(qs);
+  const mvps: IQueryResponse<IMvp[]> = await getMVPs(qs);
 
   return (
     <div>
       <HEADER
-        title="Cards Management"
-        subtitle="Track and manage player cards"
+        title="MVPs Management"
+        subtitle="Track and manage player MVPs"
       />
 
       <div className="_page ">
-        <CardsManager cardsData={cards} />
+        <MVPsManager mvpsData={mvps} />
       </div>
 
       <BackToTopButton />

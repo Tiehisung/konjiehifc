@@ -1,0 +1,99 @@
+"use client";
+
+import { Card } from "@/components/ui/card";
+import { formatDate } from "@/lib/timeAndDate";
+import { Calendar, User } from "lucide-react";
+import Image from "next/image";
+import { DIALOG } from "@/components/Dialog";
+import { ConfirmDialog } from "@/components/Confirm-dialog";
+import { IPlayer } from "@/types/player.interface";
+import { POPOVER } from "@/components/ui/popover";
+import { Badge } from "@/components/ui/badge";
+import { MVPForm } from "./MvpForm";
+import { IMvp } from "@/types/mvp.interface";
+
+interface IProps {
+  mvp: IMvp;
+  selectedPlayer?: IPlayer;
+}
+const MvpCard = ({ mvp, selectedPlayer }: IProps) => {
+  return (
+    <Card className="overflow-hidden">
+      <div className="p-4">
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-2">
+              <Badge>{mvp.positionPlayed}</Badge>
+              <span className="text-sm text-muted-foreground">
+                {formatDate(mvp.createdAt)}
+              </span>
+            </div>
+
+            <p className="text-muted-foreground mb-3">{mvp.description}</p>
+
+            <div className=" flex flex-wrap items-center gap-4 text-sm">
+              {!selectedPlayer && (
+                <div className="flex items-center gap-2">
+                  <div className="h-6 w-6 rounded-full bg-muted flex items-center justify-center">
+                    {mvp?.player?.avatar ? (
+                      <Image
+                        src={mvp?.player?.avatar}
+                        alt={mvp?.player?.name}
+                        className="h-6 w-6 rounded-full object-cover"
+                        width={200}
+                        height={200}
+                        priority
+                      />
+                    ) : (
+                      <User className="h-3 w-3" />
+                    )}
+                  </div>
+                  <span className="font-medium">{mvp?.player?.name}</span>
+                  <span className="text-muted-foreground">
+                    #{mvp?.player?.number}
+                  </span>
+                </div>
+              )}
+
+              <div className="flex items-center text-sm gap-1 text-muted-foreground">
+                <Calendar className="h-5 w-5" />
+                <span>Reported {formatDate(mvp.createdAt)}</span>
+              </div>
+            </div>
+          </div>
+
+          <POPOVER
+            variant={"ghost"}
+            className="w-fit space-y-1.5 "
+            size={"icon-sm"}
+            triggerClassNames="rounded-full"
+          >
+            <DIALOG
+              trigger={"Edit"}
+              variant={"ghost"}
+              triggerStyles="text-sm p-1.5 px-2 grow w-full justify-start "
+            >
+              <MVPForm match={undefined} mvp={mvp} />
+            </DIALOG>
+
+            <ConfirmDialog
+              description={`Are you sure you want to delete this card? \n <i>${
+                mvp?.description ?? ""
+              }</i>`}
+              action={{
+                method: "DELETE",
+                uri: `/mvps/${mvp._id}`,
+              }}
+              trigger="Resolve"
+              triggerStyles="text-sm p-1.5 px-2 grow w-full justify-start"
+              variant={"destructive"}
+              title={`Delete MoTM for ${mvp?.match?.title}`}
+            />
+          </POPOVER>
+        </div>
+      </div>
+    </Card>
+  );
+};
+
+export default MvpCard;

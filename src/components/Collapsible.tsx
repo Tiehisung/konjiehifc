@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ReactNode, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import { TButtonSize, TButtonVariant } from "./ui/button";
 import { Button } from "./buttons/Button";
@@ -22,7 +22,7 @@ interface ICollapsible {
   variant?: TButtonVariant;
   size?: TButtonSize;
   loading?: boolean;
-  defaultOpen?:boolean
+  defaultOpen?: boolean;
 }
 
 export function PrimaryCollapsible({
@@ -32,11 +32,13 @@ export function PrimaryCollapsible({
   onChange,
   variant = "ghost",
   size,
-  loading,defaultOpen
+  loading,
+  defaultOpen,
 }: ICollapsible) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const pathname = usePathname();
   const isActiveLink = (path: string) => pathname === path;
+  const router = useRouter();
   if (loading) return <Loader />;
   return (
     <div className="space-y-1 w-full ">
@@ -45,6 +47,7 @@ export function PrimaryCollapsible({
         onClick={() => {
           setIsOpen(!isOpen);
           if (typeof onChange == "function") onChange(!isOpen);
+          if (header.path) router.push(header.path);
         }}
         className={cn(
           `w-full flex items-center justify-between p-3 rounded-lg _hover _transition ${

@@ -1,4 +1,5 @@
 import { IFileProps, IFileUpload } from "./file.interface";
+import { IUser } from "./user";
 
 export interface INewsProps {
   _id: string;
@@ -19,23 +20,22 @@ export interface INewsProps {
     media?: Partial<IFileProps>[];
   }[];
   metaDetails?: unknown; //ISquad etc
-  reporter?: {
-    name: string;
-    avatar: string;
-  };
   isPublished?: boolean;
   type?: "squad" | "signing" | "match" | "training" | "general";
   summary?: string;
   tags?: string[];
 
-  likes?: { name: string; date: string; device?: string }[];
-  views: { name: string; date: string; device?: string }[];
-  shares?: { name: string; date: string; device?: string }[];
-  comments?: { image?: string; name?: string; comment: string; date: string }[];
+  likes?: { email: string, name: string; date: string; device?: string }[];
+  views: { email: string, name: string; date: string; device?: string }[];
+  shares?: { email: string, name: string; date: string; device?: string }[];
+  comments?: { email: string, image?: string; name?: string; comment: string; date: string }[];
   reactions?: number//sum likes,views,shares and comments
 
   createdAt: string;
   updatedAt: string;
+
+  reporter?: IUser & { about?: string }
+
 }
 export interface IPostNews {
   stats?: {

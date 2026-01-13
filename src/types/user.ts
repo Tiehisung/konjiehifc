@@ -4,7 +4,8 @@ export interface IUser {
   name: string;
   email: string;
   role?: EUserRole;
-  
+
+  about?: string;
   dateEngaged?: string;
   password?: string;
   isActive?: boolean
