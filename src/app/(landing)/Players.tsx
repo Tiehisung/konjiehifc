@@ -41,7 +41,11 @@ const LandingPlayers = async () => {
                 <div
                   className="_p line-clamp-4 mb-5 font-semibold"
                   dangerouslySetInnerHTML={{
-                    __html: generatePlayerAbout(player),
+                    __html: generatePlayerAbout(
+                      player?.firstName ?? "",
+                      player?.lastName ?? "",
+                      player?.position
+                    ),
                   }}
                 />
 
