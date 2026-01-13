@@ -15,7 +15,6 @@ import { useForm, Controller } from "react-hook-form";
 import DiveUpwards from "@/components/Animate";
 import ImageUploaderCldWidget from "@/components/cloudinary/AvatarUploadWidget";
 import { EPlayerPosition, IPlayer } from "@/types/player.interface";
-import type { IManager } from "../../managers/page";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
 import { staticImages } from "@/assets/images";
@@ -69,8 +68,6 @@ export default function PlayerProfileForm({
         : {
             fullname: "",
             phone: "0211111111",
-
-            // dob: "",
           },
     },
   });
@@ -148,7 +145,6 @@ export default function PlayerProfileForm({
               <DiveUpwards layoutId="lid2">
                 <div className="p-3 grid gap-8 md:min-w-md lg:min-w-lg">
                   <h2 className="_label">PERSONAL INFORMATION</h2>
-
                   <Controller
                     control={control}
                     name="firstName"
@@ -161,7 +157,6 @@ export default function PlayerProfileForm({
                       />
                     )}
                   />
-
                   <Controller
                     control={control}
                     name="lastName"
@@ -174,7 +169,6 @@ export default function PlayerProfileForm({
                       />
                     )}
                   />
-
                   <Controller
                     control={control}
                     name="number"
@@ -205,20 +199,6 @@ export default function PlayerProfileForm({
                       </div>
                     )}
                   />
-
-                  <Controller
-                    control={control}
-                    name="dateSigned"
-                    render={({ field, fieldState }) => (
-                      <DateTimeInput
-                        type="date"
-                        label="Date Signed"
-                        {...field}
-                        error={fieldState.error?.message}
-                      />
-                    )}
-                  />
-
                   <Controller
                     control={control}
                     name="height"
@@ -228,11 +208,9 @@ export default function PlayerProfileForm({
                         label="Height(ft)"
                         {...field}
                         error={fieldState.error?.message}
-                        others={{ min: 3, max: 8 }}
                       />
                     )}
                   />
-
                   <Controller
                     control={control}
                     name="phone"
@@ -245,7 +223,6 @@ export default function PlayerProfileForm({
                       />
                     )}
                   />
-
                   <Controller
                     control={control}
                     name="email"
@@ -253,6 +230,18 @@ export default function PlayerProfileForm({
                       <IconInputWithLabel
                         label="Email"
                         type="email"
+                        {...field}
+                        error={fieldState.error?.message}
+                      />
+                    )}
+                  />
+                  <Controller
+                    control={control}
+                    name="dob"
+                    render={({ field, fieldState }) => (
+                      <DateTimeInput
+                        type="date"
+                        label="Date of Birth"
                         {...field}
                         error={fieldState.error?.message}
                       />
@@ -269,14 +258,13 @@ export default function PlayerProfileForm({
                       />
                     )}
                   />
-
                   <Controller
                     control={control}
-                    name="dob"
+                    name="dateSigned"
                     render={({ field, fieldState }) => (
                       <DateTimeInput
                         type="date"
-                        label="Date of Birth"
+                        label="Date Signed"
                         {...field}
                         error={fieldState.error?.message}
                       />
