@@ -1,11 +1,7 @@
 import { IQueryResponse } from "@/types";
 import { getPlayers } from "../admin/players/page";
-import Link from "next/link";
-import PlayerFeatureStatsCard from "./PlayerStatsCard";
-import { AnimateOnView } from "@/components/Animate/AnimateOnView";
 import { kfc } from "@/data/kfc";
 import HEADER from "@/components/Element";
-import { MotionWrapper } from "@/components/Animate/MotionWrapper";
 import { IPlayer } from "@/types/player.interface";
 import OurPlayers from "./Display";
 
@@ -29,7 +25,7 @@ const PlayersPage = async () => {
       <HEADER
         title="Players"
         subtitle="Meet Our Gallant Players "
-        className="pt-12"
+        className="pt-12 text-Orange"
       />
       <OurPlayers players={players} />
       {/* <div className="bg-popover px-4 sm:px-6 lg:px-8">

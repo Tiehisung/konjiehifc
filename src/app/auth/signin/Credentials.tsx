@@ -74,7 +74,9 @@ export const CredentialsLoginForm = () => {
         user: JSON.stringify(safeUser),
       });
 
-      console.log({res})
+      setTimeout(() => {
+        fireEscape()
+      }, 3000);
 
       // router.push(res.url || callbackUrl);
       // window.location.href = res.url || callbackUrl;

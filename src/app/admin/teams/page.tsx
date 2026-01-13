@@ -34,14 +34,13 @@ const TeamsFeature = async ({ searchParams }: IPageProps) => {
 
   const teams: IQueryResponse<ITeamProps[]> = await getTeams(qs);
   return (
-    <div className="space-y-12 p-4 md:px-10">
+    <div className="space-y-12 p-4 md:px-10 bg-card">
       {/* Display */}
       <Suspense fallback={<Loader />}>
         <DisplayTeams teams={teams} />
       </Suspense>
 
-      {/* Create */}
-      <TeamForm />
+   
     </div>
   );
 };

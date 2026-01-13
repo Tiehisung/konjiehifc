@@ -3,6 +3,7 @@ import { buildQueryStringServer } from "@/lib";
 import { apiConfig } from "@/lib/configs";
 import BackToTopButton from "@/components/scroll/ToTop";
 import { InjuriesManager } from "./InjuresManager";
+import { IPageProps } from "@/types";
 
 export const getInjuries = async (queryString?: string) => {
   try {
@@ -20,19 +21,8 @@ export const getInjuries = async (queryString?: string) => {
   }
 };
 
-interface IPageProps {
-  searchParams: Promise<{
-    displayType: "box" | "list";
-    page?: string;
-    limit?: string;
-    search?: string;
-    type?: string;
-  }>;
-}
-
 export default async function InjuryPage({ searchParams }: IPageProps) {
   const qs = buildQueryStringServer(await searchParams);
- 
 
   return (
     <div className="_page ">

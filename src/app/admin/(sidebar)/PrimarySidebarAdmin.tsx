@@ -21,6 +21,7 @@ import {
   Wallet,
   LetterText,
   UserPlus,
+  Trophy,
 } from "lucide-react";
 import { ILinkItem } from "./GroupedSidebarLinks";
 import { PrimaryCollapsible } from "@/components/Collapsible";
@@ -64,7 +65,7 @@ function SidebarLink({ item, depth = 0 }: { item: ILinkItem; depth?: number }) {
         label: item.title,
         className: "ring-border font-normal text-sm ",
       }}
-      defaultOpen={item.defaultOpen} 
+      defaultOpen={item.defaultOpen}
     >
       {item.children!.map((child, i) => (
         <SidebarLink key={i} item={child} depth={depth + 1} />
@@ -90,8 +91,13 @@ const sidebarLinks: ILinkItem[] = [
     title: "Matches",
     path: "/admin/matches",
     icon: <Target className="w-4 h-4" />,
-    defaultOpen: true,
+
     children: [
+      {
+        title: "Matches",
+        path: "/admin/matches",
+        icon: <Target className="w-4 h-4" />,
+      },
       {
         title: "Create Fixture",
         path: "/admin/matches/create-fixture",
@@ -102,7 +108,8 @@ const sidebarLinks: ILinkItem[] = [
         path: "/admin/live-match",
         icon: <Tv className="w-4 h-4" />,
       },
-
+      
+      
       {
         title: "Match Request",
         path: "/admin/matches/request",
@@ -117,7 +124,7 @@ const sidebarLinks: ILinkItem[] = [
   },
   {
     title: "Club Media",
-    path: "/admin/news",
+    path: "",
     icon: <Newspaper className="w-4 h-4" />,
 
     children: [
@@ -131,11 +138,7 @@ const sidebarLinks: ILinkItem[] = [
         path: "/admin/galleries",
         icon: <Image className="w-4 h-4" />,
       },
-      {
-        title: "Cards",
-        path: "/admin/cards",
-        icon: <Square className="w-4 h-4" />,
-      },
+
       {
         title: "Highlights",
         path: "/admin/matches/highlights",
@@ -172,7 +175,15 @@ const sidebarLinks: ILinkItem[] = [
     icon: <Users className="w-4 h-4" />,
   },
   { title: "Squad", path: "/admin/squad", icon: <Users className="w-4 h-4" /> },
-
+  {
+    title: "Cards",
+    path: "/admin/cards",
+    icon: <Square className="w-4 h-4" />,
+  },{
+        title: "MoTM",
+        path: "/admin/mvps",
+        icon: <Trophy className="w-4 h-4" />,
+      },
   {
     title: "Managers",
     path: "/admin/managers",
@@ -183,7 +194,7 @@ const sidebarLinks: ILinkItem[] = [
     title: "Training & Fitness",
     path: "",
     icon: <Activity className="w-4 h-4" />,
-    defaultOpen: true,
+
     children: [
       {
         title: "Attendance",
@@ -202,7 +213,7 @@ const sidebarLinks: ILinkItem[] = [
     title: "Operations",
     path: "",
     icon: <Wallet className="w-4 h-4" />,
-    defaultOpen: true,
+
     children: [
       {
         title: "Sponsorship",

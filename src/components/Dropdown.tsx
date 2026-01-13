@@ -22,7 +22,7 @@ export function PrimaryDropdown({
   id,
   hideAngle = true,
   align = "end",
-  size='icon-sm',
+  size = "icon-sm",
   variant,
 }: {
   children: ReactNode;
@@ -36,7 +36,7 @@ export function PrimaryDropdown({
   size?: TButtonSize;
 }) {
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild id={id}>
         <Button
           variant={variant}

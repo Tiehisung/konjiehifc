@@ -47,9 +47,7 @@ export const StackModal = ({
 
   useActionOnEsc({
     onEscape() {
-      if (closeOnEsc) {
-        clearParams("stackModal");
-      }
+      if (closeOnEsc) clearParams("stackModal");
     },
   });
 
