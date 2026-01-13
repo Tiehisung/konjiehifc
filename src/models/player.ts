@@ -49,7 +49,7 @@ const playerSchema = new Schema(
     manager: {
       fullname: String,
       phone: String,
-      dob: String,
+      // dob: String,
       email: {
         type: String,
         trim: true,
