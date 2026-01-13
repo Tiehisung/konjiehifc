@@ -117,8 +117,8 @@ export function CountupMetricCard({
       {typeof onClick !== "undefined" && (
         <Button
           onClick={onClick}
-          className="absolute right-2 top-2"
-          size="icon"
+          className="absolute right-1 top-2 rounded-full"
+          size="icon-sm"
           variant="ghost"
         >
           <MoreVertical />
