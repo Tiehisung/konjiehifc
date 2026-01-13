@@ -13,10 +13,10 @@ interface IProps {
 export function MVPsStats({ loading, mvps }: IProps) {
   // Get mvps statistics
 
-  const computeMVPs = (mvps: IMvp[]) => {
+  const computeMVPs = () => {
     const store: Record<string, IMvp[]> = {};
 
-    mvps.forEach((mvp) => {
+    mvps?.data?.forEach((mvp) => {
       if (!store[mvp.player._id]) {
         store[mvp.player._id] = [];
       }
@@ -25,18 +25,18 @@ export function MVPsStats({ loading, mvps }: IProps) {
 
     const sortedMvps = Object.values(store).sort((a, b) => a.length - b.length);
 
-    console.log({ sortedMvps });
+    console.log({ sortedMvps, mvps });
 
     return {
-      total: mvps.length ?? 0,
+      total: mvps?.data?.length ?? 0,
       sortedMvps,
-      first: { total: sortedMvps[0].length, player: sortedMvps[0][0].player },
-      second: { total: sortedMvps[1].length, player: sortedMvps[1][0].player },
-      third: { total: sortedMvps[2].length, player: sortedMvps[2][0].player },
+      // first: { total: sortedMvps[0].length, player: sortedMvps[0][0].player },
+      // second: { total: sortedMvps[1].length, player: sortedMvps[1][0].player },
+      // third: { total: sortedMvps[2].length, player: sortedMvps[2][0].player },
       stats: sortedMvps.map((m) => ({ player: m[0].player, total: m.length })),
     };
   };
-  const data = computeMVPs(mvps?.data as IMvp[]);
+  const data = computeMVPs();
 
   console.log(data);
 

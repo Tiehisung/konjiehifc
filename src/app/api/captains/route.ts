@@ -7,12 +7,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { getErrorMessage, removeEmptyKeys } from "@/lib";
 import { QueryFilter } from "mongoose";
 import { IPlayerMini } from "@/types/player.interface";
- 
+import { auth } from "@/auth";
+import { ISession } from "@/types/user";
+import { checkAuth } from "../auth/check-auth";
+
 
 ConnectMongoDb();
 
 interface ICap {
-  player : IPlayerMini;
+  player: IPlayerMini;
   role: ICaptainProps["role"];
 }
 //Get all captains
@@ -67,7 +70,9 @@ export async function GET(request: NextRequest) {
 //Update database file metadata
 export async function POST(req: NextRequest) {
   try {
-    const { player , role }: ICap = await req.json();
+    checkAuth()
+
+    const { player, role }: ICap = await req.json();
 
     //Update current captain role
     const reignEnded = await CaptaincyModel.updateMany(

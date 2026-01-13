@@ -181,7 +181,7 @@ const sidebarLinks: ILinkItem[] = [
     icon: <Square className="w-4 h-4" />,
   },{
         title: "MoTM",
-        path: "/admin/mvps",
+        path: "/admin/matches/mvps",
         icon: <Trophy className="w-4 h-4" />,
       },
   {
