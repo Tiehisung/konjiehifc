@@ -27,9 +27,7 @@ const positionDescriptions: Record<EPlayerPosition, string> = {
         "is an intelligent and composed defender who reads the game brilliantly, sweeping up loose balls and initiating plays from deep positions.",
 };
 
-export function generatePlayerAbout(player: Partial<IPlayer>): string {
-    const { firstName, lastName, position, } = player;
-
+export function generatePlayerAbout(firstName: string, lastName: string, position?: EPlayerPosition): string {
     const baseDescription =
         positionDescriptions[position as EPlayerPosition] ||
         "is a talented and dedicated player known for versatility, hard work, and consistency on the field.";

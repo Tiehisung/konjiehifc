@@ -52,7 +52,7 @@ export default function PlayerProfileForm({
       dateSigned: player?.dateSigned || "",
       height: player?.height || 3.5,
       phone: player?.phone || "0211111111",
-      about: player?.about || "",
+      about: player?.about || "Waiting...",
       email: player?.email || "",
       dob: player?.dob?.split("T")?.[0] || "",
       avatar: player?.avatar || "",
@@ -378,7 +378,7 @@ export const playerJoiSchema = Joi.object({
   lastName: Joi.string().trim().min(2).max(30).required().messages({
     "string.empty": "Last name is required",
   }),
-  about: Joi.string().trim().min(20).max(300).required().messages({
+  about: Joi.string().trim().min(2).max(3000).required().messages({
     "string.empty": "About is required",
   }),
   position: Joi.string()

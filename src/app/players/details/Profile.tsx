@@ -10,7 +10,7 @@ import {
   PolarRadiusAxis,
   ResponsiveContainer,
 } from "recharts";
-import { IPlayer } from "@/types/player.interface";
+import { EPlayerPosition, IPlayer } from "@/types/player.interface";
 import { teamKFC } from "@/data/teams";
 import { useSearchParams } from "next/navigation";
 import { PrimarySelect } from "@/components/select/Select";
@@ -48,7 +48,7 @@ export default function PlayerProfile({
 
   const playerId = sp.get("playerId");
 
-  const player = players?.find((p) => p._id == playerId );
+  const player = players?.find((p) => p._id == playerId);
 
   const { images } = usePlayerGalleryUtils(galleries);
   const slides = images?.slice(0, 10)?.map((file) => (
@@ -126,7 +126,11 @@ export default function PlayerProfile({
           <div
             className="_p mb-5 font-semibold"
             dangerouslySetInnerHTML={{
-              __html: generatePlayerAbout(player as IPlayer),
+              __html: generatePlayerAbout(
+                player?.firstName ?? "",
+                player?.lastName ?? "",
+                player?.position
+              ),
             }}
           />
 
