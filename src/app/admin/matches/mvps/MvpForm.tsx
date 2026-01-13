@@ -11,7 +11,7 @@ import { getErrorMessage } from "@/lib";
 import { Button } from "@/components/buttons/Button";
 import { AVATAR } from "@/components/ui/avatar";
 import SELECT, { PrimarySelect } from "@/components/select/Select";
-import { Input, TextArea } from "@/components/input/Inputs";
+import {   TextArea } from "@/components/input/Inputs";
 import { EPlayerPosition, IPlayer } from "@/types/player.interface";
 import { IMatch } from "@/types/match.interface";
 import { z } from "zod";
@@ -36,7 +36,7 @@ interface IProps {
 }
 
 export function MVPForm({
-  match:defaultMatch,
+  match: defaultMatch,
   mvp: defaultMVP,
   player: defaultPlayer,
 }: IProps) {
@@ -67,7 +67,7 @@ export function MVPForm({
       : {
           player: defaultPlayer?._id,
           match: defaultMatch?._id,
-         
+
           description: "",
           positionPlayed: defaultPlayer?.position,
         },
@@ -189,8 +189,6 @@ export function MVPForm({
               )}
             />
           )}
-
-          
 
           {/* Severity */}
           <Controller

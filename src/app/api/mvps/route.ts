@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
   const query = {
     $or: [
       { "player.name": regex },
-      { "player.number": regex },
+      { "match.title": regex },
       { "description": regex },
     ],
   }
@@ -48,26 +48,30 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { match, player, description, } = await request.json() as IPostMvp;
+    const { match, player, description, positionPlayed } = await request.json() as IPostMvp;
 
+    
+    if (match?.mvp) {
+      return NextResponse.json({ message: "Match already assigned MoTM.", success: false });
+    }
     const savedMVP = await MvPModel.create({
-      match, player, description
+      match, player, description, positionPlayed
     });
 
     if (!savedMVP) {
-      return NextResponse.json({ message: "Failed to create card.", success: false });
+      return NextResponse.json({ message: "Failed to create mvp.", success: false });
     }
 
     //Update Player
     await PlayerModel.findByIdAndUpdate(player?._id, { $push: { mvps: savedMVP._id } })
 
     //Update events
-    await updateMatchEvent(match?.toString(), {
-      type: 'general',
-      minute: 90,
-      title: `${player?.name} awarded MVP `,
-      description: description as string
-    })
+    // await updateMatchEvent(match?.toString(), {
+    //   type: 'general',
+     
+    //   title: `${player?.name} awarded MVP `,
+    //   description: description as string
+    // })
 
     // log
     await logAction({
@@ -86,39 +90,4 @@ export async function POST(request: NextRequest) {
 }
 
 
-export async function DELETE(request: NextRequest) {
-  try {
-    const { matchId, playerId, } = await request.json() as { matchId: string, playerId: string, }
-
-    const deleted = await MvPModel.findByIdAndDelete(matchId,);
-
-    if (!deleted) {
-      return NextResponse.json({ message: "Failed to delete card.", success: false });
-    }
-
-    //Update Player
-    await PlayerModel.findByIdAndUpdate(playerId, { $pull: { mvps: matchId } })
-
-    //Update events
-    await updateMatchEvent(matchId, {
-      type: 'general',
-      minute: deleted?.minute,
-      title: ` MVP revoked `,
-      description: 'MVP reviewed and revoked'
-    })
-
-    // log
-    await logAction({
-      title: "MVP deleted",
-      description: `Recent MVP was revoked`,
-    });
-
-    return NextResponse.json({ message: "MVP created successfully!", success: true, data: deleted });
-
-  } catch (error) {
-    return NextResponse.json({
-      message: getErrorMessage(error),
-      success: false,
-    });
-  }
-}
+ 

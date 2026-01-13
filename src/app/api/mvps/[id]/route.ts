@@ -24,7 +24,6 @@ export async function PUT(request: NextRequest,
 
     const body = await request.json();
 
-
     const previousMvpData = await MVPModel.findById(mvpId)
 
     //disband previous player
@@ -44,16 +43,16 @@ export async function PUT(request: NextRequest,
     return NextResponse.json({ message: "Update failed", success: false });
 }
 
-export async function DELETE(req: NextRequest,
+export async function DELETE(_: NextRequest,
     { params }: { params: Promise<{ id: string }> }) {
 
-    const { playerId, matchId } = await req.json()
     const mvpId = (await params).id
 
-    await PlayerModel.findByIdAndUpdate(playerId, { $pull: { mvps: mvpId } });
-    await MatchModel.findByIdAndUpdate(matchId, { $set: { mvp: null } });
 
     const deleted = await MVPModel.findByIdAndDelete(mvpId);
+
+    await PlayerModel.findByIdAndUpdate(deleted?.player?._id, { $pull: { mvps: mvpId } });
+    await MatchModel.findByIdAndUpdate(deleted?.match?._id, { $set: { mvp: null } });
 
     if (deleted)
         return NextResponse.json({ message: "Deleted", success: true, data: deleted });
