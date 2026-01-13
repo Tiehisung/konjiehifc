@@ -392,12 +392,9 @@ export const playerJoiSchema = Joi.object({
       ).toString()}`,
       "string.empty": "Position is required",
     }),
-  number: Joi.alternatives()
-    .try(Joi.number(), Joi.string())
-    .required()
-    .messages({
-      "any.required": "Jersey number is required",
-    }),
+  number: Joi.number().positive().min(1).max(20).required().messages({
+    "any.required": "Jersey number is required",
+  }),
   dateSigned: Joi.date().iso().required().messages({
     "date.base": "Date signed must be a valid date",
   }),
