@@ -10,6 +10,7 @@ import bcrypt from "bcryptjs";
 import { EUserRole } from "@/types/user";
 import { formatDate } from "@/lib/timeAndDate";
 import { EPlayerAgeStatus, EPlayerStatus, IPostPlayer } from "@/types/player.interface";
+import { generatePlayerAbout } from "@/data/about";
 
 ConnectMongoDb();
 
@@ -90,9 +91,11 @@ export async function POST(request: NextRequest) {
         success: false
       });
 
-    const isJuvenile = getAge(pf.dob) < 15
+    const isJuvenile = getAge(pf.dob) < 10
 
-    await PlayerModel.create({ ...pf, slug, code: playerCode, email, isJuvenile });
+    const about = pf.about ?? generatePlayerAbout(pf.firstName, pf.lastName, pf.position)
+
+    await PlayerModel.create({ ...pf, slug, code: playerCode, email, isJuvenile, about });
 
 
     // Create User
@@ -107,7 +110,8 @@ export async function POST(request: NextRequest) {
         image: pf.avatar,
         lastLoginAccount: 'credentials',
         password,
-        role: EUserRole.PLAYER
+        role: EUserRole.PLAYER,
+        about
       });
     }
     return NextResponse.json({ message: "Player Added", success: true });

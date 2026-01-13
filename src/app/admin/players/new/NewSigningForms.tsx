@@ -6,7 +6,11 @@ import { apiConfig } from "@/lib/configs";
 import { useRouter } from "next/navigation";
 import { getErrorMessage } from "@/lib";
 import { Button } from "@/components/buttons/Button";
-import { DateTimeInput, IconInputWithLabel } from "@/components/input/Inputs";
+import {
+  DateTimeInput,
+  IconInputWithLabel,
+  TextArea,
+} from "@/components/input/Inputs";
 import { useForm, Controller } from "react-hook-form";
 import DiveUpwards from "@/components/Animate";
 import ImageUploaderCldWidget from "@/components/cloudinary/AvatarUploadWidget";
@@ -43,7 +47,7 @@ export default function PlayerProfileForm({
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
 
-  const { control, handleSubmit, reset } = useForm<IFormData>({
+  const { control, handleSubmit, reset, watch } = useForm<IFormData>({
     resolver: joiResolver(playerJoiSchema),
     defaultValues: {
       firstName: player?.firstName || "",
@@ -52,7 +56,7 @@ export default function PlayerProfileForm({
       dateSigned: player?.dateSigned || "",
       height: player?.height || 3.5,
       phone: player?.phone || "0211111111",
-      about: player?.about || "Waiting...",
+      about: player?.about || "",
       email: player?.email || "",
       dob: player?.dob?.split("T")?.[0] || "",
       avatar: player?.avatar || "",
@@ -255,7 +259,7 @@ export default function PlayerProfileForm({
                     control={control}
                     name="about"
                     render={({ field, fieldState }) => (
-                      <IconInputWithLabel
+                      <TextArea
                         label="About this Player"
                         {...field}
                         error={fieldState.error?.message}
@@ -378,9 +382,7 @@ export const playerJoiSchema = Joi.object({
   lastName: Joi.string().trim().min(2).max(30).required().messages({
     "string.empty": "Last name is required",
   }),
-  about: Joi.string().trim().min(2).max(3000).required().messages({
-    "string.empty": "About is required",
-  }),
+  about: Joi.string().trim().max(3000).optional().allow(""),
   position: Joi.string()
     .valid(...Object.values(EPlayerPosition))
     .required()
