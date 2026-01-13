@@ -54,6 +54,7 @@ export const DIALOG: FC<IDialog> = ({
         onOpen?.(s);
         if (escapeOnClose && !s) fireDoubleEscape(); //May be useful in closing parent modal/popovers
       }}
+      
     >
       <DialogTrigger asChild className={!trigger ? "sr-only" : ""} id={id}>
         <Button

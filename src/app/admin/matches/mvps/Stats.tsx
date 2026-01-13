@@ -67,7 +67,7 @@ export function MVPsStats({ loading, mvps }: IProps) {
         className="min-w-[80vw]"
         id={"leaderboard"}
       >
-        <div className="flex items-center ">
+        <div className="flex gap-4 p-3.5 items-center flex-wrap">
           {leaderboard.map((pl, i) => (
             <CountupMetricCard
               key={i}
@@ -85,7 +85,9 @@ export function MVPsStats({ loading, mvps }: IProps) {
               color={i < 3 ? "green" : "yellow"}
               onClick={() => {
                 toggleClick("mvps-details-modal");
+                setTargetPlayer(pl);
               }}
+              className="ring ring-border"
             />
           ))}
         </div>
@@ -94,6 +96,7 @@ export function MVPsStats({ loading, mvps }: IProps) {
           variant={"secondary"}
           trigger={undefined}
           id="mvps-details-modal"
+          triggerStyles="hidden"
           title={
             <div className="flex items-center gap-6">
               <AVATAR
@@ -106,8 +109,9 @@ export function MVPsStats({ loading, mvps }: IProps) {
               </p>
             </div>
           }
+          
         >
-          <div className="flex items-center gap-6">
+          <div className="grid items-center gap-6">
             {targetPlayer?.mvps?.map((tm, i) => (
               <MvpCard mvp={tm} key={i} />
             ))}

@@ -33,7 +33,7 @@ const MvpCard = ({ mvp, selectedPlayer }: IProps) => {
               <Badge variant="outline" className="uppercase">
               
                 <span style={{ color: ui?.color ?? "grayText" }}>
-                  {ui?.icon} {mvp.positionPlayed??'Unknown'}
+                  {ui?.icon??''} {mvp.positionPlayed??'Unknown'}
                 </span>
               </Badge>
               <span className="text-sm text-muted-foreground">
