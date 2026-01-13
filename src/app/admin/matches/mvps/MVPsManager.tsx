@@ -52,7 +52,7 @@ export function MVPsManager({ mvpsData }: IProps) {
           trigger={
             <>
               <Plus className="" size={24} /> 
-              <span className="hidden md:inline-flex">New MVP Report</span>
+              <span className="max-sm:hidden">New MVP Report</span>
             </>
           }
           variant={"secondary"}
