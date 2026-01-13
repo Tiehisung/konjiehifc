@@ -51,17 +51,17 @@ export function MVPsManager({ mvpsData }: IProps) {
         <DIALOG
           trigger={
             <>
-              <Plus className="h-4 w-4 mr-2" />
-              New MVP Report
+              <Plus className="" size={24} /> 
+              <span className="hidden md:inline-flex">New MVP Report</span>
             </>
           }
-          variant={"default"}
+          variant={"secondary"}
         >
           <MVPForm />
         </DIALOG>
       </div>
 
-      {/* <MVPsStats mvps={mvpsData} loading={!mvpsData} /> */}
+      <MVPsStats mvps={mvpsData} loading={!mvpsData} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Panel: Player List */}

@@ -22,7 +22,7 @@ interface IProps {
 }
 const MvpCard = ({ mvp, selectedPlayer }: IProps) => {
   const ui = PLAYER_POSITION_UI_MAP[mvp.positionPlayed as EPlayerPosition];
-  
+
   return (
     <Card className="overflow-hidden">
       <div className="px-4">
@@ -32,7 +32,7 @@ const MvpCard = ({ mvp, selectedPlayer }: IProps) => {
             <div className="flex items-center gap-3 mb-2">
               <Badge variant="outline" className="uppercase">
                 {mvp.positionPlayed}
-                <span style={{ color: ui.color }}>
+                <span style={{ color: ui?.color ?? "GrayText" }}>
                   {ui.icon} {mvp.positionPlayed}
                 </span>
               </Badge>
