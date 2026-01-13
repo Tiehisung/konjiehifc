@@ -1,7 +1,6 @@
 import { getErrorMessage, removeEmptyKeys } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import ManagerModel from "@/models/manager";
-import { IRecord } from "@/types";
 import { QueryFilter } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
  
@@ -54,7 +53,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { fullname, phone, email, dob, dateSigned, role, avatar } =
+    const { fullname, phone, email,   dateSigned, role, avatar } =
       await request.json();
 
     const exists = await ManagerModel.findOne({
@@ -78,7 +77,7 @@ export async function POST(request: NextRequest) {
       fullname,
       phone,
       email,
-      dob,
+      // dob,
       dateSigned,
       role,
       avatar,

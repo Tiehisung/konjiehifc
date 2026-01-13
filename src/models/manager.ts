@@ -18,7 +18,7 @@ const managerSchema = new Schema(
       message: "Email required",
       match: [/\S+@\S+\.\S+/, "Email must be valid"],
     },
-    dob: { type: String, required: true },
+    // dob: { type: String, required: true },
     dateSigned: {
       type: String,
       required: true,

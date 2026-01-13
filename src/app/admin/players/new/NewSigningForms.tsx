@@ -67,7 +67,7 @@ export default function PlayerProfileForm({
             fullname: "",
             phone: "0211111111",
             email: "",
-            dob: "",
+            // dob: "",
           },
     },
   });
@@ -369,10 +369,10 @@ export const playerManagerJoiSchema = Joi.object({
   email: Joi.string().email({ tlds: false }).optional().allow("").messages({
     "string.email": "Manager email must be valid",
   }),
-  dob: Joi.date().iso().less("now").required().messages({
-    "date.base": "Manager date of birth must be valid",
-    "any.required": "Manager DOB is required",
-  }),
+  // dob: Joi.date().iso().less("now").required().messages({
+  //   "date.base": "Manager date of birth must be valid",
+  //   "any.required": "Manager DOB is required",
+  // }),
 });
 
 export const playerJoiSchema = Joi.object({

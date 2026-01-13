@@ -137,7 +137,7 @@ export default function TechnicalManagerForm({
             className=" px-2 w-52 sm:w-60 rounded font-semibold"
           />
 
-          <DateTimeInput
+          {/* <DateTimeInput
             label="Date of birth"
             type="date"
             onChange={OnchangeManager}
@@ -145,7 +145,7 @@ export default function TechnicalManagerForm({
             required
             value={formData?.dob}
             className=" px-2 w-52 sm:w-60 rounded font-semibold"
-          />
+          /> */}
 
           <DateTimeInput
             label="Date Signed"
