@@ -5,6 +5,9 @@ import { AVATAR } from "@/components/ui/avatar";
 import { IQueryResponse } from "@/types";
 import { IMvp } from "@/types/mvp.interface";
 import { AlertCircle } from "lucide-react";
+import { computeMVPs } from ".";
+import { Button } from "@/components/buttons/Button";
+import { DIALOG } from "@/components/Dialog";
 
 interface IProps {
   mvps?: IQueryResponse<IMvp[]> | null;
@@ -13,45 +16,22 @@ interface IProps {
 export function MVPsStats({ loading, mvps }: IProps) {
   // Get mvps statistics
 
-  const computeMVPs = () => {
-    const store: Record<string, IMvp[]> = {};
-
-    mvps?.data?.forEach((mvp) => {
-      if (!store[mvp.player._id]) {
-        store[mvp.player._id] = [];
-      }
-      store[mvp.player._id].push(mvp);
-    });
-
-    const sortedMvps = Object.values(store).sort((a, b) => a.length - b.length);
-
-    console.log({ sortedMvps, mvps });
-
-    return {
-      total: mvps?.data?.length ?? 0,
-      sortedMvps,
-      // first: { total: sortedMvps[0].length, player: sortedMvps[0][0].player },
-      // second: { total: sortedMvps[1].length, player: sortedMvps[1][0].player },
-      // third: { total: sortedMvps[2].length, player: sortedMvps[2][0].player },
-      stats: sortedMvps.map((m) => ({ player: m[0].player, total: m.length })),
-    };
-  };
-  const data = computeMVPs();
-
-  console.log(data);
+  const { total, leaderboard, playersWithMost, playersWithLeast } = computeMVPs(
+    mvps?.data ?? []
+  );
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
       <CountupMetricCard
         icon={<AlertCircle className="h-6 w-6" />}
-        value={data.total}
+        value={total}
         isLoading={loading}
         isCountUp
         description="Total MVPs"
         color="gray"
       />
 
-      {data.stats.map((dt, i) => (
+      {leaderboard?.slice(0, 2)?.map((dt, i) => (
         <CountupMetricCard
           key={i}
           icon={
@@ -68,6 +48,33 @@ export function MVPsStats({ loading, mvps }: IProps) {
           color="yellow"
         />
       ))}
+
+      <DIALOG
+        trigger={"LEADERBOARD"}
+        variant={"outline"}
+        triggerStyles="h-32"
+
+      >
+        <div>
+          {leaderboard.map((pl,i) => (
+            <CountupMetricCard
+              key={i}
+              icon={
+                <AVATAR
+                  src={pl.player?.avatar as string}
+                  fallbackText={pl.player.name}
+                  className="h-9 w-9"
+                />
+              }
+              value={pl?.total}
+              isLoading={loading}
+              isCountUp
+              description={pl.player.name}
+              color="yellow"
+            />
+          ))}
+        </div>
+      </DIALOG>
     </div>
   );
 }

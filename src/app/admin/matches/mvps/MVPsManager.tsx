@@ -92,7 +92,7 @@ export function MVPsManager({ mvpsData }: IProps) {
 
                 <SELECT
                   options={enumToOptions(EPlayerPosition)}
-                  placeholder="type"
+                  placeholder="Player Position"
                   value={typeFilter}
                   onChange={(v) => setTypeFilter(v)}
                 />

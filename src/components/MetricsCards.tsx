@@ -5,6 +5,8 @@ import Loader from "./loaders/Loader";
 import CountUp from "react-countup";
 import { TColor } from "@/types/color";
 import { cn } from "@/lib/utils";
+import { MoreVertical } from "lucide-react";
+import { Button } from "./ui/button";
 
 interface IProps {
   title?: string;
@@ -12,13 +14,21 @@ interface IProps {
   value?: string | number;
   color?: TColor;
   isLoading?: boolean;
+  onClick?: () => void;
 }
 
-export function MetricCard({ title, icon, value, color, isLoading }: IProps) {
+export function MetricCard({
+  title,
+  icon,
+  value,
+  color,
+  isLoading,
+  onClick,
+}: IProps) {
   const txtCl = `text-${color}-500`;
   const cl = `${txtCl} bg-${color}-50`;
   return (
-    <div className="bg-card rounded-xl shadow-card p-6">
+    <div className="bg-card rounded-xl shadow-card p-6" onClick={onClick}>
       <div className="flex items-center justify-between">
         <div className="grow">
           <p className="text-sm text-muted-foreground grow">
@@ -52,6 +62,7 @@ interface ICountupProps {
   isLoading?: boolean;
   color?: TColor;
   className?: string;
+  onClick?: () => void;
 }
 export function CountupMetricCard({
   icon,
@@ -63,13 +74,14 @@ export function CountupMetricCard({
   isLoading,
   color,
   className,
+  onClick,
 }: ICountupProps) {
   const txtCl = `text-${color}-500`;
   const _color = `${txtCl} bg-${color}-50`;
   return (
     <div
       className={cn(
-        "text-center p-4 rounded-2xl bg-card backdrop-blur-sm border border-white/10 hover:border-white/20 transition-colors",
+        "relative text-center p-4 rounded-2xl bg-card backdrop-blur-sm border border-white/10 hover:border-white/20 transition-colors",
         className
       )}
     >
@@ -102,6 +114,16 @@ export function CountupMetricCard({
           description
         )}
       </div>
+      {typeof onClick !== "undefined" && (
+        <Button
+          onClick={onClick}
+          className="absolute right-2 top-2"
+          size="icon"
+          variant="ghost"
+        >
+          <MoreVertical />
+        </Button>
+      )}
     </div>
   );
 }
