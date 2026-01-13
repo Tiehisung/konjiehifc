@@ -14,12 +14,13 @@ const matchSchema = new Schema(
     },
     goals: [{ type: Schema.Types.ObjectId, ref: "goals" }],
     squad: { type: Schema.Types.ObjectId, ref: "squad" },
-   
+
     sponsor: [{ type: Schema.Types.ObjectId, ref: "sponsors" }],
     broadcaster: {},
     venue: { name: { type: String, default: () => 'Home Park' }, files: [{}] },
     isHome: Boolean,
     events: [{ description: String, title: String, minute: String, modeOfScore: String }],
+    mvp: {} //iplayer preferred
   },
   { timestamps: true }
 );

@@ -8,7 +8,7 @@ import { IMvp } from "@/types/mvp.interface";
 
 export const getMVPs = async (queryString?: string) => {
   try {
-    const url = `${apiConfig.base}/mvps${queryString || ""}`;
+    const url = `${apiConfig.mvps}${queryString || ""}`;
 
     const response = await fetch(url, {
       cache: "no-store",
@@ -28,6 +28,8 @@ export default async function MVPsPage({ searchParams }: IPageProps) {
   const qs = buildQueryStringServer(await searchParams);
 
   const mvps: IQueryResponse<IMvp[]> = await getMVPs(qs);
+
+  console.log(mvps)
 
   return (
     <div>

@@ -131,3 +131,65 @@ export interface IPostPlayer {
     slug: string
 }
 
+ 
+export type PlayerPositionUI = {
+    icon: string;
+    color: EColor;
+};
+
+export const PLAYER_POSITION_UI_MAP: Record<EPlayerPosition, PlayerPositionUI> = {
+    [EPlayerPosition.KEEPER]: {
+        icon: "🧤",
+        color: EColor.PURPLE,
+    },
+
+    [EPlayerPosition.DEFENDER]: {
+        icon: "🛡️",
+        color: EColor.BLUE,
+    },
+
+    [EPlayerPosition.CENTER_BACK]: {
+        icon: "🧱",
+        color: EColor.INGIGO,
+    },
+
+    [EPlayerPosition.WING_BACK]: {
+        icon: "🏃‍♂️",
+        color: EColor.TEAL,
+    },
+
+    [EPlayerPosition.SWEEPER]: {
+        icon: "🧹",
+        color: EColor.GRAY,
+    },
+
+    [EPlayerPosition.DEFENSIVE_MIDFIELDER]: {
+        icon: "⚙️",
+        color: EColor.GREEN,
+    },
+
+    [EPlayerPosition.MIDFILDER]: {
+        icon: "🎯",
+        color: EColor.GREEN,
+    },
+
+    [EPlayerPosition.ATTACKING_MIDFIELDER]: {
+        icon: "🎨",
+        color: EColor.YELLOW,
+    },
+
+    [EPlayerPosition.WINGER]: {
+        icon: "⚡",
+        color: EColor.ORANGE,
+    },
+
+    [EPlayerPosition.FORWARD]: {
+        icon: "🚀",
+        color: EColor.RED,
+    },
+
+    [EPlayerPosition.STRIKER]: {
+        icon: "🥅",
+        color: EColor.AMBER,
+    },
+};
