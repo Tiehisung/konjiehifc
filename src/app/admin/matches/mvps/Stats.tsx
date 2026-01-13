@@ -8,6 +8,10 @@ import { AlertCircle } from "lucide-react";
 import { computeMVPs } from ".";
 import { Button } from "@/components/buttons/Button";
 import { DIALOG } from "@/components/Dialog";
+import { StackModal } from "@/components/modals/StackModal";
+import { useState } from "react";
+import MvpCard from "./MvpCard";
+import { toggleClick } from "@/lib/DOM";
 
 interface IProps {
   mvps?: IQueryResponse<IMvp[]> | null;
@@ -20,10 +24,16 @@ export function MVPsStats({ loading, mvps }: IProps) {
     mvps?.data ?? []
   );
 
+  const [targetPlayer, setTargetPlayer] = useState<{
+    player: IMvp["player"];
+    total: number;
+    mvps: IMvp[];
+  } | null>(null);
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 items-center justify-center">
       <CountupMetricCard
-        icon={<AlertCircle className="h-6 w-6" />}
+        icon={<AlertCircle className="h-9 w-9" />}
         value={total}
         isLoading={loading}
         isCountUp
@@ -49,14 +59,16 @@ export function MVPsStats({ loading, mvps }: IProps) {
         />
       ))}
 
-      <DIALOG
+      <StackModal
         trigger={"LEADERBOARD"}
         variant={"outline"}
         triggerStyles="h-32"
-
+        header="MoTM Rankings"
+        className="min-w-[80vw]"
+        id={"leaderboard"}
       >
-        <div>
-          {leaderboard.map((pl,i) => (
+        <div className="flex items-center ">
+          {leaderboard.map((pl, i) => (
             <CountupMetricCard
               key={i}
               icon={
@@ -70,11 +82,38 @@ export function MVPsStats({ loading, mvps }: IProps) {
               isLoading={loading}
               isCountUp
               description={pl.player.name}
-              color="yellow"
+              color={i < 3 ? "green" : "yellow"}
+              onClick={() => {
+                toggleClick("mvps-details-modal");
+              }}
             />
           ))}
         </div>
-      </DIALOG>
+
+        <DIALOG
+          variant={"secondary"}
+          trigger={undefined}
+          id="mvps-details-modal"
+          title={
+            <div className="flex items-center gap-6">
+              <AVATAR
+                alt="mvp player"
+                src={targetPlayer?.player?.avatar as string}
+                fallbackText="IP"
+              />
+              <p className="text-xl font-semibold">
+                {targetPlayer?.player?.name}
+              </p>
+            </div>
+          }
+        >
+          <div className="flex items-center gap-6">
+            {targetPlayer?.mvps?.map((tm, i) => (
+              <MvpCard mvp={tm} key={i} />
+            ))}
+          </div>
+        </DIALOG>
+      </StackModal>
     </div>
   );
 }
