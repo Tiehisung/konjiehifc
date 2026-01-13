@@ -1,4 +1,4 @@
-import { IManager } from "@/app/admin/managers/page";
+
 import { IMatchCard } from "@/app/matches/(fixturesAndResults)";
 import { IFileProps, IGallery } from "@/types/file.interface";
 import { EColor } from "./color";
@@ -59,7 +59,12 @@ export interface IPlayer {
 
     ageStatus: EPlayerAgeStatus
 
-    manager: IManager;
+    manager: IPlayerManager;
+}
+export interface IPlayerManager {
+    fullname: string;
+    avatar?: string;
+    phone: string;
 }
 
 export enum EPlayerAgeStatus {
@@ -101,37 +106,8 @@ export enum EPlayerPosition {
     SWEEPER = 'sweeper'
 }
 
-export interface IPostPlayer {
-    number: number | string;
-    about?: string;
-    description?: string;
-    training: { team: string };
-    medicals: { fitness: string }[];
-    galleries: string[];
-    captaincy: string;
-    firstName: string;
-    lastName: string;
-    dateSigned: string;
-    phone: string;
-    email: string;
-    dob: string;
-    height: string;
-    avatar: IFileProps;
-    jersey: string | number;
-    manager: string;
-    position: EPlayerPosition;
-    favColor?: EColor
-    goals: string[];
-    matches: string[];
-    assists: string[];
-    mvp: string[];
-    passAcc: string;
-    trophies: number;
-    cards: string[];
-    slug: string
-}
 
- 
+
 export type PlayerPositionUI = {
     icon: string;
     color: EColor;
@@ -193,3 +169,32 @@ export const PLAYER_POSITION_UI_MAP: Record<EPlayerPosition, PlayerPositionUI> =
         color: EColor.AMBER,
     },
 };
+export interface IPostPlayer {
+    number: number | string;
+    about?: string;
+    description?: string;
+    training: { team: string };
+    medicals: { fitness: string }[];
+    galleries: string[];
+    captaincy: string;
+    firstName: string;
+    lastName: string;
+    dateSigned: string;
+    phone: string;
+    email: string;
+    dob: string;
+    height: string;
+    avatar: IFileProps;
+    jersey: string | number;
+    manager: string;
+    position: EPlayerPosition;
+    favColor?: EColor
+    goals: string[];
+    matches: string[];
+    assists: string[];
+    mvp: string[];
+    passAcc: string;
+    trophies: number;
+    cards: string[];
+    slug: string
+}

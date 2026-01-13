@@ -36,7 +36,10 @@ interface IFormData {
   dob: string;
   avatar: string;
   position: EPlayerPosition;
-  manager: IManager;
+  manager: {
+    fullname: string;
+    phone: string;
+  };
 }
 
 export default function PlayerProfileForm({
@@ -62,11 +65,11 @@ export default function PlayerProfileForm({
       avatar: player?.avatar || "",
       position: player?.position,
       manager: player?.manager
-        ? { ...player?.manager, dob: player?.manager?.dob?.split("T")?.[0] }
+        ? { ...player?.manager }
         : {
             fullname: "",
             phone: "0211111111",
-            email: "",
+
             // dob: "",
           },
     },
@@ -306,31 +309,6 @@ export default function PlayerProfileForm({
                       <IconInputWithLabel
                         label="Phone"
                         type="tel"
-                        {...field}
-                        error={fieldState.error?.message}
-                      />
-                    )}
-                  />
-
-                  <Controller
-                    control={control}
-                    name="manager.email"
-                    render={({ field, fieldState }) => (
-                      <IconInputWithLabel
-                        label="Email"
-                        {...field}
-                        error={fieldState.error?.message}
-                      />
-                    )}
-                  />
-
-                  <Controller
-                    control={control}
-                    name="manager.dob"
-                    render={({ field, fieldState }) => (
-                      <DateTimeInput
-                        type="date"
-                        label="Date of Birth"
                         {...field}
                         error={fieldState.error?.message}
                       />
