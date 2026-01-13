@@ -10,17 +10,13 @@ export const mvpSchema = new Schema(
       },
       name: String,
       avatar: String,
-      number: String
+      number: Number
     },
-    match: {
-      type: Schema.Types.ObjectId,
-      ref: "matches",
-      required: true
-    },
-
+    match: {},
     description: String,
+    positionPlayed: String,
   },
-  
+
   { timestamps: true }
 );
 

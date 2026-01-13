@@ -61,7 +61,7 @@ export function MVPsManager({ mvpsData }: IProps) {
         </DIALOG>
       </div>
 
-      <MVPsStats mvps={mvpsData} loading={!mvpsData} />
+      {/* <MVPsStats mvps={mvpsData} loading={!mvpsData} /> */}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Panel: Player List */}

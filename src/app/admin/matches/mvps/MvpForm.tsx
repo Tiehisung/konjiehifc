@@ -22,7 +22,6 @@ import { enumToOptions } from "@/lib/select";
 
 const mvpSchema = z.object({
   player: z.string().min(1, "Player is required"),
-  minute: z.string().optional(),
   description: z.string().optional(),
   positionPlayed: z.enum(EPlayerPosition),
   match: z.string().optional(),
@@ -68,7 +67,7 @@ export function MVPForm({
       : {
           player: defaultPlayer?._id,
           match: defaultMatch?._id,
-          minute: "",
+         
           description: "",
           positionPlayed: defaultPlayer?.position,
         },
@@ -93,7 +92,7 @@ export function MVPForm({
           avatar: player.avatar,
           number: player.number,
         },
-        description: `🤕 ${data.description}`,
+        description: `${data.description}`,
         positionPlayed: data.positionPlayed,
 
         match: _match,
@@ -191,22 +190,7 @@ export function MVPForm({
             />
           )}
 
-          {/* Minute */}
-
-          <Controller
-            control={control}
-            name="minute"
-            render={({ field, fieldState }) => (
-              <Input
-                {...field}
-                type="number"
-                label="Minute"
-                placeholder="e.g. 25"
-                others={{ min: 0, max: 120 }}
-                error={fieldState?.error?.message}
-              />
-            )}
-          />
+          
 
           {/* Severity */}
           <Controller

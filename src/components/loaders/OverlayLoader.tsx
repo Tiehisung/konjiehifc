@@ -18,7 +18,7 @@ export function OverlayLoader({
     <div
       onClick={(e) => e.stopPropagation()}
       className={`absolute inset-0 z-10 flex items-center justify-center p-4 pointer-events-none ${
-        isLoading ? "bg-muted/20 backdrop-blur-xs" : ""
+        isLoading ? "bg-muted/20 backdrop-blur-[1px]" : ""
       } ${className}`}
     >
       <VscLoading className={`animate-spin  ${iconClassName}`} />

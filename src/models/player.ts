@@ -65,7 +65,7 @@ const playerSchema = new Schema(
     assists: [{ type: Schema.Types.ObjectId, ref: "goals", default: [] }],
     ratings: [{ match: { type: Schema.Types.ObjectId, ref: "matches" }, rating: Number, default: [] }],
     matches: [{ type: Schema.Types.ObjectId, ref: "matches", default: [] }],
-    mvp: [{ type: Schema.Types.ObjectId, ref: "mvps", default: [] }],
+    mvps: [{ type: Schema.Types.ObjectId, ref: "mvps", default: [] }],
 
     issues: [{ type: String, default: () => [] }],
     isCurrentPlayer: { type: Schema.Types.Boolean, default: () => true },
