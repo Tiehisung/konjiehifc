@@ -24,7 +24,7 @@ export async function proxy(request: NextRequest) {
     // If no session, redirect to login
     if (!session?.user) {
         return NextResponse.redirect(
-            new URL(`/auth/login?callbackUrl=${encodeURIComponent(pathname)}`, request.url)
+            new URL(`/auth/signin?callbackUrl=${encodeURIComponent(pathname)}`, request.url)
         );
     }
 
