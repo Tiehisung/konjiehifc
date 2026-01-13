@@ -49,12 +49,6 @@ const playerSchema = new Schema(
     manager: {
       fullname: String,
       phone: String,
-      // dob: String,
-      email: {
-        type: String,
-        trim: true,
-        lowercase: true,
-      },
     },
     performance: { type: Schema.Types.Array, default: () => [] },
 
