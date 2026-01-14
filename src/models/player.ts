@@ -60,7 +60,7 @@ const playerSchema = new Schema(
     matches: [{ type: Schema.Types.ObjectId, ref: "matches", default: [] }],
     mvps: [{ type: Schema.Types.ObjectId, ref: "mvps", default: [] }],
 
-    issues: { type: [{ title: String, description: String }], default: () => [] },
+    issues: { type: [{ title: String, description: String, date: { type: String, default: () => new Date().toISOString() }}], default: () => [] },
     ageStatus: { type: String, enum: Object.values(EPlayerAgeStatus), default: () => EPlayerAgeStatus.YOUTH },
     status: { type: String, enum: Object.values(EPlayerStatus), default: () => EPlayerStatus.CURRENT },
     availability: { type: String, default: () => EPlayerAvailability.AVAILABLE, enum: Object.values(EPlayerAvailability) },

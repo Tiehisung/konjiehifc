@@ -53,7 +53,9 @@ export interface IPlayer {
     injuries: IInjury[]
 
     // Status
-    issues: { title: string, description: string }[];
+    issues: {
+        date: string; title: string, description: string
+    }[];
 
     status: 'current' | 'former'
 
