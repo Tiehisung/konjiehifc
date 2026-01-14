@@ -110,7 +110,7 @@ export default function MasonryGallery({
 
                 {typeof action !== "undefined" && (
                   <div onClick={(e) => e.stopPropagation()}>
-                    <POPOVER triggerClassNames="absolute right-1 top-1.5 ">
+                    <POPOVER triggerClassNames="absolute right-1 top-1.5 rounded-full" variant={'ghost'} size={'icon'} >
                       {action(file)}
                     </POPOVER>
                   </div>
