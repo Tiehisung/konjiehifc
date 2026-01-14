@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
     const existingUser = await UserModel.findOne({ email: pf.email });
 
     if (!existingUser) {
-      const password = await bcrypt.hash(pf.firstName.toLowerCase(), 10);
+      const password = await bcrypt.hash('kfc', 10);
 
       await UserModel.create({
         email,

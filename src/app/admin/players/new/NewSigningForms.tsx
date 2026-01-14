@@ -335,10 +335,7 @@ export const playerManagerJoiSchema = Joi.object({
   email: Joi.string().email({ tlds: false }).optional().allow("").messages({
     "string.email": "Manager email must be valid",
   }),
-  // dob: Joi.date().iso().less("now").required().messages({
-  //   "date.base": "Manager date of birth must be valid",
-  //   "any.required": "Manager DOB is required",
-  // }),
+ 
 });
 
 export const playerJoiSchema = Joi.object({
@@ -358,7 +355,7 @@ export const playerJoiSchema = Joi.object({
       ).toString()}`,
       "string.empty": "Position is required",
     }),
-  number: Joi.number().positive().min(1).max(20).required().messages({
+  number: Joi.number().positive().min(1).max(30).required().messages({
     "any.required": "Jersey number is required",
   }),
   dateSigned: Joi.date().iso().required().messages({

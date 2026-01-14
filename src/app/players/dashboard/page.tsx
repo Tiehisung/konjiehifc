@@ -83,6 +83,8 @@ export default async function PlayerPage({}: IPageProps) {
     `?tags=${[player?._id].filter(Boolean).join(",")}&limit=3`
   );
 
+  console.log(player)
+
   return (
     <div className="min-h-screen bg-accent p-4 md:p-8 pt-20 md:pt-20 ">
       <div className="max-w-7xl mx-auto">

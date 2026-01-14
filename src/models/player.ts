@@ -65,7 +65,7 @@ const playerSchema = new Schema(
     status: { type: String, enum: Object.values(EPlayerStatus), default: () => EPlayerStatus.CURRENT },
     availability: { type: String, default: () => EPlayerAvailability.AVAILABLE, enum: Object.values(EPlayerAvailability) },
 
-    number: { type: String, required: true, },
+    number: { type: String,  },
     position: {
       type: String,
     },

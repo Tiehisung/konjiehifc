@@ -114,7 +114,7 @@ export default function UserForm({ user }: { user?: IUser }) {
             {...field}
             className="border p-2 w-full "
             triggerStyles="grow w-full py-2"
-            label={<p className="text-muted-foreground">Role</p>}
+            label={<p className="text-muted-foreground">Role</p>} 
             error={fieldState.error?.message}
           />
         )}
@@ -130,11 +130,17 @@ export default function UserForm({ user }: { user?: IUser }) {
     </form>
   );
 }
-
 export const createUserSchema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.email("Invalid email"),
-  password: z.string().min(6, "Minimum 6 characters"),
+  password: z
+    .string()
+    .min(6, "Minimum 6 characters")
+    .optional()
+    .refine(
+      (val) => !val || val.length >= 6, // Only validate if there's a value
+      { message: "Password must be at least 6 characters" }
+    ),
   role: z.enum(Object.values(EUserRole)),
 });
 
