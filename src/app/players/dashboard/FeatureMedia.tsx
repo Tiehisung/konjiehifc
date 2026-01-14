@@ -48,7 +48,7 @@ export function PlayerFeatureMedia({ player }: { player?: IPlayer }) {
           files={player?.featureMedia ?? []}
           useSize
           action={(f) => (
-            <div>
+            <div className='space-y-1.5'>
               <ActionButton
                 method={"PUT"}
                 primaryText="Set as Wallpaper"
@@ -57,6 +57,22 @@ export function PlayerFeatureMedia({ player }: { player?: IPlayer }) {
                 body={{
                   featureMedia: [
                     f,
+                    ...(player?.featureMedia?.filter(
+                      (m) => m.public_id !== f.public_id
+                    ) ?? []),
+                  ],
+                }}
+                variant="secondary"
+                className="w-full _hover"
+              />
+              <ActionButton
+                method={"PUT"}
+                primaryText="Delete"
+                loadingText="Wait..."
+                uri={`${apiConfig.players}/${player?._id}`}
+                body={{
+                  featureMedia: [
+                    
                     ...(player?.featureMedia?.filter(
                       (m) => m.public_id !== f.public_id
                     ) ?? []),
