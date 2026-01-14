@@ -135,11 +135,11 @@ export const createUserSchema = z.object({
   email: z.email("Invalid email"),
   password: z
     .string()
-    .min(6, "Minimum 6 characters")
+    .min(4, "Minimum 4 characters")
     .optional()
     .refine(
-      (val) => !val || val.length >= 6, // Only validate if there's a value
-      { message: "Password must be at least 6 characters" }
+      (val) => !val || val.length >= 4, // Only validate if there's a value
+      { message: "Password must be at least 4 characters" }
     ),
   role: z.enum(Object.values(EUserRole)),
 });
