@@ -2,18 +2,20 @@
 
 import { IFileProps } from "@/types/file.interface";
 import Image from "next/image";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import LightboxViewer from "../viewer/LightBox";
 import { getVideoThumbnail } from "@/lib/file";
 import IMAGE from "../Image";
 import { cn } from "@/lib/utils";
+import { POPOVER } from "../ui/popover";
 
 interface MasonryGalleryProps {
-  files: IFileProps[];
+  files: Array<IFileProps>;
   useSize?: boolean;
   enableLightboxViewer?: boolean;
   wrapperStyles?: string;
   className?: string;
+  action?: (file: IFileProps) => ReactNode;
 }
 
 export default function MasonryGallery({
@@ -22,6 +24,7 @@ export default function MasonryGallery({
   enableLightboxViewer = true,
   wrapperStyles,
   className,
+  action,
 }: MasonryGalleryProps) {
   const [hoveredId, setHoveredId] = useState<string | undefined>(undefined);
   //For Lightbox
@@ -103,6 +106,12 @@ export default function MasonryGallery({
                       {file?.description}
                     </p>
                   </div>
+                )}
+
+                {typeof action !== "undefined" && (
+                  <POPOVER triggerClassNames="absolute right-1 top-1.5 ring">
+                    {action(file)}
+                  </POPOVER>
                 )}
               </div>
             </div>

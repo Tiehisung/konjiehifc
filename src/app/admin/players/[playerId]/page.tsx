@@ -39,7 +39,7 @@ export default async function PlayerProfilePage({
   const fullname = `${player?.lastName} ${player?.firstName}`;
 
   return (
-    <main className="relative bg-cover py-8 ">
+    <main className="relative bg-cover py-8 _page">
       {/* Cover image  */}
 
       <div
