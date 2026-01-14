@@ -16,13 +16,13 @@ export function PlayerFeatureMedia({ player }: { player?: IPlayer }) {
   return (
     <div className="p-6 grow min-h-44 my-10 w-full ">
       <h3 className="text-lg font-semibold mb-4"> Featured Media</h3>
-      <div className="flex flex-col gap-6 mb-6 ">
+      <div className="flex flex-col items-center justify-center  gap-6 my-6 border-t pt-3">
         <CloudinaryUploader
           triggerId="feature-image"
           setUploadedFiles={(fs) => setUploadedFile(fs?.[0])}
           maxFiles={1}
           multiple={false}
-          trigger={<span className="_secondaryBtn">Add Feature Media</span>}
+          trigger={<span className="_secondaryBtn ring">Add Feature Media</span>}
           clearTrigger={player?.featureMedia?.length as number}
         />
 
