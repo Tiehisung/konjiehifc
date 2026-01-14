@@ -7,13 +7,15 @@ import { useState } from "react";
 import { ActionButton } from "@/components/buttons/ActionButton";
 import { apiConfig } from "@/lib/configs";
 import { ICldFileUploadResult } from "@/types/file.interface";
+import { Button } from "@/components/buttons/Button";
 
 export function PlayerFeatureMedia({ player }: { player?: IPlayer }) {
   const [uploadedFile, setUploadedFile] = useState<ICldFileUploadResult | null>(
     null
   );
   return (
-    <div className="p-6 grow min-h-44 my-10 w-full ring">
+    <div className="p-6 grow min-h-44 my-10 w-full ">
+      <h3 className="text-lg font-semibold mb-4"> Featured Media</h3>
       <div className="flex flex-col gap-6 mb-6 ">
         <CloudinaryUploader
           triggerId="feature-image"
@@ -42,7 +44,30 @@ export function PlayerFeatureMedia({ player }: { player?: IPlayer }) {
       </div>
 
       {player?.featureMedia?.length && (
-        <MasonryGallery files={player?.featureMedia ?? []} useSize />
+        <MasonryGallery
+          files={player?.featureMedia ?? []}
+          useSize
+          action={(f) => (
+            <div>
+              <ActionButton
+                method={"PUT"}
+                primaryText="Set as Wallpaper"
+                loadingText="Finalizing..."
+                uri={`${apiConfig.players}/${player?._id}`}
+                body={{
+                  featureMedia: [
+                    f,
+                    ...(player?.featureMedia?.filter(
+                      (m) => m.public_id !== f.public_id
+                    ) ?? []),
+                  ],
+                }}
+                variant="secondary"
+                className="w-full _hover"
+              />
+            </div>
+          )}
+        />
       )}
     </div>
   );

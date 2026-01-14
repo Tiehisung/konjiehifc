@@ -62,7 +62,16 @@ export default function UpdatePlayerIssuesAndFitness({
 
   const accordionData: IAccordionProps["data"] = player?.issues?.map(
     (issue, i) => ({
-      content: <div className="ml-2 border-l pl-0.5">{issue?.description} {issue?.date&&getTimeAgo(issue.date)}</div>,
+      content: (
+        <div className="ml-2 border-l pl-0.5">
+          {issue?.description}{" "}
+          {issue?.date && (
+            <span className="text-muted-foreground text-xs ml-auto">
+              {getTimeAgo(issue.date)}{" "}
+            </span>
+          )}
+        </div>
+      ),
       trigger: <p className=" line-clamp-1 pl-1 max-w-full">{issue?.title}</p>,
       value: issue?.title + i,
     })
