@@ -1,6 +1,5 @@
 
 import mongoose from "mongoose";
-import { Schema } from "mongoose";
 
 export const highlightSchema = new mongoose.Schema(
   {

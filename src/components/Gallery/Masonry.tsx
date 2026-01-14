@@ -110,7 +110,11 @@ export default function MasonryGallery({
 
                 {typeof action !== "undefined" && (
                   <div onClick={(e) => e.stopPropagation()}>
-                    <POPOVER triggerClassNames="absolute right-1 top-1.5 rounded-full" variant={'ghost'} size={'icon'} >
+                    <POPOVER
+                      triggerClassNames="absolute right-1 top-1.5 rounded-full  "
+                      variant={"secondary"}
+                      size={"icon"}
+                    >
                       {action(file)}
                     </POPOVER>
                   </div>
@@ -159,6 +163,17 @@ export default function MasonryGallery({
                 <p className="mt-1 text-sm text-gray-200 line-clamp-1">
                   {file?.description}
                 </p>
+              </div>
+            )}
+            {typeof action !== "undefined" && (
+              <div onClick={(e) => e.stopPropagation()}>
+                <POPOVER
+                  triggerClassNames="absolute right-1 top-1.5 rounded-full bg-muted"
+                  variant={"ghost"}
+                  size={"icon"}
+                >
+                  {action(file)}
+                </POPOVER>
               </div>
             )}
           </div>

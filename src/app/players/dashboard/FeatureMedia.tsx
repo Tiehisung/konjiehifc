@@ -16,13 +16,13 @@ export function PlayerFeatureMedia({ player }: { player?: IPlayer }) {
   return (
     <div className="p-6 grow min-h-44 my-10 w-full ">
       <h3 className="text-lg font-semibold mb-4"> Featured Media</h3>
-      <div className="flex flex-col gap-6 mb-6 ">
+      <div className="flex flex-col items-center justify-center  gap-6 my-6 border-t pt-3">
         <CloudinaryUploader
           triggerId="feature-image"
           setUploadedFiles={(fs) => setUploadedFile(fs?.[0])}
           maxFiles={1}
           multiple={false}
-          trigger={<span className="_secondaryBtn">Add Feature Media</span>}
+          trigger={<span className="_secondaryBtn ring">Add Feature Media</span>}
           clearTrigger={player?.featureMedia?.length as number}
         />
 
@@ -48,7 +48,7 @@ export function PlayerFeatureMedia({ player }: { player?: IPlayer }) {
           files={player?.featureMedia ?? []}
           useSize
           action={(f) => (
-            <div>
+            <div className='space-y-1.5'>
               <ActionButton
                 method={"PUT"}
                 primaryText="Set as Wallpaper"
@@ -57,6 +57,22 @@ export function PlayerFeatureMedia({ player }: { player?: IPlayer }) {
                 body={{
                   featureMedia: [
                     f,
+                    ...(player?.featureMedia?.filter(
+                      (m) => m.public_id !== f.public_id
+                    ) ?? []),
+                  ],
+                }}
+                variant="secondary"
+                className="w-full _hover"
+              />
+              <ActionButton
+                method={"PUT"}
+                primaryText="Delete"
+                loadingText="Wait..."
+                uri={`${apiConfig.players}/${player?._id}`}
+                body={{
+                  featureMedia: [
+                    
                     ...(player?.featureMedia?.filter(
                       (m) => m.public_id !== f.public_id
                     ) ?? []),
