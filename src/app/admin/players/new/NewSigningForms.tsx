@@ -49,13 +49,13 @@ export default function PlayerProfileForm({
   const router = useRouter();
   const [waiting, setWaiting] = useState(false);
 
-  const { control, handleSubmit, reset, watch } = useForm<IFormData>({
-    resolver: joiResolver(playerJoiSchema),
+  const { control, handleSubmit, reset } = useForm<IFormData>({
+    resolver: joiResolver(playerJoiSchema, { allowUnknown: true }),
     defaultValues: {
       firstName: player?.firstName || "",
       lastName: player?.lastName || "",
       number: player?.number || "",
-      dateSigned: player?.dateSigned || "",
+      dateSigned: player?.dateSigned?.split("T")?.[0] || "",
       height: player?.height || 3.5,
       phone: player?.phone || "0211111111",
       about: player?.about || "",
@@ -71,6 +71,8 @@ export default function PlayerProfileForm({
           },
     },
   });
+
+
 
   const onSubmit = async (data: IFormData) => {
     try {
@@ -244,6 +246,7 @@ export default function PlayerProfileForm({
                         label="Date of Birth"
                         {...field}
                         error={fieldState.error?.message}
+                        value={field.value.split("T")[0]}
                       />
                     )}
                   />
@@ -267,6 +270,7 @@ export default function PlayerProfileForm({
                         label="Date Signed"
                         {...field}
                         error={fieldState.error?.message}
+                        value={field.value.split("T")[0]}
                       />
                     )}
                   />
@@ -335,10 +339,6 @@ export const playerManagerJoiSchema = Joi.object({
   email: Joi.string().email({ tlds: false }).optional().allow("").messages({
     "string.email": "Manager email must be valid",
   }),
-  // dob: Joi.date().iso().less("now").required().messages({
-  //   "date.base": "Manager date of birth must be valid",
-  //   "any.required": "Manager DOB is required",
-  // }),
 });
 
 export const playerJoiSchema = Joi.object({
@@ -358,7 +358,7 @@ export const playerJoiSchema = Joi.object({
       ).toString()}`,
       "string.empty": "Position is required",
     }),
-  number: Joi.number().positive().min(1).max(20).required().messages({
+  number: Joi.number().positive().min(1).max(30).required().messages({
     "any.required": "Jersey number is required",
   }),
   dateSigned: Joi.date().iso().required().messages({

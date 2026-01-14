@@ -4,6 +4,7 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import MatchModel from "@/models/match";
 import PlayerModel from "@/models/player";
 import { IMatch, IMatchMetrics, } from "@/types/match.interface";
+import { EPlayerStatus } from "@/types/player.interface";
 import { NextRequest, NextResponse } from "next/server";
 
 
@@ -20,11 +21,11 @@ export async function GET(request: NextRequest) {
     draws: matchMetrics?.filter(m => m?.winStatus == 'draw'),
     losses: matchMetrics?.filter(m => m?.winStatus == 'loss'),
   }
-  const winRate = (((matchStats?.wins?.length ?? 0) / (matchMetrics?.length ?? 1)) * 100)?.toFixed(1)
+  const winRate = (((matchStats?.wins?.length ?? 0) / (matchMetrics?.length ?? 1)) * 100)?.toPrecision(1)
 
   const goals = matchMetrics?.map(mm => mm.goals.kfc).flat().length ?? 0
 
-  const total = await PlayerModel.countDocuments({ isActive: true })
+  const total = await PlayerModel.countDocuments({ status: EPlayerStatus.CURRENT })
 
   return NextResponse.json({
     success: true,

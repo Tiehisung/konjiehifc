@@ -6,7 +6,6 @@ import { GiHealthNormal, GiPresent } from "react-icons/gi";
 import { getPlayerById, getPlayers } from "../page";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import PlayerProfileForm from "../new/NewSigningForms";
-import Loader from "@/components/loaders/Loader";
 import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 import { apiConfig } from "@/lib/configs";
 import { IPlayer } from "@/types/player.interface";
@@ -18,6 +17,7 @@ import { getGallery } from "../../galleries/page";
 import { PrimaryCollapsible } from "@/components/Collapsible";
 import { icons } from "@/assets/icons/icons";
 import NotifierWrapper from "@/components/Notifier";
+import PageLoader from "@/components/loaders/Page";
 
 export default async function PlayerProfilePage({
   params,
@@ -32,7 +32,9 @@ export default async function PlayerProfilePage({
   );
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
 
-  if (!player) return <Loader message="Loading player..." />;
+  console.log(player)
+
+  if (!player) return <PageLoader/>;
 
   const fullname = `${player?.lastName} ${player?.firstName}`;
 
@@ -78,7 +80,7 @@ export default async function PlayerProfilePage({
         <ScrollToPointBtn
           sectionId={"danger-zone"}
           className="flex gap-1 items-center shadow p-1 hover:text-blue-400 transition-transform"
-          label={player?.status  }
+          label={player?.status}
         >
           <GiPresent />
         </ScrollToPointBtn>
@@ -111,7 +113,7 @@ export default async function PlayerProfilePage({
 
         <div className="my-3.5 space-y-2">
           <p>{player?.email}</p>
-          <p>{player?.code}</p>
+          
         </div>
 
         <UpdatePlayerIssuesAndFitness player={player} />
@@ -129,9 +131,12 @@ export default async function PlayerProfilePage({
         </section>
 
         <section id="galleries">
-          <header className="my-6 _title _gradient p-4 flex items-center justify-between gap-6">
-            GALLERIES <GalleryGrid galleries={galleries?.data as IGallery[]} />
-          </header>
+          <h1 className="my-6 _title _gradient p-4 flex items-center justify-between gap-6">
+            GALLERIES
+          </h1>
+          <GalleryGrid galleries={galleries?.data as IGallery[]} />
+
+          <br />
 
           <GalleryUpload
             tags={[fullname, playerId].filter(Boolean) as string[]}

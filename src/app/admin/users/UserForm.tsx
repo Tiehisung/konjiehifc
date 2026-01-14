@@ -65,7 +65,7 @@ export default function UserForm({ user }: { user?: IUser }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-md space-y-6 pt-5">
+    <form onSubmit={handleSubmit(onSubmit)} className="max-w-md space-y-8 pt-5">
       {serverError && <p className="text-red-500 text-sm">{serverError}</p>}
 
       <Controller
@@ -114,7 +114,7 @@ export default function UserForm({ user }: { user?: IUser }) {
             {...field}
             className="border p-2 w-full "
             triggerStyles="grow w-full py-2"
-            label={<p className="text-muted-foreground">Role</p>}
+            label={<p className="text-muted-foreground">Role</p>} 
             error={fieldState.error?.message}
           />
         )}
@@ -130,11 +130,17 @@ export default function UserForm({ user }: { user?: IUser }) {
     </form>
   );
 }
-
 export const createUserSchema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.email("Invalid email"),
-  password: z.string().min(6, "Minimum 6 characters"),
+  password: z
+    .string()
+    .min(4, "Minimum 4 characters")
+    .optional()
+    .refine(
+      (val) => !val || val.length >= 4, // Only validate if there's a value
+      { message: "Password must be at least 4 characters" }
+    ),
   role: z.enum(Object.values(EUserRole)),
 });
 

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { MediaPreview } from "../files/MediaView";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import LightboxViewer from "../viewer/LightBox";
+import { Badge } from "../ui/badge";
 
 export function GalleryCard({
   gallery,
@@ -67,11 +68,14 @@ export function GalleryCard({
 
           {/* Tags */}
           <div className="flex flex-wrap gap-1 font-light text-sm">
-            {gallery?.tags?.slice(0, 10)?.map((tag, index) => (
-              <small key={index} hidden={isObjectId(tag)}>
-                #{tag}
-              </small>
-            ))}
+            {gallery?.tags
+              ?.filter((t) => !isObjectId(t))
+              ?.slice(0, 10)
+              ?.map((tag, index) => (
+                <Badge key={index} variant='outline'>
+                  #{tag}
+                </Badge>
+              ))}
           </div>
         </CardContent>
       </Card>

@@ -2,11 +2,13 @@
 
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Camera, X } from "lucide-react";
 import { fireEscape } from "@/hooks/Esc";
 import { staticImages } from "@/assets/images";
+import { cn } from "@/lib/utils";
+import { Button } from "../buttons/Button";
 
 interface ICldUploadResult {
   secure_url: string;
@@ -36,13 +38,13 @@ interface IImageUploaderCldWidgetProps {
   /** Trigger external clearing */
   clearTrigger?: number;
   /** Button label */
-  label?: string;
+  label?: ReactNode;
   /** Disable cropping if not needed */
   cropping?: boolean;
   successMessage?: string;
   className?: string;
   escapeOnEnd?: boolean;
-  imageStyles?:string
+  imageStyles?: string;
 }
 
 /**
@@ -62,7 +64,8 @@ export default function ImageUploaderCldWidget({
   successMessage = "File uploaded successfully!",
   cropping = true,
   className = " bg-blue-600 hover:bg-blue-700 text-white ",
-  escapeOnEnd,imageStyles
+  escapeOnEnd,
+  imageStyles,
 }: IImageUploaderCldWidgetProps) {
   const [file, setFile] = useState<ICldUploadResult | null>(null);
 
@@ -79,9 +82,11 @@ export default function ImageUploaderCldWidget({
   };
 
   return (
-    <div className="flex flex-col items-center gap-3">
+    <div className="relative flex flex-col items-center gap-3 w-fit ">
       {/* Avatar Preview */}
-      <div className={`relative w-32 h-32 rounded-full overflow-hidden shadow-md ${imageStyles}`}>
+      <div
+        className={`relative w-32 h-32 rounded-full overflow-hidden shadow-md ${imageStyles}`}
+      >
         <Image
           src={currentSrc}
           alt="avatar preview"
@@ -112,7 +117,7 @@ export default function ImageUploaderCldWidget({
           cropping,
           croppingAspectRatio: 1, // force square
           resourceType: "image",
-          sources: ["local", "url","camera",  "google_drive", "image_search"],
+          sources: ["local", "url", "camera", "google_drive", "image_search"],
           clientAllowedFormats: ["jpg", "jpeg", "png", "webp"],
           showPoweredBy: false,
           theme: "minimal",
@@ -133,16 +138,20 @@ export default function ImageUploaderCldWidget({
         }}
       >
         {({ open }) => (
-          <button
-            type="button"
+          <Button
             onClick={() => open()}
-            className={`${className} flex gap-2 px-4 py-2 rounded-md text-sm font-semibold shadow transition cursor-pointer`}
+            className={cn(
+              `absolute bottom-1.5 right-1 flex gap-2 px-4 py-2 rounded-md text-sm font-semibold shadow transition cursor-pointer`,
+              className
+            )}
+            size={"icon"}
           >
-            {label}
             <Camera />
-          </button>
+          </Button>
         )}
       </CldUploadWidget>
+
+      {label && label}
     </div>
   );
 }

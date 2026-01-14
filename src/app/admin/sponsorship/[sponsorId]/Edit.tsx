@@ -72,7 +72,7 @@ export function EditSponsor({ sponsor }: { sponsor?: ISponsorProps }) {
         <form onSubmit={handleSubmit} className="grid gap-6 pt-4 _card grow ">
           <div className=" flex gap-2 justify-center flex-col items-center relative">
             <ImageUploaderCldWidget
-              label="Logo"
+              
               onUploaded={(file) =>
                 setFormData({ ...formData, logo: file?.secure_url as string })
               }

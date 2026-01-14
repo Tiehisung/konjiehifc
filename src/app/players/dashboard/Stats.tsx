@@ -20,6 +20,10 @@ interface StatsCardsProps {
 }
 
 export function StatsCards({ player }: StatsCardsProps) {
+
+  const data={
+    
+  }
   const stats = [
     {
       title: "Goals",
@@ -107,18 +111,3 @@ export function StatsCards({ player }: StatsCardsProps) {
   );
 }
 
-// <Card key={index}>
-//   <CardContent className="p-6">
-//     <div className="flex items-center justify-between">
-//       <div>
-//         <p className="text-sm font-medium text-muted-foreground">
-//           {stat.title}
-//         </p>
-//         <p className="text-2xl font-bold mt-2">{stat.value}</p>
-//       </div>
-//       <div className={`${stat.bgColor} p-3 rounded-full`}>
-//         <Icon className={`h-6 w-6 ${stat.color}`} />
-//       </div>
-//     </div>
-//   </CardContent>
-// </Card>
