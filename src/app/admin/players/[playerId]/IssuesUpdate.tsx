@@ -14,6 +14,7 @@ import { icons } from "@/assets/icons/icons";
 import { DIALOG } from "@/components/Dialog";
 import { TITLE } from "@/components/Element";
 import { PrimaryCollapsible } from "@/components/Collapsible";
+import { getTimeAgo } from "@/lib/timeAndDate";
 
 export default function UpdatePlayerIssuesAndFitness({
   player,
@@ -61,7 +62,7 @@ export default function UpdatePlayerIssuesAndFitness({
 
   const accordionData: IAccordionProps["data"] = player?.issues?.map(
     (issue, i) => ({
-      content: <div className="ml-2 border-l pl-0.5">{issue?.description}</div>,
+      content: <div className="ml-2 border-l pl-0.5">{issue?.description} {issue?.date&&getTimeAgo(issue.date)}</div>,
       trigger: <p className=" line-clamp-1 pl-1 max-w-full">{issue?.title}</p>,
       value: issue?.title + i,
     })

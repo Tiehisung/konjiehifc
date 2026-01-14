@@ -21,7 +21,6 @@ import { scrollToElement } from "@/lib/DOM";
 import { generatePlayerAbout } from "@/data/about";
 import GalleryGrid from "@/components/Gallery/GallaryGrid";
 import { GalleryUpload } from "@/components/Gallery/GalleryUpload";
-import { PlayerFeatureMedia } from "./FeatureMedia";
 import { IPlayerStats } from "@/types/stats";
 
 const statsData = [
@@ -251,8 +250,6 @@ export default function PlayerProfile({
           </RadarChart>
         </ResponsiveContainer>
       </section>
-
-      <PlayerFeatureMedia player={player} />
 
       <section>
         <div className="my-6 _title _gradient p-4 flex items-center gap-6 justify-between">

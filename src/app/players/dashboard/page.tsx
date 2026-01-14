@@ -15,6 +15,7 @@ import { Metadata } from "next";
 import { kfc } from "@/data/kfc";
 import GalleryGrid from "@/components/Gallery/GallaryGrid";
 import Link from "next/link";
+import { PlayerFeatureMedia } from "./FeatureMedia";
 
 export async function generateMetadata({
   params,
@@ -117,10 +118,17 @@ export default async function PlayerPage({}: IPageProps) {
               </CardContent>
             </Card>
 
+            <PlayerFeatureMedia player={player} />
+
             {/* Gallery Section */}
             <div className="pb-4 space-y-3">
               <GalleryGrid galleries={galleries?.data as IGallery[]} />
-              <Link href={`/players/dashboard/galleries?=playerId=${player?._id}`} className="pl-4">More Galleries</Link>
+              <Link
+                href={`/players/dashboard/galleries?=playerId=${player?._id}`}
+                className="pl-4"
+              >
+                More Galleries
+              </Link>
             </div>
           </div>
         </div>
