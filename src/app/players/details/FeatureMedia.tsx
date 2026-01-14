@@ -14,32 +14,7 @@ export function PlayerFeatureMedia({ player }: { player?: IPlayer }) {
   );
   return (
     <div className="p-6 grow min-h-44 my-10 w-full ring">
-      <div className="flex flex-col gap-6 mb-6 ">
-        <CloudinaryUploader
-          triggerId="feature-image"
-          setUploadedFiles={(fs) => setUploadedFile(fs?.[0])}
-          maxFiles={1}
-          multiple={false}
-          trigger={<span className="_secondaryBtn">Add Feature Media</span>}
-          clearTrigger={player?.featureMedia?.length as number}
-        />
-
-        {uploadedFile && (
-          <ActionButton
-            method={"PUT"}
-            body={{
-              featureMedia: [
-                uploadedFile,
-                ...(player?.featureMedia ?? []),
-              ].filter(Boolean),
-            }}
-            primaryText="SAVE MEDIA"
-            uri={`${apiConfig.players}/${player?._id}`}
-            loadingText="SAVING..."
-            className="w-52 justify-center"
-          />
-        )}
-      </div>
+      
 
       {player?.featureMedia?.length && (
         <MasonryGallery files={player?.featureMedia ?? []} useSize />

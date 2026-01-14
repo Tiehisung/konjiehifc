@@ -78,7 +78,7 @@ export function PlayerDisplayPanel({
           <Tabs defaultValue="all" className="w-full">
             <TabsList className="grid grid-cols-2 mb-4">
               <TabsTrigger value="all">All Players</TabsTrigger>
-              <TabsTrigger value="injured">Injured</TabsTrigger>
+              <TabsTrigger value="current">Current</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>

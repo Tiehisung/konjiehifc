@@ -65,7 +65,7 @@ export default function UserForm({ user }: { user?: IUser }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-md space-y-6 pt-5">
+    <form onSubmit={handleSubmit(onSubmit)} className="max-w-md space-y-8 pt-5">
       {serverError && <p className="text-red-500 text-sm">{serverError}</p>}
 
       <Controller

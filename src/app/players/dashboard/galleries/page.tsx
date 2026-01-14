@@ -5,7 +5,7 @@ import { buildQueryStringServer } from "@/lib";
 import { IPageProps, IQueryResponse } from "@/types";
 import { IGallery } from "@/types/file.interface";
 import { IPlayer } from "@/types/player.interface";
-import { PlayerGalleriesClient } from "../Galleries";
+import { PlayerGalleriesClient } from "./Galleries";
 import HEADER from "@/components/Element";
 
 const PlayerGalleries = async ({ searchParams }: IPageProps) => {

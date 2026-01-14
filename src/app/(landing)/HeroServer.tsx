@@ -5,5 +5,8 @@ import HERO from "./HeroSection";
 
 export async function ServerHero() {
   const metrics: IQueryResponse<IMetrics> = await getMetrics();
-  return <HERO metrics={metrics}/>;
+
+  console.log("hero metrics", metrics);
+  
+  return <HERO metrics={metrics} />;
 }
