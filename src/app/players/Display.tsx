@@ -37,7 +37,8 @@ export default function OurPlayers({ players }: IProps) {
 
               <div className="w-full min-w-60 min-h-80 h-auto aspect-5/3">
                 <Image
-                  fill
+                  width={800}
+                  height={800}
                   alt={player?.lastName as string}
                   src={
                     (player?.featureMedia?.[0]?.secure_url as string) ||
