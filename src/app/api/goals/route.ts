@@ -2,21 +2,16 @@ import { getErrorMessage } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import { NextRequest, NextResponse } from "next/server";
 import { logAction } from "../logs/helper";
-import { IGoal } from "@/app/matches/(fixturesAndResults)";
 import GoalModel, { IPostGoal } from "@/models/goals";
 import { updateMatchEvent } from "../matches/live/events/route";
 import MatchModel from "@/models/match";
 import PlayerModel from "@/models/player";
-import { IUser } from "@/types/user";
-import { auth } from "@/auth";
-
 
 ConnectMongoDb();
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const page = Number.parseInt(searchParams.get("page") || "1", 10);
-
-  // const isPlayed = searchParams.get("isPlayed") == "0" ? false : true
 
   const limit = Number.parseInt(searchParams.get("limit") || "10", 10);
   const skip = (page - 1) * limit;
@@ -35,7 +30,6 @@ export async function GET(request: NextRequest) {
       { "opponent.name": regex },
       { "opponent._id": regex },
     ],
-    // isPlayed: true,
   }
 
   const managers = await GoalModel.find(query)
@@ -69,18 +63,25 @@ export async function POST(request: NextRequest) {
     const updatedMatech = await MatchModel.findByIdAndUpdate(match, { $push: { 'goals': savedGoal._id } })
 
     //Update Player
-    if (forKFC)
+    if (forKFC && scorer) {
       await PlayerModel.findByIdAndUpdate(scorer?._id, { $push: { goals: savedGoal._id } })
 
-    //Update events
-    const assistance = assist ? `Assist: ${assist?.number ?? ''} ${assist.name} ` : ''
-    await updateMatchEvent(match?.toString(), {
-      type: 'goal',
-      minute: String(minute),
-      title: `⚽ ${minute}' - ${scorer?.number ?? 'Goal scored by '}  ${scorer?.name ?? 'unknown player'} `,
-      description: `${assistance} ${description} Mode of Score: ${modeOfScore ?? ''}`
+      if (assist)
+        await PlayerModel.findByIdAndUpdate(assist?._id, { $push: { assists: savedGoal._id } })
+    }
 
-    })
+
+    //Update events
+    if (minute) {
+      const assistance = assist ? `Assist: ${assist?.number ?? ''} ${assist.name} ` : ''
+      await updateMatchEvent(match?.toString(), {
+        type: 'goal',
+        minute: String(minute),
+        title: `⚽ ${minute}' - ${scorer?.number ?? 'Goal scored by '}  ${scorer?.name ?? 'unknown player'} `,
+        description: `${assistance} ${description} Mode of Score: ${modeOfScore ?? ''}`
+
+      })
+    }
 
     // log
     await logAction({

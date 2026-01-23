@@ -9,7 +9,7 @@ import { isValidEmail } from "@/lib/validate";
 ConnectMongoDb();
 
 export async function POST(req: NextRequest,) {
-    const { email:rawEmail, password } = await req.json()
+    const { email: rawEmail, password } = await req.json()
 
     const email = isValidEmail(rawEmail) ? rawEmail : rawEmail.concat('@kfc.com')
 

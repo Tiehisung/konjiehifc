@@ -1,6 +1,5 @@
 "use client";
 
- 
 import { IPlayer } from "@/types/player.interface";
 import { Button } from "@/components/buttons/Button";
 import { DIALOG } from "@/components/Dialog";
@@ -12,7 +11,7 @@ import { useState } from "react";
 import { BiStop } from "react-icons/bi";
 import { FcStart } from "react-icons/fc";
 import { toast } from "sonner";
-import { IMatch } from "@/types/match.interface";
+import { EMatchStatus, IMatch } from "@/types/match.interface";
 
 interface IProps {
   match?: IMatch;
@@ -24,7 +23,6 @@ export function StartStopMatch({ match, players }: IProps) {
   const [isStarting, setIsStarting] = useState(false);
   const [isStopping, setIsStopping] = useState(false);
 
-  console.log({ match });
   const handleStart = async () => {
     try {
       setIsStarting(true);
@@ -57,7 +55,7 @@ export function StartStopMatch({ match, players }: IProps) {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           _id: match?._id,
-          status: "COMPLETED",
+          status: EMatchStatus.FT,
         }),
         method: "PUT",
       });
@@ -77,9 +75,7 @@ export function StartStopMatch({ match, players }: IProps) {
         {match?.status == "UPCOMING" ? (
           <DIALOG
             title="Start Match"
-            trigger={
-              <Button primaryText="START MATCH" className="_deleteBtn" />
-            }
+            trigger={"START MATCH"}
             id="start-match"
             description="Are you sure you want to start this match?"
           >
@@ -95,10 +91,8 @@ export function StartStopMatch({ match, players }: IProps) {
           </DIALOG>
         ) : (
           <DIALOG
-            title="Stop Match"
-            trigger={
-              <Button primaryText="STOP MATCH" className="_deleteBtn" />
-            }
+            title="End Match"
+            trigger={"END MATCH"}
             id="stop-match"
             description="Are you sure you want to stop this match?"
           >

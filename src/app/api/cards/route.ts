@@ -63,10 +63,10 @@ export async function POST(request: NextRequest) {
     await PlayerModel.findByIdAndUpdate(player?._id, { $push: { cards: savedCard._id } })
 
     //Update events
-    await updateMatchEvent(match._id, {
+    await updateMatchEvent(match?._id as string, {
       type: 'card',
-      minute: minute,
-      title: `${type == 'red' ? '🟥' : '🟨'} ${minute}' - ${player.number}  ${player.name} `,
+      minute: minute as string,
+      title: `${type == 'red' ? '🟥' : '🟨'} ${minute}' - ${player?.number}  ${player?.name} `,
       description
     })
 

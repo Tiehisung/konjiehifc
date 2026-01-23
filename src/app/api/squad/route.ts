@@ -5,7 +5,6 @@ import SquadModel from "@/models/squad";
 import { NextRequest, NextResponse } from "next/server";
 import { logAction } from "../logs/helper";
 import MatchModel from "@/models/match";
-import { IUser } from "@/types/user";
 
 
 ConnectMongoDb();
@@ -55,8 +54,6 @@ export async function POST(request: NextRequest) {
     const savedSquad = await SquadModel.create({
       players, assistant, coach, description, title: match.title, match: match?._id
     });
-
- 
 
     if (!savedSquad) {
       return NextResponse.json({ message: "Failed to create squad.", success: false });
