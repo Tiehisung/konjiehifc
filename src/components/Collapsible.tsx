@@ -50,7 +50,7 @@ export function PrimaryCollapsible({
           if (header.path) router.push(header.path);
         }}
         className={cn(
-          `w-full flex items-center justify-between p-3 rounded-lg _hover _transition ${
+          `w-full flex items-center justify-between p-3 pr-0 rounded-lg _hover _transition ${
             isActiveLink(header?.path || "")
               ? "bg-primary/10 text-muted-foreground"
               : ""
@@ -84,6 +84,11 @@ export function PrimaryCollapsible({
               initial="closed"
               animate="open"
               exit="closed"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsOpen(!isOpen);
+              }}
+              className="_hover p-2 mr-0"
             >
               <ChevronDown
                 size={16}

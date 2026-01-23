@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import clsx from "clsx";
+import { cn } from "@/lib/utils";
 
 export enum EEmoji {
   GOAL = "⚽",
@@ -36,13 +37,14 @@ interface EmojiPickerProps {
   onSelect?: (emoji: { label: string; value: string }) => void;
   defaultSelected?: string;
   label?: string;
+  className?:string
 }
 
 export function EmojiPicker({
   emojis = FOOTBALL_EMOJIS,
   onSelect,
   defaultSelected,
-  label,
+  label,className
 }: EmojiPickerProps) {
   const [selected, setSelected] = useState(defaultSelected || "");
 
@@ -58,7 +60,7 @@ export function EmojiPicker({
           {label}
         </h3>
       )}
-      <div className="flex items-center gap-1">
+      <div className={cn("flex items-center gap-1",className)}>
         {emojis.map((emoji) => (
           <button
             type="button"

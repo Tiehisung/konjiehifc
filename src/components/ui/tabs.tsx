@@ -78,7 +78,7 @@ interface ReusableTabsProps {
   className?: string;
   listClassName?: string;
   contentClassName?: string;
-  gridCols?: string;
+triggerClassName?: string;
   hideLabelOnMobile?: boolean;
 }
 
@@ -88,9 +88,8 @@ export function TABS({
   className = "w-full",
   listClassName = "",
   contentClassName = "space-y-4",
-  gridCols = "grid-cols-2 md:grid-cols-4",
   children,
-  hideLabelOnMobile,
+  hideLabelOnMobile,triggerClassName=''
 }: ReusableTabsProps) {
   const defaultTab = defaultValue || tabs[0]?.value;
 
@@ -98,12 +97,12 @@ export function TABS({
 
   return (
     <Tabs defaultValue={defaultTab} className={className}>
-      <TabsList className={`grid ${gridCols} mb-8 ${listClassName}`}>
+      <TabsList className={cn(`grid mb-8`, listClassName)}>
         {tabs?.map((tab) => (
           <TabsTrigger
             key={tab.value}
             value={tab.value}
-            className="flex items-center gap-2"
+            className={cn("flex items-center gap-2", triggerClassName)}
           >
             {tab?.icon ?? ""}
             {hideLabelOnMobile ? (

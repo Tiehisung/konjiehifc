@@ -36,6 +36,7 @@ export function PlayerInjuryAndIssues({ player }: InjuryAndIssuesProps) {
             icon: <Activity className="h-5 w-5 text-red-500" />,
           },
         ]}
+        listClassName="grid-cols-2 md:grid-cols-4"
       >
         {/* Current Issues */}
         <Card>
