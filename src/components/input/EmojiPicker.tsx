@@ -21,12 +21,12 @@ export enum EEmoji {
 export const FOOTBALL_EMOJIS = [
   { label: "Goal", value: EEmoji.GOAL },
   { label: "Assist", value: EEmoji.ASSIST },
-  { label: "Yellow Card", value: EEmoji.YELLOW_CARD },
-  { label: "Red Card", value: EEmoji.RED_CARD },
+  { label: "Y Card", value: EEmoji.YELLOW_CARD },
+  { label: "R Card", value: EEmoji.RED_CARD },
   { label: "Injury", value: EEmoji.INJURY },
   { label: "Save", value: EEmoji.SAVE },
   { label: "Trophy", value: EEmoji.TROPHY },
-  { label: "Substitution", value: EEmoji.SUBSTITUTION },
+  { label: "Subst.", value: EEmoji.SUBSTITUTION },
   { label: "Time", value: EEmoji.TIME },
   { label: "Shot", value: EEmoji.SHOT },
   { label: "Captain", value: EEmoji.CAPTAIN },
@@ -60,7 +60,7 @@ export function EmojiPicker({
           {label}
         </h3>
       )}
-      <div className={cn("flex items-center gap-1",className)}>
+      <div className={cn("flex items-center gap-1 p-2.5",className)}>
         {emojis.map((emoji) => (
           <button
             type="button"

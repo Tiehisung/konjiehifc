@@ -20,12 +20,12 @@ export const checkMatchMetrics = (match?: IMatch): IMatchMetrics => {
     const status = kfc?.length < opponent?.length ? 'loss' : kfc?.length > opponent.length ? 'win' : 'draw'
     const { home, away } = checkTeams(match)
 
-    const homeGoals = match?.isHome
+    const goals = match?.isHome
         ? { home: kfc.length, away: opponent.length }
         : { home: opponent.length, away: kfc.length }
 
     return {
-        goals: { kfc, opponent, ...homeGoals },
+        goals: { kfc, opponent, ...goals },
         winStatus: status,
         teams: { home, away }
     }

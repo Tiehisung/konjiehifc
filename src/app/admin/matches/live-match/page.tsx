@@ -31,6 +31,8 @@ export default async function LiveMatchPage() {
   const { home, away } = checkTeams(match?.data);
   const matchMetrics = checkMatchMetrics(match?.data);
 
+  console.log(matchMetrics)
+
   if (!match?.data)
     return (
       <div className="_label _card rounded-2xl text-center my-14 mx-6 _page">
