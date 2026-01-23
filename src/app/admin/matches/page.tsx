@@ -1,7 +1,6 @@
 import { apiConfig } from "@/lib/configs";
 import { DisplayFixtures } from "./DisplayFixtures";
 import { getTeams } from "../teams/page";
-import { IMatchProps, ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { IQueryResponse } from "@/types";
 import { buildQueryStringServer } from "@/lib";
 import Header from "../../../components/Element";
@@ -10,7 +9,7 @@ import { getManagers, IManager } from "../managers/page";
 import { IPlayer } from "@/types/player.interface";
 import { QuickLinks } from "@/components/QuickLinks/LinkOrSectionId";
 import { Separator } from "@/components/ui/separator";
-import { EMatchStatus } from "@/types/match.interface";
+import { EMatchStatus, IMatch, ITeam } from "@/types/match.interface";
 
 export interface IGetMatchesProps {
   status?: EMatchStatus;
@@ -50,8 +49,8 @@ interface IPageProps {
 export default async function AdminFixtures({ searchParams }: IPageProps) {
   const qs = buildQueryStringServer(await searchParams);
 
-  const fixtures: IQueryResponse<IMatchProps[]> = await getMatches(qs);
-  const teams: IQueryResponse<ITeamProps[]> = await getTeams();
+  const fixtures: IQueryResponse<IMatch[]> = await getMatches(qs);
+  const teams: IQueryResponse<ITeam[]> = await getTeams();
 
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
   const managers: IQueryResponse<IManager[]> = await getManagers();

@@ -105,7 +105,7 @@ const sidebarLinks: ILinkItem[] = [
       },
       {
         title: "Live Match",
-        path: "/admin/live-match",
+        path: "/admin/matches/live-match",
         icon: <Tv className="w-4 h-4" />,
       },
       
