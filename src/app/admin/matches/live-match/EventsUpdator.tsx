@@ -41,9 +41,9 @@ export function MatchEventsAdmin({ players, opponent, match }: IProps) {
       value: " Goal",
     },
     {
-      label: " Card",
+      label: "🟨🟥 Card",
       value: " Card",
-      icon: <Square className="h-5 w-5 text-red-500" />,
+      
     },
     {
       label: " Injury",

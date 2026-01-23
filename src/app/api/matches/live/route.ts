@@ -7,6 +7,7 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import MatchModel from "@/models/match";
 import { NextRequest, NextResponse } from "next/server";
 import PlayerModel from "@/models/player";
+import { EMatchStatus } from "@/types/match.interface";
 
 ConnectMongoDb();
 
@@ -17,7 +18,7 @@ export async function POST(request: NextRequest) {
     const { _id, playerIds } = await request.json();
 
     await MatchModel.findByIdAndUpdate(_id, {
-      $set: { status: 'LIVE' },
+      $set: { status: EMatchStatus.LIVE },
     });
 
     //Update match in Every Player

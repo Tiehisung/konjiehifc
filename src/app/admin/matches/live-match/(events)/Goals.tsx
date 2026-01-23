@@ -151,11 +151,13 @@ export function ScoreEventsTab({
               label="For KFC"
               name="forkfc"
               onCheckedChange={(ch) => setForm((p) => ({ ...p, forKFC: ch }))}
+              checked={form.forKFC}
+              className=""
             />
           </h2>
 
           <div className="space-y-4">
-            {!form.forKFC && (
+            {form.forKFC && (
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                   <label className="mb-2 block text-sm font-medium">
@@ -285,7 +287,6 @@ function OppoentGoalsUpdate({ match }: { match: IMatch }) {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           _id: match?._id,
-           
         }),
         method: "PUT",
       });

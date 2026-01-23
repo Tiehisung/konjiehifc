@@ -1,18 +1,17 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 
 import { Card } from "@/components/ui/card";
 import { Plus } from "lucide-react";
 import { Input } from "@/components/input/Inputs";
 import { Button } from "@/components/buttons/Button";
-import { toast } from "sonner";
-import { getErrorMessage, shortText } from "@/lib";
+import { shortText } from "@/lib";
 import { apiConfig } from "@/lib/configs";
-import { IMatchEvent } from "@/app/matches/(fixturesAndResults)";
 import { useRouter } from "next/navigation";
 import { EmojiPicker } from "@/components/input/EmojiPicker";
 import { IMatch } from "@/types/match.interface";
+import { useAction } from "@/hooks/action";
 
 interface GeneralEventsTabProps {
   match: IMatch;
@@ -21,47 +20,30 @@ interface GeneralEventsTabProps {
 export function GeneralEventsTab({ match }: GeneralEventsTabProps) {
   const router = useRouter();
   const [form, setForm] = useState({ minute: "", description: "" });
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleAddEvent = async (e: FormEvent<HTMLFormElement>) => {
-    try {
-      e.preventDefault();
-      setIsLoading(true);
-      if (!form.minute || !form.description) {
-        toast("Please fill in all fields");
-        return;
-      }
-
-      const newEvent: IMatchEvent = {
-        minute: Number.parseInt(form.minute),
-        description: form.description,
-        title: shortText(form.description),
-        type: "general",
-      };
-
-      const response = await fetch(`${apiConfig.matches}/live/events`, {
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ matchId: match?._id, event: newEvent }),
-        method: "PUT",
-      });
-
-      const results = await response.json();
-      toast.success(results.message);
-
-      setForm({ minute: "", description: "" });
-    } catch (error) {
-      toast.error(getErrorMessage(error));
-    } finally {
-      setIsLoading(false);
-      router.refresh();
-    }
-  };
+  const { handleAction, error, isLoading } = useAction();
 
   return (
     <div className="space-y-8">
       <Card className="p-6 rounded-none">
-        <form onSubmit={handleAddEvent}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleAction({
+              method: "PUT",
+              uri: `${apiConfig.matches}/live/events`,
+              body: {
+                matchId: match?._id,
+                event: {
+                  minute: Number.parseInt(form.minute),
+                  description: form.description,
+                  title: shortText(form.description),
+                  type: "general",
+                },
+              },
+              showToast: true,
+            });
+          }}
+        >
           <h2 className="mb-6 text-2xl font-bold">Add General Event</h2>
 
           <div className="space-y-4">

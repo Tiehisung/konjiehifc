@@ -1,5 +1,11 @@
 import "@/models/file";
 import "@/models/galleries";
+import "@/models/match";
+import "@/models/mpv";
+import "@/models/injury";
+import "@/models/card";
+import "@/models/goals";
+
 import { getErrorMessage, getInitials } from "@/lib";
 import { ConnectMongoDb } from "@/lib/dbconfig";
 import PlayerModel from "@/models/player";
@@ -14,13 +20,22 @@ import { generatePlayerID } from "../route";
 import UserModel from "@/models/user";
 
 ConnectMongoDb();
+
 export async function GET(
   _: NextRequest,
   { params }: { params: Promise<{ playerId: string }> }
 ) {
   const slug = slugIdFilters((await params).playerId)
   const player = await PlayerModel.findOne(slug)
-    .populate({ path: "galleries", populate: { path: 'files' } });
+    .populate({ path: "galleries", populate: { path: 'files' } })
+    .populate('matches')
+    .populate('mvps')
+    .populate('cards')
+    .populate('injuries')
+    .populate('goals')
+    .populate('assists')
+    .lean();
+
   return NextResponse.json(player);
 }
 
