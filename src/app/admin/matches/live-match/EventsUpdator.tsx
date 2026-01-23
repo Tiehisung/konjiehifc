@@ -138,6 +138,7 @@ function MatchEventCard({
         waitingText=""
         onClick={onDelete}
         className="ml-auto"
+        variant={'ghost'}
       >
         <Trash2 className="h-4 w-4 text-destructive" />
       </Button>

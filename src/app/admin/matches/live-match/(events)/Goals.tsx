@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, X } from "lucide-react";
 import { Input } from "@/components/input/Inputs";
 import { apiConfig } from "@/lib/configs";
 import { toast } from "sonner";
@@ -21,6 +21,7 @@ import { PrimaryAccordion } from "@/components/Accordion";
 import { IGoal, IMatch, ITeam } from "@/types/match.interface";
 import { IPostGoal } from "@/models/goals";
 import { SWITCH } from "@/components/ui/switch";
+import { PrimaryCollapsible } from "@/components/Collapsible";
 
 interface ScoreEventsTabProps {
   players: IPlayer[];
@@ -87,6 +88,7 @@ export function ScoreEventsTab({
             number: scorer?.number,
           },
           assist,
+          forKFC: true,
         };
 
       const response = await fetch(apiConfig.goals, {
@@ -145,7 +147,7 @@ export function ScoreEventsTab({
         }`}
       >
         <form onSubmit={handleAddGoal}>
-          <h2 className="mb-6 text-2xl font-bold flex items-center gap-6 justify-between">
+          <h2 className="mb-6 text-2xl font-bold flex items-center gap-6 justify-between mb-4 border-b">
             Add Goal{" "}
             <SWITCH
               label="For KFC"
@@ -158,7 +160,7 @@ export function ScoreEventsTab({
 
           <div className="space-y-4">
             {form.forKFC && (
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 ">
                 <div>
                   <label className="mb-2 block text-sm font-medium">
                     Scorer
@@ -266,27 +268,23 @@ export function ScoreEventsTab({
           </div>
         </form>
 
-        {/* <OppoentGoalsUpdate match={match} /> */}
+        <AllGoals match={match} />
       </Card>
     </div>
   );
 }
 
-function OppoentGoalsUpdate({ match }: { match: IMatch }) {
+function AllGoals({ match }: { match: IMatch }) {
   const router = useRouter();
-  const [isLoadingOG, setIsLoadingOG] = useState(false);
-  const [type, setType] = useState("");
 
   //Increment Opponent goals
-  const handleAddOpponentGoal = async (type: "inc" | "dec") => {
+  const handleRemoveGoal = async (goal: IGoal) => {
     try {
-      setIsLoadingOG(true);
-      setType(type);
-
       const response = await fetch(apiConfig.matches, {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           _id: match?._id,
+          goals: [...(match?.goals ?? [])].filter((g) => g._id !== goal._id),
         }),
         method: "PUT",
       });
@@ -296,42 +294,26 @@ function OppoentGoalsUpdate({ match }: { match: IMatch }) {
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
-      setIsLoadingOG(false);
       router.refresh();
-      setType("");
     }
   };
   return (
-    <PrimaryAccordion
-      data={[
-        {
-          content: (
-            <div className="flex items-center gap-10 ">
-              <Button
-                onClick={() => handleAddOpponentGoal("dec")}
-                className=" justify-center _deleteBtn"
-                waiting={isLoadingOG && type == "dec"}
-                primaryText="Remove Opponent Goal"
-                waitingText="Removing..."
-              >
-                <Minus className="mr-2 h-4 w-4" />
-              </Button>
-
-              <Button
-                onClick={() => handleAddOpponentGoal("inc")}
-                className=" justify-center _deleteBtn"
-                waiting={isLoadingOG && type == "inc"}
-                primaryText="Add Opponent Goal"
-                waitingText="Adding..."
-              >
-                <Plus className="mr-2 h-4 w-4" />
-              </Button>
-            </div>
-          ),
-          value: "opponent",
-          trigger: <div className="_label ml-autot">Update Opponent</div>,
-        },
-      ]}
-    />
+    <PrimaryCollapsible
+      header={{
+        label: "All Goals",
+        className: "_label",
+      }}
+    >
+      <div className="flex items-center gap-5 flex-wrap">
+        {match?.goals?.map((goal) => (
+          <div>
+            {`${goal.minute}'${goal.scorer?.name}`}{" "}
+            <Button onClick={() => handleRemoveGoal(goal)}>
+              <X />
+            </Button>
+          </div>
+        ))}
+      </div>
+    </PrimaryCollapsible>
   );
 }

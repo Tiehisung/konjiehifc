@@ -78,6 +78,7 @@ export function StartStopMatch({ match, players }: IProps) {
             trigger={"START MATCH"}
             id="start-match"
             description="Are you sure you want to start this match?"
+             variant={'destructive'}
           >
             <Button
               onClick={handleStart}
@@ -95,6 +96,7 @@ export function StartStopMatch({ match, players }: IProps) {
             trigger={"END MATCH"}
             id="stop-match"
             description="Are you sure you want to stop this match?"
+            variant={'destructive'}
           >
             <Button
               onClick={handleStop}

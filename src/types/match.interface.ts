@@ -48,7 +48,6 @@ export interface IMatchEvent {
   description?: string;
   minute: string | number,
   type: 'goal' | 'card' | 'injury' | 'general'
-
 }
 
 
@@ -69,7 +68,7 @@ export interface IGoal {
   _id?: string;
   opponent: string; //ObjectId of team
   minute: string | number;
-  scorer: IPlayerMini;
+  scorer?: IPlayerMini;
   assist?: IPlayerMini;
   modeOfScore?: EGoalType
   description?: string

@@ -9,7 +9,6 @@ export const goalSchema = new Schema(
       _id: {
         type: Schema.Types.ObjectId,
         ref: "players",
-        required: true
       },
       name: String,
       avatar: String,
