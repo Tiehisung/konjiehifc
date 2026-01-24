@@ -6,7 +6,6 @@ import { StartStopMatch } from "./StartStop";
 import { IMatch, ITeam } from "@/types/match.interface";
 import { checkTeams, checkMatchMetrics } from "@/lib/compute/match";
 import { getPlayers } from "../../players/page";
-import { getTeams } from "../../teams/page";
 import Image from "next/image";
 import HEADER from "@/components/Element";
 

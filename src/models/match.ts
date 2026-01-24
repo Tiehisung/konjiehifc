@@ -4,7 +4,7 @@ import mongoose, { Schema } from "mongoose";
 const matchSchema = new Schema(
   {
     title: { type: String },
-    slug: { type: String },
+    slug: { type: String, unique: [true, "Slug must be unique"] },
     opponent: { type: Schema.Types.ObjectId, ref: "teams", required: true },
     date: { type: String, required: true },
     time: { type: String, required: true },

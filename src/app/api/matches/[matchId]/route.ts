@@ -27,6 +27,19 @@ export async function GET(
 
   return NextResponse.json(fixtures);
 }
+
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ matchId: string }> }) {
+  const body = await request.json();
+  const matchId = (await params).matchId;
+
+  const updated = await MatchModel.findOneAndUpdate(slugIdFilters(matchId), {
+    $set: { ...body },
+  });
+  if (updated) return NextResponse.json({ message: "Match updated", success: true });
+  return NextResponse.json({ message: "Update failed", success: false });
+}
+
+ 
 export async function DELETE(_: NextRequest, { params }: { params: Promise<{ matchId: string }> }) {
   const { matchId } = await params;
   const deleted = await MatchModel.findOneAndDelete(slugIdFilters(matchId)).lean();
