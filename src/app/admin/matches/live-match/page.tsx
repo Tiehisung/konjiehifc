@@ -25,7 +25,7 @@ export const getLiveMatch = async () => {
 export default async function LiveMatchPage() {
   const match: IQueryResponse<IMatch> = await getLiveMatch();
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
-  const teams: IQueryResponse<ITeam[]> = await getTeams();
+ 
 
   const { home, away } = checkTeams(match?.data);
   const matchMetrics = checkMatchMetrics(match?.data);

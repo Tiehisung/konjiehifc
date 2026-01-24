@@ -1,11 +1,11 @@
  
-import { getLiveMatch } from "../../admin/live-match/page";
 import { LiveMatchEvents } from "./LiveEventsDisplay";
 import Image from "next/image";
 import { checkMatchMetrics } from "@/lib/compute/match";
 import HEADER from "@/components/Element";
 import { MdOutlineLiveTv } from "react-icons/md";
 import { IMatch } from "@/types/match.interface";
+import { getLiveMatch } from "@/app/admin/matches/live-match/page";
 
 export const metadata = {
   title: "Live Match",
