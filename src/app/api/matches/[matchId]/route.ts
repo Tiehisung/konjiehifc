@@ -2,11 +2,14 @@ import { ConnectMongoDb } from "@/lib/dbconfig";
 import MatchModel from "@/models/match";
 import { NextRequest, NextResponse } from "next/server";
 import "@/models/teams";
+import "@/models/goals";
+import "@/models/squad";
 import { logAction } from "../../logs/helper";
 import { formatDate } from "@/lib/timeAndDate";
 import { ELogSeverity } from "@/types/log";
 import { saveToArchive } from "../../archives/helper";
 import { EArchivesCollection } from "@/types/archive.interface";
+import { slugIdFilters } from "@/lib/api";
 
 ConnectMongoDb();
 
@@ -16,7 +19,7 @@ export async function GET(
 ) {
   const matchId = (await params).matchId;
 
-  const fixtures = await MatchModel.findById(matchId)
+  const fixtures = await MatchModel.findOne(slugIdFilters(matchId))
     .populate({ path: "opponent", populate: { path: "logo" } })
     .populate({ path: "goals", })
     .populate({ path: "squad", })
@@ -26,7 +29,7 @@ export async function GET(
 }
 export async function DELETE(_: NextRequest, { params }: { params: Promise<{ matchId: string }> }) {
   const { matchId } = await params;
-  const deleted = await MatchModel.findOneAndDelete({ _id: matchId });
+  const deleted = await MatchModel.findOneAndDelete(slugIdFilters(matchId)).lean();
 
   saveToArchive({
     sourceCollection: EArchivesCollection.MATCHES,

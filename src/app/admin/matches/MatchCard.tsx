@@ -11,13 +11,13 @@ import {
 } from "@/lib/timeAndDate";
 import { ToggleMatchStatus } from "./DisplayFixtures";
 import { DIALOG } from "@/components/Dialog";
-import { Eye } from "lucide-react";
 import SquadCard from "../squad/SquadCard";
 import { UpdateFixtureMatch } from "./CreateFixture";
 import SquadForm from "../squad/SquadForm";
 import { IPlayer } from "@/types/player.interface";
 import { IManager } from "../managers/page";
 import { IMatch, ITeam } from "@/types/match.interface";
+import Link from "next/link";
 
 export function AdminMatchCard({
   match,
@@ -43,8 +43,8 @@ export function AdminMatchCard({
             status == "LIVE"
               ? "destructive"
               : status == "FT"
-              ? "secondary"
-              : "outline"
+                ? "secondary"
+                : "outline"
           }
         >
           {status}
@@ -99,14 +99,14 @@ export function AdminMatchCard({
           />
 
           {match?.squad ? (
-            <DIALOG trigger={<Eye />} title="" className="min-w-[80vw]">
+            <DIALOG trigger={"Squad"} title="" className="min-w-[80vw]">
               <SquadCard squad={match?.squad} match={match} />
             </DIALOG>
           ) : (
             <DIALOG
               trigger={"Choose Squad"}
               variant={"ghost"}
-              size={'sm'}
+              size={"sm"}
               title={`Select Squad for ${match?.title}`}
               className="min-w-[80vw]"
             >
@@ -124,14 +124,20 @@ export function AdminMatchCard({
             uri={`${apiConfig.matches}/${match?._id}`}
             method={"DELETE"}
             variant="destructive"
-            confirmVariant={'delete'}
+            confirmVariant={"delete"}
             title={shortText(match?.title ?? "Match")}
             confirmText={`Are you sure you want to delete "<b>${shortText(
               match?.title ?? "Match",
-              40
+              40,
             )}</b>"?`}
             escapeOnEnd
           />
+          <Link
+            href={`/admin/matches/${match?.slug ?? match?._id}`}
+            className=""
+          >
+            View
+          </Link>
         </div>
       </div>
     </div>

@@ -26,12 +26,7 @@ import Select from "react-select";
 import { toast } from "sonner";
 import { checkTeams } from "@/lib/compute/match";
 import { IMatch, ITeam } from "@/types/match.interface";
-export interface IPostMatch {
-  date: string;
-  time: string;
-  isHome: boolean;
-  opponentId: string;
-}
+ 
 
 const CreateFixture = ({ teams }: { teams?: ITeam[] }) => {
   const router = useRouter();

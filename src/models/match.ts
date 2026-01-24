@@ -4,13 +4,14 @@ import mongoose, { Schema } from "mongoose";
 const matchSchema = new Schema(
   {
     title: { type: String },
+    slug: { type: String },
     opponent: { type: Schema.Types.ObjectId, ref: "teams", required: true },
     date: { type: String, required: true },
     time: { type: String, required: true },
     status: {
       type: String,
       enum: [...Object.values(EMatchStatus)],
-      default: () => "UPCOMING",
+      default: () => EMatchStatus.UPCOMING,
     },
     goals: [{ type: Schema.Types.ObjectId, ref: "goals" }],
     squad: { type: Schema.Types.ObjectId, ref: "squad" },
@@ -29,3 +30,5 @@ const MatchModel =
   mongoose.models.matches || mongoose.model("matches", matchSchema);
 
 export default MatchModel;
+
+export type IPostMatch = mongoose.InferSchemaType<typeof matchSchema>;

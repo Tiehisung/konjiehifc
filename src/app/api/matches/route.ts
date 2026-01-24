@@ -1,13 +1,12 @@
-import { IPostMatch } from "@/app/admin/matches/CreateFixture";
 import { ConnectMongoDb } from "@/lib/dbconfig";
-import MatchModel from "@/models/match";
+import MatchModel, { IPostMatch } from "@/models/match";
 import { NextRequest, NextResponse } from "next/server";
 import "@/models/teams";
 import "@/models/file";
 import "@/models/goals";
 import "@/models/player";
 import "@/models/squad";
-import { removeEmptyKeys } from "@/lib";
+import { removeEmptyKeys, slugify } from "@/lib";
 import { EMatchStatus } from "@/types/match.interface";
 import { logAction } from "../logs/helper";
 import { formatDate } from "@/lib/timeAndDate";
@@ -44,9 +43,9 @@ export async function GET(request: NextRequest) {
     ]
   }
 
-  
+
   const cleanedFilters = removeEmptyKeys(query)
-  console.log(cleanedFilters )
+  console.log(cleanedFilters)
 
   const fixtures = await MatchModel.find(cleanedFilters)
     .populate({ path: "opponent", })
@@ -72,8 +71,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const formdata: IPostMatch = await request.json();
-
-  const saved = await MatchModel.create({ ...formdata });
+  const slug = slugify(`${formdata?.title}-${formdata?.date}`, false);
+  const saved = await MatchModel.create({ ...formdata, slug });
 
   // log
   await logAction({
@@ -87,7 +86,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
- 
+
 
   const { _id, ...others } = await request.json();
 
