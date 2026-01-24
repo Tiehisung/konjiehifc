@@ -8,7 +8,6 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import { getLiveMatch } from "../../admin/live-match/page";
 import { Updator } from "@/components/Updator";
 import { IMatch } from "@/types/match.interface";
 
