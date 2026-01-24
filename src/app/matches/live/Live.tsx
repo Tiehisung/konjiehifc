@@ -1,5 +1,4 @@
-
-import { checkTeams } from "@/lib/compute/match";
+import { checkMatchMetrics, checkTeams } from "@/lib/compute/match";
 import Image from "next/image";
 import { LuDot } from "react-icons/lu";
 import {
@@ -8,14 +7,16 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import { getLiveMatch } from "../../admin/live-match/page";
 import { Updator } from "@/components/Updator";
 import { IMatch } from "@/types/match.interface";
+import { getLiveMatch } from "@/app/admin/matches/live-match/page";
 
 export const LiveMatchCard = async () => {
   const match: IMatch | null = (await getLiveMatch())?.data;
 
   const { home, away } = checkTeams(match as IMatch);
+
+  const matchMetrics = checkMatchMetrics(match as IMatch);
 
   if (!match) return null;
   return (
@@ -43,9 +44,13 @@ export const LiveMatchCard = async () => {
               <span className=" _label">{home?.name}</span>
             </section>
             <section className="flex items-center gap-1">
-              <h2 className="text-2xl font-bold">{match?.score?.kfc}</h2>
+              <span className="text-2xl font-bold">
+                {matchMetrics.goals.home}
+              </span>
               <LuDot size={24} />
-              <h2 className="text-2xl font-bold">{match?.score?.opponent}</h2>
+              <span className="text-2xl font-bold">
+                {matchMetrics.goals.away}
+              </span>
             </section>
             <section className="flex flex-col items-center space-y-2">
               <Image

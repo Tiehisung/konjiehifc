@@ -1,10 +1,9 @@
 import { apiConfig } from "@/lib/configs";
-import { ITeamProps } from "@/app/matches/(fixturesAndResults)";
 import { IPlayer } from "@/types/player.interface";
 import { IQueryResponse } from "@/types";
 import { MatchEventsAdmin } from "./EventsUpdator";
 import { StartStopMatch } from "./StartStop";
-import { IMatch } from "@/types/match.interface";
+import { IMatch, ITeam } from "@/types/match.interface";
 import { checkTeams, checkMatchMetrics } from "@/lib/compute/match";
 import { getPlayers } from "../../players/page";
 import { getTeams } from "../../teams/page";
@@ -26,7 +25,7 @@ export const getLiveMatch = async () => {
 export default async function LiveMatchPage() {
   const match: IQueryResponse<IMatch> = await getLiveMatch();
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
-  const teams: IQueryResponse<ITeamProps[]> = await getTeams();
+ 
 
   const { home, away } = checkTeams(match?.data);
   const matchMetrics = checkMatchMetrics(match?.data);
@@ -153,7 +152,7 @@ export default async function LiveMatchPage() {
       {match?.data?.status == "LIVE" && match?.data?.squad && (
         <MatchEventsAdmin
           players={players?.data}
-          opponent={teams?.data?.[0] as ITeamProps}
+          opponent={match?.data?.opponent as ITeam}
           match={match?.data as IMatch}
         />
       )}
