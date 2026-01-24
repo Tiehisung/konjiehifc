@@ -9,8 +9,8 @@ import { getMatchById } from "../page";
 import { MatchEventsAdmin } from "../../live-match/EventsUpdator";
 
 export default async function MatchPage({ params }: IPageProps) {
-  const matchId = (await params)?.matchId as string;
-  const match: IQueryResponse<IMatch> = await getMatchById(matchId);
+  const slug = (await params)?.slug as string;
+  const match: IQueryResponse<IMatch> = await getMatchById(slug);
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
   const teams: IQueryResponse<ITeam[]> = await getTeams();
 
