@@ -9,6 +9,7 @@ import SquadForm from "../../squad/SquadForm";
 import { IQueryResponse } from "@/types";
 import { getManagers, IManager } from "../../managers/page";
 import { IPlayer } from "@/types/player.interface";
+import { ConfirmActionButton } from "@/components/buttons/ConfirmAction";
 
 const MatchActions = async ({
   match,
@@ -32,7 +33,12 @@ const MatchActions = async ({
         <UpdateFixtureMatch teams={teams} fixture={match} />
 
         {match?.squad ? (
-          <DIALOG trigger={"Squad"} title="" className="min-w-[80vw]">
+          <DIALOG
+            trigger={"Squad"}
+            title=""
+            className="min-w-[80vw]"
+            variant="outline"
+          >
             <SquadCard squad={match?.squad} match={match} />
           </DIALOG>
         ) : (
@@ -52,23 +58,22 @@ const MatchActions = async ({
           </DIALOG>
         )}
 
-
-
-        <ConfirmDialog
-          description={`Are you sure you want to delete this match? \n <i>${
-            match?.title ?? ""
-          }</i>`}
-          action={{
-            method: "PUT",
-            uri: `${apiConfig.matches}/${match._id}`,
-          }}
-          trigger="Go Live"
-          triggerStyles="text-sm p-1.5 px-2 justify-start"
-          variant={"destructive"}
-          title={`Start ${match?.title}`}
-
-        />
-
+        {status == "UPCOMING" && (
+          <ConfirmDialog
+            description={`Are you sure you want this match to go live? \n <i>${
+              match?.title ?? ""
+            }</i>`}
+            action={{
+              method: "PUT",
+              uri: `${apiConfig.matches}/${match._id}`,
+              body: { status: "LIVE" },
+            }}
+            trigger="Go Live"
+            triggerStyles="text-sm p-1.5 px-2 justify-start"
+            variant={"delete"}
+            title={`Start ${match?.title}`}
+          />
+        )}
         <ConfirmDialog
           trigger={" Delete"}
           action={{

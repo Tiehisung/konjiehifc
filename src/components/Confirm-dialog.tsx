@@ -38,6 +38,7 @@ interface ConfirmDialogProps {
     method: "PUT" | "POST" | "DELETE" | "GET";
     body?: object;
     uri: string;
+    goBackAfter?:boolean
   };
 }
 
@@ -49,14 +50,14 @@ export function ConfirmDialog({
   variant = "default",
   trigger,
   className,
-  action: { method = "GET", body, uri },
+  action: { method = "GET", body, uri ,goBackAfter},
   size,
   disabled,
   triggerStyles,
 }: ConfirmDialogProps) {
   const { handleAction, isLoading } = useAction();
   return (
-    <AlertDialog
+    <AlertDialog 
     //  open={open} onOpenChange={onOpenChange} //external control only
     >
       <AlertDialogTrigger asChild>
@@ -71,7 +72,7 @@ export function ConfirmDialog({
         </Button>
       </AlertDialogTrigger>
 
-      <AlertDialogContent className={cn("sm:max-w-md", className)}>
+      <AlertDialogContent className={cn("sm:max-w-md", className)} >
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription>
@@ -83,12 +84,12 @@ export function ConfirmDialog({
           </AlertDialogDescription>
         </AlertDialogHeader>
 
-        <AlertDialogFooter>
+        <AlertDialogFooter >
           <AlertDialogCancel disabled={isLoading}>
             {cancelText}
           </AlertDialogCancel>
 
-          <AlertDialogAction asChild>
+          <AlertDialogAction asChild >
             <Button
               variant={variant}
               onClick={() =>
@@ -97,6 +98,7 @@ export function ConfirmDialog({
                   body,
                   uri,
                   escapeOnEnd: true,
+                  goBackAfter:goBackAfter
                 })
               }
               disabled={isLoading}

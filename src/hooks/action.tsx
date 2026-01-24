@@ -16,6 +16,7 @@ interface IProps {
   escapeOnEnd?: boolean;
   showLoader?: boolean;
   showToast?: boolean;
+  goBackAfter?:boolean
 }
 
 export function useAction() {
@@ -29,7 +30,7 @@ export function useAction() {
     body,
     uri,
     escapeOnEnd = false,
-    showToast,
+    showToast,goBackAfter
   }: IProps) => {
     try {
       setIsLoading(true);
@@ -53,6 +54,7 @@ export function useAction() {
         if (showToast)
           toast.success(results.message, { position: "bottom-center" });
         setError("");
+        if(goBackAfter) router.back();
       } else {
         if (showToast) toast.error(results.message);
         setError(getErrorMessage(error));
