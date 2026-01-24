@@ -6,6 +6,7 @@ import GoalModel, { IPostGoal } from "@/models/goals";
 import { updateMatchEvent } from "../matches/live/events/route";
 import MatchModel from "@/models/match";
 import PlayerModel from "@/models/player";
+import { IGoal } from "@/types/match.interface";
 
 ConnectMongoDb();
 
@@ -92,6 +93,42 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ message: "Goal created successfully!", success: true, data: savedGoal });
 
+  } catch (error) {
+    return NextResponse.json({
+      message: getErrorMessage(error),
+      success: false,
+    });
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+
+    const { forKFC, match, _id, scorer, assist } = await request.json() as IGoal;
+
+    const deletedGoal = await GoalModel.findByIdAndDelete(_id)
+    if (!deletedGoal) {
+      return NextResponse.json({ message: "Failed to delete goal.", success: false });
+    }
+    //Update Match
+    const updatedMatech = await MatchModel.findByIdAndUpdate(match, { $pull: { goals: _id } })
+
+    //Update Player
+    if (forKFC && scorer) {
+      await PlayerModel.findByIdAndUpdate(scorer?._id, { $push: { goals: _id } })
+
+      if (assist)
+        await PlayerModel.findByIdAndUpdate(assist?._id, { $pull: { assists: _id } })
+    }
+
+    // log
+    await logAction({
+      title: "Goal Deleted " + updatedMatech?.title,
+      description: deletedGoal?.description as string,
+      meta: deletedGoal
+    });
+
+    return NextResponse.json({ message: "Goal deleted successfully!", success: true, data: deletedGoal });
   } catch (error) {
     return NextResponse.json({
       message: getErrorMessage(error),

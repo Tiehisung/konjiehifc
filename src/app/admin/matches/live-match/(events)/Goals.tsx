@@ -242,13 +242,10 @@ function AllGoals({ match }: { match: IMatch }) {
   //Increment Opponent goals
   const handleRemoveGoal = async (goal: IGoal) => {
     try {
-      const response = await fetch(apiConfig.matches, {
+      const response = await fetch(apiConfig.goals, {
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          _id: match?._id,
-          goals: [...(match?.goals ?? [])].filter((g) => g._id !== goal._id),
-        }),
-        method: "PUT",
+        body: JSON.stringify(goal),
+        method: "DELETE",
       });
 
       const results = await response.json();
