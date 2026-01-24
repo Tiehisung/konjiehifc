@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, Minus, X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { Input } from "@/components/input/Inputs";
 import { apiConfig } from "@/lib/configs";
 import { toast } from "sonner";
@@ -17,9 +17,7 @@ import { getErrorMessage } from "@/lib";
 import { IPlayer } from "@/types/player.interface";
 import { Button } from "@/components/buttons/Button";
 import { useRouter } from "next/navigation";
-import { PrimaryAccordion } from "@/components/Accordion";
 import { IGoal, IMatch, ITeam } from "@/types/match.interface";
-import { IPostGoal } from "@/models/goals";
 import { SWITCH } from "@/components/ui/switch";
 import { PrimaryCollapsible } from "@/components/Collapsible";
 
@@ -31,7 +29,6 @@ interface ScoreEventsTabProps {
 
 export function ScoreEventsTab({
   players,
-  opponent,
   match,
 }: ScoreEventsTabProps) {
   const router = useRouter();
@@ -44,7 +41,6 @@ export function ScoreEventsTab({
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingOG, setIsLoadingOG] = useState(false);
 
   const handleAddGoal = async (e: FormEvent<HTMLFormElement>) => {
     try {
@@ -116,38 +112,13 @@ export function ScoreEventsTab({
     }
   };
 
-  const handleRemoveGoal = async () => {
-    try {
-      setIsLoadingOG(true);
-
-      const response = await fetch(apiConfig.matches, {
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          _id: match?._id,
-          goals: [...(match?.goals ?? [])].slice(0, -1),
-        }),
-        method: "PUT",
-      });
-
-      const results = await response.json();
-      toast.success(results.message);
-    } catch (error) {
-      toast.error(getErrorMessage(error));
-    } finally {
-      setIsLoadingOG(false);
-      router.refresh();
-    }
-  };
-
   return (
     <div className="space-y-8">
       <Card
-        className={`p-6 rounded-none ${
-          isLoadingOG || isLoading ? "pointer-events-none" : ""
-        }`}
+        className={`p-6 rounded-none ${isLoading ? "pointer-events-none" : ""}`}
       >
         <form onSubmit={handleAddGoal}>
-          <h2 className="mb-6 text-2xl font-bold flex items-center gap-6 justify-between mb-4 border-b">
+          <h2 className="mb-6 text-2xl font-bold flex items-center gap-6 justify-between border-b">
             Add Goal{" "}
             <SWITCH
               label="For KFC"
@@ -255,15 +226,6 @@ export function ScoreEventsTab({
               >
                 <Plus className="mr-2 h-4 w-4" />
               </Button>
-              <Button
-                onClick={handleRemoveGoal}
-                className=" justify-center _deleteBtn"
-                waiting={isLoadingOG}
-                primaryText=" Remove Goal"
-                waitingText="Removing..."
-              >
-                <Plus className="mr-2 h-4 w-4" />
-              </Button>
             </div>
           </div>
         </form>
@@ -303,12 +265,20 @@ function AllGoals({ match }: { match: IMatch }) {
         label: "All Goals",
         className: "_label",
       }}
+      defaultOpen
     >
       <div className="flex items-center gap-5 flex-wrap">
         {match?.goals?.map((goal) => (
-          <div>
-            {`${goal.minute}'${goal.scorer?.name}`}{" "}
-            <Button onClick={() => handleRemoveGoal(goal)}>
+          <div
+            className="flex items-center gap-2 bg-muted px-4 py-2 rounded-lg"
+            key={goal._id}
+          >
+            {`${goal.minute}' ${goal.scorer?.name ?? " Opponent"}`}{" "}
+            <Button
+              onClick={() => handleRemoveGoal(goal)}
+              size="sm"
+              variant={"ghost"}
+            >
               <X />
             </Button>
           </div>

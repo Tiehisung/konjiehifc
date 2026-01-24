@@ -14,6 +14,7 @@ export type TMatchType = "home" | "away";
 
 export interface IMatch {
   _id: string;
+  slug?: string;
   comment?: string;
   title: string;
   date: string;
