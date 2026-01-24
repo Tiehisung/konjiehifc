@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Updator } from "@/components/Updator";
 import { IMatch } from "@/types/match.interface";
+import { getLiveMatch } from "@/app/admin/matches/live-match/page";
 
 export const LiveMatchCard = async () => {
   const match: IMatch | null = (await getLiveMatch())?.data;
