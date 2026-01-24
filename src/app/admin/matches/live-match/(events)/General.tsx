@@ -59,6 +59,7 @@ export function GeneralEventsTab({ match }: GeneralEventsTabProps) {
                     setForm((prev) => ({ ...prev, minute: e.target.value }))
                   }
                   name={"generalMinutes"}
+                  required
                 />
               </div>
               <div>

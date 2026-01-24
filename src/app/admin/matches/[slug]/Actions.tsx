@@ -29,7 +29,7 @@ const MatchActions = async ({
     <div>
       <h1>Match Actions</h1>
 
-      <div className="flex items-center gap-5 flex-wrap">
+      <div className="flex items-center gap-5 flex-wrap border-b py-4 mb-4">
         <UpdateFixtureMatch teams={teams} fixture={match} />
 
         {match?.squad ? (
@@ -72,6 +72,23 @@ const MatchActions = async ({
             triggerStyles="text-sm p-1.5 px-2 justify-start"
             variant={"delete"}
             title={`Start ${match?.title}`}
+          />
+        )}
+
+        {status == "LIVE" && (
+          <ConfirmDialog
+            description={`Do you want to finish this match? \n <i>${
+              match?.title ?? ""
+            }</i>`}
+            action={{
+              method: "PUT",
+              uri: `${apiConfig.matches}/${match._id}`,
+              body: { status: "FT" },
+            }}
+            trigger="Finish match"
+            triggerStyles="text-sm p-1.5 px-2 justify-start"
+            variant={"delete"}
+            title={`End ${match?.title}`}
           />
         )}
         <ConfirmDialog
