@@ -6,18 +6,19 @@ import { getPlayers } from "../../players/page";
 import { getTeams } from "../../teams/page";
 import Image from "next/image";
 import { getMatchById } from "../page";
-import { MatchEventsAdmin } from "../../live-match/EventsUpdator";
+import { MatchEventsAdmin } from "../live-match/EventsUpdator";
 
 export default async function MatchPage({ params }: IPageProps) {
   const slug = (await params)?.slug as string;
-  const match: IQueryResponse<IMatch> = await getMatchById(slug);
+  const match: IMatch = await getMatchById(slug);
+  console.log(match,{slug})
   const players: IQueryResponse<IPlayer[]> = await getPlayers();
   const teams: IQueryResponse<ITeam[]> = await getTeams();
 
-  const { home, away } = checkTeams(match?.data);
-  const matchMetrics = checkMatchMetrics(match?.data);
+  const { home, away } = checkTeams(match);
+  const matchMetrics = checkMatchMetrics(match);
 
-  if (!match?.data)
+  if (!match)
     return (
       <div className="_title text-Red rounded-2xl text-center my-14 mx-6 _page">
         Match not found
@@ -27,7 +28,7 @@ export default async function MatchPage({ params }: IPageProps) {
   return (
     <div className="container mx-auto p-4 _page">
       <h1 className="text-2xl font-bold mb-4 text-primaryRed">
-        {match?.data?.title}
+        {match?.title}
       </h1>
       <div className="my-6 flex items-center justify-between gap-6">
         <Image
@@ -62,8 +63,8 @@ export default async function MatchPage({ params }: IPageProps) {
       {match && (
         <MatchEventsAdmin
           players={players?.data}
-          opponent={teams?.data?.[0] as ITeam}
-          match={match?.data as IMatch}
+          opponent={match?.opponent as ITeam}
+          match={match as IMatch}
         />
       )}
     </div>

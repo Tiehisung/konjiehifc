@@ -4,7 +4,7 @@ import { TABS } from "@/components/ui/tabs";
 import { GeneralEventsTab } from "./(events)/General";
 import { ScoreEventsTab } from "./(events)/Goals";
 import { IPlayer } from "@/types/player.interface";
-import { IMatchEvent, ITeamProps } from "@/app/matches/(fixturesAndResults)";
+import { IMatchEvent,   } from "@/app/matches/(fixturesAndResults)";
 import { Button } from "@/components/buttons/Button";
 import { Trash2, Bandage, Square, Info, Crown } from "lucide-react";
 import { apiConfig } from "@/lib/configs";
@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { getErrorMessage } from "@/lib";
-import { IMatch } from "@/types/match.interface";
+import { IMatch, ITeam } from "@/types/match.interface";
 import { CardForm } from "../../cards/CardForm";
 import { InjuryForm } from "../../injuries/InjuryForm";
 import { MVPForm } from "../mvps/MvpForm";
@@ -20,7 +20,7 @@ import { Separator } from "@/components/ui/separator";
 
 interface IProps {
   players?: IPlayer[];
-  opponent?: ITeamProps;
+  opponent?: ITeam;
   match: IMatch;
 }
 export function MatchEventsAdmin({ players, opponent, match }: IProps) {
