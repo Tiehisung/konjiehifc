@@ -77,7 +77,7 @@ const MatchActions = async ({
 
         {status == "LIVE" && (
           <ConfirmDialog
-            description={`Are you sure you want this match to go live? \n <i>${
+            description={`Do you want to finish this match? \n <i>${
               match?.title ?? ""
             }</i>`}
             action={{
@@ -85,10 +85,10 @@ const MatchActions = async ({
               uri: `${apiConfig.matches}/${match._id}`,
               body: { status: "FT" },
             }}
-            trigger="Go Live"
+            trigger="Finish match"
             triggerStyles="text-sm p-1.5 px-2 justify-start"
             variant={"delete"}
-            title={`Start ${match?.title}`}
+            title={`End ${match?.title}`}
           />
         )}
         <ConfirmDialog
