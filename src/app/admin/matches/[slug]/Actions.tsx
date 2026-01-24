@@ -85,10 +85,10 @@ const MatchActions = async ({
               uri: `${apiConfig.matches}/${match._id}`,
               body: { status: "FT" },
             }}
-            trigger="Finish match"
+            trigger="End Live"
             triggerStyles="text-sm p-1.5 px-2 justify-start"
             variant={"delete"}
-            title={`End ${match?.title}`}
+            title={`End | ${match?.title}`}
           />
         )}
         <ConfirmDialog
@@ -96,6 +96,7 @@ const MatchActions = async ({
           action={{
             method: "DELETE",
             uri: `${apiConfig.matches}/${match._id}`,
+            goBackAfter:true
           }}
           variant="destructive"
           title={shortText(match?.title ?? "Match")}
