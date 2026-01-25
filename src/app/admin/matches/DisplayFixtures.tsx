@@ -105,7 +105,8 @@ export function ToggleMatchStatus({
         primaryText={status == "LIVE" ? "Mark FT" : "Go Live"}
         waitingText="Updating..."
         onClick={handleToggle}
-        className=" px-2 flex items-center text-red-600 _deleteBtn whitespace-nowrap"
+        className=" px-2 "
+        variant='delete'
       />
     );
   return null;

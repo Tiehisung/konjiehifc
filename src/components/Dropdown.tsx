@@ -62,7 +62,7 @@ export function PrimaryDropdown({
 export function HoverDropdown({
   children,
   openDelay = 20,
-  trigger = "open",
+  trigger = <MoreHorizontal size={20} />,
   triggerStyles = "hover:bg-background/50 p-2",
   className,
   id,
