@@ -14,6 +14,7 @@ interface QuillEditorProps {
   placeholder?: string;
   label?: string;
   className?: string;
+  error?: string;
 }
 
 const QuillEditor: React.FC<QuillEditorProps> = ({
@@ -21,7 +22,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
   onChange,
   placeholder = "Enter text...",
   label,
-  className = "",
+  className = "",error
 }) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const toolbarRef = useRef<HTMLDivElement | null>(null);
@@ -301,6 +302,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
         {/* Placeholder div: we replaced this node with Quill's DOM during init */}
         <div ref={editorRef} className="min-h-30 min-w-125 px-2" />
       </div>
+       {error && <p className={` text-red-500  text-xs mt-1`}>{error}</p>}
     </div>
   );
 };

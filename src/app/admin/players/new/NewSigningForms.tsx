@@ -22,6 +22,7 @@ import ContentShowcaseWrapper from "@/components/ShowcaseWrapper";
 import { PrimarySelect } from "@/components/select/Select";
 import { Label } from "@/components/ui/label";
 import { enumToOptions } from "@/lib/select";
+import QuillEditor from "@/components/editor/Quill";
 
 interface IFormData {
   firstName: string;
@@ -71,8 +72,6 @@ export default function PlayerProfileForm({
           },
     },
   });
-
-
 
   const onSubmit = async (data: IFormData) => {
     try {
@@ -250,17 +249,7 @@ export default function PlayerProfileForm({
                       />
                     )}
                   />
-                  <Controller
-                    control={control}
-                    name="about"
-                    render={({ field, fieldState }) => (
-                      <TextArea
-                        label="About this Player"
-                        {...field}
-                        error={fieldState.error?.message}
-                      />
-                    )}
-                  />
+                 
                   <Controller
                     control={control}
                     name="dateSigned"
@@ -271,6 +260,17 @@ export default function PlayerProfileForm({
                         {...field}
                         error={fieldState.error?.message}
                         value={field.value.split("T")[0]}
+                      />
+                    )}
+                  /> 
+                  <Controller
+                    control={control}
+                    name="about"
+                    render={({ field, fieldState }) => (
+                      <QuillEditor
+                        label="About this Player"
+                        {...field}
+                        error={fieldState.error?.message}
                       />
                     )}
                   />
@@ -354,7 +354,7 @@ export const playerJoiSchema = Joi.object({
     .required()
     .messages({
       "any.only": `Position must be one of ${Object.values(
-        EPlayerPosition
+        EPlayerPosition,
       ).toString()}`,
       "string.empty": "Position is required",
     }),
