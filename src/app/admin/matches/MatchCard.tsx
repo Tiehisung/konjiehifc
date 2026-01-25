@@ -18,6 +18,7 @@ import { IPlayer } from "@/types/player.interface";
 import { IManager } from "../managers/page";
 import { IMatch, ITeam } from "@/types/match.interface";
 import Link from "next/link";
+import { ResizableContent } from "@/components/resizables/ResizableContent";
 
 export function AdminMatchCard({
   match,
@@ -36,8 +37,8 @@ export function AdminMatchCard({
   const scores = checkMatchMetrics(match);
   const status = match?.status;
   return (
-    <div className="bg-card border p-4 space-y-2.5">
-      <div className="flex justify-between gap-5">
+    <div className="bg-card border p-4 space-y-2.5 max-w-[90vw]">
+      <header className="flex justify-between gap-5">
         <Badge
           variant={
             status == "LIVE"
@@ -49,12 +50,13 @@ export function AdminMatchCard({
         >
           {status}
         </Badge>
-        <span>
+        <div className="text-sm text-muted-foreground">
           {formatDate(match?.date, "March 2, 2025")}(
           {getTimeLeftOrAgo(match?.date).formatted})
-        </span>
-      </div>
-      <div className=" flex items-center justify-between">
+        </div>
+      </header>
+
+      <main className=" flex items-center justify-between">
         <ul>
           <li className="flex items-center gap-1.5 mb-2">
             <AVATAR
@@ -62,7 +64,7 @@ export function AdminMatchCard({
               alt={home?.name as string}
               className="h-7 w-7 aspect-square rounded-none"
             />
-            <span className="w-36 line-clamp-1">{home?.name}</span>
+            <span className=" line-clamp-1">{home?.name}</span>
           </li>
           <li className="flex items-center gap-1.5">
             <AVATAR
@@ -70,7 +72,7 @@ export function AdminMatchCard({
               alt={away?.name as string}
               className="h-7 w-7 aspect-square rounded-none"
             />
-            <span className="w-36 line-clamp-1">{away?.name}</span>
+            <span className=" line-clamp-1">{away?.name}</span>
           </li>
         </ul>
 
@@ -86,60 +88,68 @@ export function AdminMatchCard({
             <span>{formatTimeToAmPm(match?.time as string)}</span>
           )}
         </div>
-      </div>
+      </main>
+
       <hr />
-      <div>
-        <div className="flex items-center overflow-x-auto gap-5 _hideScrollbar">
-          <UpdateFixtureMatch teams={teams} fixture={match} />
 
-          <ToggleMatchStatus
-            fixtureId={match?._id as string}
-            matchDate={match?.date as string}
-            status={match?.status as IMatch["status"]}
-          />
+      <ResizableContent className="">
+        <UpdateFixtureMatch teams={teams} fixture={match} />
 
-          {match?.squad ? (
-            <DIALOG trigger={"Squad"} title="" className="min-w-[80vw]">
-              <SquadCard squad={match?.squad} match={match} />
-            </DIALOG>
-          ) : (
-            <DIALOG
-              trigger={"Choose Squad"}
-              variant={"ghost"}
-              size={"sm"}
-              title={`Select Squad for ${match?.title}`}
-              className="min-w-[80vw]"
-            >
-              <SquadForm
-                players={players}
-                managers={managers}
-                matches={matches}
-                defaultMatch={match}
-              />
-            </DIALOG>
-          )}
-          <ConfirmActionButton
-            primaryText="Delete"
-            trigger={" Delete"}
-            uri={`${apiConfig.matches}/${match?._id}`}
-            method={"DELETE"}
-            variant="destructive"
-            confirmVariant={"delete"}
-            title={shortText(match?.title ?? "Match")}
-            confirmText={`Are you sure you want to delete "<b>${shortText(
-              match?.title ?? "Match",
-              40,
-            )}</b>"?`}
-            escapeOnEnd
-          />
-          <Link
-            href={`/admin/matches/${match?.slug ?? match?._id}`}
-            className=""
+        <ToggleMatchStatus
+          fixtureId={match?._id as string}
+          matchDate={match?.date as string}
+          status={match?.status as IMatch["status"]}
+        />
+
+        {match?.squad ? (
+          <DIALOG
+            trigger={"Squad"}
+            triggerStyles="justify-start"
+            title=""
+            className="min-w-[80vw]"
           >
-            View
-          </Link>
-        </div>
-      </div>
+            <SquadCard squad={match?.squad} match={match} />
+          </DIALOG>
+        ) : (
+          <DIALOG
+            trigger={"Choose Squad"}
+            variant={"ghost"}
+            triggerStyles="justify-start"
+            title={`Select Squad for ${match?.title}`}
+            className="min-w-[80vw]"
+          >
+            <SquadForm
+              players={players}
+              managers={managers}
+              matches={matches}
+              defaultMatch={match}
+            />
+          </DIALOG>
+        )}
+
+        <Link
+          href={`/admin/matches/${match?.slug ?? match?._id}`}
+          className="_hover _link p-2 px-4"
+        >
+          View
+        </Link>
+
+        <ConfirmActionButton
+          primaryText="Delete"
+          trigger={"Delete"}
+          triggerStyles="justify-start"
+          uri={`${apiConfig.matches}/${match?._id}`}
+          method={"DELETE"}
+          variant="destructive"
+          confirmVariant={"delete"}
+          title={shortText(match?.title ?? "Match")}
+          confirmText={`Are you sure you want to delete "<b>${shortText(
+            match?.title ?? "Match",
+            40,
+          )}</b>"?`}
+          escapeOnEnd
+        />
+      </ResizableContent>
     </div>
   );
 }
